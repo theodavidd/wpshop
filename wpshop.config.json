@@ -1,7 +1,11 @@
 {
-	"name": "WPShop",
+	"name": "wpshop",
 	"slug": "wpshop",
-	"version": "1.6.0",
-	"externals": [],
-	"debug": false
+	"modules": [
+		"core/core.config.json",
+		"modules/product/product.config.json",
+		"modules/third-party/third-party.config.json",
+		"modules/contact/contact.config.json"
+	],
+	"version": "2.0.0"
 }
