@@ -42,7 +42,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_forme_juridique',
-			'default'     => NULL,
+			'default'     => null,
 			'since'       => '2.0.0',
 			'description' => 'La forme juridique du tier (varchar(255)). Peut être NULL. Valeur par défaut NULL.',
 		);
@@ -51,7 +51,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_code_fournisseur',
-			'default'     => NULL,
+			'default'     => null,
 			'since'       => '2.0.0',
 			'description' => 'Le code fournisseur du tier (varchar(24)). Peut être NULL. Valeur par défaut NULL.',
 		);
@@ -60,7 +60,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_address',
-			'default'     => NULL,
+			'default'     => null,
 			'since'       => '2.0.0',
 			'description' => 'L\'adresse d\'un tier (varchar(255)). Peut être NULL. Valeur par défaut NULL.',
 		);
@@ -69,7 +69,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_zip',
-			'default'     => NULL,
+			'default'     => null,
 			'since'       => '2.0.0',
 			'description' => 'Le code postal d\'un tier (varchar(25)). Peut être NULL. Valeur par défault NULL.',
 		);
@@ -78,7 +78,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_town',
-			'default'     => NULL,
+			'default'     => null,
 			'since'       => '2.0.0',
 			'description' => 'La ville d\'un tier (varchar(50)). Peut être NULL. Valeur par défault NULL.',
 		);
@@ -87,7 +87,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_state',
-			'default'     => NULL,
+			'default'     => null,
 			'since'       => '2.0.0',
 			'description' => 'Le département d\'un tier (varchar(50)). Peut être NULL. Valeur par défault NULL.',
 		);
@@ -107,7 +107,15 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'field'       => '_contact_ids',
 			'since'       => '2.0.0',
 			'description' => 'Association des contacts. Attends un tableau d\'ids des contacts. Aucune valeur par défaut.'
+		);
 
+		$this->schema['siret'] = array(
+			'type'        => 'string',
+			'meta_type'   => 'single',
+			'field'       => 'idprof2',
+			'since'       => '2.0.0',
+			'default'     => null,
+			'description' => 'Numéro SIRET de l\'entreprise (varchar(128)). Par défault NULL.'
 		);
 
 		parent::__construct( $object, $req_method );
