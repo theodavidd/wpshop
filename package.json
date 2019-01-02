@@ -12,13 +12,13 @@
   "license": "AGPLv3",
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-concat": "latest",
+    "gulp-cssnano": "^2.1.2",
     "gulp-pleeease": "^2.0.2",
     "gulp-plumber": "^1.1.0",
-    "gulp-watch": "^4.3.5",
-    "gulp-cssnano": "^2.1.2",
-    "gulp-rename": "^1.2.2",
+    "gulp-rename": "^1.4.0",
     "gulp-sass": "latest",
-    "gulp-concat": "latest",
-    "gulp-uglify": "latest"
+    "gulp-uglify": "latest",
+    "gulp-watch": "^4.3.5"
   }
 }

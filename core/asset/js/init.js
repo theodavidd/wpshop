@@ -3,4 +3,4 @@
  *
  * @since 2.0.0
  */
-window.eoxiaJS.WPshop = {};
+window.eoxiaJS.wpshop = {};

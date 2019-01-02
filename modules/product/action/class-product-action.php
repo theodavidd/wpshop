@@ -62,10 +62,10 @@ class Product_Action {
 	 * @since 2.0.0
 	 */
 	public function ajax_synchro() {
-		$request = wp_remote_get( 'http://127.0.0.1/dolibarr/api/index.php/products', array(
+		$request = wp_remote_get( 'http://localhost/dolibarr-8.0.3/api/index.php/products', array(
 			'headers' => array(
 				'Content-type' => 'application/json',
-				'DOLAPIKEY'    => 'JaTmW3kZu2X5oD491hTfY9Wbp9oY4Ag1',
+				'DOLAPIKEY'    => 'hvdtb63x',
 			),
 		) );
 

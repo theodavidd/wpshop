@@ -137,6 +137,8 @@ if ( ! window.eoxiaJS.modal  ) {
 		var callbackData = {};
 		var key = undefined;
 
+		window.eoxiaJS.action.checkBeforeCB( triggeredElement );
+
 		// Si data-action existe, ce script ouvre la popup en lançant une requête AJAX.
 		if ( triggeredElement.attr( 'data-action' ) ) {
 			window.eoxiaJS.loader.display( triggeredElement );
@@ -158,10 +160,6 @@ if ( ! window.eoxiaJS.modal  ) {
 						el[0].typeModal = 'ajax';
 						triggeredElement[0].modalElement = el;
 
-						if ( triggeredElement.attr( 'data-title' ) ) {
-							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
-						}
-
 						if ( triggeredElement.attr( 'data-class' ) ) {
 							el[0].className += ' ' + triggeredElement.attr( 'data-class' );
 						}
@@ -176,13 +174,19 @@ if ( ! window.eoxiaJS.modal  ) {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', window.eoxiaJS.modal.defaultButtons );
 						}
 
-						if ( ! triggeredElement.attr( 'data-title' ) ) {
+						if ( triggeredElement.attr( 'data-title' ) ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
+						} else if ( response.data.modal_title ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', response.data.modal_title );
+						} else if ( ! triggeredElement.attr( 'data-title' ) ) {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', window.eoxiaJS.modal.defaultTitle );
 						}
 
 						if ( window.eoxiaJS.refresh ) {
 							window.eoxiaJS.refresh();
 						}
+
+						triggeredElement[0].modalElement.trigger( 'modal-opened', triggeredElement );
 					}
 				} );
 			});
@@ -193,10 +197,25 @@ if ( ! window.eoxiaJS.modal  ) {
 				return;
 			}
 
+
 			var target = triggeredElement.closest( '.' + triggeredElement.attr( 'data-parent' ) ).find( '.' + triggeredElement.attr( 'data-target' ) );
+
+			jQuery( target ).find( 'h2.modal-title' ).text( '{{title}}' );
+
+			if ( triggeredElement.attr( 'data-title' ) ) {
+				target[0].innerHTML = target[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
+			}
+
+			if ( triggeredElement.attr( 'data-class' ) ) {
+				target[0].className += ' ' + triggeredElement.attr( 'data-class' );
+			}
+
 			target.addClass( 'modal-active' );
 			target[0].typeModal = 'default';
 			triggeredElement[0].modalElement = target;
+
+			target.trigger( 'modal-opened', triggeredElement );
+
 		}
 
 		event.stopPropagation();

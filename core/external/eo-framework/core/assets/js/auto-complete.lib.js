@@ -69,7 +69,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 			return;
 		}
 
-		parent.find( 'input[type="hidden"]' ).val( '' );
+		parent.find( 'input.eo-search-value' ).val( '' );
 
 		// If empty searched value, stop func.
 		if ( element.val().length === 0 ) {
@@ -91,22 +91,34 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		var data = {
 			action: parent.attr( 'data-action' ),
 			_wpnonce: parent.attr( 'data-nonce' ),
-			s: element.val(),
+			term: element.val(),
+			slug: parent.find( 'input[name="slug"]' ).val(),
+			args: parent.find( 'textarea' ).val()
 		};
 
 		window.eoxiaJS.autoComplete.initProgressBar( parent, label );
 		window.eoxiaJS.autoComplete.handleProgressBar( parent, label );
 
-		parent[0].xhr = window.eoxiaJS.request.send( jQuery( this ), data, function( triggeredElement, response ) {
-			window.eoxiaJS.autoComplete.clear( parent, label );
-
-			parent.addClass( 'autocomplete-active' );
-			parent.find( '.autocomplete-search-list' ).addClass( 'autocomplete-active' );
-
-			if ( response.data && response.data.view ) {
-				parent.find( '.autocomplete-search-list' ).html( response.data.view );
+		parent.get_data( function( attribute_data ) {
+			for (var key in attribute_data) {
+					if ( ! data[key] ) {
+						data[key] = attribute_data[key];
+					}
 			}
-		});
+
+			parent[0].xhr = window.eoxiaJS.request.send( jQuery( this ), data, function( triggeredElement, response ) {
+				window.eoxiaJS.autoComplete.clear( parent, label );
+
+				parent.addClass( 'autocomplete-active' );
+				parent.find( '.autocomplete-search-list' ).addClass( 'autocomplete-active' );
+
+				if ( response.data && response.data.view && ! response.data.output ) {
+					parent.find( '.autocomplete-search-list' ).html( response.data.view );
+				} else if (response.data && response.data.view && response.data.output ) {
+					jQuery( response.data.output ).replaceWith( response.data.view );
+				}
+			} );
+		} );
 	};
 
 	/**

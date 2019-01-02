@@ -225,7 +225,7 @@ if ( ! window.eoxiaJS.action ) {
 	 * @returns {void}
 	 */
 	window.eoxiaJS.action.execInput = function( event ) {
-		var element = jQuery( this ), parentElement = element, listInput = undefined, data = {}, i = 0, doAction = true, key = undefined, inputAlreadyIn = [];
+		var element = jQuery( this ), parentElement = element, loaderElement = element, listInput = undefined, data = {}, i = 0, doAction = true, key = undefined, inputAlreadyIn = [];
 		event.preventDefault();
 
 		if ( element.attr( 'data-parent' ) ) {
@@ -237,13 +237,15 @@ if ( ! window.eoxiaJS.action ) {
 			doAction = false;
 			doAction = window.eoxiaJS[element.attr( 'data-namespace' )][element.attr( 'data-module' )][element.attr( 'data-before-method' )]( element );
 		} else {
-			if ( ! doAction ) {
-				doAction = window.eoxiaJS.action.checkBeforeCB(element);
-			}
+			doAction = window.eoxiaJS.action.checkBeforeCB(element);
 		}
 
 		if ( doAction ) {
-			window.eoxiaJS.loader.display( element );
+			if ( element.attr( 'data-loader' ) ) {
+				loaderElement = element.closest( '.' + element.attr( 'data-loader' ) );
+			}
+
+			window.eoxiaJS.loader.display( loaderElement );
 
 			listInput = window.eoxiaJS.arrayForm.getInput( parentElement );
 			for ( i = 0; i < listInput.length; i++ ) {
@@ -581,7 +583,7 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 			return;
 		}
 
-		parent.find( 'input[type="hidden"]' ).val( '' );
+		parent.find( 'input.eo-search-value' ).val( '' );
 
 		// If empty searched value, stop func.
 		if ( element.val().length === 0 ) {
@@ -603,22 +605,34 @@ if ( ! window.eoxiaJS.autoComplete  ) {
 		var data = {
 			action: parent.attr( 'data-action' ),
 			_wpnonce: parent.attr( 'data-nonce' ),
-			s: element.val(),
+			term: element.val(),
+			slug: parent.find( 'input[name="slug"]' ).val(),
+			args: parent.find( 'textarea' ).val()
 		};
 
 		window.eoxiaJS.autoComplete.initProgressBar( parent, label );
 		window.eoxiaJS.autoComplete.handleProgressBar( parent, label );
 
-		parent[0].xhr = window.eoxiaJS.request.send( jQuery( this ), data, function( triggeredElement, response ) {
-			window.eoxiaJS.autoComplete.clear( parent, label );
-
-			parent.addClass( 'autocomplete-active' );
-			parent.find( '.autocomplete-search-list' ).addClass( 'autocomplete-active' );
-
-			if ( response.data && response.data.view ) {
-				parent.find( '.autocomplete-search-list' ).html( response.data.view );
+		parent.get_data( function( attribute_data ) {
+			for (var key in attribute_data) {
+					if ( ! data[key] ) {
+						data[key] = attribute_data[key];
+					}
 			}
-		});
+
+			parent[0].xhr = window.eoxiaJS.request.send( jQuery( this ), data, function( triggeredElement, response ) {
+				window.eoxiaJS.autoComplete.clear( parent, label );
+
+				parent.addClass( 'autocomplete-active' );
+				parent.find( '.autocomplete-search-list' ).addClass( 'autocomplete-active' );
+
+				if ( response.data && response.data.view && ! response.data.output ) {
+					parent.find( '.autocomplete-search-list' ).html( response.data.view );
+				} else if (response.data && response.data.view && response.data.output ) {
+					jQuery( response.data.output ).replaceWith( response.data.view );
+				}
+			} );
+		} );
 	};
 
 	/**
@@ -896,7 +910,7 @@ if ( ! window.eoxiaJS.dropdown  ) {
 		jQuery( document ).on( 'keyup', window.eoxiaJS.dropdown.keyup );
 		jQuery( document ).on( 'click', '.wpeo-dropdown:not(.dropdown-active) .dropdown-toggle:not(.disabled)', window.eoxiaJS.dropdown.open );
 		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active .dropdown-content', function(e) { e.stopPropagation() } );
-		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active .dropdown-content .dropdown-item', window.eoxiaJS.dropdown.close  );
+		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active:not(.dropdown-force-display) .dropdown-content .dropdown-item', window.eoxiaJS.dropdown.close  );
 		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active', function ( e ) { window.eoxiaJS.dropdown.close( e ); e.stopPropagation(); } );
 		jQuery( document ).on( 'click', 'body', window.eoxiaJS.dropdown.close );
 	};
@@ -1422,6 +1436,8 @@ if ( ! window.eoxiaJS.modal  ) {
 		var callbackData = {};
 		var key = undefined;
 
+		window.eoxiaJS.action.checkBeforeCB( triggeredElement );
+
 		// Si data-action existe, ce script ouvre la popup en lançant une requête AJAX.
 		if ( triggeredElement.attr( 'data-action' ) ) {
 			window.eoxiaJS.loader.display( triggeredElement );
@@ -1443,10 +1459,6 @@ if ( ! window.eoxiaJS.modal  ) {
 						el[0].typeModal = 'ajax';
 						triggeredElement[0].modalElement = el;
 
-						if ( triggeredElement.attr( 'data-title' ) ) {
-							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
-						}
-
 						if ( triggeredElement.attr( 'data-class' ) ) {
 							el[0].className += ' ' + triggeredElement.attr( 'data-class' );
 						}
@@ -1461,13 +1473,19 @@ if ( ! window.eoxiaJS.modal  ) {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', window.eoxiaJS.modal.defaultButtons );
 						}
 
-						if ( ! triggeredElement.attr( 'data-title' ) ) {
+						if ( triggeredElement.attr( 'data-title' ) ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
+						} else if ( response.data.modal_title ) {
+							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', response.data.modal_title );
+						} else if ( ! triggeredElement.attr( 'data-title' ) ) {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{title}}', window.eoxiaJS.modal.defaultTitle );
 						}
 
 						if ( window.eoxiaJS.refresh ) {
 							window.eoxiaJS.refresh();
 						}
+
+						triggeredElement[0].modalElement.trigger( 'modal-opened', triggeredElement );
 					}
 				} );
 			});
@@ -1478,10 +1496,25 @@ if ( ! window.eoxiaJS.modal  ) {
 				return;
 			}
 
+
 			var target = triggeredElement.closest( '.' + triggeredElement.attr( 'data-parent' ) ).find( '.' + triggeredElement.attr( 'data-target' ) );
+
+			jQuery( target ).find( 'h2.modal-title' ).text( '{{title}}' );
+
+			if ( triggeredElement.attr( 'data-title' ) ) {
+				target[0].innerHTML = target[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
+			}
+
+			if ( triggeredElement.attr( 'data-class' ) ) {
+				target[0].className += ' ' + triggeredElement.attr( 'data-class' );
+			}
+
 			target.addClass( 'modal-active' );
 			target[0].typeModal = 'default';
 			triggeredElement[0].modalElement = target;
+
+			target.trigger( 'modal-opened', triggeredElement );
+
 		}
 
 		event.stopPropagation();
@@ -1799,10 +1832,12 @@ if ( ! window.eoxiaJS.request ) {
 	window.eoxiaJS.request.send = function( element, data, cb ) {
 		return jQuery.post( window.ajaxurl, data, function( response ) {
 			// Normal loader.
-			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
+			if ( element instanceof jQuery ) {
+				window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
+			}
 
 			// Handle button progress.
-			if ( element.hasClass( 'button-progress' ) ) {
+			if ( element instanceof jQuery && element.hasClass( 'button-progress' ) ) {
 				element.removeClass( 'button-load' ).addClass( 'button-success' );
 				setTimeout( function() {
 					element.removeClass( 'button-success' );
@@ -1873,7 +1908,7 @@ if ( ! window.eoxiaJS.request ) {
 	 * @returns {void}         [description]
 	 */
 	window.eoxiaJS.request.fail = function( element ) {
-		if ( element ) {
+		if ( element && element instanceof jQuery ) {
 			window.eoxiaJS.loader.remove( element.closest( '.wpeo-loader' ) );
 
 			if ( element.hasClass( 'button-progress' ) ) {
@@ -1930,7 +1965,7 @@ if ( ! window.eoxiaJS.tab ) {
 	 * @returns {void} [description]
 	 */
 	window.eoxiaJS.tab.event = function() {
-	  jQuery( document ).on( 'click', '.wpeo-tab .tab-element', window.eoxiaJS.tab.load );
+	  jQuery( document ).on( 'click', '.wpeo-tab .tab-element:not(.wpeo-dropdown)', window.eoxiaJS.tab.load );
 	};
 
 	/**
@@ -1944,6 +1979,7 @@ if ( ! window.eoxiaJS.tab ) {
 	window.eoxiaJS.tab.load = function( event ) {
 		var tabTriggered = jQuery( this );
 		var data = {};
+		var key;
 
 	  event.preventDefault();
 		event.stopPropagation();
@@ -1961,17 +1997,26 @@ if ( ! window.eoxiaJS.tab ) {
 				target: tabTriggered.attr( 'data-target' ),
 				title: tabTriggered.attr( 'data-title' ),
 				element_id: tabTriggered.attr( 'data-id' )
-		  };
+			};
 
-			window.eoxiaJS.loader.display( tabTriggered );
+			tabTriggered.get_data( function( attrData ) {
+				for ( key in attrData ) {
+					if ( ! data[key] ) {
+						data[key] = attrData[key];
+					}
+				}
 
-			jQuery.post( window.ajaxurl, data, function( response ) {
-				window.eoxiaJS.loader.remove( tabTriggered );
-				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content.tab-active' ).removeClass( 'tab-active' );
-				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ).addClass( 'tab-active' );
-				tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ).html( response.data.view );
+				window.eoxiaJS.loader.display( tabTriggered );
+				window.eoxiaJS.loader.display( tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ) );
 
-				window.eoxiaJS.tab.callTabChanged();
+				jQuery.post( window.ajaxurl, data, function( response ) {
+					window.eoxiaJS.loader.remove( tabTriggered );
+					tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content.tab-active' ).removeClass( 'tab-active' );
+					tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ).addClass( 'tab-active' );
+					tabTriggered.closest( '.wpeo-tab' ).find( '.tab-content' ).html( response.data.view );
+
+					window.eoxiaJS.tab.callTabChanged();
+				} );
 			} );
 		}
 
@@ -1987,7 +2032,13 @@ if ( ! window.eoxiaJS.tab ) {
 	window.eoxiaJS.tab.callTabChanged = function() {
 		var key = undefined, slug = undefined;
 		for ( key in window.eoxiaJS ) {
+
+			if ( window.eoxiaJS && window.eoxiaJS[key] && window.eoxiaJS[key].tabChanged ) {
+				window.eoxiaJS[key].tabChanged();
+			}
+
 			for ( slug in window.eoxiaJS[key] ) {
+
 				if ( window.eoxiaJS && window.eoxiaJS[key] && window.eoxiaJS[key][slug].tabChanged ) {
 					window.eoxiaJS[key][slug].tabChanged();
 				}
@@ -2028,6 +2079,10 @@ if ( ! window.eoxiaJS.tooltip ) {
 		window.eoxiaJS.tooltip.event();
 	};
 
+	window.eoxiaJS.tooltip.tabChanged = function() {
+		jQuery( '.wpeo-tooltip' ).remove();
+	}
+
 	/**
 	 * [description]
 	 *
@@ -2036,8 +2091,16 @@ if ( ! window.eoxiaJS.tooltip ) {
 	 * @returns {void} [description]
 	 */
 	window.eoxiaJS.tooltip.event = function() {
-		jQuery( document ).on( 'mouseenter', '.wpeo-tooltip-event', window.eoxiaJS.tooltip.display );
-		jQuery( document ).on( 'mouseleave', '.wpeo-tooltip-event', window.eoxiaJS.tooltip.remove );
+		jQuery( document ).on( 'mouseenter', '.wpeo-tooltip-event:not([data-tooltip-persist="true"])', window.eoxiaJS.tooltip.onEnter );
+		jQuery( document ).on( 'mouseleave', '.wpeo-tooltip-event:not([data-tooltip-persist="true"])', window.eoxiaJS.tooltip.onOut );
+	};
+
+	window.eoxiaJS.tooltip.onEnter = function( event ) {
+		window.eoxiaJS.tooltip.display( jQuery( this ) );
+	};
+
+	window.eoxiaJS.tooltip.onOut = function( event ) {
+		window.eoxiaJS.tooltip.remove( jQuery( this ) );
 	};
 
 	/**
@@ -2048,41 +2111,41 @@ if ( ! window.eoxiaJS.tooltip ) {
 	 * @param  {void} event [description]
 	 * @returns {void}       [description]
 	 */
-	window.eoxiaJS.tooltip.display = function( event ) {
-		var direction = ( jQuery( this ).data( 'direction' ) ) ? jQuery( this ).data( 'direction' ) : 'top';
-		var el = jQuery( '<span class="wpeo-tooltip tooltip-' + direction + '">' + jQuery( this ).attr( 'aria-label' ) + '</span>' );
-		var pos = jQuery( this ).position();
-		var offset = jQuery( this ).offset();
-		jQuery( this )[0].tooltipElement = el;
-		jQuery( 'body' ).append( jQuery( this )[0].tooltipElement );
+	window.eoxiaJS.tooltip.display = function( element ) {
+		var direction = ( jQuery( element ).data( 'direction' ) ) ? jQuery( element ).data( 'direction' ) : 'top';
+		var el = jQuery( '<span class="wpeo-tooltip tooltip-' + direction + '">' + jQuery( element ).attr( 'aria-label' ) + '</span>' );
+		var pos = jQuery( element ).position();
+		var offset = jQuery( element ).offset();
+		jQuery( element )[0].tooltipElement = el;
+		jQuery( 'body' ).append( jQuery( element )[0].tooltipElement );
 
-		if ( jQuery( this ).data( 'color' ) ) {
-			el.addClass( 'tooltip-' + jQuery( this ).data( 'color' ) );
+		if ( jQuery( element ).data( 'color' ) ) {
+			el.addClass( 'tooltip-' + jQuery( element ).data( 'color' ) );
 		}
 
 		var top = 0;
 		var left = 0;
 
-		switch( jQuery( this ).data( 'direction' ) ) {
+		switch( jQuery( element ).data( 'direction' ) ) {
 			case 'left':
-				top = ( offset.top - ( el.outerHeight() / 2 ) + ( jQuery( this ).outerHeight() / 2 ) ) + 'px';
+				top = ( offset.top - ( el.outerHeight() / 2 ) + ( jQuery( element ).outerHeight() / 2 ) ) + 'px';
 				left = ( offset.left - el.outerWidth() - 10 ) + 3 + 'px';
 				break;
 			case 'right':
-				top = ( offset.top - ( el.outerHeight() / 2 ) + ( jQuery( this ).outerHeight() / 2 ) ) + 'px';
-				left = offset.left + jQuery( this ).outerWidth() + 8 + 'px';
+				top = ( offset.top - ( el.outerHeight() / 2 ) + ( jQuery( element ).outerHeight() / 2 ) ) + 'px';
+				left = offset.left + jQuery( element ).outerWidth() + 8 + 'px';
 				break;
 			case 'bottom':
-				top = ( offset.top + jQuery( this ).height() + 10 ) + 10 + 'px';
-				left = ( offset.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
+				top = ( offset.top + jQuery( element ).height() + 10 ) + 10 + 'px';
+				left = ( offset.left - ( el.outerWidth() / 2 ) + ( jQuery( element ).outerWidth() / 2 ) ) + 'px';
 				break;
 			case 'top':
 				top = offset.top - el.outerHeight() - 4  + 'px';
-				left = ( offset.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
+				left = ( offset.left - ( el.outerWidth() / 2 ) + ( jQuery( element ).outerWidth() / 2 ) ) + 'px';
 				break;
 			default:
 				top = offset.top - el.outerHeight() - 4  + 'px';
-				left = ( offset.left - ( el.outerWidth() / 2 ) + ( jQuery( this ).outerWidth() / 2 ) ) + 'px';
+				left = ( offset.left - ( el.outerWidth() / 2 ) + ( jQuery( element ).outerWidth() / 2 ) ) + 'px';
 				break;
 		}
 
@@ -2101,7 +2164,9 @@ if ( ! window.eoxiaJS.tooltip ) {
 	 * @param  {void} event [description]
 	 * @returns {void}       [description]
 	 */
-	window.eoxiaJS.tooltip.remove = function( event ) {
-		jQuery( jQuery( this )[0].tooltipElement ).remove();
+	window.eoxiaJS.tooltip.remove = function( element ) {
+		if ( jQuery( element )[0] && jQuery( element )[0].tooltipElement ) {
+			jQuery( jQuery( element )[0].tooltipElement ).remove();
+		}
 	};
 }

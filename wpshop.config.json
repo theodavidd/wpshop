@@ -5,7 +5,8 @@
 		"core/core.config.json",
 		"modules/product/product.config.json",
 		"modules/third-party/third-party.config.json",
-		"modules/contact/contact.config.json"
+		"modules/contact/contact.config.json",
+    "modules/order/order.config.json"
 	],
 	"version": "2.0.0"
 }
