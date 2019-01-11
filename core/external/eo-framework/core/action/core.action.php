@@ -51,6 +51,7 @@ class Core_Action {
 		wp_enqueue_style( 'wpeo-assets-datepicker', Config_Util::$init['eo-framework']->core->url . 'assets/css/jquery.datetimepicker.css', array(), \eoxia\Config_Util::$init['eo-framework']->version );
 
 		wp_localize_script( 'wpeo-assets-scripts', 'wpeo_framework', $this->get_localize_script_data() );
+		wp_localize_script( 'wpeo-assets-scripts', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
 		wp_enqueue_script( 'wpeo-assets-scripts' );
 		wp_enqueue_script( 'wpeo-assets-fontawesome' );
 	}

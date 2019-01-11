@@ -131,9 +131,7 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 				$this->check_value_type( $value, $field_name, $field_def );
 
 				// On assigne la valeur "construite" au champs dans l'objet en cours de construction.
-				if ( null !== $value ) {
-					$object[ $field_name ] = $value;
-				}
+				$object[ $field_name ] = $value;
 
 				// Dans le cas ou la méthode actuelle implique un enregistrement dans la base de données.
 				// Si la valeur "construite" est "null" (aucun cas précédent n'a rempli ce champs) et que le champs est requis alors on le supprime pour ne pas supprimer de la BDD.
@@ -244,7 +242,9 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 			 *
 			 * @see self::$accepted_types
 			 */
-			settype( $value, $field_def['type'] );
+			if ( null !== $value ) {
+				settype( $value, $field_def['type'] );
+			}
 
 			// On force le typage des enfants uniquement si array_type est défini.
 			if ( ! empty( $field_def['array_type'] ) && is_array( $value ) && ! empty( $value ) ) {
@@ -254,7 +254,9 @@ if ( ! class_exists( '\eoxia\Data_Class' ) ) {
 					 *
 					 * @see self::$accepted_types
 					 */
-					settype( $value[ $key ], $field_def['array_type'] );
+					if ( null !== $value ) {
+						settype( $value[ $key ], $field_def['array_type'] );
+					}
 				}
 			}
 

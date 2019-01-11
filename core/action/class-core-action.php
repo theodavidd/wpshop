@@ -30,6 +30,7 @@ class Core_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
+		add_action( 'init', array( $this, 'callback_register_session' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts' ), 11 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts' ), 11 );
 
@@ -48,6 +49,11 @@ class Core_Action {
 		add_action( 'wp_ajax_downloadpdf', array( $this, 'callback_downloadpdf' ) );
 	}
 
+	public function callback_register_session() {
+		if ( ! session_id() ) {
+			session_start();
+		}
+	}
 
 	/**
 	 * Init style and script
@@ -68,7 +74,7 @@ class Core_Action {
 		$invoice_id    =  ! empty( $_POST['invoice_id'] ) ? (int) $_POST['invoice_id'] : 0;
 		$invoice_path  =  ! empty( $_POST['invoice_path'] ) ? sanitize_text_field( $_POST['invoice_path'] ) : '';
 
-		$response = wp_remote_get( 'http://localhost/dolibarr-8.0.3/documents/' . $invoice_path );
+		$response = Request_Util::get( '/documents/' . $invoice_path );
 
 		echo '<pre> |'; print_r( $invoice_path ); echo '|</pre>';
 
@@ -211,7 +217,7 @@ class Core_Action {
 	}
 
 	public function get_proposal( $proposal_id ){
-		$request = wp_remote_get( 'http://localhost/dolibarr-8.0.3/htdocs/api/index.php/proposals/' . $proposal_id, array(
+		$request = Request_Util::get( '/htdocs/api/index.php/proposals/' . $proposal_id, array(
 			'headers' => array(
 				'Content-Type' => 'application/json',
 				'DOLAPIKEY'    => 'hvdtb63x'
@@ -335,7 +341,7 @@ class Core_Action {
 		$rowid = 0;
 		$quantity = 0;
 
-		$request = wp_remote_get( 'http://localhost/dolibarr-8.0.3/htdocs/api/index.php/proposals/' . $proposal_id . '/lines', array(
+		$request = Request_Util::get( '/htdocs/api/index.php/proposals/' . $proposal_id . '/lines', array(
 			'headers'   => array(
 				'application/json',
 				'DOLAPIKEY' => 'hvdtb63x'
@@ -374,7 +380,7 @@ class Core_Action {
 	}
 
 	public function get_content_panier( $proposal_id ){
-		$request = wp_remote_get( 'http://localhost/dolibarr-8.0.3/htdocs/api/index.php/proposals/' . $proposal_id . '/lines', array(
+		$request = Request_Util::get( '/htdocs/api/index.php/proposals/' . $proposal_id . '/lines', array(
 			'headers' => array(
 				'Content-Type' => 'application/json',
 				'DOLAPIKEY'    => 'hvdtb63x'
@@ -536,14 +542,14 @@ class Core_Action {
 	/**
 	 * Renvois la liste des produits
 	 *
-	 * wp_remote_get()
+	 * Request_Util::get()
 	 *
 	 * @return [json_encode] [return la liste des produits]
 	 *
 	 * @since 2.0.0
  	*/
 	public function callback_data_list_product( ){
-		$request = wp_remote_get( 'http://localhost/dolibarr-8.0.3/htdocs/api/index.php/products?sortfield=t.ref&sortorder=ASC&limit=100', array(
+		$request = Request_Util::get( '/htdocs/api/index.php/products?sortfield=t.ref&sortorder=ASC&limit=100', array(
 			'headers' => array(
 				'Content-type' => 'application/json',
 				'DOLAPIKEY'    => 'hvdtb63x',
@@ -643,7 +649,7 @@ class Core_Action {
 	/**
 	 * Get dans la base de donnée, le produit ciblé
 	 *
-	 * wp_remote_get()
+	 * Request_Util::get()
 	 *
 	 * @param  [int] $product_id [l'id du produit ciblé]
 	 * @return [json_encode] [return les informtions sur le produit ciblé]
@@ -651,7 +657,7 @@ class Core_Action {
 	 * @since 2.0.0
  	*/
 	public function callback_data_focus_product( $product_id ){
-		$request = wp_remote_get( 'http://localhost/dolibarr-8.0.3/htdocs/api/index.php/products/' . $product_id, array(
+		$request = Request_Util::get( '/htdocs/api/index.php/products/' . $product_id, array(
 			'headers' => array(
 				'Content-Type' => 'application/json',
 				'DOLAPIKEY'    => 'hvdtb63x'

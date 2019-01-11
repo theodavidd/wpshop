@@ -99,9 +99,9 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		 * @return boolean
 		 */
 		public function init_post_type() {
-			$args = array(
+			$args = apply_filters( 'eo_model_' . $this->get_type() . '_register_post_type_args', array(
 				'label' => $this->post_type_name,
-			);
+			) );
 
 			$return = register_post_type( $this->get_type(), $args );
 
@@ -322,7 +322,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 		public function get_attached_taxonomy() {
 			return $this->attached_taxonomy_type;
 		}
-		
+
 		/**
 		 * Retournes le nom du post type.
 		 *
