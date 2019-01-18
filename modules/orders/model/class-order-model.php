@@ -31,15 +31,20 @@ class Order_Model extends \eoxia\Post_Model {
 	 */
 	public function __construct( $object, $req_method = null ) {
 
-		// A verifier.
-		// socid
-
 		$this->schema['external_id'] = array(
 			'type'        => 'integer',
 			'meta_type'   => 'single',
 			'field'       => 'external_id',
 			'since'       => '2.0.0',
 			'description' => 'L\'ID du customer (dolibarr). Relation avec dolibarr.',
+		);
+
+		$this->schema['external_status'] = array(
+			'type'        => 'integer',
+			'meta_type'   => 'single',
+			'field'       => 'external_status',
+			'since'       => '2.0.0',
+			'description' => 'Le status de la proposition commerciale dans dolibarr. Relation avec dolibarr.',
 		);
 
 		$this->schema['ref'] = array(

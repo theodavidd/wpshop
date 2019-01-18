@@ -27,7 +27,7 @@ class Order_Filter {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		// add_filter( 'eo_model_wps-order_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
+		add_filter( 'eo_model_wps-order_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
 	}
 
 	/**

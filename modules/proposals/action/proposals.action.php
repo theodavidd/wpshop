@@ -24,11 +24,24 @@ class Proposals_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
+
+		add_action( 'add_meta_boxes', array( $this, 'callback_add_meta_boxes' ) );
+
 		add_action( 'wps_add_to_cart', array( $this, 'callback_add_to_cart' ), 10, 2 );
-
 		add_action( 'wps_save_order', array( $this, 'callback_wps_save_order' ), 10, 2 );
-
 		add_action( 'wps_calculate_totals', array( $this, 'callback_calculate_totals' ) );
+	}
+
+	public function callback_add_meta_boxes() {
+
+		add_meta_box( 'wps-proposals-customer', __( 'Order details number 1', 'wpshop' ), array( $this, 'callback_meta_box' ), 'wps-order' );
+	}
+
+	public function callback_meta_box( $post ) {
+		$order = Order_Class::g()->get( array( 'id' => $post->ID ), true );
+		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'order-details', array(
+			'order' => $order,
+		) );
 	}
 
 	public function callback_add_to_cart( $cart, $product ) {

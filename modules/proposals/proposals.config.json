@@ -3,10 +3,9 @@
 	"slug": "proposals",
 	"since": "2.0.0",
 	"description": "Le module gérant les prospets",
-	"path": "module/proposals/",
+	"path": "modules/proposals/",
 	"dependencies": {
 		"action": {},
-		"filter": {},
 		"class": {}
 	}
 }

@@ -23,6 +23,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<th><?php esc_html_e( 'WP ID', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Ref', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Price', 'wpshop' ); ?></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
