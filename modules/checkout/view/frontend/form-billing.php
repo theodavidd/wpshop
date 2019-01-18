@@ -23,8 +23,8 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wpeo-form">
 	<div class="wpeo-grid grid-2">
 		<div>
-			<div class="form-element">
-				<span class="form-label">First name*</span>
+			<div class="form-element contact-firstname">
+				<span class="form-label">First name</span>
 				<label class="form-field-container">
 					<input type="text" class="form-field" name="contact[firstname]" />
 				</label>
@@ -32,8 +32,8 @@ defined( 'ABSPATH' ) || exit; ?>
 		</div>
 
 		<div>
-			<div class="form-element">
-				<span class="form-label">Last name*</span>
+			<div class="form-element contact-lastname">
+				<span class="form-label">Last name</span>
 				<label class="form-field-container">
 					<input type="text" class="form-field" name="contact[lastname]" />
 				</label>
@@ -41,36 +41,36 @@ defined( 'ABSPATH' ) || exit; ?>
 		</div>
 	</div>
 
-	<div class="form-element">
-		<span class="form-label">Company name*</span>
+	<div class="form-element third_party-title">
+		<span class="form-label">Company name</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[title]" />
 		</label>
 	</div>
 
-	<div class="form-element">
-		<span class="form-label">Country*</span>
+	<div class="form-element third_party-country">
+		<span class="form-label">Country</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[country]" />
 		</label>
 	</div>
 
-	<div class="form-element">
-		<span class="form-label">Street address*</span>
+	<div class="form-element third_party-address">
+		<span class="form-label">Street address</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[address]" />
 		</label>
 	</div>
 
-	<div class="form-element">
-		<span class="form-label">Postcode/ ZIP*</span>
+	<div class="form-element third_party-zip">
+		<span class="form-label">Postcode/ ZIP</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[zip]" />
 		</label>
 	</div>
 
-	<div class="form-element">
-		<span class="form-label">Town / City*</span>
+	<div class="form-element third_party-state">
+		<span class="form-label">Town / City</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[state]" />
 		</label>
@@ -78,8 +78,8 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="wpeo-grid grid-2">
 		<div>
-			<div class="form-element">
-				<span class="form-label">Phone*</span>
+			<div class="form-element contact-phone">
+				<span class="form-label">Phone</span>
 				<label class="form-field-container">
 					<input type="text" class="form-field" name="contact[phone]" />
 				</label>
@@ -87,25 +87,13 @@ defined( 'ABSPATH' ) || exit; ?>
 		</div>
 
 		<div>
-			<div class="form-element">
+			<div class="form-element contact-email">
 				<span class="form-label">Email address*</span>
 				<label class="form-field-container">
 					<input type="text" class="form-field" name="contact[email]" />
 				</label>
 			</div>
 		</div>
-	</div>
-
-	<div class="form-field-inline">
-		<input type="checkbox" id="checkbox10" class="form-field" name="type" checked value="checkbox10">
-		<label for="checkbox10">Create an account ?</label>
-	</div>
-
-	<div class="form-element">
-		<span class="form-label">Create account password*</span>
-		<label class="form-field-container">
-			<input type="password" class="form-field" name="contact[password]" />
-		</label>
 	</div>
 </div>
 

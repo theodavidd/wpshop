@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class order model.
  */
-class Order_Model{
+class Order_Model extends \eoxia\Post_Model {
 
 	/**
 	 * Constructor.
@@ -42,7 +42,7 @@ class Order_Model{
 			'description' => 'L\'ID du customer (dolibarr). Relation avec dolibarr.',
 		);
 
-		$this->schema['ref'] = array( // ref
+		$this->schema['ref'] = array(
 			'type'        => 'varchar',
 			'meta_type'   => 'single',
 			'field'       => 'ref',

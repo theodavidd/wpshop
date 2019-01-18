@@ -118,6 +118,9 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'description' => 'Numéro SIRET de l\'entreprise (varchar(128)). Par défault NULL.'
 		);
 
+		// $this->schema['mail']
+		// prospet
+
 		parent::__construct( $object, $req_method );
 	}
 }

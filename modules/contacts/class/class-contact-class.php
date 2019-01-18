@@ -137,10 +137,10 @@ class Contact_Class extends \eoxia\User_Class {
 		$contact->data['firstname'] = $data['contact']['firstname'];
 		$contact->data['lastname']  = $data['contact']['lastname'];
 		$contact->data['phone']     = $data['contact']['phone'];
-		$contact->data['password']  = $data['contact']['password'];
+		$contact->data['password']  = wp_generate_password();
 
 		$contact = Contact_Class::g()->update( $contact->data );
-		return $contact->data['id'];
+		return $contact;
 	}
 }
 

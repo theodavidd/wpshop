@@ -92,9 +92,16 @@ class Third_Party_Class extends \eoxia\Post_Class {
 
 		$third_party = Third_Party_Class::g()->update( $third_party->data );
 
-		$third_party->data['contact_ids'][] = Contact_Class::g()->save( $data );
+		$contact = Contact_Class::g()->save( $data );
 
-		Third_Party_Class::g()->update( $third_party->data );
+		if ( is_wp_error( $contact ) ) {
+			return $contact;
+		}
+
+		$third_party->data['contact_ids'][] = $contact->data['id'];
+		$third_party = Third_Party_Class::g()->update( $third_party->data );
+
+		return $third_party;
 	}
 }
 

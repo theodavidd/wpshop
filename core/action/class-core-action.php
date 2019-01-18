@@ -31,8 +31,9 @@ class Core_Action {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'callback_register_session' ) );
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts' ), 11 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts' ), 11 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'callback_enqueue_scripts' ), 11 );
 
 		add_shortcode( 'wpshop_cart', array($this, 'shortcode_func'));// <- Faute de Jimmy
 		add_shortcode( 'wpshop_exemple_propal', array($this, 'shortcode_func_wpshop_exemplepropal'));
@@ -63,6 +64,10 @@ class Core_Action {
 	public function callback_admin_enqueue_scripts() {
 		wp_enqueue_style( 'wpshop-backend-style', PLUGIN_WPSHOP_URL . 'core/asset/css/style.css', array(), \eoxia\Config_Util::$init['wpshop']->version );
 		wp_enqueue_script( 'wpshop-backend-script', PLUGIN_WPSHOP_URL . 'core/asset/js/backend.min.js', array(), \eoxia\Config_Util::$init['wpshop']->version );
+	}
+
+	public function callback_enqueue_scripts() {
+		wp_enqueue_script( 'wpshop-frontend-script', PLUGIN_WPSHOP_URL . 'core/asset/js/frontend.min.js', array(), \eoxia\Config_Util::$init['wpshop']->version );
 	}
 
 	public function callback_downloadpdf(){

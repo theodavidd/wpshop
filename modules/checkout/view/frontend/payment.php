@@ -32,8 +32,8 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<?php do_action( 'wps_review_order_before_submit' ); ?>
 
-	<input type="hidden" name="action" value="place_order" />
-	<input type="submit" class="wpeo-button"><?php esc_html_e( 'Place order', 'wpshop' ); ?></div>
+	<input type="hidden" name="action" value="wps_place_order" />
+	<a class="action-input wpeo-button" data-parent="wps-checkout"><?php esc_html_e( 'Place order', 'wpshop' ); ?></a>
 
 	<?php do_action( 'wps_review_order_after_submit' ); ?>
 </div>

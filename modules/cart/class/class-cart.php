@@ -20,6 +20,9 @@ defined( 'ABSPATH' ) || exit;
 * Handle order
 */
 class Cart_Class extends \eoxia\Singleton_Util {
+
+	public $proposal_id = 0;
+
 	/**
 	 * Un tableau de produit
 	 *
@@ -27,15 +30,23 @@ class Cart_Class extends \eoxia\Singleton_Util {
 	 */
 	public $cart_contents = array();
 
+	public $total_price;
+
+	public $total_price_ttc;
+
 	/**
 	 * Constructeur pour la classe Cart_Class. Charge les options et les actions.
 	 *
 	 * @since 2.0.0
 	 */
-	protected function construct() {}
+	protected function construct() {
+		$this = $this->get_cart();
+	}
 
 	public function add_to_cart( $product ) {
 		$this->cart_contents[] = $product->data;
+
+		do_action( 'wps_add_to_cart', $this, $product->data );
 
 		$_SESSION['wps_cart'] = $this;
 
@@ -47,7 +58,8 @@ class Cart_Class extends \eoxia\Singleton_Util {
 	}
 
 	public function get_cart() {
-		return $_SESSION['wps_cart'];
+
+		return isset( $_SESSION['wps_cart'] ) ? $_SESSION['wps_cart'] : array();
 	}
 }
 

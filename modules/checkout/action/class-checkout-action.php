@@ -36,7 +36,7 @@ class Checkout_Action {
 		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_order_review' ) );
 		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_payment' ), 20 );
 
-		add_action( 'admin_post_place_order', array( $this, 'callback_place_order' ) );
+		add_action( 'wp_ajax_wps_place_order', array( $this, 'callback_place_order' ) );
 	}
 
 	public function callback_after_cart_table() {
@@ -64,9 +64,35 @@ class Checkout_Action {
 
 		do_action( 'wps_checkout_process' );
 
+		$errors      = new \WP_Error();
 		$posted_data = Checkout_Class::g()->get_posted_data();
 
-		Third_Party_Class::g()->save( $posted_data );
+		echo '<pre>'; print_r( $_SESSION ); echo '</pre>';exit;
+
+		Checkout_Class::g()->validate_checkout( $posted_data, $errors );
+
+		if ( 0 === count( $errors->error_data ) ) {
+			$third_party = Third_Party_Class::g()->save( $posted_data );
+			$contact     = Contact_Class::g()->get( array( 'id' => end( $third_party->data['contact_ids'] ) ), true );
+
+			Order_Class::g()->save( $third_party, $contact );
+
+			do_action( 'wps_checkout_order_processed' );
+		} else {
+			ob_start();
+			include( Template_Util::get_template_part( 'checkout', 'notice-error' ) );
+			$template = ob_get_clean();
+
+
+			wp_send_json_success( array(
+				'namespace'        => 'wpshopFrontend',
+				'module'           => 'checkout',
+				'callback_success' => 'checkoutErrors',
+				'errors'           => $errors,
+				'template'         => $template,
+			) );
+		}
+
 	}
 }
 

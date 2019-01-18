@@ -18,12 +18,19 @@ var sass = require('gulp-sass');
 
 var paths = {
   all_js: ['core/asset/js/init.js', '**/*.backend.js'],
-	scss_backend:[ 'core/asset/css/scss/**/*.scss', 'core/asset/css/' ]
+  frontend_js: ['core/asset/js/init.js', '**/*.frontend.js'],
+  scss_backend:[ 'core/asset/css/scss/**/*.scss', 'core/asset/css/' ]
 };
 
 gulp.task('js', function() {
 	return gulp.src(paths.all_js)
 		.pipe(concat('backend.min.js'))
+		.pipe(gulp.dest('core/asset/js/'))
+});
+
+gulp.task('frontend_js', function() {
+	return gulp.src(paths.frontend_js)
+		.pipe(concat('frontend.min.js'))
 		.pipe(gulp.dest('core/asset/js/'))
 });
 
@@ -55,6 +62,7 @@ gulp.task('build_scss_backend_min', function() {
 
 gulp.task('default', function() {
 	gulp.watch(paths.all_js, ["js"]);
+	gulp.watch(paths.frontend_js, ["frontend_js"]);
 	gulp.watch(paths.scss_backend[0], ["build_scss_backend"]);
 	gulp.watch(paths.scss_backend[0], ["build_scss_backend_min"]);
 });

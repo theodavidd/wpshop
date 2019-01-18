@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <?php do_action( 'wps_before_checkout_form' ); ?>
 
-<form name="checkout" method="post" class="wps-checkout" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+<form method="post" class="wps-checkout">
 
 	<div><?php do_action( 'wps_checkout_billing' ); ?></div>
 

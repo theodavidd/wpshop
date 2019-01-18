@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 /**
 * Handle order
 */
-class Orders_Class extends \eoxia\Post_Class {
+class Order_Class extends \eoxia\Post_Class {
 
 	/**
 	 * Model name @see ../model/*.model.php.
@@ -74,16 +74,20 @@ class Orders_Class extends \eoxia\Post_Class {
 	 * @since 2.0.0
 	 */
 	public function display() {
-		$order = $this->get();
+		$orders = $this->get();
 
 		\eoxia\View_Util::exec( 'wpshop', 'orders', 'list', array(
-			'order' => $order,
+			'orders' => $orders,
 		) );
 	}
 
-	public function save( $data ) {
+	public function save( $third_party, $contact ) {
+		$order = $this->get( array( 'schema' => true ), true );
 
+		$order->data['parent_id'] = $contact->data['id'];
+
+		return $this->update( $order->data );
 	}
 }
 
-Orders_Class::g();
+Order_Class::g();

@@ -4,6 +4,7 @@
 	"modules": [
 		"core/core.config.json",
 		"modules/products/products.config.json",
+		"modules/proposals/proposals.config.json",
 		"modules/third-parties/third-parties.config.json",
 		"modules/contacts/contacts.config.json",
     "modules/orders/orders.config.json",

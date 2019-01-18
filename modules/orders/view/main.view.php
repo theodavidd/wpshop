@@ -24,5 +24,5 @@ defined( 'ABSPATH' ) || exit; ?>
 		<span>Synchro</span>
 	</div>
 
-	<?php Orders_Class::g()->display(); ?>
+	<?php Order_Class::g()->display(); ?>
 </div>
