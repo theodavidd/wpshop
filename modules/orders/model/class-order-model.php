@@ -43,7 +43,7 @@ class Order_Model extends \eoxia\Post_Model {
 		);
 
 		$this->schema['ref'] = array(
-			'type'        => 'varchar',
+			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => 'ref',
 			'since'       => '2.0.0',
@@ -59,7 +59,7 @@ class Order_Model extends \eoxia\Post_Model {
 		);
 
 		$this->schema['order_currency'] = array(
-			'type'        => 'varchar',
+			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => 'order_currency',
 			'since'       => '2.0.0',
@@ -81,15 +81,6 @@ class Order_Model extends \eoxia\Post_Model {
 			'default'     => 0.00000000,
 			'since'       => '2.0.0',
 			'description' => 'Prix total de la commande, toutes taxes comprises (float). Peut être NULL. Valeur par défaut NULL.',
-		);
-
-		$this->schema['order_amount_to_pay_now'] = array(
-			'type'        => 'float',
-			'meta_type'   => 'single',
-			'field'       => 'order_amount_to_pay_now',
-			'default'     => 0.00000000,
-			'since'       => '2.0.0',
-			'description' => 'Prix final, aprés réduction (float). Peut être NULL. Valeur par défaut NULL.',
 		);
 
 		parent::__construct( $object, $req_method );

@@ -16,7 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<h3><?php _e( 'Billing details', 'woocommerce' ); ?></h3>
+<h3><?php _e( 'Billing details', 'wpshop' ); ?></h3>
 
 <?php do_action( 'wps_before_checkout_billing_form' ); ?>
 

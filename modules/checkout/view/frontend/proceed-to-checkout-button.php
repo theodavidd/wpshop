@@ -16,6 +16,6 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<a href="<?php echo esc_url( get_page_link( 47 ) ); ?>" class="wpeo-button">
+<a href="<?php echo esc_url( get_page_link( 12 ) ); ?>" class="wpeo-button">
 	<?php esc_html_e( 'Proceed to checkout', 'wpshop' ); ?>
 </a>

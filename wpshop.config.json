@@ -9,9 +9,12 @@
 		"modules/contacts/contacts.config.json",
     "modules/orders/orders.config.json",
     "modules/cart/cart.config.json",
-    "modules/checkout/checkout.config.json"
+    "modules/checkout/checkout.config.json",
+    "modules/doli_cart/doli_cart.config.json",
+    "modules/doli-third-parties/doli-third-parties.config.json",
+    "modules/doli-contact/doli-contact.config.json"
 	],
 	"version": "2.0.0",
-  "doli_url": "http://localhost/dolibarr/api/index.php/",
-  "doli_token": "He4ZuKWat6NZk4bA25U147z1OEsmEh5j"
+  "doli_url": "http://127.0.0.1/dolibarr-8.0.4/htdocs/api/index.php/",
+  "doli_token": "e6C7GrbnJf3u3TP3cq2i1SqYAM2EYa76"
 }

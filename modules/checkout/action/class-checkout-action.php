@@ -30,7 +30,7 @@ class Checkout_Action {
 	public function __construct() {
 		add_action( 'init', array( Checkout_Shortcode::g(), 'callback_init' ) );
 
-		add_action( 'wps_after_cart_table', array( $this, 'callback_after_cart_table' ) );
+		add_action( 'wps_after_cart_table', array( $this, 'callback_after_cart_table' ), 20 );
 
 		add_action( 'wps_checkout_billing', array( $this, 'callback_checkout_billing' ) );
 		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_order_review' ) );
@@ -48,14 +48,12 @@ class Checkout_Action {
 	}
 
 	public function callback_checkout_order_review() {
-		$cart = Cart_Class::g()->get_cart();
+		$cart_contents = Class_Cart_Session::g()->cart_contents;
 
 		include( Template_Util::get_template_part( 'checkout', 'review-order' ) );
 	}
 
 	public function callback_checkout_payment() {
-		$cart = Cart_Class::g()->get_cart();
-
 		include( Template_Util::get_template_part( 'checkout', 'payment' ) );
 	}
 
@@ -67,17 +65,13 @@ class Checkout_Action {
 		$errors      = new \WP_Error();
 		$posted_data = Checkout_Class::g()->get_posted_data();
 
-		echo '<pre>'; print_r( $_SESSION ); echo '</pre>';exit;
-
 		Checkout_Class::g()->validate_checkout( $posted_data, $errors );
 
 		if ( 0 === count( $errors->error_data ) ) {
-			$third_party = Third_Party_Class::g()->save( $posted_data );
-			$contact     = Contact_Class::g()->get( array( 'id' => end( $third_party->data['contact_ids'] ) ), true );
+			$data = Third_Party_Class::g()->save( $posted_data );
+			Order_Class::g()->save( $data['third_party'], $data['contact'] );
 
-			Order_Class::g()->save( $third_party, $contact );
-
-			do_action( 'wps_checkout_order_processed' );
+			// do_action( 'wps_checkout_order_processed' );
 		} else {
 			ob_start();
 			include( Template_Util::get_template_part( 'checkout', 'notice-error' ) );

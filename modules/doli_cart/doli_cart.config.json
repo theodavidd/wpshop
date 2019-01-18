@@ -1,0 +1,10 @@
+{
+	"name": "Gestion du panier avec dolibarr",
+	"slug": "doli_cart",
+	"since": "2.0.0",
+	"description": "Le module gérant le panier avec dolibarr",
+	"path": "module/doli_cart/",
+	"dependencies": {
+		"action": {}
+	}
+}

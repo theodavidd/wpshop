@@ -82,11 +82,19 @@ class Order_Class extends \eoxia\Post_Class {
 	}
 
 	public function save( $third_party, $contact ) {
-		$order = $this->get( array( 'schema' => true ), true );
+		do_action( 'wps_save_order', $third_party, $contact );
+	}
 
-		$order->data['parent_id'] = $contact->data['id'];
-
-		return $this->update( $order->data );
+	public function sync( $third_party_id, $proposal_data ) {
+		return Order_Class::g()->update( array(
+			'external_id'       => (int) $proposal_data->id,
+			'parent_id'         => $third_party_id,
+			'ref'               => $proposal_data->ref,
+			'order_date'        => $proposal_data->datec,
+			'order_currency'    => 'EUR',
+			'order_grand_total' => $proposal_data->total_ht,
+			'order_total_ttc'   => $proposal_data->total_ttc,
+		) );
 	}
 }
 

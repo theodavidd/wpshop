@@ -21,6 +21,8 @@ defined( 'ABSPATH' ) || exit; ?>
 		<tr>
 			<th><input type="checkbox" /></th>
 			<th><?php esc_html_e( 'WP ID', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Ref', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Price', 'wpshop' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>

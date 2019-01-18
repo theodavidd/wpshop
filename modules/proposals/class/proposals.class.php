@@ -27,4 +27,15 @@ class Proposals_Class extends \eoxia\Post_Class {
 	 * @version 2.0.0
 	 */
 	protected function construct() {}
+
+	public function update_third_party( $third_party_id ) {
+
+		$proposal_id = Class_Cart_Session::g()->external_data['proposal_id'];
+
+		$proposal = Request_Util::put( 'proposals/' . $proposal_id, array(
+			'socid' => $third_party_id,
+		) );
+
+		return true;
+	}
 }

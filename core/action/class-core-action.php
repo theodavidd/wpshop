@@ -30,7 +30,7 @@ class Core_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'init', array( $this, 'callback_register_session' ) );
+		add_action( 'init', array( $this, 'callback_register_session' ), 1 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts' ), 11 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_enqueue_scripts' ), 11 );

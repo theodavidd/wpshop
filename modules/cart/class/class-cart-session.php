@@ -21,15 +21,35 @@ defined( 'ABSPATH' ) || exit;
 */
 class Class_Cart_Session extends \eoxia\Singleton_Util {
 
-	protected $cart;
+	public $external_data = array();
 
 	/**
-	 * Constructeur pour la classe Class_Cart_Session. Charge les options et les actions.
+	 * Un tableau de produit
 	 *
-	 * @since 2.0.0
+	 * @var array
 	 */
-	protected function construct( $cart ) {
-		$this->cart = $cart;
+	public $cart_contents = array();
+
+	public $total_price;
+
+	public $total_price_ttc;
+
+	protected function construct() {
+		$this->cart_contents   = isset( $_SESSION['wps_cart'] ) ? $_SESSION['wps_cart'] : array();
+		$this->total_price     = isset( $_SESSION['wps_total_price'] ) ? $_SESSION['wps_total_price'] : null;
+		$this->total_price_ttc = isset( $_SESSION['wps_total_price_ttc'] ) ? $_SESSION['wps_total_price_ttc'] : null;
+		$this->external_data   = isset( $_SESSION['wps_external_data'] ) ? $_SESSION['wps_external_data'] : array();
+	}
+
+	public function add_external_data( $property, $value ) {
+		$this->external_data[ $property ] = $value;
+	}
+
+	public function update_session() {
+		$_SESSION['wps_cart']            = $this->cart_contents;
+		$_SESSION['wps_total_price']     = $this->total_price;
+		$_SESSION['wps_total_price_ttc'] = $this->total_price_ttc;
+		$_SESSION['wps_external_data']   = $this->external_data;
 	}
 }
 

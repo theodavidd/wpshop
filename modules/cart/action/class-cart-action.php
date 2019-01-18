@@ -27,13 +27,22 @@ class Cart_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'init', array( Cart_Shortcode::g(), 'callback_init' ) );
+
+		add_action( 'init', array( Cart_Shortcode::g(), 'callback_init' ), 5 );
+
+		add_action( 'wps_after_cart_table', array( $this, 'callback_after_cart_table' ), 10 );
 
 		add_action( 'wp_ajax_nopriv_add_to_cart', array( $this, 'ajax_add_to_cart' ) );
 		add_action( 'wp_ajax_add_to_cart', array( $this, 'ajax_add_to_cart' ) );
 	}
 
+	public function callback_after_cart_table() {
+
+		include( Template_Util::get_template_part( 'cart', 'cart-totals' ) );
+	}
+
 	public function ajax_add_to_cart() {
+
 		check_ajax_referer( 'add_to_cart');
 
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;

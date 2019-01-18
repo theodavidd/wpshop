@@ -19,4 +19,6 @@ defined( 'ABSPATH' ) || exit; ?>
 <tr>
 	<td><input type="checkbox" /></td>
 	<td><?php echo esc_html( $order->data['id'] ); ?></td>
+	<td><?php echo esc_html( $order->data['ref'] ); ?></td>
+	<td><?php echo esc_html( $order->data['order_grand_total'] ); ?>€</td>
 </tr>

@@ -35,7 +35,7 @@ class Cart_Shortcode extends \eoxia\Singleton_Util {
 
 	public function callback_cart() {
 		if ( ! is_admin() ) {
-			$cart = Cart_Class::g()->get_cart();
+			$cart_contents = Class_Cart_Session::g()->cart_contents;
 
 			include( Template_Util::get_template_part( 'cart', 'cart' ) );
 		}

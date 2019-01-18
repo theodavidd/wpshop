@@ -27,12 +27,12 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php
 			do_action( 'wps_review_order_before_cart_contents' );
 
-			if ( ! empty( $cart->cart_contents ) ) :
-				foreach ( $cart->cart_contents as $cart_item ) :
+			if ( ! empty( $cart_contents ) ) :
+				foreach ( $cart_contents as $cart_item ) :
 					?>
 					<tr>
-						<td class="product-name">A</td>
-						<td class="product-total">A</td>
+						<td class="product-name"><?php echo $cart_item['title'] ?></td>
+						<td class="product-total"><?php echo $cart_item['price']; ?>€</td>
 					</tr>
 					<?php
 				endforeach;

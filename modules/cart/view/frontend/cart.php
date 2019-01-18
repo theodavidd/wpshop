@@ -31,8 +31,8 @@ defined( 'ABSPATH' ) || exit; ?>
 	</thead>
 	<tbody>
 		<?php
-		if ( ! empty( $cart->cart_contents ) ) :
-			foreach ( $cart->cart_contents as $cart_item ) :
+		if ( ! empty( $cart_contents ) ) :
+			foreach ( $cart_contents as $cart_item ) :
 				?>
 				<tr>
 					<td>A</td>

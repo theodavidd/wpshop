@@ -90,18 +90,22 @@ class Third_Party_Class extends \eoxia\Post_Class {
 		$third_party->data['state']            = $data['third_party']['state'];
 		$third_party->data['country']          = $data['third_party']['country'];
 
-		$third_party = Third_Party_Class::g()->update( $third_party->data );
+		return apply_filters( 'wps_save_third_party', $data, $third_party->data );
+	}
 
-		$contact = Contact_Class::g()->save( $data );
+	public function sync( $external_id, $data ) {
+		$third_party = Third_Party_Class::g()->get( array( 'schema' => true ), true );
 
-		if ( is_wp_error( $contact ) ) {
-			return $contact;
-		}
+		$third_party->data['external_id']      = (int) $external_id;
+		$third_party->data['title']            = $data->name;
+		$third_party->data['forme_juridique']  = $data->forme_juridique;
+		$third_party->data['code_fournisseur'] = $data->code_fournisseur;
+		$third_party->data['address']          = $data->address;
+		$third_party->data['zip']              = $data->zip;
+		$third_party->data['state']            = $data->state;
+		$third_party->data['country']          = $data->country;
 
-		$third_party->data['contact_ids'][] = $contact->data['id'];
-		$third_party = Third_Party_Class::g()->update( $third_party->data );
-
-		return $third_party;
+		return Third_Party_Class::g()->update( $third_party->data );
 	}
 }
 

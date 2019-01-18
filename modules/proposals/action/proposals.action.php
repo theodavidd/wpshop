@@ -26,22 +26,21 @@ class Proposals_Action {
 	public function __construct() {
 		add_action( 'wps_add_to_cart', array( $this, 'callback_add_to_cart' ), 10, 2 );
 
+		add_action( 'wps_save_order', array( $this, 'callback_wps_save_order' ), 10, 2 );
+
 		add_action( 'wps_calculate_totals', array( $this, 'callback_calculate_totals' ) );
 	}
 
 	public function callback_add_to_cart( $cart, $product ) {
-		$cart->proposal_id = $_SESSION['wps_cart']->proposal_id;
-
-		if ( empty( $cart->proposal_id ) ) {
+		if ( empty( Class_Cart_Session::g()->external_data['proposal_id'] ) ) {
 			$proposal_id = Request_Util::post( 'proposals', array(
 				'socid' => 1,
 				'date'  => current_time( 'mysql' ),
 			) );
-
-			$cart->proposal_id = $proposal_id;
+			Class_Cart_Session::g()->add_external_data( 'proposal_id', $proposal_id );
 		}
 
-		$proposal = Request_Util::post( 'proposals/' . $cart->proposal_id . '/lines', array(
+		$proposal = Request_Util::post( 'proposals/' . Class_Cart_Session::g()->external_data['proposal_id'] . '/lines', array(
 			'desc'                    => $product['content'],
 			'fk_product'              => $product['external_id'],
 			'product_type'            => 1,
@@ -60,13 +59,22 @@ class Proposals_Action {
 			'multicurrency_total_tva' => 0,
 			'multicurrency_total_ttc' => $product['price_ttc'],
 		) );
+
+	}
+
+	public function callback_wps_save_order( $third_party, $contact ) {
+		$proposal_data = Request_Util::put( 'proposals/' . Class_Cart_Session::g()->external_data['proposal_id'], array(
+			'statut' => 1,
+		) );
+
+		Order_Class::g()->sync( $third_party->data['id'], $proposal_data );
 	}
 
 	public function callback_calculate_totals( $cart ) {
-		$proposal = Request_Util::get( 'proposals/' . $cart->proposal_id );
+		$proposal = Request_Util::get( 'proposals/' . Class_Cart_Session::g()->external_data['proposal_id'] );
 
-		$cart->total_price     = $proposal->total_ht;
-		$cart->total_price_ttc = $proposal->total_ttc;
+		Class_Cart_Session::g()->total_price     = $proposal->total_ht;
+		Class_Cart_Session::g()->total_price_ttc = $proposal->total_ttc;
 	}
 }
 

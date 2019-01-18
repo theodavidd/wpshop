@@ -82,6 +82,20 @@ class Contact_Class extends \eoxia\User_Class {
 		) );
 	}
 
+	public function sync( $external_id, $data ) {
+		$contact = Contact_Class::g()->get( array( 'schema' => true ), true );
+
+		$contact->data['external_id'] = (int) $external_id;
+		$contact->data['login']       = sanitize_user( current( explode( '@', $data->email ) ), true );
+		$contact->data['firstname']   = $data->firstname;
+		$contact->data['lastname']    = $data->lastname;
+		$contact->data['phone']       = $data->phone;
+		$contact->data['email']       = $data->email;
+		$contact->data['password'] = wp_generate_password();
+
+		return Contact_Class::g()->update( $contact->data );
+	}
+
 	public function synchro_contact( $third_party ) {
 		$contact_ids = array();
 
