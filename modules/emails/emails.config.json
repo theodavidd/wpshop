@@ -1,0 +1,11 @@
+{
+	"name": "Emails",
+	"slug": "emails",
+	"since": "2.0.0",
+	"path": "modules/emails",
+	"dependencies": {
+    "action": {},
+    "filter": {},
+    "class": {}
+	}
+}

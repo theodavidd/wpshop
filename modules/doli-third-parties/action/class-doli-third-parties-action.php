@@ -28,6 +28,19 @@ class Doli_Third_Party_Action {
 	 */
 	public function __construct() {
 		add_filter( 'wps_save_third_party', array( Doli_Third_Party_Class::g(), 'save' ), 10, 2 );
+		add_filter( 'wps_update_third_party', array( Doli_Third_Party_Class::g(), 'update' ), 10, 2 );
+
+		add_action( 'wps_saved_billing_address', array( $this, 'update_billing_address' ) );
+	}
+
+	public function update_billing_address( $third_party ) {
+		$third_party_id = Request_Util::put( 'thirdparties/ ' . $third_party->data['external_id'], array(
+			'name'    => $third_party->data['title'],
+			'address' => $third_party->data['address'],
+			'town'    => $third_party->data['town'],
+			'zip'     => $third_party->data['zip'],
+			'email'   => $third_party->data['email'],
+		) );
 	}
 
 }

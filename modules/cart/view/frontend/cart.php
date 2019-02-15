@@ -22,11 +22,11 @@ defined( 'ABSPATH' ) || exit; ?>
 	<thead>
 		<tr>
 			<th></th>
-			<th></th>
 			<th data-title="<?php esc_html_e( 'Product name', 'wpshop' ); ?>"><?php esc_html_e( 'Product name', 'wpshop' ); ?></th>
 			<th data-title="<?php esc_html_e( 'Price', 'wpshop' ); ?>"><?php esc_html_e( 'Price', 'wpshop' ); ?></th>
 			<th data-title="<?php esc_html_e( 'Quantity', 'wpshop' ); ?>"><?php esc_html_e( 'Quantity', 'wpshop' ); ?></th>
 			<th data-title="<?php esc_html_e( 'Total', 'wpshop' ); ?>"><?php esc_html_e( 'Total', 'wpshop' ); ?></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -36,11 +36,11 @@ defined( 'ABSPATH' ) || exit; ?>
 				?>
 				<tr>
 					<td>A</td>
-					<td>B</td>
 					<td><?php esc_html_e( $cart_item['title'] ); ?></td>
-					<td><?php esc_html_e( $cart_item['price'] ); ?>€</td>
-					<td>1</td>
-					<td><?php esc_html_e( $cart_item['price'] ); ?>€</td>
+					<td><?php esc_html_e( number_format( $cart_item['price'], 2 ) ); ?>€</td>
+					<td><?php esc_html_e( $cart_item['qty'] ); ?></td>
+					<td><?php esc_html_e( number_format( $cart_item['price'] * $cart_item['qty'], 2 ) ); ?>€</td>
+					<td>B</td>
 				</tr>
 				<?php
 			endforeach;

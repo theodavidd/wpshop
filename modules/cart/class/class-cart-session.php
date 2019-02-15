@@ -34,10 +34,16 @@ class Class_Cart_Session extends \eoxia\Singleton_Util {
 
 	public $total_price_ttc;
 
+	public $proposal_id;
+
+	public $order_id;
+
 	protected function construct() {
 		$this->cart_contents   = isset( $_SESSION['wps_cart'] ) ? $_SESSION['wps_cart'] : array();
 		$this->total_price     = isset( $_SESSION['wps_total_price'] ) ? $_SESSION['wps_total_price'] : null;
 		$this->total_price_ttc = isset( $_SESSION['wps_total_price_ttc'] ) ? $_SESSION['wps_total_price_ttc'] : null;
+		$this->proposal_id     = isset( $_SESSION['wps_proposal_id'] ) ? $_SESSION['wps_proposal_id'] : null;
+		$this->order_id        = isset( $_SESSION['wps_order_id'] ) ? $_SESSION['wps_order_id'] : null;
 		$this->external_data   = isset( $_SESSION['wps_external_data'] ) ? $_SESSION['wps_external_data'] : array();
 	}
 
@@ -49,7 +55,13 @@ class Class_Cart_Session extends \eoxia\Singleton_Util {
 		$_SESSION['wps_cart']            = $this->cart_contents;
 		$_SESSION['wps_total_price']     = $this->total_price;
 		$_SESSION['wps_total_price_ttc'] = $this->total_price_ttc;
+		$_SESSION['wps_proposal_id']     = $this->proposal_id;
+		$_SESSION['wps_order_id']        = $this->order_id;
 		$_SESSION['wps_external_data']   = $this->external_data;
+	}
+
+	public function destroy() {
+		session_destroy();
 	}
 }
 

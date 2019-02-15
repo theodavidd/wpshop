@@ -66,7 +66,17 @@ class Product_Filter {
 		$args['show_in_menu']         = false;
 		$args['show_in_rest']         = true;
 
+		$shop_page_slug = Pages_Class::g()->get_slug_shop_page();
+
+		if ( ! empty( $shop_page_slug ) ) {
+			$args['rewrite'] = array(
+				'slug' => $shop_page_slug,
+			);
+		}
+
 		$args['register_meta_box_cb'] = array( Product_Class::g(), 'callback_register_meta_box' );
+
+		flush_rewrite_rules();
 		return $args;
 	}
 

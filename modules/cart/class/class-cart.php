@@ -29,9 +29,30 @@ class Cart_Class extends \eoxia\Singleton_Util {
 	protected function construct() {}
 
 	public function add_to_cart( $product ) {
-		Class_Cart_Session::g()->cart_contents[] = $product->data;
+		$data = array_merge(
+			array( 'qty' => 1 ),
+			$product->data
+		);
 
-		do_action( 'wps_add_to_cart', $this, $product->data );
+		$index = -1;
+
+		if ( ! empty( Class_Cart_Session::g()->cart_contents ) ) {
+			foreach ( Class_Cart_Session::g()->cart_contents as $key => $line ) {
+				if ( $line['id'] == $product->data['id'] ) {
+					$data['qty'] = $line['qty'] + 1;
+					$index = $key;
+					break;
+				}
+			}
+		}
+
+		if ( $index == -1 ) {
+			Class_Cart_Session::g()->cart_contents[] = $data;
+		} else {
+			Class_Cart_Session::g()->cart_contents[ $index ] = $data;
+		}
+
+		do_action( 'wps_add_to_cart', $this, $data );
 
 		do_action( 'wps_before_calculate_totals', $this );
 

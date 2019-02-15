@@ -34,7 +34,7 @@ class Product_Action {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
-		add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
+		//add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
 		add_action( 'wp_ajax_synchro', array( $this, 'ajax_synchro' ) );
 
 		add_action( 'wp_ajax_wps_delete_product', array( $this, 'ajax_delete_product' ) );
@@ -110,7 +110,7 @@ class Product_Action {
 	 * @since 2.0.0
 	 */
 	public function ajax_synchro() {
-		$data = Request_Util::get( 'products' );
+		$data = Request_Util::get( 'products?sortfield=t.ref&sortorder=ASC&limit=0' );
 
 		if ( ! empty( $data ) ) {
 			foreach ( $data as $doli_product ) {

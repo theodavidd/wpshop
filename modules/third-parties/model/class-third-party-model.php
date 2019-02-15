@@ -100,6 +100,12 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'description' => 'Le pays d\'un tier (varchar(50)). Ne peut être NULL. Aucune valeur par défault.',
 		);
 
+		$this->schema['phone'] = array(
+			'type'      => 'string',
+			'meta_type' => 'single',
+			'field'     => '_phone',
+		);
+
 		$this->schema['contact_ids'] = array(
 			'type'        => 'array',
 			'array_type'  => 'integer',
@@ -116,6 +122,13 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'since'       => '2.0.0',
 			'default'     => null,
 			'description' => 'Numéro SIRET de l\'entreprise (varchar(128)). Par défault NULL.'
+		);
+
+		$this->schema['email'] = array(
+			'type'      => 'string',
+			'meta_type' => 'single',
+			'field'     => 'email',
+			'since'     => '2.0.0',
 		);
 
 		// $this->schema['mail']

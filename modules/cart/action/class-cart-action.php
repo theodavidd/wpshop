@@ -31,18 +31,30 @@ class Cart_Action {
 		add_action( 'init', array( Cart_Shortcode::g(), 'callback_init' ), 5 );
 
 		add_action( 'wps_after_cart_table', array( $this, 'callback_after_cart_table' ), 10 );
+		add_action( 'wps_calculate_totals', array( $this, 'callback_calculate_totals' ) );
 
 		add_action( 'wp_ajax_nopriv_add_to_cart', array( $this, 'ajax_add_to_cart' ) );
 		add_action( 'wp_ajax_add_to_cart', array( $this, 'ajax_add_to_cart' ) );
 	}
 
 	public function callback_after_cart_table() {
-
+		$total_price = Class_Cart_Session::g()->total_price_ttc;
 		include( Template_Util::get_template_part( 'cart', 'cart-totals' ) );
 	}
 
-	public function ajax_add_to_cart() {
+	public function callback_calculate_totals() {
+		$price = 0;
 
+		if ( ! empty( Class_Cart_Session::g()->cart_contents ) ) {
+			foreach ( Class_Cart_Session::g()->cart_contents as $key => $line ) {
+				$price += $line['price_ttc'] * $line['qty'];
+			}
+		}
+
+		Class_Cart_Session::g()->total_price_ttc = $price;
+	}
+
+	public function ajax_add_to_cart() {
 		check_ajax_referer( 'add_to_cart');
 
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;

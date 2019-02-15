@@ -1,0 +1,84 @@
+<?php
+/**
+ * Classe définisant le modèle d'un order WPSHOP.
+ *
+ * @author    Eoxia <dev@eoxia.com>
+ * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ *
+ * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
+ *
+ * @package   WPshop\Classes
+ *
+ * @since     2.0.0
+ */
+
+namespace wpshop;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class order model.
+ */
+class Proposals_Model extends \eoxia\Post_Model {
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param Order_Class $object     Les données de l'objet.
+	 * @param string        $req_method La méthode de la requête.
+	 */
+	public function __construct( $object, $req_method = null ) {
+
+		$this->schema['external_id'] = array(
+			'type'        => 'integer',
+			'meta_type'   => 'single',
+			'field'       => 'external_id',
+			'since'       => '2.0.0',
+			'description' => 'L\'ID du customer (dolibarr). Relation avec dolibarr.',
+		);
+
+		$this->schema['external_status'] = array(
+			'type'        => 'integer',
+			'meta_type'   => 'single',
+			'field'       => 'external_status',
+			'since'       => '2.0.0',
+			'description' => 'Le status de la proposition commerciale dans dolibarr. Relation avec dolibarr.',
+		);
+
+		$this->schema['datec'] = array(
+			'type'        => 'integer',
+			'meta_type'   => 'single',
+			'field'       => 'datec',
+			'since'       => '2.0.0',
+			'description' => 'Date de création du devis. Relation avec dolibarr',
+		);
+
+		$this->schema['total_ht'] = array(
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => 'total_ht',
+			'since'       => '2.0.0',
+			'description' => '',
+		);
+
+		$this->schema['total_ttc'] = array(
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => 'total_ttc',
+			'default'     => 0.00000000,
+			'since'       => '2.0.0',
+			'description' => 'Prix total de la commande, toutes taxes comprises (float). Peut être NULL. Valeur par défaut NULL.',
+		);
+
+		$this->schema['products'] = array(
+			'type'      => 'array',
+			'meta_type' => 'single',
+			'field'     => '_products',
+			'default'   => array(),
+		);
+
+		parent::__construct( $object, $req_method );
+	}
+}

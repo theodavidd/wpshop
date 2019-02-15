@@ -10,7 +10,15 @@ window.eoxiaJS.wpshopFrontend.checkout = {};
  *
  * @since 2.0.0
  */
-window.eoxiaJS.wpshopFrontend.checkout.init = function() {};
+window.eoxiaJS.wpshopFrontend.checkout.init = function() {
+	window.eoxiaJS.wpshopFrontend.checkout.event();
+};
+
+window.eoxiaJS.wpshopFrontend.checkout.event = function() {
+	jQuery( '.checkout-login .wpeo-button' ).click( function() {
+		jQuery( '.checkout-login .content-login' ).slideToggle();
+	} );
+};
 
 window.eoxiaJS.wpshopFrontend.checkout.checkoutErrors = function( triggeredElement, response ) {
 	if ( 0 === jQuery( 'form.wps-checkout ul.error.notice' ).length ) {
@@ -22,4 +30,12 @@ window.eoxiaJS.wpshopFrontend.checkout.checkoutErrors = function( triggeredEleme
 	for ( var key in response.data.errors.error_data ) {
 		jQuery( 'form.wps-checkout .' + response.data.errors.error_data[ key ].input_class ).addClass( 'form-element-error' );
 	}
+};
+
+window.eoxiaJS.wpshopFrontend.checkout.redirectToPayment = function( triggeredElement, response ) {
+	document.location.href = response.data.url;
+};
+
+window.eoxiaJS.wpshopFrontend.checkout.redirect = function( triggeredElement, response ) {
+	document.location.href = response.data.url;
 };

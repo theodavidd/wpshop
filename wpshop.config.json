@@ -4,17 +4,27 @@
 	"modules": [
 		"core/core.config.json",
 		"modules/products/products.config.json",
-		"modules/proposals/proposals.config.json",
 		"modules/third-parties/third-parties.config.json",
 		"modules/contacts/contacts.config.json",
-    "modules/orders/orders.config.json",
     "modules/cart/cart.config.json",
     "modules/checkout/checkout.config.json",
+    "modules/paypal/paypal.config.json",
+    "modules/cheque/cheque.config.json",
+    "modules/api/api.config.json",
+    "modules/my-account/my-account.config.json",
+    "modules/doli-proposals/doli-proposals.config.json",
+    "modules/doli-order/doli-order.config.json",
     "modules/doli_cart/doli_cart.config.json",
     "modules/doli-third-parties/doli-third-parties.config.json",
-    "modules/doli-contact/doli-contact.config.json"
+    "modules/doli-contact/doli-contact.config.json",
+    "modules/doli-invoice/doli-invoice.config.json",
+    "modules/doli-payment/doli-payment.config.json",
+    "modules/settings/settings.config.json",
+    "modules/pages/pages.config.json",
+    "modules/payment/payment.config.json",
+    "modules/emails/emails.config.json",
+    "modules/doli-synchro/doli-synchro.config.json",
+    "modules/dashboard/dashboard.config.json"
 	],
-	"version": "2.0.0",
-  "doli_url": "http://127.0.0.1/dolibarr-8.0.4/htdocs/api/index.php/",
-  "doli_token": "e6C7GrbnJf3u3TP3cq2i1SqYAM2EYa76"
+	"version": "2.0.0"
 }

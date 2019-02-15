@@ -96,7 +96,7 @@ class Checkout_Class extends \eoxia\Singleton_Util {
 					$errors->add_data( $error_field, 'input_' . $fieldset_key . '_' . $field_key );
 				}
 
-				if ( 'email' === $field_key && false !== email_exists( $data['contact']['email'] ) ) {
+				if ( ! is_user_logged_in() && 'email' === $field_key && false !== email_exists( $data['contact']['email'] ) ) {
 					$errors->add( 'email-exists', apply_filters( 'wps_checkout_email_exists_notice', sprintf( __( '%s is already used.', 'wpshop' ), '<strong>' . esc_html( $field['label'] ) . '</strong>' ), $field['label'] ) );
 					$error_field = array(
 						'email_exists' => true,
@@ -113,6 +113,36 @@ class Checkout_Class extends \eoxia\Singleton_Util {
 		$this->validate_posted_data( $data, $errors );
 	}
 
+	public function process_order_payment( $order ) {
+		$type = ! empty( $_POST['type'] ) ? $_POST['type'] : '';
+
+
+		switch ( $type ) {
+			case 'paypal':
+				$result = Paypal_Class::g()->process_payment( $order );
+				Class_Cart_Session::g()->destroy();
+				if ( ! empty( $result['url'] ) ) {
+					wp_send_json_success( array(
+						'namespace'        => 'wpshopFrontend',
+						'module'           => 'checkout',
+						'callback_success' => 'redirectToPayment',
+						'url'              => $result['url'],
+					) );
+				}
+				break;
+			case 'cheque':
+				update_post_meta( $order->data['id'], 'payment_method', 'cheque' );
+				Class_Cart_Session::g()->destroy();
+				wp_send_json_success( array(
+					'namespace'        => 'wpshopFrontend',
+					'module'           => 'checkout',
+					'callback_success' => 'redirect',
+					'url'              => Pages_Class::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
+				) );
+				break;
+		}
+
+	}
 }
 
 Checkout_Class::g();

@@ -82,16 +82,22 @@ class Contact_Class extends \eoxia\User_Class {
 		) );
 	}
 
-	public function sync( $external_id, $data ) {
+	public function sync( $wp_id, $third_party_id, $external_id, $data ) {
 		$contact = Contact_Class::g()->get( array( 'schema' => true ), true );
 
-		$contact->data['external_id'] = (int) $external_id;
-		$contact->data['login']       = sanitize_user( current( explode( '@', $data->email ) ), true );
-		$contact->data['firstname']   = $data->firstname;
-		$contact->data['lastname']    = $data->lastname;
-		$contact->data['phone']       = $data->phone;
-		$contact->data['email']       = $data->email;
-		$contact->data['password'] = wp_generate_password();
+		if ( ! empty( $wp_id ) ) {
+			$contact->data['id'] = $wp_id;
+		} else {
+			$contact->data['password'] = wp_generate_password();
+		}
+
+		$contact->data['external_id']    = (int) $external_id;
+		$contact->data['third_party_id'] = $third_party_id;
+		$contact->data['login']          = sanitize_user( current( explode( '@', $data->email ) ), true );
+		$contact->data['firstname']      = $data->firstname;
+		$contact->data['lastname']       = $data->lastname;
+		$contact->data['phone']          = $data->phone;
+		$contact->data['email']          = $data->email;
 
 		return Contact_Class::g()->update( $contact->data );
 	}
@@ -99,19 +105,7 @@ class Contact_Class extends \eoxia\User_Class {
 	public function synchro_contact( $third_party ) {
 		$contact_ids = array();
 
-		$request = wp_remote_get( 'http://127.0.0.1/dolibarr/api/index.php/contacts?thirdparty_ids=' . $third_party->data['external_id'], array(
-			'headers' => array(
-				'Content-type' => 'application/json',
-				'DOLAPIKEY'    => 'JaTmW3kZu2X5oD491hTfY9Wbp9oY4Ag1',
-			),
-		) );
-
-		$body = wp_remote_retrieve_body( $request );
-		$data = json_decode( $body );
-
-		if ( isset( $data->error ) ) {
-			return $contact_ids;
-		}
+		$data = Request_Util::get( 'contacts?thirdparty_ids=' . $third_party->data['external_id'] );
 
 		if ( ! empty( $data ) ) {
 			foreach ( $data as $doli_contact ) {
@@ -125,20 +119,40 @@ class Contact_Class extends \eoxia\User_Class {
 					$contact = Contact_Class::g()->get( array( 'schema' => true ), true );
 				}
 
-				$contact->data['external_id'] = (int) $doli_contact->id;
-				$contact->data['login']       = $doli_contact->user_login;
-				$contact->data['firstname']   = $doli_contact->firstname;
-				$contact->data['lastname']    = $doli_contact->lastname;
-				$contact->data['phone']       = $doli_contact->phone_pro;
+				$contact->data['external_id']    = (int) $doli_contact->id;
+				$contact->data['third_party_id'] = (int) $third_party->data['id'];
+				$contact->data['login']          = $doli_contact->socname;
+				$contact->data['firstname']      = $doli_contact->firstname;
+				$contact->data['lastname']       = $doli_contact->lastname;
+				$contact->data['phone']          = $doli_contact->phone_pro;
+				$contact->data['email']          = $doli_contact->email;
 
 				if ( empty( $contact->data['id'] ) ) {
 					$contact->data['password'] = wp_generate_password();
 				}
 
 				$contact       = Contact_Class::g()->update( $contact->data );
-				$contact_ids[] = $contact->data['id'];
+				if ( ! is_wp_error( $contact ) ) {
+					$contact_ids[] = $contact->data['id'];
+				}
 			}
 		}
+
+		// Supprimes les contacts qui ne sont plus présent dans dolibarr
+		if ( ! empty( $third_party->data['contact_ids'] ) ) {
+			foreach ( $third_party->data['contact_ids'] as $index => $contact_id ) {
+				if ( ! in_array( $contact_id, $contact_ids ) && ! empty( $contact_id ) ) {
+					array_splice( $third_party->data['contact_ids'], $index, 1 );
+
+					$contact                = Contact_Class::g()->get( array( 'id' => $contact_id ), true );
+					$contact->data['socid'] = -1;
+					Contact_Class::g()->update( $contact->data );
+
+				}
+			}
+		}
+
+		Third_Party_Class::g()->update( $third_party->data );
 
 		return $contact_ids;
 	}

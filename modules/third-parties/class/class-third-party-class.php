@@ -90,11 +90,39 @@ class Third_Party_Class extends \eoxia\Post_Class {
 		$third_party->data['state']            = $data['third_party']['state'];
 		$third_party->data['country']          = $data['third_party']['country'];
 
+
+		if ( is_user_logged_in() ) {
+			return apply_filters( 'wps_update_third_party', $data, $third_party->data );
+		}
+
 		return apply_filters( 'wps_save_third_party', $data, $third_party->data );
 	}
 
-	public function sync( $external_id, $data ) {
+	public function get_id_or_sync( $external_id )
+	{
+		// Set author.
+		$third_party = Third_Party_Class::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => $external_id,
+		), true );
+
+		if ( empty( $third_party ) ) {
+			$third_party_data = Request_Util::get( 'thirdparties/' . $doli_invoice->socid );
+			$third_party      = Third_Party_Class::g()->sync( $external_id, $third_party_data );
+
+			$third_party->data['contact_ids'] = Contact_Class::g()->synchro_contact( $third_party );
+			Third_Party_Class::g()->update( $third_party->data );
+		}
+
+		return $third_party->data['id'];
+	}
+
+	public function sync( $wp_id, $external_id, $data ) {
 		$third_party = Third_Party_Class::g()->get( array( 'schema' => true ), true );
+
+		if ( ! empty( $wp_id ) ) {
+			$third_party->data['id'] = $wp_id;
+		}
 
 		$third_party->data['external_id']      = (int) $external_id;
 		$third_party->data['title']            = $data->name;
@@ -104,6 +132,7 @@ class Third_Party_Class extends \eoxia\Post_Class {
 		$third_party->data['zip']              = $data->zip;
 		$third_party->data['state']            = $data->state;
 		$third_party->data['country']          = $data->country;
+		$third_party->data['email']            = $data->email;
 
 		return Third_Party_Class::g()->update( $third_party->data );
 	}

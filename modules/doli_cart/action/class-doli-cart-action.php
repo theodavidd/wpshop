@@ -28,7 +28,6 @@ class Dolibarr_Cart_Action {
 	 */
 	public function __construct() {
 
-		add_action( 'wps_cart_totals_table_after', array( $this, 'callback_after_cart_table' ), 10 );
 	}
 
 	public function callback_after_cart_table() {

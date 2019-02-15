@@ -4,6 +4,7 @@
 	"since": "2.0.0",
 	"path": "modules/doli-third-parties",
 	"dependencies": {
+    "filter": {},
 		"class": {},
 		"action": {}
 	}

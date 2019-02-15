@@ -30,6 +30,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<th><?php esc_html_e( 'Zip Code', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Country', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'State/Province', 'wpshop' ); ?></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>

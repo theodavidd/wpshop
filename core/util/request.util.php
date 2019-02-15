@@ -39,15 +39,20 @@ class Request_Util extends \eoxia\Singleton_Util {
 	 *
 	 * @return array|boolean   Retournes les données de la requête ou false.
 	 */
-	public static function post( $end_point, $data, $method = 'POST' ) {
-		$api_url = \eoxia\Config_Util::$init['wpshop']->doli_url . $end_point;
+	public static function post( $end_point, $data = array(), $method = 'POST' ) {
+		$dolibarr_option = get_option( 'wps_dolibarr', array(
+			'dolibarr_url'    => '',
+			'dolibarr_secret' => '',
+		) );
+
+		$api_url = $dolibarr_option['dolibarr_url'] . $end_point;
 
 		$request = wp_remote_post( $api_url, array(
 			'method'   => $method,
 			'blocking' => true,
 			'headers'  => array(
 				'Content-type' => 'application/json',
-				'DOLAPIKEY'    => \eoxia\Config_Util::$init['wpshop']->doli_token,
+				'DOLAPIKEY'    => $dolibarr_option['dolibarr_secret'],
 			),
 			'sslverify' => false,
 			'body'      => json_encode( $data ),
@@ -77,11 +82,16 @@ class Request_Util extends \eoxia\Singleton_Util {
 	 * @return array|boolean   Retournes les données de la requête ou false.
 	 */
 	public static function get( $end_point ) {
-		$api_url = \eoxia\Config_Util::$init['wpshop']->doli_url . $end_point;
+		$dolibarr_option = get_option( 'wps_dolibarr', array(
+			'dolibarr_url'    => '',
+			'dolibarr_secret' => '',
+		) );
+
+		$api_url = $dolibarr_option['dolibarr_url'] . $end_point;
 		$request = wp_remote_get( $api_url, array(
 			'headers' => array(
 				'Content-type' => 'application/json',
-				'DOLAPIKEY'    => \eoxia\Config_Util::$init['wpshop']->doli_token,
+				'DOLAPIKEY'    => $dolibarr_option['dolibarr_secret'],
 			),
 		) );
 

@@ -19,10 +19,5 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wrap">
 	<h2><?php esc_html_e( 'Third Parties', 'wpshop' ); ?></h2>
 
-	<div class="action-attribute wpeo-button button-main"
-		data-action="synchro_third_parties">
-		<span>Synchro</span>
-	</div>
-
 	<?php Third_Party_Class::g()->display(); ?>
 </div>

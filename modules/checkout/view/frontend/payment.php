@@ -18,14 +18,30 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <div id="payment" class="wps-checkout-payment">
 	<ul>
-		<li>
-			<div class="form-field-inline">
-				<input type="radio" id="radio1" class="form-field" name="type" checked value="radio1">
-				<label for="radio1">Check payments</label>
-			</div>
+		<?php
+		if ( ! empty( $payment_methods ) ) :
+			foreach ( $payment_methods as $key => $payment_method ) :
+				$checked = '';
+				if ( $key == 'cheque' ) :
+					$checked = 'checked';
+				endif;
+				?>
+				<li>
+					<div class="form-field-inline">
+						<input type="radio" id="radio-<?php echo esc_attr( $key ); ?>" class="form-field" name="type" <?php echo esc_attr( $checked ); ?> value="<?php echo $key; ?>">
+						<label for="radio-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $payment_method['title'] ); ?></label>
+					</div>
 
-		</div>Please send a check to Store Name, Store Street, Store Town, Store State / Country, Store Postcode.</div>
-		</li>
+					<?php
+					if ( ! empty( $payment_method['description'] ) ) :
+						?></p><?php echo apply_filters( 'wps_payment_method_' . $key . '_description', $payment_method['description'] ); ?></p><?php
+					endif;
+					?>
+				</li>
+				<?php
+			endforeach;
+		endif;
+		?>
 	</ul>
 
 	<?php include( Template_Util::get_template_part( 'checkout', 'terms' ) ); ?>

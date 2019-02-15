@@ -26,6 +26,12 @@ defined( 'ABSPATH' ) || exit; ?>
 			<?php do_action( 'wps_cart_totals_table_before' ); ?>
 
 			<?php do_action( 'wps_cart_totals_table_after' ); ?>
+
+			<tr>
+				<td><?php _e( 'Total', 'wpshop' ); ?></td>
+				<td><?php esc_html_e( number_format( $total_price, 2 ) ); ?>€</td>
+			</tr>
+
 		</tbody>
 	</table>
 

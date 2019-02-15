@@ -5,6 +5,7 @@
 	"path": "modules/third-parties",
 	"dependencies": {
 		"class": {},
+    "filter": {},
 		"action": {},
     "model": {}
 	}
