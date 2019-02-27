@@ -24,8 +24,6 @@ defined( 'ABSPATH' ) || exit; ?>
 			<th><?php esc_html_e( 'Dolibarr ID', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Title', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Associated contact', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Legal form', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Vendor code', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Address', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Zip Code', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Country', 'wpshop' ); ?></th>

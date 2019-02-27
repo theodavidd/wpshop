@@ -114,8 +114,7 @@ class Checkout_Class extends \eoxia\Singleton_Util {
 	}
 
 	public function process_order_payment( $order ) {
-		$type = ! empty( $_POST['type'] ) ? $_POST['type'] : '';
-
+		$type = ! empty( $_POST['type_payment'] ) ? $_POST['type_payment'] : '';
 
 		switch ( $type ) {
 			case 'paypal':

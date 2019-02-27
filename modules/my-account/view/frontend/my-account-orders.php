@@ -35,6 +35,7 @@
 			  <td data-title="N/D">N/D</td>
 			  <td data-title="<?php echo esc_attr( number_format( $order->data['total_ttc'], 2 ) ); ?>€"><?php echo esc_html( number_format( $order->data['total_ttc'], 2 ) ); ?>€</td>
 			  <td data-title="View">
+
 				<?php
 				if ( ! empty( $order->data['invoice'] ) ) :
 					?>

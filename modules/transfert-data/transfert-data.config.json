@@ -1,0 +1,10 @@
+{
+	"name": "Transfert Data",
+	"slug": "transfert-data",
+	"since": "2.0.0",
+	"path": "modules/transfert-data",
+	"dependencies": {
+		"class": {},
+		"action": {}
+	}
+}

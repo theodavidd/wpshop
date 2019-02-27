@@ -78,7 +78,7 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 
 				$contact->data['external_id']    = (int) $doli_contact->id;
 				$contact->data['third_party_id'] = (int) $doli_contact->socid;
-				$contact->data['login']          = $doli_contact->socname;
+				$contact->data['login']          = sanitize_title( $doli_contact->email );
 				$contact->data['firstname']      = $doli_contact->firstname;
 				$contact->data['lastname']       = $doli_contact->lastname;
 				$contact->data['phone']          = $doli_contact->phone_pro;
@@ -98,22 +98,6 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 				Third_Party_Class::g()->update( $third_party->data );
 			}
 		}
-
-		// // Supprimes les contacts qui ne sont plus présent dans dolibarr
-		// if ( ! empty( $third_party->data['contact_ids'] ) ) {
-		// 	foreach ( $third_party->data['contact_ids'] as $index => $contact_id ) {
-		// 		if ( ! in_array( $contact_id, $contact_ids ) && ! empty( $contact_id ) ) {
-		// 			array_splice( $third_party->data['contact_ids'], $index, 1 );
-		//
-		// 			$contact                = Contact_Class::g()->get( array( 'id' => $contact_id ), true );
-		// 			$contact->data['socid'] = -1;
-		// 			Contact_Class::g()->update( $contact->data );
-		//
-		// 		}
-		// 	}
-		// }
-		//
-		// Third_Party_Class::g()->update( $third_party->data );
 
 		return true;
 	}

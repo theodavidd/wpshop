@@ -193,8 +193,85 @@
   font-size: 14px;
   text-align: center; }
 
+/** Temporaire **/
 .wp-admin select {
   height: auto !important; }
 
-.post-type-wps-order #post-body-content, #titlediv {
+.post-type-wps-order #post-body-content, .post-type-wps-order #titlediv {
   display: none; }
+
+.post-type-wps-proposal #post-body-content, .post-type-wps-proposal #titlediv {
+  display: none; }
+
+#toplevel_page_wps-order .wp-first-item {
+  display: none; }
+
+.synchro-single .filter-entry {
+  width: 99.8%;
+  padding: 10px; }
+
+.synchro-single .select {
+  margin: 0;
+  height: 280px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border: solid black 1px; }
+
+.synchro-single .select li {
+  display: block;
+  padding: 10px;
+  margin: 0; }
+
+.synchro-single .select li:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0); }
+
+.synchro-single .select li:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.1); }
+
+.synchro-single .select li:hover {
+  color: white;
+  background-color: #3495f0;
+  cursor: pointer; }
+
+.synchro-single .select li.active {
+  color: white;
+  background-color: #3495f0; }
+
+.need-to-confirm .modal-container {
+  max-width: 600px;
+  max-height: 420px; }
+
+.need-to-confirm .modal-container .modal-content {
+  height: 68%; }
+
+.choose {
+  padding: 10px;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out; }
+
+.choose:hover {
+  background-color: #ececec; }
+
+.choose .wpeo-button.button-main {
+  background-color: #272a35; }
+
+.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 999999;
+  text-align: center; }
+
+.mask h3 {
+  font-size: 30px;
+  color: white; }
+
+.mask .content {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-70%);
+      -ms-transform: translateY(-70%);
+          transform: translateY(-70%); }

@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit; ?>
 <tr>
 	<td><input type="checkbox" /></td>
 	<td><?php echo esc_html( $product->data['id'] ); ?></td>
-	<td>Photo</td>
+	<td><?php echo get_the_post_thumbnail( $product->data['id'], array( 80, 80 ) ); ?></td>
 	<td><?php echo esc_html( $product->data['title'] ); ?></td>
 	<td><?php echo esc_html( $product->data['price'] ); ?></td>
 	<td><?php echo esc_html( $product->data['tva_tx'] ); ?></td>
@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-copy"></i></div>
 		<div
 			class="action-delete wpeo-button button-square-30 button-rounded"
-			data-action=""
+			data-action="wps_delete_product"
 			data-message-delete="<?php echo esc_attr_e( 'Êtes-vous sur de vouloir supprimer ce produit ?', 'wpshop' ); ?>"><i class="button-icon fas fa-trash"></i></div>
 	</td>
 </tr>

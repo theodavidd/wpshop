@@ -13,6 +13,7 @@
     "modules/api/api.config.json",
     "modules/my-account/my-account.config.json",
     "modules/doli-proposals/doli-proposals.config.json",
+    "modules/proposals/proposals.config.json",
     "modules/doli-order/doli-order.config.json",
     "modules/doli_cart/doli_cart.config.json",
     "modules/doli-third-parties/doli-third-parties.config.json",
@@ -24,7 +25,9 @@
     "modules/payment/payment.config.json",
     "modules/emails/emails.config.json",
     "modules/doli-synchro/doli-synchro.config.json",
-    "modules/dashboard/dashboard.config.json"
+    "modules/dashboard/dashboard.config.json",
+    "modules/doli-products/doli-products.config.json",
+    "modules/transfert-data/transfert-data.config.json"
 	],
 	"version": "2.0.0"
 }

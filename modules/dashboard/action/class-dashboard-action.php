@@ -37,7 +37,7 @@ class Dashboard_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_menu_page( __( 'Dashboard', 'wpshop' ), __( 'Dashboard', 'wpshop' ), 'manage_options', 'wps-dashboard', array( $this, 'callback_add_menu_page' ) );
+		add_submenu_page( 'wps-order', __( 'Dashboard', 'wpshop' ), __( 'Dashboard', 'wpshop' ), 'manage_options', 'wps-dashboard', array( $this, 'callback_add_menu_page' ) );
 	}
 
 	/**

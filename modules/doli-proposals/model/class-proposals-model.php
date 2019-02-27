@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class order model.
  */
-class Proposals_Model extends \eoxia\Post_Model {
+class Doli_Proposals_Model extends \eoxia\Post_Model {
 
 	/**
 	 * Constructor.
@@ -48,7 +48,7 @@ class Proposals_Model extends \eoxia\Post_Model {
 		);
 
 		$this->schema['datec'] = array(
-			'type'        => 'integer',
+			'type'        => 'wpeo_date',
 			'meta_type'   => 'single',
 			'field'       => 'datec',
 			'since'       => '2.0.0',

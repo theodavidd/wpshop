@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				?>
 				<li>
 					<div class="form-field-inline">
-						<input type="radio" id="radio-<?php echo esc_attr( $key ); ?>" class="form-field" name="type" <?php echo esc_attr( $checked ); ?> value="<?php echo $key; ?>">
+						<input type="radio" id="radio-<?php echo esc_attr( $key ); ?>" class="form-field" name="type_payment" <?php echo esc_attr( $checked ); ?> value="<?php echo $key; ?>">
 						<label for="radio-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $payment_method['title'] ); ?></label>
 					</div>
 
@@ -49,7 +49,8 @@ defined( 'ABSPATH' ) || exit; ?>
 	<?php do_action( 'wps_review_order_before_submit' ); ?>
 
 	<input type="hidden" name="action" value="wps_place_order" />
-	<a class="action-input wpeo-button" data-parent="wps-checkout"><?php esc_html_e( 'Place order', 'wpshop' ); ?></a>
+	<a class="action-input wpeo-button" data-type="proposal" data-parent="wps-checkout"><?php esc_html_e( 'Devis', 'wpshop' ); ?></a>
+	<a class="action-input wpeo-button" data-type="order" data-parent="wps-checkout"><?php esc_html_e( 'Place order', 'wpshop' ); ?></a>
 
 	<?php do_action( 'wps_review_order_after_submit' ); ?>
 </div>

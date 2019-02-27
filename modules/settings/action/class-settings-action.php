@@ -41,7 +41,7 @@ class Settings_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_menu_page( __( 'Settings', 'wpshop' ), __( 'Settings', 'wpshop' ), 'manage_options', 'wps-settings', array( $this, 'callback_add_menu_page' ) );
+		add_submenu_page( 'wps-order', __( 'Settings', 'wpshop' ), __( 'Settings', 'wpshop' ), 'manage_options', 'wps-settings', array( $this, 'callback_add_menu_page' ) );
 	}
 
 	/**
@@ -80,14 +80,13 @@ class Settings_Action {
 		$tab             = ! empty( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'general';
 		$dolibarr_url    = ! empty( $_POST['dolibarr_url'] ) ? sanitize_text_field( $_POST['dolibarr_url' ] ) : '';
 		$dolibarr_secret = ! empty( $_POST['dolibarr_secret'] ) ? sanitize_text_field( $_POST['dolibarr_secret' ] ) : '';
+		$shop_email = ! empty( $_POST['shop_email'] ) ? sanitize_text_field( $_POST['shop_email' ] ) : '';
 
-		$dolibarr_option = get_option( 'wps_dolibarr', array(
-			'dolibarr_url'    => '',
-			'dolibarr_secret' => '',
-		) );
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings_Class::g()->default_settings );
 
 		$dolibarr_option['dolibarr_url']    = $dolibarr_url;
 		$dolibarr_option['dolibarr_secret'] = $dolibarr_secret;
+		$dolibarr_option['shop_email']      = $shop_email;
 
 		update_option( 'wps_dolibarr', $dolibarr_option );
 
@@ -105,20 +104,16 @@ class Settings_Action {
 		$wps_page_checkout_id       = ! empty( $_POST['wps_page_checkout_id'] ) ? (int) $_POST['wps_page_checkout_id'] : 0;
 		$wps_page_my_account_id     = ! empty( $_POST['wps_page_my_account_id'] ) ? (int) $_POST['wps_page_my_account_id'] : 0;
 		$wps_page_valid_checkout_id = ! empty( $_POST['wps_page_valid_checkout_id'] ) ? (int) $_POST['wps_page_valid_checkout_id'] : 0;
+		$wps_page_valid_proposal_id = ! empty( $_POST['wps_page_valid_proposal_id'] ) ? (int) $_POST['wps_page_valid_proposal_id'] : 0;
 
-		$page_ids_options = get_option( 'wps_page_ids', array(
-			'shop_id'           => 0,
-			'cart_id'           => 0,
-			'checkout_id'       => 0,
-			'my_account_id'     => 0,
-			'valid_checkout_id' => 0,
-		) );
+		$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
 
 		$page_ids_options['shop_id']           = $wps_page_shop_id;
 		$page_ids_options['cart_id']           = $wps_page_cart_id;
 		$page_ids_options['checkout_id']       = $wps_page_checkout_id;
 		$page_ids_options['my_account_id']     = $wps_page_my_account_id;
 		$page_ids_options['valid_checkout_id'] = $wps_page_valid_checkout_id;
+		$page_ids_options['valid_proposal_id'] = $wps_page_valid_proposal_id;
 
 		update_option( 'wps_page_ids', $page_ids_options );
 

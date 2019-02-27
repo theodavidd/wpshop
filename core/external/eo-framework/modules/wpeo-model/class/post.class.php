@@ -106,7 +106,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			$return = register_post_type( $this->get_type(), $args );
 
 			if ( ! empty( $this->attached_taxonomy_type ) ) {
-				register_taxonomy( $this->attached_taxonomy_type, $this->get_type() );
+				register_taxonomy( $this->attached_taxonomy_type, $this->get_type(), apply_filters( 'eo_model_' . $this->get_type() . '_' . $this->attached_taxonomy_type, array() ) );
 			}
 
 			return $return;

@@ -16,6 +16,9 @@ window.eoxiaJS.wpshop.doliSynchro.completed = false;
  * @version 1.0.0
  */
 window.eoxiaJS.wpshop.doliSynchro.init = function() {
+	jQuery( document ).on( 'keyup', '.synchro-single .filter-entry', window.eoxiaJS.wpshop.doliSynchro.filter );
+	jQuery( document ).on( 'click', '.synchro-single li', window.eoxiaJS.wpshop.doliSynchro.clickEntry );
+
 	jQuery( document ).on( 'modal-opened', '.modal-sync', function() {
 		if ( 0 < jQuery( '.waiting-item' ).length ) {
 			window.eoxiaJS.wpshop.doliSynchro.declareUpdateForm();
@@ -23,6 +26,25 @@ window.eoxiaJS.wpshop.doliSynchro.init = function() {
 			window.addEventListener( 'beforeunload', window.eoxiaJS.wpshop.doliSynchro.safeExit );
 		}
 	});
+};
+
+window.eoxiaJS.wpshop.doliSynchro.filter = function( event ) {
+	var entries = jQuery( '.synchro-single ul.select li' );
+	entries.show();
+
+	var val = jQuery( this ).val().toLowerCase();
+
+	for ( var i = 0; i < entries.length; i++ ) {
+		if ( jQuery( entries[i] ).text().toLowerCase().indexOf( val ) == -1 ) {
+			jQuery( entries[i] ).hide();
+		}
+	}
+};
+
+window.eoxiaJS.wpshop.doliSynchro.clickEntry = function( event ) {
+	jQuery( '.synchro-single li.active' ).removeClass( 'active' );
+	jQuery( this ).addClass( 'active' );
+	jQuery( '.synchro-single input[name="entry_id"]' ).val( jQuery( this ).data( 'id' ) );
 };
 
 /**
@@ -109,3 +131,24 @@ window.eoxiaJS.wpshop.doliSynchro.safeExit = function( event ) {
 window.eoxiaJS.wpshop.doliSynchro.requestUpdateFunc = {
 	endMethod: []
 };
+
+window.eoxiaJS.wpshop.doliSynchro.loadedModalSynchroSingle = function( triggeredElement, response ) {
+	jQuery( 'body' ).append( response.data.view );
+}
+
+window.eoxiaJS.wpshop.doliSynchro.goSync = function (triggeredElement) {
+	jQuery( triggeredElement ).closest( '.wpeo-modal' ).addClass( 'modal-force-display' );
+
+	return true;
+}
+
+
+window.eoxiaJS.wpshop.doliSynchro.associatedAndSynchronized = function (triggeredElement, response) {
+	var modal = jQuery( triggeredElement ).closest( '.wpeo-modal' );
+	modal.removeClass( 'modal-force-display' );
+
+	modal.find( 'button-light' ).hide();
+
+	modal.find( '.mask' ).fadeIn();
+
+}

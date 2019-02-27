@@ -27,11 +27,9 @@ defined( 'ABSPATH' ) || exit; ?>
 		<li>Nom <?php echo $third_party->data['title']; ?></li>
 		<li>Adresse <?php echo $third_party->data['address']; ?></li>
 		<li>Code postal <?php echo $third_party->data['zip']; ?></li>
-		<li>Email <?php echo $third_party->data['email']; ?></li>
 	</ul>
 
 	<ul>
-		<li>&nbsp;</li>
 		<li>&nbsp;</li>
 		<li>Ville <?php echo $third_party->data['town']; ?></li>
 		<li>Téléphone <?php echo $third_party->data['phone']; ?></li>

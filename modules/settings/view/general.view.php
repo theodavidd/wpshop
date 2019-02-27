@@ -34,6 +34,13 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
+	<div class="form-element">
+		<span class="form-label">Email de la boutique</span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="shop_email" value="<?php echo esc_attr( $dolibarr_option['shop_email'] ); ?>" />
+		</label>
+	</div>
+
 	<div>
 		<input type="submit" class="wpeo-button button-main" value="Enregister les modifications" />
 	</div>

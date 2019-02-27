@@ -10,10 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 do_action( 'wps_email_header' ); ?>
 
-<p>Nouvelle commande admin</p>
-
+<p><?php printf( __( 'You’ve received the following order from %s:', 'wpshop' ), $data['third_party']['title'] ); ?></p><?php // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
 <?php
-do_action( 'wps_email_order_details' );
+
+do_action( 'wps_email_order_details', $data['order'] );
 
 do_action( 'wps_email_order_meta' );
 

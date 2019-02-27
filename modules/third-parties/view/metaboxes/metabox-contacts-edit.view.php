@@ -16,9 +16,10 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<tr class="row">
-	<td><input type="text" name="contact[firstname]" value="<?php echo esc_attr( $contact->data['firstname'] ); ?>" /></td>
+<tr class="row <?php echo empty( $contact->data['id'] ) ? 'new' : 'edit'; ?>" style="<?php echo empty( $contact->data['id'] ) ? 'display: none;' : ''; ?>">
+	<td></td>
 	<td><input type="text" name="contact[lastname]" value="<?php echo esc_attr( $contact->data['lastname'] ); ?>" /></td>
+	<td><input type="text" name="contact[firstname]" value="<?php echo esc_attr( $contact->data['firstname'] ); ?>" /></td>
 	<td><input type="text" name="contact[email]" value="<?php echo esc_attr( $contact->data['email'] ); ?>" /></td>
 	<td><input type="text" name="contact[phone]" value="<?php echo esc_attr( $contact->data['phone'] ); ?>" /></td>
 	<td>
@@ -26,7 +27,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div data-parent="row"
 			data-parent-id="<?php echo esc_attr( $third_party_id ); ?>"
 			data-action="third_party_save_contact"
-			class="action-attribute wpeo-button button-square-30">
+			class="action-input wpeo-button button-square-30">
 			<i class="button-icon fas <?php echo ! empty( $contact->data['id'] ) ? 'fa-save' : 'fa-plus'; ?>"></i>
 		</div>
 	</td>

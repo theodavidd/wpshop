@@ -130,6 +130,28 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
+	<div class="form-element">
+		<span class="form-label">Page validation du devis</span>
+		<label class="form-field-container">
+			<select id="" class="form-field" name="wps_page_valid_proposal_id">
+				<?php
+				if ( ! empty( $pages ) ) :
+					foreach ( $pages as $page ) :
+						$selected = '';
+
+						if ( $page->ID == $page_ids_options['valid_proposal_id'] ) :
+							$selected = 'selected="selected"';
+						endif;
+						?>
+						<option <?php echo $selected; ?> value="<?php echo esc_attr( $page->ID ); ?>"><?php echo esc_html( $page->post_title ); ?></option>
+						<?php
+					endforeach;
+				endif;
+				?>
+			</select>
+		</label>
+	</div>
+
 	<div>
 		<input type="submit" class="wpeo-button button-main" value="Enregister les modifications" />
 	</div>

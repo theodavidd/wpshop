@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Les actions relatives aux proposals.
  */
-class Proposals_Action {
+class Doli_Proposals_Action {
 
 	/**
 	 * Initialise les actions liées aux proposals.
@@ -24,46 +24,10 @@ class Proposals_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
-
-		add_action( 'add_meta_boxes', array( $this, 'callback_add_meta_boxes' ) );
-
 		add_action( 'wp_ajax_synchro_proposals', array( $this, 'synchro_proposals' ) );
-
 		add_action( 'wps_save_proposal', array( $this, 'callback_wps_save_proposal' ), 1, 2 );
-	}
 
-	/**
-	 * Initialise la page "Third Parties".
-	 *
-	 * @since 2.0.0
-	 */
-	public function callback_admin_menu() {
-		add_menu_page( __( 'Proposals', 'wpshop' ), __( 'Proposals', 'wpshop' ), 'manage_options', 'wps-proposal', array( $this, 'callback_add_menu_page' ) );
-	}
-
-	/**
-	 * Appel la vue "main" du module "Orders".
-	 *
-	 * @since 2.0.0
-	 */
-	public function callback_add_menu_page() {
-		\eoxia\View_Util::exec( 'wpshop', 'doli-proposals', 'main' );
-	}
-
-	public function callback_add_meta_boxes() {
-		add_meta_box( 'wps-proposals-customer', __( 'Proposals details number 1', 'wpshop' ), array( $this, 'callback_meta_box' ), 'wps-proposal' );
-	}
-
-	public function callback_meta_box( $post ) {
-		$order                     = Proposals_Class::g()->get( array( 'id' => $post->ID ), true );
-		$invoice                   = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
-		$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
-
-		\eoxia\View_Util::exec( 'wpshop', 'doli-proposals', 'order-details', array(
-			'order'   => $order,
-			'invoice' => $invoice,
-		) );
+		add_action( 'admin_post_wps_download_proposal', array( $this, 'download_proposal' ) );
 	}
 
 	public function synchro_proposals() {
@@ -72,13 +36,13 @@ class Proposals_Action {
 		if ( ! empty( $doli_proposals ) ) {
 			foreach ( $doli_proposals as $doli_proposal ) {
 				// Vérifie l'existence du produit en base de donnée.
-				$proposal = Proposals_Class::g()->get( array(
+				$proposal = Doli_Proposals_Class::g()->get( array(
 					'meta_key'   => 'external_id',
 					'meta_value' => $doli_proposal->id,
 				), true );
 
 				if ( empty( $proposal ) ) {
-					$proposal = Proposals_Class::g()->get( array( 'schema' => true ), true );
+					$proposal = Doli_Proposals_Class::g()->get( array( 'schema' => true ), true );
 				}
 
 				$proposal->data['external_id'] = (int) $doli_proposal->id;
@@ -87,7 +51,7 @@ class Proposals_Action {
 				$proposal->data['total_ttc']   = $doli_proposal->total_ttc;
 				$proposal->data['status']      = 'publish';
 
-				Proposals_Class::g()->update( $proposal->data );
+				Doli_Proposals_Class::g()->update( $proposal->data );
 
 				do_action( 'wps_synchro_proposal', $proposal->data, $doli_proposal );
 
@@ -101,7 +65,7 @@ class Proposals_Action {
 		$proposal_id = Request_Util::post( 'proposals', array(
 			'socid'             => $third_party->data['external_id'],
 			'date'              => current_time( 'timestamp' ),
-			'mode_reglement_id' => Doli_Payment::g()->convert_to_doli_id( $_POST['type'] ),
+			'mode_reglement_id' => Doli_Payment::g()->convert_to_doli_id( $_POST['type_payment'] ),
 		) );
 
 		if ( ! empty( Class_Cart_Session::g()->cart_contents ) ) {
@@ -133,11 +97,43 @@ class Proposals_Action {
 			'notrigger' => 0,
 		) );
 
-		$proposal = Proposals_Class::g()->sync( $third_party->data['id'], $proposal );
+		Request_Util::put( 'documents/builddoc', array(
+			'module_part'   => 'propal',
+			'original_file' => $proposal->ref . '/' . $proposal->ref . '.pdf'
+		) );
+
+		$proposal = Doli_Proposals_Class::g()->sync( $third_party->data['id'], $proposal );
 
 		Class_Cart_Session::g()->add_external_data( 'proposal_id', $proposal->data['id'] );
 		Class_Cart_Session::g()->update_session();
 	}
+
+	public function download_proposal() {
+		$proposal_id = ! empty( $_GET['proposal_id'] ) ? (int) $_GET['proposal_id'] : 0;
+
+		if ( ! $proposal_id ) {
+			exit;
+		}
+
+		$contact     = Contact_Class::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		$proposal    = Proposals_Class::g()->get( array( 'id' => $proposal_id ), true );
+
+		if ( ( isset( $third_party->data ) && $proposal->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) )
+			exit;
+
+		$proposal_file = Request_Util::get( 'documents/download?module_part=propale&original_file=' . $proposal->data['title'] . '/' . $proposal->data['title'] . '.pdf' );
+		$content = base64_decode( $proposal_file->content );
+
+		header( 'Cache-Control: no-cache' );
+		header( 'Content-Type: application/pdf' );
+		header( 'Content-Disposition: inline; filename="' . $proposal->data['title'] . '.pdf"' );
+		header( 'Content-Length: ' . strlen( $content ) );
+
+		echo $content;
+
+		exit;
+	}
 }
 
-new Proposals_Action();
+new Doli_Proposals_Action();

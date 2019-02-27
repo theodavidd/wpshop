@@ -64,6 +64,28 @@ class Emails_Class extends \eoxia\Singleton_Util {
 
 		return false;
 	}
+
+	public function send_mail( $to, $type, $data = array() ) {
+		$shop_options = get_option( 'wps_dolibarr', Settings_Class::g()->default_settings );
+
+		if ( empty( $shop_options['shop_email'] ) ) {
+			return;
+		}
+
+		$to        = empty( $to ) ? $shop_options['shop_email'] : $to;
+		$blog_name = get_bloginfo();
+		$mail      = Emails_Class::g()->emails[ $type ];
+		$path_file = Emails_Class::g()->get_path( $mail['filename_template'] );
+
+		ob_start();
+		include $path_file;
+		$content = ob_get_clean();
+
+		$headers   = array();
+		$headers[] = 'From: ' . $blog_name . '<' . $shop_options['shop_email'] . '>';
+		$headers[] = 'Content-Type: text/html; charset=UTF-8';
+		wp_mail( $to, $mail['title'], $content, $headers );
+	}
 }
 
 Emails_Class::g();

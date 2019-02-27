@@ -41,6 +41,7 @@ class My_Account_Action {
 
 		add_action( 'wps_account_navigation', array( My_Account_Class::g(), 'display_navigation' ) );
 		add_action( 'wps_account_orders', array( My_Account_Class::g(), 'display_orders' ) );
+		add_action( 'wps_account_proposals', array( My_Account_Class::g(), 'display_proposals' ) );
 	}
 
 	public function handle_login() {

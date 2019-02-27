@@ -34,7 +34,7 @@ class Checkout_Action {
 
 		add_action( 'wps_checkout_shipping', array( $this, 'callback_checkout_shipping' ) );
 		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_order_review' ) );
-		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_payment' ), 20 );
+		add_action( 'wps_checkout_after_order_review', array( $this, 'callback_checkout_payment' ) );
 
 		add_action( 'wp_ajax_wps_place_order', array( $this, 'callback_place_order' ) );
 		add_action( 'wp_ajax_nopriv_wps_place_order', array( $this, 'callback_place_order' ) );
@@ -73,7 +73,7 @@ class Checkout_Action {
 	}
 
 	public function callback_checkout_payment() {
-		$payment_methods = get_option( 'wps_payment_methods' );
+		$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
 
 		include( Template_Util::get_template_part( 'checkout', 'payment' ) );
 	}
@@ -82,6 +82,8 @@ class Checkout_Action {
 		do_action( 'wps_before_checkout_process' );
 
 		do_action( 'wps_checkout_process' );
+
+		$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : 'proposal';
 
 		$errors      = new \WP_Error();
 		$posted_data = Checkout_Class::g()->get_posted_data();
@@ -97,7 +99,7 @@ class Checkout_Action {
 					'user_password' => $data['contact']->data['password'],
 				);
 
-				// wp_signon( $signon_data, is_ssl() );
+				wp_signon( $signon_data, is_ssl() );
 			} else {
 				$current_user = wp_get_current_user();
 
@@ -120,8 +122,19 @@ class Checkout_Action {
 			}
 
 			$proposal = Proposals_Class::g()->save( $data['third_party'], $data['contact'] );
-			$order    = apply_filters( 'wps_checkout_create_order', $proposal );
-			Checkout_Class::g()->process_order_payment( $order );
+
+			if ( 'order' == $type ) {
+				$order = apply_filters( 'wps_checkout_create_order', $proposal, $data );
+				Checkout_Class::g()->process_order_payment( $order );
+			} else {
+				Class_Cart_Session::g()->destroy();
+				wp_send_json_success( array(
+					'namespace'        => 'wpshopFrontend',
+					'module'           => 'checkout',
+					'callback_success' => 'redirect',
+					'url'              => Pages_Class::g()->get_valid_proposal_link() . '?proposal_id=' . $proposal->data['id'],
+				) );
+			}
 
 			// do_action( 'wps_checkout_order_processed' );
 		} else {

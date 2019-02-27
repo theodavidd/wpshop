@@ -24,18 +24,27 @@ defined( 'ABSPATH' ) || exit;
 class Pages_Filter extends \eoxia\Singleton_Util {
 
 	protected function construct() {
+
+		add_action( 'template_redirect', array( $this, 'check_page' ) );
 		add_filter( 'display_post_states', array( $this, 'add_states_post' ), 10, 2 );
 		add_filter( 'the_content', array( $this, 'do_shortcode_page' ), 10, 1 );
 	}
 
+	public function check_page() {
+		$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
+
+		if ( $page_ids_options['checkout_id'] && is_page( $page_ids_options['checkout_id'] ) ) {
+			$cart_contents = Class_Cart_Session::g()->cart_contents;
+
+			if ( empty( $cart_contents ) ) {
+				wp_redirect( Pages_Class::g()->get_cart_link() );
+				exit;
+			}
+		}
+	}
+
 	public function add_states_post( $post_states, $post ) {
-		$page_ids_options = get_option( 'wps_page_ids', array(
-			'shop_id'           => 0,
-			'cart_id'           => 0,
-			'checkout_id'       => 0,
-			'my_account_id'     => 0,
-			'valid_checkout_id' => 0,
-		) );
+		$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
 
 		$key = array_search($post->ID, $page_ids_options);
 
@@ -48,13 +57,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 
 	public function do_shortcode_page( $content ) {
 		if ( ! is_admin() ) {
-			$page_ids_options = get_option( 'wps_page_ids', array(
-				'shop_id'           => 0,
-				'cart_id'           => 0,
-				'checkout_id'       => 0,
-				'my_account_id'     => 0,
-				'valid_checkout_id' => 0,
-			) );
+			$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
 
 			$key = array_search($GLOBALS['post']->ID, $page_ids_options);
 
@@ -68,8 +71,12 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 						$shortcode = 'checkout';
 						break;
 					case 'valid_checkout_id':
-						$shortcode = 'valid_checkout';
-						$params['order_id'] = $_GET['order_id'];
+						$shortcode          = 'valid_checkout';
+						$params['order_id'] = isset( $_GET['order_id'] ) ? $_GET['order_id'] : 0;
+						break;
+					case 'valid_proposal_id':
+						$shortcode             = 'valid_proposal';
+						$params['proposal_id'] = isset( $_GET['proposal_id'] ) ? $_GET['proposal_id'] : 0;
 						break;
 					case 'cart_id':
 						$shortcode = 'cart';

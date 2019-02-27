@@ -1,0 +1,9 @@
+{
+	"name": "doli-products",
+	"slug": "doli-products",
+	"since": "2.0.0",
+	"path": "modules/doli-products",
+	"dependencies": {
+    "class": {}
+	}
+}

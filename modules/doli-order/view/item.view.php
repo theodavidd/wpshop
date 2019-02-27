@@ -20,9 +20,10 @@ defined( 'ABSPATH' ) || exit; ?>
 	<td><input type="checkbox" /></td>
 	<td><?php echo esc_html( $proposal->data['id'] ); ?></td>
 	<td><?php echo esc_html( $proposal->data['title'] ); ?></td>
+	<td><?php echo esc_html( $proposal->data['status'] ); ?></td>
 	<td><?php echo esc_html( $proposal->data['total_ttc'] ); ?>€</td>
 	<?php apply_filters( 'wps_order_table_tr', $proposal ); ?>
 	<td>
-		<a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $proposal->data['id'] . '&action=edit' ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil"></i></a>
+		<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $proposal->data['id'] ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil"></i></a>
 	</td>
 </tr>

@@ -21,11 +21,9 @@ defined( 'ABSPATH' ) || exit; ?>
 		<li>Nom <input type="text" name="third_party[title]" value="<?php echo esc_attr( $third_party->data['title'] ); ?>" /></li>
 		<li>Adresse <input type="text" name="third_party[address]" value="<?php echo esc_attr( $third_party->data['address'] ); ?>" /></li>
 		<li>Code postal <input type="text" name="third_party[zip]" value="<?php echo esc_attr( $third_party->data['zip'] ); ?>" /></li>
-		<li>Email <input type="text" name="third_party[email]" value="<?php echo esc_attr( $third_party->data['email'] ); ?>" /></li>
 	</ul>
 
 	<ul>
-		<li>&nbsp;</li>
 		<li>&nbsp;</li>
 		<li>Ville <input type="text" name="third_party[town]" value="<?php echo esc_attr( $third_party->data['town'] ); ?>" /></li>
 		<li>Téléphone <input type="text" name="third_party[phone]" value="<?php echo esc_attr( $third_party->data['phone'] ); ?>" /></li>

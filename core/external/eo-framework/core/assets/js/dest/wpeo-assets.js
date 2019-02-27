@@ -293,6 +293,8 @@ if ( ! window.eoxiaJS.action ) {
 		if ( element.attr( 'data-module' ) && element.attr( 'data-before-method' ) ) {
 			doAction = false;
 			doAction = window.eoxiaJS[element.attr( 'data-namespace' )][element.attr( 'data-module' )][element.attr( 'data-before-method' )]( element );
+		} else {
+			doAction = window.eoxiaJS.action.checkBeforeCB(element);
 		}
 
 		if ( element.hasClass( '.grey' ) ) {
@@ -1541,7 +1543,7 @@ if ( ! window.eoxiaJS.modal  ) {
 	 * @returns {void}       [description]
 	 */
 	window.eoxiaJS.modal.close = function( event ) {
-		jQuery( '.wpeo-modal.modal-active:not(.modal-force-display)' ).each( function() {
+		jQuery( '.wpeo-modal.modal-active:last:not(.modal-force-display)' ).each( function() {
 			var popup = jQuery( this );
 			popup.removeClass( 'modal-active' );
 			if ( popup[0].typeModal && 'default' !== popup[0].typeModal ) {

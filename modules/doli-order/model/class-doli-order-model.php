@@ -87,6 +87,13 @@ class Orders_Model extends \eoxia\Post_Model {
 			'default'   => '',
 		);
 
+		$this->schema['billed'] = array(
+			'type'      => 'integer',
+			'meta_type' => 'single',
+			'field'     => 'billed',
+			'default'   => 0,
+		);
+
 		// $this->schema['payments'] = array(
 		// 	'type'      => 'array',
 		// 	'meta_type' => 'single',

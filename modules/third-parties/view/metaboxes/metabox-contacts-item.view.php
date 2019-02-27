@@ -17,8 +17,9 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <tr>
-	<td><?php echo esc_html( $contact->data['firstname'] ); ?></td>
+	<td><?php echo esc_html( $contact->data['id'] ); ?></td>
 	<td><?php echo esc_html( $contact->data['lastname'] ); ?></td>
+	<td><?php echo esc_html( $contact->data['firstname'] ); ?></td>
 	<td><?php echo esc_html( $contact->data['email'] ); ?></td>
 	<td><?php echo esc_html( $contact->data['phone'] ); ?></td>
 	<td>

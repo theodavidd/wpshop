@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Gestion des Proposals CRUD.
  */
-class Proposals_Class extends \eoxia\Post_Class {
+class Doli_Proposals_Class extends \eoxia\Post_Class {
 
 	/**
 	 * Model name @see ../model/*.model.php.
@@ -67,17 +67,6 @@ class Proposals_Class extends \eoxia\Post_Class {
 
 	protected $post_type_name = 'Proposals';
 
-	public function update_third_party( $third_party_id ) {
-
-		$proposal_id = Class_Cart_Session::g()->external_data['proposal_id'];
-
-		$proposal = Request_Util::put( 'proposals/' . $proposal_id, array(
-			'socid' => $third_party_id,
-		) );
-
-		return true;
-	}
-
 	/**
 	 * Récupères la liste des devis et appel la vue "list" du module "order".
 	 *
@@ -91,41 +80,28 @@ class Proposals_Class extends \eoxia\Post_Class {
 		) );
 	}
 
-	public function save( $third_party, $contact ) {
-		do_action( 'wps_save_proposal', $third_party, $contact );
+	public function doli_to_wp( $doli_proposal, $wp_proposal ) {
+		$wp_proposal->data['external_id']   = (int) $doli_proposal->id;
+		$wp_proposal->data['title']         = $doli_proposal->ref;
+		$wp_proposal->data['total_ht']      = $doli_proposal->total_ht;
+		$wp_proposal->data['total_ttc']     = $doli_proposal->total_ttc;
+		$wp_proposal->data['lines']         = $doli_proposal->lines;
+		$wp_proposal->data['datec']         = date( 'Y-m-d h:i:s', $doli_proposal->datec );
+		$wp_proposal->data['parent_id']     = $third_party_id;
+		$wp_proposal->data['status']        = 'publish';
 
-		return $this->get( array( 'id' => Class_Cart_Session::g()->external_data['proposal_id'] ), true );
+		return Proposals_Class::g()->update( $wp_proposal->data );
 	}
 
-	public function sync( $third_party_id, $proposal_data ) {
-		$products = array();
+	public function update_third_party( $third_party_id ) {
+		$proposal_id = Class_Cart_Session::g()->external_data['proposal_id'];
 
-		if ( ! empty( $proposal_data->lines ) ) {
-			foreach ( $proposal_data->lines as $line ) {
-				$products[] = array(
-					'external_id'     => $line->id,
-					'ref'             => $line->ref,
-					'title'           => $line->product_label,
-					'content'         => $line->product_desc,
-					'price'           => $line->total_ht,
-					'price_ttc'       => $line->total_ttc,
-					'tva_tx'          => $line->tva_tx,
-					'fk_product_type' => 0, // Type "Produit" ou "Service".
-				);
-			}
-		}
+		$proposal = Request_Util::put( 'proposals/' . $proposal_id, array(
+			'socid' => $third_party_id,
+		) );
 
-		$proposal_data = array(
-			'external_id' => (int) $proposal_data->id,
-			'parent_id'   => $third_party_id,
-			'title'       => $proposal_data->ref,
-			'total_ht'    => $proposal_data->total_ht,
-			'total_ttc'   => $proposal_data->total_ttc,
-			'products'    => $products,
-		);
-
-		return $this->update( $proposal_data );
+		return true;
 	}
 }
 
-Proposals_Class::g();
+Doli_Proposals_Class::g();

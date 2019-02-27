@@ -82,27 +82,7 @@ class Contact_Class extends \eoxia\User_Class {
 		) );
 	}
 
-	public function sync( $wp_id, $third_party_id, $external_id, $data ) {
-		$contact = Contact_Class::g()->get( array( 'schema' => true ), true );
-
-		if ( ! empty( $wp_id ) ) {
-			$contact->data['id'] = $wp_id;
-		} else {
-			$contact->data['password'] = wp_generate_password();
-		}
-
-		$contact->data['external_id']    = (int) $external_id;
-		$contact->data['third_party_id'] = $third_party_id;
-		$contact->data['login']          = sanitize_user( current( explode( '@', $data->email ) ), true );
-		$contact->data['firstname']      = $data->firstname;
-		$contact->data['lastname']       = $data->lastname;
-		$contact->data['phone']          = $data->phone;
-		$contact->data['email']          = $data->email;
-
-		return Contact_Class::g()->update( $contact->data );
-	}
-
-	public function synchro_contact( $third_party ) {
+	public function doli_to_wp( $wp_contact, $doli_contact ) {
 		$contact_ids = array();
 
 		$data = Request_Util::get( 'contacts?thirdparty_ids=' . $third_party->data['external_id'] );
@@ -139,20 +119,20 @@ class Contact_Class extends \eoxia\User_Class {
 		}
 
 		// Supprimes les contacts qui ne sont plus présent dans dolibarr
-		if ( ! empty( $third_party->data['contact_ids'] ) ) {
-			foreach ( $third_party->data['contact_ids'] as $index => $contact_id ) {
-				if ( ! in_array( $contact_id, $contact_ids ) && ! empty( $contact_id ) ) {
-					array_splice( $third_party->data['contact_ids'], $index, 1 );
-
-					$contact                = Contact_Class::g()->get( array( 'id' => $contact_id ), true );
-					$contact->data['socid'] = -1;
-					Contact_Class::g()->update( $contact->data );
-
-				}
-			}
-		}
-
-		Third_Party_Class::g()->update( $third_party->data );
+		// if ( ! empty( $third_party->data['contact_ids'] ) ) {
+		// 	foreach ( $third_party->data['contact_ids'] as $index => $contact_id ) {
+		// 		if ( ! in_array( $contact_id, $contact_ids ) && ! empty( $contact_id ) ) {
+		// 			array_splice( $third_party->data['contact_ids'], $index, 1 );
+		//
+		// 			$contact                = Contact_Class::g()->get( array( 'id' => $contact_id ), true );
+		// 			$contact->data['socid'] = -1;
+		// 			Contact_Class::g()->update( $contact->data );
+		//
+		// 		}
+		// 	}
+		// }
+		//
+		// Third_Party_Class::g()->update( $third_party->data );
 
 		return $contact_ids;
 	}

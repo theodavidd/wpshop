@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit; ?>
 <table class="wpeo-table">
 	<thead>
 		<tr>
+			<th>ID</th>
 			<th>Nom</th>
 			<th>Prénom</th>
 			<th>Email</th>
@@ -64,7 +65,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<span>Ou</span>
 
-	<div class="wpeo-button button-main">
+	<div class="wpeo-button button-main add-contact">
 		<i class="button-icon fas fa-plus"></i>
 		<span>Ajouter un utilisateur</span>
 	</div>

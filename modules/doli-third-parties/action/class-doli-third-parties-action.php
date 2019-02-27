@@ -30,7 +30,25 @@ class Doli_Third_Party_Action {
 		add_filter( 'wps_save_third_party', array( Doli_Third_Party_Class::g(), 'save' ), 10, 2 );
 		add_filter( 'wps_update_third_party', array( Doli_Third_Party_Class::g(), 'update' ), 10, 2 );
 
+		add_action( 'wps_saved_third_party', array( $this, 'save_third_party' ) );
 		add_action( 'wps_saved_billing_address', array( $this, 'update_billing_address' ) );
+	}
+
+	public function save_third_party( $third_party ) {
+		$third_party_id = $third_party['external_id'];
+
+		if ( ! empty( $third_party['external_id'] ) ) {
+			Request_Util::put( 'thirdparties/' . $third_party['external_id'], array(
+				'name' => $third_party['title'],
+			) );
+		} else {
+			// Pas d'adresse email, alors que sur dolibarr c'est obligatoire.
+
+			$third_party_id = Request_Util::post( 'thirdparties', array(
+				'name' => $third_party['title'],
+			) );
+		}
+		return $third_party_id;
 	}
 
 	public function update_billing_address( $third_party ) {

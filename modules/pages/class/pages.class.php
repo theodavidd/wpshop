@@ -22,16 +22,22 @@ defined( 'ABSPATH' ) || exit;
 * Handle product
 */
 class Pages_Class extends \eoxia\Singleton_Util {
+	public $default_options;
+
 	public $page_ids;
 
 	protected function construct() {
-		$this->page_ids = get_option( 'wps_page_ids', array(
+
+		$this->default_options = array(
 			'shop_id'           => 0,
 			'cart_id'           => 0,
 			'checkout_id'       => 0,
 			'my_account_id'     => 0,
 			'valid_checkout_id' => 0,
-		) );
+			'valid_proposal_id' => 0,
+		);
+
+		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
 	}
 
 	public function get_slug_link_shop_page( $page_id ) {
@@ -62,12 +68,20 @@ class Pages_Class extends \eoxia\Singleton_Util {
 		return get_permalink( $this->page_ids['my_account_id'] );
 	}
 
+	public function get_cart_link() {
+		return get_permalink( $this->page_ids['cart_id'] );
+	}
+
 	public function get_checkout_link() {
 		return get_permalink( $this->page_ids['checkout_id'] );
 	}
 
 	public function get_valid_checkout_link() {
 		return get_permalink( $this->page_ids['valid_checkout_id'] );
+	}
+
+	public function get_valid_proposal_link() {
+		return get_permalink( $this->page_ids['valid_proposal_id'] );
 	}
 
 	public function get_slug_by_page_id( $page_id ) {

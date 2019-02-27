@@ -22,13 +22,18 @@ defined( 'ABSPATH' ) || exit;
 * Handle product
 */
 class Settings_Class extends \eoxia\Singleton_Util {
-	protected function construct() {}
+	public $default_settings;
 
-	public function display_general( $section = '' ) {
-		$dolibarr_option = get_option( 'wps_dolibarr', array(
+	protected function construct() {
+		$this->default_settings = array(
 			'dolibarr_url'    => '',
 			'dolibarr_secret' => '',
-		) );
+			'shop_email'      => '',
+		);
+	}
+
+	public function display_general( $section = '' ) {
+		$dolibarr_option = get_option( 'wps_dolibarr', $this->default_settings );
 
 		\eoxia\View_Util::exec( 'wpshop', 'settings', 'general', array(
 			'dolibarr_option' => $dolibarr_option,
@@ -43,13 +48,7 @@ class Settings_Class extends \eoxia\Singleton_Util {
 			'post_title' => __( 'No page', 'wpshop' ),
 		) );
 
-		$page_ids_options = get_option( 'wps_page_ids', array(
-			'shop_id'           => 0,
-			'cart_id'           => 0,
-			'checkout_id'       => 0,
-			'my_account_id'     => 0,
-			'valid_checkout_id' => 0,
-		) );
+		$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
 
 		\eoxia\View_Util::exec( 'wpshop', 'settings', 'pages', array(
 			'pages'            => $pages,

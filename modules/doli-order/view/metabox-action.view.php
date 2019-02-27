@@ -16,4 +16,9 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-Actions
+<form method="POST" action="<?php echo admin_url( 'admin-post' ); ?>">
+	<input type="hidden" name="action" value="synchronization" />
+	<input type="hidden" name="id" value="<?php echo esc_attr( $order->data['id'] ); ?>" />
+
+	<input type="submit" value="<?php echo esc_attr( 'Synchronization', 'wpshop' ); ?>" />
+</form>

@@ -28,6 +28,7 @@ class Product_Filter {
 	 */
 	public function __construct() {
 		add_filter( 'eo_model_wps-product_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
+		add_filter( 'eo_model_wps-product_wps-product-cat', array( $this, 'callback_taxonomy' ) );
 		add_filter( 'single_template', array( $this, 'get_custom_post_type_template' ), 11 );
 	}
 
@@ -64,7 +65,6 @@ class Product_Filter {
 		$args['show_ui']              = true;
 		$args['show_in_nav_menus']    = false;
 		$args['show_in_menu']         = false;
-		$args['show_in_rest']         = true;
 
 		$shop_page_slug = Pages_Class::g()->get_slug_shop_page();
 
@@ -77,6 +77,32 @@ class Product_Filter {
 		$args['register_meta_box_cb'] = array( Product_Class::g(), 'callback_register_meta_box' );
 
 		flush_rewrite_rules();
+		return $args;
+	}
+
+	public function callback_taxonomy( $args ) {
+		$labels = array(
+		'name'              => _x( 'Products category', 'taxonomy general name', 'textdomain' ),
+		'singular_name'     => _x( 'Product category', 'taxonomy singular name', 'textdomain' ),
+		'search_items'      => __( 'Search Products category', 'textdomain' ),
+		'all_items'         => __( 'All Products category', 'textdomain' ),
+		'parent_item'       => __( 'Parent Product category', 'textdomain' ),
+		'parent_item_colon' => __( 'Parent Product: category', 'textdomain' ),
+		'edit_item'         => __( 'Edit Product category', 'textdomain' ),
+		'update_item'       => __( 'Update Product category', 'textdomain' ),
+		'add_new_item'      => __( 'Add New Product category', 'textdomain' ),
+		'new_item_name'     => __( 'New Product  categoryName', 'textdomain' ),
+		'menu_name'         => __( 'Product category', 'textdomain' ),
+	);
+
+		$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+	);
+
 		return $args;
 	}
 

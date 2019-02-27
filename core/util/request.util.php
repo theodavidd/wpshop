@@ -40,10 +40,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 	 * @return array|boolean   Retournes les données de la requête ou false.
 	 */
 	public static function post( $end_point, $data = array(), $method = 'POST' ) {
-		$dolibarr_option = get_option( 'wps_dolibarr', array(
-			'dolibarr_url'    => '',
-			'dolibarr_secret' => '',
-		) );
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings_Class::g()->default_settings );
 
 		$api_url = $dolibarr_option['dolibarr_url'] . $end_point;
 
@@ -82,10 +79,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 	 * @return array|boolean   Retournes les données de la requête ou false.
 	 */
 	public static function get( $end_point ) {
-		$dolibarr_option = get_option( 'wps_dolibarr', array(
-			'dolibarr_url'    => '',
-			'dolibarr_secret' => '',
-		) );
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings_Class::g()->default_settings );
 
 		$api_url = $dolibarr_option['dolibarr_url'] . $end_point;
 		$request = wp_remote_get( $api_url, array(

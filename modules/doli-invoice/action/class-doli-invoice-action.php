@@ -29,41 +29,9 @@ class Doli_Invoice_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'wps_synchro_order', array( $this, 'synchro_invoice' ), 10, 2 );
 		add_action( 'wps_payment_complete', array( $this, 'create_invoice' ), 20, 1 );
 
 		add_action( 'admin_post_wps_download_invoice', array( $this, 'download_invoice' ) );
-	}
-
-	public function synchro_invoice( $wp_order, $doli_proposal ) {
-		$order = Request_Util::get( 'orders/' . $doli_proposal->id );
-
-		if ( isset( $order->linkedObjectsIds->facture ) ) {
-			if ( ! empty( $order->linkedObjectsIds->facture ) ) {
-				foreach ( $order->linkedObjectsIds->facture as $linked_id => $invoice_id ) {
-					$doli_invoice = Request_Util::get( 'invoices/' . (int) $invoice_id );
-
-					$invoice = Doli_Invoice::g()->get( array(
-						'meta_key'   => '_external_id',
-						'meta_value' => (int) $invoice_id,
-					), true );
-
-					if ( empty( $invoice ) ) {
-						$invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
-					}
-
-					$invoice->data['external_id'] = (int) $doli_invoice->id;
-					$invoice->data['post_parent'] = (int) $wp_order['id'];
-					$invoice->data['title']       = $doli_invoice->ref;
-					$invoice->data['status']      = 'publish';
-					$invoice->data['author_id']   = Third_Party_Class::g()->get_id_or_sync( $doli_invoice->socid );
-
-					$invoice = Doli_Invoice::g()->update( $invoice->data );
-
-					do_action( 'wps_synchro_invoice', $invoice->data, $doli_invoice );
-				}
-			}
-		}
 	}
 
 	public function create_invoice( $data ) {

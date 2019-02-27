@@ -66,7 +66,7 @@ class Product_Class extends \eoxia\Post_Class {
 	 *
 	 * @var string
 	 */
-	protected $attached_taxonomy_type = '';
+	protected $attached_taxonomy_type = 'wps-product-cat';
 
 	protected $post_type_name = 'Products';
 

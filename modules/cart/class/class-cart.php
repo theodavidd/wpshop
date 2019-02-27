@@ -62,6 +62,21 @@ class Cart_Class extends \eoxia\Singleton_Util {
 
 		Class_Cart_Session::g()->update_session();
 	}
+
+	public function delete_product( $key ) {
+		array_splice( Class_Cart_Session::g()->cart_contents, $key, 1 );
+
+		do_action( 'wps_delete_to_cart', $this, $key );
+
+		do_action( 'wps_before_calculate_totals', $this );
+
+		do_action( 'wps_calculate_totals', $this );
+
+		do_action( 'wps_after_calculate_totals', $this );
+
+
+		Class_Cart_Session::g()->update_session();
+	}
 }
 
 Cart_Class::g();

@@ -38,24 +38,6 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'description' => 'L\'ID provenant de dolibarr',
 		);
 
-		$this->schema['forme_juridique'] = array(
-			'type'        => 'string',
-			'meta_type'   => 'single',
-			'field'       => '_forme_juridique',
-			'default'     => null,
-			'since'       => '2.0.0',
-			'description' => 'La forme juridique du tier (varchar(255)). Peut être NULL. Valeur par défaut NULL.',
-		);
-
-		$this->schema['code_fournisseur'] = array(
-			'type'        => 'string',
-			'meta_type'   => 'single',
-			'field'       => '_code_fournisseur',
-			'default'     => null,
-			'since'       => '2.0.0',
-			'description' => 'Le code fournisseur du tier (varchar(24)). Peut être NULL. Valeur par défaut NULL.',
-		);
-
 		$this->schema['address'] = array(
 			'type'        => 'string',
 			'meta_type'   => 'single',
@@ -129,6 +111,13 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'meta_type' => 'single',
 			'field'     => 'email',
 			'since'     => '2.0.0',
+		);
+
+		$this->schema['last_sync'] = array(
+			'type'      => 'wpeo_date',
+			'meta_type' => 'single',
+			'field'     => '_last_sync',
+			'context'   => array( 'GET' ),
 		);
 
 		// $this->schema['mail']

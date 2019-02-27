@@ -32,15 +32,19 @@ defined( 'ABSPATH' ) || exit; ?>
 	<tbody>
 		<?php
 		if ( ! empty( $cart_contents ) ) :
-			foreach ( $cart_contents as $cart_item ) :
+			foreach ( $cart_contents as $key => $cart_item ) :
 				?>
 				<tr>
-					<td>A</td>
-					<td><?php esc_html_e( $cart_item['title'] ); ?></td>
+					<td><?php echo get_the_post_thumbnail( $cart_item['id'], array( 80, 80 ) ); ?></td>
+					<td><a href="<?php echo esc_url( get_permalink( $cart_item['id'] ) ); ?>"><?php esc_html_e( $cart_item['title'] ); ?></a></td>
 					<td><?php esc_html_e( number_format( $cart_item['price'], 2 ) ); ?>€</td>
 					<td><?php esc_html_e( $cart_item['qty'] ); ?></td>
 					<td><?php esc_html_e( number_format( $cart_item['price'] * $cart_item['qty'], 2 ) ); ?>€</td>
-					<td>B</td>
+					<td>
+						<a href="#" class="action-attribute" data-action="delete_product_from_cart" data-key="<?php echo esc_attr( $key ); ?>">
+							<i class="fas fa-trash"></i>
+						</a>
+					</td>
 				</tr>
 				<?php
 			endforeach;

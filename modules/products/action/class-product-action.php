@@ -34,7 +34,7 @@ class Product_Action {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
-		//add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
+		add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
 		add_action( 'wp_ajax_synchro', array( $this, 'ajax_synchro' ) );
 
 		add_action( 'wp_ajax_wps_delete_product', array( $this, 'ajax_delete_product' ) );
@@ -46,7 +46,8 @@ class Product_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_menu_page( __( 'Products', 'wpshop' ), __( 'Products', 'wpshop' ), 'manage_options', 'wps-product', array( $this, 'callback_add_menu_page' ) );
+		add_submenu_page( 'wps-order', __( 'Products', 'wpshop' ), __( 'Products', 'wpshop' ), 'manage_options', 'wps-product', array( $this, 'callback_add_menu_page' ) );
+		add_submenu_page( 'wps-order', __( 'Products Category', 'wpshop' ), __( 'Products Category', 'wpshop' ), 'manage_options', 'edit-tags.php?taxonomy=wps-product-cat' );
 	}
 
 	/**
@@ -59,6 +60,7 @@ class Product_Action {
 	}
 
 	public function callback_save_post( $post_id, $post ) {
+
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return $post_id;
 		}
@@ -66,7 +68,6 @@ class Product_Action {
 		if ( 'wps-product' !== $post->post_type ) {
 			return $post_id;
 		}
-
 
 		$product = Product_Class::g()->get( array( 'id' => $post_id ), true );
 
@@ -100,8 +101,22 @@ class Product_Action {
 			) );
 
 			update_post_meta( $post_id, '_price_ttc', $doli_product->price_ttc );
-		}
+		} else {
+			$doli_product_id = Request_Util::post( 'products', array(
+				'ref'         => sanitize_title( $product->data['title'] ),
+				'label'       => $product->data['title'],
+				'description' => $product->data['content'],
+				'price'       => $product_data['price'],
+				'tva_tx'      => $product_data['tva_tx'],
+				'barcode'     => $product_data['barcode'],
+				'status'      => 1, // En vente
+				'status_buy'  => 1, // En achat
+			) );
+			update_post_meta( $post_id, '_external_id', $doli_product_id );
 
+			$doli_product = Request_Util::get( 'products/' . $doli_product_id );
+			update_post_meta( $post_id, '_price_ttc', $doli_product->price_ttc );
+		}
 	}
 
 	/**
@@ -148,6 +163,19 @@ class Product_Action {
 	}
 
 	public function ajax_delete_product() {
+		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+
+		if ( empty( $id ) ) {
+			wp_send_json_error();
+		}
+
+		$product = Product_Class::g()->get( array( 'id' => $id ), true );
+		$product->data['status'] = 'trash';
+		Product_Class::g()->update( $product->data );
+
+		// Suppression vers dolibarr
+
+
 		wp_send_json_success();
 	}
 }

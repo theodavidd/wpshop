@@ -32,6 +32,7 @@ class My_Account_Class extends \eoxia\Singleton_Util {
 
 	public function init_endpoint() {
 		add_rewrite_endpoint( 'orders', EP_ALL );
+		add_rewrite_endpoint( 'proposals', EP_ALL );
 	}
 
 	public function before_login_form() {
@@ -66,6 +67,14 @@ class My_Account_Class extends \eoxia\Singleton_Util {
 		unset( $order );
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-orders' ) );
+	}
+
+	public function display_proposals() {
+		$contact     = Contact_Class::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		$proposals   = Proposals_Class::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
+
+		include( Template_Util::get_template_part( 'my-account', 'my-account-proposals' ) );
 	}
 }
 

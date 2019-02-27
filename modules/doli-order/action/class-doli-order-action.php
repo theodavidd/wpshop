@@ -27,9 +27,7 @@ class Doli_Order_Action {
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 
-		add_action( 'add_meta_boxes', array( $this, 'callback_add_meta_boxes' ) );
-
-		add_action( 'wps_checkout_create_order', array( $this, 'create_order' ), 10, 1 );
+		add_action( 'wps_checkout_create_order', array( $this, 'create_order' ), 10, 2 );
 		add_action( 'wp_ajax_synchro_orders', array( $this, 'synchro_orders' ) );
 	}
 
@@ -37,6 +35,26 @@ class Doli_Order_Action {
 		remove_post_type_support( 'wps-order', 'title' );
 		remove_post_type_support( 'wps-order', 'editor' );
 		remove_post_type_support( 'wps-order', 'excerpt' );
+
+		register_post_status( 'wps-delivered', array(
+			'label'                     => _x( 'Delivered', 'Order status', 'wpshop' ),
+			'public'                    => false,
+			'exclude_from_search'       => false,
+			'show_in_admin_all_list'    => true,
+			'show_in_admin_status_list' => true,
+			/* translators: %s: number of orders */
+			'label_count'               => _n_noop( 'Delivered <span class="count">(%s)</span>', 'Delivered <span class="count">(%s)</span>', 'wpshop' ),
+		) );
+
+		register_post_status( 'wps-canceled', array(
+			'label'                     => _x( 'Canceled', 'Order status', 'wpshop' ),
+			'public'                    => false,
+			'exclude_from_search'       => false,
+			'show_in_admin_all_list'    => true,
+			'show_in_admin_status_list' => true,
+			/* translators: %s: number of orders */
+			'label_count'               => _n_noop( 'Canceled <span class="count">(%s)</span>', 'Canceled <span class="count">(%s)</span>', 'wpshop' ),
+		) );
 	}
 
 	/**
@@ -45,32 +63,26 @@ class Doli_Order_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_menu_page( __( 'Orders', 'wpshop' ), __( 'Orders', 'wpshop' ), 'manage_options', 'wps-order', array( $this, 'callback_add_menu_page' ) );
+		add_submenu_page( 'wps-order', __( 'Orders', 'wpshop' ), __( 'Orders', 'wpshop' ), 'manage_options', 'wps-order', array( $this, 'callback_add_menu_page' ) );
 	}
 
-	/**
-	 * Appel la vue "main" du module "Orders".
-	 *
-	 * @since 2.0.0
-	 */
 	public function callback_add_menu_page() {
-		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'main' );
-	}
-
-	public function callback_add_meta_boxes() {
-		if ( $_GET['post_type'] == 'wps-order' ) {
-			remove_meta_box( 'submitdiv', 'wps-order', 'side' );
-			remove_meta_box( 'slugdiv', 'wps-order', 'normal' );
-
-			$order = Orders_Class::g()->get( array( 'id' => $_GET['post'] ), true );
-
+		if ( isset( $_GET['id'] ) ) {
+			$order  = Orders_Class::g()->get( array( 'id' => $_GET['id'] ), true );
 			$args_metabox = array(
 				'order' => $order,
+				'id'    => $_GET['id'],
 			);
 
 			add_meta_box( 'wps-order-customer', __( 'Order details #' . $order->data['title'], 'wpshop' ), array( $this, 'callback_meta_box' ), 'wps-order', 'normal', 'default', $args_metabox );
 			add_meta_box( 'wps-order-products',  __( 'Products', 'wpshop' ), array( $this, 'callback_products' ), 'wps-order', 'normal', 'default', $args_metabox );
-			add_meta_box( 'wps-order-submit', __( 'Order actions', 'wpshop'), array( $this, 'callback_order_action' ), 'wps-order', 'side', 'default', $args_metabox );
+			add_meta_box( 'wps-order-submit', __( 'Order actions', 'wpshop'), array( $this, 'callback_order_action' ), 'wps-order', 'normal', 'default', $args_metabox );
+
+			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array(
+				'order' => $order
+			) );
+		} else {
+			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'main' );
 		}
 	}
 
@@ -111,9 +123,19 @@ class Doli_Order_Action {
 		) );
 	}
 
-	public function create_order( $proposal ) {
+	public function create_order( $proposal, $data ) {
 		$order = Request_Util::post( 'orders/createfromproposal/' . $proposal->data['external_id'] );
 		$order = Request_Util::post( 'orders/' . $order->id . '/validate' );
+
+		Emails_Class::g()->send_mail( null, 'wps_email_new_order', array(
+			'order'       => $order,
+			'third_party' => $data['third_party']->data,
+		) );
+
+		Emails_Class::g()->send_mail( $data['third_party']->data['email'], 'wps_email_customer_processing_order', array(
+			'order'       => $order,
+			'third_party' => $data['third_party']->data
+		) );
 
 		return Orders_Class::g()->sync( $order, $proposal->data['parent_id'] );
 	}

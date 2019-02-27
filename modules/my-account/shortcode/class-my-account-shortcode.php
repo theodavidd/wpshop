@@ -47,6 +47,10 @@ class My_Account_Shortcode extends \eoxia\Singleton_Util {
 					$tab = 'orders';
 				}
 
+				if ( array_key_exists( 'proposals', $wp->query_vars ) ) {
+					$tab = 'proposals';
+				}
+
 				include( Template_Util::get_template_part( 'my-account', 'my-account' ) );
 			}
 		}

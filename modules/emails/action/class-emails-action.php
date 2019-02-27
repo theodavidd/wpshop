@@ -28,6 +28,8 @@ class Emails_Action {
 	 */
 	public function __construct() {
 		add_action( 'admin_post_wps_copy_email_template', array( $this, 'callback_copy_email_template' ) );
+
+		add_action( 'wps_email_order_details', array( $this, 'order_details' ) );
 	}
 
 	public function callback_copy_email_template() {
@@ -42,6 +44,10 @@ class Emails_Action {
 		}
 
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab . '&section=' . $section ) );
+	}
+
+	public function order_details( $order ) {
+		include( Template_Util::get_template_part( 'emails', 'order-details' ) );
 	}
 }
 
