@@ -24,8 +24,8 @@ defined( 'ABSPATH' ) || exit; ?>
 	<td><?php Contact_Class::g()->display( $third_party ); ?></td>
 	<td><?php echo esc_html( $third_party->data['address'] ); ?></td>
 	<td><?php echo esc_html( $third_party->data['zip'] ); ?></td>
+	<td><?php echo esc_html( $third_party->data['town'] ); ?></td>
 	<td><?php echo esc_html( $third_party->data['country'] ); ?></td>
-	<td><?php echo esc_html( $third_party->data['state'] ); ?></td>
 	<td>
 		<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil"></i></a>
 	</td>

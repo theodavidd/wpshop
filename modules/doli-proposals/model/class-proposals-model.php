@@ -34,7 +34,7 @@ class Doli_Proposals_Model extends \eoxia\Post_Model {
 		$this->schema['external_id'] = array(
 			'type'        => 'integer',
 			'meta_type'   => 'single',
-			'field'       => 'external_id',
+			'field'       => '_external_id',
 			'since'       => '2.0.0',
 			'description' => 'L\'ID du customer (dolibarr). Relation avec dolibarr.',
 		);

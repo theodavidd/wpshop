@@ -166,16 +166,16 @@ class Doli_Syncho_Action {
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
 
-		$doli_third_parties = Request_Util::get( 'thirdparties?sortfield=t.rowid&sortorder=ASC&limit=10&page=' . $done_number / 10 );
+		$doli_third_parties = Request_Util::get( 'thirdparties?sortfield=t.rowid&sortorder=ASC&limit=' . Doli_Synchro::g()->limit_entries_by_request . '&page=' . $done_number / Doli_Synchro::g()->limit_entries_by_request );
 
 		if ( ! empty( $doli_third_parties ) ) {
 			foreach ( $doli_third_parties as $doli_third_party ) {
-				if ( empty( $doli_third_party->id ) ) {
-					$wp_third_party = Third_Party_Class::g()->get( array(
-						'meta_key'   => '_external_id',
-						'meta_value' => (int) $doli_third_party->id,
-					), true );
-				} else {
+				$wp_third_party = Third_Party_Class::g()->get( array(
+					'meta_key'   => '_external_id',
+					'meta_value' => (int) $doli_third_party->id,
+				), true );
+
+				if ( empty( $wp_third_party ) ) {
 					$wp_third_party = Third_Party_Class::g()->get( array( 'schema' => true ), true );
 				}
 
@@ -206,8 +206,23 @@ class Doli_Syncho_Action {
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
 
-		if ( Doli_Contact_Class::g()->synchro( $done_number, 10 ) ) {
-			$done_number += 10;
+		$doli_contacts = Request_Util::get( 'contacts?sortfield=t.rowid&sortorder=ASC&limit=' . Doli_Synchro::g()->limit_entries_by_request . '&page=' . $done_number / Doli_Synchro::g()->limit_entries_by_request );
+
+		if ( ! empty( $doli_contacts ) ) {
+			foreach ( $doli_contacts as $doli_contact ) {
+				$wp_contact = Contact_Class::g()->get( array(
+					'meta_key'   => '_external_id',
+					'meta_value' => (int) $doli_contact->id,
+				), true );
+
+				if ( empty( $wp_contact ) ) {
+					$wp_contact = Contact_Class::g()->get( array( 'schema' => true ), true );
+				}
+
+				Doli_Contact_Class::g()->doli_to_wp( $doli_contact, $wp_contact );
+
+				$done_number++;
+			}
 		}
 
 		if ( $done_number >= $total_number ) {
@@ -231,8 +246,23 @@ class Doli_Syncho_Action {
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
 
-		if ( Doli_Products_Class::g()->synchro( $done_number, 10 ) ) {
-			$done_number += 10;
+		$doli_products = Request_Util::get( 'products?sortfield=t.rowid&sortorder=ASC&limit=' . Doli_Synchro::g()->limit_entries_by_request . '&page=' . $done_number / Doli_Synchro::g()->limit_entries_by_request );
+
+		if ( ! empty( $doli_products ) ) {
+			foreach ( $doli_products as $doli_product ) {
+				$wp_product = Product_Class::g()->get( array(
+					'meta_key'   => '_external_id',
+					'meta_value' => (int) $doli_product->id,
+				), true );
+
+				if ( empty( $wp_product ) ) {
+					$wp_product = Product_Class::g()->get( array( 'schema' => true ), true );
+				}
+
+				Doli_Products_Class::g()->doli_to_wp( $doli_product, $wp_product );
+
+				$done_number++;
+			}
 		}
 
 		if ( $done_number >= $total_number ) {
@@ -256,8 +286,23 @@ class Doli_Syncho_Action {
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
 
-		if ( Doli_Proposals_Class::g()->synchro( $done_number, 10 ) ) {
-			$done_number += 10;
+		$doli_proposals = Request_Util::get( 'proposals?sortfield=t.rowid&sortorder=ASC&limit=' . Doli_Synchro::g()->limit_entries_by_request . '&page=' . $done_number / Doli_Synchro::g()->limit_entries_by_request );
+
+		if ( ! empty( $doli_proposals ) ) {
+			foreach ( $doli_proposals as $doli_proposal ) {
+				$wp_proposal = Proposals_Class::g()->get( array(
+					'meta_key'   => '_external_id',
+					'meta_value' => (int) $doli_proposal->id,
+				), true );
+
+				if ( empty( $wp_proposal ) ) {
+					$wp_proposal = Proposals_Class::g()->get( array( 'schema' => true ), true );
+				}
+
+				Doli_Proposals_Class::g()->doli_to_wp( $doli_proposal, $wp_proposal );
+
+				$done_number++;
+			}
 		}
 
 		if ( $done_number >= $total_number ) {
@@ -281,8 +326,23 @@ class Doli_Syncho_Action {
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
 
-		if ( Orders_Class::g()->synchro( $done_number, 10 ) ) {
-			$done_number += 10;
+		$doli_orders = Request_Util::get( 'orders?sortfield=t.rowid&sortorder=ASC&limit=' . Doli_Synchro::g()->limit_entries_by_request . '&page=' . $done_number / Doli_Synchro::g()->limit_entries_by_request );
+
+		if ( ! empty( $doli_orders ) ) {
+			foreach ( $doli_orders as $doli_order ) {
+				$wp_order = Orders_Class::g()->get( array(
+					'meta_key'   => '_external_id',
+					'meta_value' => (int) $doli_order->id,
+				), true );
+
+				if ( empty( $wp_order ) ) {
+					$wp_order = Orders_Class::g()->get( array( 'schema' => true ), true );
+				}
+
+				Orders_Class::g()->doli_to_wp( $doli_order, $wp_order );
+
+				$done_number++;
+			}
 		}
 
 		if ( $done_number >= $total_number ) {
@@ -306,8 +366,23 @@ class Doli_Syncho_Action {
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
 
-		if ( Doli_Invoice::g()->synchro( $done_number, 10 ) ) {
-			$done_number += 10;
+		$doli_invoices = Request_Util::get( 'invoices?sortfield=t.rowid&sortorder=ASC&limit=' . Doli_Synchro::g()->limit_entries_by_request . '&page=' . $done_number / Doli_Synchro::g()->limit_entries_by_request );
+
+		if ( ! empty( $doli_invoices ) ) {
+			foreach ( $doli_invoices as $doli_invoice ) {
+				$wp_invoice = Doli_Invoice::g()->get( array(
+					'meta_key'   => '_external_id',
+					'meta_value' => (int) $doli_invoice->id,
+				), true );
+
+				if ( empty( $wp_invoice ) ) {
+					$wp_invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
+				}
+
+				Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice );
+
+				$done_number++;
+			}
 		}
 
 		if ( $done_number >= $total_number ) {

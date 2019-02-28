@@ -81,16 +81,16 @@ class Doli_Proposals_Class extends \eoxia\Post_Class {
 	}
 
 	public function doli_to_wp( $doli_proposal, $wp_proposal ) {
-		$wp_proposal->data['external_id']   = (int) $doli_proposal->id;
-		$wp_proposal->data['title']         = $doli_proposal->ref;
-		$wp_proposal->data['total_ht']      = $doli_proposal->total_ht;
-		$wp_proposal->data['total_ttc']     = $doli_proposal->total_ttc;
-		$wp_proposal->data['lines']         = $doli_proposal->lines;
-		$wp_proposal->data['datec']         = date( 'Y-m-d h:i:s', $doli_proposal->datec );
-		$wp_proposal->data['parent_id']     = $third_party_id;
-		$wp_proposal->data['status']        = 'publish';
+		$wp_proposal->data['external_id'] = (int) $doli_proposal->id;
+		$wp_proposal->data['title']       = $doli_proposal->ref;
+		$wp_proposal->data['total_ht']    = $doli_proposal->total_ht;
+		$wp_proposal->data['total_ttc']   = $doli_proposal->total_ttc;
+		$wp_proposal->data['lines']       = $doli_proposal->lines;
+		$wp_proposal->data['datec']       = date( 'Y-m-d h:i:s', $doli_proposal->datec );
+		$wp_proposal->data['parent_id']   = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_proposal->socid );
+		$wp_proposal->data['status']      = 'publish';
 
-		return Proposals_Class::g()->update( $wp_proposal->data );
+		Proposals_Class::g()->update( $wp_proposal->data );
 	}
 
 	public function update_third_party( $third_party_id ) {

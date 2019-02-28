@@ -70,78 +70,41 @@ class Doli_Invoice extends \eoxia\Post_Class {
 
 	protected $post_type_name = 'Doli Invoice';
 
-	public function sync( $wp_order, $doli_invoice )
-	{
-		$invoice = Doli_Invoice::g()->get( array(
-			'meta_key'   => '_external_id',
-			'meta_value' => (int) $doli_invoice->id,
-		), true );
+	public function doli_to_wp( $doli_invoice, $wp_invoice ) {
+		$doli_invoice = Request_Util::get( 'invoices/' . $doli_invoice->id ); // Charges par la route single des factures pour avoir accès à linkedObjectsIds->commande.
+		$wp_invoice->data['external_id'] = (int) $doli_invoice->id;
+		$wp_invoice->data['post_parent'] = Orders_Class::g()->get_wp_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
+		$wp_invoice->data['title']       = $doli_invoice->ref;
+		$wp_invoice->data['status']      = 'publish';
+		$wp_invoice->data['author_id']   = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_invoice->socid );
 
-		if ( empty( $invoice ) ) {
-			$invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
-		}
+		$wp_invoice = Doli_Invoice::g()->update( $wp_invoice->data );
 
-		$invoice->data['external_id'] = (int) $doli_invoice->id;
-		$invoice->data['post_parent'] = (int) $wp_order->data['id'];
-		$invoice->data['title']       = $doli_invoice->ref;
-		$invoice->data['status']      = 'publish';
-		$invoice->data['author_id']   = $wp_order->data['author_id'];
+		// Récupères les paiements attachés à cette facture.
+		$doli_payments = Request_Util::get( 'invoices/' . $doli_invoice->id . '/payments' );
 
-		$invoice = Doli_Invoice::g()->update( $invoice->data );
-
-		do_action( 'wps_synchro_invoice', $invoice->data, $doli_invoice );
-	}
-
-	public function synchro( $index, $limit ) {
-		$doli_invoices = Request_Util::get( 'invoices?sortfield=t.rowid&sortorder=ASC&limit=' . $limit . '&page=' . ( $index / $limit ) );
-
-		if ( ! empty( $doli_invoices ) ) {
-			foreach ( $doli_invoices as $doli_invoice ) {
-				$doli_invoice = Request_Util::get( 'invoices/' . $doli_invoice->id );
-
-				$invoice = Doli_Invoice::g()->get( array(
-					'meta_key'   => '_external_id',
-					'meta_value' => (int) $doli_invoice->id,
+		if ( ! empty( $doli_payments ) ) {
+			foreach ( $doli_payments as $doli_payment ) {
+				$payment = Doli_Payment::g()->get( array(
+					'post_title' => $doli_payment->ref,
 				), true );
 
-				if ( empty( $invoice ) ) {
-					$invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
+				if ( empty( $payment ) ) {
+					$payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
 				}
 
-				$invoice->data['external_id'] = (int) $doli_invoice->id;
-				$invoice->data['post_parent'] = Orders_Class::g()->get_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
-				$invoice->data['title']       = $doli_invoice->ref;
-				$invoice->data['status']      = 'publish';
-				$invoice->data['author_id']   = Third_Party_Class::g()->get_id_or_sync( $doli_invoice->socid );
+				$payment->data['post_parent']  = (int) $wp_invoice->data['id'];
+				$payment->data['title']        = $doli_payment->ref;
+				$payment->data['status']       = 'publish';
+				$payment->data['payment_type'] = $doli_payment->type;
+				$payment->data['amount']       = $doli_payment->amount;
+				$payment->data['date']         = $doli_payment->date;
 
-				$invoice = Doli_Invoice::g()->update( $invoice->data );
-
-				$doli_payments = Request_Util::get( 'invoices/' . $doli_invoice->id . '/payments' );
-
-				if ( ! empty( $doli_payments ) ) {
-					foreach ( $doli_payments as $doli_payment ) {
-						$payment = Doli_Payment::g()->get( array(
-							'post_title' => $doli_payment->ref,
-						), true );
-
-						if ( empty( $payment ) ) {
-							$payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
-						}
-
-						$payment->data['post_parent']  = (int) $invoice->data['id'];
-						$payment->data['title']        = $doli_payment->ref;
-						$payment->data['status']       = 'publish';
-						$payment->data['payment_type'] = $doli_payment->type;
-						$payment->data['amount']       = $doli_payment->amount;
-						$payment->data['date']         = $doli_payment->date;
-
-						Doli_Payment::g()->update( $payment->data );
-					}
-				}
+				Doli_Payment::g()->update( $payment->data );
 			}
 		}
 
-		return true;
+		do_action( 'wps_synchro_invoice', $wp_invoice->data, $doli_invoice );
 	}
 }
 

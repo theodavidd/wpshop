@@ -21,7 +21,9 @@ defined( 'ABSPATH' ) || exit; ?>
 		<tr>
 			<th><input type="checkbox" /></th>
 			<th><?php esc_html_e( 'WP ID', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'DOLI ID', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Ref', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Status', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Price', 'wpshop' ); ?></th>
 			<?php echo apply_filters( 'wps_order_table_th', '' ); ?>
 			<th></th>

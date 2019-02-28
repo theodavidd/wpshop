@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit; ?>
 <tr>
 	<td><input type="checkbox" /></td>
 	<td><?php echo esc_html( $product->data['id'] ); ?></td>
+	<td><?php echo esc_html( $product->data['external_id'] ); ?></td>
 	<td><?php echo get_the_post_thumbnail( $product->data['id'], array( 80, 80 ) ); ?></td>
 	<td><?php echo esc_html( $product->data['title'] ); ?></td>
 	<td><?php echo esc_html( $product->data['price'] ); ?></td>

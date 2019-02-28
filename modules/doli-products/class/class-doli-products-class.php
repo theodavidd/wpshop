@@ -23,47 +23,24 @@ class Doli_Products_Class extends \eoxia\Singleton_Util {
 
 	protected function construct() {}
 
-	/**
-	 * Synchronisation des produits de dolibarr.
-	 *
-	 * @since 2.0.0
-	 */
-	public function synchro( $index, $limit ) {
-		$data = Request_Util::get( 'products?sortfield=t.ref&sortorder=ASC&limit=' . $limit . '&page=' . ( $index / $limit ) );
+	public function doli_to_wp( $doli_product, $wp_product ) {
+		$product->data['external_id']     = $doli_product->id;
+		$product->data['ref']             = $doli_product->ref;
+		$product->data['title']           = $doli_product->label;
+		$product->data['content']         = $doli_product->description;
+		$product->data['price']           = $doli_product->price;
+		$product->data['price_ttc']       = $doli_product->price_ttc;
+		$product->data['tva_tx']          = $doli_product->tva_tx;
+		$product->data['barcode']         = $doli_product->barcode;
+		$product->data['fk_product_type'] = 0; // Type "Produit" ou "Service".
+		$product->data['volume']          = $doli_product->volume;
+		$product->data['length']          = $doli_product->length;
+		$product->data['width']           = $doli_product->width;
+		$product->data['height']          = $doli_product->height;
+		$product->data['weight']          = $doli_product->weight;
+		$product->data['status']          = 'publish';
 
-		if ( ! empty( $data ) ) {
-			foreach ( $data as $doli_product ) {
-				// Vérifie l'existence du produit en base de donnée.
-				$product = Product_Class::g()->get( array(
-					'meta_key'   => '_ref',
-					'meta_value' => $doli_product->ref,
-				), true );
-
-				if ( empty( $product ) ) {
-					$product = Product_Class::g()->get( array( 'schema' => true ), true );
-				}
-
-				$product->data['external_id']     = $doli_product->id;
-				$product->data['ref']             = $doli_product->ref;
-				$product->data['title']           = $doli_product->label;
-				$product->data['content']         = $doli_product->description;
-				$product->data['price']           = $doli_product->price;
-				$product->data['price_ttc']       = $doli_product->price_ttc;
-				$product->data['tva_tx']          = $doli_product->tva_tx;
-				$product->data['barcode']         = $doli_product->barcode;
-				$product->data['fk_product_type'] = 0; // Type "Produit" ou "Service".
-				$product->data['volume']          = $doli_product->volume;
-				$product->data['length']          = $doli_product->length;
-				$product->data['width']           = $doli_product->width;
-				$product->data['height']          = $doli_product->height;
-				$product->data['weight']          = $doli_product->weight;
-				$product->data['status']          = 'publish';
-
-				Product_Class::g()->update( $product->data );
-			}
-		}
-
-		return true;
+		Product_Class::g()->update( $product->data );
 	}
 }
 

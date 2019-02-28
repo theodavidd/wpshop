@@ -80,93 +80,44 @@ class Orders_Class extends \eoxia\Post_Class {
 		) );
 	}
 
-	public function sync( $order_data, $third_party_id ) {
-		$order_data = array(
-			'external_id'   => (int) $order_data->id,
-			'parent_id'     => $third_party_id,
-			'title'         => $order_data->ref,
-			'date_commande' => date( 'Y-m-d h:i:s', $order_data->date_commande ),
-			'total_ht'      => $order_data->total_ht,
-			'total_ttc'     => $order_data->total_ttc,
-			'lines'         => $order_data->lines,
-		);
+	public function doli_to_wp( $doli_order, $wp_order ) {
+		$order->data['external_id']   = (int) $doli_order->id;
+		$order->data['title']         = $doli_order->ref;
+		$order->data['total_ht']      = $doli_order->total_ht;
+		$order->data['total_ttc']     = $doli_order->total_ttc;
+		$order->data['billed']        = (int) $doli_order->billed;
+		$order->data['lines']         = $doli_order->lines;
+		$order->data['date_commande'] = date( 'Y-m-d h:i:s', $doli_order->date_commande );
+		$order->data['parent_id']     = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_order->socid );
 
-		return $this->update( $order_data );
-	}
+		$status = '';
 
-	public function synchro( $index, $limit ) {
-		$doli_orders = Request_Util::get( 'orders?sortfield=t.rowid&sortorder=ASC&limit=' . $limit . '&page=' . ( $index / $limit ) );
-
-		if ( ! empty( $doli_orders ) ) {
-			foreach ( $doli_orders as $doli_order ) {
-				$this->synchro_by_ids( $doli_order->id );
-			}
+		switch ( $doli_order->statut ) {
+			case -1:
+				$status = 'wps-canceled';
+				break;
+			case 0:
+				$status = 'draft';
+				break;
+			case 1:
+				$status = 'publish';
+				break;
+			case 2:
+				break;
+			case 3:
+				$status = 'wps-delivered';
+				break;
+			default:
+				$status = 'publish';
+				break;
 		}
 
-		return true;
+		$order->data['status'] = $status;
+
+		Orders_Class::g()->update( $order->data );
 	}
 
-	public function synchro_by_ids( $ids ) {
-		// Forces en tableau.
-		$ids = ! is_array( $ids ) ? array( $ids ) : $ids;
-
-		$sync_orders = array();
-
-		if ( ! empty( $ids ) ) {
-			foreach ( $ids as $id ) {
-				$doli_order = Request_Util::get( 'orders/' . $id );
-
-				$order = Orders_Class::g()->get( array(
-					'meta_key'   => 'external_id',
-					'meta_value' => $doli_order->id,
-				), true );
-
-				if ( empty( $order ) ) {
-					$order = Orders_Class::g()->get( array( 'schema' => true ), true );
-				}
-
-				$order->data['external_id']   = (int) $doli_order->id;
-				$order->data['title']         = $doli_order->ref;
-				$order->data['total_ht']      = $doli_order->total_ht;
-				$order->data['total_ttc']     = $doli_order->total_ttc;
-				$order->data['billed']        = (int) $doli_order->billed;
-				$order->data['lines']         = $doli_order->lines;
-				$order->data['date_commande'] = date( 'Y-m-d h:i:s', $doli_order->date_commande );
-				$order->data['parent_id']     = Third_Party_Class::g()->get_id_or_sync( $doli_order->socid );
-
-
-				$status = '';
-
-				switch ( $doli_order->statut ) {
-					case -1:
-						$status = 'wps-canceled';
-						break;
-					case 0:
-						$status = 'draft';
-						break;
-					case 1:
-						$status = 'publish';
-						break;
-					case 2:
-						break;
-					case 3:
-						$status = 'wps-delivered';
-						break;
-					default:
-						$status = 'publish';
-						break;
-				}
-
-				$order->data['status']        = $status;
-
-				$sync_orders[] = Orders_Class::g()->update( $order->data );
-			}
-		}
-
-		return $sync_orders;
-	}
-
-	public function get_id_by_doli_id( $doli_id ) {
+	public function get_wp_id_by_doli_id( $doli_id ) {
 		$order = Orders_Class::g()->get( array(
 			'meta_key'   => 'external_id',
 			'meta_value' => $doli_id,

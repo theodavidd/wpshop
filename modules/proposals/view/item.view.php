@@ -19,7 +19,9 @@ defined( 'ABSPATH' ) || exit; ?>
 <tr>
 	<td><input type="checkbox" /></td>
 	<td><?php echo esc_html( $proposal->data['id'] ); ?></td>
+	<td><?php echo esc_html( $proposal->data['external_id'] ); ?></td>
 	<td><?php echo esc_html( $proposal->data['title'] ); ?></td>
+	<td><?php echo esc_html( $proposal->data['status'] ); ?></td>
 	<td><?php echo esc_html( $proposal->data['total_ttc'] ); ?>€</td>
 	<?php apply_filters( 'wps_order_table_tr', $proposal ); ?>
 	<td>

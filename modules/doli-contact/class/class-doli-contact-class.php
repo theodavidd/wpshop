@@ -59,47 +59,48 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 		}
 	}
 
-	public function synchro( $index, $limit ) {
-		$contact_ids = array();
+	public function doli_to_wp( $doli_contact, $wp_contact ) {
+		$wp_third_party = null;
 
-		$data = Request_Util::get( 'contacts?sortfield=t.rowid&sortorder=ASC&limit=' . $limit . '&page=' . ( $index / $limit ) );
-
-		if ( ! empty( $data ) ) {
-			foreach ( $data as $doli_contact ) {
-				// Vérifie l'existence du contact en base de donnée.
-				$contact = Contact_Class::g()->get( array(
-					'meta_key'   => '_external_id',
-					'meta_value' => $doli_contact->id,
-				), true ); // WPCS: slow query ok.
-
-				if ( empty( $contact ) ) {
-					$contact = Contact_Class::g()->get( array( 'schema' => true ), true );
-				}
-
-				$contact->data['external_id']    = (int) $doli_contact->id;
-				$contact->data['third_party_id'] = (int) $doli_contact->socid;
-				$contact->data['login']          = sanitize_title( $doli_contact->email );
-				$contact->data['firstname']      = $doli_contact->firstname;
-				$contact->data['lastname']       = $doli_contact->lastname;
-				$contact->data['phone']          = $doli_contact->phone_pro;
-				$contact->data['email']          = $doli_contact->email;
-
-				if ( empty( $contact->data['id'] ) ) {
-					$contact->data['password'] = wp_generate_password();
-				}
-
-				$contact_saved = Contact_Class::g()->update( $contact->data );
-
-				$third_party = Third_Party_Class::g()->get( array(
-					'meta_key'   => '_external_id',
-					'meta_value' => $contact_saved->data['third_party_id'],
-				), true );
-				$third_party->data['contact_ids'][] = $contact_saved->data['id'];
-				Third_Party_Class::g()->update( $third_party->data );
-			}
+		if ( ! empty( $doli_contact->socid ) ) {
+			$wp_third_party = Third_Party_Class::g()->get( array(
+				'meta_key'   => '_external_id',
+				'meta_value' => (int) $doli_contact->socid,
+			), true );
 		}
 
-		return true;
+		$wp_contact->data['external_id'] = (int) $doli_contact->id;
+		$wp_contact->data['login']       = sanitize_title( $doli_contact->email );
+		$wp_contact->data['firstname']   = $doli_contact->firstname;
+		$wp_contact->data['lastname']    = $doli_contact->lastname;
+		$wp_contact->data['phone']       = $doli_contact->phone_pro;
+		$wp_contact->data['email']       = $doli_contact->email;
+
+		if ( false !== email_exists( $wp_contact->data['email'] ) ) {
+			return false;
+		}
+
+		if ( $wp_third_party != null ) {
+			$wp_contact->data['third_party_id'] = $wp_third_party->data['id'];
+		}
+
+		if ( empty( $wp_contact->data['id'] ) ) {
+			$wp_contact->data['password'] = wp_generate_password();
+		}
+
+		$contact_saved = Contact_Class::g()->update( $wp_contact->data );
+
+		if ( is_wp_error( $contact_saved ) ) {
+			return false;
+		}
+
+		if ( $wp_third_party != null ) {
+			$wp_third_party->data['contact_ids'][] = $contact_saved->data['id'];
+			Third_Party_Class::g()->update( $wp_third_party->data );
+		}
+	}
+
+	public function wp_to_doli( $wp_contact, $doli_contact ) {
 	}
 }
 

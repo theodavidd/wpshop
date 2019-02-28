@@ -38,10 +38,11 @@ class Doli_Third_Party_Class extends \eoxia\Singleton_Util {
 		$wp_third_party->data['country']       = $doli_third_party->country;
 		$wp_third_party->data['phone']         = $doli_third_party->phone;
 		$wp_third_party->data['email']         = $doli_third_party->email;
+		$wp_third_party->data['status']        = 'publish';
+
 		if ( ! empty( $doli_third_party->date_modification ) ) {
 			$wp_third_party->data['date_modified'] = date( 'Y-m-d H:i:s', $doli_third_party->date_modification );
 		}
-		$wp_third_party->data['status']        = 'publish';
 
 		Third_Party_Class::g()->update( $wp_third_party->data );
 	}
@@ -69,7 +70,7 @@ class Doli_Third_Party_Class extends \eoxia\Singleton_Util {
 	public function get_wp_id_by_doli_id( $doli_id ) {
 		$third_party = Third_Party_Class::g()->get( array(
 			'meta_key'   => '_external_id',
-			'meta_value' => $doli_third_party->id,
+			'meta_value' => (int) $doli_id,
 		), true ); // WPCS: slow query ok.
 
 		return $third_party->data['id'];

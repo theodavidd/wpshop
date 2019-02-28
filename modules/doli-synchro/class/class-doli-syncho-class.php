@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class Doli_Synchro extends \eoxia\Singleton_Util {
 	public $sync_infos = array();
+	public $limit_entries_by_request = 50;
 
 	protected function construct() {
 		$this->sync_infos = array(
@@ -29,31 +30,31 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 				'action'   => 'sync_third_parties',
 				'endpoint' => 'thirdparties?limit=-1',
 			),
-			// 'contacts' => array(
-			// 	'title'    => __( 'Contacts', 'wpshop' ),
-			// 	'action'   => 'sync_contacts',
-			// 	'endpoint' => 'contacts?limit=-1',
-			// ),
-			// 'products' => array(
-			// 	'title'    => __( 'Products', 'wpshop' ),
-			// 	'action'   => 'sync_products',
-			// 	'endpoint' => 'products?limit=-1',
-			// ),
-			// 'proposals' => array(
-			// 	'title'    => __( 'Proposals', 'wpshop' ),
-			// 	'action'   => 'sync_proposals',
-			// 	'endpoint' => 'proposals?limit=-1',
-			// ),
-			// 'orders' => array(
-			// 	'title'    => __( 'Orders', 'wpshop' ),
-			// 	'action'   => 'sync_orders',
-			// 	'endpoint' => 'orders?limit=-1',
-			// ),
-			// 'invoices' => array(
-			// 	'title'    => __( 'Invoices', 'wpshop' ),
-			// 	'action'   => 'sync_invoices',
-			// 	'endpoint' => 'invoices?limit=-1',
-			// ),
+			'contacts' => array(
+				'title'    => __( 'Contacts', 'wpshop' ),
+				'action'   => 'sync_contacts',
+				'endpoint' => 'contacts?limit=-1',
+			),
+			'products' => array(
+				'title'    => __( 'Products', 'wpshop' ),
+				'action'   => 'sync_products',
+				'endpoint' => 'products?limit=-1',
+			),
+			'proposals' => array(
+				'title'    => __( 'Proposals', 'wpshop' ),
+				'action'   => 'sync_proposals',
+				'endpoint' => 'proposals?limit=-1',
+			),
+			'orders' => array(
+				'title'    => __( 'Orders', 'wpshop' ),
+				'action'   => 'sync_orders',
+				'endpoint' => 'orders?limit=-1',
+			),
+			'invoices' => array(
+				'title'    => __( 'Invoices', 'wpshop' ),
+				'action'   => 'sync_invoices',
+				'endpoint' => 'invoices?limit=-1',
+			),
 		);
 	}
 }
