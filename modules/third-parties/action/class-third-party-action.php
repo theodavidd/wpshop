@@ -45,8 +45,6 @@ class Third_Party_Action {
 		add_action( 'wp_ajax_third_party_load_contact', array( $this, 'load_contact' ) );
 		add_action( 'wp_ajax_third_party_delete_contact', array( $this, 'delete_contact' ) );
 
-		add_action( 'wp_ajax_synchro_third_parties', array( $this, 'ajax_synchro_third_parties' ) );
-
 	}
 
 	/**
@@ -460,53 +458,6 @@ class Third_Party_Action {
 			'module'           => 'thirdParties',
 			'callback_success' => 'deletedContactSuccess',
 		) );
-	}
-
-	/**
-	 * Synchronisation des produits avec dolibarr.
-	 *
-	 * @since 2.0.0
-	 */
-	public function ajax_synchro_third_parties() {
-		$data = Request_Util::get( 'thirdparties' );
-
-		if ( ! empty( $data ) ) {
-			foreach ( $data as $doli_third_party ) {
-				// Vérifie l'existence du tier en base de donnée.
-				$third_party = Third_Party_Class::g()->get( array(
-					'meta_key'   => '_external_id',
-					'meta_value' => $doli_third_party->id,
-				), true ); // WPCS: slow query ok.
-
-				if ( empty( $third_party ) ) {
-					$third_party = Third_Party_Class::g()->get( array( 'schema' => true ), true );
-				}
-
-				$third_party->data['external_id']      = (int) $doli_third_party->id;
-				$third_party->data['title']            = $doli_third_party->name;
-				$third_party->data['forme_juridique']  = $doli_third_party->forme_juridique;
-				$third_party->data['code_fournisseur'] = $doli_third_party->code_fournisseur;
-				$third_party->data['address']          = $doli_third_party->address;
-				$third_party->data['town']             = $doli_third_party->town;
-				$third_party->data['zip']              = $doli_third_party->zip;
-				$third_party->data['state']            = $doli_third_party->state;
-				$third_party->data['country']          = $doli_third_party->country;
-				$third_party->data['phone']            = $doli_third_party->phone;
-				$third_party->data['email']            = $doli_third_party->email;
-				$third_party->data['status']           = 'publish';
-
-				$third_party = Third_Party_Class::g()->update( $third_party->data );
-				$contact_ids = Contact_Class::g()->synchro_contact( $third_party );
-
-				$third_party->data['contact_ids'] = $contact_ids;
-				Third_Party_Class::g()->update( $third_party->data );
-
-
-
-			}
-		}
-
-		wp_send_json_success( $data );
 	}
 }
 

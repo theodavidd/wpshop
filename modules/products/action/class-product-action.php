@@ -35,7 +35,6 @@ class Product_Action {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 		add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
-		add_action( 'wp_ajax_synchro', array( $this, 'ajax_synchro' ) );
 
 		add_action( 'wp_ajax_wps_delete_product', array( $this, 'ajax_delete_product' ) );
 	}
@@ -117,49 +116,6 @@ class Product_Action {
 			$doli_product = Request_Util::get( 'products/' . $doli_product_id );
 			update_post_meta( $post_id, '_price_ttc', $doli_product->price_ttc );
 		}
-	}
-
-	/**
-	 * Synchronisation des produits avec dolibarr.
-	 *
-	 * @since 2.0.0
-	 */
-	public function ajax_synchro() {
-		$data = Request_Util::get( 'products?sortfield=t.ref&sortorder=ASC&limit=0' );
-
-		if ( ! empty( $data ) ) {
-			foreach ( $data as $doli_product ) {
-				// Vérifie l'existence du produit en base de donnée.
-				$product = Product_Class::g()->get( array(
-					'meta_key'   => '_ref',
-					'meta_value' => $doli_product->ref,
-				), true );
-
-				if ( empty( $product ) ) {
-					$product = Product_Class::g()->get( array( 'schema' => true ), true );
-				}
-
-				$product->data['external_id']     = $doli_product->id;
-				$product->data['ref']             = $doli_product->ref;
-				$product->data['title']           = $doli_product->label;
-				$product->data['content']         = $doli_product->description;
-				$product->data['price']           = $doli_product->price;
-				$product->data['price_ttc']       = $doli_product->price_ttc;
-				$product->data['tva_tx']          = $doli_product->tva_tx;
-				$product->data['barcode']         = $doli_product->barcode;
-				$product->data['fk_product_type'] = 0; // Type "Produit" ou "Service".
-				$product->data['volume']          = $doli_product->volume;
-				$product->data['length']          = $doli_product->length;
-				$product->data['width']           = $doli_product->width;
-				$product->data['height']          = $doli_product->height;
-				$product->data['weight']          = $doli_product->weight;
-				$product->data['status']          = 'publish';
-
-				Product_Class::g()->update( $product->data );
-			}
-		}
-
-		wp_send_json_success( $data );
 	}
 
 	public function ajax_delete_product() {

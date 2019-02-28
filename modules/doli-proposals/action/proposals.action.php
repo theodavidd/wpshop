@@ -24,41 +24,9 @@ class Doli_Proposals_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'wp_ajax_synchro_proposals', array( $this, 'synchro_proposals' ) );
 		add_action( 'wps_save_proposal', array( $this, 'callback_wps_save_proposal' ), 1, 2 );
 
 		add_action( 'admin_post_wps_download_proposal', array( $this, 'download_proposal' ) );
-	}
-
-	public function synchro_proposals() {
-		$doli_proposals = Request_Util::get( 'proposals' );
-
-		if ( ! empty( $doli_proposals ) ) {
-			foreach ( $doli_proposals as $doli_proposal ) {
-				// Vérifie l'existence du produit en base de donnée.
-				$proposal = Doli_Proposals_Class::g()->get( array(
-					'meta_key'   => 'external_id',
-					'meta_value' => $doli_proposal->id,
-				), true );
-
-				if ( empty( $proposal ) ) {
-					$proposal = Doli_Proposals_Class::g()->get( array( 'schema' => true ), true );
-				}
-
-				$proposal->data['external_id'] = (int) $doli_proposal->id;
-				$proposal->data['title']       = $doli_proposal->ref;
-				$proposal->data['total_ht']    = $doli_proposal->total_ht;
-				$proposal->data['total_ttc']   = $doli_proposal->total_ttc;
-				$proposal->data['status']      = 'publish';
-
-				Doli_Proposals_Class::g()->update( $proposal->data );
-
-				do_action( 'wps_synchro_proposal', $proposal->data, $doli_proposal );
-
-			}
-		}
-
-		wp_send_json_success( $doli_proposals );
 	}
 
 	public function callback_wps_save_proposal( $third_party, $contact ) {

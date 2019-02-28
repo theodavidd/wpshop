@@ -28,7 +28,6 @@ class Doli_Order_Action {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 
 		add_action( 'wps_checkout_create_order', array( $this, 'create_order' ), 10, 2 );
-		add_action( 'wp_ajax_synchro_orders', array( $this, 'synchro_orders' ) );
 	}
 
 	public function callback_admin_init() {
@@ -138,40 +137,6 @@ class Doli_Order_Action {
 		) );
 
 		return Orders_Class::g()->sync( $order, $proposal->data['parent_id'] );
-	}
-
-	public function synchro_orders() {
-		$doli_orders = Request_Util::get( 'orders' );
-
-		if ( ! empty( $doli_orders ) ) {
-			foreach ( $doli_orders as $doli_order ) {
-				// Vérifie l'existence du produit en base de donnée.
-				$order = Orders_Class::g()->get( array(
-					'meta_key'   => 'external_id',
-					'meta_value' => $doli_order->id,
-				), true );
-
-				if ( empty( $order ) ) {
-					$order = Orders_Class::g()->get( array( 'schema' => true ), true );
-				}
-
-				$order->data['external_id']   = (int) $doli_order->id;
-				$order->data['title']         = $doli_order->ref;
-				$order->data['total_ht']      = $doli_order->total_ht;
-				$order->data['total_ttc']     = $doli_order->total_ttc;
-				$order->data['lines']         = $doli_order->lines;
-				$order->data['date_commande'] = date( 'Y-m-d h:i:s', $doli_order->date_commande );
-				$order->data['status']        = 'publish';
-				$order->data['parent_id']     = Third_Party_Class::g()->get_id_or_sync( $doli_order->socid );
-
-				Orders_Class::g()->update( $order->data );
-
-				do_action( 'wps_synchro_order', $order->data, $doli_order );
-
-			}
-		}
-
-		wp_send_json_success( $doli_orders );
 	}
 }
 
