@@ -44,7 +44,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		?>
 	</ul>
 
-	<?php include( Template_Util::get_template_part( 'checkout', 'terms' ) ); ?>
+	<?php // include( Template_Util::get_template_part( 'checkout', 'terms' ) ); ?>
 
 	<?php do_action( 'wps_review_order_before_submit' ); ?>
 

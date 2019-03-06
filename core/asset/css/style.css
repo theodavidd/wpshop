@@ -193,6 +193,17 @@
   font-size: 14px;
   text-align: center; }
 
+.wpeo-table td, .wpeo-table th {
+  border: 0; }
+
+.wpeo-table > tfoot {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.8); }
+
+.wpeo-table > tfoot td {
+  padding: .2em .6em;
+  border: 1px solid rgba(0, 0, 0, 0.1); }
+
 /** Temporaire **/
 .wp-admin select {
   height: auto !important; }

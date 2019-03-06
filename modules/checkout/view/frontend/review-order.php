@@ -46,35 +46,34 @@ defined( 'ABSPATH' ) || exit; ?>
 				endforeach;
 			endif;
 
-			?>
-			<tr>
-				<td colspan="4"></td>
-				<td>Total HT</td>
-				<td><?php echo number_format( $proposal->data['total_ht'], 2, ',', '' ); ?>€</td>
-			</tr>
-			<?php
-			if ( ! empty( $tva_lines ) ) :
-				foreach ( $tva_lines as $key => $tva_line ) :
-					?>
-					<tr>
-						<td colspan="4"></td>
-						<td>Total TVA <?php echo number_format( $key, 2, ',', '' ); ?>%</td>
-						<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
-					</tr>
-					<?php
-				endforeach;
-			endif;
-			?>
-
-			<tr>
-				<td colspan="4"></td>
-				<td>Total TTC</td>
-				<td><?php echo number_format( $proposal->data['total_ttc'], 2, ',', '' ); ?>€</td>
-			</tr>
-			<?php
-
-
 			do_action( 'wps_review_order_after_cart_contents' );
 		?>
 	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="5"><strong>Total HT</strong></td>
+			<td><?php echo number_format( $proposal->data['total_ht'], 2, ',', '' ); ?>€</td>
+		</tr>
+		<?php
+		if ( ! empty( $tva_lines ) ) :
+			foreach ( $tva_lines as $key => $tva_line ) :
+				?>
+				<tr>
+					<td colspan="5"><strong>Total TVA <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
+					<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
+				</tr>
+				<?php
+			endforeach;
+		endif;
+		?>
+
+		<tr>
+			<td colspan="5"><strong>Total TTC</strong></td>
+			<td><strong><?php echo number_format( $proposal->data['total_ttc'], 2, ',', '' ); ?>€</strong></td>
+		</tr>
+	</tfoot>
 </table>
+
+<div class="">
+
+</div>
