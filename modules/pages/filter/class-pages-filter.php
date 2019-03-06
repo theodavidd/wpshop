@@ -27,7 +27,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 
 		add_action( 'template_redirect', array( $this, 'check_page' ) );
 		add_filter( 'display_post_states', array( $this, 'add_states_post' ), 10, 2 );
-		add_filter( 'the_content', array( $this, 'do_shortcode_page' ), 10, 1 );
+		add_filter( 'the_content', array( $this, 'do_shortcode_page' ), 99, 1 );
 	}
 
 	public function check_page() {
@@ -56,6 +56,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 	}
 
 	public function do_shortcode_page( $content ) {
+
 		if ( ! is_admin() ) {
 			$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
 
@@ -64,11 +65,13 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 			$shortcode = '';
 			$params    = array();
 
+
 			if ( FALSE !== $key ) {
 				switch ($key)
 				{
 					case 'checkout_id':
-						$shortcode = 'checkout';
+						$params['step'] = isset( $_GET['step'] ) ? $_GET['step'] : 1;
+						$shortcode      = 'checkout';
 						break;
 					case 'valid_checkout_id':
 						$shortcode          = 'valid_checkout';

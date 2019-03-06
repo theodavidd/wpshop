@@ -23,42 +23,6 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 
 	protected function construct() {}
 
-	public function save( $third_party_id, $posted_data  ) {
-		if ( empty( $posted_data['contact']['lastname'] ) ) {
-			$email = explode( '@', $posted_data['contact']['email'] );
-
-			$posted_data['contact']['lastname'] = $email[0];
-		}
-
-		$contact_id = Request_Util::post( 'contacts', array(
-			'lastname'  => $posted_data['contact']['lastname'],
-			'firstname' => $posted_data['contact']['firstname'],
-			'email'     => $posted_data['contact']['email'],
-			'phone_pro' => $posted_data['contact']['phone'],
-			'socid'     => $third_party_id,
-		) );
-
-		return $contact_id;
-	}
-
-	public function update( $third_party_id, $posted_data ) {
-		if ( ! empty( $posted_data['contact']['external_id'] ) ) {
-
-			if ( empty( $posted_data['contact']['lastname'] ) ) {
-				$email = explode( '@', $posted_data['contact']['email'] );
-
-				$posted_data['contact']['lastname'] = $email[0];
-			}
-
-			Request_Util::put( 'contact/' . $posted_data['contact']['external_id'], array(
-				'lastname'  => $posted_data['contact']['lastname'],
-				'firstname' => $posted_data['contact']['firstname'],
-				'email'     => $posted_data['contact']['email'],
-				'phone_pro' => $posted_data['contact']['phone'],
-			) );
-		}
-	}
-
 	public function doli_to_wp( $doli_contact, $wp_contact ) {
 		$wp_third_party = null;
 
@@ -101,6 +65,19 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 	}
 
 	public function wp_to_doli( $wp_contact, $doli_contact ) {
+		$third_party = Third_Party_Class::g()->get( array(
+			'id' => $wp_contact->data['third_party_id'],
+		), true );
+
+		$contact_id = Request_Util::post( 'contacts', array(
+			'lastname'  => $wp_contact->data['lastname'],
+			'firstname' => $wp_contact->data['firstname'],
+			'email'     => $wp_contact->data['email'],
+			'phone_pro' => $wp_contact->data['phone'],
+			'socid'     => $third_party->data['external_id'],
+		) );
+
+		return $contact_id;
 	}
 }
 

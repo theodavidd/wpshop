@@ -48,23 +48,23 @@ class Doli_Third_Party_Class extends \eoxia\Singleton_Util {
 	}
 
 	public function wp_to_doli( $wp_third_party, $doli_third_party ) {
-		// Force le changement pour mêttre à jour la date de modification si les données n'ont pas changé.
-		//  Dolibarr ne met pas à jour la date de modification si aucune donnée n'est changé.
-		Request_Util::put( 'thirdparties/' . $doli_third_party->id, array(
-			'name'    => 'tmp',
-			'country' => $wp_third_party->data['country'],
-			'address' => $wp_third_party->data['address'],
-			'zip'     => $wp_third_party->data['zip'],
-			'state'   => $wp_third_party->data['state'],
-		) );
+		$data = array(
+			'name'       => $wp_third_party->data['title'],
+			'country'    => $wp_third_party->data['country'],
+			'country_id' => $wp_third_party->data['country_id'],
+			'address'    => $wp_third_party->data['address'],
+			'zip'        => $wp_third_party->data['zip'],
+			'state'      => $wp_third_party->data['state'],
+		);
 
-		Request_Util::put( 'thirdparties/' . $doli_third_party->id, array(
-			'name'    => $wp_third_party->data['title'],
-			'country' => $wp_third_party->data['country'],
-			'address' => $wp_third_party->data['address'],
-			'zip'     => $wp_third_party->data['zip'],
-			'state'   => $wp_third_party->data['state'],
-		) );
+		if ( ! empty( $wp_third_party->data['external_id' ] ) ) {
+			Request_Util::put( 'thirdparties/' . $doli_third_party->id, $data );
+		} else {
+			$doli_third_party_id                 = Request_Util::post( 'thirdparties', $data );
+			$wp_third_party->data['external_id'] = $doli_third_party_id;
+
+			Third_Party_Class::g()->update( $wp_third_party->data );
+		}
 	}
 
 	public function get_wp_id_by_doli_id( $doli_id ) {

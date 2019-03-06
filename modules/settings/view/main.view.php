@@ -19,6 +19,16 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wrap">
 	<h2><?php esc_html_e( 'Settings', 'wpshop' ); ?></h2>
 
+	<?php
+	if ( ! empty( $transient ) ) :
+		?>
+		<div class="notice notice-success is-dismissible">
+			<p><?php echo $transient; ?></p>
+		</div>
+		<?php
+	endif;
+	?>
+
 	<div class="wpeo-tab">
 		<ul class="tab-list">
 			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=general' ) ); ?>" class="tab-element <?php echo $tab == 'general' ? 'tab-active' : ''; ?>">Général</a>
@@ -30,7 +40,11 @@ defined( 'ABSPATH' ) || exit; ?>
 		</ul>
 
 		<div class="tab-container">
-			<div class="tab-content tab-active"><?php call_user_func( array( Settings_Class::g(), 'display_' . $tab ), $section ); ?></div>
+			<div class="tab-content tab-active">
+
+
+				<?php call_user_func( array( Settings_Class::g(), 'display_' . $tab ), $section ); ?>
+			</div>
 		</div>
 	</div>
 </div>

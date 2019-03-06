@@ -16,6 +16,6 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<a href="<?php echo esc_url( Pages_Class::g()->get_cart_link() ); ?>" class="view-cart wpeo-button">
+<a href="<?php echo esc_url( Pages_Class::g()->get_cart_link() ); ?>" class="view-cart wpeo-button button-grey">
 	<?php esc_html_e( 'View cart', 'wpshop' ); ?>
 </a>

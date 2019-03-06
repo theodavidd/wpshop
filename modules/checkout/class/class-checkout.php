@@ -62,9 +62,9 @@ class Checkout_Class extends \eoxia\Singleton_Util {
 				),
 			),
 			'third_party' => array(
-				'country' => array(
+				'country_id' => array(
 					'label'    => __( 'Country', 'wpshop' ),
-					'required' => false,
+					'required' => true,
 				),
 				'address' => array(
 					'label'    => __( 'Street Address', 'wpshop' ),
@@ -85,7 +85,7 @@ class Checkout_Class extends \eoxia\Singleton_Util {
 	protected function validate_posted_data( &$data, &$errors ) {
 		foreach ( $this->get_checkout_fields() as $fieldset_key => $fieldset ) {
 			foreach ( $fieldset as $field_key => $field ) {
-				if ( $field['required'] && '' === $data[ $fieldset_key ][ $field_key ] ) {
+				if ( $field['required'] && ( '' == $data[ $fieldset_key ][ $field_key ] || '0' == $data[ $fieldset_key ][ $field_key ] ) ) {
 					$errors->add( 'required-field', apply_filters( 'wps_checkout_required_field_notice', sprintf( __( '%s is a required field.', 'wpshop' ), '<strong>' . esc_html( $field['label'] ) . '</strong>' ), $field['label'] ) );
 
 					$error_field = array(
@@ -118,6 +118,8 @@ class Checkout_Class extends \eoxia\Singleton_Util {
 
 		switch ( $type ) {
 			case 'paypal':
+				update_post_meta( $order->data['id'], 'payment_method', 'paypal' );
+
 				$result = Paypal_Class::g()->process_payment( $order );
 				Class_Cart_Session::g()->destroy();
 				if ( ! empty( $result['url'] ) ) {

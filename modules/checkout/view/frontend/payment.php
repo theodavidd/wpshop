@@ -49,8 +49,8 @@ defined( 'ABSPATH' ) || exit; ?>
 	<?php do_action( 'wps_review_order_before_submit' ); ?>
 
 	<input type="hidden" name="action" value="wps_place_order" />
-	<a class="action-input wpeo-button" data-type="proposal" data-parent="wps-checkout"><?php esc_html_e( 'Devis', 'wpshop' ); ?></a>
-	<a class="action-input wpeo-button" data-type="order" data-parent="wps-checkout"><?php esc_html_e( 'Place order', 'wpshop' ); ?></a>
+	<!--<a class="action-input wpeo-button" data-type="proposal" data-parent="wps-checkout-step-2"><?php esc_html_e( 'Devis', 'wpshop' ); ?></a>-->
+	<a class="action-input wpeo-button" data-type="order" data-parent="wps-checkout-step-2"><?php esc_html_e( 'Place order', 'wpshop' ); ?></a>
 
 	<?php do_action( 'wps_review_order_after_submit' ); ?>
 </div>

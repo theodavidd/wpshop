@@ -19,10 +19,11 @@ defined( 'ABSPATH' ) || exit; ?>
 <table class="wpeo-table">
 	<thead>
 		<tr>
-			<th>Product</th>
-			<th>Price</th>
-			<th>Qty</th>
-			<th>Total</th>
+			<th>Product name</th>
+			<th>TVA</th>
+			<th>P.U HT</th>
+			<th>Quantity</th>
+			<th>Total HT</th>
 		</tr>
 	</thead>
 
@@ -33,9 +34,10 @@ defined( 'ABSPATH' ) || exit; ?>
 				?>
 				<tr>
 					<td><?php echo $line['libelle']; ?></td>
-					<td><?php echo number_format( $line['price'], 2); ?>€</td>
-					<td>x 1</td>
-					<td><?php echo number_format( $line['price'], 2 ); ?>€</td>
+					<td><?php echo number_format( $line['tva_tx'], 2, ',', '' ); ?>%</td>
+					<td><?php echo number_format( $line['price'], 2, ',', '' ); ?>€</td>
+					<td><?php echo $line['qty']; ?></td>
+					<td><?php echo number_format( $line['price'], 2, ',', '' ); ?>€</td>
 				</tr>
 				<?php
 			endforeach;
@@ -43,10 +45,28 @@ defined( 'ABSPATH' ) || exit; ?>
 		?>
 
 		<tr>
-			<td></td>
-			<td></td>
-			<td>Total:</td>
-			<td><?php echo number_format( $order->data['total_ttc'], 2 ); ?>€</td>
+			<td colspan="3"></td>
+			<td>Total HT</td>
+			<td><?php echo number_format( $order->data['total_ht'], 2, ',', '' ); ?>€</td>
+		</tr>
+		<?php
+		if ( ! empty( $tva_lines ) ) :
+			foreach ( $tva_lines as $key => $tva_line ) :
+				?>
+				<tr>
+					<td colspan="3"></td>
+					<td>Total TVA <?php echo number_format( $key, 2, ',', '' ); ?>%</td>
+					<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
+				</tr>
+				<?php
+			endforeach;
+		endif;
+		?>
+
+		<tr>
+			<td colspan="3"></td>
+			<td>Total TTC</td>
+			<td><?php echo number_format( $order->data['total_ttc'], 2, ',', '' ); ?>€</td>
 		</tr>
 	</tbody>
 </table>

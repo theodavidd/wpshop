@@ -54,29 +54,32 @@ class Paypal_Action {
 
 		update_option( 'wps_payment_methods', $payment_methods_option );
 
+		set_transient( 'updated_wpshop_option_' . get_current_user_id(), __( 'Vos réglages ont été enregistrés.', 'wpshop' ), 30 );
+
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab=payment_method&section=paypal' ) );
 	}
 
 	public function callback_wps_gateway_paypal( $data ) {
-		//if ( ! empty( $_POST ) && $this->validate_ipn() ) { // WPCS: CSRF ok.
+		if ( ! empty( $data ) && $this->validate_ipn( $data ) ) { // WPCS: CSRF ok.
 			$posted = wp_unslash( $data );
 			do_action( 'wps_valid_paypal_standard_ipn_request', $posted );
-		//}
-
-		wp_die( 'No IPN' );
+		} else {
+			wp_die( 'No IPN' );
+		}
 	}
 
 	public function callback_wps_valid_paypal_standard_ipn_request( $posted ) {
-		// $order = ! empty( $posted['invoice'] ) ? Order_Class::g()->get( array( 'id' => (int) $posted['invoice'] ), true ) : null;
-		// if ( $order ) {
+		$order = ! empty( $posted['custom'] ) ? Order_Class::g()->get( array( 'id' => (int) $posted['custom'] ), true ) : null;
+
+		if ( $order ) {
 			if ( method_exists( $this, 'payment_status_' . $posted['payment_status'] ) ) {
 				call_user_func( array( $this, 'payment_status_' . $posted['payment_status'] ), $posted );
 			}
-		// }
+		}
 	}
 
-	public function validate_ipn() {
-		$validate_ipn        = wp_unslash( $_POST );
+	public function validate_ipn( $data ) {
+		$validate_ipn        = wp_unslash( $data );
 		$validate_ipn['cmd'] = '_notify-validate';
 
 		$params = array(
@@ -97,15 +100,6 @@ class Paypal_Action {
 	}
 
 	private function payment_status_completed( $posted ) {
-		// if ( ! empty( $posted['payment_type'] ) ) {
-		// 	update_post_meta( $order->data['id'], '_payment_type', $posted['payment_type'] );
-		// }
-		// if ( ! empty( $posted['txn_id'] ) ) {
-		// 	update_post_meta( $order->data['id'], '_transaction_id', $posted['txn_id'] );
-		// }
-		// if ( ! empty( $posted['payment_status'] ) ) {
-		// 	update_post_meta( $order->data['id'], '_paypal_status', $posted['payment_status'] );
-		// }
 		do_action( 'wps_payment_complete', $posted );
 	}
 }

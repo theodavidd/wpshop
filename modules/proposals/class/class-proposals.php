@@ -85,6 +85,20 @@ class Proposals_Class extends \eoxia\Post_Class {
 
 		return $this->get( array( 'id' => Class_Cart_Session::g()->external_data['proposal_id'] ), true );
 	}
+
+	public function get_last_ref() {
+		global $wpdb;
+
+		$last_ref = $wpdb->get_var( "
+			SELECT meta_value FROM $wpdb->postmeta AS PM
+				JOIN $wpdb->posts AS P ON PM.post_id=P.ID
+
+			WHERE PM.meta_key='_ref'
+				AND P.post_type='wps-proposal'
+		" );
+
+		return $last_ref;
+	}
 }
 
 Proposals_Class::g();

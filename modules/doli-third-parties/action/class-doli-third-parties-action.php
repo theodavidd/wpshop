@@ -27,11 +27,16 @@ class Doli_Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
+		add_action( 'wps_checkout_create_third_party', array( $this, 'checkout_create_third_party' ) );
 		add_filter( 'wps_save_third_party', array( Doli_Third_Party_Class::g(), 'save' ), 10, 2 );
 		add_filter( 'wps_update_third_party', array( Doli_Third_Party_Class::g(), 'update' ), 10, 2 );
 
 		add_action( 'wps_saved_third_party', array( $this, 'save_third_party' ) );
 		add_action( 'wps_saved_billing_address', array( $this, 'update_billing_address' ) );
+	}
+
+	public function checkout_create_third_party( $wp_third_party ) {
+		Doli_Third_Party_Class::g()->wp_to_doli( $wp_third_party, null );
 	}
 
 	public function save_third_party( $third_party ) {

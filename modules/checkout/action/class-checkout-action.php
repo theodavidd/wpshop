@@ -32,9 +32,12 @@ class Checkout_Action {
 
 		add_action( 'wps_after_cart_table', array( $this, 'callback_after_cart_table' ), 20 );
 
-		add_action( 'wps_checkout_shipping', array( $this, 'callback_checkout_shipping' ) );
-		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_order_review' ) );
+		add_action( 'wps_checkout_shipping', array( $this, 'callback_checkout_shipping' ), 10, 2 );
+		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_order_review' ), 10, 1 );
 		add_action( 'wps_checkout_after_order_review', array( $this, 'callback_checkout_payment' ) );
+
+		add_action( 'wp_ajax_wps_checkout_create_third_party', array( $this, 'callback_checkout_create_third' ) );
+		add_action( 'wp_ajax_nopriv_wps_checkout_create_third_party', array( $this, 'callback_checkout_create_third' ) );
 
 		add_action( 'wp_ajax_wps_place_order', array( $this, 'callback_place_order' ) );
 		add_action( 'wp_ajax_nopriv_wps_place_order', array( $this, 'callback_place_order' ) );
@@ -45,29 +48,25 @@ class Checkout_Action {
 		include( Template_Util::get_template_part( 'checkout', 'proceed-to-checkout-button' ) );
 	}
 
-	public function callback_checkout_shipping() {
-		$current_user = wp_get_current_user();
-
-		$third_party = Third_Party_Class::g()->get( array( 'schema' => true ), true );
-		$contact = Third_Party_Class::g()->get( array( 'schema' => true ), true );
-
-		if ( $current_user->ID != 0 ) {
-			$third_party = Third_Party_Class::g()->get( array(
-				'meta_key'   => 'email',
-				'meta_value' => $current_user->user_email,
-			), true );
-
-			$contact = Contact_Class::g()->get( array(
-				'search' => $current_user->user_email,
-				'number' => 1,
-			), true );
-		}
+	public function callback_checkout_shipping( $third_party, $contact ) {
 
 		include( Template_Util::get_template_part( 'checkout', 'form-shipping' ) );
 	}
 
-	public function callback_checkout_order_review() {
+	public function callback_checkout_order_review( $proposal ) {
 		$cart_contents = Class_Cart_Session::g()->cart_contents;
+
+		$tva_lines = array();
+
+		if ( ! empty( $proposal->data['lines'] ) ) {
+			foreach ( $proposal->data['lines'] as $line ) {
+				if ( empty( $tva_lines[ $line['tva_tx'] ] ) ) {
+					$tva_lines[ $line['tva_tx'] ] = 0;
+				}
+
+				$tva_lines[ $line['tva_tx'] ] += $line['total_tva'];
+			}
+		}
 
 		include( Template_Util::get_template_part( 'checkout', 'review-order' ) );
 	}
@@ -78,65 +77,108 @@ class Checkout_Action {
 		include( Template_Util::get_template_part( 'checkout', 'payment' ) );
 	}
 
-	public function callback_place_order() {
-		do_action( 'wps_before_checkout_process' );
-
-		do_action( 'wps_checkout_process' );
-
-		$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : 'proposal';
-
+	public function callback_checkout_create_third() {
 		$errors      = new \WP_Error();
 		$posted_data = Checkout_Class::g()->get_posted_data();
 
 		Checkout_Class::g()->validate_checkout( $posted_data, $errors );
 
 		if ( 0 === count( $errors->error_data ) ) {
+			if ( empty( $posted_data['third_party']['title'] ) || empty( $posted_data['contact']['lastname'] ) ) {
+				$exploded_email = explode( '@', $posted_data['contact']['email'] );
+
+				if ( empty( $posted_data['third_party']['title'] ) ) {
+					$posted_data['third_party']['title'] = $exploded_email[0];
+				}
+
+				if ( empty( $posted_data['contact']['lastname'] ) ) {
+					$posted_data['contact']['lastname']  = $exploded_email[0];
+				}
+			}
+
+			$posted_data['third_party']['country_id'] = (int) $posted_data['third_party']['country_id'];
+			$posted_data['third_party']['country']    = get_from_code( $posted_data['third_party']['country_id'] );
+
 			if ( ! is_user_logged_in() ) {
-				$data = Third_Party_Class::g()->save( $posted_data );
+				$third_party = Third_Party_Class::g()->update( $posted_data['third_party'] );
+
+				do_action( 'wps_checkout_create_third_party', $third_party );
+
+				$posted_data['contact']['login']          = sanitize_user( current( explode( '@', $posted_data['contact']['email'] ) ), true );
+				$posted_data['contact']['password']       = wp_generate_password();
+				$posted_data['contact']['third_party_id'] = $third_party->data['id'];
+
+				$contact = Contact_Class::g()->update( $posted_data['contact'] );
+
+				$third_party->data['contact_ids'][] = $contact->data['id'];
+				$thid_party = Third_Party_Class::g()->update( $third_party->data );
+
+				do_action( 'wps_checkout_create_contact', $contact );
 
 				$signon_data = array(
-					'user_login'    => $data['contact']->data['login'],
-					'user_password' => $data['contact']->data['password'],
+					'user_login'    => $posted_data['contact']['login'],
+					'user_password' => $posted_data['contact']['password'],
 				);
 
 				wp_signon( $signon_data, is_ssl() );
 			} else {
 				$current_user = wp_get_current_user();
 
-				$third_party = Third_Party_Class::g()->get( array(
-					'meta_key'   => 'email',
-					'meta_value' => $current_user->user_email,
-				), true );
-
 				$contact = Contact_Class::g()->get( array(
 					'search' => $current_user->user_email,
 					'number' => 1,
 				), true );
 
-				$posted_data['third_party']['id']          = $third_party->data['id'];
-				$posted_data['third_party']['external_id'] = $third_party->data['external_id'];
+				$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
-				$posted_data['contact']['id']          = $contact->data['id'];
-				$posted_data['contact']['external_id'] = $contact->data['id'];
-				$data = Third_Party_Class::g()->save( $posted_data );
+				$posted_data['third_party']['id'] = $third_party->data['id'];
+
+				$third_party = Third_Party_Class::g()->update( $posted_data['third_party'] );
 			}
 
-			$proposal = Proposals_Class::g()->save( $data['third_party'], $data['contact'] );
+			$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : 'proposal';
 
-			if ( 'order' == $type ) {
-				$order = apply_filters( 'wps_checkout_create_order', $proposal, $data );
-				Checkout_Class::g()->process_order_payment( $order );
-			} else {
-				Class_Cart_Session::g()->destroy();
-				wp_send_json_success( array(
-					'namespace'        => 'wpshopFrontend',
-					'module'           => 'checkout',
-					'callback_success' => 'redirect',
-					'url'              => Pages_Class::g()->get_valid_proposal_link() . '?proposal_id=' . $proposal->data['id'],
-				) );
+			$proposal = Proposals_Class::g()->get( array( 'schema' => true ), true );
+
+			$last_ref = Proposals_Class::g()->get_last_ref();
+			$last_ref = empty( $last_ref ) ? 1 : $last_ref;
+			$last_ref++;
+
+			$proposal->data['title']          = 'PR' . sprintf( "%06d", $last_ref );
+			$proposal->data['ref']            = sprintf( "%06d", $last_ref );
+			$proposal->data['datec']          = current_time( 'mysql' );
+			$proposal->data['parent_id']      = $third_party->data['id'];
+			$proposal->data['status']         = 'publish';
+			$proposal->data['lines']          = array();
+
+			$total_ht  = 0;
+			$total_ttc = 0;
+
+			if ( ! empty( Class_Cart_Session::g()->cart_contents ) ) {
+				foreach ( Class_Cart_Session::g()->cart_contents as $content ) {
+					$proposal->data['lines'][] = $content;
+
+					$total_ht  += $content['price'];
+					$total_ttc += $content['price_ttc'];
+				}
 			}
 
-			// do_action( 'wps_checkout_order_processed' );
+			$proposal->data['total_ht']  = $total_ht;
+			$proposal->data['total_ttc'] = $total_ttc;
+
+			$proposal = Proposals_Class::g()->update( $proposal->data );
+			do_action( 'wps_checkout_create_proposal', $proposal );
+
+
+			Class_Cart_Session::g()->add_external_data( 'proposal_id', $proposal->data['id'] );
+			Class_Cart_Session::g()->update_session();
+
+			wp_send_json_success( array(
+				'namespace'        => 'wpshopFrontend',
+				'module'           => 'checkout',
+				'callback_success' => 'createdThirdSuccess',
+				'redirect_url'     => Pages_Class::g()->get_checkout_link() . '?step=2',
+			) );
 		} else {
 			ob_start();
 			include( Template_Util::get_template_part( 'checkout', 'notice-error' ) );
@@ -150,7 +192,31 @@ class Checkout_Action {
 				'template'         => $template,
 			) );
 		}
+	}
 
+	public function callback_place_order() {
+		do_action( 'wps_before_checkout_process' );
+
+		do_action( 'wps_checkout_process' );
+
+		$proposal = Proposals_Class::g()->get( array( 'id' => Class_Cart_Session::g()->external_data['proposal_id'] ), true );
+		$proposal->data['payment_method'] = $_POST['type_payment'];
+		$proposal = Proposals_Class::g()->update( $proposal->data );
+
+		do_action( 'wps_checkout_update_proposal', $proposal );
+
+		if ( 'order' == $_POST['type'] ) {
+			$order = apply_filters( 'wps_checkout_create_order', $proposal );
+			Checkout_Class::g()->process_order_payment( $order );
+		} else {
+			Class_Cart_Session::g()->destroy();
+			wp_send_json_success( array(
+				'namespace'        => 'wpshopFrontend',
+				'module'           => 'checkout',
+				'callback_success' => 'redirect',
+				'url'              => Pages_Class::g()->get_valid_proposal_link() . '?proposal_id=' . $proposal->data['id'],
+			) );
+		}
 	}
 }
 

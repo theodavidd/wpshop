@@ -25,7 +25,7 @@ class Doli_Payment_Filter {
 	}
 
 	public function add_payment_details( $payment_methods ) {
-		$payment_methods['paypal']['doli_type'] = 'paypal';
+		$payment_methods['paypal']['doli_type'] = 'CB';
 		$payment_methods['cheque']['doli_type'] = 'CHQ';
 
 		return $payment_methods;

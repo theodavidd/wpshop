@@ -39,7 +39,7 @@ class Transfert_Data_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page( 'wps-order', __( 'Transfert data', 'wpshop' ), __( 'Transfert data', 'wpshop' ), 'manage_options', 'wps-transfert-data', array( $this, 'callback_add_menu_page' ) );
+		// add_submenu_page( 'wps-order', __( 'Transfert data', 'wpshop' ), __( 'Transfert data', 'wpshop' ), 'manage_options', 'wps-transfert-data', array( $this, 'callback_add_menu_page' ) );
 
 	}
 

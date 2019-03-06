@@ -37,20 +37,23 @@ class Doli_Invoice_Action {
 	public function create_invoice( $data ) {
 		$order = Orders_Class::g()->get( array( 'id' => $data['custom'] ), true );
 
-		$invoice = Request_Util::post( 'invoices/createfromorder/' . $order->data['external_id'] );
-		$invoice = Request_Util::post( 'invoices/' . $invoice->id . '/validate', array(
+		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . $order->data['external_id'] );
+		$doli_invoice = Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
 			'notrigger' => 0,
 		) );
-		$invoice = Request_Util::post( 'invoices/' . $invoice->id . '/settopaid' );
+		$doli_invoice = Request_Util::post( 'invoices/' . $doli_invoice->id . '/settopaid' );
 
 		Request_Util::put( 'documents/builddoc', array(
 			'module_part'   => 'invoice',
-			'original_file' => $invoice->ref . '/' . $invoice->ref . '.pdf',
+			'original_file' => $doli_invoice->ref . '/' . $doli_invoice->ref . '.pdf',
 			'doc_template'  => 'crabe',
 			'langcode'      => 'fr_FR',
 		) );
 
-		Doli_Invoice::g()->sync( $order, $invoice );
+
+		$wp_invoice = Invoice_Class::g()->get( array( 'schema' => true ), true );
+
+		Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice );
 	}
 
 	public function download_invoice() {

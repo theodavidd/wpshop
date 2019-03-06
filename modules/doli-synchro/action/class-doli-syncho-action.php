@@ -49,7 +49,11 @@ class Doli_Syncho_Action {
 			foreach ( $sync_infos as &$sync_info ) {
 				$sync_info['total_number'] = 0;
 				if ( ! empty( $sync_info['endpoint'] ) ) {
-					$sync_info['total_number'] = count( Request_Util::get( $sync_info['endpoint'] ) );
+					$tmp = Request_Util::get( $sync_info['endpoint'] );
+
+					if ( $tmp ) {
+						$sync_info['total_number'] = count( $tmp );
+					}
 				}
 			}
 		}

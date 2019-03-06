@@ -48,10 +48,27 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
-	<div class="form-element third_party-country">
-		<span class="form-label">Country</span>
+	<?php $countries = get_countries(); ?>
+	<div class="form-element third_party-country_id">
+		<span class="form-label">Country*</span>
 		<label class="form-field-container">
-			<input type="text" class="form-field" name="third_party[country]" value="<?php echo ! empty( $third_party->data['country'] ) ? $third_party->data['country'] : ''; ?>" />
+			<select id="monselect" class="form-field" name="third_party[country_id]">
+				<?php
+				if ( ! empty( $countries ) ) :
+					foreach ( $countries as $key => $country ) :
+						$selected = '';
+
+						if ( ! empty( $third_party ) && $key == $third_party->data['country_id'] ) :
+							$selected = 'selected="selected"';
+						endif;
+
+						?>
+						<option <?php echo $selected; ?> value="<?php echo esc_attr( $key ); ?>"><?php echo $country; ?></option>
+						<?php
+					endforeach;
+				endif;
+				?>
+			</select>
 		</label>
 	</div>
 
@@ -72,7 +89,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="form-element third_party-state">
 		<span class="form-label">Town / City</span>
 		<label class="form-field-container">
-			<input type="text" class="form-field" name="third_party[state]" value="<?php echo ! empty( $third_party->data['state'] ) ? $third_party->data['state'] : ''; ?>"  />
+			<input type="text" class="form-field" name="third_party[town]" value="<?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : ''; ?>"  />
 		</label>
 	</div>
 

@@ -63,7 +63,7 @@ class Paypal_Class extends \eoxia\Singleton_Util {
 			'currency_code' => 'EUR',
 			'charset'       => 'utf-8',
 			'upload'        => 1,
-			'return'        => Pages_Class::g()->get_valid_checkout_link(),
+			'return'        => Pages_Class::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
 			'notify_url'    => site_url( 'wp-json/wpshop/v2/wps_gateway_paypal' ),
 			'cancel_return' => '',
 			'invoice'       => $order->data['id'],
@@ -79,8 +79,8 @@ class Paypal_Class extends \eoxia\Singleton_Util {
 			foreach ( $order->data['lines'] as $index => $line ) {
 				$line_item_args = array(
 					'item_name_' . ( $index + 1 )   => $line['libelle'],
-					'quantity_' . ( $index + 1 )    => 1,
-					'amount_' . ( $index + 1 )      => number_format( $line['price'], 2 ),
+					'quantity_' . ( $index + 1 )    => $line['qty'],
+					'amount_' . ( $index + 1 )      => number_format( $line['total_ttc'], 2 ),
 					'item_number_' . ( $index + 1 ) => $line['ref'],
 				);
 			}

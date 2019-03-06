@@ -47,6 +47,12 @@ class Proposals_Model extends \eoxia\Post_Model {
 			'description' => 'Le status de la proposition commerciale dans dolibarr. Relation avec dolibarr.',
 		);
 
+		$this->schema['ref'] = array(
+			'type'      => 'string',
+			'meta_type' => 'single',
+			'field'     => '_ref',
+		);
+
 		$this->schema['datec'] = array(
 			'type'        => 'wpeo_date',
 			'meta_type'   => 'single',
@@ -84,6 +90,13 @@ class Proposals_Model extends \eoxia\Post_Model {
 			'type'      => 'string',
 			'meta_type' => 'single',
 			'field'     => 'payment_method',
+			'default'   => '',
+		);
+
+		$this->schema['mode_reglement_id'] = array(
+			'type'      => 'integer',
+			'meta_type' => 'single',
+			'field'     => 'mode_reglement_id',
 			'default'   => '',
 		);
 

@@ -30,8 +30,12 @@ Merci. Votre commande a été reçue.
 <table class="wpeo-table">
 	<thead>
 		<tr>
-			<th class="product-name"><?php _e( 'Product', 'wpshop' ); ?></th>
-			<th class="product-total"><?php _e( 'Total', 'wpshop' ); ?></th>
+			<th></th>
+			<th data-title="<?php esc_html_e( 'Product name', 'wpshop' ); ?>"><?php esc_html_e( 'Product name', 'wpshop' ); ?></th>
+			<th data-title="<?php esc_html_e( 'TVA', 'wpshop' ); ?>"><?php esc_html_e( 'TVA', 'wpshop' ); ?></th>
+			<th data-title="<?php esc_html_e( 'P.U. HT', 'wpshop' ); ?>"><?php esc_html_e( 'P.U HT', 'wpshop' ); ?></th>
+			<th data-title="<?php esc_html_e( 'Quantity', 'wpshop' ); ?>"><?php esc_html_e( 'Quantity', 'wpshop' ); ?></th>
+			<th data-title="<?php esc_html_e( 'Total HT', 'wpshop' ); ?>"><?php esc_html_e( 'Total HT', 'wpshop' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -40,16 +44,40 @@ Merci. Votre commande a été reçue.
 				foreach ( $order->data['lines'] as $line ) :
 					?>
 					<tr>
-						<td class="product-name"><?php echo $line['libelle'] ?> x <?php echo $line['qty']; ?></td>
-						<td class="product-total"><?php echo number_format( $line['price'] * $line['qty'], 2 ); ?>€</td>
+						<td><?php echo get_the_post_thumbnail( $line['id'], array( 80, 80 ) ); ?></td>
+						<td><a href="<?php echo esc_url( get_permalink( $line['id'] ) ); ?>"><?php esc_html_e( $line['libelle'] ); ?></a></td>
+						<td><?php esc_html_e( number_format( $line['tva_tx'], 2 , ',', '' ) ); ?>%</td>
+						<td><?php esc_html_e( number_format( $line['price'], 2, ',', '' ) ); ?>€</td>
+						<td><?php esc_html_e( $line['qty'] ); ?></td>
+						<td><?php esc_html_e( number_format( $line['price'] * $line['qty'], 2, ',', '' ) ); ?>€</td>
 					</tr>
 					<?php
 				endforeach;
 			endif;
 		?>
 		<tr>
-			<td>Total</td>
-			<td><?php echo number_format( $order->data['total_ttc'], 2 ); ?>€</td>
+			<td colspan="4"></td>
+			<td>Total HT</td>
+			<td><?php echo number_format( $order->data['total_ht'], 2, ',', '' ); ?>€</td>
+		</tr>
+		<?php
+		if ( ! empty( $tva_lines ) ) :
+			foreach ( $tva_lines as $key => $tva_line ) :
+				?>
+				<tr>
+					<td colspan="4"></td>
+					<td>Total TVA <?php echo number_format( $key, 2, ',', '' ); ?>%</td>
+					<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
+				</tr>
+				<?php
+			endforeach;
+		endif;
+		?>
+
+		<tr>
+			<td colspan="4"></td>
+			<td>Total TTC</td>
+			<td><?php echo number_format( $order->data['total_ttc'], 2, ',', '' ); ?>€</td>
 		</tr>
 	</tbody>
 </table>

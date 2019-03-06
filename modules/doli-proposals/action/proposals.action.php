@@ -24,56 +24,33 @@ class Doli_Proposals_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'wps_save_proposal', array( $this, 'callback_wps_save_proposal' ), 1, 2 );
+		add_action( 'wps_checkout_create_proposal', array( $this, 'checkout_create_proposal' ), 1, 1 );
+		add_action( 'wps_checkout_update_proposal', array( $this, 'checkout_update_proposal' ), 1, 1 );
 
 		add_action( 'admin_post_wps_download_proposal', array( $this, 'download_proposal' ) );
 	}
 
-	public function callback_wps_save_proposal( $third_party, $contact ) {
-		$proposal_id = Request_Util::post( 'proposals', array(
-			'socid'             => $third_party->data['external_id'],
-			'date'              => current_time( 'timestamp' ),
-			'mode_reglement_id' => Doli_Payment::g()->convert_to_doli_id( $_POST['type_payment'] ),
-		) );
+	public function checkout_create_proposal( $wp_proposal ) {
+		$doli_proposal_id = Doli_Proposals_Class::g()->wp_to_doli( $wp_proposal );
 
-		if ( ! empty( Class_Cart_Session::g()->cart_contents ) ) {
-			foreach ( Class_Cart_Session::g()->cart_contents as $content ) {
-				$proposal = Request_Util::post( 'proposals/' . $proposal_id . '/lines', array(
-					'desc'                    => $content['content'],
-					'fk_product'              => $content['external_id'],
-					'product_type'            => 1,
-					'qty'                     => $content['qty'],
-					'tva_tx'                  => 0,
-					'subprice'                => $content['price'],
-					'remice_percent'          => 0,
-					'rang'                    => 1,
-					'total_ht'                => $content['price'],
-					'total_tva'               => 0,
-					'total_ttc'               => $content['price_ttc'],
-					'product_label'           => $content['title'],
-					'multicurrency_code'      => 'EUR',
-					'multicurrency_subprice'  => $content['price'],
-					'multicurrency_total_ht'  => $content['price'],
-					'multicurrency_total_tva' => 0,
-					'multicurrency_total_ttc' => $content['price_ttc'],
-				) );
-
-			}
-		}
-
-		$proposal = Request_Util::post( 'proposals/' . $proposal_id . '/validate', array(
+		$doli_proposal = Request_Util::post( 'proposals/' . $doli_proposal_id . '/validate', array(
 			'notrigger' => 0,
 		) );
 
 		Request_Util::put( 'documents/builddoc', array(
 			'module_part'   => 'propal',
-			'original_file' => $proposal->ref . '/' . $proposal->ref . '.pdf'
+			'original_file' => $doli_proposal->ref . '/' . $doli_proposal->ref . '.pdf'
 		) );
 
-		$proposal = Doli_Proposals_Class::g()->sync( $third_party->data['id'], $proposal );
+		update_post_meta( $wp_proposal->data['id'], '_external_id', $doli_proposal_id );
 
-		Class_Cart_Session::g()->add_external_data( 'proposal_id', $proposal->data['id'] );
-		Class_Cart_Session::g()->update_session();
+		Doli_Proposals_Class::g()->doli_to_wp( $doli_proposal, $wp_proposal );
+	}
+
+	public function checkout_update_proposal( $wp_proposal ) {
+		$doli_proposal = Request_Util::put( 'proposals/' . $wp_proposal->data['external_id'], array(
+			'mode_reglement_id' => Doli_Payment::g()->convert_to_doli_id( $wp_proposal->data['payment_method'] ),
+		) );
 	}
 
 	public function download_proposal() {

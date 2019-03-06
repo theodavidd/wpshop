@@ -82,6 +82,14 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'description' => 'Le pays d\'un tier (varchar(50)). Ne peut être NULL. Aucune valeur par défault.',
 		);
 
+		$this->schema['country_id'] = array(
+			'type'        => 'integer',
+			'meta_type'   => 'single',
+			'field'       => '_country_id',
+			'since'       => '2.0.0',
+			'description' => 'Le pays d\'un tier (varchar(50)). Ne peut être NULL. Aucune valeur par défault.',
+		);
+
 		$this->schema['phone'] = array(
 			'type'      => 'string',
 			'meta_type' => 'single',

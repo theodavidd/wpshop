@@ -27,7 +27,13 @@ class Doli_Contact_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
+		add_action( 'wps_checkout_create_contact', array( $this, 'checkout_create_contact' ) );
+
 		add_action( 'wps_deleted_contact', array( $this, 'delete_contact' ), 10, 2 );
+	}
+
+	public function checkout_create_contact( $wp_contact ) {
+		Doli_Contact_Class::g()->wp_to_doli( $wp_contact, null );
 	}
 
 	public function delete_contact( $third_party, $contact ) {

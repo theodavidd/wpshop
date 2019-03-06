@@ -79,8 +79,8 @@ class Third_Party_Action {
 			add_meta_box( 'wps-third-party-billing',  __( 'Billing address', 'wpshop' ), array( $this, 'metabox_billing_address' ), 'wps-third-party', 'normal', 'default', $args_metabox );
 			add_meta_box( 'wps-third-party-contacts',  __( 'Contacts', 'wpshop' ), array( $this, 'metabox_contacts' ), 'wps-third-party', 'normal', 'default', $args_metabox );
 			add_meta_box( 'wps-third-party-orders',  __( 'Orders', 'wpshop' ), array( $this, 'metabox_orders' ), 'wps-third-party', 'normal', 'default', $args_metabox );
-			add_meta_box( 'wps-third-party-informations',  __( 'Informations', 'wpshop' ), array( $this, 'metabox_informations' ), 'wps-third-party', 'normal', 'default', $args_metabox );
-			add_meta_box( 'wps-third-party-activity',  __( 'History of activities', 'wpshop' ), array( $this, 'metabox_activity' ), 'wps-third-party', 'normal', 'default', $args_metabox );
+			// add_meta_box( 'wps-third-party-informations',  __( 'Informations', 'wpshop' ), array( $this, 'metabox_informations' ), 'wps-third-party', 'normal', 'default', $args_metabox );
+			// add_meta_box( 'wps-third-party-activity',  __( 'History of activities', 'wpshop' ), array( $this, 'metabox_activity' ), 'wps-third-party', 'normal', 'default', $args_metabox );
 
 			\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'single', array(
 				'third_party' => $third_party

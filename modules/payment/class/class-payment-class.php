@@ -61,6 +61,31 @@ class Payment_Class extends \eoxia\Singleton_Util {
 
 		return $payment_method['title'];
 	}
+
+	public function convert_status( $order ) {
+		$statut = '';
+
+		switch ( $order['payment_method'] ) {
+			case 'cheque':
+				if ( $order['billed'] ) {
+					$statut = 'Payée';
+				} else {
+					$statut = 'En attente du chèque';
+				}
+				break;
+			case 'paypal':
+				if ( $order['billed'] ) {
+					$statut = 'Payée';
+				} else {
+					$statut = 'En attente du paiement';
+				}
+				break;
+			default:
+				break;
+		}
+
+		return $statut;
+	}
 }
 
 Payment_Class::g();

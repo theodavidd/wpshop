@@ -114,7 +114,7 @@ class Orders_Class extends \eoxia\Post_Class {
 
 		$order->data['status'] = $status;
 
-		Orders_Class::g()->update( $order->data );
+		return Orders_Class::g()->update( $order->data );
 	}
 
 	public function get_wp_id_by_doli_id( $doli_id ) {

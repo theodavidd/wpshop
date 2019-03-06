@@ -19,8 +19,12 @@ defined( 'ABSPATH' ) || exit; ?>
 <table class="wpeo-table wps-checkout-review-order-table">
 	<thead>
 		<tr>
-			<th class="product-name"><?php _e( 'Product', 'wpshop' ); ?></th>
-			<th class="product-total"><?php _e( 'Total', 'wpshop' ); ?></th>
+			<th></th>
+			<th data-title="<?php esc_html_e( 'Product name', 'wpshop' ); ?>"><?php esc_html_e( 'Product name', 'wpshop' ); ?></th>
+			<th data-title="<?php esc_html_e( 'TVA', 'wpshop' ); ?>"><?php esc_html_e( 'TVA', 'wpshop' ); ?></th>
+			<th data-title="<?php esc_html_e( 'P.U. HT', 'wpshop' ); ?>"><?php esc_html_e( 'P.U HT', 'wpshop' ); ?></th>
+			<th data-title="<?php esc_html_e( 'Quantity', 'wpshop' ); ?>"><?php esc_html_e( 'Quantity', 'wpshop' ); ?></th>
+			<th data-title="<?php esc_html_e( 'Total HT', 'wpshop' ); ?>"><?php esc_html_e( 'Total HT', 'wpshop' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -31,8 +35,12 @@ defined( 'ABSPATH' ) || exit; ?>
 				foreach ( $cart_contents as $cart_item ) :
 					?>
 					<tr>
-						<td class="product-name"><?php echo $cart_item['title'] ?> x <?php echo $cart_item['qty']; ?></td>
-						<td class="product-total"><?php echo number_format( $cart_item['price'] * $cart_item['qty'], 2 ); ?>€</td>
+						<td><?php echo get_the_post_thumbnail( $cart_item['id'], array( 80, 80 ) ); ?></td>
+						<td><a href="<?php echo esc_url( get_permalink( $cart_item['id'] ) ); ?>"><?php esc_html_e( $cart_item['title'] ); ?></a></td>
+						<td><?php esc_html_e( number_format( $cart_item['tva_tx'], 2 , ',', '' ) ); ?>%</td>
+						<td><?php esc_html_e( number_format( $cart_item['price'], 2, ',', '' ) ); ?>€</td>
+						<td><?php esc_html_e( $cart_item['qty'] ); ?></td>
+						<td><?php esc_html_e( number_format( $cart_item['price'] * $cart_item['qty'], 2, ',', '' ) ); ?>€</td>
 					</tr>
 					<?php
 				endforeach;
@@ -40,10 +48,31 @@ defined( 'ABSPATH' ) || exit; ?>
 
 			?>
 			<tr>
-				<td>Total</td>
-				<td><?php echo number_format( Class_Cart_Session::g()->total_price_ttc, 2 ); ?>€</td>
+				<td colspan="4"></td>
+				<td>Total HT</td>
+				<td><?php echo number_format( $proposal->data['total_ht'], 2, ',', '' ); ?>€</td>
 			</tr>
 			<?php
+			if ( ! empty( $tva_lines ) ) :
+				foreach ( $tva_lines as $key => $tva_line ) :
+					?>
+					<tr>
+						<td colspan="4"></td>
+						<td>Total TVA <?php echo number_format( $key, 2, ',', '' ); ?>%</td>
+						<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
+					</tr>
+					<?php
+				endforeach;
+			endif;
+			?>
+
+			<tr>
+				<td colspan="4"></td>
+				<td>Total TTC</td>
+				<td><?php echo number_format( $proposal->data['total_ttc'], 2, ',', '' ); ?>€</td>
+			</tr>
+			<?php
+
 
 			do_action( 'wps_review_order_after_cart_contents' );
 		?>

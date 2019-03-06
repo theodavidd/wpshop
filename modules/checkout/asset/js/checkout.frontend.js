@@ -21,16 +21,20 @@ window.eoxiaJS.wpshopFrontend.checkout.event = function() {
 };
 
 window.eoxiaJS.wpshopFrontend.checkout.checkoutErrors = function( triggeredElement, response ) {
-	if ( 0 === jQuery( 'form.wps-checkout ul.error.notice' ).length ) {
-		jQuery( 'form.wps-checkout' ).prepend( response.data.template );
+	if ( 0 === jQuery( 'form.wps-checkout-step-1 ul.error.notice' ).length ) {
+		jQuery( 'form.wps-checkout-step-1' ).prepend( response.data.template );
 	} else {
-		jQuery( 'form.wps-checkout ul.error.notice' ).replaceWith( response.data.template );
+		jQuery( 'form.wps-checkout-step-1 ul.error.notice' ).replaceWith( response.data.template );
 	}
 
 	for ( var key in response.data.errors.error_data ) {
-		jQuery( 'form.wps-checkout .' + response.data.errors.error_data[ key ].input_class ).addClass( 'form-element-error' );
+		jQuery( 'form.wps-checkout-step-1 .' + response.data.errors.error_data[ key ].input_class ).addClass( 'form-element-error' );
 	}
 };
+
+window.eoxiaJS.wpshopFrontend.checkout.createdThirdSuccess = function( triggeredElement, response ) {
+	document.location.href = response.data.redirect_url;
+}
 
 window.eoxiaJS.wpshopFrontend.checkout.redirectToPayment = function( triggeredElement, response ) {
 	document.location.href = response.data.url;

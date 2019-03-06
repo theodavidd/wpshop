@@ -24,23 +24,23 @@ class Doli_Products_Class extends \eoxia\Singleton_Util {
 	protected function construct() {}
 
 	public function doli_to_wp( $doli_product, $wp_product ) {
-		$product->data['external_id']     = $doli_product->id;
-		$product->data['ref']             = $doli_product->ref;
-		$product->data['title']           = $doli_product->label;
-		$product->data['content']         = $doli_product->description;
-		$product->data['price']           = $doli_product->price;
-		$product->data['price_ttc']       = $doli_product->price_ttc;
-		$product->data['tva_tx']          = $doli_product->tva_tx;
-		$product->data['barcode']         = $doli_product->barcode;
-		$product->data['fk_product_type'] = 0; // Type "Produit" ou "Service".
-		$product->data['volume']          = $doli_product->volume;
-		$product->data['length']          = $doli_product->length;
-		$product->data['width']           = $doli_product->width;
-		$product->data['height']          = $doli_product->height;
-		$product->data['weight']          = $doli_product->weight;
-		$product->data['status']          = 'publish';
+		$wp_product->data['external_id']     = $doli_product->id;
+		$wp_product->data['ref']             = $doli_product->ref;
+		$wp_product->data['title']           = $doli_product->label;
+		$wp_product->data['content']         = $doli_product->description;
+		$wp_product->data['price']           = $doli_product->price;
+		$wp_product->data['price_ttc']       = $doli_product->price_ttc;
+		$wp_product->data['tva_tx']          = $doli_product->tva_tx;
+		$wp_product->data['barcode']         = $doli_product->barcode;
+		$wp_product->data['fk_product_type'] = 0; // Type "Produit" ou "Service".
+		$wp_product->data['volume']          = $doli_product->volume;
+		$wp_product->data['length']          = $doli_product->length;
+		$wp_product->data['width']           = $doli_product->width;
+		$wp_product->data['height']          = $doli_product->height;
+		$wp_product->data['weight']          = $doli_product->weight;
+		$wp_product->data['status']          = 'publish';
 
-		Product_Class::g()->update( $product->data );
+		Product_Class::g()->update( $wp_product->data );
 	}
 }
 

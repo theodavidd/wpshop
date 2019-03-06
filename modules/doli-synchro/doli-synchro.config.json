@@ -5,6 +5,7 @@
 	"path": "modules/doli-synchro",
 	"dependencies": {
 		"class": {},
+    "filter": {},
 		"action": {}
 	}
 }

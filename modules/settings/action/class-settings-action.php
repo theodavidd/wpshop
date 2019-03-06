@@ -53,9 +53,13 @@ class Settings_Action {
 		$tab     = ! empty( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'general';
 		$section = ! empty( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : '';
 
+		$transient = get_transient( 'updated_wpshop_option_' . get_current_user_id() );
+		delete_transient( 'updated_wpshop_option_' . get_current_user_id() );
+
 		\eoxia\View_Util::exec( 'wpshop', 'settings', 'main', array(
-			'tab'     => $tab,
-			'section' => $section,
+			'tab'       => $tab,
+			'section'   => $section,
+			'transient' => $transient,
 		) );
 	}
 
@@ -80,7 +84,7 @@ class Settings_Action {
 		$tab             = ! empty( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'general';
 		$dolibarr_url    = ! empty( $_POST['dolibarr_url'] ) ? sanitize_text_field( $_POST['dolibarr_url' ] ) : '';
 		$dolibarr_secret = ! empty( $_POST['dolibarr_secret'] ) ? sanitize_text_field( $_POST['dolibarr_secret' ] ) : '';
-		$shop_email = ! empty( $_POST['shop_email'] ) ? sanitize_text_field( $_POST['shop_email' ] ) : '';
+		$shop_email      = ! empty( $_POST['shop_email'] ) ? sanitize_text_field( $_POST['shop_email' ] ) : '';
 
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings_Class::g()->default_settings );
 
@@ -89,6 +93,8 @@ class Settings_Action {
 		$dolibarr_option['shop_email']      = $shop_email;
 
 		update_option( 'wps_dolibarr', $dolibarr_option );
+
+		set_transient( 'updated_wpshop_option_' . get_current_user_id(), __( 'Vos réglages ont été enregistrés.', 'wpshop' ), 30 );
 
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab ) );
 	}
@@ -117,6 +123,8 @@ class Settings_Action {
 
 		update_option( 'wps_page_ids', $page_ids_options );
 
+		set_transient( 'updated_wpshop_option_' . get_current_user_id(), __( 'Vos réglages ont été enregistrés.', 'wpshop' ), 30 );
+
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab ) );
 	}
 
@@ -129,7 +137,7 @@ class Settings_Action {
 		$content = ! empty( $_POST['content'] ) ? wp_unslash( $_POST['content'] ) : '';
 		$section = ! empty( $_POST['section'] ) ? sanitize_text_field( $_POST['section'] ) : '';
 
-		$email = Emails_Class::g()->emails[ $section ];
+		$email     = Emails_Class::g()->emails[ $section ];
 		$path_file = Emails_Class::g()->get_path( $email['filename_template'] );
 
 		$f = fopen( $path_file, 'w+' );
@@ -138,6 +146,8 @@ class Settings_Action {
 			fwrite( $f, $content );
 			fclose( $f );
 		}
+
+		set_transient( 'updated_wpshop_option_' . get_current_user_id(), __( 'Vos réglages ont été enregistrés.', 'wpshop' ), 30 );
 
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab . '&section=' . $section ) );
 	}

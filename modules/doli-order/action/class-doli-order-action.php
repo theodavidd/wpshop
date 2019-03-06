@@ -27,7 +27,8 @@ class Doli_Order_Action {
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 
-		add_action( 'wps_checkout_create_order', array( $this, 'create_order' ), 10, 2 );
+		add_action( 'wps_checkout_create_order', array( $this, 'create_order' ), 10, 1 );
+		add_action( 'wps_payment_complete', array( $this, 'set_to_billed' ), 30, 1 );
 	}
 
 	public function callback_admin_init() {
@@ -75,7 +76,7 @@ class Doli_Order_Action {
 
 			add_meta_box( 'wps-order-customer', __( 'Order details #' . $order->data['title'], 'wpshop' ), array( $this, 'callback_meta_box' ), 'wps-order', 'normal', 'default', $args_metabox );
 			add_meta_box( 'wps-order-products',  __( 'Products', 'wpshop' ), array( $this, 'callback_products' ), 'wps-order', 'normal', 'default', $args_metabox );
-			add_meta_box( 'wps-order-submit', __( 'Order actions', 'wpshop'), array( $this, 'callback_order_action' ), 'wps-order', 'normal', 'default', $args_metabox );
+			// add_meta_box( 'wps-order-submit', __( 'Order actions', 'wpshop'), array( $this, 'callback_order_action' ), 'wps-order', 'normal', 'default', $args_metabox );
 
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array(
 				'order' => $order
@@ -109,8 +110,21 @@ class Doli_Order_Action {
 	public function callback_products( $post, $callback_args ) {
 		$order = $callback_args['args']['order'];
 
+		$tva_lines = array();
+
+		if ( ! empty( $order->data['lines'] ) ) {
+			foreach ( $order->data['lines'] as $line ) {
+				if ( empty( $tva_lines[ $line['tva_tx'] ] ) ) {
+					$tva_lines[ $line['tva_tx'] ] = 0;
+				}
+
+				$tva_lines[ $line['tva_tx'] ] += $line['total_tva'];
+			}
+		}
+
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-orders', array(
-			'order' => $order,
+			'order'     => $order,
+			'tva_lines' => $tva_lines,
 		) );
 	}
 
@@ -122,21 +136,34 @@ class Doli_Order_Action {
 		) );
 	}
 
-	public function create_order( $proposal, $data ) {
-		$order = Request_Util::post( 'orders/createfromproposal/' . $proposal->data['external_id'] );
-		$order = Request_Util::post( 'orders/' . $order->id . '/validate' );
+	public function create_order( $wp_proposal ) {
+		$third_party      = Third_Party_Class::g()->get( array( 'id' => $wp_proposal->data['parent_id'] ), true );
+		$doli_proposal_id = get_post_meta( $wp_proposal->data['id'], '_external_id', true );
+
+		$doli_order = Request_Util::post( 'orders/createfromproposal/' . $doli_proposal_id );
+		$doli_order = Request_Util::post( 'orders/' . $doli_order->id . '/validate' );
 
 		Emails_Class::g()->send_mail( null, 'wps_email_new_order', array(
-			'order'       => $order,
-			'third_party' => $data['third_party']->data,
+			'order'       => $doli_order,
+			'third_party' => $third_party->data,
 		) );
 
-		Emails_Class::g()->send_mail( $data['third_party']->data['email'], 'wps_email_customer_processing_order', array(
-			'order'       => $order,
-			'third_party' => $data['third_party']->data
+		Emails_Class::g()->send_mail( $third_party->data['email'], 'wps_email_customer_processing_order', array(
+			'order'       => $doli_order,
+			'third_party' => $third_party->data
 		) );
 
-		return Orders_Class::g()->sync( $order, $proposal->data['parent_id'] );
+		$wp_order = Orders_Class::g()->get( array( 'schema' => true ), true );
+
+		return Orders_Class::g()->doli_to_wp( $doli_order, $wp_order );
+	}
+
+	public function set_to_billed( $data ) {
+		$wp_order = Orders_Class::g()->get( array( 'id' => $data['custom'] ), true );
+
+		$doli_order = Request_Util::post( 'orders/' . $wp_order->data['external_id'] . '/setinvoiced' );
+
+		Orders_Class::g()->doli_to_wp( $doli_order, $wp_order );
 	}
 }
 

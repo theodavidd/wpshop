@@ -30,7 +30,7 @@ class Cart_Action {
 
 		add_action( 'init', array( Cart_Shortcode::g(), 'callback_init' ), 5 );
 
-		add_action( 'wps_after_cart_table', array( $this, 'callback_after_cart_table' ), 10 );
+		// add_action( 'wps_after_cart_table', array( $this, 'callback_after_cart_table' ), 10 );
 		add_action( 'wps_calculate_totals', array( $this, 'callback_calculate_totals' ) );
 
 		add_action( 'wp_ajax_nopriv_add_to_cart', array( $this, 'ajax_add_to_cart' ) );

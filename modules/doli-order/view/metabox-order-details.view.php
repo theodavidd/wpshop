@@ -16,7 +16,8 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-Paiement par <?php echo empty( $order->data['payment_method'] ) ? 'N/D' : Payment_Class::g()->get_payment_title( $order->data['payment_method'] ); ?>
+<p>Paiement par <?php echo empty( $order->data['payment_method'] ) ? 'N/D' : Payment_Class::g()->get_payment_title( $order->data['payment_method'] ); ?></p>
+<p><?php echo esc_html( Payment_Class::g()->convert_status( $order->data ) ); ?></p>
 
 <div class="wpeo-gridlayout grid-3">
 	<div>
@@ -59,10 +60,6 @@ Paiement par <?php echo empty( $order->data['payment_method'] ) ? 'N/D' : Paymen
 			<li>
 				<?php echo ! empty( $third_party->data['zip']) ? $third_party->data['zip'] : 'N/D'; ?>
 				<?php echo ! empty( $third_party->data['town']) ? $third_party->data['town'] : 'N/D'; ?>
-			</li>
-			<li>
-				<strong>Adresse de messagerie:</strong>
-				<p><?php echo ! empty( $third_party->data['email']) ? $third_party->data['email'] : 'N/D'; ?></p>
 			</li>
 			<li>
 				<strong>Téléphone:</strong>

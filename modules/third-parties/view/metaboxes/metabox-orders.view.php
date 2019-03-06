@@ -21,10 +21,10 @@ defined( 'ABSPATH' ) || exit; ?>
 		<tr>
 			<th>Commande</th>
 			<th>Date</th>
-			<th>Contenu</th>
+			<th>Contenu  HT</th>
 			<th>Status</th>
 			<th>Paiement</th>
-			<th>Montant</th>
+			<th>Montant TTC</th>
 			<th>Facture</th>
 		</tr>
 	</thead>
@@ -35,7 +35,9 @@ defined( 'ABSPATH' ) || exit; ?>
 			foreach ( $orders as $order ) :
 				?>
 				<tr>
-					<td>#<?php echo esc_html( $order->data['id'] ); ?></td>
+					<td>
+						<a target="_blank" href="<?php echo admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ); ?>">#<?php echo esc_html( $order->data['id'] ); ?></a>
+					</td>
 					<td><?php echo esc_html( $order->data['date_commande']['rendered']['date'] ); ?></td>
 					<td>
 						<ul>
@@ -43,20 +45,24 @@ defined( 'ABSPATH' ) || exit; ?>
 							if ( ! empty( $order->data['lines'] ) ) :
 								foreach ( $order->data['lines'] as $line ) :
 									?>
-									<li><?php echo esc_html( $line['libelle'] ); ?> - <?php echo esc_html( $line['price'] ); ?>€</li>
+									<li><?php echo esc_html( $line['libelle'] ); ?> x<?php echo esc_html( $line['qty'] ); ?> - <?php echo esc_html( $line['price'] ); ?>€</li>
 									<?php
 								endforeach;
 							endif;
 							?>
 						</ul>
 					</td>
-					<td>Non validée</td>
-					<td>-</td>
+					<td><?php echo esc_html( Payment_Class::g()->convert_status( $order->data ) ); ?></td>
+					<td><?php echo esc_html( $order->data['payment_method'] ); ?></td>
 					<td><?php echo esc_html( $order->data['total_ttc'] ); ?>€</td>
 					<td>
 						<?php
 						if ( ! empty( $order->data['invoice'] ) ) :
 							?><a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $order->data['id'] ) ); ?>"><i class="fas fa-file-download"></i></a><?php
+						else:
+							?>
+							-
+							<?php
 						endif;
 						?>
 					</td>
