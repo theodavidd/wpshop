@@ -159,7 +159,7 @@ class Doli_Order_Action {
 	}
 
 	public function set_to_billed( $data ) {
-		$wp_order = Orders_Class::g()->get( array( 'id' => $data['custom'] ), true );
+		$wp_order   = Orders_Class::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
 		$doli_order = Request_Util::post( 'orders/' . $wp_order->data['external_id'] . '/setinvoiced' );
 

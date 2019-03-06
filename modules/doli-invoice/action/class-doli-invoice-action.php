@@ -35,7 +35,7 @@ class Doli_Invoice_Action {
 	}
 
 	public function create_invoice( $data ) {
-		$order = Orders_Class::g()->get( array( 'id' => $data['custom'] ), true );
+		$order = Orders_Class::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
 		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . $order->data['external_id'] );
 		$doli_invoice = Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
@@ -50,8 +50,7 @@ class Doli_Invoice_Action {
 			'langcode'      => 'fr_FR',
 		) );
 
-
-		$wp_invoice = Invoice_Class::g()->get( array( 'schema' => true ), true );
+		$wp_invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
 
 		Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice );
 	}

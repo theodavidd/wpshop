@@ -81,14 +81,14 @@ class Orders_Class extends \eoxia\Post_Class {
 	}
 
 	public function doli_to_wp( $doli_order, $wp_order ) {
-		$order->data['external_id']   = (int) $doli_order->id;
-		$order->data['title']         = $doli_order->ref;
-		$order->data['total_ht']      = $doli_order->total_ht;
-		$order->data['total_ttc']     = $doli_order->total_ttc;
-		$order->data['billed']        = (int) $doli_order->billed;
-		$order->data['lines']         = $doli_order->lines;
-		$order->data['date_commande'] = date( 'Y-m-d h:i:s', $doli_order->date_commande );
-		$order->data['parent_id']     = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_order->socid );
+		$wp_order->data['external_id']   = (int) $doli_order->id;
+		$wp_order->data['title']         = $doli_order->ref;
+		$wp_order->data['total_ht']      = $doli_order->total_ht;
+		$wp_order->data['total_ttc']     = $doli_order->total_ttc;
+		$wp_order->data['billed']        = (int) $doli_order->billed;
+		$wp_order->data['lines']         = $doli_order->lines;
+		$wp_order->data['date_commande'] = date( 'Y-m-d h:i:s', $doli_order->date_commande );
+		$wp_order->data['parent_id']     = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_order->socid );
 
 		$status = '';
 
@@ -112,9 +112,9 @@ class Orders_Class extends \eoxia\Post_Class {
 				break;
 		}
 
-		$order->data['status'] = $status;
+		$wp_order->data['status'] = $status;
 
-		return Orders_Class::g()->update( $order->data );
+		return Orders_Class::g()->update( $wp_order->data );
 	}
 
 	public function get_wp_id_by_doli_id( $doli_id ) {

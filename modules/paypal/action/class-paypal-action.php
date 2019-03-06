@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
 */
 class Paypal_Action {
 	public function __construct() {
+
 		add_action( 'wps_setting_payment_method_paypal', array( $this, 'callback_setting_payment_method' ), 10, 0 );
 		add_action( 'admin_post_wps_update_method_payment_paypal', array( $this, 'update_method_payment_paypal' ) );
 
