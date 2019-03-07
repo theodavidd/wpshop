@@ -39,7 +39,7 @@ class Cheque_Action {
 		}
 
 		$title       = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
-		$description = ! empty( $_POST['description'] ) ? sanitize_text_field( $_POST['description'] ) : '';
+		$description = ! empty( $_POST['description'] ) ? $_POST['description'] : '';
 
 		$payment_methods_option = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
 

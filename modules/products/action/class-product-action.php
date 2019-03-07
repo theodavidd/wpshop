@@ -55,7 +55,16 @@ class Product_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_add_menu_page() {
-		\eoxia\View_Util::exec( 'wpshop', 'products', 'main' );
+		$args = array(
+			'post_type'      => 'wps-product',
+			'posts_per_page' => -1,
+		);
+
+		$count = count( get_posts( $args ) );
+
+		\eoxia\View_Util::exec( 'wpshop', 'products', 'main', array(
+			'count' => $count,
+		) );
 	}
 
 	public function callback_save_post( $post_id, $post ) {

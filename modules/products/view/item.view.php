@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<td><?php echo esc_html( $product->data['id'] ); ?></td>
 	<td><?php echo esc_html( $product->data['external_id'] ); ?></td>
 	<td><?php echo get_the_post_thumbnail( $product->data['id'], array( 80, 80 ) ); ?></td>
-	<td><?php echo esc_html( $product->data['title'] ); ?></td>
+	<td><a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $product->data['id'] . '&action=edit' ) ); ?>"><?php echo esc_html( $product->data['title'] ); ?></a></td>
 	<td><?php echo esc_html( number_format( $product->data['price'], 2, ',', '' ) ); ?></td>
 	<td><?php echo esc_html( number_format( $product->data['tva_tx'], 2, ',', '' ) ); ?></td>
 	<td><?php echo esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ); ?></td>

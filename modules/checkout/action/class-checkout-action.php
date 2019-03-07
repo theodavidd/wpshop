@@ -122,6 +122,8 @@ class Checkout_Action {
 				);
 
 				wp_signon( $signon_data, is_ssl() );
+
+				Emails_Class::g()->send_mail( $posted_data['contact']['email'], 'wps_email_customer_new_account', $posted_data );
 			} else {
 				$current_user = wp_get_current_user();
 

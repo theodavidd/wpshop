@@ -21,5 +21,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<a href="<?php echo esc_attr( admin_url( 'post-new.php?post_type=wps-product' ) ); ?>" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
 
+	<p><?php echo $count . ' éléments'; ?></p>
+
 	<?php Product_Class::g()->display(); ?>
 </div>

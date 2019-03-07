@@ -148,7 +148,9 @@ class Doli_Order_Action {
 			'third_party' => $third_party->data,
 		) );
 
-		Emails_Class::g()->send_mail( $third_party->data['email'], 'wps_email_customer_processing_order', array(
+		$current_user = wp_get_current_user();
+
+		Emails_Class::g()->send_mail( $current_user->user_email, 'wps_email_customer_processing_order', array(
 			'order'       => $doli_order,
 			'third_party' => $third_party->data
 		) );

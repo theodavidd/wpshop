@@ -76,7 +76,11 @@ class Product_Class extends \eoxia\Post_Class {
 	 * @since 2.0.0
 	 */
 	public function display() {
-		$products = $this->get();
+		$products = $this->get( array(
+			'orderby'        => 'title',
+			'order'          => 'ASC',
+			'posts_per_page' => -1,
+		) );
 
 		\eoxia\View_Util::exec( 'wpshop', 'products', 'list', array(
 			'products' => $products,

@@ -43,10 +43,11 @@ defined( 'ABSPATH' ) || exit; ?>
 			endforeach;
 		endif;
 		?>
+	</tbody>
 
+	<tfoot>
 		<tr>
-			<td colspan="3"></td>
-			<td>Total HT</td>
+			<td colspan="5"><strong>Total HT</strong></td>
 			<td><?php echo number_format( $order->data['total_ht'], 2, ',', '' ); ?>€</td>
 		</tr>
 		<?php
@@ -54,8 +55,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			foreach ( $tva_lines as $key => $tva_line ) :
 				?>
 				<tr>
-					<td colspan="3"></td>
-					<td>Total TVA <?php echo number_format( $key, 2, ',', '' ); ?>%</td>
+					<td colspan="5"><strong>Total TVA <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
 					<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
 				</tr>
 				<?php
@@ -64,9 +64,8 @@ defined( 'ABSPATH' ) || exit; ?>
 		?>
 
 		<tr>
-			<td colspan="3"></td>
-			<td>Total TTC</td>
-			<td><?php echo number_format( $order->data['total_ttc'], 2, ',', '' ); ?>€</td>
+			<td colspan="5"><strong>Total TTC</strong></td>
+			<td><strong><?php echo number_format( $order->data['total_ttc'], 2, ',', '' ); ?>€</strong></td>
 		</tr>
-	</tbody>
+	</tfoot>
 </table>

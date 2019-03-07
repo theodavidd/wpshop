@@ -77,12 +77,10 @@ class Paypal_Class extends \eoxia\Singleton_Util {
 
 		if ( ! empty( $order->data['lines'] ) ) {
 			foreach ( $order->data['lines'] as $index => $line ) {
-				$line_item_args = array(
-					'item_name_' . ( $index + 1 )   => $line['libelle'],
-					'quantity_' . ( $index + 1 )    => $line['qty'],
-					'amount_' . ( $index + 1 )      => number_format( $line['total_ttc'], 2 ),
-					'item_number_' . ( $index + 1 ) => $line['ref'],
-				);
+				$line_item_args['item_name_' . ( $index + 1 )] = $line['libelle'];
+				$line_item_args['quantity_' . ( $index + 1 )] = $line['qty'];
+				$line_item_args['amount_' . ( $index + 1 )] = number_format( $line['price_ttc'], 2 );
+				$line_item_args['item_number_' . ( $index + 1 )] = $line['ref'];
 			}
 		}
 

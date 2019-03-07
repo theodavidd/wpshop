@@ -82,7 +82,7 @@ class Emails_Class extends \eoxia\Singleton_Util {
 		$content = ob_get_clean();
 
 		$headers   = array();
-		$headers[] = 'From: ' . $blog_name . '<' . $shop_options['shop_email'] . '>';
+		$headers[] = 'From: ' . $blog_name . ' <' . $shop_options['shop_email'] . '>';
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
 		wp_mail( $to, $mail['title'], $content, $headers );
 	}
