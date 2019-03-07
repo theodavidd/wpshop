@@ -1,0 +1,2007 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wpshop\n"
+"POT-Creation-Date: 2019-03-07 17:08+0100\n"
+"PO-Revision-Date: 2019-03-07 17:09+0100\n"
+"Last-Translator: \n"
+"Language-Team: Eoxia\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html__;esc_attr_e;_x\n"
+"X-Poedit-SearchPath-0: core\n"
+"X-Poedit-SearchPath-1: modules\n"
+"X-Poedit-SearchPathExcluded-0: core/external\n"
+
+#: core/action/class-core-action.php:63
+msgid "WPShop"
+msgstr ""
+
+#: core/util/countries.util.php:21
+msgid "Afghanistan"
+msgstr ""
+
+#: core/util/countries.util.php:22
+msgid "&#197;land Islands"
+msgstr ""
+
+#: core/util/countries.util.php:23
+msgid "Albania"
+msgstr ""
+
+#: core/util/countries.util.php:24
+msgid "Algeria"
+msgstr ""
+
+#: core/util/countries.util.php:25
+msgid "American Samoa"
+msgstr ""
+
+#: core/util/countries.util.php:26
+msgid "Andorra"
+msgstr ""
+
+#: core/util/countries.util.php:27
+msgid "Angola"
+msgstr ""
+
+#: core/util/countries.util.php:28
+msgid "Anguilla"
+msgstr ""
+
+#: core/util/countries.util.php:29
+msgid "Antarctica"
+msgstr ""
+
+#: core/util/countries.util.php:30
+msgid "Antigua and Barbuda"
+msgstr ""
+
+#: core/util/countries.util.php:31
+msgid "Argentina"
+msgstr ""
+
+#: core/util/countries.util.php:32
+msgid "Armenia"
+msgstr ""
+
+#: core/util/countries.util.php:33
+msgid "Aruba"
+msgstr ""
+
+#: core/util/countries.util.php:34
+msgid "Australia"
+msgstr ""
+
+#: core/util/countries.util.php:35
+msgid "Austria"
+msgstr ""
+
+#: core/util/countries.util.php:36
+msgid "Azerbaijan"
+msgstr ""
+
+#: core/util/countries.util.php:37
+msgid "Bahamas"
+msgstr ""
+
+#: core/util/countries.util.php:38
+msgid "Bahrain"
+msgstr ""
+
+#: core/util/countries.util.php:39
+msgid "Bangladesh"
+msgstr ""
+
+#: core/util/countries.util.php:40
+msgid "Barbados"
+msgstr ""
+
+#: core/util/countries.util.php:41
+msgid "Belarus"
+msgstr ""
+
+#: core/util/countries.util.php:42
+msgid "Belgium"
+msgstr ""
+
+#: core/util/countries.util.php:43
+msgid "Belau"
+msgstr ""
+
+#: core/util/countries.util.php:44
+msgid "Belize"
+msgstr ""
+
+#: core/util/countries.util.php:45
+msgid "Benin"
+msgstr ""
+
+#: core/util/countries.util.php:46
+msgid "Bermuda"
+msgstr ""
+
+#: core/util/countries.util.php:47
+msgid "Bhutan"
+msgstr ""
+
+#: core/util/countries.util.php:48
+msgid "Bolivia"
+msgstr ""
+
+#: core/util/countries.util.php:49
+msgid "Bonaire, Saint Eustatius and Saba"
+msgstr ""
+
+#: core/util/countries.util.php:50
+msgid "Bosnia and Herzegovina"
+msgstr ""
+
+#: core/util/countries.util.php:51
+msgid "Botswana"
+msgstr ""
+
+#: core/util/countries.util.php:52
+msgid "Bouvet Island"
+msgstr ""
+
+#: core/util/countries.util.php:53
+msgid "Brazil"
+msgstr ""
+
+#: core/util/countries.util.php:54
+msgid "British Indian Ocean Territory"
+msgstr ""
+
+#: core/util/countries.util.php:55
+msgid "British Virgin Islands"
+msgstr ""
+
+#: core/util/countries.util.php:56
+msgid "Brunei"
+msgstr ""
+
+#: core/util/countries.util.php:57
+msgid "Bulgaria"
+msgstr ""
+
+#: core/util/countries.util.php:58
+msgid "Burkina Faso"
+msgstr ""
+
+#: core/util/countries.util.php:59
+msgid "Burundi"
+msgstr ""
+
+#: core/util/countries.util.php:60
+msgid "Cambodia"
+msgstr ""
+
+#: core/util/countries.util.php:61
+msgid "Cameroon"
+msgstr ""
+
+#: core/util/countries.util.php:62
+msgid "Canada"
+msgstr ""
+
+#: core/util/countries.util.php:63
+msgid "Cape Verde"
+msgstr ""
+
+#: core/util/countries.util.php:64
+msgid "Cayman Islands"
+msgstr ""
+
+#: core/util/countries.util.php:65
+msgid "Central African Republic"
+msgstr ""
+
+#: core/util/countries.util.php:66
+msgid "Chad"
+msgstr ""
+
+#: core/util/countries.util.php:67
+msgid "Chile"
+msgstr ""
+
+#: core/util/countries.util.php:68
+msgid "China"
+msgstr ""
+
+#: core/util/countries.util.php:69
+msgid "Christmas Island"
+msgstr ""
+
+#: core/util/countries.util.php:70
+msgid "Cocos (Keeling) Islands"
+msgstr ""
+
+#: core/util/countries.util.php:71
+msgid "Colombia"
+msgstr ""
+
+#: core/util/countries.util.php:72
+msgid "Comoros"
+msgstr ""
+
+#: core/util/countries.util.php:73
+msgid "Congo (Brazzaville)"
+msgstr ""
+
+#: core/util/countries.util.php:74
+msgid "Congo (Kinshasa)"
+msgstr ""
+
+#: core/util/countries.util.php:75
+msgid "Cook Islands"
+msgstr ""
+
+#: core/util/countries.util.php:76
+msgid "Costa Rica"
+msgstr ""
+
+#: core/util/countries.util.php:77
+msgid "Croatia"
+msgstr ""
+
+#: core/util/countries.util.php:78
+msgid "Cuba"
+msgstr ""
+
+#: core/util/countries.util.php:79
+msgid "Cura&ccedil;ao"
+msgstr ""
+
+#: core/util/countries.util.php:80
+msgid "Cyprus"
+msgstr ""
+
+#: core/util/countries.util.php:81
+msgid "Czech Republic"
+msgstr ""
+
+#: core/util/countries.util.php:82
+msgid "Denmark"
+msgstr ""
+
+#: core/util/countries.util.php:83
+msgid "Djibouti"
+msgstr ""
+
+#: core/util/countries.util.php:84
+msgid "Dominica"
+msgstr ""
+
+#: core/util/countries.util.php:85
+msgid "Dominican Republic"
+msgstr ""
+
+#: core/util/countries.util.php:86
+msgid "Ecuador"
+msgstr ""
+
+#: core/util/countries.util.php:87
+msgid "Egypt"
+msgstr ""
+
+#: core/util/countries.util.php:88
+msgid "El Salvador"
+msgstr ""
+
+#: core/util/countries.util.php:89
+msgid "Equatorial Guinea"
+msgstr ""
+
+#: core/util/countries.util.php:90
+msgid "Eritrea"
+msgstr ""
+
+#: core/util/countries.util.php:91
+msgid "Estonia"
+msgstr ""
+
+#: core/util/countries.util.php:92
+msgid "Ethiopia"
+msgstr ""
+
+#: core/util/countries.util.php:93
+msgid "Falkland Islands"
+msgstr ""
+
+#: core/util/countries.util.php:94
+msgid "Faroe Islands"
+msgstr ""
+
+#: core/util/countries.util.php:95
+msgid "Fiji"
+msgstr ""
+
+#: core/util/countries.util.php:96
+msgid "Finland"
+msgstr ""
+
+#: core/util/countries.util.php:97
+msgid "France"
+msgstr ""
+
+#: core/util/countries.util.php:98
+msgid "French Guiana"
+msgstr ""
+
+#: core/util/countries.util.php:99
+msgid "French Polynesia"
+msgstr ""
+
+#: core/util/countries.util.php:100
+msgid "French Southern Territories"
+msgstr ""
+
+#: core/util/countries.util.php:101
+msgid "Gabon"
+msgstr ""
+
+#: core/util/countries.util.php:102
+msgid "Gambia"
+msgstr ""
+
+#: core/util/countries.util.php:103
+msgid "Georgia"
+msgstr ""
+
+#: core/util/countries.util.php:104
+msgid "Germany"
+msgstr ""
+
+#: core/util/countries.util.php:105
+msgid "Ghana"
+msgstr ""
+
+#: core/util/countries.util.php:106
+msgid "Gibraltar"
+msgstr ""
+
+#: core/util/countries.util.php:107
+msgid "Greece"
+msgstr ""
+
+#: core/util/countries.util.php:108
+msgid "Greenland"
+msgstr ""
+
+#: core/util/countries.util.php:109
+msgid "Grenada"
+msgstr ""
+
+#: core/util/countries.util.php:110
+msgid "Guadeloupe"
+msgstr ""
+
+#: core/util/countries.util.php:111
+msgid "Guam"
+msgstr ""
+
+#: core/util/countries.util.php:112
+msgid "Guatemala"
+msgstr ""
+
+#: core/util/countries.util.php:113
+msgid "Guernsey"
+msgstr ""
+
+#: core/util/countries.util.php:114
+msgid "Guinea"
+msgstr ""
+
+#: core/util/countries.util.php:115
+msgid "Guinea-Bissau"
+msgstr ""
+
+#: core/util/countries.util.php:116
+msgid "Guyana"
+msgstr ""
+
+#: core/util/countries.util.php:117
+msgid "Haiti"
+msgstr ""
+
+#: core/util/countries.util.php:118
+msgid "Heard Island and McDonald Islands"
+msgstr ""
+
+#: core/util/countries.util.php:119
+msgid "Honduras"
+msgstr ""
+
+#: core/util/countries.util.php:120
+msgid "Hong Kong"
+msgstr ""
+
+#: core/util/countries.util.php:121
+msgid "Hungary"
+msgstr ""
+
+#: core/util/countries.util.php:122
+msgid "Iceland"
+msgstr ""
+
+#: core/util/countries.util.php:123
+msgid "India"
+msgstr ""
+
+#: core/util/countries.util.php:124
+msgid "Indonesia"
+msgstr ""
+
+#: core/util/countries.util.php:125
+msgid "Iran"
+msgstr ""
+
+#: core/util/countries.util.php:126
+msgid "Iraq"
+msgstr ""
+
+#: core/util/countries.util.php:127
+msgid "Ireland"
+msgstr ""
+
+#: core/util/countries.util.php:128
+msgid "Isle of Man"
+msgstr ""
+
+#: core/util/countries.util.php:129
+msgid "Israel"
+msgstr ""
+
+#: core/util/countries.util.php:130
+msgid "Italy"
+msgstr ""
+
+#: core/util/countries.util.php:131
+msgid "Ivory Coast"
+msgstr ""
+
+#: core/util/countries.util.php:132
+msgid "Jamaica"
+msgstr ""
+
+#: core/util/countries.util.php:133
+msgid "Japan"
+msgstr ""
+
+#: core/util/countries.util.php:134
+msgid "Jersey"
+msgstr ""
+
+#: core/util/countries.util.php:135
+msgid "Jordan"
+msgstr ""
+
+#: core/util/countries.util.php:136
+msgid "Kazakhstan"
+msgstr ""
+
+#: core/util/countries.util.php:137
+msgid "Kenya"
+msgstr ""
+
+#: core/util/countries.util.php:138
+msgid "Kiribati"
+msgstr ""
+
+#: core/util/countries.util.php:139
+msgid "Kuwait"
+msgstr ""
+
+#: core/util/countries.util.php:140
+msgid "Kyrgyzstan"
+msgstr ""
+
+#: core/util/countries.util.php:141
+msgid "Laos"
+msgstr ""
+
+#: core/util/countries.util.php:142
+msgid "Latvia"
+msgstr ""
+
+#: core/util/countries.util.php:143
+msgid "Lebanon"
+msgstr ""
+
+#: core/util/countries.util.php:144
+msgid "Lesotho"
+msgstr ""
+
+#: core/util/countries.util.php:145
+msgid "Liberia"
+msgstr ""
+
+#: core/util/countries.util.php:146
+msgid "Libya"
+msgstr ""
+
+#: core/util/countries.util.php:147
+msgid "Liechtenstein"
+msgstr ""
+
+#: core/util/countries.util.php:148
+msgid "Lithuania"
+msgstr ""
+
+#: core/util/countries.util.php:149
+msgid "Luxembourg"
+msgstr ""
+
+#: core/util/countries.util.php:150
+msgid "Macao S.A.R., China"
+msgstr ""
+
+#: core/util/countries.util.php:151
+msgid "Macedonia"
+msgstr ""
+
+#: core/util/countries.util.php:152
+msgid "Madagascar"
+msgstr ""
+
+#: core/util/countries.util.php:153
+msgid "Malawi"
+msgstr ""
+
+#: core/util/countries.util.php:154
+msgid "Malaysia"
+msgstr ""
+
+#: core/util/countries.util.php:155
+msgid "Maldives"
+msgstr ""
+
+#: core/util/countries.util.php:156
+msgid "Mali"
+msgstr ""
+
+#: core/util/countries.util.php:157
+msgid "Malta"
+msgstr ""
+
+#: core/util/countries.util.php:158
+msgid "Marshall Islands"
+msgstr ""
+
+#: core/util/countries.util.php:159
+msgid "Martinique"
+msgstr ""
+
+#: core/util/countries.util.php:160
+msgid "Mauritania"
+msgstr ""
+
+#: core/util/countries.util.php:161
+msgid "Mauritius"
+msgstr ""
+
+#: core/util/countries.util.php:162
+msgid "Mayotte"
+msgstr ""
+
+#: core/util/countries.util.php:163
+msgid "Mexico"
+msgstr ""
+
+#: core/util/countries.util.php:164
+msgid "Micronesia"
+msgstr ""
+
+#: core/util/countries.util.php:165
+msgid "Moldova"
+msgstr ""
+
+#: core/util/countries.util.php:166
+msgid "Monaco"
+msgstr ""
+
+#: core/util/countries.util.php:167
+msgid "Mongolia"
+msgstr ""
+
+#: core/util/countries.util.php:168
+msgid "Montenegro"
+msgstr ""
+
+#: core/util/countries.util.php:169
+msgid "Montserrat"
+msgstr ""
+
+#: core/util/countries.util.php:170
+msgid "Morocco"
+msgstr ""
+
+#: core/util/countries.util.php:171
+msgid "Mozambique"
+msgstr ""
+
+#: core/util/countries.util.php:172
+msgid "Myanmar"
+msgstr ""
+
+#: core/util/countries.util.php:173
+msgid "Namibia"
+msgstr ""
+
+#: core/util/countries.util.php:174
+msgid "Nauru"
+msgstr ""
+
+#: core/util/countries.util.php:175
+msgid "Nepal"
+msgstr ""
+
+#: core/util/countries.util.php:176
+msgid "Netherlands"
+msgstr ""
+
+#: core/util/countries.util.php:177
+msgid "New Caledonia"
+msgstr ""
+
+#: core/util/countries.util.php:178
+msgid "New Zealand"
+msgstr ""
+
+#: core/util/countries.util.php:179
+msgid "Nicaragua"
+msgstr ""
+
+#: core/util/countries.util.php:180
+msgid "Niger"
+msgstr ""
+
+#: core/util/countries.util.php:181
+msgid "Nigeria"
+msgstr ""
+
+#: core/util/countries.util.php:182
+msgid "Niue"
+msgstr ""
+
+#: core/util/countries.util.php:183
+msgid "Norfolk Island"
+msgstr ""
+
+#: core/util/countries.util.php:184
+msgid "Northern Mariana Islands"
+msgstr ""
+
+#: core/util/countries.util.php:185
+msgid "North Korea"
+msgstr ""
+
+#: core/util/countries.util.php:186
+msgid "Norway"
+msgstr ""
+
+#: core/util/countries.util.php:187
+msgid "Oman"
+msgstr ""
+
+#: core/util/countries.util.php:188
+msgid "Pakistan"
+msgstr ""
+
+#: core/util/countries.util.php:189
+msgid "Palestinian Territory"
+msgstr ""
+
+#: core/util/countries.util.php:190
+msgid "Panama"
+msgstr ""
+
+#: core/util/countries.util.php:191
+msgid "Papua New Guinea"
+msgstr ""
+
+#: core/util/countries.util.php:192
+msgid "Paraguay"
+msgstr ""
+
+#: core/util/countries.util.php:193
+msgid "Peru"
+msgstr ""
+
+#: core/util/countries.util.php:194
+msgid "Philippines"
+msgstr ""
+
+#: core/util/countries.util.php:195
+msgid "Pitcairn"
+msgstr ""
+
+#: core/util/countries.util.php:196
+msgid "Poland"
+msgstr ""
+
+#: core/util/countries.util.php:197
+msgid "Portugal"
+msgstr ""
+
+#: core/util/countries.util.php:198
+msgid "Puerto Rico"
+msgstr ""
+
+#: core/util/countries.util.php:199
+msgid "Qatar"
+msgstr ""
+
+#: core/util/countries.util.php:200
+msgid "Reunion"
+msgstr ""
+
+#: core/util/countries.util.php:201
+msgid "Romania"
+msgstr ""
+
+#: core/util/countries.util.php:202
+msgid "Russia"
+msgstr ""
+
+#: core/util/countries.util.php:203
+msgid "Rwanda"
+msgstr ""
+
+#: core/util/countries.util.php:204
+msgid "Saint Barth&eacute;lemy"
+msgstr ""
+
+#: core/util/countries.util.php:205
+msgid "Saint Helena"
+msgstr ""
+
+#: core/util/countries.util.php:206
+msgid "Saint Kitts and Nevis"
+msgstr ""
+
+#: core/util/countries.util.php:207
+msgid "Saint Lucia"
+msgstr ""
+
+#: core/util/countries.util.php:208
+msgid "Saint Martin (French part)"
+msgstr ""
+
+#: core/util/countries.util.php:209
+msgid "Saint Martin (Dutch part)"
+msgstr ""
+
+#: core/util/countries.util.php:210
+msgid "Saint Pierre and Miquelon"
+msgstr ""
+
+#: core/util/countries.util.php:211
+msgid "Saint Vincent and the Grenadines"
+msgstr ""
+
+#: core/util/countries.util.php:212
+msgid "San Marino"
+msgstr ""
+
+#: core/util/countries.util.php:213
+msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe"
+msgstr ""
+
+#: core/util/countries.util.php:214
+msgid "Saudi Arabia"
+msgstr ""
+
+#: core/util/countries.util.php:215
+msgid "Senegal"
+msgstr ""
+
+#: core/util/countries.util.php:216
+msgid "Serbia"
+msgstr ""
+
+#: core/util/countries.util.php:217
+msgid "Seychelles"
+msgstr ""
+
+#: core/util/countries.util.php:218
+msgid "Sierra Leone"
+msgstr ""
+
+#: core/util/countries.util.php:219
+msgid "Singapore"
+msgstr ""
+
+#: core/util/countries.util.php:220
+msgid "Slovakia"
+msgstr ""
+
+#: core/util/countries.util.php:221
+msgid "Slovenia"
+msgstr ""
+
+#: core/util/countries.util.php:222
+msgid "Solomon Islands"
+msgstr ""
+
+#: core/util/countries.util.php:223
+msgid "Somalia"
+msgstr ""
+
+#: core/util/countries.util.php:224
+msgid "South Africa"
+msgstr ""
+
+#: core/util/countries.util.php:225
+msgid "South Georgia/Sandwich Islands"
+msgstr ""
+
+#: core/util/countries.util.php:226
+msgid "South Korea"
+msgstr ""
+
+#: core/util/countries.util.php:227
+msgid "South Sudan"
+msgstr ""
+
+#: core/util/countries.util.php:228
+msgid "Spain"
+msgstr ""
+
+#: core/util/countries.util.php:229
+msgid "Sri Lanka"
+msgstr ""
+
+#: core/util/countries.util.php:230
+msgid "Sudan"
+msgstr ""
+
+#: core/util/countries.util.php:231
+msgid "Suriname"
+msgstr ""
+
+#: core/util/countries.util.php:232
+msgid "Svalbard and Jan Mayen"
+msgstr ""
+
+#: core/util/countries.util.php:233
+msgid "Swaziland"
+msgstr ""
+
+#: core/util/countries.util.php:234
+msgid "Sweden"
+msgstr ""
+
+#: core/util/countries.util.php:235
+msgid "Switzerland"
+msgstr ""
+
+#: core/util/countries.util.php:236
+msgid "Syria"
+msgstr ""
+
+#: core/util/countries.util.php:237
+msgid "Taiwan"
+msgstr ""
+
+#: core/util/countries.util.php:238
+msgid "Tajikistan"
+msgstr ""
+
+#: core/util/countries.util.php:239
+msgid "Tanzania"
+msgstr ""
+
+#: core/util/countries.util.php:240
+msgid "Thailand"
+msgstr ""
+
+#: core/util/countries.util.php:241
+msgid "Timor-Leste"
+msgstr ""
+
+#: core/util/countries.util.php:242
+msgid "Togo"
+msgstr ""
+
+#: core/util/countries.util.php:243
+msgid "Tokelau"
+msgstr ""
+
+#: core/util/countries.util.php:244
+msgid "Tonga"
+msgstr ""
+
+#: core/util/countries.util.php:245
+msgid "Trinidad and Tobago"
+msgstr ""
+
+#: core/util/countries.util.php:246
+msgid "Tunisia"
+msgstr ""
+
+#: core/util/countries.util.php:247
+msgid "Turkey"
+msgstr ""
+
+#: core/util/countries.util.php:248
+msgid "Turkmenistan"
+msgstr ""
+
+#: core/util/countries.util.php:249
+msgid "Turks and Caicos Islands"
+msgstr ""
+
+#: core/util/countries.util.php:250
+msgid "Tuvalu"
+msgstr ""
+
+#: core/util/countries.util.php:251
+msgid "Uganda"
+msgstr ""
+
+#: core/util/countries.util.php:252
+msgid "Ukraine"
+msgstr ""
+
+#: core/util/countries.util.php:253
+msgid "United Arab Emirates"
+msgstr ""
+
+#: core/util/countries.util.php:254
+msgid "United Kingdom (UK)"
+msgstr ""
+
+#: core/util/countries.util.php:255
+msgid "United States (US)"
+msgstr ""
+
+#: core/util/countries.util.php:256
+msgid "United States (US) Minor Outlying Islands"
+msgstr ""
+
+#: core/util/countries.util.php:257
+msgid "United States (US) Virgin Islands"
+msgstr ""
+
+#: core/util/countries.util.php:258
+msgid "Uruguay"
+msgstr ""
+
+#: core/util/countries.util.php:259
+msgid "Uzbekistan"
+msgstr ""
+
+#: core/util/countries.util.php:260
+msgid "Vanuatu"
+msgstr ""
+
+#: core/util/countries.util.php:261
+msgid "Vatican"
+msgstr ""
+
+#: core/util/countries.util.php:262
+msgid "Venezuela"
+msgstr ""
+
+#: core/util/countries.util.php:263
+msgid "Vietnam"
+msgstr ""
+
+#: core/util/countries.util.php:264
+msgid "Wallis and Futuna"
+msgstr ""
+
+#: core/util/countries.util.php:265
+msgid "Western Sahara"
+msgstr ""
+
+#: core/util/countries.util.php:266
+msgid "Samoa"
+msgstr ""
+
+#: core/util/countries.util.php:267
+msgid "Yemen"
+msgstr ""
+
+#: core/util/countries.util.php:268
+msgid "Zambia"
+msgstr ""
+
+#: core/util/countries.util.php:269
+msgid "Zimbabwe"
+msgstr ""
+
+#: core/view/main.view.php:7
+msgid "Name"
+msgstr "Nom"
+
+#: core/view/main.view.php:8 modules/doli-order/view/list.view.php:27
+#: modules/doli-proposals/view/list.view.php:25
+#: modules/emails/view/frontend/order-details.php:22
+#: modules/proposals/view/list.view.php:27
+msgid "Price"
+msgstr "Prix"
+
+#: core/view/main.view.php:9
+msgid "Quantite reel"
+msgstr ""
+
+#: core/view/main.view.php:10
+msgid "Quantite theorique"
+msgstr ""
+
+#: core/view/main.view.php:11
+msgid "Prix ttc"
+msgstr ""
+
+#: core/view/main.view.php:12
+msgid "Tva tx"
+msgstr ""
+
+#: core/view/main.view.php:13
+msgid "Supprimer"
+msgstr ""
+
+#: core/view/main.view.php:23
+msgid "Tva 7% : "
+msgstr ""
+
+#: core/view/main.view.php:23 core/view/main.view.php:24
+#: core/view/main.view.php:25 core/view/main.view.php:26
+msgid "€"
+msgstr ""
+
+#: core/view/main.view.php:24
+msgid "Tva 20% : "
+msgstr ""
+
+#: core/view/main.view.php:25
+msgid "Prix TTC : "
+msgstr ""
+
+#: core/view/main.view.php:26
+msgid "Prix Total : "
+msgstr ""
+
+#: core/view/main.view.php:33
+msgid "Aucun produit dans le panier"
+msgstr ""
+
+#: core/view/main.view.php:46 core/view/order-exemple.view.php:16
+msgid "Ajouter"
+msgstr ""
+
+#: core/view/main.view.php:52
+msgid "Ajouter un produit"
+msgstr ""
+
+#: core/view/main.view.php:56
+msgid "Nom"
+msgstr ""
+
+#: core/view/main.view.php:63 modules/cheque/view/form-setting.view.php:30
+#: modules/paypal/view/form-setting.view.php:44
+msgid "Description"
+msgstr ""
+
+#: core/view/main.view.php:71
+msgid "Prix ( € )"
+msgstr ""
+
+#: core/view/main.view.php:79
+msgid "Quantité"
+msgstr ""
+
+#: core/view/main.view.php:87
+msgid "Taxe ( % )"
+msgstr ""
+
+#: core/view/main.view.php:96
+msgid "Mettre en vente"
+msgstr ""
+
+#: core/view/main.view.php:100 modules/settings/view/payment-method.view.php:24
+msgid "Activé"
+msgstr ""
+
+#: core/view/main.view.php:104
+msgid "Désactivé"
+msgstr ""
+
+#: core/view/main.view.php:114
+msgid "Creer"
+msgstr ""
+
+#: core/view/main.view.php:118
+msgid "Produit ajouté avec succés"
+msgstr ""
+
+#: core/view/order-exemple-downloadpdf.view.php:13
+msgid "Télécharger le pdf"
+msgstr ""
+
+#: core/view/order-exemple-last.view.php:65
+msgid "Passer a l'achat"
+msgstr ""
+
+#: core/view/order-exemple.view.php:2
+msgid "Etape 1 - Identifiez vous"
+msgstr ""
+
+#: core/view/order-exemple.view.php:6
+msgid "Nom Utilisateur"
+msgstr ""
+
+#: core/view/product-focus.view.php:6
+msgid "Titre : "
+msgstr ""
+
+#: core/view/product-focus.view.php:6
+msgid "Titre du produit vide"
+msgstr ""
+
+#: core/view/product-focus.view.php:8
+msgid "Description en vente"
+msgstr ""
+
+#: core/view/product-focus.view.php:9
+msgid "Description du produit vide"
+msgstr ""
+
+#: core/view/product-focus.view.php:11
+msgid "Autre data"
+msgstr ""
+
+#: modules/cart/view/frontend/cart-totals.php:22
+msgid "Cart totals"
+msgstr ""
+
+#: modules/cart/view/frontend/cart-totals.php:31
+#: modules/checkout/view/frontend/valid-checkout.php:24
+#: modules/checkout/view/frontend/valid-proposal.php:24
+#: modules/checkout/view/frontend/valid-proposal.php:33
+#: modules/checkout/view/frontend/valid-proposal.php:50
+#: modules/doli_cart/view/frontend/cart-totals.php:20
+msgid "Total"
+msgstr ""
+
+#: modules/cart/view/frontend/cart.php:25
+#: modules/checkout/view/frontend/review-order.php:23
+#: modules/checkout/view/frontend/review-order.php:39
+#: modules/checkout/view/frontend/valid-checkout.php:34
+#: modules/doli-order/view/metabox-orders.view.php:22
+msgid "Product name"
+msgstr ""
+
+#: modules/cart/view/frontend/cart.php:26
+#: modules/checkout/view/frontend/review-order.php:24
+#: modules/checkout/view/frontend/review-order.php:40
+#: modules/checkout/view/frontend/valid-checkout.php:35
+#: modules/doli-order/view/metabox-orders.view.php:23
+msgid "TVA"
+msgstr ""
+
+#: modules/cart/view/frontend/cart.php:27
+#: modules/checkout/view/frontend/review-order.php:25
+#: modules/checkout/view/frontend/review-order.php:41
+#: modules/checkout/view/frontend/valid-checkout.php:36
+msgid "P.U. HT"
+msgstr ""
+
+#: modules/cart/view/frontend/cart.php:27
+#: modules/checkout/view/frontend/review-order.php:25
+#: modules/checkout/view/frontend/valid-checkout.php:36
+#: modules/doli-order/view/metabox-orders.view.php:24
+msgid "P.U HT"
+msgstr ""
+
+#: modules/cart/view/frontend/cart.php:28
+#: modules/checkout/view/frontend/review-order.php:26
+#: modules/checkout/view/frontend/review-order.php:42
+#: modules/checkout/view/frontend/valid-checkout.php:37
+#: modules/doli-order/view/metabox-orders.view.php:25
+#: modules/emails/view/frontend/order-details.php:21
+msgid "Quantity"
+msgstr ""
+
+#: modules/cart/view/frontend/cart.php:29
+#: modules/checkout/view/frontend/review-order.php:27
+#: modules/checkout/view/frontend/review-order.php:43
+#: modules/checkout/view/frontend/review-order.php:54
+#: modules/checkout/view/frontend/valid-checkout.php:38
+#: modules/checkout/view/frontend/valid-checkout.php:61
+#: modules/doli-order/view/metabox-orders.view.php:26
+#: modules/doli-order/view/metabox-orders.view.php:50
+msgid "Total HT"
+msgstr ""
+
+#: modules/cart/view/frontend/empty-cart.php:19
+msgid "Your cart is empty."
+msgstr ""
+
+#: modules/cart/view/frontend/link-cart.php:20
+msgid "View cart"
+msgstr ""
+
+#: modules/checkout/class/class-checkout.php:44
+#: modules/checkout/view/frontend/form-shipping.php:27
+msgid "First name"
+msgstr ""
+
+#: modules/checkout/class/class-checkout.php:48
+#: modules/checkout/view/frontend/form-shipping.php:36
+msgid "Last name"
+msgstr ""
+
+#: modules/checkout/class/class-checkout.php:52
+msgid "Phone"
+msgstr ""
+
+#: modules/checkout/class/class-checkout.php:56
+msgid "Email address"
+msgstr ""
+
+#: modules/checkout/class/class-checkout.php:60
+#: modules/my-account/view/frontend/form-login.php:42
+msgid "Password"
+msgstr ""
+
+#: modules/checkout/class/class-checkout.php:66
+#: modules/checkout/view/frontend/form-shipping.php:53
+#: modules/third-parties/view/list.view.php:30
+msgid "Country"
+msgstr ""
+
+#: modules/checkout/class/class-checkout.php:70
+msgid "Street Address"
+msgstr ""
+
+#: modules/checkout/class/class-checkout.php:74
+msgid "Postcode / Zip"
+msgstr ""
+
+#: modules/checkout/class/class-checkout.php:78
+#: modules/checkout/view/frontend/form-shipping.php:90
+msgid "Town / City"
+msgstr ""
+
+#: modules/checkout/class/class-checkout.php:89
+#, php-format
+msgid "%s is a required field."
+msgstr ""
+
+#: modules/checkout/class/class-checkout.php:100
+#, php-format
+msgid "%s is already used."
+msgstr ""
+
+#: modules/checkout/view/frontend/form-checkout-step-1.php:31
+msgid "Subscribe"
+msgstr ""
+
+#: modules/checkout/view/frontend/form-checkout-step-1.php:33
+msgid "Continue"
+msgstr ""
+
+#: modules/checkout/view/frontend/form-checkout-step-2.php:23
+msgid "Your order"
+msgstr ""
+
+#: modules/checkout/view/frontend/form-shipping.php:19
+msgid "Shipping details"
+msgstr ""
+
+#: modules/checkout/view/frontend/form-shipping.php:45
+msgid "Company name"
+msgstr ""
+
+#: modules/checkout/view/frontend/form-shipping.php:76
+msgid "Street address"
+msgstr ""
+
+#: modules/checkout/view/frontend/form-shipping.php:83
+msgid "Postcode / ZIP"
+msgstr ""
+
+#: modules/checkout/view/frontend/form-shipping.php:99
+#: modules/doli-order/view/metabox-order-details.view.php:65
+msgid "Phone number"
+msgstr ""
+
+#: modules/checkout/view/frontend/form-shipping.php:108
+msgid "Email"
+msgstr ""
+
+#: modules/checkout/view/frontend/payment.php:52
+msgid "Devis"
+msgstr ""
+
+#: modules/checkout/view/frontend/payment.php:53
+msgid "Place order"
+msgstr ""
+
+#: modules/checkout/view/frontend/proceed-to-checkout-button.php:20
+msgid "Proceed to checkout"
+msgstr ""
+
+#: modules/checkout/view/frontend/review-order.php:62
+#: modules/checkout/view/frontend/valid-checkout.php:69
+#: modules/doli-order/view/metabox-orders.view.php:58
+msgid "Total TVA"
+msgstr ""
+
+#: modules/checkout/view/frontend/review-order.php:71
+#: modules/checkout/view/frontend/valid-checkout.php:78
+#: modules/my-account/view/frontend/my-account-orders.php:23
+msgid "Total TTC"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-checkout.php:19
+msgid "Thanks, your order has been received"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-checkout.php:22
+msgid "Order number"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-checkout.php:23
+#: modules/checkout/view/frontend/valid-proposal.php:23
+#: modules/my-account/view/frontend/my-account-orders.php:21
+msgid "Date"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-checkout.php:25
+msgid "Method of payment"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-checkout.php:28
+msgid "Order detail"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-checkout.php:85
+msgid "See my orders"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-proposal.php:19
+msgid "Thanks, your quotation has bee received"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-proposal.php:22
+msgid "Quotation number"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-proposal.php:27
+msgid "Quotation detail"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-proposal.php:32
+#: modules/emails/view/frontend/order-details.php:20
+#: modules/products/filter/class-product-filter.php:46
+#: modules/products/filter/class-product-filter.php:48
+msgid "Product"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-proposal.php:57
+msgid "See my quotations"
+msgstr ""
+
+#: modules/cheque/action/class-cheque-action.php:51
+#: modules/paypal/action/class-paypal-action.php:58
+#: modules/settings/action/class-settings-action.php:97
+#: modules/settings/action/class-settings-action.php:126
+#: modules/settings/action/class-settings-action.php:150
+msgid "Vos réglages ont été enregistrés."
+msgstr ""
+
+#: modules/cheque/view/form-setting.view.php:23
+#: modules/paypal/view/form-setting.view.php:23
+#: modules/products/view/list.view.php:26
+#: modules/third-parties/view/list.view.php:25
+msgid "Title"
+msgstr ""
+
+#: modules/contacts/view/list.view.php:24
+#: modules/third-parties/view/list.view.php:26
+msgid "Associated contact"
+msgstr ""
+
+#: modules/dashboard/action/class-dashboard-action.php:40
+#: modules/dashboard/view/main.view.php:20
+msgid "Dashboard"
+msgstr ""
+
+#: modules/dashboard/action/class-dashboard-action.php:49
+#: modules/dashboard/view/metaboxes/metabox-sync.view.php:23
+msgid "Synchronization"
+msgstr ""
+
+#: modules/dashboard/action/class-dashboard-action.php:50
+msgid "Stats"
+msgstr ""
+
+#: modules/dashboard/view/metaboxes/metabox-sync.view.php:22
+msgid "Data synchronization"
+msgstr ""
+
+#: modules/doli-order/action/class-doli-order-action.php:40
+msgid "Delivered"
+msgstr ""
+
+#: modules/doli-order/action/class-doli-order-action.php:50
+msgid "Canceled"
+msgstr ""
+
+#: modules/doli-order/action/class-doli-order-action.php:66
+#: modules/doli-order/filter/class-doli-order-filter.php:32
+#: modules/doli-order/filter/class-doli-order-filter.php:34
+#: modules/doli-order/view/main.view.php:20
+#: modules/doli-proposals/view/main.view.php:20
+#: modules/doli-synchro/class/class-doli-syncho-class.php:49
+#: modules/my-account/view/frontend/my-account-navigation.php:17
+#: modules/third-parties/action/class-third-party-action.php:81
+msgid "Orders"
+msgstr ""
+
+#: modules/doli-order/action/class-doli-order-action.php:77
+msgid "Order details #"
+msgstr ""
+
+#: modules/doli-order/action/class-doli-order-action.php:78
+#: modules/doli-synchro/class/class-doli-syncho-class.php:39
+#: modules/products/action/class-product-action.php:48
+#: modules/products/filter/class-product-filter.php:45
+#: modules/products/filter/class-product-filter.php:47
+#: modules/products/view/main.view.php:20
+#: modules/proposals/action/class-proposals-action.php:75
+msgid "Products"
+msgstr ""
+
+#: modules/doli-order/filter/class-doli-order-filter.php:33
+#: modules/doli-order/filter/class-doli-order-filter.php:35
+#: modules/my-account/view/frontend/my-account-orders.php:20
+msgid "Order"
+msgstr ""
+
+#: modules/doli-order/filter/class-doli-order-filter.php:36
+#: modules/products/filter/class-product-filter.php:49
+#: modules/proposals/filter/class-proposals-filter.php:36
+#: modules/third-parties/filter/class-third-party-filter.php:36
+msgid "Add New"
+msgstr ""
+
+#: modules/doli-order/filter/class-doli-order-filter.php:37
+msgid "Add New Order"
+msgstr ""
+
+#: modules/doli-order/filter/class-doli-order-filter.php:38
+msgid "New Order"
+msgstr ""
+
+#: modules/doli-order/filter/class-doli-order-filter.php:39
+msgid "Edit Order"
+msgstr ""
+
+#: modules/doli-order/filter/class-doli-order-filter.php:40
+msgid "View Order"
+msgstr ""
+
+#: modules/doli-order/filter/class-doli-order-filter.php:41
+msgid "All Orders"
+msgstr ""
+
+#: modules/doli-order/filter/class-doli-order-filter.php:42
+msgid "Search Orders"
+msgstr ""
+
+#: modules/doli-order/filter/class-doli-order-filter.php:43
+msgid "Parent Orders:"
+msgstr ""
+
+#: modules/doli-order/filter/class-doli-order-filter.php:44
+#: modules/products/filter/class-product-filter.php:57
+msgid "No products found."
+msgstr ""
+
+#: modules/doli-order/filter/class-doli-order-filter.php:45
+#: modules/products/filter/class-product-filter.php:58
+msgid "No products found in Trash."
+msgstr ""
+
+#: modules/doli-order/view/list.view.php:23
+#: modules/doli-proposals/view/list.view.php:23
+#: modules/products/view/list.view.php:23
+#: modules/proposals/view/list.view.php:23
+#: modules/third-parties/view/list.view.php:23
+msgid "WP ID"
+msgstr ""
+
+#: modules/doli-order/view/list.view.php:24
+#: modules/products/view/list.view.php:24
+#: modules/third-parties/view/list.view.php:24
+msgid "Dolibarr ID"
+msgstr ""
+
+#: modules/doli-order/view/list.view.php:25
+#: modules/doli-proposals/view/list.view.php:24
+#: modules/proposals/view/list.view.php:25
+msgid "Ref"
+msgstr ""
+
+#: modules/doli-order/view/list.view.php:26
+msgid "Statut"
+msgstr ""
+
+#: modules/doli-order/view/metabox-order-details.view.php:19
+msgid "Payment by"
+msgstr ""
+
+#: modules/doli-order/view/metabox-order-details.view.php:25
+msgid "Customer"
+msgstr ""
+
+#: modules/doli-order/view/metabox-order-details.view.php:32
+#: modules/doli-proposals/view/order-details.view.php:19
+msgid "Payment method"
+msgstr ""
+
+#: modules/doli-order/view/metabox-order-details.view.php:33
+#: modules/doli-proposals/view/order-details.view.php:20
+msgid "Payment date"
+msgstr ""
+
+#: modules/doli-order/view/metabox-order-details.view.php:34
+#: modules/doli-proposals/view/order-details.view.php:21
+msgid "Payment reference"
+msgstr ""
+
+#: modules/doli-order/view/metabox-order-details.view.php:35
+#: modules/doli-proposals/view/order-details.view.php:22
+msgid "Amount"
+msgstr ""
+
+#: modules/doli-order/view/metabox-order-details.view.php:43
+msgid "View invoice"
+msgstr ""
+
+#: modules/doli-order/view/metabox-order-details.view.php:48
+msgid "Billing"
+msgstr ""
+
+#: modules/doli-order/view/metabox-order-details.view.php:51
+msgid "No billing address"
+msgstr ""
+
+#: modules/doli-order/view/metabox-order-details.view.php:55
+msgid "Shipment"
+msgstr ""
+
+#: modules/doli-proposals/view/main.view.php:24
+msgid "Sync"
+msgstr ""
+
+#: modules/doli-synchro/class/class-doli-syncho-class.php:29
+#: modules/third-parties/filter/class-third-party-filter.php:32
+#: modules/third-parties/filter/class-third-party-filter.php:34
+msgid "Third parties"
+msgstr ""
+
+#: modules/doli-synchro/class/class-doli-syncho-class.php:34
+#: modules/third-parties/action/class-third-party-action.php:80
+msgid "Contacts"
+msgstr ""
+
+#: modules/doli-synchro/class/class-doli-syncho-class.php:44
+#: modules/proposals/filter/class-proposals-filter.php:32
+#: modules/proposals/filter/class-proposals-filter.php:34
+#: modules/proposals/view/main.view.php:20
+msgid "Proposals"
+msgstr ""
+
+#: modules/doli-synchro/class/class-doli-syncho-class.php:54
+msgid "Invoices"
+msgstr ""
+
+#: modules/emails/class/class-emails-class.php:25
+msgid "Nouvelle commande"
+msgstr ""
+
+#: modules/emails/class/class-emails-class.php:30
+msgid "Commande en cours"
+msgstr ""
+
+#: modules/emails/class/class-emails-class.php:35
+msgid "Commande complété"
+msgstr ""
+
+#: modules/emails/class/class-emails-class.php:40
+msgid "Nouveau compte"
+msgstr ""
+
+#: modules/emails/class/class-emails-class.php:45
+msgid "Reset password"
+msgstr ""
+
+#: modules/emails/view/admin-new-order.php:13
+#, php-format
+msgid "You’ve received the following order from %s:"
+msgstr ""
+
+#: modules/emails/view/customer-new-account.php:14
+#: modules/emails/view/customer-processing-order.php:14
+#, php-format
+msgid "Hi %s,"
+msgstr ""
+
+#: modules/emails/view/customer-new-account.php:16
+#, php-format
+msgid ""
+"Thanks for creating an account on %1$s. Your username is %2$s. You can "
+"access your account area to view orders, change your password, and more at: "
+"<a target=\"_blank\" href=\"%3$s\">%4$s</a>"
+msgstr ""
+
+#: modules/emails/view/customer-new-account.php:18
+#, php-format
+msgid ""
+"Click here to create your password: <a href=\"%s\">Create my password</a>"
+msgstr ""
+
+#: modules/emails/view/customer-new-account.php:20
+msgid "We look forward to seeing you soon."
+msgstr ""
+
+#: modules/emails/view/customer-processing-order.php:16
+#, php-format
+msgid ""
+"Just to let you know — we've received your order #%s, and it is now being "
+"processed:"
+msgstr ""
+
+#: modules/emails/view/frontend/order-details.php:12
+#, php-format
+msgid "[Order #%s]"
+msgstr ""
+
+#: modules/my-account/action/class-my-account-action.php:61
+msgid "Votre identifiant ou votre mot de passe est incorrect."
+msgstr ""
+
+#: modules/my-account/view/frontend/checkout-login.php:13
+msgid "Returning customer? Click here to login"
+msgstr ""
+
+#: modules/my-account/view/frontend/form-login.php:35
+msgid "Username or email address"
+msgstr ""
+
+#: modules/my-account/view/frontend/form-login.php:50
+msgid "Log in"
+msgstr ""
+
+#: modules/my-account/view/frontend/form-login.php:51
+msgid "Lost Password"
+msgstr ""
+
+#: modules/my-account/view/frontend/login-title.php:11
+msgid "Login"
+msgstr ""
+
+#: modules/my-account/view/frontend/my-account-navigation.php:18
+msgid "Logout"
+msgstr ""
+
+#: modules/my-account/view/frontend/my-account-orders.php:22
+#: modules/proposals/view/list.view.php:26
+msgid "Status"
+msgstr ""
+
+#: modules/my-account/view/frontend/my-account-orders.php:24
+msgid "Actions"
+msgstr ""
+
+#: modules/my-account/view/frontend/my-account-orders.php:46
+msgid "Resume"
+msgstr ""
+
+#: modules/payment/class/class-payment-class.php:30
+msgid "Payment by cheque"
+msgstr ""
+
+#: modules/payment/class/class-payment-class.php:31
+msgid ""
+"Please send a check to Store Name, Store Street, Store Town, Store State / "
+"County, Store Postcode."
+msgstr ""
+
+#: modules/payment/class/class-payment-class.php:34
+msgid "PayPal"
+msgstr ""
+
+#: modules/payment/class/class-payment-class.php:35
+msgid "Accept payments via PayPal using account balance or credit card."
+msgstr ""
+
+#: modules/paypal/filter/class-paypal-filter.php:32
+msgid ""
+" SANDBOX ENABLED. You can use sandbox testing accounts only. See the <a href="
+"\"https://developer.paypal.com/docs/classic/lifecycle/ug_sandbox/\">PayPal "
+"Sandbox Testing Guide</a> for more details."
+msgstr ""
+
+#: modules/paypal/view/form-setting.view.php:30
+msgid "Paypal email"
+msgstr ""
+
+#: modules/paypal/view/form-setting.view.php:39
+msgid "Paypal Sandbox"
+msgstr ""
+
+#: modules/products/action/class-product-action.php:49
+msgid "Products Category"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:50
+msgid "Add New Product"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:51
+msgid "New Product"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:52
+msgid "Edit Product"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:53
+msgid "View Product"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:54
+msgid "All Products"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:55
+msgid "Search Products"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:56
+msgid "Parent Products:"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:86
+msgid "Products category"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:87
+#: modules/products/filter/class-product-filter.php:96
+msgid "Product category"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:88
+msgid "Search Products category"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:89
+msgid "All Products category"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:90
+msgid "Parent Product category"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:91
+msgid "Parent Product: category"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:92
+msgid "Edit Product category"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:93
+msgid "Update Product category"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:94
+msgid "Add New Product category"
+msgstr ""
+
+#: modules/products/filter/class-product-filter.php:95
+msgid "New Product  categoryName"
+msgstr ""
+
+#: modules/products/view/frontend/single-wps-product.php:28
+msgid "Add to cart"
+msgstr ""
+
+#: modules/products/view/item.view.php:36
+msgid "Are you sure you want to delete this product ?"
+msgstr ""
+
+#: modules/products/view/list.view.php:25
+msgid "Photo"
+msgstr ""
+
+#: modules/products/view/list.view.php:27
+msgid "Price HT(€)"
+msgstr ""
+
+#: modules/products/view/list.view.php:28
+msgid "Tax Rate"
+msgstr ""
+
+#: modules/products/view/list.view.php:29
+msgid "Price TTC(€)"
+msgstr ""
+
+#: modules/products/view/list.view.php:30
+msgid "Barcode"
+msgstr ""
+
+#: modules/products/view/main.view.php:22
+#: modules/proposals/view/main.view.php:22
+#: modules/third-parties/view/main.view.php:22
+msgid "Add"
+msgstr ""
+
+#: modules/products/view/metabox/main.view.php:23
+msgid "Prix"
+msgstr ""
+
+#: modules/products/view/metabox/main.view.php:49
+msgid "Identifiant"
+msgstr ""
+
+#: modules/proposals/action/class-proposals-action.php:74
+msgid "Proposal details #"
+msgstr ""
+
+#: modules/proposals/action/class-proposals-action.php:76
+msgid "Proposal actions"
+msgstr ""
+
+#: modules/proposals/filter/class-proposals-filter.php:33
+#: modules/proposals/filter/class-proposals-filter.php:35
+msgid "Proposal"
+msgstr ""
+
+#: modules/proposals/filter/class-proposals-filter.php:37
+msgid "Add New Proposal"
+msgstr ""
+
+#: modules/proposals/filter/class-proposals-filter.php:38
+msgid "New Proposal"
+msgstr ""
+
+#: modules/proposals/filter/class-proposals-filter.php:39
+msgid "Edit Proposal"
+msgstr ""
+
+#: modules/proposals/filter/class-proposals-filter.php:40
+msgid "View Proposal"
+msgstr ""
+
+#: modules/proposals/filter/class-proposals-filter.php:41
+msgid "All Proposals"
+msgstr ""
+
+#: modules/proposals/filter/class-proposals-filter.php:42
+msgid "Search Proposals"
+msgstr ""
+
+#: modules/proposals/filter/class-proposals-filter.php:43
+msgid "Parent Proposals:"
+msgstr ""
+
+#: modules/proposals/filter/class-proposals-filter.php:44
+msgid "No proposals found."
+msgstr ""
+
+#: modules/proposals/filter/class-proposals-filter.php:45
+msgid "No proposals found in Trash."
+msgstr ""
+
+#: modules/proposals/view/list.view.php:24
+msgid "DOLI ID"
+msgstr ""
+
+#: modules/proposals/view/metabox-proposal-details.view.php:26
+msgid "View proposal"
+msgstr ""
+
+#: modules/settings/action/class-settings-action.php:44
+#: modules/settings/view/main.view.php:20
+msgid "Settings"
+msgstr ""
+
+#: modules/settings/class/class-settings-class.php:48
+msgid "No page"
+msgstr ""
+
+#: modules/settings/view/emails.view.php:22
+msgid "E-mail"
+msgstr ""
+
+#: modules/settings/view/payment-method.view.php:23
+msgid "Méthode"
+msgstr ""
+
+#: modules/settings/view/payment-method.view.php:25
+msgid "Configuration"
+msgstr ""
+
+#: modules/third-parties/action/class-third-party-action.php:56
+#: modules/third-parties/view/main.view.php:20
+msgid "Third Parties"
+msgstr ""
+
+#: modules/third-parties/action/class-third-party-action.php:79
+msgid "Billing address"
+msgstr ""
+
+#: modules/third-parties/filter/class-third-party-filter.php:33
+#: modules/third-parties/filter/class-third-party-filter.php:35
+msgid "Third party"
+msgstr ""
+
+#: modules/third-parties/filter/class-third-party-filter.php:37
+msgid "Add New Third party"
+msgstr ""
+
+#: modules/third-parties/filter/class-third-party-filter.php:38
+msgid "New Third party"
+msgstr ""
+
+#: modules/third-parties/filter/class-third-party-filter.php:39
+msgid "Edit Third party"
+msgstr ""
+
+#: modules/third-parties/filter/class-third-party-filter.php:40
+msgid "View Third party"
+msgstr ""
+
+#: modules/third-parties/filter/class-third-party-filter.php:41
+msgid "All Third parties"
+msgstr ""
+
+#: modules/third-parties/filter/class-third-party-filter.php:42
+msgid "Search Third parties"
+msgstr ""
+
+#: modules/third-parties/filter/class-third-party-filter.php:43
+msgid "Parent Third parties:"
+msgstr ""
+
+#: modules/third-parties/filter/class-third-party-filter.php:44
+msgid "No third parties found."
+msgstr ""
+
+#: modules/third-parties/filter/class-third-party-filter.php:45
+msgid "No third parties found in Trash."
+msgstr ""
+
+#: modules/third-parties/view/list.view.php:27
+msgid "Address"
+msgstr ""
+
+#: modules/third-parties/view/list.view.php:28
+msgid "Zip Code"
+msgstr ""
+
+#: modules/third-parties/view/list.view.php:29
+msgid "Town"
+msgstr ""
+
+#: modules/third-parties/view/single-title-edit.view.php:25
+msgid "New third party"
+msgstr ""
+
+#: modules/transfert-data/action/class-transfert-data-action.php:178
+msgid "Contact #"
+msgstr ""
