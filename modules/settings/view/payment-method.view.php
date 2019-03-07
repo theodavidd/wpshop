@@ -20,9 +20,9 @@ defined( 'ABSPATH' ) || exit; ?>
 	<thead>
 		<tr>
 			<th></th>
-			<th><?php esc_html_e( 'Méthode', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Activé', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Configuration', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Method', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Activated', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Settings', 'wpshop' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
