@@ -19,7 +19,7 @@ do_action( 'wps_email_before_order_table', $order ); ?>
 			<tr>
 				<th class="td" scope="col" style="text-align: center;"><?php esc_html_e( 'Product', 'wpshop' ); ?></th>
 				<th class="td" scope="col" style="text-align: center;"><?php esc_html_e( 'Quantity', 'wpshop' ); ?></th>
-				<th class="td" scope="col" style="text-align: center;"><?php esc_html_e( 'Price', 'wpshop' ); ?></th>
+				<th class="td" scope="col" style="text-align: center;"><?php esc_html_e( 'Price TTC', 'wpshop' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -30,7 +30,7 @@ do_action( 'wps_email_before_order_table', $order ); ?>
 						<tr>
 							<td class="td" scope="col" style="text-align: center;"><?php echo $line->libelle ?> x <?php echo $line->qty; ?></td>
 							<td class="td" scope="col" style="text-align: center;"><?php echo $line->qty; ?></td>
-							<td class="td" scope="col" style="text-align: center;"><?php echo number_format( $line->price * $line->qty, 2 ); ?>€</td>
+							<td class="td" scope="col" style="text-align: center;"><?php echo number_format( $line->price * $line->qty, 2, ',', '' ); ?>€</td>
 						</tr>
 						<?php
 					endforeach;
@@ -39,8 +39,8 @@ do_action( 'wps_email_before_order_table', $order ); ?>
 		</tbody>
 		<tfoot>
 			<tr>
-				<th class="td" scope="row" colspan="2" style="text-align: center;">Total</th>
-				<td class="td" style="text-align: center;"><?php echo wp_kses_post( $order->total_ttc ); ?>€</td>
+				<th class="td" scope="row" colspan="2" style="text-align: center;">Total TTC</th>
+				<td class="td" style="text-align: center;"><?php echo wp_kses_post( number_format( $order->total_ttc, 2, ',', '' ) ); ?>€</td>
 			</tr>
 		</tfoot>
 	</table>
