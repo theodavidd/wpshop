@@ -19,11 +19,11 @@ defined( 'ABSPATH' ) || exit; ?>
 <table class="wpeo-table">
 	<thead>
 		<tr>
-			<th>Product name</th>
-			<th>TVA</th>
-			<th>P.U HT</th>
-			<th>Quantity</th>
-			<th>Total HT</th>
+			<th><?php esc_html_e( 'Product name', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'TVA', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'P.U HT', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Quantity', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Total HT', 'wpshop' ); ?></th>
 		</tr>
 	</thead>
 
@@ -47,7 +47,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<tfoot>
 		<tr>
-			<td colspan="5"><strong>Total HT</strong></td>
+			<td colspan="4"><strong>Total HT</strong></td>
 			<td><?php echo number_format( $order->data['total_ht'], 2, ',', '' ); ?>€</td>
 		</tr>
 		<?php
@@ -55,7 +55,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			foreach ( $tva_lines as $key => $tva_line ) :
 				?>
 				<tr>
-					<td colspan="5"><strong>Total TVA <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
+					<td colspan="4"><strong>Total TVA <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
 					<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
 				</tr>
 				<?php
@@ -64,7 +64,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		?>
 
 		<tr>
-			<td colspan="5"><strong>Total TTC</strong></td>
+			<td colspan="4"><strong>Total TTC</strong></td>
 			<td><strong><?php echo number_format( $order->data['total_ttc'], 2, ',', '' ); ?>€</strong></td>
 		</tr>
 	</tfoot>
