@@ -12,9 +12,11 @@
  * @since     2.0.0
  */
 
-do_action( 'wps_account_navigation', $tab );
-
 ?>
-<div class="wps-account">
-	<?php do_action( 'wps_account_' . $tab ); ?>
+<div class="wps-account-page wpeo-gridlayout grid-5">
+	<?php do_action( 'wps_account_navigation', $tab ); ?>
+
+	<div class="wps-account gridw-4">
+		<?php do_action( 'wps_account_' . $tab ); ?>
+	</div>
 </div>
