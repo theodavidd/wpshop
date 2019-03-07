@@ -16,13 +16,23 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<p><?php esc_html_e( 'Payment by', 'wpshop' ); ?> <?php echo empty( $order->data['payment_method'] ) ? 'N/D' : Payment_Class::g()->get_payment_title( $order->data['payment_method'] ); ?></p>
-<p><?php echo esc_html( Payment_Class::g()->convert_status( $order->data ) ); ?></p>
+<h3><?php esc_html_e( 'Payment', 'wpshop' ); ?></h3>
+<p><strong><?php esc_html_e( 'Payment by', 'wpshop' ); ?></strong> : <?php echo empty( $order->data['payment_method'] ) ? 'N/D' : Payment_Class::g()->get_payment_title( $order->data['payment_method'] ); ?></p>
+<p><strong><?php esc_html_e( 'Payment status', 'wpshop' ); ?></strong> :
+<?php
+echo esc_html( Payment_Class::g()->convert_status( $order->data ) );
+if ( ! empty( $link_invoice ) ) :
+	?> - <a href="<?php echo esc_url( $link_invoice ); ?>" target="_blank"><?php esc_html_e( 'View invoice', 'wpshop' ); ?></a><?php
+endif;
+?>
+</p>
+
+<h3><?php esc_html_e( 'Customer address', 'wpshop' ); ?></h3>
 
 <div class="wpeo-gridlayout grid-3">
 	<div>
 		<ul>
-			<li><?php esc_html_e( 'Customer', 'wpshop' ); ?> : <a href="<?php echo admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ); ?>" target="_blank"><?php echo $third_party->data['title']; ?></a></li>
+			<li><strong><?php esc_html_e( 'Customer', 'wpshop' ); ?></strong> : <a href="<?php echo admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ); ?>" target="_blank"><?php echo $third_party->data['title']; ?></a></li>
 		<?php
 		if ( ! empty( $invoice->data['payments'] ) ) :
 			?><li><?php
@@ -37,10 +47,6 @@ defined( 'ABSPATH' ) || exit; ?>
 				<?php
 			endforeach;
 			?> </li><?php
-		endif;
-
-		if ( ! empty( $link_invoice ) ) :
-			?><li><a href="<?php echo esc_url( $link_invoice ); ?>" target="_blank"><?php esc_html_e( 'View invoice', 'wpshop' ); ?></a></li><?php
 		endif;
 		?>
 	</div>
