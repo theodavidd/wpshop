@@ -42,6 +42,8 @@ class My_Account_Action {
 		add_action( 'wps_account_navigation', array( My_Account_Class::g(), 'display_navigation' ) );
 		add_action( 'wps_account_orders', array( My_Account_Class::g(), 'display_orders' ) );
 		add_action( 'wps_account_proposals', array( My_Account_Class::g(), 'display_proposals' ) );
+
+		add_action( 'wp_ajax_load_modal_resume_order', array( My_Account_Class::g(), 'load_modal_resume_order' ) );
 	}
 
 	public function handle_login() {
@@ -65,6 +67,25 @@ class My_Account_Action {
 			wp_redirect( $page );
 			exit;
 		}
+	}
+
+	public function load_modal_resume_order() {
+		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+
+		if ( empty( $id ) ) {
+			wp_send_json_error();
+		}
+
+		$order = Orders_Class::g()->get( array( 'id' => $id ), true );
+
+		ob_start();
+		\eoxia\View_Util::exec( 'wpshop', 'my-account', 'frontend/order-modal', array(
+			'order' => $order,
+		) );
+		wp_send_json_success( array(
+			'view'          => ob_get_clean(),
+			'buttons_view' => '<div class="wpeo-button button-main modal-close"><span>' . __( 'Close', 'wpshop' ) . '</span></div>'
+		) );
 	}
 }
 
