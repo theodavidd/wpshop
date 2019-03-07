@@ -70,13 +70,13 @@ class Paypal_Action {
 	}
 
 	public function callback_wps_valid_paypal_standard_ipn_request( $posted ) {
-		$order = ! empty( $posted['custom'] ) ? Order_Class::g()->get( array( 'id' => (int) $posted['custom'] ), true ) : null;
+		// $order = ! empty( $posted['custom'] ) ? Order_Class::g()->get( array( 'id' => (int) $posted['custom'] ), true ) : null;
 
-		if ( $order ) {
+		// if ( $order ) {
 			if ( method_exists( $this, 'payment_status_' . $posted['payment_status'] ) ) {
 				call_user_func( array( $this, 'payment_status_' . $posted['payment_status'] ), $posted );
 			}
-		}
+		// }
 	}
 
 	public function validate_ipn( $data ) {

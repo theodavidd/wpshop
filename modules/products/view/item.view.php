@@ -22,9 +22,9 @@ defined( 'ABSPATH' ) || exit; ?>
 	<td><?php echo esc_html( $product->data['external_id'] ); ?></td>
 	<td><?php echo get_the_post_thumbnail( $product->data['id'], array( 80, 80 ) ); ?></td>
 	<td><?php echo esc_html( $product->data['title'] ); ?></td>
-	<td><?php echo esc_html( $product->data['price'] ); ?></td>
-	<td><?php echo esc_html( $product->data['tva_tx'] ); ?></td>
-	<td><?php echo esc_html( $product->data['price_ttc'] ); ?></td>
+	<td><?php echo esc_html( number_format( $product->data['price'], 2, ',', '' ) ); ?></td>
+	<td><?php echo esc_html( number_format( $product->data['tva_tx'], 2, ',', '' ) ); ?></td>
+	<td><?php echo esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ); ?></td>
 	<td><?php echo esc_html( $product->data['barcode'] ); ?></td>
 	<td>
 		<a href="<?php echo esc_attr( get_post_permalink( $product->data['id'] ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-eye"></i></a>

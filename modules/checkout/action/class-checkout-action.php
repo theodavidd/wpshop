@@ -60,6 +60,7 @@ class Checkout_Action {
 
 		if ( ! empty( $proposal->data['lines'] ) ) {
 			foreach ( $proposal->data['lines'] as $line ) {
+
 				if ( empty( $tva_lines[ $line['tva_tx'] ] ) ) {
 					$tva_lines[ $line['tva_tx'] ] = 0;
 				}

@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<td><?php echo esc_html( $proposal->data['external_id'] ); ?></td>
 	<td><?php echo esc_html( $proposal->data['title'] ); ?></td>
 	<td><?php echo esc_html( Payment_Class::g()->convert_status( $proposal->data ) ); ?></td>
-	<td><?php echo esc_html( $proposal->data['total_ttc'] ); ?>€</td>
+	<td><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</td>
 	<?php apply_filters( 'wps_order_table_tr', $proposal ); ?>
 	<td>
 		<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $proposal->data['id'] ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil"></i></a>

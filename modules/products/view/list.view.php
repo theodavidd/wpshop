@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<tr>
 			<th><input type="checkbox" /></th>
 			<th><?php esc_html_e( 'WP ID', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'DOLI ID', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Dolibarr ID', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Photo', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Title', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></th>

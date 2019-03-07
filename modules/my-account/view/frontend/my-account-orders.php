@@ -20,7 +20,7 @@
       <th data-title="Order">Order</th>
       <th data-title="Date">Date</th>
       <th data-title="Status">Status</th>
-      <th data-title="Total">Total</th>
+      <th data-title="Total">Total TTC</th>
       <th data-title="Total">Actions</th>
     </tr>
   </thead>
@@ -32,10 +32,9 @@
 			<tr>
 			  <th data-title="<?php echo esc_attr( $order->data['title'] ); ?>"><?php echo esc_html( $order->data['title'] ); ?></th>
 			  <td data-title="<?php echo esc_attr( $order->data['date_commande']['rendered']['date'] ); ?>"><?php echo esc_html( $order->data['date_commande']['rendered']['date'] ); ?></td>
-			  <td data-title="N/D">N/D</td>
-			  <td data-title="<?php echo esc_attr( number_format( $order->data['total_ttc'], 2 ) ); ?>€"><?php echo esc_html( number_format( $order->data['total_ttc'], 2 ) ); ?>€</td>
+			  <td data-title="N/D"><?php echo esc_html( \wpshop\Payment_Class::g()->convert_status( $order->data ) ); ?></td>
+			  <td data-title="<?php echo esc_attr( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€"><?php echo esc_html( number_format( $order->data['total_ttc'], 2 ) ); ?>€</td>
 			  <td data-title="View">
-
 				<?php
 				if ( ! empty( $order->data['invoice'] ) ) :
 					?>
@@ -43,6 +42,9 @@
 					<?php
 				endif;
 				?>
+
+				Détails
+				Refaire cette commande
 			  </td>
 			</tr>
 			<?php

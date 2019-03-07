@@ -21,7 +21,6 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php
 		while ( have_posts() ) : the_post();
 			the_title();
-
 			?>
 			<div class="wpeo-button action-attribute"
 				data-action="add_to_cart"

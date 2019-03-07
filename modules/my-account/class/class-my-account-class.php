@@ -32,7 +32,6 @@ class My_Account_Class extends \eoxia\Singleton_Util {
 
 	public function init_endpoint() {
 		add_rewrite_endpoint( 'orders', EP_ALL );
-		add_rewrite_endpoint( 'proposals', EP_ALL );
 	}
 
 	public function before_login_form() {

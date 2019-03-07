@@ -65,6 +65,7 @@ class Product_Filter {
 		$args['show_ui']              = true;
 		$args['show_in_nav_menus']    = false;
 		$args['show_in_menu']         = false;
+		$args['show_in_admin_bar']    = true;
 
 		$shop_page_slug = Pages_Class::g()->get_slug_shop_page();
 
@@ -118,7 +119,7 @@ class Product_Filter {
 		global $post;
 
 		if ( Product_Class::g()->get_type() === $post->post_type ) {
-			$single_template = Template_Util::get_template_part( 'products', 'single-product' );
+			$single_template = Template_Util::get_template_part( 'products', 'single-wps-product' );
 		}
 
 		return $single_template;

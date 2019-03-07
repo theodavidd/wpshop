@@ -41,7 +41,7 @@ class My_Account_Shortcode extends \eoxia\Singleton_Util {
 			} else {
 				global $wp;
 
-				$tab = '';
+				$tab = 'orders';
 
 				if ( array_key_exists( 'orders', $wp->query_vars ) ) {
 					$tab = 'orders';
