@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
-"POT-Creation-Date: 2019-03-07 17:08+0100\n"
-"PO-Revision-Date: 2019-03-07 17:09+0100\n"
+"POT-Creation-Date: 2019-03-07 17:18+0100\n"
+"PO-Revision-Date: 2019-03-07 17:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -1018,150 +1018,9 @@ msgstr ""
 msgid "Zimbabwe"
 msgstr ""
 
-#: core/view/main.view.php:7
-msgid "Name"
-msgstr "Nom"
-
-#: core/view/main.view.php:8 modules/doli-order/view/list.view.php:27
-#: modules/doli-proposals/view/list.view.php:25
-#: modules/emails/view/frontend/order-details.php:22
-#: modules/proposals/view/list.view.php:27
-msgid "Price"
-msgstr "Prix"
-
-#: core/view/main.view.php:9
-msgid "Quantite reel"
-msgstr ""
-
-#: core/view/main.view.php:10
-msgid "Quantite theorique"
-msgstr ""
-
-#: core/view/main.view.php:11
-msgid "Prix ttc"
-msgstr ""
-
-#: core/view/main.view.php:12
-msgid "Tva tx"
-msgstr ""
-
-#: core/view/main.view.php:13
-msgid "Supprimer"
-msgstr ""
-
-#: core/view/main.view.php:23
-msgid "Tva 7% : "
-msgstr ""
-
-#: core/view/main.view.php:23 core/view/main.view.php:24
-#: core/view/main.view.php:25 core/view/main.view.php:26
-msgid "€"
-msgstr ""
-
-#: core/view/main.view.php:24
-msgid "Tva 20% : "
-msgstr ""
-
-#: core/view/main.view.php:25
-msgid "Prix TTC : "
-msgstr ""
-
-#: core/view/main.view.php:26
-msgid "Prix Total : "
-msgstr ""
-
-#: core/view/main.view.php:33
-msgid "Aucun produit dans le panier"
-msgstr ""
-
-#: core/view/main.view.php:46 core/view/order-exemple.view.php:16
-msgid "Ajouter"
-msgstr ""
-
-#: core/view/main.view.php:52
-msgid "Ajouter un produit"
-msgstr ""
-
-#: core/view/main.view.php:56
-msgid "Nom"
-msgstr ""
-
-#: core/view/main.view.php:63 modules/cheque/view/form-setting.view.php:30
-#: modules/paypal/view/form-setting.view.php:44
-msgid "Description"
-msgstr ""
-
-#: core/view/main.view.php:71
-msgid "Prix ( € )"
-msgstr ""
-
-#: core/view/main.view.php:79
-msgid "Quantité"
-msgstr ""
-
-#: core/view/main.view.php:87
-msgid "Taxe ( % )"
-msgstr ""
-
-#: core/view/main.view.php:96
-msgid "Mettre en vente"
-msgstr ""
-
-#: core/view/main.view.php:100 modules/settings/view/payment-method.view.php:24
-msgid "Activé"
-msgstr ""
-
-#: core/view/main.view.php:104
-msgid "Désactivé"
-msgstr ""
-
-#: core/view/main.view.php:114
-msgid "Creer"
-msgstr ""
-
-#: core/view/main.view.php:118
-msgid "Produit ajouté avec succés"
-msgstr ""
-
-#: core/view/order-exemple-downloadpdf.view.php:13
-msgid "Télécharger le pdf"
-msgstr ""
-
-#: core/view/order-exemple-last.view.php:65
-msgid "Passer a l'achat"
-msgstr ""
-
-#: core/view/order-exemple.view.php:2
-msgid "Etape 1 - Identifiez vous"
-msgstr ""
-
-#: core/view/order-exemple.view.php:6
-msgid "Nom Utilisateur"
-msgstr ""
-
-#: core/view/product-focus.view.php:6
-msgid "Titre : "
-msgstr ""
-
-#: core/view/product-focus.view.php:6
-msgid "Titre du produit vide"
-msgstr ""
-
-#: core/view/product-focus.view.php:8
-msgid "Description en vente"
-msgstr ""
-
-#: core/view/product-focus.view.php:9
-msgid "Description du produit vide"
-msgstr ""
-
-#: core/view/product-focus.view.php:11
-msgid "Autre data"
-msgstr ""
-
 #: modules/cart/view/frontend/cart-totals.php:22
 msgid "Cart totals"
-msgstr ""
+msgstr "Total du panier"
 
 #: modules/cart/view/frontend/cart-totals.php:31
 #: modules/checkout/view/frontend/valid-checkout.php:24
@@ -1170,7 +1029,7 @@ msgstr ""
 #: modules/checkout/view/frontend/valid-proposal.php:50
 #: modules/doli_cart/view/frontend/cart-totals.php:20
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #: modules/cart/view/frontend/cart.php:25
 #: modules/checkout/view/frontend/review-order.php:23
@@ -1178,29 +1037,29 @@ msgstr ""
 #: modules/checkout/view/frontend/valid-checkout.php:34
 #: modules/doli-order/view/metabox-orders.view.php:22
 msgid "Product name"
-msgstr ""
+msgstr "Nom du produit"
 
 #: modules/cart/view/frontend/cart.php:26
 #: modules/checkout/view/frontend/review-order.php:24
 #: modules/checkout/view/frontend/review-order.php:40
 #: modules/checkout/view/frontend/valid-checkout.php:35
 #: modules/doli-order/view/metabox-orders.view.php:23
-msgid "TVA"
-msgstr ""
+msgid "VAT"
+msgstr "TVA"
 
 #: modules/cart/view/frontend/cart.php:27
 #: modules/checkout/view/frontend/review-order.php:25
 #: modules/checkout/view/frontend/review-order.php:41
 #: modules/checkout/view/frontend/valid-checkout.php:36
 msgid "P.U. HT"
-msgstr ""
+msgstr "P.U. HT"
 
 #: modules/cart/view/frontend/cart.php:27
 #: modules/checkout/view/frontend/review-order.php:25
 #: modules/checkout/view/frontend/valid-checkout.php:36
 #: modules/doli-order/view/metabox-orders.view.php:24
 msgid "P.U HT"
-msgstr ""
+msgstr "P.U HT"
 
 #: modules/cart/view/frontend/cart.php:28
 #: modules/checkout/view/frontend/review-order.php:26
@@ -1209,7 +1068,7 @@ msgstr ""
 #: modules/doli-order/view/metabox-orders.view.php:25
 #: modules/emails/view/frontend/order-details.php:21
 msgid "Quantity"
-msgstr ""
+msgstr "Quantité"
 
 #: modules/cart/view/frontend/cart.php:29
 #: modules/checkout/view/frontend/review-order.php:27
@@ -1220,223 +1079,228 @@ msgstr ""
 #: modules/doli-order/view/metabox-orders.view.php:26
 #: modules/doli-order/view/metabox-orders.view.php:50
 msgid "Total HT"
-msgstr ""
+msgstr "Total HT"
 
 #: modules/cart/view/frontend/empty-cart.php:19
 msgid "Your cart is empty."
-msgstr ""
+msgstr "Votre panier est vide."
 
 #: modules/cart/view/frontend/link-cart.php:20
 msgid "View cart"
-msgstr ""
+msgstr "Voir le panier"
 
 #: modules/checkout/class/class-checkout.php:44
 #: modules/checkout/view/frontend/form-shipping.php:27
 msgid "First name"
-msgstr ""
+msgstr "Prénom"
 
 #: modules/checkout/class/class-checkout.php:48
 #: modules/checkout/view/frontend/form-shipping.php:36
 msgid "Last name"
-msgstr ""
+msgstr "Nom de famille"
 
 #: modules/checkout/class/class-checkout.php:52
 msgid "Phone"
-msgstr ""
+msgstr "Numéro de téléphone"
 
 #: modules/checkout/class/class-checkout.php:56
 msgid "Email address"
-msgstr ""
+msgstr "Adresse email"
 
 #: modules/checkout/class/class-checkout.php:60
 #: modules/my-account/view/frontend/form-login.php:42
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
 #: modules/checkout/class/class-checkout.php:66
 #: modules/checkout/view/frontend/form-shipping.php:53
 #: modules/third-parties/view/list.view.php:30
 msgid "Country"
-msgstr ""
+msgstr "Pays"
 
 #: modules/checkout/class/class-checkout.php:70
 msgid "Street Address"
-msgstr ""
+msgstr "Adresse"
 
 #: modules/checkout/class/class-checkout.php:74
 msgid "Postcode / Zip"
-msgstr ""
+msgstr "Code postal"
 
 #: modules/checkout/class/class-checkout.php:78
 #: modules/checkout/view/frontend/form-shipping.php:90
 msgid "Town / City"
-msgstr ""
+msgstr "Commune"
 
 #: modules/checkout/class/class-checkout.php:89
 #, php-format
 msgid "%s is a required field."
-msgstr ""
+msgstr "%s est un champs requis."
 
 #: modules/checkout/class/class-checkout.php:100
 #, php-format
 msgid "%s is already used."
-msgstr ""
+msgstr "%s est déjà utilisé."
 
 #: modules/checkout/view/frontend/form-checkout-step-1.php:31
 msgid "Subscribe"
-msgstr ""
+msgstr "Inscription"
 
 #: modules/checkout/view/frontend/form-checkout-step-1.php:33
 msgid "Continue"
-msgstr ""
+msgstr "Continuer"
 
 #: modules/checkout/view/frontend/form-checkout-step-2.php:23
 msgid "Your order"
-msgstr ""
+msgstr "Votre commande"
 
 #: modules/checkout/view/frontend/form-shipping.php:19
 msgid "Shipping details"
-msgstr ""
+msgstr "Détails de livraison"
 
 #: modules/checkout/view/frontend/form-shipping.php:45
 msgid "Company name"
-msgstr ""
+msgstr "Nom de la société"
 
 #: modules/checkout/view/frontend/form-shipping.php:76
 msgid "Street address"
-msgstr ""
+msgstr "Adresse"
 
 #: modules/checkout/view/frontend/form-shipping.php:83
 msgid "Postcode / ZIP"
-msgstr ""
+msgstr "Code postal"
 
 #: modules/checkout/view/frontend/form-shipping.php:99
 #: modules/doli-order/view/metabox-order-details.view.php:65
 msgid "Phone number"
-msgstr ""
+msgstr "Numéro de téléphone"
 
 #: modules/checkout/view/frontend/form-shipping.php:108
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: modules/checkout/view/frontend/payment.php:52
-msgid "Devis"
-msgstr ""
+msgid "Quotation"
+msgstr "Devis"
 
 #: modules/checkout/view/frontend/payment.php:53
 msgid "Place order"
-msgstr ""
+msgstr "Payer"
 
 #: modules/checkout/view/frontend/proceed-to-checkout-button.php:20
 msgid "Proceed to checkout"
-msgstr ""
+msgstr "Procéder au paiement"
 
 #: modules/checkout/view/frontend/review-order.php:62
 #: modules/checkout/view/frontend/valid-checkout.php:69
 #: modules/doli-order/view/metabox-orders.view.php:58
-msgid "Total TVA"
-msgstr ""
+msgid "Total VAT"
+msgstr "Total TVA"
 
 #: modules/checkout/view/frontend/review-order.php:71
 #: modules/checkout/view/frontend/valid-checkout.php:78
 #: modules/my-account/view/frontend/my-account-orders.php:23
 msgid "Total TTC"
-msgstr ""
+msgstr "Total TTC"
 
 #: modules/checkout/view/frontend/valid-checkout.php:19
 msgid "Thanks, your order has been received"
-msgstr ""
+msgstr "Merci, nous avons bien reçu votre commande"
 
 #: modules/checkout/view/frontend/valid-checkout.php:22
 msgid "Order number"
-msgstr ""
+msgstr "Numéro de commande"
 
 #: modules/checkout/view/frontend/valid-checkout.php:23
 #: modules/checkout/view/frontend/valid-proposal.php:23
 #: modules/my-account/view/frontend/my-account-orders.php:21
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 #: modules/checkout/view/frontend/valid-checkout.php:25
 msgid "Method of payment"
-msgstr ""
+msgstr "Moyen de paiement"
 
 #: modules/checkout/view/frontend/valid-checkout.php:28
 msgid "Order detail"
-msgstr ""
+msgstr "Détail de la commande"
 
 #: modules/checkout/view/frontend/valid-checkout.php:85
 msgid "See my orders"
-msgstr ""
+msgstr "Voir mes commandes"
 
 #: modules/checkout/view/frontend/valid-proposal.php:19
 msgid "Thanks, your quotation has bee received"
-msgstr ""
+msgstr "Merci, votre devis a bien été reçu"
 
 #: modules/checkout/view/frontend/valid-proposal.php:22
 msgid "Quotation number"
-msgstr ""
+msgstr "Numéro de devis"
 
 #: modules/checkout/view/frontend/valid-proposal.php:27
 msgid "Quotation detail"
-msgstr ""
+msgstr "Détail du devis"
 
 #: modules/checkout/view/frontend/valid-proposal.php:32
 #: modules/emails/view/frontend/order-details.php:20
 #: modules/products/filter/class-product-filter.php:46
 #: modules/products/filter/class-product-filter.php:48
 msgid "Product"
-msgstr ""
+msgstr "Produit"
 
 #: modules/checkout/view/frontend/valid-proposal.php:57
 msgid "See my quotations"
-msgstr ""
+msgstr "Voir mes devis"
 
 #: modules/cheque/action/class-cheque-action.php:51
 #: modules/paypal/action/class-paypal-action.php:58
 #: modules/settings/action/class-settings-action.php:97
 #: modules/settings/action/class-settings-action.php:126
 #: modules/settings/action/class-settings-action.php:150
-msgid "Vos réglages ont été enregistrés."
-msgstr ""
+msgid "Your settings have been saved."
+msgstr "Vos réglages ont été enregistrés."
 
 #: modules/cheque/view/form-setting.view.php:23
 #: modules/paypal/view/form-setting.view.php:23
 #: modules/products/view/list.view.php:26
 #: modules/third-parties/view/list.view.php:25
 msgid "Title"
-msgstr ""
+msgstr "Titre"
+
+#: modules/cheque/view/form-setting.view.php:30
+#: modules/paypal/view/form-setting.view.php:44
+msgid "Description"
+msgstr "Description"
 
 #: modules/contacts/view/list.view.php:24
 #: modules/third-parties/view/list.view.php:26
 msgid "Associated contact"
-msgstr ""
+msgstr "Contact associé"
 
 #: modules/dashboard/action/class-dashboard-action.php:40
 #: modules/dashboard/view/main.view.php:20
 msgid "Dashboard"
-msgstr ""
+msgstr "Tableau de bord"
 
 #: modules/dashboard/action/class-dashboard-action.php:49
 #: modules/dashboard/view/metaboxes/metabox-sync.view.php:23
 msgid "Synchronization"
-msgstr ""
+msgstr "Synchronisation"
 
 #: modules/dashboard/action/class-dashboard-action.php:50
 msgid "Stats"
-msgstr ""
+msgstr "Statistiques"
 
 #: modules/dashboard/view/metaboxes/metabox-sync.view.php:22
 msgid "Data synchronization"
-msgstr ""
+msgstr "Synchronisation des données"
 
 #: modules/doli-order/action/class-doli-order-action.php:40
 msgid "Delivered"
-msgstr ""
+msgstr "Délivrée"
 
 #: modules/doli-order/action/class-doli-order-action.php:50
 msgid "Canceled"
-msgstr ""
+msgstr "Anulée"
 
 #: modules/doli-order/action/class-doli-order-action.php:66
 #: modules/doli-order/filter/class-doli-order-filter.php:32
@@ -1447,11 +1311,11 @@ msgstr ""
 #: modules/my-account/view/frontend/my-account-navigation.php:17
 #: modules/third-parties/action/class-third-party-action.php:81
 msgid "Orders"
-msgstr ""
+msgstr "Commandes"
 
 #: modules/doli-order/action/class-doli-order-action.php:77
 msgid "Order details #"
-msgstr ""
+msgstr "Détails de la commande #"
 
 #: modules/doli-order/action/class-doli-order-action.php:78
 #: modules/doli-synchro/class/class-doli-syncho-class.php:39
@@ -1461,44 +1325,44 @@ msgstr ""
 #: modules/products/view/main.view.php:20
 #: modules/proposals/action/class-proposals-action.php:75
 msgid "Products"
-msgstr ""
+msgstr "Produits"
 
 #: modules/doli-order/filter/class-doli-order-filter.php:33
 #: modules/doli-order/filter/class-doli-order-filter.php:35
 #: modules/my-account/view/frontend/my-account-orders.php:20
 msgid "Order"
-msgstr ""
+msgstr "Commande"
 
 #: modules/doli-order/filter/class-doli-order-filter.php:36
 #: modules/products/filter/class-product-filter.php:49
 #: modules/proposals/filter/class-proposals-filter.php:36
 #: modules/third-parties/filter/class-third-party-filter.php:36
 msgid "Add New"
-msgstr ""
+msgstr "Nouveau"
 
 #: modules/doli-order/filter/class-doli-order-filter.php:37
 msgid "Add New Order"
-msgstr ""
+msgstr "Ajouter nouvelle commande"
 
 #: modules/doli-order/filter/class-doli-order-filter.php:38
 msgid "New Order"
-msgstr ""
+msgstr "Nouvelle commande"
 
 #: modules/doli-order/filter/class-doli-order-filter.php:39
 msgid "Edit Order"
-msgstr ""
+msgstr "Editer commande"
 
 #: modules/doli-order/filter/class-doli-order-filter.php:40
 msgid "View Order"
-msgstr ""
+msgstr "Voir commande"
 
 #: modules/doli-order/filter/class-doli-order-filter.php:41
 msgid "All Orders"
-msgstr ""
+msgstr "Toutes les commandes"
 
 #: modules/doli-order/filter/class-doli-order-filter.php:42
 msgid "Search Orders"
-msgstr ""
+msgstr "Chercher dans les commandes"
 
 #: modules/doli-order/filter/class-doli-order-filter.php:43
 msgid "Parent Orders:"
@@ -1507,12 +1371,12 @@ msgstr ""
 #: modules/doli-order/filter/class-doli-order-filter.php:44
 #: modules/products/filter/class-product-filter.php:57
 msgid "No products found."
-msgstr ""
+msgstr "Aucun produits trouvés."
 
 #: modules/doli-order/filter/class-doli-order-filter.php:45
 #: modules/products/filter/class-product-filter.php:58
 msgid "No products found in Trash."
-msgstr ""
+msgstr "Aucun produits trouvés dans la poubelle."
 
 #: modules/doli-order/view/list.view.php:23
 #: modules/doli-proposals/view/list.view.php:23
@@ -1538,75 +1402,82 @@ msgstr ""
 msgid "Statut"
 msgstr ""
 
+#: modules/doli-order/view/list.view.php:27
+#: modules/doli-proposals/view/list.view.php:25
+#: modules/emails/view/frontend/order-details.php:22
+#: modules/proposals/view/list.view.php:27
+msgid "Price"
+msgstr "Prix"
+
 #: modules/doli-order/view/metabox-order-details.view.php:19
 msgid "Payment by"
-msgstr ""
+msgstr "Paiement par"
 
 #: modules/doli-order/view/metabox-order-details.view.php:25
 msgid "Customer"
-msgstr ""
+msgstr "Client"
 
 #: modules/doli-order/view/metabox-order-details.view.php:32
 #: modules/doli-proposals/view/order-details.view.php:19
 msgid "Payment method"
-msgstr ""
+msgstr "Moyen de paiement"
 
 #: modules/doli-order/view/metabox-order-details.view.php:33
 #: modules/doli-proposals/view/order-details.view.php:20
 msgid "Payment date"
-msgstr ""
+msgstr "Date du paiement"
 
 #: modules/doli-order/view/metabox-order-details.view.php:34
 #: modules/doli-proposals/view/order-details.view.php:21
 msgid "Payment reference"
-msgstr ""
+msgstr "Référence du paiement"
 
 #: modules/doli-order/view/metabox-order-details.view.php:35
 #: modules/doli-proposals/view/order-details.view.php:22
 msgid "Amount"
-msgstr ""
+msgstr "Montant"
 
 #: modules/doli-order/view/metabox-order-details.view.php:43
 msgid "View invoice"
-msgstr ""
+msgstr "Voir la facture"
 
 #: modules/doli-order/view/metabox-order-details.view.php:48
 msgid "Billing"
-msgstr ""
+msgstr "Facture"
 
 #: modules/doli-order/view/metabox-order-details.view.php:51
 msgid "No billing address"
-msgstr ""
+msgstr "Pas d'adresse de facturation"
 
 #: modules/doli-order/view/metabox-order-details.view.php:55
 msgid "Shipment"
-msgstr ""
+msgstr "Livraison"
 
 #: modules/doli-proposals/view/main.view.php:24
 msgid "Sync"
-msgstr ""
+msgstr "Synchroniser"
 
 #: modules/doli-synchro/class/class-doli-syncho-class.php:29
 #: modules/third-parties/filter/class-third-party-filter.php:32
 #: modules/third-parties/filter/class-third-party-filter.php:34
 msgid "Third parties"
-msgstr ""
+msgstr "Tiers"
 
 #: modules/doli-synchro/class/class-doli-syncho-class.php:34
 #: modules/third-parties/action/class-third-party-action.php:80
 msgid "Contacts"
-msgstr ""
+msgstr "Contacts"
 
 #: modules/doli-synchro/class/class-doli-syncho-class.php:44
 #: modules/proposals/filter/class-proposals-filter.php:32
 #: modules/proposals/filter/class-proposals-filter.php:34
 #: modules/proposals/view/main.view.php:20
 msgid "Proposals"
-msgstr ""
+msgstr "Propositions commerciales"
 
 #: modules/doli-synchro/class/class-doli-syncho-class.php:54
 msgid "Invoices"
-msgstr ""
+msgstr "Factures"
 
 #: modules/emails/class/class-emails-class.php:25
 msgid "Nouvelle commande"
@@ -1932,6 +1803,10 @@ msgstr ""
 msgid "Méthode"
 msgstr ""
 
+#: modules/settings/view/payment-method.view.php:24
+msgid "Activé"
+msgstr ""
+
 #: modules/settings/view/payment-method.view.php:25
 msgid "Configuration"
 msgstr ""
@@ -2005,3 +1880,6 @@ msgstr ""
 #: modules/transfert-data/action/class-transfert-data-action.php:178
 msgid "Contact #"
 msgstr ""
+
+#~ msgid "Name"
+#~ msgstr "Nom"

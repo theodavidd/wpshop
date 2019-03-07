@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<tr>
 			<th></th>
 			<th data-title="<?php esc_html_e( 'Product name', 'wpshop' ); ?>"><?php esc_html_e( 'Product name', 'wpshop' ); ?></th>
-			<th data-title="<?php esc_html_e( 'TVA', 'wpshop' ); ?>"><?php esc_html_e( 'TVA', 'wpshop' ); ?></th>
+			<th data-title="<?php esc_html_e( 'VAT', 'wpshop' ); ?>"><?php esc_html_e( 'VAT', 'wpshop' ); ?></th>
 			<th data-title="<?php esc_html_e( 'P.U. HT', 'wpshop' ); ?>"><?php esc_html_e( 'P.U HT', 'wpshop' ); ?></th>
 			<th data-title="<?php esc_html_e( 'Quantity', 'wpshop' ); ?>"><?php esc_html_e( 'Quantity', 'wpshop' ); ?></th>
 			<th data-title="<?php esc_html_e( 'Total HT', 'wpshop' ); ?>"><?php esc_html_e( 'Total HT', 'wpshop' ); ?></th>
@@ -66,7 +66,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			foreach ( $tva_lines as $key => $tva_line ) :
 				?>
 				<tr>
-					<td colspan="5"><strong><?php esc_html_e( 'Total TVA', 'wpshop' ); ?> <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
+					<td colspan="5"><strong><?php esc_html_e( 'Total VAT', 'wpshop' ); ?> <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
 					<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
 				</tr>
 				<?php

@@ -55,7 +55,7 @@ class Paypal_Action {
 
 		update_option( 'wps_payment_methods', $payment_methods_option );
 
-		set_transient( 'updated_wpshop_option_' . get_current_user_id(), __( 'Vos réglages ont été enregistrés.', 'wpshop' ), 30 );
+		set_transient( 'updated_wpshop_option_' . get_current_user_id(), __( 'Your settings have been saved.', 'wpshop' ), 30 );
 
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab=payment_method&section=paypal' ) );
 	}

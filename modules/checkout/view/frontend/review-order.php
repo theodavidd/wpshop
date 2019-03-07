@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<tr>
 			<th></th>
 			<th data-title="<?php esc_html_e( 'Product name', 'wpshop' ); ?>"><?php esc_html_e( 'Product name', 'wpshop' ); ?></th>
-			<th data-title="<?php esc_html_e( 'TVA', 'wpshop' ); ?>"><?php esc_html_e( 'TVA', 'wpshop' ); ?></th>
+			<th data-title="<?php esc_html_e( 'VAT', 'wpshop' ); ?>"><?php esc_html_e( 'VAT', 'wpshop' ); ?></th>
 			<th data-title="<?php esc_html_e( 'P.U. HT', 'wpshop' ); ?>"><?php esc_html_e( 'P.U HT', 'wpshop' ); ?></th>
 			<th data-title="<?php esc_html_e( 'Quantity', 'wpshop' ); ?>"><?php esc_html_e( 'Quantity', 'wpshop' ); ?></th>
 			<th data-title="<?php esc_html_e( 'Total HT', 'wpshop' ); ?>"><?php esc_html_e( 'Total HT', 'wpshop' ); ?></th>
@@ -37,7 +37,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					<tr>
 						<td><?php echo get_the_post_thumbnail( $cart_item['id'], array( 80, 80 ) ); ?></td>
 						<td data-title="<?php esc_html_e( 'Product name', 'wpshop' ); ?>"><a href="<?php echo esc_url( get_permalink( $cart_item['id'] ) ); ?>"><?php esc_html_e( $cart_item['title'] ); ?></a></td>
-						<td data-title="<?php esc_html_e( 'TVA', 'wpshop' ); ?>"><?php esc_html_e( number_format( $cart_item['tva_tx'], 2 , ',', '' ) ); ?>%</td>
+						<td data-title="<?php esc_html_e( 'VAT', 'wpshop' ); ?>"><?php esc_html_e( number_format( $cart_item['tva_tx'], 2 , ',', '' ) ); ?>%</td>
 						<td data-title="<?php esc_html_e( 'P.U. HT', 'wpshop' ); ?>"><?php esc_html_e( number_format( $cart_item['price'], 2, ',', '' ) ); ?>€</td>
 						<td data-title="<?php esc_html_e( 'Quantity', 'wpshop' ); ?>"><?php esc_html_e( $cart_item['qty'] ); ?></td>
 						<td data-title="<?php esc_html_e( 'Total HT', 'wpshop' ); ?>"><?php esc_html_e( number_format( $cart_item['price'] * $cart_item['qty'], 2, ',', '' ) ); ?>€</td>
@@ -59,7 +59,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			foreach ( $tva_lines as $key => $tva_line ) :
 				?>
 				<tr>
-					<td colspan="5"><strong><?php esc_html_e( 'Total TVA', 'wpshop' ); ?> <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
+					<td colspan="5"><strong><?php esc_html_e( 'Total VAT', 'wpshop' ); ?> <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
 					<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
 				</tr>
 				<?php
