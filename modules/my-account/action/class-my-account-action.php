@@ -43,7 +43,7 @@ class My_Account_Action {
 		add_action( 'wps_account_orders', array( My_Account_Class::g(), 'display_orders' ) );
 		add_action( 'wps_account_proposals', array( My_Account_Class::g(), 'display_proposals' ) );
 
-		add_action( 'wp_ajax_load_modal_resume_order', array( My_Account_Class::g(), 'load_modal_resume_order' ) );
+		add_action( 'wp_ajax_load_modal_resume_order', array( $this, 'load_modal_resume_order' ) );
 	}
 
 	public function handle_login() {
@@ -76,14 +76,20 @@ class My_Account_Action {
 			wp_send_json_error();
 		}
 
+		$contact     = Contact_Class::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+
 		$order = Orders_Class::g()->get( array( 'id' => $id ), true );
+
+		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) )
+			exit;
 
 		ob_start();
 		\eoxia\View_Util::exec( 'wpshop', 'my-account', 'frontend/order-modal', array(
 			'order' => $order,
 		) );
 		wp_send_json_success( array(
-			'view'          => ob_get_clean(),
+			'view'         => ob_get_clean(),
 			'buttons_view' => '<div class="wpeo-button button-main modal-close"><span>' . __( 'Close', 'wpshop' ) . '</span></div>'
 		) );
 	}

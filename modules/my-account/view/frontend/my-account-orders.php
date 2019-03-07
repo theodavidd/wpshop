@@ -33,7 +33,7 @@
 			  <th data-title="<?php echo esc_attr( $order->data['title'] ); ?>"><?php echo esc_html( $order->data['title'] ); ?></th>
 			  <td data-title="<?php echo esc_attr( $order->data['date_commande']['rendered']['date'] ); ?>"><?php echo esc_html( $order->data['date_commande']['rendered']['date'] ); ?></td>
 			  <td data-title="N/D"><?php echo esc_html( \wpshop\Payment_Class::g()->convert_status( $order->data ) ); ?></td>
-			  <td data-title="<?php echo esc_attr( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€"><?php echo esc_html( number_format( $order->data['total_ttc'], 2 ) ); ?>€</td>
+			  <td data-title="<?php echo esc_attr( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€"><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</td>
 			  <td data-title="View">
 				<?php
 				if ( ! empty( $order->data['invoice'] ) ) :
@@ -43,7 +43,13 @@
 				endif;
 				?>
 
-				<?php esc_html_e( 'Resume', 'wpshop' ); ?>
+				<div class="wpeo-button button-main wpeo-modal-event"
+					data-id="<?php echo esc_attr( $order->data['id'] ); ?>"
+					data-title="Commande <?php echo esc_attr( $order->data['title'] ); ?>"
+					data-action="load_modal_resume_order">
+					<span><?php esc_html_e( 'Resume', 'wpshop' ); ?></span>
+				</div>
+
 			  </td>
 			</tr>
 			<?php

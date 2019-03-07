@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
-"POT-Creation-Date: 2019-03-07 17:37+0100\n"
-"PO-Revision-Date: 2019-03-07 17:38+0100\n"
+"POT-Creation-Date: 2019-03-07 17:57+0100\n"
+"PO-Revision-Date: 2019-03-07 17:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.0.5\n"
 "X-Poedit-Basepath: ../../..\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-1: modules\n"
 "X-Poedit-SearchPathExcluded-0: core/external\n"
 
-#: core/action/class-core-action.php:63
+#: core/action/class-core-action.php:68
 msgid "WPShop"
 msgstr ""
 
@@ -1036,6 +1036,7 @@ msgstr "Total"
 #: modules/checkout/view/frontend/review-order.php:39
 #: modules/checkout/view/frontend/valid-checkout.php:44
 #: modules/doli-order/view/metabox-orders.view.php:22
+#: modules/my-account/view/frontend/order-modal.view.php:28
 msgid "Product name"
 msgstr "Nom du produit"
 
@@ -1044,6 +1045,7 @@ msgstr "Nom du produit"
 #: modules/checkout/view/frontend/review-order.php:40
 #: modules/checkout/view/frontend/valid-checkout.php:45
 #: modules/doli-order/view/metabox-orders.view.php:23
+#: modules/my-account/view/frontend/order-modal.view.php:29
 msgid "VAT"
 msgstr "TVA"
 
@@ -1051,6 +1053,7 @@ msgstr "TVA"
 #: modules/checkout/view/frontend/review-order.php:25
 #: modules/checkout/view/frontend/review-order.php:41
 #: modules/checkout/view/frontend/valid-checkout.php:46
+#: modules/my-account/view/frontend/order-modal.view.php:30
 msgid "P.U. HT"
 msgstr "P.U. HT"
 
@@ -1058,6 +1061,7 @@ msgstr "P.U. HT"
 #: modules/checkout/view/frontend/review-order.php:25
 #: modules/checkout/view/frontend/valid-checkout.php:46
 #: modules/doli-order/view/metabox-orders.view.php:24
+#: modules/my-account/view/frontend/order-modal.view.php:30
 msgid "P.U HT"
 msgstr "P.U HT"
 
@@ -1067,6 +1071,7 @@ msgstr "P.U HT"
 #: modules/checkout/view/frontend/valid-checkout.php:47
 #: modules/doli-order/view/metabox-orders.view.php:25
 #: modules/emails/view/frontend/order-details.php:21
+#: modules/my-account/view/frontend/order-modal.view.php:31
 msgid "Quantity"
 msgstr "Quantité"
 
@@ -1078,6 +1083,8 @@ msgstr "Quantité"
 #: modules/checkout/view/frontend/valid-checkout.php:71
 #: modules/doli-order/view/metabox-orders.view.php:26
 #: modules/doli-order/view/metabox-orders.view.php:50
+#: modules/my-account/view/frontend/order-modal.view.php:32
+#: modules/my-account/view/frontend/order-modal.view.php:55
 msgid "Total HT"
 msgstr "Total HT"
 
@@ -1170,7 +1177,7 @@ msgid "Postcode / ZIP"
 msgstr "Code postal"
 
 #: modules/checkout/view/frontend/form-shipping.php:99
-#: modules/doli-order/view/metabox-order-details.view.php:65
+#: modules/doli-order/view/metabox-order-details.view.php:71
 msgid "Phone number"
 msgstr "Numéro de téléphone"
 
@@ -1193,12 +1200,14 @@ msgstr "Procéder au paiement"
 #: modules/checkout/view/frontend/review-order.php:62
 #: modules/checkout/view/frontend/valid-checkout.php:79
 #: modules/doli-order/view/metabox-orders.view.php:58
+#: modules/my-account/view/frontend/order-modal.view.php:63
 msgid "Total VAT"
 msgstr "Total TVA"
 
 #: modules/checkout/view/frontend/review-order.php:71
 #: modules/checkout/view/frontend/valid-checkout.php:88
 #: modules/my-account/view/frontend/my-account-orders.php:23
+#: modules/my-account/view/frontend/order-modal.view.php:72
 msgid "Total TTC"
 msgstr "Total TTC"
 
@@ -1221,10 +1230,12 @@ msgid "Method of payment"
 msgstr "Moyen de paiement"
 
 #: modules/checkout/view/frontend/valid-checkout.php:31
+#: modules/my-account/view/frontend/order-modal.view.php:15
 msgid "How to pay for your order"
-msgstr ""
+msgstr "Marche à suivre pour payer votre commande"
 
 #: modules/checkout/view/frontend/valid-checkout.php:38
+#: modules/my-account/view/frontend/order-modal.view.php:22
 msgid "Order detail"
 msgstr "Détail de la commande"
 
@@ -1414,46 +1425,58 @@ msgid "Price"
 msgstr "Prix"
 
 #: modules/doli-order/view/metabox-order-details.view.php:19
+msgid "Payment"
+msgstr "Paiement"
+
+#: modules/doli-order/view/metabox-order-details.view.php:20
 msgid "Payment by"
 msgstr "Paiement par"
 
+#: modules/doli-order/view/metabox-order-details.view.php:21
+msgid "Payment status"
+msgstr "Statut du paiement"
+
 #: modules/doli-order/view/metabox-order-details.view.php:25
+msgid "View invoice"
+msgstr "Voir la facture"
+
+#: modules/doli-order/view/metabox-order-details.view.php:30
+msgid "Customer address"
+msgstr ""
+
+#: modules/doli-order/view/metabox-order-details.view.php:35
 msgid "Customer"
 msgstr "Client"
 
-#: modules/doli-order/view/metabox-order-details.view.php:32
+#: modules/doli-order/view/metabox-order-details.view.php:42
 #: modules/doli-proposals/view/order-details.view.php:19
 msgid "Payment method"
 msgstr "Moyen de paiement"
 
-#: modules/doli-order/view/metabox-order-details.view.php:33
+#: modules/doli-order/view/metabox-order-details.view.php:43
 #: modules/doli-proposals/view/order-details.view.php:20
 msgid "Payment date"
 msgstr "Date du paiement"
 
-#: modules/doli-order/view/metabox-order-details.view.php:34
+#: modules/doli-order/view/metabox-order-details.view.php:44
 #: modules/doli-proposals/view/order-details.view.php:21
 msgid "Payment reference"
 msgstr "Référence du paiement"
 
-#: modules/doli-order/view/metabox-order-details.view.php:35
+#: modules/doli-order/view/metabox-order-details.view.php:45
 #: modules/doli-proposals/view/order-details.view.php:22
 msgid "Amount"
 msgstr "Montant"
 
-#: modules/doli-order/view/metabox-order-details.view.php:43
-msgid "View invoice"
-msgstr "Voir la facture"
-
-#: modules/doli-order/view/metabox-order-details.view.php:48
+#: modules/doli-order/view/metabox-order-details.view.php:54
 msgid "Billing"
 msgstr "Facture"
 
-#: modules/doli-order/view/metabox-order-details.view.php:51
+#: modules/doli-order/view/metabox-order-details.view.php:57
 msgid "No billing address"
 msgstr "Pas d'adresse de facturation"
 
-#: modules/doli-order/view/metabox-order-details.view.php:55
+#: modules/doli-order/view/metabox-order-details.view.php:61
 msgid "Shipment"
 msgstr "Livraison"
 
@@ -1558,9 +1581,13 @@ msgstr "[Commande  #%s]"
 msgid "Price TTC"
 msgstr "Prix TTC"
 
-#: modules/my-account/action/class-my-account-action.php:61
+#: modules/my-account/action/class-my-account-action.php:63
 msgid "Your username or password is incorrect."
 msgstr "Votre identifiant ou votre mot de passe est incorrect."
+
+#: modules/my-account/action/class-my-account-action.php:93
+msgid "Close"
+msgstr "Fermer"
 
 #: modules/my-account/view/frontend/checkout-login.php:13
 msgid "Returning customer? Click here to login"
@@ -1595,7 +1622,7 @@ msgstr "Statut"
 msgid "Actions"
 msgstr "Actions"
 
-#: modules/my-account/view/frontend/my-account-orders.php:46
+#: modules/my-account/view/frontend/my-account-orders.php:50
 msgid "Resume"
 msgstr "Résumé"
 
