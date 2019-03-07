@@ -34,9 +34,7 @@ do_action( 'wps_before_customer_login_form' ); ?>
 
 	<?php do_action( 'wps_login_form' ); ?>
 
-	<div class="wpeo-button button-main">
-		<input type="submit" value="<?php esc_attr_e( 'Log in', 'wphsop' ); ?>" />
-	</div>
+	<input class="wpeo-button button-main" type="submit" value="<?php esc_attr_e( 'Log in', 'wphsop' ); ?>" />
 
 	<?php do_action( 'wps_login_form_end' ); ?>
 </form>
