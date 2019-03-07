@@ -121,9 +121,14 @@ class Checkout_Action {
 					'user_password' => $posted_data['contact']['password'],
 				);
 
-				wp_signon( $signon_data, is_ssl() );
+				$user = wp_signon( $signon_data, is_ssl() );
 
-				Emails_Class::g()->send_mail( $posted_data['contact']['email'], 'wps_email_customer_new_account', $posted_data );
+				$key = get_password_reset_key( $user );
+
+				$trackcode = get_user_meta( $contact->data['id'], 'p_user_registration_code', true);
+				$track_url = get_option('siteurl').'/wp-login.php?action=rp&key=' . $key . '&login=' . $posted_data['contact']['login'];
+
+				Emails_Class::g()->send_mail( $posted_data['contact']['email'], 'wps_email_customer_new_account', array_merge( $posted_data, array( 'url' => $track_url ) ) );
 			} else {
 				$current_user = wp_get_current_user();
 
