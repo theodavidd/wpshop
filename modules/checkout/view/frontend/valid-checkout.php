@@ -81,6 +81,14 @@ defined( 'ABSPATH' ) || exit; ?>
 	</tfoot>
 </table>
 
+<?php
+echo '<pre>'; print_r( $order ); echo '</pre>';exit;
+if ( $order->data['payment_method'] == 'cheque' ) :
+// 	echo stripslashes( nl2br( $payment_methods['cheque']['description'] ) );
+// endif;
+?>
+
+
 <a href="<?php echo Pages_Class::g()->get_account_link(); ?>orders/" class="wpeo-button button-main">
 	<span><?php esc_html_e( 'See my orders', 'wpshop' ); ?></span>
 </a>

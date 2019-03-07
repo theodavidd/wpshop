@@ -30,6 +30,7 @@ class Emails_Action {
 		add_action( 'admin_post_wps_copy_email_template', array( $this, 'callback_copy_email_template' ) );
 
 		add_action( 'wps_email_order_details', array( $this, 'order_details' ) );
+		add_action( 'wps_email_order_details', array( $this, 'type_payment' ), 20, 1 );
 	}
 
 	public function callback_copy_email_template() {
@@ -48,6 +49,13 @@ class Emails_Action {
 
 	public function order_details( $order ) {
 		include( Template_Util::get_template_part( 'emails', 'order-details' ) );
+	}
+
+	public function type_payment( $order ) {
+		$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+
+		include( Template_Util::get_template_part( 'emails', 'type-payment' ) );
+
 	}
 }
 
