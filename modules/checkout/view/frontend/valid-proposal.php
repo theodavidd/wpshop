@@ -16,15 +16,15 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-Merci. Votre devis a été reçue.
+<?php esc_html_e( 'Thanks, your quotation has bee received', 'wpshop' ); ?>
 
 <ul>
-	<li>Numéro de devis: <strong><?php echo esc_html( $proposal->data['title'] ); ?></strong></li>
-	<li>Date: <strong><?php echo esc_html( $proposal->data['datec']['rendered']['date'] ); ?></strong></li>
-	<li>Total: <strong><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2 ) ); ?>€</strong></li>
+	<li><?php esc_html_e( 'Quotation number', 'wpshop' ); ?> : <strong><?php echo esc_html( $proposal->data['title'] ); ?></strong></li>
+	<li><?php esc_html_e( 'Date', 'wpshop' ); ?> : <strong><?php echo esc_html( $proposal->data['datec']['rendered']['date'] ); ?></strong></li>
+	<li><?php esc_html_e( 'Total', 'wpshop' ); ?> : <strong><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2 ) ); ?>€</strong></li>
 </ul>
 
-<h2>Détails du devis</h2>
+<h2><?php esc_html_e( 'Quotation detail', 'wpshop' ); ?></h2>
 
 <table class="wpeo-table">
 	<thead>
@@ -47,12 +47,12 @@ Merci. Votre devis a été reçue.
 			endif;
 		?>
 		<tr>
-			<td>Total</td>
+			<td><?php esc_html_e( 'Total', 'wpshop' ); ?></td>
 			<td><?php echo number_format( $proposal->data['total_ttc'], 2 ); ?>€</td>
 		</tr>
 	</tbody>
 </table>
 
 <a href="<?php echo Pages_Class::g()->get_account_link(); ?>proposals/" class="wpeo-button button-main">
-	<span>Voir mes devis</span>
+	<span><?php esc_html_e( 'See my quotations', 'wpshop' ); ?></span>
 </a>

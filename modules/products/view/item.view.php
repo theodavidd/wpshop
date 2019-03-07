@@ -33,6 +33,6 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div
 			class="action-delete wpeo-button button-square-30 button-rounded"
 			data-action="wps_delete_product"
-			data-message-delete="<?php echo esc_attr_e( 'Êtes-vous sur de vouloir supprimer ce produit ?', 'wpshop' ); ?>"><i class="button-icon fas fa-trash"></i></div>
+			data-message-delete="<?php echo esc_attr_e( 'Are you sure you want to delete this product ?', 'wpshop' ); ?>"><i class="button-icon fas fa-trash"></i></div>
 	</td>
 </tr>

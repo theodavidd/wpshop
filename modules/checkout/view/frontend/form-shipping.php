@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="wpeo-grid grid-2">
 		<div>
 			<div class="form-element contact-firstname">
-				<span class="form-label">First name</span>
+				<span class="form-label"><?php esc_html_e( 'First name', 'wpshop' ); ?></span>
 				<label class="form-field-container">
 					<input type="text" class="form-field" name="contact[firstname]" value="<?php echo ! empty( $contact->data['firstname'] ) ? $contact->data['firstname'] : ''; ?>" />
 				</label>
@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 		<div>
 			<div class="form-element contact-lastname">
-				<span class="form-label">Last name</span>
+				<span class="form-label"><?php esc_html_e( 'Last name', 'wpshop' ); ?></span>
 				<label class="form-field-container">
 					<input type="text" class="form-field" name="contact[lastname]"  value="<?php echo ! empty( $contact->data['lastname'] ) ? $contact->data['lastname'] : ''; ?>" />
 				</label>
@@ -42,7 +42,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 
 	<div class="form-element third_party-title">
-		<span class="form-label">Company name</span>
+		<span class="form-label"><?php esc_html_e( 'Company name', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[title]" value="<?php echo ! empty( $third_party->data['title'] ) ? $third_party->data['title'] : ''; ?>" />
 		</label>
@@ -50,7 +50,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<?php $countries = get_countries(); ?>
 	<div class="form-element third_party-country_id">
-		<span class="form-label">Country*</span>
+		<span class="form-label"><?php esc_html_e( 'Country', 'wpshop' ); ?>*</span>
 		<label class="form-field-container">
 			<select id="monselect" class="form-field" name="third_party[country_id]">
 				<?php
@@ -73,21 +73,21 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 
 	<div class="form-element third_party-address">
-		<span class="form-label">Street address</span>
+		<span class="form-label"><?php esc_html_e( 'Street address', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[address]" value="<?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : ''; ?>"  />
 		</label>
 	</div>
 
 	<div class="form-element third_party-zip">
-		<span class="form-label">Postcode/ ZIP</span>
+		<span class="form-label"><?php esc_html_e( 'Postcode / ZIP', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[zip]" value="<?php echo ! empty( $third_party->data['zip'] ) ? $third_party->data['zip'] : ''; ?>"  />
 		</label>
 	</div>
 
 	<div class="form-element third_party-state">
-		<span class="form-label">Town / City</span>
+		<span class="form-label"><?php esc_html_e( 'Town / City', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[town]" value="<?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : ''; ?>"  />
 		</label>
@@ -96,7 +96,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="wpeo-grid grid-2">
 		<div>
 			<div class="form-element contact-phone">
-				<span class="form-label">Phone</span>
+				<span class="form-label"><?php esc_html_e( 'Phone number', 'wpshop' ); ?></span>
 				<label class="form-field-container">
 					<input type="text" class="form-field" name="contact[phone]" value="<?php echo ! empty( $contact->data['phone'] ) ? $contact->data['phone'] : ''; ?>"  />
 				</label>
@@ -105,7 +105,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 		<div>
 			<div class="form-element contact-email">
-				<span class="form-label">Email address*</span>
+				<span class="form-label"><?php esc_html_e( 'Email', 'wpshop' ); ?>*</span>
 				<label class="form-field-container">
 					<input type="text" class="form-field" name="contact[email]" value="<?php echo ! empty( $contact->data['email'] ) ? $contact->data['email'] : ''; ?>"  />
 				</label>

@@ -16,23 +16,23 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<p>Paiement par <?php echo empty( $order->data['payment_method'] ) ? 'N/D' : Payment_Class::g()->get_payment_title( $order->data['payment_method'] ); ?></p>
+<p><?php esc_html_e( 'Payment by', 'wpshop' ); ?> <?php echo empty( $order->data['payment_method'] ) ? 'N/D' : Payment_Class::g()->get_payment_title( $order->data['payment_method'] ); ?></p>
 <p><?php echo esc_html( Payment_Class::g()->convert_status( $order->data ) ); ?></p>
 
 <div class="wpeo-gridlayout grid-3">
 	<div>
 		<ul>
-			<li>Customer: <a href="<?php echo admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ); ?>" target="_blank"><?php echo $third_party->data['title']; ?></a></li>
+			<li><?php esc_html_e( 'Customer', 'wpshop' ); ?> : <a href="<?php echo admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ); ?>" target="_blank"><?php echo $third_party->data['title']; ?></a></li>
 		<?php
 		if ( ! empty( $invoice->data['payments'] ) ) :
 			?><li><?php
 			foreach ( $invoice->data['payments'] as $payment ) :
 				?>
 				<ul>
-					<li>Type de paiement : <?php echo esc_html( $payment->data['payment_type'] ); ?></li>
-					<li>Date de paiement : <?php echo esc_html( $payment->data['date']['rendered']['date_human_readable'] ); ?></li>
-					<li>Référence du paiement : <?php echo esc_html( $payment->data['title'] ); ?></li>
-					<li>Montant : <?php echo esc_html( $payment->data['amount'] ); ?>€</li>
+					<li><?php esc_html_e( 'Payment method', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['payment_type'] ); ?></li>
+					<li><?php esc_html_e( 'Payment date', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['date']['rendered']['date_human_readable'] ); ?></li>
+					<li><?php esc_html_e( 'Payment reference', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['title'] ); ?></li>
+					<li><?php esc_html_e( 'Amount', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['amount'] ); ?>€</li>
 				</ul>
 				<?php
 			endforeach;
@@ -45,14 +45,14 @@ defined( 'ABSPATH' ) || exit; ?>
 		?>
 	</div>
 	<div>
-		<strong>Facturation</strong>
+		<strong><?php esc_html_e( 'Billing', 'wpshop' ); ?></strong>
 
 		<ul>
-			<li>Aucune adresse de facturation</li>
+			<li><?php esc_html_e( 'No billing address', 'wpshop' ); ?></li>
 		</ul>
 	</div>
 	<div>
-		<strong>Expédition</strong>
+		<strong><?php esc_html_e( 'Shipment', 'wpshop' ); ?></strong>
 
 		<ul>
 			<li><?php echo ! empty( $third_party->data['title'] ) ? $third_party->data['title'] : 'N/D'; ?></li>
@@ -62,7 +62,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				<?php echo ! empty( $third_party->data['town']) ? $third_party->data['town'] : 'N/D'; ?>
 			</li>
 			<li>
-				<strong>Téléphone:</strong>
+				<strong><?php esc_html_e( 'Phone number', 'wpshop' ); ?> :</strong>
 				<p><?php echo ! empty( $third_party->data['phone']) ? $third_party->data['phone'] : 'N/D'; ?></p>
 			</li>
 		</ul>

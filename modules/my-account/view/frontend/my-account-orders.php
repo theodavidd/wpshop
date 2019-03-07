@@ -17,11 +17,11 @@
 <table class="wpeo-table">
   <thead>
     <tr>
-      <th data-title="Order">Order</th>
-      <th data-title="Date">Date</th>
-      <th data-title="Status">Status</th>
-      <th data-title="Total">Total TTC</th>
-      <th data-title="Total">Actions</th>
+      <th data-title="Order"><?php esc_html_e( 'Order', 'wpshop' ); ?></th>
+      <th data-title="Date"><?php esc_html_e( 'Date', 'wpshop' ); ?></th>
+      <th data-title="Status"><?php esc_html_e( 'Status', 'wpshop' ); ?></th>
+      <th data-title="Total"><?php esc_html_e( 'Total TTC', 'wpshop' ); ?></th>
+      <th data-title="Total"><?php esc_html_e( 'Actions', 'wpshop' ); ?></th>
     </tr>
   </thead>
   <tbody>
@@ -43,8 +43,7 @@
 				endif;
 				?>
 
-				Détails
-				Refaire cette commande
+				<?php esc_html_e( 'Resume', 'wpshop' ); ?>
 			  </td>
 			</tr>
 			<?php

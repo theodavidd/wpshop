@@ -32,14 +32,14 @@ endif;
 	<?php do_action( 'wps_login_form_start' ); ?>
 
 	<div class="form-element">
-		<span class="form-label">Username or email address</span>
+		<span class="form-label"><?php esc_html_e( 'Username or email address', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="username" />
 		</label>
 	</div>
 
 	<div class="form-element">
-		<span class="form-label">Password</span>
+		<span class="form-label"><?php esc_html_e( 'Password', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="password" class="form-field" name="password" />
 		</label>

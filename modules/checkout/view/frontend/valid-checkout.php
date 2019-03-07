@@ -16,16 +16,16 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-Merci. Votre commande a été reçue.
+<?php esc_html_e( 'Thanks, your order has been received', 'wpshop' ); ?>
 
 <ul>
-	<li>Numéro de commande: <strong><?php echo esc_html( $order->data['title'] ); ?></strong></li>
-	<li>Date: <strong><?php echo esc_html( $order->data['date_commande']['rendered']['date'] ); ?></strong></li>
-	<li>Total: <strong><?php echo esc_html( number_format( $order->data['total_ttc'], 2 ) ); ?>€</strong></li>
-	<li>Moyen de paiement: <strong><?php echo esc_html( $order->data['payment_method'] ); ?></strong></li>
+	<li><?php esc_html_e( 'Order number', 'wpshop' ); ?> : <strong><?php echo esc_html( $order->data['title'] ); ?></strong></li>
+	<li><?php esc_html_e( 'Date', 'wpshop' ); ?> : <strong><?php echo esc_html( $order->data['date_commande']['rendered']['date'] ); ?></strong></li>
+	<li><?php esc_html_e( 'Total', 'wpshop' ); ?> : <strong><?php echo esc_html( number_format( $order->data['total_ttc'], 2 ) ); ?>€</strong></li>
+	<li><?php esc_html_e( 'Method of payment', 'wpshop' ); ?> : <strong><?php echo esc_html( $order->data['payment_method'] ); ?></strong></li>
 </ul>
 
-<h2>Détails de la commande</h2>
+<h2><?php esc_html_e( 'Order detail', 'wpshop' ); ?></h2>
 
 <table class="wpeo-table">
 	<thead>
@@ -58,7 +58,7 @@ Merci. Votre commande a été reçue.
 	</tbody>
 	<tfoot>
 		<tr>
-			<td colspan="5"><strong>Total HT</strong></td>
+			<td colspan="5"><strong><?php esc_html_e( 'Total HT', 'wpshop' ); ?></strong></td>
 			<td><?php echo number_format( $order->data['total_ht'], 2, ',', '' ); ?>€</td>
 		</tr>
 		<?php
@@ -66,7 +66,7 @@ Merci. Votre commande a été reçue.
 			foreach ( $tva_lines as $key => $tva_line ) :
 				?>
 				<tr>
-					<td colspan="5"><strong>Total TVA <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
+					<td colspan="5"><strong><?php esc_html_e( 'Total TVA', 'wpshop' ); ?> <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
 					<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
 				</tr>
 				<?php
@@ -75,7 +75,7 @@ Merci. Votre commande a été reçue.
 		?>
 
 		<tr>
-			<td colspan="5"><strong>Total TTC</strong></td>
+			<td colspan="5"><strong><?php esc_html_e( 'Total TTC', 'wpshop' ); ?></strong></td>
 			<td><strong><?php echo number_format( $order->data['total_ttc'], 2, ',', '' ); ?>€</strong></td>
 		</tr>
 	</tfoot>
@@ -90,5 +90,5 @@ if ( $order->data['payment_method'] == 'cheque' ) :
 
 
 <a href="<?php echo Pages_Class::g()->get_account_link(); ?>orders/" class="wpeo-button button-main">
-	<span>Voir mes commandes</span>
+	<span><?php esc_html_e( 'See my orders', 'wpshop' ); ?></span>
 </a>

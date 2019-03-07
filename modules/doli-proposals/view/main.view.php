@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="action-attribute wpeo-button button-main"
 		data-action="synchro_proposals">
-		<span>Synchro</span>
+		<span><?php esc_html_e( 'Sync', 'wpshop' ); ?></span>
 	</div>
 
 	<?php Proposals_Class::g()->display(); ?>
