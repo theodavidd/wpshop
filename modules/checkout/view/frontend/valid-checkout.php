@@ -25,6 +25,16 @@ defined( 'ABSPATH' ) || exit; ?>
 	<li><?php esc_html_e( 'Method of payment', 'wpshop' ); ?> : <strong><?php echo esc_html( $order->data['payment_method'] ); ?></strong></li>
 </ul>
 
+<?php
+if ( $order->data['payment_method'] == 'cheque' ) :
+	?>
+	<h2><?php esc_html_e( 'How to pay for your order', 'wpshop' ); ?></h2>
+	<?php
+	$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+	echo stripslashes( nl2br( $payment_methods['cheque']['description'] ) );
+endif;
+?>
+
 <h2><?php esc_html_e( 'Order detail', 'wpshop' ); ?></h2>
 
 <table class="wpeo-table">
@@ -80,14 +90,6 @@ defined( 'ABSPATH' ) || exit; ?>
 		</tr>
 	</tfoot>
 </table>
-
-<?php
-echo '<pre>'; print_r( $order ); echo '</pre>';exit;
-if ( $order->data['payment_method'] == 'cheque' ) :
-// 	echo stripslashes( nl2br( $payment_methods['cheque']['description'] ) );
-// endif;
-?>
-
 
 <a href="<?php echo Pages_Class::g()->get_account_link(); ?>orders/" class="wpeo-button button-main">
 	<span><?php esc_html_e( 'See my orders', 'wpshop' ); ?></span>
