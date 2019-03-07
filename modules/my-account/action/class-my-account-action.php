@@ -60,7 +60,7 @@ class My_Account_Action {
 		), is_ssl() );
 
 		if ( is_wp_error( $user ) ) {
-			set_transient( 'login_error_' . $_COOKIE['PHPSESSID'], __( 'Votre identifiant ou votre mot de passe est incorrect.', 'wpshop' ), 30 );
+			set_transient( 'login_error_' . $_COOKIE['PHPSESSID'], __( 'Your username or password is incorrect.', 'wpshop' ), 30 );
 
 			wp_redirect( $page );
 		} else {

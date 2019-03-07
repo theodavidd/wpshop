@@ -22,22 +22,22 @@ class Emails_Class extends \eoxia\Singleton_Util {
 
 	protected function construct() {
 		$this->emails['wps_email_new_order'] = array(
-			'title'             => __( 'Nouvelle commande', 'wpshop' ),
+			'title'             => __( 'New order', 'wpshop' ),
 			'filename_template' => 'admin-new-order.php',
 		);
 
 		$this->emails['wps_email_customer_processing_order'] = array(
-			'title'             => __( 'Commande en cours', 'wpshop' ),
+			'title'             => __( 'Pending order', 'wpshop' ),
 			'filename_template' => 'customer-processing-order.php',
 		);
 
 		$this->emails['wps_email_customer_completed_order'] = array(
-			'title'             => __( 'Commande complété', 'wpshop' ),
+			'title'             => __( 'Completed order', 'wpshop' ),
 			'filename_template' => 'customer-completed-order.php',
 		);
 
 		$this->emails['wps_email_customer_new_account'] = array(
-			'title'             => __( 'Nouveau compte', 'wpshop' ),
+			'title'             => __( 'New account', 'wpshop' ),
 			'filename_template' => 'customer-new-account.php',
 		);
 

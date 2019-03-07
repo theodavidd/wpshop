@@ -31,6 +31,7 @@ class Core_Action {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'callback_register_session' ), 1 );
+		add_action( 'init', array( $this, 'callback_language' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts' ), 11 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_enqueue_scripts' ), 11 );
@@ -42,6 +43,10 @@ class Core_Action {
 		if ( ! session_id() ) {
 			session_start();
 		}
+	}
+
+	public function callback_language() {
+		$i18n_loaded = load_plugin_textdomain( 'wpshop', false, PLUGIN_WPSHOP_DIR . '/core/asset/language/' );
 	}
 
 	/**

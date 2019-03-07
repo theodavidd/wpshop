@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<?php wp_nonce_field( basename( __FILE__ ), 'wpshop_data_fields' ); ?>
 
 	<div>
-		<h3><?php esc_html_e( 'Prix', 'wpshop' ); ?></h3>
+		<h3><?php esc_html_e( 'Price', 'wpshop' ); ?></h3>
 
 		<div class="form-element">
 			<span class="form-label">Prix HT (€)</span>
@@ -46,7 +46,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 
 	<div>
-		<h3><?php esc_html_e( 'Identifiant', 'wpshop' ); ?></h3>
+		<h3><?php esc_html_e( 'Username', 'wpshop' ); ?></h3>
 
 		<div class="form-element">
 			<span class="form-label">Code barre</span>

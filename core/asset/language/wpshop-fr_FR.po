@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
-"POT-Creation-Date: 2019-03-07 17:18+0100\n"
-"PO-Revision-Date: 2019-03-07 17:22+0100\n"
+"POT-Creation-Date: 2019-03-07 17:37+0100\n"
+"PO-Revision-Date: 2019-03-07 17:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -1034,7 +1034,7 @@ msgstr "Total"
 #: modules/cart/view/frontend/cart.php:25
 #: modules/checkout/view/frontend/review-order.php:23
 #: modules/checkout/view/frontend/review-order.php:39
-#: modules/checkout/view/frontend/valid-checkout.php:34
+#: modules/checkout/view/frontend/valid-checkout.php:44
 #: modules/doli-order/view/metabox-orders.view.php:22
 msgid "Product name"
 msgstr "Nom du produit"
@@ -1042,7 +1042,7 @@ msgstr "Nom du produit"
 #: modules/cart/view/frontend/cart.php:26
 #: modules/checkout/view/frontend/review-order.php:24
 #: modules/checkout/view/frontend/review-order.php:40
-#: modules/checkout/view/frontend/valid-checkout.php:35
+#: modules/checkout/view/frontend/valid-checkout.php:45
 #: modules/doli-order/view/metabox-orders.view.php:23
 msgid "VAT"
 msgstr "TVA"
@@ -1050,13 +1050,13 @@ msgstr "TVA"
 #: modules/cart/view/frontend/cart.php:27
 #: modules/checkout/view/frontend/review-order.php:25
 #: modules/checkout/view/frontend/review-order.php:41
-#: modules/checkout/view/frontend/valid-checkout.php:36
+#: modules/checkout/view/frontend/valid-checkout.php:46
 msgid "P.U. HT"
 msgstr "P.U. HT"
 
 #: modules/cart/view/frontend/cart.php:27
 #: modules/checkout/view/frontend/review-order.php:25
-#: modules/checkout/view/frontend/valid-checkout.php:36
+#: modules/checkout/view/frontend/valid-checkout.php:46
 #: modules/doli-order/view/metabox-orders.view.php:24
 msgid "P.U HT"
 msgstr "P.U HT"
@@ -1064,7 +1064,7 @@ msgstr "P.U HT"
 #: modules/cart/view/frontend/cart.php:28
 #: modules/checkout/view/frontend/review-order.php:26
 #: modules/checkout/view/frontend/review-order.php:42
-#: modules/checkout/view/frontend/valid-checkout.php:37
+#: modules/checkout/view/frontend/valid-checkout.php:47
 #: modules/doli-order/view/metabox-orders.view.php:25
 #: modules/emails/view/frontend/order-details.php:21
 msgid "Quantity"
@@ -1074,8 +1074,8 @@ msgstr "Quantité"
 #: modules/checkout/view/frontend/review-order.php:27
 #: modules/checkout/view/frontend/review-order.php:43
 #: modules/checkout/view/frontend/review-order.php:54
-#: modules/checkout/view/frontend/valid-checkout.php:38
-#: modules/checkout/view/frontend/valid-checkout.php:61
+#: modules/checkout/view/frontend/valid-checkout.php:48
+#: modules/checkout/view/frontend/valid-checkout.php:71
 #: modules/doli-order/view/metabox-orders.view.php:26
 #: modules/doli-order/view/metabox-orders.view.php:50
 msgid "Total HT"
@@ -1191,13 +1191,13 @@ msgid "Proceed to checkout"
 msgstr "Procéder au paiement"
 
 #: modules/checkout/view/frontend/review-order.php:62
-#: modules/checkout/view/frontend/valid-checkout.php:69
+#: modules/checkout/view/frontend/valid-checkout.php:79
 #: modules/doli-order/view/metabox-orders.view.php:58
 msgid "Total VAT"
 msgstr "Total TVA"
 
 #: modules/checkout/view/frontend/review-order.php:71
-#: modules/checkout/view/frontend/valid-checkout.php:78
+#: modules/checkout/view/frontend/valid-checkout.php:88
 #: modules/my-account/view/frontend/my-account-orders.php:23
 msgid "Total TTC"
 msgstr "Total TTC"
@@ -1220,11 +1220,15 @@ msgstr "Date"
 msgid "Method of payment"
 msgstr "Moyen de paiement"
 
-#: modules/checkout/view/frontend/valid-checkout.php:28
+#: modules/checkout/view/frontend/valid-checkout.php:31
+msgid "How to pay for your order"
+msgstr ""
+
+#: modules/checkout/view/frontend/valid-checkout.php:38
 msgid "Order detail"
 msgstr "Détail de la commande"
 
-#: modules/checkout/view/frontend/valid-checkout.php:85
+#: modules/checkout/view/frontend/valid-checkout.php:95
 msgid "See my orders"
 msgstr "Voir mes commandes"
 
@@ -1404,7 +1408,7 @@ msgstr ""
 
 #: modules/doli-order/view/list.view.php:27
 #: modules/doli-proposals/view/list.view.php:25
-#: modules/emails/view/frontend/order-details.php:22
+#: modules/products/view/metabox/main.view.php:23
 #: modules/proposals/view/list.view.php:27
 msgid "Price"
 msgstr "Prix"
@@ -1480,35 +1484,37 @@ msgid "Invoices"
 msgstr "Factures"
 
 #: modules/emails/class/class-emails-class.php:25
-msgid "Nouvelle commande"
-msgstr ""
+#, fuzzy
+#| msgid "New Order"
+msgid "New order"
+msgstr "Nouvelle commande"
 
 #: modules/emails/class/class-emails-class.php:30
-msgid "Commande en cours"
-msgstr ""
+msgid "Pending order"
+msgstr "Commande en cours"
 
 #: modules/emails/class/class-emails-class.php:35
-msgid "Commande complété"
-msgstr ""
+msgid "Completed order"
+msgstr "Commande complétée"
 
 #: modules/emails/class/class-emails-class.php:40
-msgid "Nouveau compte"
-msgstr ""
+msgid "New account"
+msgstr "Nouveau compte"
 
 #: modules/emails/class/class-emails-class.php:45
 msgid "Reset password"
-msgstr ""
+msgstr "Mot de passe réinitialisé"
 
 #: modules/emails/view/admin-new-order.php:13
 #, php-format
 msgid "You’ve received the following order from %s:"
-msgstr ""
+msgstr "Vous avez reçu la commande suivante de %s:"
 
 #: modules/emails/view/customer-new-account.php:14
 #: modules/emails/view/customer-processing-order.php:14
 #, php-format
 msgid "Hi %s,"
-msgstr ""
+msgstr "Bonjour %s,"
 
 #: modules/emails/view/customer-new-account.php:16
 #, php-format
@@ -1517,16 +1523,22 @@ msgid ""
 "access your account area to view orders, change your password, and more at: "
 "<a target=\"_blank\" href=\"%3$s\">%4$s</a>"
 msgstr ""
+"Merci d'avoir crée votre compte sur %1$s. Votre identifiant est %2$s. Vous "
+"pouvez accéder à votre compte pour voir vos commandes, télécharger vos "
+"factures, réinitialiser votre mot de passe et bien d'autre, sur : <a target="
+"\"_blank\" href=\"%3$s\">%4$s</a>"
 
 #: modules/emails/view/customer-new-account.php:18
 #, php-format
 msgid ""
 "Click here to create your password: <a href=\"%s\">Create my password</a>"
 msgstr ""
+"Cliquez ici pour créer  votre mot de passe : <a href=\"%s\">Créer mon mot de "
+"passe</a>"
 
 #: modules/emails/view/customer-new-account.php:20
 msgid "We look forward to seeing you soon."
-msgstr ""
+msgstr "Nous avons hâte de vous revoir bientôt."
 
 #: modules/emails/view/customer-processing-order.php:16
 #, php-format
@@ -1534,70 +1546,80 @@ msgid ""
 "Just to let you know — we've received your order #%s, and it is now being "
 "processed:"
 msgstr ""
+"Nous vous informons que nous avons bien reçu votre commande #%s. Celle-ci "
+"est en cours de traitement:"
 
 #: modules/emails/view/frontend/order-details.php:12
 #, php-format
 msgid "[Order #%s]"
-msgstr ""
+msgstr "[Commande  #%s]"
+
+#: modules/emails/view/frontend/order-details.php:22
+msgid "Price TTC"
+msgstr "Prix TTC"
 
 #: modules/my-account/action/class-my-account-action.php:61
-msgid "Votre identifiant ou votre mot de passe est incorrect."
-msgstr ""
+msgid "Your username or password is incorrect."
+msgstr "Votre identifiant ou votre mot de passe est incorrect."
 
 #: modules/my-account/view/frontend/checkout-login.php:13
 msgid "Returning customer? Click here to login"
-msgstr ""
+msgstr "Déjà client ? Cliquez ici pour vous connecter"
 
 #: modules/my-account/view/frontend/form-login.php:35
 msgid "Username or email address"
-msgstr ""
+msgstr "Identifiant ou adresse email"
 
 #: modules/my-account/view/frontend/form-login.php:50
 msgid "Log in"
-msgstr ""
+msgstr "Connexion"
 
 #: modules/my-account/view/frontend/form-login.php:51
 msgid "Lost Password"
-msgstr ""
+msgstr "Mot de passe perdu"
 
 #: modules/my-account/view/frontend/login-title.php:11
 msgid "Login"
-msgstr ""
+msgstr "Connexion"
 
 #: modules/my-account/view/frontend/my-account-navigation.php:18
 msgid "Logout"
-msgstr ""
+msgstr "Deconnexion"
 
 #: modules/my-account/view/frontend/my-account-orders.php:22
 #: modules/proposals/view/list.view.php:26
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
 #: modules/my-account/view/frontend/my-account-orders.php:24
 msgid "Actions"
-msgstr ""
+msgstr "Actions"
 
 #: modules/my-account/view/frontend/my-account-orders.php:46
 msgid "Resume"
-msgstr ""
+msgstr "Résumé"
 
 #: modules/payment/class/class-payment-class.php:30
 msgid "Payment by cheque"
-msgstr ""
+msgstr "Paiement par chèque"
 
 #: modules/payment/class/class-payment-class.php:31
 msgid ""
 "Please send a check to Store Name, Store Street, Store Town, Store State / "
 "County, Store Postcode."
 msgstr ""
+"Veuillez envoyer un chèque au Nom de la boutique, adresse, ville, pays, Code "
+"postal."
 
 #: modules/payment/class/class-payment-class.php:34
 msgid "PayPal"
-msgstr ""
+msgstr "PayPal"
 
 #: modules/payment/class/class-payment-class.php:35
 msgid "Accept payments via PayPal using account balance or credit card."
 msgstr ""
+"Paiements par PayPal utilisant le solde du compte ou la carte de crédit "
+"acceptés."
 
 #: modules/paypal/filter/class-paypal-filter.php:32
 msgid ""
@@ -1608,7 +1630,7 @@ msgstr ""
 
 #: modules/paypal/view/form-setting.view.php:30
 msgid "Paypal email"
-msgstr ""
+msgstr "Email Paypal"
 
 #: modules/paypal/view/form-setting.view.php:39
 msgid "Paypal Sandbox"
@@ -1616,52 +1638,52 @@ msgstr ""
 
 #: modules/products/action/class-product-action.php:49
 msgid "Products Category"
-msgstr ""
+msgstr "Catégories de produits"
 
 #: modules/products/filter/class-product-filter.php:50
 msgid "Add New Product"
-msgstr ""
+msgstr "Ajouter nouveau produit"
 
 #: modules/products/filter/class-product-filter.php:51
 msgid "New Product"
-msgstr ""
+msgstr "Nouveau produit"
 
 #: modules/products/filter/class-product-filter.php:52
 msgid "Edit Product"
-msgstr ""
+msgstr "Editer produit"
 
 #: modules/products/filter/class-product-filter.php:53
 msgid "View Product"
-msgstr ""
+msgstr "Voir produit"
 
 #: modules/products/filter/class-product-filter.php:54
 msgid "All Products"
-msgstr ""
+msgstr "Tous les produits"
 
 #: modules/products/filter/class-product-filter.php:55
 msgid "Search Products"
-msgstr ""
+msgstr "Recherche dans produits"
 
 #: modules/products/filter/class-product-filter.php:56
 msgid "Parent Products:"
-msgstr ""
+msgstr "Parent de produits:"
 
 #: modules/products/filter/class-product-filter.php:86
 msgid "Products category"
-msgstr ""
+msgstr "Catégorie de produits"
 
 #: modules/products/filter/class-product-filter.php:87
 #: modules/products/filter/class-product-filter.php:96
 msgid "Product category"
-msgstr ""
+msgstr "Catégorie de produit"
 
 #: modules/products/filter/class-product-filter.php:88
 msgid "Search Products category"
-msgstr ""
+msgstr "Recherche uen catégorie de produits"
 
 #: modules/products/filter/class-product-filter.php:89
 msgid "All Products category"
-msgstr ""
+msgstr "Toutes les catégories de produits"
 
 #: modules/products/filter/class-product-filter.php:90
 msgid "Parent Product category"
@@ -1689,58 +1711,54 @@ msgstr ""
 
 #: modules/products/view/frontend/single-wps-product.php:28
 msgid "Add to cart"
-msgstr ""
+msgstr "Ajouter au panier"
 
 #: modules/products/view/item.view.php:36
 msgid "Are you sure you want to delete this product ?"
-msgstr ""
+msgstr "Êtes-vous sûre de vouloir supprimer ce produit ?"
 
 #: modules/products/view/list.view.php:25
 msgid "Photo"
-msgstr ""
+msgstr "Photo"
 
 #: modules/products/view/list.view.php:27
 msgid "Price HT(€)"
-msgstr ""
+msgstr "Prix HT(€)"
 
 #: modules/products/view/list.view.php:28
 msgid "Tax Rate"
-msgstr ""
+msgstr "Taux de TVA"
 
 #: modules/products/view/list.view.php:29
 msgid "Price TTC(€)"
-msgstr ""
+msgstr "Prix TTC(€)"
 
 #: modules/products/view/list.view.php:30
 msgid "Barcode"
-msgstr ""
+msgstr "Code barre"
 
 #: modules/products/view/main.view.php:22
 #: modules/proposals/view/main.view.php:22
 #: modules/third-parties/view/main.view.php:22
 msgid "Add"
-msgstr ""
-
-#: modules/products/view/metabox/main.view.php:23
-msgid "Prix"
-msgstr ""
+msgstr "Ajouter"
 
 #: modules/products/view/metabox/main.view.php:49
-msgid "Identifiant"
-msgstr ""
+msgid "Username"
+msgstr "Identifiant"
 
 #: modules/proposals/action/class-proposals-action.php:74
 msgid "Proposal details #"
-msgstr ""
+msgstr "Details de la proposition commerciale #"
 
 #: modules/proposals/action/class-proposals-action.php:76
 msgid "Proposal actions"
-msgstr ""
+msgstr "Actions de la proposition commerciale"
 
 #: modules/proposals/filter/class-proposals-filter.php:33
 #: modules/proposals/filter/class-proposals-filter.php:35
 msgid "Proposal"
-msgstr ""
+msgstr "Proposition commerciale"
 
 #: modules/proposals/filter/class-proposals-filter.php:37
 msgid "Add New Proposal"
@@ -1788,42 +1806,39 @@ msgstr ""
 
 #: modules/settings/action/class-settings-action.php:44
 #: modules/settings/view/main.view.php:20
+#: modules/settings/view/payment-method.view.php:25
 msgid "Settings"
-msgstr ""
+msgstr "Options"
 
 #: modules/settings/class/class-settings-class.php:48
 msgid "No page"
-msgstr ""
+msgstr "Pas de page"
 
 #: modules/settings/view/emails.view.php:22
 msgid "E-mail"
-msgstr ""
+msgstr "Email"
 
 #: modules/settings/view/payment-method.view.php:23
-msgid "Méthode"
-msgstr ""
+msgid "Method"
+msgstr "Méthode"
 
 #: modules/settings/view/payment-method.view.php:24
-msgid "Activé"
-msgstr ""
-
-#: modules/settings/view/payment-method.view.php:25
-msgid "Configuration"
-msgstr ""
+msgid "Activated"
+msgstr "Activé"
 
 #: modules/third-parties/action/class-third-party-action.php:56
 #: modules/third-parties/view/main.view.php:20
 msgid "Third Parties"
-msgstr ""
+msgstr "Tiers"
 
 #: modules/third-parties/action/class-third-party-action.php:79
 msgid "Billing address"
-msgstr ""
+msgstr "Adresse de facturation"
 
 #: modules/third-parties/filter/class-third-party-filter.php:33
 #: modules/third-parties/filter/class-third-party-filter.php:35
 msgid "Third party"
-msgstr ""
+msgstr "Tier"
 
 #: modules/third-parties/filter/class-third-party-filter.php:37
 msgid "Add New Third party"
@@ -1863,15 +1878,15 @@ msgstr ""
 
 #: modules/third-parties/view/list.view.php:27
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
 #: modules/third-parties/view/list.view.php:28
 msgid "Zip Code"
-msgstr ""
+msgstr "Code postal"
 
 #: modules/third-parties/view/list.view.php:29
 msgid "Town"
-msgstr ""
+msgstr "Ville"
 
 #: modules/third-parties/view/single-title-edit.view.php:25
 msgid "New third party"
@@ -1879,7 +1894,7 @@ msgstr ""
 
 #: modules/transfert-data/action/class-transfert-data-action.php:178
 msgid "Contact #"
-msgstr ""
+msgstr "Contact #"
 
 #~ msgid "Name"
 #~ msgstr "Nom"
