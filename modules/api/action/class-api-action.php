@@ -32,7 +32,7 @@ class API_Action {
 	}
 
 	public function callback_wps_gateway_paypal( $request ) {
-		$data = $request->get_body_params();
+		$data['custom'] = $order->data['id'];
 
 		$txn_id = get_post_meta( $data['custom'], 'payment_txn_id', true );
 

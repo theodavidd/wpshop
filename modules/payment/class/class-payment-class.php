@@ -27,10 +27,17 @@ class Payment_Class extends \eoxia\Singleton_Util {
 	protected function construct() {
 		$this->default_options = array(
 			'cheque' => array(
+				'active'      => true,
 				'title'       => __( 'Payment by cheque', 'wpshop' ),
 				'description' => __( 'Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.', 'wpshop' ),
 			),
+			'payment_in_shop' => array(
+				'active'      => true,
+				'title'       => __( 'Payment in shop', 'wpshop' ),
+				'description' => __( 'Pay and pick up directly your products at the shop.', 'wpshop' ),
+			),
 			'paypal' => array(
+				'active'             => true,
 				'title'              => __( 'PayPal', 'wpshop' ),
 				'description'        => __( 'Accept payments via PayPal using account balance or credit card.', 'wpshop' ),
 				'paypal_email'       => '',
@@ -74,6 +81,15 @@ class Payment_Class extends \eoxia\Singleton_Util {
 				}
 				break;
 			case 'paypal':
+				if ( $order['billed'] ) {
+					$statut = 'Payée';
+				} elseif ( $order['payment_failed'] ) {
+					$statut = 'Paiment échoué.';
+				} else {
+					$statut = 'En attente du paiement';
+				}
+				break;
+			case 'payment_in_shop':
 				if ( $order['billed'] ) {
 					$statut = 'Payée';
 				} else {

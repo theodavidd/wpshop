@@ -94,6 +94,13 @@ class Orders_Model extends \eoxia\Post_Model {
 			'default'   => 0,
 		);
 
+		$this->schema['payment_failed'] = array(
+			'type'      => 'boolean',
+			'meta_type' => 'single',
+			'field'     => '_payment_failed',
+			'default'   => false,
+		);
+
 		// $this->schema['payments'] = array(
 		// 	'type'      => 'array',
 		// 	'meta_type' => 'single',

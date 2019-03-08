@@ -66,7 +66,6 @@ class Paypal_Class extends \eoxia\Singleton_Util {
 			'return'        => Pages_Class::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
 			'notify_url'    => site_url( 'wp-json/wpshop/v2/wps_gateway_paypal' ),
 			'cancel_return' => '',
-			'invoice'       => $order->data['id'],
 			'email'         => $contact->data['email'],
 			'custom'        => $order->data['id'],
 		);

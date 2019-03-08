@@ -43,6 +43,10 @@ class Core_Action {
 		if ( ! session_id() ) {
 			session_start();
 		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			show_admin_bar( false );
+		}
 	}
 
 	public function callback_language() {

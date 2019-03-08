@@ -141,6 +141,16 @@ class Checkout_Class extends \eoxia\Singleton_Util {
 					'url'              => Pages_Class::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
 				) );
 				break;
+			case 'payment_in_shop':
+				update_post_meta( $order->data['id'], 'payment_method', 'payment_in_shop' );
+				Class_Cart_Session::g()->destroy();
+				wp_send_json_success( array(
+					'namespace'        => 'wpshopFrontend',
+					'module'           => 'checkout',
+					'callback_success' => 'redirect',
+					'url'              => Pages_Class::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
+				) );
+				break;
 		}
 
 	}

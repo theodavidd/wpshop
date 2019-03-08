@@ -61,6 +61,7 @@ class Paypal_Action {
 	}
 
 	public function callback_wps_gateway_paypal( $data ) {
+
 		if ( ! empty( $data ) && $this->validate_ipn( $data ) ) { // WPCS: CSRF ok.
 			$posted = wp_unslash( $data );
 			do_action( 'wps_valid_paypal_standard_ipn_request', $posted );
@@ -73,8 +74,9 @@ class Paypal_Action {
 		// $order = ! empty( $posted['custom'] ) ? Order_Class::g()->get( array( 'id' => (int) $posted['custom'] ), true ) : null;
 
 		// if ( $order ) {
-			if ( method_exists( $this, 'payment_status_' . $posted['payment_status'] ) ) {
-				call_user_func( array( $this, 'payment_status_' . $posted['payment_status'] ), $posted );
+
+			if ( method_exists( $this, 'payment_status_' . strtolower( $posted['payment_status'] ) ) ) {
+				call_user_func( array( $this, 'payment_status_' . strtolower( $posted['payment_status'] ) ), $posted );
 			}
 		// }
 	}
@@ -102,6 +104,10 @@ class Paypal_Action {
 
 	private function payment_status_completed( $posted ) {
 		do_action( 'wps_payment_complete', $posted );
+	}
+
+	private function payment_status_failed( $posted ) {
+		do_action( 'wps_payment_failed', $posted );
 	}
 }
 

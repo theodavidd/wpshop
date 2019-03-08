@@ -29,6 +29,7 @@ class Doli_Order_Action {
 
 		add_action( 'wps_checkout_create_order', array( $this, 'create_order' ), 10, 1 );
 		add_action( 'wps_payment_complete', array( $this, 'set_to_billed' ), 30, 1 );
+		add_action( 'wps_payment_failed', array( $this, 'set_to_failed' ), 30, 1 );
 	}
 
 	public function callback_admin_init() {
@@ -167,6 +168,12 @@ class Doli_Order_Action {
 		$doli_order = Request_Util::post( 'orders/' . $wp_order->data['external_id'] . '/setinvoiced' );
 
 		Orders_Class::g()->doli_to_wp( $doli_order, $wp_order );
+	}
+
+	public function set_to_failed( $data ) {
+		$wp_order   = Orders_Class::g()->get( array( 'id' => (int) $data['custom'] ), true );
+		$wp_order->data['payment_failed'] = true;
+		Orders_Class::g()->update( $wp_order->data );
 	}
 }
 
