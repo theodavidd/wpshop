@@ -22,7 +22,9 @@ defined( 'ABSPATH' ) || exit; ?>
 			<th><input type="checkbox" /></th>
 			<th><?php esc_html_e( 'WP ID', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Dolibarr ID', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Date', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Ref', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Tier', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Statut', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Price', 'wpshop' ); ?></th>
 			<?php echo apply_filters( 'wps_order_table_th', '' ); ?>

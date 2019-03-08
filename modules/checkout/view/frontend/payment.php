@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 					<?php
 					if ( ! empty( $payment_method['description'] ) ) :
-						?></p><?php echo apply_filters( 'wps_payment_method_' . $key . '_description', $payment_method['description'] ); ?></p><?php
+						?></p><?php echo apply_filters( 'wps_payment_method_' . $key . '_description', nl2br( $payment_method['description'] ) ); ?></p><?php
 					endif;
 					?>
 				</li>

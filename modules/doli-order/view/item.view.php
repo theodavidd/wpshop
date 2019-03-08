@@ -20,7 +20,21 @@ defined( 'ABSPATH' ) || exit; ?>
 	<td><input type="checkbox" /></td>
 	<td><?php echo esc_html( $proposal->data['id'] ); ?></td>
 	<td><?php echo esc_html( $proposal->data['external_id'] ); ?></td>
-	<td><?php echo esc_html( $proposal->data['title'] ); ?></td>
+	<td><?php echo esc_html( $proposal->data['date_commande']['rendered']['date'] ); ?></td>
+	<td><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $proposal->data['id'] ) ); ?>"><?php echo esc_html( $proposal->data['title'] ); ?></a></td>
+	<td>
+		<?php
+		if ( ! empty( $proposal->data['tier'] ) ) :
+			?>
+			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $proposal->data['tier']->data['id'] ) ); ?>"><?php echo $proposal->data['tier']->data['title']; ?></a>
+			<?php
+		else:
+			?>
+			N/D
+			<?php
+		endif;
+		?>
+	</td>
 	<td><?php echo esc_html( Payment_Class::g()->convert_status( $proposal->data ) ); ?></td>
 	<td><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</td>
 	<?php apply_filters( 'wps_order_table_tr', $proposal ); ?>

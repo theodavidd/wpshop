@@ -73,7 +73,16 @@ class Orders_Class extends \eoxia\Post_Class {
 	 * @since 2.0.0
 	 */
 	public function display() {
-		$proposals = $this->get();
+		$proposals = $this->get( array(
+			'orderby'  => 'meta_value',
+			'meta_key' => 'date_commande'
+		));
+
+		if ( ! empty( $proposals ) ) {
+			foreach ( $proposals as &$element ) {
+				$element->data['tier']  = Third_Party_Class::g()->get( array( 'id' => $element->data['parent_id'] ), true );
+			}
+		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'list', array(
 			'proposals' => $proposals,
@@ -81,14 +90,15 @@ class Orders_Class extends \eoxia\Post_Class {
 	}
 
 	public function doli_to_wp( $doli_order, $wp_order ) {
-		$wp_order->data['external_id']   = (int) $doli_order->id;
-		$wp_order->data['title']         = $doli_order->ref;
-		$wp_order->data['total_ht']      = $doli_order->total_ht;
-		$wp_order->data['total_ttc']     = $doli_order->total_ttc;
-		$wp_order->data['billed']        = (int) $doli_order->billed;
-		$wp_order->data['lines']         = $doli_order->lines;
-		$wp_order->data['date_commande'] = date( 'Y-m-d h:i:s', $doli_order->date_commande );
-		$wp_order->data['parent_id']     = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_order->socid );
+		$wp_order->data['external_id']    = (int) $doli_order->id;
+		$wp_order->data['title']          = $doli_order->ref;
+		$wp_order->data['total_ht']       = $doli_order->total_ht;
+		$wp_order->data['total_ttc']      = $doli_order->total_ttc;
+		$wp_order->data['billed']         = (int) $doli_order->billed;
+		$wp_order->data['lines']          = $doli_order->lines;
+		$wp_order->data['date_commande']  = date( 'Y-m-d h:i:s', $doli_order->date_commande );
+		$wp_order->data['parent_id']      = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_order->socid );
+		$wp_order->data['payment_method'] = Doli_Payment::g()->convert_to_wp( $doli_order->mode_reglement_code );
 
 		$status = '';
 

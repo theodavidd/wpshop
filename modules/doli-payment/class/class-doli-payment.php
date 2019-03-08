@@ -86,6 +86,14 @@ class Doli_Payment extends \eoxia\Post_Class {
 
 		return 0;
 	}
+
+	public function convert_to_wp( $payment_method ) {
+		if ( $payment_method == 'CB' ) {
+			return 'paypal';
+		} else {
+			return 'Cheque';
+		}
+	}
 }
 
 Doli_Payment::g();

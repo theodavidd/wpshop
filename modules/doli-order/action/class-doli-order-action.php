@@ -79,7 +79,8 @@ class Doli_Order_Action {
 			// add_meta_box( 'wps-order-submit', __( 'Order actions', 'wpshop'), array( $this, 'callback_order_action' ), 'wps-order', 'normal', 'default', $args_metabox );
 
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array(
-				'order' => $order
+				'order'       => $order,
+				'third_party' => $third_party,
 			) );
 		} else {
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'main' );
