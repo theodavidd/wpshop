@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<input type="hidden" class="eo-search-value" name="<?php echo esc_attr( $atts['name'] ); ?>" value="<?php echo esc_attr( $atts['hidden_value'] ); ?>" />
 
 	<div class="form-field-container">
-		<div class="wpeo-autocomplete" data-action="eo_search" data-next-action="<?php echo ! empty( $atts['action'] ) ? esc_attr( $atts['action'] ) : ''; ?>" data-type="<?php echo esc_attr( $atts['type'] ); ?>">
+		<div class="wpeo-autocomplete <?php echo ! empty( $atts['value'] || $atts['hidden_value'] ) ? ' autocomplete-full ' : ''; ?>" data-action="eo_search" data-next-action="<?php echo ! empty( $atts['action'] ) ? esc_attr( $atts['action'] ) : ''; ?>" data-type="<?php echo esc_attr( $atts['type'] ); ?>">
 			<input type="hidden" name="slug" value="<?php echo esc_attr( $atts['slug'] ); ?>" />
 			<textarea class="hidden" name="args"><?php echo json_encode( $atts ); ?></textarea>
 			<label class="autocomplete-label" for="<?php echo esc_attr( $atts['id'] ); ?>">
@@ -42,9 +42,9 @@ defined( 'ABSPATH' ) || exit; ?>
 				?>
 
 				<input id="<?php echo esc_attr( $atts['id'] ); ?>" autocomplete="off" placeholder="Recherche..." class="autocomplete-search-input" type="text" value="<?php echo esc_attr( $atts['value'] ); ?>" />
-				<span class="autocomplete-icon-after"><i class="far fa-times"></i></span>
+				<span class="autocomplete-icon-after"><i class="fas fa-times"></i></span>
 			</label>
-			<ul class="autocomplete-search-list"></ul>
+			<ul class="autocomplete-search-list" style="overflow-y: scroll; max-height: 300px;"></ul>
 		</div>
 	</div>
 </div>

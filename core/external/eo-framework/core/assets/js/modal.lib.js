@@ -203,7 +203,7 @@ if ( ! window.eoxiaJS.modal  ) {
 			jQuery( target ).find( 'h2.modal-title' ).text( '{{title}}' );
 
 			if ( triggeredElement.attr( 'data-title' ) ) {
-				target[0].innerHTML = target[0].innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
+				target[0].querySelector( '.modal-title' ).innerHTML = target[0].querySelector( '.modal-title' ).innerHTML.replace( '{{title}}', triggeredElement.attr( 'data-title' ) );
 			}
 
 			if ( triggeredElement.attr( 'data-class' ) ) {
@@ -242,14 +242,17 @@ if ( ! window.eoxiaJS.modal  ) {
 	 * @returns {void}       [description]
 	 */
 	window.eoxiaJS.modal.close = function( event ) {
-		jQuery( '.wpeo-modal.modal-active:not(.modal-force-display)' ).each( function() {
+		jQuery( '.wpeo-modal.modal-active:last:not(.modal-force-display)' ).each( function() {
 			var popup = jQuery( this );
 			popup.removeClass( 'modal-active' );
 			if ( popup[0].typeModal && 'default' !== popup[0].typeModal ) {
 				setTimeout( function() {
 					popup.remove();
 				}, 200 );
+
 			}
+
+			popup.trigger( 'modal-closed', popup );
 		} );
 	};
 }

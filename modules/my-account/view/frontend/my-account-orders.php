@@ -40,12 +40,14 @@
 				<?php
 				if ( ! empty( $order->data['invoice'] ) ) :
 					?>
-					<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $order->data['id'] ) ); ?>"><i class="fas fa-file-download"></i></a>
+					<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $order->data['id'] ) ); ?>" class="wpeo-button button-primary">
+						<i class="button-icon fas fa-file-download"></i>
+					</a>
 					<?php
 				endif;
 				?>
 
-				<div class="wpeo-button button-main wpeo-modal-event"
+				<div class="wpeo-button button-primary wpeo-modal-event"
 					data-id="<?php echo esc_attr( $order->data['id'] ); ?>"
 					data-title="Commande <?php echo esc_attr( $order->data['title'] ); ?>"
 					data-action="load_modal_resume_order">
