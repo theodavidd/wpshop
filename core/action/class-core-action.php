@@ -33,6 +33,8 @@ class Core_Action {
 		add_action( 'init', array( $this, 'callback_register_session' ), 1 );
 		add_action( 'init', array( $this, 'callback_language' ) );
 
+		add_action('wp_head', array( $this, 'define_ajax_url' ) );
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts' ), 11 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_enqueue_scripts' ), 11 );
 
@@ -51,6 +53,12 @@ class Core_Action {
 
 	public function callback_language() {
 		$i18n_loaded = load_plugin_textdomain( 'wpshop', false, PLUGIN_WPSHOP_DIR . '/core/asset/language/' );
+	}
+
+	public function define_ajax_url() {
+		echo '<script type="text/javascript">
+		  var ajaxurl = "' . admin_url('admin-ajax.php') . '";
+		</script>';
 	}
 
 	/**
