@@ -137,7 +137,7 @@ class Orders_Class extends \eoxia\Post_Class {
 
 		if ( is_array( $order ) ) {
 			var_dump( $doli_id );
-			var_dump( $order );
+			echo '<pre>'; print_r( $order ); echo '</pre>';
 		}
 
 		return $order->data['id'];
