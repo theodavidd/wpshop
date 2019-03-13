@@ -22,7 +22,18 @@ defined( 'ABSPATH' ) || exit; ?>
 	<li><?php esc_html_e( 'Order number', 'wpshop' ); ?> : <strong><?php echo esc_html( $order->data['title'] ); ?></strong></li>
 	<li><?php esc_html_e( 'Date', 'wpshop' ); ?> : <strong><?php echo esc_html( $order->data['date_commande']['rendered']['date'] ); ?></strong></li>
 	<li><?php esc_html_e( 'Total', 'wpshop' ); ?> : <strong><?php echo esc_html( number_format( $order->data['total_ttc'], 2 ) ); ?>€</strong></li>
-	<li><?php esc_html_e( 'Method of payment', 'wpshop' ); ?> : <strong><?php echo esc_html( $order->data['payment_method'] ); ?></strong></li>
+	<li><?php esc_html_e( 'Method of payment', 'wpshop' ); ?> :
+		<strong>
+		<?php
+		if ( $order->data['payment_method'] == 'payment_in_shop' ) :
+			?>
+			Paiement en boutique
+			<?php
+		else:
+			echo esc_html( $order->data['payment_method'] );
+		endif;?>
+		</strong>
+	</li>
 </ul>
 
 <?php
@@ -32,6 +43,16 @@ if ( $order->data['payment_method'] == 'cheque' ) :
 	<?php
 	$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
 	echo stripslashes( nl2br( $payment_methods['cheque']['description'] ) );
+endif;
+?>
+
+<?php
+if ( $order->data['payment_method'] == 'payment_in_shop' ) :
+	?>
+	<h2><?php esc_html_e( 'Veuillez récuperez votre commande à la boutique', 'wpshop' ); ?></h2>
+	<?php
+	$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+	echo stripslashes( nl2br( $payment_methods['payment_in_shop']['description'] ) );
 endif;
 ?>
 

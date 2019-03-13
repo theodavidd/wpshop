@@ -43,13 +43,10 @@
 				transition: all 0.2s ease-out;
 			}
 			.icon {
-				@include fa-icon;
 				transform: translate(-50%, -50%);
 				transition: all 0.2s ease-out;
 
 				&::before {
-					@extend .fal;
-					content: fa-content( $fa-var-lock-alt );
 				}
 			}
 		}
@@ -125,8 +122,6 @@
 				border-left: 6px solid $color__green;
 			}
 			.icon::before {
-				@extend .far;
-				content: fa-content( $fa-var-check );
 				color: $color__green;
 			}
 		}

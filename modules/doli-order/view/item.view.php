@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		endif;
 		?>
 	</td>
-	<td><?php echo esc_html( Payment_Class::g()->convert_status( $proposal->data ) ); ?></td>
+	<td><?php echo Payment_Class::g()->convert_status( $proposal->data ); ?></td>
 	<td><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</td>
 	<?php apply_filters( 'wps_order_table_tr', $proposal ); ?>
 	<td>

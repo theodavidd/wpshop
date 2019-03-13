@@ -71,14 +71,19 @@ class Doli_Invoice extends \eoxia\Post_Class {
 	protected $post_type_name = 'Doli Invoice';
 
 	public function doli_to_wp( $doli_invoice, $wp_invoice ) {
+		$order = null;
+
 		$doli_invoice                       = Request_Util::get( 'invoices/' . $doli_invoice->id ); // Charges par la route single des factures pour avoir accès à linkedObjectsIds->commande.
 		$wp_invoice->data['external_id']    = (int) $doli_invoice->id;
 
 		if ( ! empty( $doli_invoice->linkedObjectsIds->commande ) ) {
-			$wp_invoice->data['post_parent'] = Orders_Class::g()->get_wp_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
+			$order_id = Orders_Class::g()->get_wp_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
+			$wp_invoice->data['post_parent'] = $order_id;
+
+			$order = Orders_Class::g()->get( array( 'id' => $order_id ), true );
+			$wp_invoice->data['author_id']      = $order->data['author_id'];
 		}
 		$wp_invoice->data['title']          = $doli_invoice->ref;
-		$wp_invoice->data['author_id']      = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_invoice->socid );
 		$wp_invoice->data['lines']          = $doli_invoice->lines;
 		$wp_invoice->data['total_ttc']      = $doli_invoice->total_ttc;
 		$wp_invoice->data['total_ht']       = $doli_invoice->total_ht;

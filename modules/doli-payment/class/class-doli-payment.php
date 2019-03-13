@@ -90,8 +90,10 @@ class Doli_Payment extends \eoxia\Post_Class {
 	public function convert_to_wp( $payment_method ) {
 		if ( $payment_method == 'CB' ) {
 			return 'paypal';
-		} else {
+		} else if ( $payment_method == 'CHQ' ) {
 			return 'Cheque';
+		} else if ( $payment_method == 'LIQ' ) {
+			return 'Espèce';
 		}
 	}
 }

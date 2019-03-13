@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
-"POT-Creation-Date: 2019-03-12 11:05+0100\n"
-"PO-Revision-Date: 2019-03-12 16:21+0100\n"
+"POT-Creation-Date: 2019-03-13 15:51+0100\n"
+"PO-Revision-Date: 2019-03-13 15:51+0100\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-1: modules\n"
 "X-Poedit-SearchPathExcluded-0: core/external\n"
 
-#: core/action/class-core-action.php:77
+#: core/action/class-core-action.php:85
 msgid "WPShop"
 msgstr ""
 
@@ -1031,51 +1031,55 @@ msgstr "Total du panier"
 msgid "Total"
 msgstr "Total"
 
-#: modules/cart/view/frontend/cart.php:25
+#: modules/cart/view/frontend/cart.php:26
 #: modules/checkout/view/frontend/review-order.php:23
 #: modules/checkout/view/frontend/review-order.php:39
 #: modules/checkout/view/frontend/valid-checkout.php:44
 #: modules/doli-order/view/metabox-orders.view.php:22
+#: modules/emails/view/frontend/order-details.php:19
 #: modules/my-account/view/frontend/order-modal.view.php:28
 msgid "Product name"
 msgstr "Nom du produit"
 
-#: modules/cart/view/frontend/cart.php:26
+#: modules/cart/view/frontend/cart.php:27
 #: modules/checkout/view/frontend/review-order.php:24
 #: modules/checkout/view/frontend/review-order.php:40
 #: modules/checkout/view/frontend/valid-checkout.php:45
 #: modules/doli-order/view/metabox-orders.view.php:23
+#: modules/emails/view/frontend/order-details.php:20
 #: modules/my-account/view/frontend/order-modal.view.php:29
 msgid "VAT"
 msgstr "TVA"
 
-#: modules/cart/view/frontend/cart.php:27
+#: modules/cart/view/frontend/cart.php:28
 #: modules/checkout/view/frontend/review-order.php:25
 #: modules/checkout/view/frontend/review-order.php:41
 #: modules/checkout/view/frontend/valid-checkout.php:46
+#: modules/emails/view/frontend/order-details.php:21
 #: modules/my-account/view/frontend/order-modal.view.php:30
 msgid "P.U. HT"
 msgstr "P.U. HT"
 
-#: modules/cart/view/frontend/cart.php:27
+#: modules/cart/view/frontend/cart.php:28
 #: modules/checkout/view/frontend/review-order.php:25
 #: modules/checkout/view/frontend/valid-checkout.php:46
 #: modules/doli-order/view/metabox-orders.view.php:24
+#: modules/emails/view/frontend/order-details.php:21
 #: modules/my-account/view/frontend/order-modal.view.php:30
 msgid "P.U HT"
 msgstr "P.U HT"
 
-#: modules/cart/view/frontend/cart.php:28
+#: modules/cart/view/frontend/cart.php:29
 #: modules/checkout/view/frontend/review-order.php:26
 #: modules/checkout/view/frontend/review-order.php:42
 #: modules/checkout/view/frontend/valid-checkout.php:47
 #: modules/doli-order/view/metabox-orders.view.php:25
-#: modules/emails/view/frontend/order-details.php:21
+#: modules/emails/view/frontend/order-details.php:22
 #: modules/my-account/view/frontend/order-modal.view.php:31
 msgid "Quantity"
 msgstr "Quantité"
 
-#: modules/cart/view/frontend/cart.php:29
+#: modules/cart/view/frontend/cart.php:30
 #: modules/checkout/view/frontend/review-order.php:27
 #: modules/checkout/view/frontend/review-order.php:43
 #: modules/checkout/view/frontend/review-order.php:54
@@ -1083,11 +1087,17 @@ msgstr "Quantité"
 #: modules/checkout/view/frontend/valid-checkout.php:71
 #: modules/doli-order/view/metabox-orders.view.php:26
 #: modules/doli-order/view/metabox-orders.view.php:50
+#: modules/emails/view/frontend/order-details.php:23
+#: modules/emails/view/frontend/order-details.php:45
 #: modules/my-account/view/frontend/my-account-orders.php:23
 #: modules/my-account/view/frontend/order-modal.view.php:32
 #: modules/my-account/view/frontend/order-modal.view.php:55
 msgid "Total HT"
 msgstr "Total HT"
+
+#: modules/cart/view/frontend/cart.php:63
+msgid "Update cart"
+msgstr ""
 
 #: modules/cart/view/frontend/empty-cart.php:19
 msgid "Your cart is empty."
@@ -1201,12 +1211,14 @@ msgstr "Procéder au paiement"
 #: modules/checkout/view/frontend/review-order.php:62
 #: modules/checkout/view/frontend/valid-checkout.php:79
 #: modules/doli-order/view/metabox-orders.view.php:58
+#: modules/emails/view/frontend/order-details.php:53
 #: modules/my-account/view/frontend/order-modal.view.php:63
 msgid "Total VAT"
 msgstr "Total TVA"
 
 #: modules/checkout/view/frontend/review-order.php:71
 #: modules/checkout/view/frontend/valid-checkout.php:88
+#: modules/emails/view/frontend/order-details.php:62
 #: modules/my-account/view/frontend/my-account-orders.php:24
 #: modules/my-account/view/frontend/order-modal.view.php:72
 msgid "Total TTC"
@@ -1258,7 +1270,6 @@ msgid "Quotation detail"
 msgstr "Détail du devis"
 
 #: modules/checkout/view/frontend/valid-proposal.php:32
-#: modules/emails/view/frontend/order-details.php:20
 #: modules/products/filter/class-product-filter.php:46
 #: modules/products/filter/class-product-filter.php:48
 msgid "Product"
@@ -1269,6 +1280,7 @@ msgid "See my quotations"
 msgstr "Voir mes devis"
 
 #: modules/cheque/action/class-cheque-action.php:51
+#: modules/payment/action/class-payment-action.php:51
 #: modules/paypal/action/class-paypal-action.php:58
 #: modules/settings/action/class-settings-action.php:97
 #: modules/settings/action/class-settings-action.php:126
@@ -1279,12 +1291,14 @@ msgstr "Vos réglages ont été enregistrés."
 #: modules/cheque/view/form-setting.view.php:23
 #: modules/paypal/view/form-setting.view.php:23
 #: modules/products/view/list.view.php:26
+#: modules/settings/view/payment-method-single-form.view.php:23
 #: modules/third-parties/view/list.view.php:25
 msgid "Title"
 msgstr "Titre"
 
 #: modules/cheque/view/form-setting.view.php:30
 #: modules/paypal/view/form-setting.view.php:44
+#: modules/settings/view/payment-method-single-form.view.php:30
 msgid "Description"
 msgstr "Description"
 
@@ -1336,7 +1350,7 @@ msgstr "Détails de la commande #"
 
 #: modules/doli-order/action/class-doli-order-action.php:79
 #: modules/doli-synchro/class/class-doli-syncho-class.php:39
-#: modules/products/action/class-product-action.php:48
+#: modules/products/action/class-product-action.php:46
 #: modules/products/filter/class-product-filter.php:45
 #: modules/products/filter/class-product-filter.php:47
 #: modules/products/view/main.view.php:20
@@ -1425,7 +1439,7 @@ msgstr ""
 
 #: modules/doli-order/view/list.view.php:29
 #: modules/doli-proposals/view/list.view.php:25
-#: modules/products/view/metabox/main.view.php:23
+#: modules/products/view/metabox/main.view.php:30
 #: modules/proposals/view/list.view.php:27
 msgid "Price"
 msgstr "Prix"
@@ -1509,6 +1523,7 @@ msgid "Proposals"
 msgstr "Propositions commerciales"
 
 #: modules/doli-synchro/class/class-doli-syncho-class.php:54
+#: modules/third-parties/action/class-third-party-action.php:82
 msgid "Invoices"
 msgstr "Factures"
 
@@ -1523,14 +1538,18 @@ msgid "Pending order"
 msgstr "Commande en cours"
 
 #: modules/emails/class/class-emails-class.php:35
+msgid "Send invoice"
+msgstr "Votre facture"
+
+#: modules/emails/class/class-emails-class.php:40
 msgid "Completed order"
 msgstr "Commande complétée"
 
-#: modules/emails/class/class-emails-class.php:40
+#: modules/emails/class/class-emails-class.php:45
 msgid "New account"
 msgstr "Nouveau compte"
 
-#: modules/emails/class/class-emails-class.php:45
+#: modules/emails/class/class-emails-class.php:50
 msgid "Reset password"
 msgstr "Mot de passe réinitialisé"
 
@@ -1539,11 +1558,17 @@ msgstr "Mot de passe réinitialisé"
 msgid "You’ve received the following order from %s:"
 msgstr "Vous avez reçu la commande suivante de %s:"
 
+#: modules/emails/view/customer-invoice.php:14
 #: modules/emails/view/customer-new-account.php:14
 #: modules/emails/view/customer-processing-order.php:14
 #, php-format
 msgid "Hi %s,"
 msgstr "Bonjour %s,"
+
+#: modules/emails/view/customer-invoice.php:16
+#, php-format
+msgid "Your invoice #%s for your order #%s"
+msgstr "Votre facture #%s pour votre commande #%s"
 
 #: modules/emails/view/customer-new-account.php:16
 #, php-format
@@ -1583,10 +1608,6 @@ msgstr ""
 #, php-format
 msgid "[Order #%s]"
 msgstr "[Commande  #%s]"
-
-#: modules/emails/view/frontend/order-details.php:22
-msgid "Price TTC"
-msgstr "Prix TTC"
 
 #: modules/my-account/action/class-my-account-action.php:64
 msgid "Your username or password is incorrect."
@@ -1631,7 +1652,7 @@ msgstr "Actions"
 
 #: modules/my-account/view/frontend/my-account-orders.php:51
 msgid "Reorder"
-msgstr ""
+msgstr "Refaire cette commande"
 
 #: modules/my-account/view/frontend/my-account-orders.php:58
 msgid "Resume"
@@ -1682,7 +1703,7 @@ msgstr "Email Paypal"
 msgid "Paypal Sandbox"
 msgstr ""
 
-#: modules/products/action/class-product-action.php:49
+#: modules/products/action/class-product-action.php:47
 msgid "Products Category"
 msgstr "Catégories de produits"
 
@@ -1789,10 +1810,6 @@ msgstr "Code barre"
 msgid "Add"
 msgstr "Ajouter"
 
-#: modules/products/view/metabox/main.view.php:49
-msgid "Username"
-msgstr "Identifiant"
-
 #: modules/proposals/action/class-proposals-action.php:74
 msgid "Proposal details #"
 msgstr "Details de la proposition commerciale #"
@@ -1872,7 +1889,7 @@ msgstr "Méthode"
 msgid "Activated"
 msgstr "Activé"
 
-#: modules/third-parties/action/class-third-party-action.php:56
+#: modules/third-parties/action/class-third-party-action.php:57
 #: modules/third-parties/view/main.view.php:20
 msgid "Third Parties"
 msgstr "Tiers"
@@ -1941,6 +1958,12 @@ msgstr ""
 #: modules/transfert-data/action/class-transfert-data-action.php:178
 msgid "Contact #"
 msgstr "Contact #"
+
+#~ msgid "Price TTC"
+#~ msgstr "Prix TTC"
+
+#~ msgid "Username"
+#~ msgstr "Identifiant"
 
 #~ msgid ""
 #~ "Click here to create your password: <a href=\"%s\">Create my password</a>"

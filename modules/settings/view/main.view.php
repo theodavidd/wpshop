@@ -34,8 +34,6 @@ defined( 'ABSPATH' ) || exit; ?>
 			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=general' ) ); ?>" class="tab-element <?php echo $tab == 'general' ? 'tab-active' : ''; ?>">Général</a>
 			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=pages' ) ); ?>" class="tab-element <?php echo $tab == 'pages' ? 'tab-active' : ''; ?>">Pages</a>
 			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=emails' ) ); ?>" class="tab-element <?php echo $tab == 'emails' ? 'tab-active' : ''; ?>">Emails</a>
-			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=delivery_method' ) ); ?>" class="tab-element <?php echo $tab == 'delivery_method' ? 'tab-active' : ''; ?>">Mode de livraison</a>
-			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=shipping_cost' ) ); ?>" class="tab-element <?php echo $tab == 'shipping_cost' ? 'tab-active' : ''; ?>">Frais de livraison</a>
 			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=payment_method' ) ); ?>" class="tab-element <?php echo $tab == 'payment_method' ? 'tab-active' : ''; ?>">Mode de paiements</a>
 		</ul>
 

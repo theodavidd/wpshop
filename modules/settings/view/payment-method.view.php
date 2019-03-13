@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				<tr>
 					<td></td>
 					<td><?php echo $payment_method['title']; ?></td>
-					<td>Activé</td>
+					<td><?php echo $payment_method['active'] ? 'Activé' :'Désactivé'; ?></td>
 					<td>
 						<a href="<?php echo admin_url( 'admin-post.php?action=wps_load_settings_tab&page=wps-settings&tab=payment_method&section=' . $key ); ?>" class="wpeo-button button-main">
 							<span>Configuration</span>

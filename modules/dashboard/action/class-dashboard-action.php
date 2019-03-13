@@ -47,7 +47,7 @@ class Dashboard_Action {
 	 */
 	public function callback_add_menu_page() {
 		add_meta_box( 'wps-dashboard-sync',  __( 'Synchronization', 'wpshop' ), array( $this, 'metabox_sync' ), 'wps-dashboard', 'normal', 'default' );
-		add_meta_box( 'wps-dashboard-stats',  __( 'Stats', 'wpshop' ), array( $this, 'metabox_stats' ), 'wps-dashboard', 'normal', 'default' );
+		// add_meta_box( 'wps-dashboard-stats',  __( 'Stats', 'wpshop' ), array( $this, 'metabox_stats' ), 'wps-dashboard', 'normal', 'default' );
 
 		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'main' );
 	}

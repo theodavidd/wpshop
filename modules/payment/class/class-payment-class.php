@@ -94,7 +94,7 @@ class Payment_Class extends \eoxia\Singleton_Util {
 					if ( $object['billed'] ) {
 						$statut = 'Payée';
 					} else {
-						$statut = 'En attente du paiement';
+						$statut = 'En attente du paiement.<br />Paiement a régler en boutique';
 					}
 					break;
 				default:
