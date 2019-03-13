@@ -63,6 +63,26 @@ class Cart_Class extends \eoxia\Singleton_Util {
 		Class_Cart_Session::g()->update_session();
 	}
 
+	public function update_cart( $product ) {
+		if ( ! empty( Class_Cart_Session::g()->cart_contents ) ) {
+			foreach ( Class_Cart_Session::g()->cart_contents as $key => &$line ) {
+				if ( $line['id'] == $product['id'] ) {
+					$line['qty'] = $product['qty'];
+				}
+			}
+		}
+
+		do_action( 'wps_update_cart', $this );
+
+		do_action( 'wps_before_calculate_totals', $this );
+
+		do_action( 'wps_calculate_totals', $this );
+
+		do_action( 'wps_after_calculate_totals', $this );
+
+		Class_Cart_Session::g()->update_session();
+	}
+
 	public function delete_product( $key ) {
 		array_splice( Class_Cart_Session::g()->cart_contents, $key, 1 );
 

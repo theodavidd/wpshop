@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<td><input type="checkbox" /></td>
 	<td><?php echo esc_html( $proposal->data['id'] ); ?></td>
 	<td><?php echo esc_html( $proposal->data['external_id'] ); ?></td>
-	<td><?php echo esc_html( $proposal->data['date_commande']['rendered']['date'] ); ?></td>
+	<td><?php echo esc_html( $proposal->data['datec']['rendered']['date_time'] ); ?></td>
 	<td><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $proposal->data['id'] ) ); ?>"><?php echo esc_html( $proposal->data['title'] ); ?></a></td>
 	<td>
 		<?php

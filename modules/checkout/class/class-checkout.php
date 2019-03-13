@@ -68,15 +68,15 @@ class Checkout_Class extends \eoxia\Singleton_Util {
 				),
 				'address' => array(
 					'label'    => __( 'Street Address', 'wpshop' ),
-					'required' => false,
+					'required' => true,
 				),
 				'zip'     => array(
 					'label'    => __( 'Postcode / Zip', 'wpshop' ),
-					'required' => false,
+					'required' => true,
 				),
-				'state' => array(
+				'town' => array(
 					'label'    => __( 'Town / City', 'wpshop' ),
-					'required' => false,
+					'required' => true,
 				),
 			)
 		);

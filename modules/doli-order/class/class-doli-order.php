@@ -96,7 +96,8 @@ class Orders_Class extends \eoxia\Post_Class {
 		$wp_order->data['total_ttc']      = $doli_order->total_ttc;
 		$wp_order->data['billed']         = (int) $doli_order->billed;
 		$wp_order->data['lines']          = $doli_order->lines;
-		$wp_order->data['date_commande']  = date( 'Y-m-d h:i:s', $doli_order->date_commande );
+		$wp_order->data['date_commande']  = date( 'Y-m-d H:i:s', $doli_order->date_commande );
+		$wp_order->data['datec']          = date( 'Y-m-d H:i:s', $doli_order->date_creation );
 		$wp_order->data['parent_id']      = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_order->socid );
 		$wp_order->data['payment_method'] = Doli_Payment::g()->convert_to_wp( $doli_order->mode_reglement_code );
 
@@ -132,6 +133,12 @@ class Orders_Class extends \eoxia\Post_Class {
 			'meta_key'   => 'external_id',
 			'meta_value' => $doli_id,
 		), true );
+
+
+		if ( is_array( $order ) ) {
+			var_dump( $doli_id );
+			var_dump( $order );
+		}
 
 		return $order->data['id'];
 	}

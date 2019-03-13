@@ -29,9 +29,22 @@ class Doli_Invoice_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
+		add_action( 'init', array( $this, 'create_tmp_invoice_dir' ) );
 		add_action( 'wps_payment_complete', array( $this, 'create_invoice' ), 20, 1 );
 
 		add_action( 'admin_post_wps_download_invoice', array( $this, 'download_invoice' ) );
+	}
+
+	public function create_tmp_invoice_dir() {
+		$dir = wp_upload_dir();
+
+		$path = $dir['basedir'] . '/invoices';
+
+		if ( wp_mkdir_p( $path ) && ! file_exists( $path . '/.htaccess' ) ) {
+			$f = fopen( $path . '/.htaccess', 'a+' );
+			fwrite( $f, "Options -Indexes\r\ndeny from all" );
+			fclose( $f );
+		}
 	}
 
 	public function create_invoice( $data ) {
@@ -51,8 +64,36 @@ class Doli_Invoice_Action {
 		) );
 
 		$wp_invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
+		$wp_invoice = Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice );
 
-		Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice );
+		$wp_invoice->data['author_id'] = $order->data['author_id'];
+
+		Doli_Invoice::g()->update( $wp_invoice->data );
+
+		$third_party = Third_Party_Class::g()->get( array( 'id' => $order->data['parent_id'] ), true );
+		$contact     = Contact_Class::g()->get( array( 'id' => $wp_invoice->data['author_id'] ), true );
+
+		$invoice_file = Request_Util::get( 'documents/download?module_part=facture&original_file=' . $wp_invoice->data['title'] . '/' . $wp_invoice->data['title'] . '.pdf' );
+		$content      = base64_decode( $invoice_file->content );
+
+		$dir       = wp_upload_dir();
+		$path      = $dir['basedir'] . '/invoices';
+		$path_file = $path . '/' . $wp_invoice->data['title'] . '.pdf';
+
+		$f = fopen( $path . '/' . $wp_invoice->data['title'] . '.pdf', 'a+' );
+		fwrite( $f, $content );
+		fclose( $f );
+
+
+		Emails_Class::g()->send_mail( $contact->data['email'], 'wps_email_customer_invoice', array(
+			'order'       => $order,
+			'invoice'     => $wp_invoice,
+			'third_party' => $third_party,
+			'contact'     => $contact,
+			'attachments' => array( $path_file ),
+		) );
+
+		unlink( $path_file );
 	}
 
 	public function download_invoice() {

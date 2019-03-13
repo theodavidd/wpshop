@@ -47,12 +47,21 @@ class Orders_Model extends \eoxia\Post_Model {
 			'description' => 'Le status de la proposition commerciale dans dolibarr. Relation avec dolibarr.',
 		);
 
+		$this->schema['datec'] = array(
+			'type'        => 'wpeo_date',
+			'meta_type'   => 'single',
+			'field'       => 'datec',
+			'since'       => '2.0.0',
+			'description' => 'Date de création de la commande. Relation avec dolibarr',
+			'context'     => array( 'GET' ),
+		);
+
 		$this->schema['date_commande'] = array(
 			'type'        => 'wpeo_date',
 			'meta_type'   => 'single',
 			'field'       => 'date_commande',
 			'since'       => '2.0.0',
-			'description' => 'Date de création de la commande. Relation avec dolibarr',
+			'description' => 'Date de la commande. Relation avec dolibarr',
 			'context'     => array( 'GET' ),
 		);
 

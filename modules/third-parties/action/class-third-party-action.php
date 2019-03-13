@@ -30,7 +30,8 @@ class Third_Party_Action {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
-		add_action( 'load-toplevel_page_wps-third-party', array( $this, 'callback_load' ) );
+
+		add_action( 'load-wpshop_page_wps-third-party', array( $this, 'callback_load' ) );
 
 		add_action( 'wp_ajax_third_party_load_title_edit', array( $this, 'load_title_edit' ) );
 		add_action( 'admin_post_third_party_save_title', array( $this, 'save_third' ) );
@@ -54,7 +55,6 @@ class Third_Party_Action {
 	 */
 	public function callback_admin_menu() {
 		add_submenu_page( 'wps-order', __( 'Third Parties', 'wpshop' ), __( 'Third Parties', 'wpshop' ), 'manage_options', 'wps-third-party', array( $this, 'callback_add_menu_page' ) );
-
 	}
 
 	public function callback_load() {
@@ -79,6 +79,7 @@ class Third_Party_Action {
 			add_meta_box( 'wps-third-party-billing',  __( 'Billing address', 'wpshop' ), array( $this, 'metabox_billing_address' ), 'wps-third-party', 'normal', 'default', $args_metabox );
 			add_meta_box( 'wps-third-party-contacts',  __( 'Contacts', 'wpshop' ), array( $this, 'metabox_contacts' ), 'wps-third-party', 'normal', 'default', $args_metabox );
 			add_meta_box( 'wps-third-party-orders',  __( 'Orders', 'wpshop' ), array( $this, 'metabox_orders' ), 'wps-third-party', 'normal', 'default', $args_metabox );
+			add_meta_box( 'wps-third-party-invoices',  __( 'Invoices', 'wpshop' ), array( $this, 'metabox_invoices' ), 'wps-third-party', 'normal', 'default', $args_metabox );
 			// add_meta_box( 'wps-third-party-informations',  __( 'Informations', 'wpshop' ), array( $this, 'metabox_informations' ), 'wps-third-party', 'normal', 'default', $args_metabox );
 			// add_meta_box( 'wps-third-party-activity',  __( 'History of activities', 'wpshop' ), array( $this, 'metabox_activity' ), 'wps-third-party', 'normal', 'default', $args_metabox );
 
@@ -156,6 +157,21 @@ class Third_Party_Action {
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-orders', array(
 			'orders' => $orders,
+		) );
+	}
+
+	public function metabox_invoices( $post, $callback_args ) {
+
+		$invoices = Doli_Invoice::g()->get( array( 'author__in' => $callback_args['args']['third_party']->data['contact_ids'] ) );
+
+		if ( ! empty( $invoices ) ) {
+			foreach ( $invoices as &$invoice ) {
+				$invoice->data['order'] = Orders_Class::g()->get( array( 'id' => $invoice->data['parent_id'] ), true );
+			}
+		}
+
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-invoices', array(
+			'invoices' => $invoices,
 		) );
 	}
 

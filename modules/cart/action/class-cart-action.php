@@ -36,6 +36,9 @@ class Cart_Action {
 		add_action( 'wp_ajax_nopriv_add_to_cart', array( $this, 'ajax_add_to_cart' ) );
 		add_action( 'wp_ajax_add_to_cart', array( $this, 'ajax_add_to_cart' ) );
 
+		add_action( 'wp_ajax_nopriv_wps_update_cart', array( $this, 'ajax_update_cart' ) );
+		add_action( 'wp_ajax_wps_update_cart', array( $this, 'ajax_update_cart' ) );
+
 		add_action( 'wp_ajax_nopriv_delete_product_from_cart', array( $this, 'ajax_delete_product_from_cart' ) );
 		add_action( 'wp_ajax_delete_product_from_cart', array( $this, 'ajax_delete_product_from_cart' ) );
 	}
@@ -76,6 +79,41 @@ class Cart_Action {
 			'namespace'        => 'wpshopFrontend',
 			'module'           => 'cart',
 			'callback_success' => 'addedToCart',
+			'view'             => ob_get_clean(),
+		) );
+	}
+
+	public function ajax_update_cart() {
+		$products = ! empty( $_POST['products'] ) ? (array) $_POST['products'] : array();
+
+		if ( empty( $products ) ) {
+			wp_send_json_error();
+		}
+
+		if ( ! empty( $products ) ) {
+			foreach ( $products as $key => $product ) {
+				$product['qty'] = (int) $product['qty'];
+				if ( $product['qty'] <= 0 ) {
+					Cart_Class::g()->delete_product( $key );
+				} else {
+					Cart_Class::g()->update_cart( $product );
+				}
+			}
+		}
+
+		ob_start();
+		$cart_contents = Class_Cart_Session::g()->cart_contents;
+
+		if ( ! empty( $cart_contents ) ) {
+			include( Template_Util::get_template_part( 'cart', 'cart' ) );
+		} else {
+			include( Template_Util::get_template_part( 'cart', 'empty-cart' ) );
+		}
+
+		wp_send_json_success( array(
+			'namespace'        => 'wpshopFrontend',
+			'module'           => 'cart',
+			'callback_success' => 'updatedCart',
 			'view'             => ob_get_clean(),
 		) );
 	}

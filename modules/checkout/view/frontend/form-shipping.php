@@ -73,21 +73,21 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 
 	<div class="form-element third_party-address">
-		<span class="form-label"><?php esc_html_e( 'Street address', 'wpshop' ); ?></span>
+		<span class="form-label"><?php esc_html_e( 'Street address', 'wpshop' ); ?>*</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[address]" value="<?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : ''; ?>"  />
 		</label>
 	</div>
 
 	<div class="form-element third_party-zip">
-		<span class="form-label"><?php esc_html_e( 'Postcode / ZIP', 'wpshop' ); ?></span>
+		<span class="form-label"><?php esc_html_e( 'Postcode / ZIP', 'wpshop' ); ?>*</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[zip]" value="<?php echo ! empty( $third_party->data['zip'] ) ? $third_party->data['zip'] : ''; ?>"  />
 		</label>
 	</div>
 
-	<div class="form-element third_party-state">
-		<span class="form-label"><?php esc_html_e( 'Town / City', 'wpshop' ); ?></span>
+	<div class="form-element third_party-town">
+		<span class="form-label"><?php esc_html_e( 'Town / City', 'wpshop' ); ?>*</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="third_party[town]" value="<?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : ''; ?>"  />
 		</label>
@@ -98,7 +98,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<div class="form-element contact-phone">
 				<span class="form-label"><?php esc_html_e( 'Phone number', 'wpshop' ); ?></span>
 				<label class="form-field-container">
-					<input type="text" class="form-field" name="contact[phone]" value="<?php echo ! empty( $contact->data['phone'] ) ? $contact->data['phone'] : ''; ?>"  />
+					<input type="text" class="form-field" name="contact[phone]" value="<?php echo ! empty( $third_party->data['phone'] ) ? $third_party->data['phone'] : ''; ?>"  />
 				</label>
 			</div>
 		</div>

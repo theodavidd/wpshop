@@ -71,12 +71,39 @@ class Doli_Invoice extends \eoxia\Post_Class {
 	protected $post_type_name = 'Doli Invoice';
 
 	public function doli_to_wp( $doli_invoice, $wp_invoice ) {
-		$doli_invoice                    = Request_Util::get( 'invoices/' . $doli_invoice->id ); // Charges par la route single des factures pour avoir accès à linkedObjectsIds->commande.
-		$wp_invoice->data['external_id'] = (int) $doli_invoice->id;
-		$wp_invoice->data['post_parent'] = Orders_Class::g()->get_wp_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
-		$wp_invoice->data['title']       = $doli_invoice->ref;
-		$wp_invoice->data['status']      = 'publish';
-		$wp_invoice->data['author_id']   = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_invoice->socid );
+		$doli_invoice                       = Request_Util::get( 'invoices/' . $doli_invoice->id ); // Charges par la route single des factures pour avoir accès à linkedObjectsIds->commande.
+		$wp_invoice->data['external_id']    = (int) $doli_invoice->id;
+
+		if ( ! empty( $doli_invoice->linkedObjectsIds->commande ) ) {
+			$wp_invoice->data['post_parent'] = Orders_Class::g()->get_wp_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
+		}
+		$wp_invoice->data['title']          = $doli_invoice->ref;
+		$wp_invoice->data['author_id']      = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_invoice->socid );
+		$wp_invoice->data['lines']          = $doli_invoice->lines;
+		$wp_invoice->data['total_ttc']      = $doli_invoice->total_ttc;
+		$wp_invoice->data['total_ht']       = $doli_invoice->total_ht;
+		$wp_invoice->data['total_ht']       = $doli_invoice->total_ht;
+		$wp_invoice->data['payment_method'] = Doli_Payment::g()->convert_to_wp( $doli_invoice->mode_reglement_code );
+		$wp_invoice->data['paye']           = (int) $doli_invoice->paye;
+
+		$status = '';
+
+		switch ( $doli_invoice->statut ) {
+			case 1:
+				$status = 'wps-canceled';
+				break;
+			case 0:
+				$status = 'draft';
+				break;
+			case 1:
+				$status = 'publish';
+				break;
+			default:
+				$status = 'publish';
+				break;
+		}
+
+		$wp_invoice->data['status'] = $status;
 
 		$wp_invoice = Doli_Invoice::g()->update( $wp_invoice->data );
 
@@ -105,6 +132,8 @@ class Doli_Invoice extends \eoxia\Post_Class {
 		}
 
 		do_action( 'wps_synchro_invoice', $wp_invoice->data, $doli_invoice );
+
+		return $wp_invoice;
 	}
 }
 

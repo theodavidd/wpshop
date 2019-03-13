@@ -36,9 +36,9 @@ defined( 'ABSPATH' ) || exit; ?>
 				?>
 				<tr>
 					<td>
-						<a target="_blank" href="<?php echo admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ); ?>">#<?php echo esc_html( $order->data['id'] ); ?></a>
+						<a target="_blank" href="<?php echo admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ); ?>">#<?php echo esc_html( $order->data['title'] ); ?></a>
 					</td>
-					<td><?php echo esc_html( $order->data['date_commande']['rendered']['date'] ); ?></td>
+					<td><?php echo esc_html( $order->data['datec']['rendered']['date_time'] ); ?></td>
 					<td>
 						<ul>
 							<?php

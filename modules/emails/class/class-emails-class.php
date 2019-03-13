@@ -31,6 +31,11 @@ class Emails_Class extends \eoxia\Singleton_Util {
 			'filename_template' => 'customer-processing-order.php',
 		);
 
+		$this->emails['wps_email_customer_invoice'] = array(
+			'title'             => __( 'Send invoice', 'wpshop' ),
+			'filename_template' => 'customer-invoice.php',
+		);
+
 		$this->emails['wps_email_customer_completed_order'] = array(
 			'title'             => __( 'Completed order', 'wpshop' ),
 			'filename_template' => 'customer-completed-order.php',
@@ -72,10 +77,15 @@ class Emails_Class extends \eoxia\Singleton_Util {
 			return;
 		}
 
-		$to        = empty( $to ) ? $shop_options['shop_email'] : $to;
-		$blog_name = get_bloginfo();
-		$mail      = Emails_Class::g()->emails[ $type ];
-		$path_file = Emails_Class::g()->get_path( $mail['filename_template'] );
+		$to          = empty( $to ) ? $shop_options['shop_email'] : $to;
+		$blog_name   = get_bloginfo();
+		$mail        = Emails_Class::g()->emails[ $type ];
+		$path_file   = Emails_Class::g()->get_path( $mail['filename_template'] );
+		$attachments = null;
+
+		if ( ! empty( $data['attachments'] ) ) {
+			$attachments = $data['attachments'];
+		}
 
 		ob_start();
 		include $path_file;
@@ -84,7 +94,7 @@ class Emails_Class extends \eoxia\Singleton_Util {
 		$headers   = array();
 		$headers[] = 'From: ' . $blog_name . ' <' . $shop_options['shop_email'] . '>';
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
-		wp_mail( $to, $mail['title'], $content, $headers );
+		wp_mail( $to, $mail['title'], $content, $headers, $attachments );
 	}
 }
 

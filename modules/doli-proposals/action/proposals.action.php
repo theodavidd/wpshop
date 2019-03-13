@@ -37,6 +37,11 @@ class Doli_Proposals_Action {
 			'notrigger' => 0,
 		) );
 
+		$doli_proposal = Request_Util::post( 'proposals/' . $doli_proposal_id . '/close', array(
+			'status'    => 2,
+			'notrigger' => 0,
+		) );
+
 		Request_Util::put( 'documents/builddoc', array(
 			'module_part'   => 'propal',
 			'original_file' => $doli_proposal->ref . '/' . $doli_proposal->ref . '.pdf'

@@ -61,7 +61,12 @@ class Class_Cart_Session extends \eoxia\Singleton_Util {
 	}
 
 	public function destroy() {
-		session_destroy();
+		unset ( $_SESSION['wps_cart'] );
+		unset ( $_SESSION['wps_total_price'] );
+		unset ( $_SESSION['wps_total_price_ttc'] );
+		unset ( $_SESSION['wps_proposal_id'] );
+		unset ( $_SESSION['wps_order_id'] );
+		unset ( $_SESSION['wps_external_data'] );
 	}
 }
 

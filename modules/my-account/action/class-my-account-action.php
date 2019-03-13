@@ -44,6 +44,7 @@ class My_Account_Action {
 		add_action( 'wps_account_proposals', array( My_Account_Class::g(), 'display_proposals' ) );
 
 		add_action( 'wp_ajax_load_modal_resume_order', array( $this, 'load_modal_resume_order' ) );
+		add_action( 'wp_ajax_reorder', array( $this, 'do_reorder' ) );
 	}
 
 	public function handle_login() {
@@ -91,6 +92,40 @@ class My_Account_Action {
 		wp_send_json_success( array(
 			'view'         => ob_get_clean(),
 			'buttons_view' => '<div class="wpeo-button button-main modal-close"><span>' . __( 'Close', 'wpshop' ) . '</span></div>'
+		) );
+	}
+
+	public function do_reorder() {
+		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+
+		if ( empty( $id ) ) {
+			wp_send_json_error();
+		}
+
+		Class_Cart_Session::g()->destroy();
+
+		$order = Orders_Class::g()->get( array( 'id' => $id ), true );
+
+		if ( ! empty( $order->data['lines'] ) ) {
+			foreach ( $order->data['lines'] as $element ) {
+				$wp_product = Product_Class::g()->get( array(
+					'meta_key'   => '_external_id',
+					'meta_value' => (int) $element['fk_product'],
+				), true );
+
+				if ( ! empty( $wp_product ) ) {
+					for ( $i = 0; $i < $element['qty']; ++$i ) {
+						Cart_Class::g()->add_to_cart( $wp_product );
+					}
+				}
+			}
+		}
+
+		wp_send_json_success( array(
+			'namespace'        => 'wpshopFrontend',
+			'module'           => 'myAccount',
+			'callback_success' => 'reorderSuccess',
+			'redirect_url'     => Pages_Class::g()->get_cart_link(),
 		) );
 	}
 }

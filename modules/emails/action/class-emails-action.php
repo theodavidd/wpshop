@@ -48,6 +48,27 @@ class Emails_Action {
 	}
 
 	public function order_details( $order ) {
+		$tva_lines = array();
+
+		if ( ! empty( $order->lines ) ) {
+			foreach ( $order->lines as &$line ) {
+				if ( empty( $tva_lines[ $line->tva_tx ] ) ) {
+					$tva_lines[ $line->tva_tx ] = 0;
+				}
+
+				$tva_lines[ $line->tva_tx ] += $line->total_tva;
+
+				$wp_product = Product_Class::g()->get( array(
+					'meta_key'   => '_external_id',
+					'meta_value' => (int) $line->fk_product,
+				), true );
+
+				$line->wp_id = $wp_product->data['id'];
+			}
+		}
+
+		unset ( $line );
+
 		include( Template_Util::get_template_part( 'emails', 'order-details' ) );
 	}
 
@@ -55,7 +76,6 @@ class Emails_Action {
 		$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
 
 		include( Template_Util::get_template_part( 'emails', 'type-payment' ) );
-
 	}
 }
 

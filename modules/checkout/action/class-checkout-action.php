@@ -99,6 +99,7 @@ class Checkout_Action {
 
 			$posted_data['third_party']['country_id'] = (int) $posted_data['third_party']['country_id'];
 			$posted_data['third_party']['country']    = get_from_code( $posted_data['third_party']['country_id'] );
+			$posted_data['third_party']['phone']      = $posted_data['contact']['phone'];
 
 			if ( ! is_user_logged_in() ) {
 				$third_party = Third_Party_Class::g()->update( $posted_data['third_party'] );
@@ -152,12 +153,13 @@ class Checkout_Action {
 			$last_ref = empty( $last_ref ) ? 1 : $last_ref;
 			$last_ref++;
 
-			$proposal->data['title']          = 'PR' . sprintf( "%06d", $last_ref );
-			$proposal->data['ref']            = sprintf( "%06d", $last_ref );
-			$proposal->data['datec']          = current_time( 'mysql' );
-			$proposal->data['parent_id']      = $third_party->data['id'];
-			$proposal->data['status']         = 'publish';
-			$proposal->data['lines']          = array();
+			$proposal->data['title']     = 'PR' . sprintf( "%06d", $last_ref );
+			$proposal->data['ref']       = sprintf( "%06d", $last_ref );
+			$proposal->data['datec']     = current_time( 'mysql' );
+			$proposal->data['parent_id'] = $third_party->data['id'];
+			$proposal->data['author_id'] = $contact->data['id'];
+			$proposal->data['status']    = 'publish';
+			$proposal->data['lines']     = array();
 
 			$total_ht  = 0;
 			$total_ttc = 0;

@@ -80,8 +80,7 @@ class Doli_Order_Action {
 			// add_meta_box( 'wps-order-submit', __( 'Order actions', 'wpshop'), array( $this, 'callback_order_action' ), 'wps-order', 'normal', 'default', $args_metabox );
 
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array(
-				'order'       => $order,
-				'third_party' => $third_party,
+				'order'       => $order
 			) );
 		} else {
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'main' );
@@ -158,8 +157,11 @@ class Doli_Order_Action {
 		) );
 
 		$wp_order = Orders_Class::g()->get( array( 'schema' => true ), true );
+		$wp_order = Orders_Class::g()->doli_to_wp( $doli_order, $wp_order );
 
-		return Orders_Class::g()->doli_to_wp( $doli_order, $wp_order );
+		$wp_order->data['author_id'] = $current_user->ID;
+
+		return Orders_Class::g()->update( $wp_order->data );
 	}
 
 	public function set_to_billed( $data ) {

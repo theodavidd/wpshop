@@ -47,6 +47,10 @@
 				endif;
 				?>
 
+				<div data-action="reorder" data-id="<?php echo esc_attr( $order->data['id'] ); ?>" class="action-attribute wpeo-button button-primary">
+					<span><?php esc_html_e( 'Reorder', 'wpshop' ); ?></span>
+				</div>
+
 				<div class="wpeo-button button-primary wpeo-modal-event"
 					data-id="<?php echo esc_attr( $order->data['id'] ); ?>"
 					data-title="Commande <?php echo esc_attr( $order->data['title'] ); ?>"

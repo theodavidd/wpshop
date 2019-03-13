@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
-"POT-Creation-Date: 2019-03-07 17:57+0100\n"
-"PO-Revision-Date: 2019-03-07 17:57+0100\n"
+"POT-Creation-Date: 2019-03-12 11:05+0100\n"
+"PO-Revision-Date: 2019-03-12 16:21+0100\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-1: modules\n"
 "X-Poedit-SearchPathExcluded-0: core/external\n"
 
-#: core/action/class-core-action.php:68
+#: core/action/class-core-action.php:77
 msgid "WPShop"
 msgstr ""
 
@@ -1083,6 +1083,7 @@ msgstr "Quantité"
 #: modules/checkout/view/frontend/valid-checkout.php:71
 #: modules/doli-order/view/metabox-orders.view.php:26
 #: modules/doli-order/view/metabox-orders.view.php:50
+#: modules/my-account/view/frontend/my-account-orders.php:23
 #: modules/my-account/view/frontend/order-modal.view.php:32
 #: modules/my-account/view/frontend/order-modal.view.php:55
 msgid "Total HT"
@@ -1191,7 +1192,7 @@ msgstr "Devis"
 
 #: modules/checkout/view/frontend/payment.php:53
 msgid "Place order"
-msgstr "Payer"
+msgstr "Passer commande"
 
 #: modules/checkout/view/frontend/proceed-to-checkout-button.php:20
 msgid "Proceed to checkout"
@@ -1206,7 +1207,7 @@ msgstr "Total TVA"
 
 #: modules/checkout/view/frontend/review-order.php:71
 #: modules/checkout/view/frontend/valid-checkout.php:88
-#: modules/my-account/view/frontend/my-account-orders.php:23
+#: modules/my-account/view/frontend/my-account-orders.php:24
 #: modules/my-account/view/frontend/order-modal.view.php:72
 msgid "Total TTC"
 msgstr "Total TTC"
@@ -1221,6 +1222,7 @@ msgstr "Numéro de commande"
 
 #: modules/checkout/view/frontend/valid-checkout.php:23
 #: modules/checkout/view/frontend/valid-proposal.php:23
+#: modules/doli-order/view/list.view.php:25
 #: modules/my-account/view/frontend/my-account-orders.php:21
 msgid "Date"
 msgstr "Date"
@@ -1309,15 +1311,15 @@ msgstr "Statistiques"
 msgid "Data synchronization"
 msgstr "Synchronisation des données"
 
-#: modules/doli-order/action/class-doli-order-action.php:40
+#: modules/doli-order/action/class-doli-order-action.php:41
 msgid "Delivered"
 msgstr "Délivrée"
 
-#: modules/doli-order/action/class-doli-order-action.php:50
+#: modules/doli-order/action/class-doli-order-action.php:51
 msgid "Canceled"
 msgstr "Anulée"
 
-#: modules/doli-order/action/class-doli-order-action.php:66
+#: modules/doli-order/action/class-doli-order-action.php:67
 #: modules/doli-order/filter/class-doli-order-filter.php:32
 #: modules/doli-order/filter/class-doli-order-filter.php:34
 #: modules/doli-order/view/main.view.php:20
@@ -1328,11 +1330,11 @@ msgstr "Anulée"
 msgid "Orders"
 msgstr "Commandes"
 
-#: modules/doli-order/action/class-doli-order-action.php:77
+#: modules/doli-order/action/class-doli-order-action.php:78
 msgid "Order details #"
 msgstr "Détails de la commande #"
 
-#: modules/doli-order/action/class-doli-order-action.php:78
+#: modules/doli-order/action/class-doli-order-action.php:79
 #: modules/doli-synchro/class/class-doli-syncho-class.php:39
 #: modules/products/action/class-product-action.php:48
 #: modules/products/filter/class-product-filter.php:45
@@ -1407,17 +1409,21 @@ msgstr ""
 msgid "Dolibarr ID"
 msgstr ""
 
-#: modules/doli-order/view/list.view.php:25
+#: modules/doli-order/view/list.view.php:26
 #: modules/doli-proposals/view/list.view.php:24
 #: modules/proposals/view/list.view.php:25
 msgid "Ref"
 msgstr ""
 
-#: modules/doli-order/view/list.view.php:26
+#: modules/doli-order/view/list.view.php:27
+msgid "Tier"
+msgstr ""
+
+#: modules/doli-order/view/list.view.php:28
 msgid "Statut"
 msgstr ""
 
-#: modules/doli-order/view/list.view.php:27
+#: modules/doli-order/view/list.view.php:29
 #: modules/doli-proposals/view/list.view.php:25
 #: modules/products/view/metabox/main.view.php:23
 #: modules/proposals/view/list.view.php:27
@@ -1554,10 +1560,11 @@ msgstr ""
 #: modules/emails/view/customer-new-account.php:18
 #, php-format
 msgid ""
-"Click here to create your password: <a href=\"%s\">Create my password</a>"
+"Click here to create your password: <strong><a href=\"%s\">Create my "
+"password</a></strong>"
 msgstr ""
-"Cliquez ici pour créer  votre mot de passe : <a href=\"%s\">Créer mon mot de "
-"passe</a>"
+"Cliquez ici pour créer votre mot de passe: <strong><a href=\"%s\">Créer mon "
+"mot de passe</a></strong>"
 
 #: modules/emails/view/customer-new-account.php:20
 msgid "We look forward to seeing you soon."
@@ -1581,11 +1588,11 @@ msgstr "[Commande  #%s]"
 msgid "Price TTC"
 msgstr "Prix TTC"
 
-#: modules/my-account/action/class-my-account-action.php:63
+#: modules/my-account/action/class-my-account-action.php:64
 msgid "Your username or password is incorrect."
 msgstr "Votre identifiant ou votre mot de passe est incorrect."
 
-#: modules/my-account/action/class-my-account-action.php:93
+#: modules/my-account/action/class-my-account-action.php:94
 msgid "Close"
 msgstr "Fermer"
 
@@ -1618,19 +1625,23 @@ msgstr "Deconnexion"
 msgid "Status"
 msgstr "Statut"
 
-#: modules/my-account/view/frontend/my-account-orders.php:24
+#: modules/my-account/view/frontend/my-account-orders.php:25
 msgid "Actions"
 msgstr "Actions"
 
-#: modules/my-account/view/frontend/my-account-orders.php:50
+#: modules/my-account/view/frontend/my-account-orders.php:51
+msgid "Reorder"
+msgstr ""
+
+#: modules/my-account/view/frontend/my-account-orders.php:58
 msgid "Resume"
 msgstr "Résumé"
 
-#: modules/payment/class/class-payment-class.php:30
+#: modules/payment/class/class-payment-class.php:31
 msgid "Payment by cheque"
 msgstr "Paiement par chèque"
 
-#: modules/payment/class/class-payment-class.php:31
+#: modules/payment/class/class-payment-class.php:32
 msgid ""
 "Please send a check to Store Name, Store Street, Store Town, Store State / "
 "County, Store Postcode."
@@ -1638,11 +1649,19 @@ msgstr ""
 "Veuillez envoyer un chèque au Nom de la boutique, adresse, ville, pays, Code "
 "postal."
 
-#: modules/payment/class/class-payment-class.php:34
+#: modules/payment/class/class-payment-class.php:36
+msgid "Payment in shop"
+msgstr ""
+
+#: modules/payment/class/class-payment-class.php:37
+msgid "Pay and pick up directly your products at the shop."
+msgstr ""
+
+#: modules/payment/class/class-payment-class.php:41
 msgid "PayPal"
 msgstr "PayPal"
 
-#: modules/payment/class/class-payment-class.php:35
+#: modules/payment/class/class-payment-class.php:42
 msgid "Accept payments via PayPal using account balance or credit card."
 msgstr ""
 "Paiements par PayPal utilisant le solde du compte ou la carte de crédit "
@@ -1740,7 +1759,7 @@ msgstr ""
 msgid "Add to cart"
 msgstr "Ajouter au panier"
 
-#: modules/products/view/item.view.php:36
+#: modules/products/view/item.view.php:37
 msgid "Are you sure you want to delete this product ?"
 msgstr "Êtes-vous sûre de vouloir supprimer ce produit ?"
 
@@ -1922,6 +1941,12 @@ msgstr ""
 #: modules/transfert-data/action/class-transfert-data-action.php:178
 msgid "Contact #"
 msgstr "Contact #"
+
+#~ msgid ""
+#~ "Click here to create your password: <a href=\"%s\">Create my password</a>"
+#~ msgstr ""
+#~ "Cliquez ici pour créer  votre mot de passe : <a href=\"%s\">Créer mon mot "
+#~ "de passe</a>"
 
 #~ msgid "Name"
 #~ msgstr "Nom"

@@ -13,37 +13,56 @@ do_action( 'wps_email_before_order_table', $order ); ?>
 	?>
 </h2>
 
-<div style="margin-bottom: 40px;">
-	<table class="td" cellspacing="0" cellpadding="6" style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;" border="1">
-		<thead>
-			<tr>
-				<th class="td" scope="col" style="text-align: center;"><?php esc_html_e( 'Product', 'wpshop' ); ?></th>
-				<th class="td" scope="col" style="text-align: center;"><?php esc_html_e( 'Quantity', 'wpshop' ); ?></th>
-				<th class="td" scope="col" style="text-align: center;"><?php esc_html_e( 'Price TTC', 'wpshop' ); ?></th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php
-				if ( ! empty( $order->lines ) ) :
-					foreach ( $order->lines as $line ) :
-						?>
-						<tr>
-							<td class="td" scope="col" style="text-align: center;"><?php echo $line->libelle ?> x <?php echo $line->qty; ?></td>
-							<td class="td" scope="col" style="text-align: center;"><?php echo $line->qty; ?></td>
-							<td class="td" scope="col" style="text-align: center;"><?php echo number_format( $line->price * $line->qty, 2, ',', '' ); ?>€</td>
-						</tr>
-						<?php
-					endforeach;
-				endif;
-			?>
-		</tbody>
-		<tfoot>
-			<tr>
-				<th class="td" scope="row" colspan="2" style="text-align: center;">Total TTC</th>
-				<td class="td" style="text-align: center;"><?php echo wp_kses_post( number_format( $order->total_ttc, 2, ',', '' ) ); ?>€</td>
-			</tr>
-		</tfoot>
-	</table>
-</div>
+<table style="width: 100%;">
+	<thead>
+		<tr>
+			<th style="text-align: left;" data-title="<?php esc_html_e( 'Product name', 'wpshop' ); ?>"><?php esc_html_e( 'Product name', 'wpshop' ); ?></th>
+			<th style="text-align: left;" data-title="<?php esc_html_e( 'VAT', 'wpshop' ); ?>"><?php esc_html_e( 'VAT', 'wpshop' ); ?></th>
+			<th style="text-align: left;" data-title="<?php esc_html_e( 'P.U. HT', 'wpshop' ); ?>"><?php esc_html_e( 'P.U HT', 'wpshop' ); ?></th>
+			<th style="text-align: left;" data-title="<?php esc_html_e( 'Quantity', 'wpshop' ); ?>"><?php esc_html_e( 'Quantity', 'wpshop' ); ?></th>
+			<th style="text-align: left;" data-title="<?php esc_html_e( 'Total HT', 'wpshop' ); ?>"><?php esc_html_e( 'Total HT', 'wpshop' ); ?></th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+			if ( ! empty( $order->lines ) ) :
+				foreach ( $order->lines as $line ) :
+					?>
+					<tr>
+						<td><a href="<?php echo esc_url( get_permalink( $line->wp_id ) ); ?>"><?php esc_html_e( $line->libelle ); ?></a></td>
+						<td><?php esc_html_e( number_format( $line->tva_tx, 2 , ',', '' ) ); ?>%</td>
+						<td><?php esc_html_e( number_format( $line->price, 2, ',', '' ) ); ?>€</td>
+						<td><?php esc_html_e( $line->qty ); ?></td>
+						<td><?php esc_html_e( number_format( $line->price * $line->qty, 2, ',', '' ) ); ?>€</td>
+					</tr>
+					<?php
+				endforeach;
+			endif;
+		?>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="4"><strong><?php esc_html_e( 'Total HT', 'wpshop' ); ?></strong></td>
+			<td><?php echo number_format( $order->total_ht, 2, ',', '' ); ?>€</td>
+		</tr>
+		<?php
+		if ( ! empty( $tva_lines ) ) :
+			foreach ( $tva_lines as $key => $tva_line ) :
+				?>
+				<tr>
+					<td colspan="4"><strong><?php esc_html_e( 'Total VAT', 'wpshop' ); ?> <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
+					<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
+				</tr>
+				<?php
+			endforeach;
+		endif;
+		?>
+
+		<tr>
+			<td colspan="4"><strong><?php esc_html_e( 'Total TTC', 'wpshop' ); ?></strong></td>
+			<td><strong><?php echo number_format( $order->total_ttc, 2, ',', '' ); ?>€</strong></td>
+		</tr>
+	</tfoot>
+</table>
 
 <?php do_action( 'wps_email_after_order_table', $order ); ?>

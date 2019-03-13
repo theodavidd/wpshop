@@ -119,7 +119,7 @@ class Doli_Syncho_Action {
 	public function associate_and_synchronize() {
 		$entry_id = ! empty( $_POST['entry_id'] ) ? (int) $_POST['entry_id'] : 0;
 		$wp_id    = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
-		$from       = ! empty( $_POST['from'] ) ? sanitize_text_field( $_POST['from'] ) : '';
+		$from     = ! empty( $_POST['from'] ) ? sanitize_text_field( $_POST['from'] ) : '';
 
 		if ( empty( $entry_id ) || empty( $wp_id ) || empty( $from ) ) {
 			wp_send_json_error();
@@ -141,6 +141,13 @@ class Doli_Syncho_Action {
 					$doli_third_party = Request_Util::get( 'thirdparties/' . $entry_id );
 
 					Doli_Third_Party_Class::g()->wp_to_doli( $wp_third_party, $doli_third_party );
+				}
+			case 'wps-product':
+				if ( $from == 'dolibarr' ) {
+					$doli_product = Request_Util::get( 'products/' . $entry_id );
+					$wp_product   = Product_Class::g()->get( array( 'id' => $wp_id ), true );
+
+					Doli_Products_Class::g()->doli_to_wp( $doli_product, $wp_product );
 				}
 				break;
 		}

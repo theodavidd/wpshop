@@ -69,35 +69,43 @@ class Payment_Class extends \eoxia\Singleton_Util {
 		return $payment_method['title'];
 	}
 
-	public function convert_status( $order ) {
+	public function convert_status( $object ) {
 		$statut = '';
 
-		switch ( $order['payment_method'] ) {
-			case 'cheque':
-				if ( $order['billed'] ) {
-					$statut = 'Payée';
-				} else {
-					$statut = 'En attente du chèque';
-				}
-				break;
-			case 'paypal':
-				if ( $order['billed'] ) {
-					$statut = 'Payée';
-				} elseif ( $order['payment_failed'] ) {
-					$statut = 'Paiment échoué.';
-				} else {
-					$statut = 'En attente du paiement';
-				}
-				break;
-			case 'payment_in_shop':
-				if ( $order['billed'] ) {
-					$statut = 'Payée';
-				} else {
-					$statut = 'En attente du paiement';
-				}
-				break;
-			default:
-				break;
+		if ( $object['type'] == 'wps-order' ) {
+			switch ( $object['payment_method'] ) {
+				case 'cheque':
+					if ( $object['billed'] ) {
+						$statut = 'Payée';
+					} else {
+						$statut = 'En attente du chèque';
+					}
+					break;
+				case 'paypal':
+					if ( $object['billed'] ) {
+						$statut = 'Payée';
+					} elseif ( $object['payment_failed'] ) {
+						$statut = 'Paiment échoué.';
+					} else {
+						$statut = 'En attente du paiement';
+					}
+					break;
+				case 'payment_in_shop':
+					if ( $object['billed'] ) {
+						$statut = 'Payée';
+					} else {
+						$statut = 'En attente du paiement';
+					}
+					break;
+				default:
+					break;
+			}
+		} else if ( $object['type'] == 'wps-doli-invoice' ) {
+			if ( $object['paye'] ) {
+				$statut = 'Payée';
+			} else {
+				$statut = 'Impayée';
+			}
 		}
 
 		return $statut;

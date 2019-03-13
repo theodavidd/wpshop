@@ -16,7 +16,14 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wpeo-gridlayout grid-2 wpeo-form">
+<a href="<?php echo esc_attr( $doli_url ); ?>product/card.php?id=<?php echo $product->data['external_id']; ?>" target="_blank">Editer sur dolibarr</a>
+<div class="wpeo-button action-attribute"
+	data-action="associate_and_synchronize"
+	data-entry-id="<?php echo esc_attr( $product->data['external_id'] ); ?>"
+	data-wp-id="<?php echo esc_attr( $product->data['id'] ); ?>"
+	data-from="dolibarr">Synchroniser avec dolibarr</div>
+
+<div class="wpeo-form">
 	<?php wp_nonce_field( basename( __FILE__ ), 'wpshop_data_fields' ); ?>
 
 	<div>
@@ -25,14 +32,14 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div class="form-element">
 			<span class="form-label">Prix HT (€)</span>
 			<label class="form-field-container">
-				<input type="text" class="form-field" name="product_data[price]" value="<?php echo esc_attr( $product->data['price'] ); ?>" />
+				<span><?php echo esc_attr( $product->data['price'] ); ?></span>
 			</label>
 		</div>
 
 		<div class="form-element">
 			<span class="form-label">Taux TVA</span>
 			<label class="form-field-container">
-				<input type="text" class="form-field" name="product_data[tva_tx]" value="<?php echo esc_attr( $product->data['tva_tx'] ); ?>" />
+				<span><?php echo esc_attr( $product->data['tva_tx'] ); ?></span>
 			</label>
 		</div>
 
@@ -43,16 +50,5 @@ defined( 'ABSPATH' ) || exit; ?>
 			</label>
 		</div>
 
-	</div>
-
-	<div>
-		<h3><?php esc_html_e( 'Username', 'wpshop' ); ?></h3>
-
-		<div class="form-element">
-			<span class="form-label">Code barre</span>
-			<label class="form-field-container">
-				<input type="text" class="form-field" name="product_data[barcode]" value="<?php echo esc_attr( $product->data['barcode'] ); ?>" />
-			</label>
-		</div>
 	</div>
 </div>
