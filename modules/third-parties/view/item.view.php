@@ -27,6 +27,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	<td><?php echo esc_html( $third_party->data['town'] ); ?></td>
 	<td><?php echo esc_html( $third_party->data['country'] ); ?></td>
 	<td>
-		<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil"></i></a>
+		<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil-alt"></i></a>
 	</td>
 </tr>

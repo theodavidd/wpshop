@@ -25,10 +25,9 @@ defined( 'ABSPATH' ) || exit; ?>
 	<td><?php echo esc_html( number_format( $product->data['price'], 2, ',', '' ) ); ?>€</td>
 	<td><?php echo esc_html( number_format( $product->data['tva_tx'], 2, ',', '' ) ); ?>%</td>
 	<td><?php echo esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ); ?>€</td>
-	<td><?php echo esc_html( $product->data['barcode'] ); ?></td>
 	<td>
 		<a href="<?php echo esc_attr( get_post_permalink( $product->data['id'] ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-eye"></i></a>
-		<a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $product->data['id'] . '&action=edit' ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil"></i></a>
+		<a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $product->data['id'] . '&action=edit' ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil-alt"></i></a>
 		<div class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-copy"></i></div>
 		<div
 			class="action-delete wpeo-button button-square-30 button-rounded"

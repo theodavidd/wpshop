@@ -27,7 +27,6 @@ defined( 'ABSPATH' ) || exit; ?>
 			<th><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Tax Rate', 'wpshop' ); ?>%</th>
 			<th><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Barcode', 'wpshop' ); ?></th>
 			<th></th>
 		</tr>
 	</thead>
