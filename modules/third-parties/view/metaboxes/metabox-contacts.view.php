@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue principale de la page des produits (wps-third-party)
+ * La vue affichant les contacts d'un tier dans la page single d'un tier.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -34,13 +34,13 @@ defined( 'ABSPATH' ) || exit; ?>
 			foreach ( $contacts as $contact ) :
 				\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts-item', array(
 					'third_party_id' => $third_party->data['id'],
-					'contact'         => $contact,
+					'contact'        => $contact,
 				) );
 			endforeach;
 		endif;
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts-edit', array(
 			'third_party_id' => $third_party->data['id'],
-			'contact'        => Contact_Class::g()->get( array( 'schema' => true ) , true ),
+			'contact'        => Contact_Class::g()->get( array( 'schema' => true ), true ),
 		) );
 		?>
 	</tbody>

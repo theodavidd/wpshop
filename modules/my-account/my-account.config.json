@@ -6,7 +6,6 @@
 	"dependencies": {
     "shortcode": {},
     "class": {},
-    "filter": {},
     "action": {}
 	}
 }

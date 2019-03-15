@@ -1,6 +1,6 @@
 <?php
 /**
- * Les fonctions principales des tiers avec dolibarr.
+ * Les fonctions principales des contacts avec dolibarr.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -17,12 +17,25 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Third Party class.
+ * Doli Contact Class.
  */
 class Doli_Contact_Class extends \eoxia\Singleton_Util {
 
+	/**
+	 * Constructeur
+	 *
+	 * @since 2.0.0
+	 */
 	protected function construct() {}
 
+	/**
+	 * Synchronise les contacts de dolibarr vers WP.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  stdClass      $doli_contact Les données provenant de Dolibarr.
+	 * @param  Contact_Model $wp_contact   Les données de WP.
+	 */
 	public function doli_to_wp( $doli_contact, $wp_contact ) {
 		$wp_third_party = null;
 
@@ -44,7 +57,7 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 			return false;
 		}
 
-		if ( $wp_third_party != null ) {
+		if ( null !== $wp_third_party ) {
 			$wp_contact->data['third_party_id'] = $wp_third_party->data['id'];
 		}
 
@@ -58,12 +71,22 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 			return false;
 		}
 
-		if ( $wp_third_party != null ) {
+		if ( null !== $wp_third_party ) {
 			$wp_third_party->data['contact_ids'][] = $contact_saved->data['id'];
 			Third_Party_Class::g()->update( $wp_third_party->data );
 		}
 	}
 
+	/**
+	 * Synchronise WP vers Dolibarr
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Contact_Model $wp_contact   Les données du contact provenant de WP.
+	 * @param  stdClass      $doli_contact Les données du contact dolibarr.
+	 *
+	 * @return integer                     L'ID de dolibarr.
+	 */
 	public function wp_to_doli( $wp_contact, $doli_contact ) {
 		$third_party = Third_Party_Class::g()->get( array(
 			'id' => $wp_contact->data['third_party_id'],

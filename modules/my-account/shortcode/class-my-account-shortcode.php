@@ -1,8 +1,6 @@
 <?php
 /**
- * Gestion des actions des commandes.
- *
- * Ajoutes une page "Orders" dans le menu de WordPress.
+ * Gestion des shortcodes pour la page "Mon compte"
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -19,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of Order module.
+ * My Account Shortcode Class.
  */
 class My_Account_Shortcode extends \eoxia\Singleton_Util {
 
@@ -30,10 +28,21 @@ class My_Account_Shortcode extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {}
 
+	/**
+	 * Initialise le shortcode.
+	 *
+	 * @since 2.0.0
+	 */
 	public function init_shortcode() {
 		add_shortcode( 'wps_account', array( $this, 'callback_account' ) );
 	}
 
+	/**
+	 * Appel la vue "my-account" si l'utilisateur est connecté. Sinon
+	 * appel la vue form-login.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_account() {
 		if ( ! is_admin() ) {
 			if ( ! is_user_logged_in() ) {

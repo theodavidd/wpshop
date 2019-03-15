@@ -1,8 +1,6 @@
 <?php
 /**
- * Les fonctions principales des produits.
- *
- * Le controlleur du modèle Product_Model.
+ * Les fonctions principales des paiements.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -19,8 +17,8 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Handle product
-*/
+ * Doli Payment Class.
+ */
 class Doli_Payment extends \eoxia\Post_Class {
 
 	/**
@@ -68,8 +66,26 @@ class Doli_Payment extends \eoxia\Post_Class {
 	 */
 	protected $attached_taxonomy_type = '';
 
+	/**
+	 * Le nom du post type.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
 	protected $post_type_name = 'Doli Payment';
 
+	/**
+	 * Convertie vers l'ID de dolibarr
+	 *
+	 * @since 2.0.0
+	 *
+	 * @todo: a vérifier
+	 *
+	 * @param array $payment_method Méthode de paiement.
+	 *
+	 * @return integer l'ID de dolibarr.
+	 */
 	public function convert_to_doli_id( $payment_method ) {
 		$payment_methods_option = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
 		$method                 = $payment_methods_option[ $payment_method ];
@@ -87,12 +103,23 @@ class Doli_Payment extends \eoxia\Post_Class {
 		return 0;
 	}
 
+	/**
+	 * Convertie vers un texte lisible.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @todo: a vérifier
+	 *
+	 * @param  string $payment_method Méthode de paiement venant de WP.
+	 *
+	 * @return string                 Texte lisible.
+	 */
 	public function convert_to_wp( $payment_method ) {
-		if ( $payment_method == 'CB' ) {
+		if ( 'CB' === $payment_method ) {
 			return 'paypal';
-		} else if ( $payment_method == 'CHQ' ) {
+		} elseif ( 'CHQ' === $payment_method ) {
 			return 'Cheque';
-		} else if ( $payment_method == 'LIQ' ) {
+		} elseif ( 'LIQ' === $payment_method ) {
 			return 'Espèce';
 		}
 	}

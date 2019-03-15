@@ -1,6 +1,6 @@
 <?php
 /**
- * Les fonctions principales des tiers avec dolibarr.
+ * Les fonctions principales des produits avec dolibarr.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -17,12 +17,26 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Third Party class.
+ * Doli Product Class.
  */
-class Doli_Products_Class extends \eoxia\Singleton_Util {
+class Doli_Products extends \eoxia\Singleton_Util {
 
+	/**
+	 * Constructeur.
+	 *
+	 * @since 2.0.0
+	 */
 	protected function construct() {}
 
+	/**
+	 * Synchronise de Dolibarr vers WP.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  stdClass      $doli_product Les données du produit venant de
+	 * dolibarr.
+	 * @param  Product_Model $wp_product   Les données du produit de WP.
+	 */
 	public function doli_to_wp( $doli_product, $wp_product ) {
 		$wp_product->data['external_id']     = $doli_product->id;
 		$wp_product->data['ref']             = $doli_product->ref;

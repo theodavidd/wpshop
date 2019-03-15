@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue principale de la page de réglages
+ * Formulaire de configuration pour les chèques.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.

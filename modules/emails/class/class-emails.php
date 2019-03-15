@@ -1,25 +1,40 @@
 <?php
 /**
- * Gestion des proposals.
+ * Classe principale des emails
  *
- * @author Eoxia <dev@eoxia.com>
- * @since 2.0.0
- * @version 2.0.0
- * @copyright 2018 Eoxia
- * @package wpshop
+ * @author    Eoxia <dev@eoxia.com>
+ * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ *
+ * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
+ *
+ * @package   WPshop\Classes
+ *
+ * @since     2.0.0
  */
 
 namespace wpshop;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
+
 /**
- * Gestion des Proposals CRUD.
+ * Emails Class.
  */
-class Emails_Class extends \eoxia\Singleton_Util {
+class Emails extends \eoxia\Singleton_Util {
+
+	/**
+	 * Tableau contenant les mails par défaut.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
 	public $emails;
 
+	/**
+	 * Constructeur.
+	 *
+	 * @since 2.0.0
+	 */
 	protected function construct() {
 		$this->emails['wps_email_new_order'] = array(
 			'title'             => __( 'New order', 'wpshop' ),
@@ -52,6 +67,15 @@ class Emails_Class extends \eoxia\Singleton_Util {
 		);
 	}
 
+	/**
+	 * Récupères le chemin ABS vers le template du mail dans le thème.
+	 * Si introuvable récupère le template du mail dans le plugin WPShop.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $filename Le nom du template.
+	 * @return string           Le chemin vers le template.
+	 */
 	public function get_path( $filename ) {
 		$path = locate_template( array( 'wpshop/emails/view/' . $filename ) );
 
@@ -62,6 +86,15 @@ class Emails_Class extends \eoxia\Singleton_Util {
 		return $path;
 	}
 
+	/**
+	 * Renvoies true si le template se trouve dans le thème. Sinon false.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $filename Le nom du template.
+	 *
+	 * @return boolean           True ou false.
+	 */
 	public function is_override( $filename ) {
 		if ( locate_template( array( 'wpshop/emails/view/' . $filename ) ) ) {
 			return true;
@@ -70,8 +103,19 @@ class Emails_Class extends \eoxia\Singleton_Util {
 		return false;
 	}
 
+	/**
+	 * Envoies un mail.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @use wp_mail.
+	 *
+	 * @param  string $to   Mail du destinataire.
+	 * @param  string $type Le template à utilisé.
+	 * @param  array  $data Les données utilisé par le template.
+	 */
 	public function send_mail( $to, $type, $data = array() ) {
-		$shop_options = get_option( 'wps_dolibarr', Settings_Class::g()->default_settings );
+		$shop_options = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
 		if ( empty( $shop_options['shop_email'] ) ) {
 			return;
@@ -79,8 +123,8 @@ class Emails_Class extends \eoxia\Singleton_Util {
 
 		$to          = empty( $to ) ? $shop_options['shop_email'] : $to;
 		$blog_name   = get_bloginfo();
-		$mail        = Emails_Class::g()->emails[ $type ];
-		$path_file   = Emails_Class::g()->get_path( $mail['filename_template'] );
+		$mail        = Emails::g()->emails[ $type ];
+		$path_file   = Emails::g()->get_path( $mail['filename_template'] );
 		$attachments = null;
 
 		if ( ! empty( $data['attachments'] ) ) {
@@ -98,4 +142,4 @@ class Emails_Class extends \eoxia\Singleton_Util {
 	}
 }
 
-Emails_Class::g();
+Emails::g();

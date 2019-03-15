@@ -2,6 +2,8 @@
 /**
  * Affichage d'une commande dans le listing de la page des commandes (wps-order)
  *
+ * @todo Proposal au lieu de devis
+ *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
  *
@@ -28,7 +30,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			?>
 			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $proposal->data['tier']->data['id'] ) ); ?>"><?php echo $proposal->data['tier']->data['title']; ?></a>
 			<?php
-		else:
+		else :
 			?>
 			N/D
 			<?php

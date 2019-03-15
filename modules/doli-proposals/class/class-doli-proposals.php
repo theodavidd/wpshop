@@ -1,85 +1,42 @@
 <?php
 /**
- * Gestion des proposals.
+ * Gestion des devis avec Dolibarr.
  *
- * @author Eoxia <dev@eoxia.com>
- * @since 2.0.0
- * @version 2.0.0
- * @copyright 2018 Eoxia
- * @package wpshop
+ * @author    Eoxia <dev@eoxia.com>
+ * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ *
+ * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
+ *
+ * @package   WPshop\Classes
+ *
+ * @since     2.0.0
  */
 
 namespace wpshop;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Gestion des Proposals CRUD.
+ * Doli Proposals Class.
  */
-class Doli_Proposals_Class extends \eoxia\Post_Class {
+class Doli_Proposals extends \eoxia\Singleton_Util {
 
 	/**
-	 * Model name @see ../model/*.model.php.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @var string
-	 */
-	protected $model_name = '\wpshop\Proposals_Model';
-
-	/**
-	 * Post type
-	 *
-	 * @since 2.0.0
-	 *
-	 * @var string
-	 */
-	protected $type = 'wps-proposal';
-
-	/**
-	 * La clé principale du modèle
-	 *
-	 * @since 2.0.0
-	 *
-	 * @var string
-	 */
-	protected $meta_key = 'proposal';
-
-	/**
-	 * La route pour accéder à l'objet dans la rest API
-	 *
-	 * @since 2.0.0
-	 *
-	 * @var string
-	 */
-	protected $base = 'proposal';
-
-	/**
-	 * La taxonomy lié à ce post type.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @var string
-	 */
-	protected $attached_taxonomy_type = '';
-
-	protected $post_type_name = 'Proposals';
-
-	/**
-	 * Récupères la liste des devis et appel la vue "list" du module "order".
+	 * Constructeur.
 	 *
 	 * @since 2.0.0
 	 */
-	public function display() {
-		$proposals = $this->get();
+	protected function construtor() {}
 
-		\eoxia\View_Util::exec( 'wpshop', 'doli-proposals', 'list', array(
-			'proposals' => $proposals,
-		) );
-	}
-
+	/**
+	 * Synchronise Dolibarr vers WPShop.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  stdClass       $doli_proposal Les données de dolibarr.
+	 *
+	 * @param  Proposal_Model $wp_proposal   Les données de WP.
+	 */
 	public function doli_to_wp( $doli_proposal, $wp_proposal ) {
 		$wp_proposal->data['external_id'] = (int) $doli_proposal->id;
 		$wp_proposal->data['title']       = $doli_proposal->ref;
@@ -93,9 +50,18 @@ class Doli_Proposals_Class extends \eoxia\Post_Class {
 		Proposals_Class::g()->update( $wp_proposal->data );
 	}
 
+	/**
+	 * Synchronise WPShop vers Dolibarr.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Proposal_Model $wp_proposal Les données venant de WP.
+	 *
+	 * @return integer                     L'ID du devis venant de Dolibarr.
+	 */
 	public function wp_to_doli( $wp_proposal ) {
 		$third_party_doli_id = get_post_meta( $wp_proposal->data['parent_id'], '_external_id', true );
-		$doli_proposal_id = 0;
+		$doli_proposal_id    = 0;
 
 		if ( ! empty( $wp_proposal->data['external_id'] ) ) {
 			$doli_proposal_id = $wp_proposal->data['external_id'];
@@ -130,7 +96,6 @@ class Doli_Proposals_Class extends \eoxia\Post_Class {
 					) );
 				}
 			}
-
 		}
 
 		return $doli_proposal_id;

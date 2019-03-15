@@ -31,10 +31,10 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="wpeo-tab">
 		<ul class="tab-list">
-			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=general' ) ); ?>" class="tab-element <?php echo $tab == 'general' ? 'tab-active' : ''; ?>">Général</a>
-			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=pages' ) ); ?>" class="tab-element <?php echo $tab == 'pages' ? 'tab-active' : ''; ?>">Pages</a>
-			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=emails' ) ); ?>" class="tab-element <?php echo $tab == 'emails' ? 'tab-active' : ''; ?>">Emails</a>
-			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=payment_method' ) ); ?>" class="tab-element <?php echo $tab == 'payment_method' ? 'tab-active' : ''; ?>">Mode de paiements</a>
+			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=general' ) ); ?>" class="tab-element <?php echo ( 'general' === $tab ) ? 'tab-active' : ''; ?>"><?php esc_html_e( 'Général', 'wpshop' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=pages' ) ); ?>" class="tab-element <?php echo ( 'pages' === $tab ) ? 'tab-active' : ''; ?>"><?php esc_html_e( 'Pages', 'wpshop' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=emails' ) ); ?>" class="tab-element <?php echo ( 'emails' === $tab ) ? 'tab-active' : ''; ?>"><?php esc_html_e( 'Emails', 'wpshop' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin-post.php?action=wps_load_settings_tab&tab=payment_method' ) ); ?>" class="tab-element <?php echo ( 'payment_method' === $tab ) ? 'tab-active' : ''; ?>"><?php esc_html_e( 'Mode de paiements', 'wpshop' ); ?></a>
 		</ul>
 
 		<div class="tab-container">

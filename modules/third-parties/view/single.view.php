@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue principale de la page des produits (wps-third-party)
+ * La vue single de la page d'un tier lors de l'édition.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.

@@ -5,7 +5,6 @@
   "description": "Le module gérant les prospets",
   "path": "modules/proposals/",
   "dependencies": {
-    "action": {},
     "model": {},
     "filter": {},
     "class": {}

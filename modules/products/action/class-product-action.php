@@ -23,7 +23,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of product module.
+ * Product Action Class.
  */
 class Product_Action {
 
@@ -65,6 +65,11 @@ class Product_Action {
 		) );
 	}
 
+	/**
+	 * Met le produit à la corbeille.
+	 *
+	 * @since 2.0.0
+	 */
 	public function ajax_delete_product() {
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 
@@ -72,8 +77,9 @@ class Product_Action {
 			wp_send_json_error();
 		}
 
-		$product = Product_Class::g()->get( array( 'id' => $id ), true );
+		$product                 = Product_Class::g()->get( array( 'id' => $id ), true );
 		$product->data['status'] = 'trash';
+
 		Product_Class::g()->update( $product->data );
 
 		wp_send_json_success();

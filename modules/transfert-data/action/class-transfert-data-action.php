@@ -1,8 +1,8 @@
 <?php
 /**
- * Gestion des actions des tiers.
+ * Gestion des actions du transfères de données
  *
- * Ajoutes une page "Tiers" dans le menu de WordPress.
+ * Migration des données des tiers de WPShop 1.x.x vers WPShop 2.x.x
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -19,7 +19,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of Third Party module.
+ * Transfert Data Action Class.
  */
 class Transfert_Data_Action {
 
@@ -34,40 +34,45 @@ class Transfert_Data_Action {
 	}
 
 	/**
-	 * Initialise la page "Third Parties".
+	 * Initialise la page "Transfère de donnée".
 	 *
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		// add_submenu_page( 'wps-order', __( 'Transfert data', 'wpshop' ), __( 'Transfert data', 'wpshop' ), 'manage_options', 'wps-transfert-data', array( $this, 'callback_add_menu_page' ) );
-
+		add_submenu_page( 'wps-order', __( 'Transfert data', 'wpshop' ), __( 'Transfert data', 'wpshop' ), 'manage_options', 'wps-transfert-data', array( $this, 'callback_add_menu_page' ) );
 	}
 
 	/**
-	 * Appel la vue "main" du module "Third Party".
+	 * Charges tous les anciens tiers, et appel la vue main du module.
 	 *
 	 * @since 2.0.0
 	 */
 	public function callback_add_menu_page() {
-		$number_customers = count( get_posts( array(
-			'post_type'      => 'wpshop_customers',
-			'posts_per_page' => -1,
-			'post_status'    => 'draft',
-		) ) );
+		$count_posts      = wp_count_posts( 'wpshop_customers' );
+		$number_customers = $count_posts->draft;
 
 		\eoxia\View_Util::exec( 'wpshop', 'transfert-data', 'main', array(
 			'number_customers' => $number_customers,
 		) );
 	}
 
+	/**
+	 * Transfère 20 par 20 les anciens tier.
+	 *
+	 * Log toutes les requêtes.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_transfert_data() {
 		define( 'SAVEQUERIES', true );
 		global $wpdb;
 
-		$number_customers = ! empty( $_POST['number_customers'] ) ? (int) $_POST['number_customers'] : 0;
-		$index            = ! empty( $_POST['index'] ) ? (int) $_POST['index'] : 0;
-		$index_error      = ! empty( $_POST['index_error'] ) ? (int) $_POST['index_error'] : 0;
-		$key_query        = ! empty( $_POST['key_query'] ) ? (int) $_POST['key_query'] : 1;
+		check_ajax_referer( 'wps_transfert_data' );
+
+		$number_customers = ! empty( $_POST['number_customers'] ) ? (int) $_POST['number_customers'] : 0; // WPCS: Input var okay.
+		$index            = ! empty( $_POST['index'] ) ? (int) $_POST['index'] : 0; // WPCS: Input var okay.
+		$index_error      = ! empty( $_POST['index_error'] ) ? (int) $_POST['index_error'] : 0; // WPCS: Input var okay.
+		$key_query        = ! empty( $_POST['key_query'] ) ? (int) $_POST['key_query'] : 1; // WPCS: Input var okay.
 		$done             = false;
 		$output           = '';
 		$errors           = '';
@@ -89,7 +94,7 @@ class Transfert_Data_Action {
 					'post_type'      => 'wps-third-party',
 					'post_status'    => 'publish',
 					'posts_per_page' => 1,
-				) );
+				) ); // WPCS: slow query ok.
 
 				if ( ! empty( $results->posts ) ) {
 					$new_customer = $results->posts[0];
@@ -102,7 +107,6 @@ class Transfert_Data_Action {
 					'post_type'     => 'wps-third-party',
 					'post_status'   => 'publish',
 				);
-
 
 				if ( ! empty( $new_customer ) ) {
 					$data['ID'] = $new_customer->ID;
@@ -175,7 +179,8 @@ class Transfert_Data_Action {
 
 								update_post_meta( $post_id, '_contact_ids', json_encode( $contact_ids ) );
 							} else {
-								$errors .= '<li><strong>' . $index_error . '</strong> ' . __( 'Contact #' . $user->ID . ' is already affected to another third party #' . $third_party_id, 'wpshop' ) . '</li>';
+								// translators: <li><strong>1</strong>Contact #1 is already affected to another third party #2</li>.
+								$errors .= sprintf( __( '<li><strong>%1$d</strong>Contact #%2$d is already affected to another third party #%3$d</li>', 'wpshop' ), $index_error $user->ID, $third_party_id );
 								$index_error++;
 							}
 						}
@@ -189,13 +194,12 @@ class Transfert_Data_Action {
 
 		if ( ! empty( $wpdb->queries ) ) {
 			foreach ( $wpdb->queries as $key => $element ) {
-				$output .= '<li><strong>' . ($key + $key_query) . '</strong> ' . $element[0] . '</li>';
+				$output .= '<li><strong>' . ( $key + $key_query ) . '</strong> ' . $element[0] . '</li>';
 
 			}
 		}
 
 		$key_query = $key + $key_query;
-
 
 		if ( $index >= $number_customers ) {
 			$done = true;

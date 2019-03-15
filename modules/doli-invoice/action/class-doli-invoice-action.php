@@ -1,8 +1,6 @@
 <?php
 /**
- * Gestion des actions des commandes.
- *
- * Ajoutes une page "Orders" dans le menu de WordPress.
+ * Gestion des actions des factures.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -19,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of Order module.
+ * Doli Invoice Action Class.
  */
 class Doli_Invoice_Action {
 
@@ -35,6 +33,11 @@ class Doli_Invoice_Action {
 		add_action( 'admin_post_wps_download_invoice', array( $this, 'download_invoice' ) );
 	}
 
+	/**
+	 * Créer un répertoire temporaire pour les factures.
+	 *
+	 * @since 2.0.0
+	 */
 	public function create_tmp_invoice_dir() {
 		$dir = wp_upload_dir();
 
@@ -47,6 +50,13 @@ class Doli_Invoice_Action {
 		}
 	}
 
+	/**
+	 * Créer la facture si la commande est payé.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $data Les données venant de PayPal.
+	 */
 	public function create_invoice( $data ) {
 		$order = Orders_Class::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
@@ -84,7 +94,6 @@ class Doli_Invoice_Action {
 		fwrite( $f, $content );
 		fclose( $f );
 
-
 		Emails_Class::g()->send_mail( $contact->data['email'], 'wps_email_customer_invoice', array(
 			'order'       => $order,
 			'invoice'     => $wp_invoice,
@@ -96,6 +105,11 @@ class Doli_Invoice_Action {
 		unlink( $path_file );
 	}
 
+	/**
+	 * Télécharges la facture.
+	 *
+	 * @since 2.0.0
+	 */
 	public function download_invoice() {
 		$order_id = ! empty( $_GET['order_id'] ) ? (int) $_GET['order_id'] : 0;
 
@@ -108,8 +122,9 @@ class Doli_Invoice_Action {
 		$order       = Orders_Class::g()->get( array( 'id' => $order_id ), true );
 		$invoice     = Doli_Invoice::g()->get( array( 'post_parent' => $order_id ), true );
 
-		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) )
+		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
+		}
 
 		$invoice_file = Request_Util::get( 'documents/download?module_part=facture&original_file=' . $invoice->data['title'] . '/' . $invoice->data['title'] . '.pdf' );
 

@@ -19,8 +19,8 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Handle product
-*/
+ * Doli Invoice Class.
+ */
 class Doli_Invoice extends \eoxia\Post_Class {
 
 	/**
@@ -68,20 +68,39 @@ class Doli_Invoice extends \eoxia\Post_Class {
 	 */
 	protected $attached_taxonomy_type = '';
 
+	/**
+	 * Le nom du post type.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
 	protected $post_type_name = 'Doli Invoice';
 
+	/**
+	 * Synchronise depuis Dolibarr vers WP.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param stdClass      $doli_invoice Les données de la facture venant de
+	 * Dolibarr.
+	 * @param Invoice_Model $wp_invoice   Les données de la facture WP.
+	 *
+	 * @return Invoice_Model              Les données de la facture WP avec les
+	 * données de Dolibarr.
+	 */
 	public function doli_to_wp( $doli_invoice, $wp_invoice ) {
 		$order = null;
 
-		$doli_invoice                       = Request_Util::get( 'invoices/' . $doli_invoice->id ); // Charges par la route single des factures pour avoir accès à linkedObjectsIds->commande.
-		$wp_invoice->data['external_id']    = (int) $doli_invoice->id;
+		$doli_invoice                    = Request_Util::get( 'invoices/' . $doli_invoice->id ); // Charges par la route single des factures pour avoir accès à linkedObjectsIds->commande.
+		$wp_invoice->data['external_id'] = (int) $doli_invoice->id;
 
-		if ( ! empty( $doli_invoice->linkedObjectsIds->commande ) ) {
-			$order_id = Orders_Class::g()->get_wp_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
+		if ( ! empty( $doli_invoice->linkedObjectsIds->commande ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.
+			$order_id                        = Orders_Class::g()->get_wp_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
 			$wp_invoice->data['post_parent'] = $order_id;
 
-			$order = Orders_Class::g()->get( array( 'id' => $order_id ), true );
-			$wp_invoice->data['author_id']      = $order->data['author_id'];
+			$order                         = Orders_Class::g()->get( array( 'id' => $order_id ), true );
+			$wp_invoice->data['author_id'] = $order->data['author_id'];
 		}
 		$wp_invoice->data['title']          = $doli_invoice->ref;
 		$wp_invoice->data['lines']          = $doli_invoice->lines;

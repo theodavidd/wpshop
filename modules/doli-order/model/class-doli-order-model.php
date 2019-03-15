@@ -1,6 +1,6 @@
 <?php
 /**
- * Classe définisant le modèle d'un order WPSHOP.
+ * Classe définisant le modèle d'une commande WPShop.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -17,9 +17,9 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class order model.
+ * Orders Model Class.
  */
-class Orders_Model extends \eoxia\Post_Model {
+class Doli_Order_Model extends \eoxia\Post_Model {
 
 	/**
 	 * Constructor.
@@ -27,7 +27,7 @@ class Orders_Model extends \eoxia\Post_Model {
 	 * @since 2.0.0
 	 *
 	 * @param Order_Class $object     Les données de l'objet.
-	 * @param string        $req_method La méthode de la requête.
+	 * @param string      $req_method La méthode de la requête.
 	 */
 	public function __construct( $object, $req_method = null ) {
 
@@ -109,13 +109,6 @@ class Orders_Model extends \eoxia\Post_Model {
 			'field'     => '_payment_failed',
 			'default'   => false,
 		);
-
-		// $this->schema['payments'] = array(
-		// 	'type'      => 'array',
-		// 	'meta_type' => 'single',
-		// 	'field'     => '_payments',
-		// 	'default'   => array(),
-		// );
 
 		parent::__construct( $object, $req_method );
 	}

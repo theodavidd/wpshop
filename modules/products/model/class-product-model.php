@@ -17,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class product model.
+ * Product Model Class.
  */
 class Product_Model extends \eoxia\Post_Model {
 
@@ -102,39 +102,39 @@ class Product_Model extends \eoxia\Post_Model {
 		);
 
 		$this->schema['length'] = array(
-			'type'         => 'float',
-			'meta_type'    => 'single',
-			'field'        => '_length',
-			'default'      => null,
-			'since'        => '2.0.0',
-			'description'  => 'La longueur en m (float). Peut être NULL. Valeur par défaut NULL.',
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => '_length',
+			'default'     => null,
+			'since'       => '2.0.0',
+			'description' => 'La longueur en m (float). Peut être NULL. Valeur par défaut NULL.',
 		);
 
 		$this->schema['width'] = array(
-			'type'         => 'float',
-			'meta_type'    => 'single',
-			'field'        => '_width',
-			'default'      => null,
-			'since'        => '2.0.0',
-			'description'  => 'La largeur en m (float). Peut être NULL. Valeur par défaut NULL.',
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => '_width',
+			'default'     => null,
+			'since'       => '2.0.0',
+			'description' => 'La largeur en m (float). Peut être NULL. Valeur par défaut NULL.',
 		);
 
 		$this->schema['height'] = array(
-			'type'         => 'float',
-			'meta_type'    => 'single',
-			'field'        => '_height',
-			'default'      => null,
-			'since'        => '2.0.0',
-			'description'  => 'La hauteur en m (float). Peut être NULL. Valeur par défaut NULL.',
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => '_height',
+			'default'     => null,
+			'since'       => '2.0.0',
+			'description' => 'La hauteur en m (float). Peut être NULL. Valeur par défaut NULL.',
 		);
 
 		$this->schema['weight'] = array(
-			'type'         => 'float',
-			'meta_type'    => 'single',
-			'field'        => '_weight',
-			'default'      => null,
-			'since'        => '2.0.0',
-			'description'  => 'Le poids en Kg (float). Peut être NULL. Valeur par défaut NULL.',
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => '_weight',
+			'default'     => null,
+			'since'       => '2.0.0',
+			'description' => 'Le poids en Kg (float). Peut être NULL. Valeur par défaut NULL.',
 		);
 
 		parent::__construct( $object, $req_method );

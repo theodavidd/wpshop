@@ -1,6 +1,6 @@
 <?php
 /**
- * Classe définisant le modèle d'un produit WPshop.
+ * Classe définisant le modèle d'un paiement dolibarr.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -17,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class product model.
+ * Doli Payement Model.
  */
 class Doli_Payment_Model extends \eoxia\Post_Model {
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue principale de la page des produits (wps-product)
+ * La vue du tableau récapitulatif du panier.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -39,11 +39,11 @@ defined( 'ABSPATH' ) || exit; ?>
 					<input type="hidden" name="products[<?php echo esc_attr( $key ); ?>][id]" value="<?php echo esc_attr( $cart_item['id'] ); ?>" />
 					<tr>
 						<td><?php echo get_the_post_thumbnail( $cart_item['id'], array( 80, 80 ) ); ?></td>
-						<td><a href="<?php echo esc_url( get_permalink( $cart_item['id'] ) ); ?>"><?php esc_html_e( $cart_item['title'] ); ?></a></td>
-						<td><?php esc_html_e( number_format( $cart_item['tva_tx'], 2 , ',', '' ) ); ?>%</td>
-						<td><?php esc_html_e( number_format( $cart_item['price'], 2, ',', '' ) ); ?>€</td>
-						<td style="width: 60px;"><input style="width: 60px;" class="cart-qty" type="number" name="products[<?php echo esc_attr( $key ); ?>][qty]" value="<?php esc_html_e( $cart_item['qty'] ); ?>" /></td>
-						<td><?php esc_html_e( number_format( $cart_item['price'] * $cart_item['qty'], 2, ',', '' ) ); ?>€</td>
+						<td><a href="<?php echo esc_url( get_permalink( $cart_item['id'] ) ); ?>"><?php echo esc_html( $cart_item['title'] ); ?></a></td>
+						<td><?php echo esc_html( number_format( $cart_item['tva_tx'], 2, ',', '' ) ); ?>%</td>
+						<td><?php echo esc_html( number_format( $cart_item['price'], 2, ',', '' ) ); ?>€</td>
+						<td style="width: 60px;"><input style="width: 60px;" class="cart-qty" type="number" name="products[<?php echo esc_attr( $key ); ?>][qty]" value="<?php echo esc_html( $cart_item['qty'] ); ?>" /></td>
+						<td><?php echo esc_html( number_format( $cart_item['price'] * $cart_item['qty'], 2, ',', '' ) ); ?>€</td>
 						<td>
 							<a href="#" class="action-attribute" data-action="delete_product_from_cart" data-key="<?php echo esc_attr( $key ); ?>">
 								<i class="fas fa-trash"></i>

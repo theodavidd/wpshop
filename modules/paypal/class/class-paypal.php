@@ -17,13 +17,33 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Gestion de PayPal.
-*/
-class Paypal_Class extends \eoxia\Singleton_Util {
+ * PayPal Class.
+ */
+class PayPal extends \eoxia\Singleton_Util {
+	/**
+	 * L'URL vers la page de paiement
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
 	protected $request_url;
 
+	/**
+	 * Constructeur.
+	 *
+	 * @since 2.0.0
+	 */
 	protected function construct() {}
 
+		/**
+		 * Prépares l'URL pour aller à la page de paiement
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param  Order_Model $order Les données de la commande.
+		 * @return array              L'URL pour aller à la page de paiement.
+		 */
 	public function process_payment( $order ) {
 		$paypal_options = Payment_Class::g()->get_payment_option( 'paypal' );
 
@@ -35,6 +55,15 @@ class Paypal_Class extends \eoxia\Singleton_Util {
 		);
 	}
 
+	/**
+	 * Récupères les paramètres IPN de PayPal.
+	 *
+	 * @since 2.0.0.
+	 *
+	 * @param  Order_Model $order Les données de la commande.
+	 *
+	 * @return array              Les données IPN.
+	 */
 	protected function get_paypal_args( $order ) {
 		$paypal_args = apply_filters( 'wps_paypal_args', array_merge(
 			$this->get_transaction_args( $order ),
@@ -44,6 +73,15 @@ class Paypal_Class extends \eoxia\Singleton_Util {
 		return $paypal_args;
 	}
 
+	/**
+	 * Prépares les données IPN
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Order_Model $order Les données de la commande.
+	 *
+	 * @return array              Les données IPN.
+	 */
 	protected function get_transaction_args( $order ) {
 		$payment_methods_option = get_option( 'wps_payment_methods', array(
 			'paypal' => array(),
@@ -71,15 +109,24 @@ class Paypal_Class extends \eoxia\Singleton_Util {
 		);
 	}
 
+	/**
+	 * Ajoutes les lignes pour le paiement PayPal.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Order_Model $order Les données de la commande.
+	 *
+	 * @return array              Les lignes pour le paiement PayPal.
+	 */
 	protected function get_line_item_args( $order ) {
 		$line_item_args = array();
 
 		if ( ! empty( $order->data['lines'] ) ) {
 			foreach ( $order->data['lines'] as $index => $line ) {
-				$line_item_args['item_name_' . ( $index + 1 )] = $line['libelle'];
-				$line_item_args['quantity_' . ( $index + 1 )] = $line['qty'];
-				$line_item_args['amount_' . ( $index + 1 )] = number_format( $line['price_ttc'], 2 );
-				$line_item_args['item_number_' . ( $index + 1 )] = $line['ref'];
+				$line_item_args[ 'item_name_' . ( $index + 1 ) ]   = $line['libelle'];
+				$line_item_args[ 'quantity_' . ( $index + 1 ) ]    = $line['qty'];
+				$line_item_args[ 'amount_' . ( $index + 1 ) ]      = number_format( $line['price_ttc'], 2 );
+				$line_item_args[ 'item_number_' . ( $index + 1 ) ] = $line['ref'];
 			}
 		}
 
@@ -89,4 +136,4 @@ class Paypal_Class extends \eoxia\Singleton_Util {
 
 }
 
-Paypal_Class::g();
+Paypal::g();

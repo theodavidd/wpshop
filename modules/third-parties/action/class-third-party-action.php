@@ -19,9 +19,18 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of Third Party module.
+ * Third Party Action Class.
  */
 class Third_Party_Action {
+
+	/**
+	 * Définition des metabox sur la page.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
+	$metaboxes = null;
 
 	/**
 	 * Constructor.
@@ -46,6 +55,24 @@ class Third_Party_Action {
 		add_action( 'wp_ajax_third_party_load_contact', array( $this, 'load_contact' ) );
 		add_action( 'wp_ajax_third_party_delete_contact', array( $this, 'delete_contact' ) );
 
+		$this->metaboxes = array(
+			'wps-third-party-billing'  => array(
+				'title'    => __( 'Billing address', 'wpshop' ),
+				'callback' => array( $this, 'metabox_billing_address' ),
+			),
+			'wps-third-party-contacts' => array(
+				'title'    => __( 'Contacts', 'wpshop' ),
+				'callback' => array( $this, 'metabox_contacts' ),
+			),
+			'wps-third-party-orders'   => array(
+				'title'    => __( 'Orders', 'wpshop' ),
+				'callback' => array( $this, 'metabox_orders' ),
+			),
+			'wps-third-party-invoices' => array(
+				'title'    => __( 'Invoices', 'wpshop' ),
+				'callback' => array( $this, 'metabox_invoices' ),
+			),
+		);
 	}
 
 	/**
@@ -54,9 +81,21 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page( 'wps-order', __( 'Third Parties', 'wpshop' ), __( 'Third Parties', 'wpshop' ), 'manage_options', 'wps-third-party', array( $this, 'callback_add_menu_page' ) );
+		add_submenu_page(
+			'wps-order',
+			__( 'Third Parties', 'wpshop' ),
+			__( 'Third Parties', 'wpshop' ),
+			'manage_options',
+			'wps-third-party',
+			array( $this, 'callback_add_menu_page' )
+		);
 	}
 
+	/**
+	 * Gestion JS des metabox
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_load() {
 		wp_enqueue_script( 'common' );
 		wp_enqueue_script( 'wp-lists' );
@@ -76,16 +115,21 @@ class Third_Party_Action {
 				'id'          => $_GET['id'],
 			);
 
-			add_meta_box( 'wps-third-party-billing',  __( 'Billing address', 'wpshop' ), array( $this, 'metabox_billing_address' ), 'wps-third-party', 'normal', 'default', $args_metabox );
-			add_meta_box( 'wps-third-party-contacts',  __( 'Contacts', 'wpshop' ), array( $this, 'metabox_contacts' ), 'wps-third-party', 'normal', 'default', $args_metabox );
-			add_meta_box( 'wps-third-party-orders',  __( 'Orders', 'wpshop' ), array( $this, 'metabox_orders' ), 'wps-third-party', 'normal', 'default', $args_metabox );
-			add_meta_box( 'wps-third-party-invoices',  __( 'Invoices', 'wpshop' ), array( $this, 'metabox_invoices' ), 'wps-third-party', 'normal', 'default', $args_metabox );
-			// add_meta_box( 'wps-third-party-informations',  __( 'Informations', 'wpshop' ), array( $this, 'metabox_informations' ), 'wps-third-party', 'normal', 'default', $args_metabox );
-			// add_meta_box( 'wps-third-party-activity',  __( 'History of activities', 'wpshop' ), array( $this, 'metabox_activity' ), 'wps-third-party', 'normal', 'default', $args_metabox );
+			if ( ! empty( $this->metaboxes ) ) {
+				foreach ( $this->metaboxes as $key => $metabox ) {
+					add_meta_box(
+						$key,
+						$metabox['title'],
+						$metabox['callback'],
+						'wps-third-party',
+						'normal',
+						'default',
+						$args_metabox
+					);
+				}
+			}
 
-			\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'single', array(
-				'third_party' => $third_party
-			) );
+			\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'single', array( 'third_party' => $third_party ) );
 		} else {
 			$args = array(
 				'post_type'      => 'wps-third-party',
@@ -98,7 +142,7 @@ class Third_Party_Action {
 
 			$count = count( get_posts( $args ) );
 
-			$number_page = ceil( $count / 25 );
+			$number_page  = ceil( $count / 25 );
 			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
 
 			$base_url = admin_url( 'admin.php?page=wps-third-party' );
@@ -106,14 +150,14 @@ class Third_Party_Action {
 			$begin_url = $base_url . '&current_page=1';
 			$end_url   = $base_url . '&current_page=' . $number_page;
 
-			$prev_url  = $base_url . '&current_page=' . ( $current_page - 1 );
-			$next_url  = $base_url . '&current_page=' . ( $current_page + 1 );
+			$prev_url = $base_url . '&current_page=' . ( $current_page - 1 );
+			$next_url = $base_url . '&current_page=' . ( $current_page + 1 );
 
 			if ( ! empty( $_GET['s'] ) ) {
 				$begin_url .= '&s=' . $_GET['s'];
-				$end_url .= '&s=' . $_GET['s'];
-				$prev_url .= '&s=' . $_GET['s'];
-				$next_url .= '&s=' . $_GET['s'];
+				$end_url   .= '&s=' . $_GET['s'];
+				$prev_url  .= '&s=' . $_GET['s'];
+				$next_url  .= '&s=' . $_GET['s'];
 			}
 
 			\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'main', array(
@@ -128,12 +172,28 @@ class Third_Party_Action {
 		}
 	}
 
+	/**
+	 * Appel la vue de la metabox des adresses.
+	 *
+	 * @param  WP_Post $post          Le post actuel.
+	 * @param  array   $callback_args Les paramètres envoyées dans le add_meta_box.
+	 *
+	 * @since 2.0.0
+	 */
 	public function metabox_billing_address( $post, $callback_args ) {
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-billing-address', array(
 			'third_party' => $callback_args['args']['third_party'],
 		) );
 	}
 
+	/**
+	 * Appel la vue de la metabox des contacts.
+	 *
+	 * @param  WP_Post $post          Le post actuel.
+	 * @param  array   $callback_args Les paramètres envoyées dans le add_meta_box.
+	 *
+	 * @since 2.0.0
+	 */
 	public function metabox_contacts( $post, $callback_args ) {
 		$contacts = array();
 
@@ -146,6 +206,14 @@ class Third_Party_Action {
 		) );
 	}
 
+	/**
+	 * Appel la vue de la metabox des commandes.
+	 *
+	 * @param  WP_Post $post          Le post actuel.
+	 * @param  array   $callback_args Les paramètres envoyées dans le add_meta_box.
+	 *
+	 * @since 2.0.0
+	 */
 	public function metabox_orders( $post, $callback_args ) {
 		$orders = Orders_Class::g()->get( array( 'post_parent' => $callback_args['args']['id'] ) );
 
@@ -160,6 +228,14 @@ class Third_Party_Action {
 		) );
 	}
 
+	/**
+	 * Appel la vue de la metabox des factures.
+	 *
+	 * @param  WP_Post $post          Le post actuel.
+	 * @param  array   $callback_args Les paramètres envoyées dans le add_meta_box.
+	 *
+	 * @since 2.0.0
+	 */
 	public function metabox_invoices( $post, $callback_args ) {
 
 		$invoices = Doli_Invoice::g()->get( array( 'author__in' => $callback_args['args']['third_party']->data['contact_ids'] ) );
@@ -175,14 +251,11 @@ class Third_Party_Action {
 		) );
 	}
 
-	public function metabox_informations( $post, $callback_args ) {
-		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-informations' );
-	}
-
-	public function metabox_activity( $post, $callback_args ) {
-		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-activities' );
-	}
-
+	/**
+	 * Renvoies la vue d'édition d'un titre.
+	 *
+	 * @since 2.0.0
+	 */
 	public function load_title_edit() {
 		$post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : -1;
 
@@ -204,6 +277,11 @@ class Third_Party_Action {
 		) );
 	}
 
+	/**
+	 * Enregistres le titre du tier.
+	 *
+	 * @since 2.0.0
+	 */
 	public function save_third() {
 		$post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : -1;
 		$title   = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
@@ -214,12 +292,12 @@ class Third_Party_Action {
 
 		$third_party = Third_Party_Class::g()->get( array( 'id' => $post_id ), true );
 
-		$third_party->data['id']     = $post_id;
+		$third_party->data['id'] = $post_id;
 
 		if ( empty( $post_id ) ) {
 			$third_party->data['status'] = 'publish';
 		}
-		$third_party->data['title']  = $title;
+		$third_party->data['title'] = $title;
 
 		$third_party = Third_Party_Class::g()->update( $third_party->data );
 
@@ -227,7 +305,6 @@ class Third_Party_Action {
 
 		$third_party->data['external_id'] = $external_id;
 		$third_party                      = Third_Party_Class::g()->update( $third_party->data );
-
 
 		if ( wp_doing_ajax() ) {
 			ob_start();
@@ -240,14 +317,17 @@ class Third_Party_Action {
 				'callback_success' => 'savedThird',
 				'view'             => ob_get_clean(),
 			) );
-		}
-		else {
+		} else {
 			wp_redirect( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) );
 			exit;
 		}
 	}
 
-
+	/**
+	 * Charges la vue pour éditer l'adresse du tier.
+	 *
+	 * @since 2.0.0
+	 */
 	public function load_billing_address() {
 		$third_party_id = ! empty( $_POST['third_party_id'] ) ? (int) $_POST['third_party_id'] : 0;
 
@@ -269,6 +349,12 @@ class Third_Party_Action {
 		) );
 	}
 
+	/**
+	 * Met à jour l'adresse du tier
+	 *
+	 * @todo: Merger avec save third
+	 * @since 2.0.0
+	 */
 	public function save_billing_address() {
 		$third_party_id   = ! empty( $_POST['third_party_id'] ) ? (int) $_POST['third_party_id'] : 0;
 		$third_party_form = ! empty( $_POST['third_party'] ) ? (array) $_POST['third_party'] : array();
@@ -302,6 +388,11 @@ class Third_Party_Action {
 		) );
 	}
 
+	/**
+	 * Recherches un contact dans la base de donnée de WP.
+	 *
+	 * @since 2.0.0
+	 */
 	public function search_contact() {
 		$term = ! empty( $_POST['term'] ) ? sanitize_text_field( $_POST['term'] ) : '';
 
@@ -334,6 +425,11 @@ class Third_Party_Action {
 		) );
 	}
 
+	/**
+	 * Associe un contact au tier
+	 *
+	 * @since 2.0.0
+	 */
 	public function associate_contact() {
 		$third_party_id = ! empty( $_POST['third_party_id'] ) ? (int) $_POST['third_party_id'] : 0;
 		$contact_id     = ! empty( $_POST['contact_id'] ) ? (int) $_POST['contact_id'] : 0;
@@ -373,6 +469,13 @@ class Third_Party_Action {
 		) );
 	}
 
+	/**
+	 * Enregistres et associes un contact au tier
+	 *
+	 * @todo: Merger avec associate contact
+	 *
+	 * @since 2.0.0
+	 */
 	public function save_and_associate_contact() {
 		$third_party_id = ! empty( $_POST['parent_id'] ) ? (int) $_POST['parent_id'] : 0;
 		$contact        = ! empty( $_POST['contact'] ) ? (array) $_POST['contact'] : array();
@@ -419,6 +522,11 @@ class Third_Party_Action {
 		) );
 	}
 
+	/**
+	 * Charges un contact et appel la vue edit.
+	 *
+	 * @since 2.0.0
+	 */
 	public function load_contact() {
 		$third_party_id = ! empty( $_POST['third_party_id'] ) ? (int) $_POST['third_party_id'] : 0;
 		$contact_id     = ! empty( $_POST['contact_id'] ) ? (int) $_POST['contact_id'] : 0;
@@ -443,6 +551,11 @@ class Third_Party_Action {
 		) );
 	}
 
+	/**
+	 * Supprimes un contact
+	 *
+	 * @since 2.0.0
+	 */
 	public function delete_contact() {
 		$third_party_id = ! empty( $_POST['third_party_id'] ) ? (int) $_POST['third_party_id'] : 0;
 		$contact_id     = ! empty( $_POST['contact_id'] ) ? (int) $_POST['contact_id'] : 0;
@@ -455,7 +568,7 @@ class Third_Party_Action {
 
 		$index = array_search( $contact_id, $third_party->data['contact_ids'], true );
 
-		if ( $index !== FALSE ) {
+		if ( false !== $index ) {
 			array_splice( $third_party->data['contact_ids'], $index, 1 );
 
 			$contact = Contact_Class::g()->get( array( 'id' => $contact_id ), true );
@@ -467,7 +580,6 @@ class Third_Party_Action {
 
 			do_action( 'wps_deleted_contact', $third_party, $contact );
 		}
-
 
 		wp_send_json_success( array(
 			'namespace'        => 'wpshop',

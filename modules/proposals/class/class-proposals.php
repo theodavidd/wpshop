@@ -1,24 +1,25 @@
 <?php
 /**
- * Gestion des proposals.
+ * Classe gérant les devis.
  *
- * @author Eoxia <dev@eoxia.com>
- * @since 2.0.0
- * @version 2.0.0
- * @copyright 2018 Eoxia
- * @package wpshop
+ * @author    Eoxia <dev@eoxia.com>
+ * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ *
+ * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
+ *
+ * @package   WPshop\Classes
+ *
+ * @since     2.0.0
  */
 
 namespace wpshop;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Gestion des Proposals CRUD.
+ * Proposals Class.
  */
-class Proposals_Class extends \eoxia\Post_Class {
+class Proposals extends \eoxia\Post_Class {
 
 	/**
 	 * Model name @see ../model/*.model.php.
@@ -65,6 +66,13 @@ class Proposals_Class extends \eoxia\Post_Class {
 	 */
 	protected $attached_taxonomy_type = '';
 
+	/**
+	 * Le nom du post type.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
 	protected $post_type_name = 'Proposals';
 
 	/**
@@ -80,12 +88,13 @@ class Proposals_Class extends \eoxia\Post_Class {
 		) );
 	}
 
-	public function save( $third_party, $contact ) {
-		do_action( 'wps_save_proposal', $third_party, $contact );
-
-		return $this->get( array( 'id' => Class_Cart_Session::g()->external_data['proposal_id'] ), true );
-	}
-
+	/**
+	 * Récupères la dernière ref des devis.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return string La référence.
+	 */
 	public function get_last_ref() {
 		global $wpdb;
 
@@ -101,4 +110,4 @@ class Proposals_Class extends \eoxia\Post_Class {
 	}
 }
 
-Proposals_Class::g();
+Proposals::g();

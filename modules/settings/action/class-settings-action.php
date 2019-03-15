@@ -17,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of product module.
+ * Settings Action Class.
  */
 class Settings_Action {
 
@@ -63,6 +63,11 @@ class Settings_Action {
 		) );
 	}
 
+	/**
+	 * Redirige vers le bon onglet dans la page option;
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_load_tab() {
 		$tab     = ! empty( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'general';
 		$section = ! empty( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : '';
@@ -76,15 +81,20 @@ class Settings_Action {
 		wp_redirect( admin_url( $url ) );
 	}
 
+	/**
+	 * Met à jour les options général.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_update_general_settings() {
 		if ( ! current_user_can( 'edit_themes' ) ) {
 			wp_die();
 		}
 
 		$tab             = ! empty( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'general';
-		$dolibarr_url    = ! empty( $_POST['dolibarr_url'] ) ? sanitize_text_field( $_POST['dolibarr_url' ] ) : '';
-		$dolibarr_secret = ! empty( $_POST['dolibarr_secret'] ) ? sanitize_text_field( $_POST['dolibarr_secret' ] ) : '';
-		$shop_email      = ! empty( $_POST['shop_email'] ) ? sanitize_text_field( $_POST['shop_email' ] ) : '';
+		$dolibarr_url    = ! empty( $_POST['dolibarr_url'] ) ? sanitize_text_field( $_POST['dolibarr_url'] ) : '';
+		$dolibarr_secret = ! empty( $_POST['dolibarr_secret'] ) ? sanitize_text_field( $_POST['dolibarr_secret'] ) : '';
+		$shop_email      = ! empty( $_POST['shop_email'] ) ? sanitize_text_field( $_POST['shop_email'] ) : '';
 
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings_Class::g()->default_settings );
 
@@ -99,6 +109,11 @@ class Settings_Action {
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab ) );
 	}
 
+	/**
+	 * Met à jour les options "pages".
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_update_pages_settings() {
 		if ( ! current_user_can( 'edit_themes' ) ) {
 			wp_die();
@@ -128,6 +143,11 @@ class Settings_Action {
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab ) );
 	}
 
+	/**
+	 * Met à jour les options "emails".
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_update_email() {
 		if ( ! current_user_can( 'edit_themes' ) ) {
 			wp_die();

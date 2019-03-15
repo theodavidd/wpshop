@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			foreach ( $payment_methods as $key => $payment_method ) :
 				if ( $payment_method['active'] ) :
 					$checked = '';
-					if ( $key == 'cheque' ) :
+					if ( 'cheque' === $key ) :
 						$checked = 'checked';
 					endif;
 					?>
@@ -35,7 +35,9 @@ defined( 'ABSPATH' ) || exit; ?>
 
 						<?php
 						if ( ! empty( $payment_method['description'] ) ) :
-							?></p><?php echo apply_filters( 'wps_payment_method_' . $key . '_description', nl2br( $payment_method['description'] ) ); ?></p><?php
+							?>
+							</p><?php echo apply_filters( 'wps_payment_method_' . $key . '_description', nl2br( $payment_method['description'] ) ); ?></p>
+							<?php
 						endif;
 						?>
 					</li>
@@ -45,8 +47,6 @@ defined( 'ABSPATH' ) || exit; ?>
 		endif;
 		?>
 	</ul>
-
-	<?php // include( Template_Util::get_template_part( 'checkout', 'terms' ) ); ?>
 
 	<?php do_action( 'wps_review_order_before_submit' ); ?>
 

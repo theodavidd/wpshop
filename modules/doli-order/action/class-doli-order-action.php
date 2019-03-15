@@ -1,12 +1,15 @@
 <?php
 /**
- * Les actions relatives aux proposals.
+ * Les actions relatives aux commandes avec Dolibarr.
  *
- * @author Eoxia <corentin-settelen@hotmail.com>
- * @since 2.0.0
- * @version 2.0.0
- * @copyright 2018 Eoxia
- * @package wpshop
+ * @author    Eoxia <dev@eoxia.com>
+ * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ *
+ * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
+ *
+ * @package   WPshop\Classes
+ *
+ * @since     2.0.0
  */
 
 namespace wpshop;
@@ -14,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Les actions relatives aux proposals.
+ * Doli Order Action Class.
  */
 class Doli_Order_Action {
 
@@ -32,6 +35,11 @@ class Doli_Order_Action {
 		add_action( 'wps_payment_failed', array( $this, 'set_to_failed' ), 30, 1 );
 	}
 
+	/**
+	 * Ajoutes des status dans la commande.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_admin_init() {
 		remove_post_type_support( 'wps-order', 'title' );
 		remove_post_type_support( 'wps-order', 'editor' );
@@ -59,7 +67,7 @@ class Doli_Order_Action {
 	}
 
 	/**
-	 * Initialise la page "Third Parties".
+	 * Initialise la page "Commande".
 	 *
 	 * @since 2.0.0
 	 */
@@ -67,26 +75,39 @@ class Doli_Order_Action {
 		add_submenu_page( 'wps-order', __( 'Orders', 'wpshop' ), __( 'Orders', 'wpshop' ), 'manage_options', 'wps-order', array( $this, 'callback_add_menu_page' ) );
 	}
 
+	/**
+	 * Affichage de la vue du menu
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
-			$order  = Orders_Class::g()->get( array( 'id' => $_GET['id'] ), true );
+			$order        = Orders_Class::g()->get( array( 'id' => $_GET['id'] ), true );
 			$args_metabox = array(
 				'order' => $order,
 				'id'    => $_GET['id'],
 			);
 
-			add_meta_box( 'wps-order-customer', __( 'Order details #' . $order->data['title'], 'wpshop' ), array( $this, 'callback_meta_box' ), 'wps-order', 'normal', 'default', $args_metabox );
-			add_meta_box( 'wps-order-products',  __( 'Products', 'wpshop' ), array( $this, 'callback_products' ), 'wps-order', 'normal', 'default', $args_metabox );
-			// add_meta_box( 'wps-order-submit', __( 'Order actions', 'wpshop'), array( $this, 'callback_order_action' ), 'wps-order', 'normal', 'default', $args_metabox );
+			/* translators: Order details CO00010 */
+			$box_order_detail_title = sprintf( __( 'Order details %s', 'wpshop' ), $order->data['title'] );
 
-			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array(
-				'order'       => $order
-			) );
+			add_meta_box( 'wps-order-customer', $box_order_detail_title, array( $this, 'callback_meta_box' ), 'wps-order', 'normal', 'default', $args_metabox );
+			add_meta_box( 'wps-order-products', __( 'Products', 'wpshop' ), array( $this, 'callback_products' ), 'wps-order', 'normal', 'default', $args_metabox );
+
+			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array( 'order' => $order ) );
 		} else {
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'main' );
 		}
 	}
 
+	/**
+	 * La metabox des détails de la commande
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_Post $post          Les données du post.
+	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 */
 	public function callback_meta_box( $post, $callback_args ) {
 		$order        = $callback_args['args']['order'];
 		$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
@@ -96,9 +117,8 @@ class Doli_Order_Action {
 		if ( ! empty( $invoice ) ) {
 			$invoice->data['payments'] = array();
 			$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
-			$link_invoice = admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $order->data['id'] );
+			$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $order->data['id'] );
 		}
-
 
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-order-details', array(
 			'order'        => $order,
@@ -108,6 +128,14 @@ class Doli_Order_Action {
 		) );
 	}
 
+	/**
+	 * Box affichant les produits de la commande
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_Post $post          Les données du post.
+	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 */
 	public function callback_products( $post, $callback_args ) {
 		$order = $callback_args['args']['order'];
 
@@ -129,6 +157,14 @@ class Doli_Order_Action {
 		) );
 	}
 
+	/**
+	 * Box affichant les actions de la commande.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_Post $post          Les données du post.
+	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 */
 	public function callback_order_action( $post, $callback_args ) {
 		$order = $callback_args['args']['order'];
 
@@ -137,6 +173,14 @@ class Doli_Order_Action {
 		) );
 	}
 
+	/**
+	 * Création d'une commande lors du tunnel de vente.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  stdClass $wp_proposal Les données du devis.
+	 * @return Order_Model           Les données de la commande WP.
+	 */
 	public function create_order( $wp_proposal ) {
 		$third_party      = Third_Party_Class::g()->get( array( 'id' => $wp_proposal->data['parent_id'] ), true );
 		$doli_proposal_id = get_post_meta( $wp_proposal->data['id'], '_external_id', true );
@@ -153,7 +197,7 @@ class Doli_Order_Action {
 
 		Emails_Class::g()->send_mail( $current_user->user_email, 'wps_email_customer_processing_order', array(
 			'order'       => $doli_order,
-			'third_party' => $third_party->data
+			'third_party' => $third_party->data,
 		) );
 
 		$wp_order = Orders_Class::g()->get( array( 'schema' => true ), true );
@@ -164,16 +208,31 @@ class Doli_Order_Action {
 		return Orders_Class::g()->update( $wp_order->data );
 	}
 
+	/**
+	 * Passes la commande à payé.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $data Les données IPN de PayPal.
+	 */
 	public function set_to_billed( $data ) {
-		$wp_order   = Orders_Class::g()->get( array( 'id' => (int) $data['custom'] ), true );
+		$wp_order = Orders_Class::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
 		$doli_order = Request_Util::post( 'orders/' . $wp_order->data['external_id'] . '/setinvoiced' );
 
 		Orders_Class::g()->doli_to_wp( $doli_order, $wp_order );
 	}
 
+	/**
+	 * Passes la commande à payment échoué.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $data Les données IPN de PayPal.
+	 */
 	public function set_to_failed( $data ) {
-		$wp_order   = Orders_Class::g()->get( array( 'id' => (int) $data['custom'] ), true );
+		$wp_order = Orders_Class::g()->get( array( 'id' => (int) $data['custom'] ), true );
+
 		$wp_order->data['payment_failed'] = true;
 		Orders_Class::g()->update( $wp_order->data );
 	}

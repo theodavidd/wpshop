@@ -17,8 +17,8 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Handle order
-*/
+ * Checkout Action Class.
+ */
 class Checkout_Action {
 
 	/**
@@ -43,16 +43,35 @@ class Checkout_Action {
 		add_action( 'wp_ajax_nopriv_wps_place_order', array( $this, 'callback_place_order' ) );
 	}
 
+	/**
+	 * Ajoutes le bouton "Passer à la commande".
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_after_cart_table() {
 		$link_checkout = Pages_Class::g()->get_checkout_link();
 		include( Template_Util::get_template_part( 'checkout', 'proceed-to-checkout-button' ) );
 	}
 
+	/**
+	 * Affiches le formulaire pour l'adresse de livraison
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Third_Party_Model $third_party Les données du tier.
+	 * @param  Contact_Model     $contact     Les données du contact.
+	 */
 	public function callback_checkout_shipping( $third_party, $contact ) {
-
 		include( Template_Util::get_template_part( 'checkout', 'form-shipping' ) );
 	}
 
+	/**
+	 * Le tableau récapitulatif de la commande
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Proposal_Model $proposal Les données du devis.
+	 */
 	public function callback_checkout_order_review( $proposal ) {
 		$cart_contents = Class_Cart_Session::g()->cart_contents;
 
@@ -72,12 +91,22 @@ class Checkout_Action {
 		include( Template_Util::get_template_part( 'checkout', 'review-order' ) );
 	}
 
+	/**
+	 * Affiches les méthodes de paiement
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_checkout_payment() {
 		$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
 
 		include( Template_Util::get_template_part( 'checkout', 'payment' ) );
 	}
 
+	/**
+	 * Créer le tier lors du tunnel de vente
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_checkout_create_third() {
 		$errors      = new \WP_Error();
 		$posted_data = Checkout_Class::g()->get_posted_data();
@@ -93,7 +122,7 @@ class Checkout_Action {
 				}
 
 				if ( empty( $posted_data['contact']['lastname'] ) ) {
-					$posted_data['contact']['lastname']  = $exploded_email[0];
+					$posted_data['contact']['lastname'] = $exploded_email[0];
 				}
 			}
 
@@ -113,7 +142,7 @@ class Checkout_Action {
 				$contact = Contact_Class::g()->update( $posted_data['contact'] );
 
 				$third_party->data['contact_ids'][] = $contact->data['id'];
-				$thid_party = Third_Party_Class::g()->update( $third_party->data );
+				$thid_party                         = Third_Party_Class::g()->update( $third_party->data );
 
 				do_action( 'wps_checkout_create_contact', $contact );
 
@@ -126,8 +155,8 @@ class Checkout_Action {
 
 				$key = get_password_reset_key( $user );
 
-				$trackcode = get_user_meta( $contact->data['id'], 'p_user_registration_code', true);
-				$track_url = get_option('siteurl').'/wp-login.php?action=rp&key=' . $key . '&login=' . $posted_data['contact']['login'];
+				$trackcode = get_user_meta( $contact->data['id'], 'p_user_registration_code', true );
+				$track_url = get_option( 'siteurl' ) . '/wp-login.php?action=rp&key=' . $key . '&login=' . $posted_data['contact']['login'];
 
 				Emails_Class::g()->send_mail( $posted_data['contact']['email'], 'wps_email_customer_new_account', array_merge( $posted_data, array( 'url' => $track_url ) ) );
 			} else {
@@ -153,8 +182,8 @@ class Checkout_Action {
 			$last_ref = empty( $last_ref ) ? 1 : $last_ref;
 			$last_ref++;
 
-			$proposal->data['title']     = 'PR' . sprintf( "%06d", $last_ref );
-			$proposal->data['ref']       = sprintf( "%06d", $last_ref );
+			$proposal->data['title']     = 'PR' . sprintf( '%06d', $last_ref );
+			$proposal->data['ref']       = sprintf( '%06d', $last_ref );
 			$proposal->data['datec']     = current_time( 'mysql' );
 			$proposal->data['parent_id'] = $third_party->data['id'];
 			$proposal->data['author_id'] = $contact->data['id'];
@@ -178,7 +207,6 @@ class Checkout_Action {
 
 			$proposal = Proposals_Class::g()->update( $proposal->data );
 			do_action( 'wps_checkout_create_proposal', $proposal );
-
 
 			Class_Cart_Session::g()->add_external_data( 'proposal_id', $proposal->data['id'] );
 			Class_Cart_Session::g()->update_session();
@@ -204,13 +232,19 @@ class Checkout_Action {
 		}
 	}
 
+	/**
+	 * Créer la commande et passe au paiement
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_place_order() {
 		do_action( 'wps_before_checkout_process' );
 
 		do_action( 'wps_checkout_process' );
 
-		$proposal = Proposals_Class::g()->get( array( 'id' => Class_Cart_Session::g()->external_data['proposal_id'] ), true );
+		$proposal                         = Proposals_Class::g()->get( array( 'id' => Class_Cart_Session::g()->external_data['proposal_id'] ), true );
 		$proposal->data['payment_method'] = $_POST['type_payment'];
+
 		$proposal = Proposals_Class::g()->update( $proposal->data );
 
 		do_action( 'wps_checkout_update_proposal', $proposal );

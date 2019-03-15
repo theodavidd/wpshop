@@ -33,7 +33,7 @@ class Core_Action {
 		add_action( 'init', array( $this, 'callback_register_session' ), 1 );
 		add_action( 'init', array( $this, 'callback_language' ) );
 
-		add_action('wp_head', array( $this, 'define_ajax_url' ) );
+		add_action( 'wp_head', array( $this, 'define_ajax_url' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts' ), 11 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_enqueue_scripts' ), 11 );
@@ -41,6 +41,11 @@ class Core_Action {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 	}
 
+	/**
+	 * Enregistres la session et enlève l'admin bar
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_register_session() {
 		if ( ! session_id() ) {
 			session_start();
@@ -51,18 +56,25 @@ class Core_Action {
 		}
 	}
 
+	/**
+	 * Charges le fichier de traduction.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_language() {
 		$i18n_loaded = load_plugin_textdomain( 'wpshop', false, PLUGIN_WPSHOP_DIR . '/core/asset/language/' );
 	}
 
-	public function define_ajax_url() {
-		echo '<script type="text/javascript">
-		  var ajaxurl = "' . admin_url('admin-ajax.php') . '";
-		</script>';
-	}
+	/**
+	 * Ajoutes ajaxurl
+	 *
+	 * @todo A vérifier
+	 * @since 2.0.0
+	 */
+	public function define_ajax_url() {}
 
 	/**
-	 * Init style and script
+	 * Init backend style and script
 	 *
 	 * @since 2.0.0
 	 */
@@ -74,6 +86,11 @@ class Core_Action {
 		wp_enqueue_script( 'wpshop-backend-script', PLUGIN_WPSHOP_URL . 'core/asset/js/backend.min.js', array( 'jquery', 'jquery-form' ), \eoxia\Config_Util::$init['wpshop']->version );
 	}
 
+	/**
+	 * Init backend style and script
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_enqueue_scripts() {
 		wp_dequeue_script( 'wpeo-assets-datepicker-js' );
 		wp_dequeue_style( 'wpeo-assets-datepicker' );
@@ -81,6 +98,11 @@ class Core_Action {
 		wp_enqueue_script( 'wpshop-frontend-script', PLUGIN_WPSHOP_URL . 'core/asset/js/frontend.min.js', array(), \eoxia\Config_Util::$init['wpshop']->version );
 	}
 
+	/**
+	 * Ajoutes le menu principal de WPShop.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_admin_menu() {
 		add_menu_page( __( 'WPShop', 'wpshop' ), __( 'WPShop', 'wpshop' ), 'manage_options', 'wps-order' );
 	}

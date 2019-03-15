@@ -1,16 +1,24 @@
 <?php
 /**
- * Modal resume order
+ * Le résumé d'une commande dans la page mon compte
  *
+ * @author    Eoxia <dev@eoxia.com>
+ * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ *
+ * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
+ *
+ * @package   WPshop\Templates
+ *
+ * @since     2.0.0
+ *
+ * @todo: Clean
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-} ?>
+namespace wpshop;
 
+defined( 'ABSPATH' ) || exit;
 
-<?php
-if ( $order->data['payment_method'] == 'cheque' ) :
+if ( 'cheque' === $order->data['payment_method'] ) :
 	?>
 	<h2><?php esc_html_e( 'How to pay for your order', 'wpshop' ); ?></h2>
 	<?php
@@ -34,21 +42,33 @@ endif;
 	</thead>
 	<tbody>
 		<?php
-			if ( ! empty( $order->data['lines'] ) ) :
-				foreach ( $order->data['lines'] as $line ) :
-					?>
-					<tr>
-						<td><?php echo get_the_post_thumbnail( $line['id'], array( 80, 80 ) ); ?></td>
-						<td><a href="<?php echo esc_url( get_permalink( $line['id'] ) ); ?>"><?php esc_html_e( $line['libelle'] ); ?></a></td>
-						<td><?php esc_html_e( number_format( $line['tva_tx'], 2 , ',', '' ) ); ?>%</td>
-						<td><?php esc_html_e( number_format( $line['price'], 2, ',', '' ) ); ?>€</td>
-						<td><?php esc_html_e( $line['qty'] ); ?></td>
-						<td><?php esc_html_e( number_format( $line['price'] * $line['qty'], 2, ',', '' ) ); ?>€</td>
-					</tr>
-					<?php
-				endforeach;
-			endif;
-		?>
+		if ( ! empty( $order->data['lines'] ) ) :
+			foreach ( $order->data['lines'] as $line ) :
+				?>
+				<tr>
+					<td><?php echo get_the_post_thumbnail( $line['id'], array( 80, 80 ) ); ?></td>
+					<td>
+						<a href="<?php echo esc_url( get_permalink( $line['id'] ) ); ?>">
+							<?php echo esc_html( $line['libelle'] ); ?>
+						</a>
+					</td>
+					<td>
+						<?php echo esc_html( number_format( $line['tva_tx'], 2, ',', '' ) ); ?>%
+					</td>
+					<td>
+						<?php echo esc_html( number_format( $line['price'], 2, ',', '' ) ); ?>€
+					</td>
+					<td>
+						<?php echo esc_html( $line['qty'] ); ?>
+					</td>
+					<td>
+						<?php echo esc_html( number_format( $line['price'] * $line['qty'], 2, ',', '' ) ); ?>€
+					</td>
+				</tr>
+				<?php
+			endforeach;
+		endif;
+	?>
 	</tbody>
 	<tfoot>
 		<tr>

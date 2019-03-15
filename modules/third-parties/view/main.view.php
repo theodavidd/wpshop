@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue principale de la page des produits (wps-third-party)
+ * La vue principale de la page des tiers.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -39,14 +39,13 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<?php if ( $number_page > 1 ) : ?>
 		<ul class="wpeo-pagination">
-			<?php if ( $current_page != 1 ) :
+			<?php
+			if ( 1 !== $current_page ) :
 				?>
 				<li class="pagination-element pagination-prev">
 					<a href="<?php echo esc_attr( $begin_url ); ?>"><<</a>
 				</li>
-				<?php
 
-				?>
 				<li class="pagination-element pagination-prev">
 					<a href="<?php echo esc_attr( $prev_url ); ?>"><</a>
 				</li>
@@ -62,14 +61,13 @@ defined( 'ABSPATH' ) || exit; ?>
 
 			sur <?php echo $number_page; ?>
 
-			<?php if ( $current_page != $number_page ) :
+			<?php
+			if ( $current_page !== $number_page ) :
 				?>
 				<li class="pagination-element pagination-next">
 					<a href="<?php echo esc_attr( $next_url ); ?>">></a>
 				</li>
-				<?php
 
-				?>
 				<li class="pagination-element pagination-next">
 					<a href="<?php echo esc_attr( $end_url ); ?>">>></a>
 				</li>

@@ -1,7 +1,22 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Ajoutes les détails de la commande.
+ *
+ * @todo: Vérifier
+ *
+ * @author    Eoxia <dev@eoxia.com>
+ * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ *
+ * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
+ *
+ * @package   WPshop\Templates
+ *
+ * @since     2.0.0
+ */
+
+namespace wpshop;
+
+defined( 'ABSPATH' ) || exit;
 
 do_action( 'wps_email_before_order_table', $order ); ?>
 
@@ -25,19 +40,19 @@ do_action( 'wps_email_before_order_table', $order ); ?>
 	</thead>
 	<tbody>
 		<?php
-			if ( ! empty( $order->lines ) ) :
-				foreach ( $order->lines as $line ) :
-					?>
-					<tr>
-						<td><a href="<?php echo esc_url( get_permalink( $line->wp_id ) ); ?>"><?php esc_html_e( $line->libelle ); ?></a></td>
-						<td><?php esc_html_e( number_format( $line->tva_tx, 2 , ',', '' ) ); ?>%</td>
-						<td><?php esc_html_e( number_format( $line->price, 2, ',', '' ) ); ?>€</td>
-						<td><?php esc_html_e( $line->qty ); ?></td>
-						<td><?php esc_html_e( number_format( $line->price * $line->qty, 2, ',', '' ) ); ?>€</td>
-					</tr>
-					<?php
-				endforeach;
-			endif;
+		if ( ! empty( $order->lines ) ) :
+			foreach ( $order->lines as $line ) :
+				?>
+				<tr>
+					<td><a href="<?php echo esc_url( get_permalink( $line->wp_id ) ); ?>"><?php echo esc_html( $line->libelle ); ?></a></td>
+					<td><?php echo esc_html( number_format( $line->tva_tx, 2, ',', '' ) ); ?>%</td>
+					<td><?php echo esc_html( number_format( $line->price, 2, ',', '' ) ); ?>€</td>
+					<td><?php echo esc_html( $line->qty ); ?></td>
+					<td><?php echo esc_html( number_format( $line->price * $line->qty, 2, ',', '' ) ); ?>€</td>
+				</tr>
+				<?php
+			endforeach;
+		endif;
 		?>
 	</tbody>
 	<tfoot>

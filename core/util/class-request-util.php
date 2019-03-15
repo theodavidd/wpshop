@@ -33,9 +33,9 @@ class Request_Util extends \eoxia\Singleton_Util {
 	 *
 	 * @since 0.2.0
 	 *
-	 * @param  string $end_point L'url a appeller
-	 * @param  array $body     Les données du formulaire.
-	 * @param  string $hash    Le token
+	 * @param  string $end_point L'url a appeler.
+	 * @param  array  $data      Les données du formulaire.
+	 * @param  string $method    le type de la méthode.
 	 *
 	 * @return array|boolean   Retournes les données de la requête ou false.
 	 */
@@ -45,9 +45,9 @@ class Request_Util extends \eoxia\Singleton_Util {
 		$api_url = $dolibarr_option['dolibarr_url'] . 'api/index.php/' . $end_point;
 
 		$request = wp_remote_post( $api_url, array(
-			'method'   => $method,
-			'blocking' => true,
-			'headers'  => array(
+			'method'    => $method,
+			'blocking'  => true,
+			'headers'   => array(
 				'Content-type' => 'application/json',
 				'DOLAPIKEY'    => $dolibarr_option['dolibarr_secret'],
 			),
@@ -56,7 +56,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 		) );
 
 		if ( ! is_wp_error( $request ) ) {
-			if ( $request['response']['code'] == 200 ) {
+			if ( 200 == $request['response']['code'] ) {
 				$response = json_decode( $request['body'] );
 				return $response;
 			} else {
@@ -67,16 +67,28 @@ class Request_Util extends \eoxia\Singleton_Util {
 		return false;
 	}
 
+	/**
+	 * Appel la méthode PUT
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $end_point L'url a appeler.
+	 * @param  array  $data      Les données du formulaire.
+	 *
+	 * @return array|boolean   Retournes les données de la requête ou false.
+	 */
 	public static function put( $end_point, $data ) {
 		return Request_Util::post( $end_point, $data, 'PUT' );
 	}
 
 	/**
 	 * Requête GET.
-	 * @param  string $api_url L'url a appeller
-	 * @param  string $hash    Le token
 	 *
-	 * @return array|boolean   Retournes les données de la requête ou false.
+	 * @since 2.0.0
+	 *
+	 * @param string $end_point L'url a appeler.
+	 *
+	 * @return array|boolean    Retournes les données de la requête ou false.
 	 */
 	public static function get( $end_point ) {
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings_Class::g()->default_settings );
@@ -90,7 +102,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 		) );
 
 		if ( ! is_wp_error( $request ) ) {
-			if ( $request['response']['code'] == 200 ) {
+			if ( 200 === $request['response']['code'] ) {
 				$response = json_decode( $request['body'] );
 				return $response;
 			}

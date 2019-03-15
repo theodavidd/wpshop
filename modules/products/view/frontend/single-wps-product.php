@@ -19,7 +19,8 @@ defined( 'ABSPATH' ) || exit; ?>
 		<main id="main" class="site-main" role="main">
 
 		<?php
-		while ( have_posts() ) : the_post();
+		while ( have_posts() ) :
+			the_post();
 			the_title();
 			?>
 			<div class="wpeo-button action-attribute"

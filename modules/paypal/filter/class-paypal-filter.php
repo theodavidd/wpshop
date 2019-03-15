@@ -17,14 +17,28 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Gestion des filtres PayPal.
-*/
+ * PayPal Filter Class
+ */
 class Paypal_Filter {
 
+	/**
+	 * Constructeur
+	 *
+	 * @since 2.0.0
+	 */
 	public function __construct() {
 		add_filter( 'wps_payment_method_paypal_description', array( $this, 'more_paypal_description' ) );
 	}
 
+	/**
+	 * Ajoutes le text pour indiquer que PayPal est en mode sandbox.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $description Description actuelle.
+	 *
+	 * @return string              Description modifiée.
+	 */
 	public function more_paypal_description( $description ) {
 		$paypal_options = Payment_Class::g()->get_payment_option( 'paypal' );
 

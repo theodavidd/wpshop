@@ -1,8 +1,6 @@
 <?php
 /**
- * Les fonctions principales des produits.
- *
- * Le controlleur du modèle Product_Model.
+ * Les fonctions principales des options
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -19,11 +17,24 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Handle product
-*/
-class Settings_Class extends \eoxia\Singleton_Util {
+ * Settings Class.
+ */
+class Settings extends \eoxia\Singleton_Util {
+
+	/**
+	 * Les options par défauts.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
 	public $default_settings;
 
+	/**
+	 * Constructeur.
+	 *
+	 * @since 2.0.0
+	 */
 	protected function construct() {
 		$this->default_settings = array(
 			'dolibarr_url'    => '',
@@ -32,6 +43,13 @@ class Settings_Class extends \eoxia\Singleton_Util {
 		);
 	}
 
+	/**
+	 * Affiches l'onglet "Général" de la page options.
+	 *
+	 * @param  string $section La section.
+	 *
+	 * @since 2.0.0
+	 */
 	public function display_general( $section = '' ) {
 		$dolibarr_option = get_option( 'wps_dolibarr', $this->default_settings );
 
@@ -40,6 +58,13 @@ class Settings_Class extends \eoxia\Singleton_Util {
 		) );
 	}
 
+	/**
+	 * Affiches l'onglet "Pages" de la page options.
+	 *
+	 * @param  string $section La section.
+	 *
+	 * @since 2.0.0
+	 */
 	public function display_pages( $section = '' ) {
 		$pages = get_pages();
 
@@ -56,6 +81,13 @@ class Settings_Class extends \eoxia\Singleton_Util {
 		) );
 	}
 
+	/**
+	 * Affiches l'onglet "Emails" de la page options.
+	 *
+	 * @param  string $section La section.
+	 *
+	 * @since 2.0.0
+	 */
 	public function display_emails( $section = '' ) {
 		if ( ! empty( $section ) ) {
 			$email            = Emails_Class::g()->emails[ $section ];
@@ -75,14 +107,13 @@ class Settings_Class extends \eoxia\Singleton_Util {
 		}
 	}
 
-	public function display_delivery_method( $section = '' ) {
-		\eoxia\View_Util::exec( 'wpshop', 'settings', 'delivery-method' );
-	}
-
-	public function display_shipping_cost( $section = '' ) {
-		\eoxia\View_Util::exec( 'wpshop', 'settings', 'shipping-cost' );
-	}
-
+	/**
+	 * Affiches l'onglet "Méthode de paiement" de la page options.
+	 *
+	 * @param  string $section La section.
+	 *
+	 * @since 2.0.0
+	 */
 	public function display_payment_method( $section = '' ) {
 		$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
 		if ( ! empty( $section ) ) {
@@ -99,7 +130,6 @@ class Settings_Class extends \eoxia\Singleton_Util {
 			) );
 		}
 	}
-
 }
 
-Settings_Class::g();
+Settings::g();

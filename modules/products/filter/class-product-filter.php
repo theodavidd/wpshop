@@ -17,12 +17,12 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Filters of product module.
+ * Product Filter Class.
  */
 class Product_Filter {
 
 	/**
-	 * Constructor.
+	 * Constructeur.
 	 *
 	 * @since 2.0.0
 	 */
@@ -55,17 +55,17 @@ class Product_Filter {
 			'search_items'       => __( 'Search Products', 'wpshop' ),
 			'parent_item_colon'  => __( 'Parent Products:', 'wpshop' ),
 			'not_found'          => __( 'No products found.', 'wpshop' ),
-			'not_found_in_trash' => __( 'No products found in Trash.', 'wpshop' )
+			'not_found_in_trash' => __( 'No products found in Trash.', 'wpshop' ),
 		);
 
-		$args['labels']               = $labels;
-		$args['supports']             = array( 'title', 'editor', 'thumbnail' );
-		$args['public']               = true;
-		$args['has_archive']          = true;
-		$args['show_ui']              = true;
-		$args['show_in_nav_menus']    = false;
-		$args['show_in_menu']         = false;
-		$args['show_in_admin_bar']    = true;
+		$args['labels']            = $labels;
+		$args['supports']          = array( 'title', 'editor', 'thumbnail' );
+		$args['public']            = true;
+		$args['has_archive']       = true;
+		$args['show_ui']           = true;
+		$args['show_in_nav_menus'] = false;
+		$args['show_in_menu']      = false;
+		$args['show_in_admin_bar'] = true;
 
 		$shop_page_slug = Pages_Class::g()->get_slug_shop_page();
 
@@ -81,29 +81,37 @@ class Product_Filter {
 		return $args;
 	}
 
+	/**
+	 * Entregistres la taxonomy catégorie de produit.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $args Les données à filtrer.
+	 * @return array       Les données filtrées.
+	 */
 	public function callback_taxonomy( $args ) {
 		$labels = array(
-		'name'              => _x( 'Products category', 'taxonomy general name', 'textdomain' ),
-		'singular_name'     => _x( 'Product category', 'taxonomy singular name', 'textdomain' ),
-		'search_items'      => __( 'Search Products category', 'textdomain' ),
-		'all_items'         => __( 'All Products category', 'textdomain' ),
-		'parent_item'       => __( 'Parent Product category', 'textdomain' ),
-		'parent_item_colon' => __( 'Parent Product: category', 'textdomain' ),
-		'edit_item'         => __( 'Edit Product category', 'textdomain' ),
-		'update_item'       => __( 'Update Product category', 'textdomain' ),
-		'add_new_item'      => __( 'Add New Product category', 'textdomain' ),
-		'new_item_name'     => __( 'New Product  categoryName', 'textdomain' ),
-		'menu_name'         => __( 'Product category', 'textdomain' ),
-	);
+			'name'              => _x( 'Products category', 'taxonomy general name', 'wpshop' ),
+			'singular_name'     => _x( 'Product category', 'taxonomy singular name', 'wpshop' ),
+			'search_items'      => __( 'Search Products category', 'wpshop' ),
+			'all_items'         => __( 'All Products category', 'wpshop' ),
+			'parent_item'       => __( 'Parent Product category', 'wpshop' ),
+			'parent_item_colon' => __( 'Parent Product: category', 'wpshop' ),
+			'edit_item'         => __( 'Edit Product category', 'wpshop' ),
+			'update_item'       => __( 'Update Product category', 'wpshop' ),
+			'add_new_item'      => __( 'Add New Product category', 'wpshop' ),
+			'new_item_name'     => __( 'New Product  categoryName', 'wpshop' ),
+			'menu_name'         => __( 'Product category', 'wpshop' ),
+		);
 
 		$args = array(
-		'hierarchical'      => true,
-		'labels'            => $labels,
-		'show_ui'           => true,
-		'show_admin_column' => true,
-		'show_in_nav_menus' => true,
-		'query_var'         => true,
-	);
+			'hierarchical'      => true,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'show_in_nav_menus' => true,
+			'query_var'         => true,
+		);
 
 		return $args;
 	}

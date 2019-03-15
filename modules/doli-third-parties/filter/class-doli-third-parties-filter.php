@@ -1,6 +1,7 @@
 <?php
 /**
- * Gestion des filtres des produits.
+ * Gestion des filtres des tiers.
+ * En relation avec Dolibarr.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -17,7 +18,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Filters of product module.
+ * Doli Third Parties Filter Class.
  */
 class Doli_Third_Parties_Filter {
 
@@ -30,6 +31,17 @@ class Doli_Third_Parties_Filter {
 		add_filter( 'wps_save_and_associate_contact', array( $this, 'add_contact_soc' ), 10, 2 );
 	}
 
+	/**
+	 * Ajoutes l'ID du tier de dolibarr dans le contact
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param Contact_Model     $contact     Les données du contact.
+	 * @param Third_Party_Model $third_party Les données du tier.
+	 *
+	 * @return Contact_Model                 Les données du contact avec l'ID
+	 * du tier.
+	 */
 	public function add_contact_soc( $contact, $third_party ) {
 		$contact['third_party_id'] = $third_party->data['external_id'];
 

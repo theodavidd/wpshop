@@ -27,9 +27,9 @@ defined( 'ABSPATH' ) || exit; ?>
 	<a class="wpeo-button action-input alignright"
 		data-parent="wpeo-form">
 		<?php
-		if ( $third_party->data['id'] == 0 ) :
+		if ( 0 === $third_party->data['id'] ) :
 			esc_html_e( 'Subscribe', 'wpshop' );
-		else:
+		else :
 			esc_html_e( 'Continue', 'wpshop' );
 		endif;
 		?>

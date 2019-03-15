@@ -1,24 +1,25 @@
 <?php
 /**
- * Gestion des proposals.
+ * Fonction principales pour les commandes avec DolibarR.
  *
- * @author Eoxia <dev@eoxia.com>
- * @since 2.0.0
- * @version 2.0.0
- * @copyright 2018 Eoxia
- * @package wpshop
+ * @author    Eoxia <dev@eoxia.com>
+ * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ *
+ * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
+ *
+ * @package   WPshop\Classes
+ *
+ * @since     2.0.0
  */
 
 namespace wpshop;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Gestion des Proposals CRUD.
+ * Doli Order Class.
  */
-class Orders_Class extends \eoxia\Post_Class {
+class Doli_Order extends \eoxia\Post_Class {
 
 	/**
 	 * Model name @see ../model/*.model.php.
@@ -27,7 +28,7 @@ class Orders_Class extends \eoxia\Post_Class {
 	 *
 	 * @var string
 	 */
-	protected $model_name = '\wpshop\Orders_Model';
+	protected $model_name = '\wpshop\Doli_Order_Model';
 
 	/**
 	 * Post type
@@ -65,6 +66,13 @@ class Orders_Class extends \eoxia\Post_Class {
 	 */
 	protected $attached_taxonomy_type = '';
 
+	/**
+	 * Nom du post type.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
 	protected $post_type_name = 'Orders';
 
 	/**
@@ -73,22 +81,32 @@ class Orders_Class extends \eoxia\Post_Class {
 	 * @since 2.0.0
 	 */
 	public function display() {
-		$proposals = $this->get( array(
+		$orders = $this->get( array(
 			'orderby'  => 'meta_value',
-			'meta_key' => 'date_commande'
-		));
+			'meta_key' => 'date_commande',
+		) );
 
-		if ( ! empty( $proposals ) ) {
-			foreach ( $proposals as &$element ) {
-				$element->data['tier']  = Third_Party_Class::g()->get( array( 'id' => $element->data['parent_id'] ), true );
+		if ( ! empty( $orders ) ) {
+			foreach ( $orders as &$element ) {
+				$element->data['tier'] = Third_Party_Class::g()->get( array( 'id' => $element->data['parent_id'] ), true );
 			}
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'list', array(
-			'proposals' => $proposals,
+			'orders' => $orders,
 		) );
 	}
 
+	/**
+	 * Synchronisation depuis Dolibarr vers WP.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  stdClass    $doli_order Les données venant de dolibarr.
+	 * @param  Order_Model $wp_order   Les données de WP.
+	 *
+	 * @return Order_Model             Les données de WP avec ceux de dolibarr.
+	 */
 	public function doli_to_wp( $doli_order, $wp_order ) {
 		$wp_order->data['external_id']    = (int) $doli_order->id;
 		$wp_order->data['title']          = $doli_order->ref;
@@ -99,7 +117,7 @@ class Orders_Class extends \eoxia\Post_Class {
 		$wp_order->data['date_commande']  = date( 'Y-m-d H:i:s', $doli_order->date_commande );
 		$wp_order->data['datec']          = date( 'Y-m-d H:i:s', $doli_order->date_creation );
 		$wp_order->data['parent_id']      = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_order->socid );
-		$wp_order->data['payment_method'] = $doli_order->mode_reglement_code == NULL ? 'payment_in_shop' : Doli_Payment::g()->convert_to_wp( $doli_order->mode_reglement_code );
+		$wp_order->data['payment_method'] = ( null === $doli_order->mode_reglement_code ) ? 'payment_in_shop' : Doli_Payment::g()->convert_to_wp( $doli_order->mode_reglement_code );
 
 		$status = '';
 
@@ -128,6 +146,14 @@ class Orders_Class extends \eoxia\Post_Class {
 		return Orders_Class::g()->update( $wp_order->data );
 	}
 
+	/**
+	 * Récupères l'ID WP selon l'ID de dolibarr.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  integer $doli_id L'ID de dolibarr.
+	 * @return integer          L'ID de WP.
+	 */
 	public function get_wp_id_by_doli_id( $doli_id ) {
 		$order = Orders_Class::g()->get( array(
 			'meta_key'   => '_external_id',
@@ -138,4 +164,4 @@ class Orders_Class extends \eoxia\Post_Class {
 	}
 }
 
-Orders_Class::g();
+Doli_Order::g();

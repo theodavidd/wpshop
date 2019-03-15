@@ -1,8 +1,6 @@
 <?php
 /**
- * Gestion des actions des commandes.
- *
- * Ajoutes une page "Orders" dans le menu de WordPress.
+ * Gestion des filtres du panier.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -19,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of Order module.
+ * Cart Filter Class.
  */
 class Cart_Filter {
 
@@ -32,14 +30,24 @@ class Cart_Filter {
 		add_filter( 'wp_nav_menu_objects', array( $this, 'nav_menu_add_search' ), 10, 2 );
 	}
 
+	/**
+	 * Ajoutes le nombre de produit dans le panier dans le menu "Panier".
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $items Les items du menu.
+	 * @param array $args  Arguments supplémentaires.
+	 *
+	 * @return array       Les items du menu avec le bouton "Panier" modifié.
+	 */
 	public function nav_menu_add_search( $items, $args ) {
 
 		if ( ! empty( $items ) ) {
 			foreach ( $items as &$item ) {
-				if ( $item->url == Pages_Class::g()->get_cart_link() ) {
+				if ( Pages_Class::g()->get_cart_link() === $item->url ) {
 					$item->classes[] = 'cart-button';
-					$qty           = 0;
-					$cart_contents = Class_Cart_Session::g()->cart_contents;
+					$qty             = 0;
+					$cart_contents   = Class_Cart_Session::g()->cart_contents;
 
 					if ( ! empty( $cart_contents ) ) {
 						foreach ( $cart_contents as $content ) {
@@ -52,7 +60,6 @@ class Cart_Filter {
 					} else {
 						$item->title .= ' <span class="qty"></span>';
 					}
-
 				}
 			}
 		}

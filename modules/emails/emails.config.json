@@ -5,7 +5,6 @@
 	"path": "modules/emails",
 	"dependencies": {
     "action": {},
-    "filter": {},
     "class": {}
 	}
 }

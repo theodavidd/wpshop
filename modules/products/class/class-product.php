@@ -2,8 +2,6 @@
 /**
  * Les fonctions principales des produits.
  *
- * Le controlleur du modèle Product_Model.
- *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
  *
@@ -19,9 +17,9 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Handle product
-*/
-class Product_Class extends \eoxia\Post_Class {
+ * Product Class.
+ */
+class Product extends \eoxia\Post_Class {
 
 	/**
 	 * Model name @see ../model/*.model.php.
@@ -68,6 +66,13 @@ class Product_Class extends \eoxia\Post_Class {
 	 */
 	protected $attached_taxonomy_type = 'wps-product-cat';
 
+	/**
+	 * Le nom du post type.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
 	protected $post_type_name = 'Products';
 
 	/**
@@ -87,6 +92,11 @@ class Product_Class extends \eoxia\Post_Class {
 		) );
 	}
 
+	/**
+	 * Ajoutes une metabox pour configurer le produit.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_register_meta_box() {
 		add_meta_box(
 			'wps_product_configuration',
@@ -96,6 +106,13 @@ class Product_Class extends \eoxia\Post_Class {
 		);
 	}
 
+	/**
+	 * La vue de la metabox pour configurer le produit
+	 *
+	 * @param WP_Post $post Le produit.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_add_meta_box( $post ) {
 		$product = $this->get( array( 'id' => $post->ID ), true );
 
@@ -106,9 +123,9 @@ class Product_Class extends \eoxia\Post_Class {
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings_Class::g()->default_settings );
 		\eoxia\View_Util::exec( 'wpshop', 'products', 'metabox/main', array(
 			'product'  => $product,
-			'doli_url' => $dolibarr_option['dolibarr_url']
+			'doli_url' => $dolibarr_option['dolibarr_url'],
 		) );
 	}
 }
 
-Product_Class::g();
+Product::g();

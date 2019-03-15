@@ -17,11 +17,16 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Gestion de PayPal.
-*/
-class Paypal_Action {
-	public function __construct() {
+ * PayPal Action Class.
+ */
+class PayPal_Action {
 
+	/**
+	 * Constructeur.
+	 *
+	 * @since 2.0.0
+	 */
+	public function __construct() {
 		add_action( 'wps_setting_payment_method_paypal', array( $this, 'callback_setting_payment_method' ), 10, 0 );
 		add_action( 'admin_post_wps_update_method_payment_paypal', array( $this, 'update_method_payment_paypal' ) );
 
@@ -29,6 +34,11 @@ class Paypal_Action {
 		add_action( 'wps_valid_paypal_standard_ipn_request', array( $this, 'callback_wps_valid_paypal_standard_ipn_request' ) );
 	}
 
+	/**
+	 * Ajoutes la page pour configurer le paiement PayPal.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_setting_payment_method() {
 		$paypal_options = Payment_Class::g()->get_payment_option( 'paypal' );
 		\eoxia\View_Util::exec( 'wpshop', 'paypal', 'form-setting', array(
@@ -36,6 +46,11 @@ class Paypal_Action {
 		) );
 	}
 
+	/**
+	 * Enregistres les configurations de PayPal en base de donnée.
+	 *
+	 * @since 2.0.0
+	 */
 	public function update_method_payment_paypal() {
 		if ( ! current_user_can( 'edit_themes' ) ) {
 			wp_die();
@@ -60,8 +75,14 @@ class Paypal_Action {
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab=payment_method&section=paypal' ) );
 	}
 
+	/**
+	 * Vérifie les données IPN reçu par PayPal.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $data Les données reçu par PayPal.
+	 */
 	public function callback_wps_gateway_paypal( $data ) {
-
 		if ( ! empty( $data ) && $this->validate_ipn( $data ) ) { // WPCS: CSRF ok.
 			$posted = wp_unslash( $data );
 			do_action( 'wps_valid_paypal_standard_ipn_request', $posted );
@@ -70,17 +91,27 @@ class Paypal_Action {
 		}
 	}
 
+	/**
+	 * Appel la méthode selon le status du paiement.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $posted Les données reçu par PayPal vérifié.
+	 */
 	public function callback_wps_valid_paypal_standard_ipn_request( $posted ) {
-		// $order = ! empty( $posted['custom'] ) ? Order_Class::g()->get( array( 'id' => (int) $posted['custom'] ), true ) : null;
-
-		// if ( $order ) {
-
-			if ( method_exists( $this, 'payment_status_' . strtolower( $posted['payment_status'] ) ) ) {
-				call_user_func( array( $this, 'payment_status_' . strtolower( $posted['payment_status'] ) ), $posted );
-			}
-		// }
+		if ( method_exists( $this, 'payment_status_' . strtolower( $posted['payment_status'] ) ) ) {
+			call_user_func( array( $this, 'payment_status_' . strtolower( $posted['payment_status'] ) ), $posted );
+		}
 	}
 
+	/**
+	 * Valides les données IPN.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $data Les données reçu par PayPal.
+	 * @return boolean     True si OK, sinon false.
+	 */
 	public function validate_ipn( $data ) {
 		$validate_ipn        = wp_unslash( $data );
 		$validate_ipn['cmd'] = '_notify-validate';
@@ -102,10 +133,24 @@ class Paypal_Action {
 		return false;
 	}
 
+	/**
+	 * Paiement OK
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $posted Les données reçu par PayPal vérifié.
+	 */
 	private function payment_status_completed( $posted ) {
 		do_action( 'wps_payment_complete', $posted );
 	}
 
+	/**
+	 * Paiement pas OK.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $posted Les données reçu par Paypal vérifié.
+	 */
 	private function payment_status_failed( $posted ) {
 		do_action( 'wps_payment_failed', $posted );
 	}

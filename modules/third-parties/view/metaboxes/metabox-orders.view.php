@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue principale de la page des produits (wps-third-party)
+ * La vue affichant les devis d'un tier dans la page single d'un tier.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -19,13 +19,13 @@ defined( 'ABSPATH' ) || exit; ?>
 <table class="wpeo-table">
 	<thead>
 		<tr>
-			<th>Commande</th>
-			<th>Date</th>
-			<th>Contenu  HT</th>
-			<th>Status</th>
-			<th>Paiement</th>
-			<th>Montant TTC</th>
-			<th>Facture</th>
+			<th><?php esc_html_e( 'Commande', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Date', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Contenu HT', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Status', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Paiement', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Montant TTC', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Facture', 'wpshop' ); ?></th>
 		</tr>
 	</thead>
 
@@ -58,8 +58,10 @@ defined( 'ABSPATH' ) || exit; ?>
 					<td>
 						<?php
 						if ( ! empty( $order->data['invoice'] ) ) :
-							?><a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $order->data['id'] ) ); ?>"><i class="fas fa-file-download"></i></a><?php
-						else:
+							?>
+								<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $order->data['id'] ) ); ?>"><i class="fas fa-file-download"></i></a>
+							<?php
+						else :
 							?>
 							-
 							<?php

@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue principale de la page des produits (wps-third-party)
+ * La vue pour l'édition d'un titre d'un tier.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -16,7 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<form class="wpeo-form" method="post" action="<?php echo $third_party->data['id'] == 0 ? admin_url( 'admin-post.php' ) : admin_url( 'admin-ajax.php' ); ?>">
+<form class="wpeo-form" method="post" action="<?php echo ( 0 === $third_party->data['id'] ) ? admin_url( 'admin-post.php' ) : admin_url( 'admin-ajax.php' ); ?>">
 	<input type="hidden" name="action" value="third_party_save_title" />
 	<input type="hidden" name="post_id" value="<?php echo $third_party->data['id']; ?>" />
 
@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<input type="text" class="form-field" name="title" placeholder="<?php esc_attr_e( 'New third party', 'wpshop' ); ?>" value="<?php echo $third_party->data['title']; ?>" />
 			<span class="form-field-label-next">
 				<?php
-				if ( $third_party->data['id'] == 0 ) :
+				if ( 0 === $third_party->data['id'] ) :
 					?>
 					<input type="submit" class="wpeo-button button-square-30" value='Save' />
 					<?php

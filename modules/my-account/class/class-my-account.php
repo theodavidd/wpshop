@@ -1,8 +1,6 @@
 <?php
 /**
- * Gestion des actions des commandes.
- *
- * Ajoutes une page "Orders" dans le menu de WordPress.
+ * Classe principale de My Account.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -19,9 +17,9 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of Order module.
+ * My Account Class.
  */
-class My_Account_Class extends \eoxia\Singleton_Util {
+class My_Account extends \eoxia\Singleton_Util {
 
 	/**
 	 * Constructor.
@@ -30,28 +28,61 @@ class My_Account_Class extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {}
 
+
+	/**
+	 * Ajoutes la route orders.
+	 *
+	 * @since 2.0.0
+	 */
 	public function init_endpoint() {
 		add_rewrite_endpoint( 'orders', EP_ALL );
 	}
 
+	/**
+	 * Ajoutes le titre de la page de login.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @todo: Mal placé ? Pas trop compréhensible.
+	 */
 	public function before_login_form() {
 		global $post;
 
-		if ( Pages_Class::g()->get_slug_by_page_id( $post->ID ) == 'my_account_id' ) {
+		if ( Pages_Class::g()->get_slug_link_shop_page( $post->ID ) == 'my-account' ) {
 			include( Template_Util::get_template_part( 'my-account', 'login-title' ) );
 		}
 	}
 
+	/**
+	 * Appel la vue pour afficher le formulaire de login dans la page de
+	 * paiement.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @todo: Mal placé ?
+	 */
 	public function checkout_form_login() {
 		if ( ! is_user_logged_in() ) {
 			include( Template_Util::get_template_part( 'my-account', 'checkout-login' ) );
 		}
 	}
 
+	/**
+	 * Affiches le menu de navigation
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $tab Le slug de l'onglet actuel.
+	 */
 	public function display_navigation( $tab ) {
 		include( Template_Util::get_template_part( 'my-account', 'my-account-navigation' ) );
 	}
 
+	/**
+	 * Affiches les commandes liées au tier.
+	 *
+	 * @since 2.0.0
+	 */
 	public function display_orders() {
 		$contact     = Contact_Class::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
@@ -68,6 +99,11 @@ class My_Account_Class extends \eoxia\Singleton_Util {
 		include( Template_Util::get_template_part( 'my-account', 'my-account-orders' ) );
 	}
 
+	/**
+	 * Affiches les devis liés au tiers.
+	 *
+	 * @since 2.0.0
+	 */
 	public function display_proposals() {
 		$contact     = Contact_Class::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
@@ -77,4 +113,4 @@ class My_Account_Class extends \eoxia\Singleton_Util {
 	}
 }
 
-My_Account_Class::g();
+My_Account::g();

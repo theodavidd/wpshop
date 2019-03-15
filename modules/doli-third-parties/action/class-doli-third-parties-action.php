@@ -17,9 +17,9 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of Third Party module.
+ * Doli Third Parties Action Class.
  */
-class Doli_Third_Party_Action {
+class Doli_Third_Parties_Action {
 
 	/**
 	 * Constructor.
@@ -28,17 +28,32 @@ class Doli_Third_Party_Action {
 	 */
 	public function __construct() {
 		add_action( 'wps_checkout_create_third_party', array( $this, 'checkout_create_third_party' ) );
-		add_filter( 'wps_save_third_party', array( Doli_Third_Party_Class::g(), 'save' ), 10, 2 );
-		add_filter( 'wps_update_third_party', array( Doli_Third_Party_Class::g(), 'update' ), 10, 2 );
-
 		add_action( 'wps_saved_third_party', array( $this, 'save_third_party' ) );
 		add_action( 'wps_saved_billing_address', array( $this, 'update_billing_address' ) );
 	}
 
+	/**
+	 * Lors du tennel de vente, créer un tier vers dolibarr.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Third_Party_Model $wp_third_party Les données du tier depuis WP.
+	 */
 	public function checkout_create_third_party( $wp_third_party ) {
 		Doli_Third_Party_Class::g()->wp_to_doli( $wp_third_party, null );
 	}
 
+	/**
+	 * Créer ou met à jour un tier.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @todo: Vérifier l'utilité
+	 *
+	 * @param  Third_Party_Model $third_party Les données du tier venant de WP.
+	 *
+	 * @return integer           ID du tier venant de Dolibarr.
+	 */
 	public function save_third_party( $third_party ) {
 		$third_party_id = $third_party['external_id'];
 
@@ -47,8 +62,6 @@ class Doli_Third_Party_Action {
 				'name' => $third_party['title'],
 			) );
 		} else {
-			// Pas d'adresse email, alors que sur dolibarr c'est obligatoire.
-
 			$third_party_id = Request_Util::post( 'thirdparties', array(
 				'name' => $third_party['title'],
 			) );
@@ -56,6 +69,13 @@ class Doli_Third_Party_Action {
 		return $third_party_id;
 	}
 
+	/**
+	 * Met à jour l'adresse de livraison d'un tier dans dolibarr.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Third_Party_Model $third_party Les données du tier venant de WP.
+	 */
 	public function update_billing_address( $third_party ) {
 		$third_party_id = Request_Util::put( 'thirdparties/ ' . $third_party->data['external_id'], array(
 			'name'    => $third_party->data['title'],
@@ -65,7 +85,6 @@ class Doli_Third_Party_Action {
 			'email'   => $third_party->data['email'],
 		) );
 	}
-
 }
 
 new Doli_Third_Party_Action();

@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue principale de la page de réglages
+ * La vue affichant la liste des méthodes de paiement dans la page options.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -33,10 +33,10 @@ defined( 'ABSPATH' ) || exit; ?>
 				<tr>
 					<td></td>
 					<td><?php echo $payment_method['title']; ?></td>
-					<td><?php echo $payment_method['active'] ? 'Activé' :'Désactivé'; ?></td>
+					<td><?php echo $payment_method['active'] ? __( 'Activate', 'wpshop' ) : __( 'Deactivate', 'wpshop' ); ?></td>
 					<td>
 						<a href="<?php echo admin_url( 'admin-post.php?action=wps_load_settings_tab&page=wps-settings&tab=payment_method&section=' . $key ); ?>" class="wpeo-button button-main">
-							<span>Configuration</span>
+							<span><?php esc_html_e( 'Configuration', 'wpshop' ); ?></span>
 						</a>
 					</td>
 				</tr>

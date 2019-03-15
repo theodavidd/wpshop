@@ -2,8 +2,6 @@
 /**
  * Gestion des actions des commandes.
  *
- * Ajoutes une page "Orders" dans le menu de WordPress.
- *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
  *
@@ -19,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of Order module.
+ * My Account Action Class.
  */
 class My_Account_Action {
 
@@ -47,6 +45,17 @@ class My_Account_Action {
 		add_action( 'wp_ajax_reorder', array( $this, 'do_reorder' ) );
 	}
 
+	/**
+	 * Gestion de la connexion, si les identifiants sont correctes, rediriges
+	 * à la page indiqué dans $_POST['page'].
+	 *
+	 * Si les identifiants sont incorrectes, redigires à la page indiquée dans
+	 * $_POST['page'] avec une erreur.
+	 *
+	 * @use wp_signon
+	 *
+	 * @since 2.0.0
+	 */
 	public function handle_login() {
 		$page = ! empty( $_POST['page'] ) ? sanitize_text_field( $_POST['page'] ) : 'my-account';
 
@@ -70,6 +79,11 @@ class My_Account_Action {
 		}
 	}
 
+	/**
+	 * Charges la modal résumant la commande
+	 *
+	 * @since 2.0.0
+	 */
 	public function load_modal_resume_order() {
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 
@@ -82,8 +96,9 @@ class My_Account_Action {
 
 		$order = Orders_Class::g()->get( array( 'id' => $id ), true );
 
-		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) )
+		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
+		}
 
 		ob_start();
 		\eoxia\View_Util::exec( 'wpshop', 'my-account', 'frontend/order-modal', array(
@@ -91,10 +106,16 @@ class My_Account_Action {
 		) );
 		wp_send_json_success( array(
 			'view'         => ob_get_clean(),
-			'buttons_view' => '<div class="wpeo-button button-main modal-close"><span>' . __( 'Close', 'wpshop' ) . '</span></div>'
+			'buttons_view' => '<div class="wpeo-button button-main modal-close"><span>' . __( 'Close', 'wpshop' ) . '</span></div>',
 		) );
 	}
 
+	/**
+	 * Repasses la même commande. Remet les mêmes données de la commande dans
+	 * le panier.
+	 *
+	 * @since 2.0.0
+	 */
 	public function do_reorder() {
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 

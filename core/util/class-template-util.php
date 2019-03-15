@@ -17,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Gestion des requêtes.
+ * Template Util Class.
  */
 class Template_Util extends \eoxia\Singleton_Util {
 
@@ -28,11 +28,15 @@ class Template_Util extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {}
 
-
 	/**
 	 * Get template for single post type
 	 *
 	 * @since  2.0.0
+	 *
+	 * @param string $module   Le nom du module.
+	 * @param string $template Le nom du template.
+	 *
+	 * @return string          Le chemin du template
 	 */
 	public static function get_template_part( $module, $template ) {
 		/** Get theme template if exist */

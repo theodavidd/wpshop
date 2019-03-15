@@ -1,6 +1,6 @@
 <?php
 /**
- * Les fonctions principales des tiers avec dolibarr.
+ * Les fonctions principales des synchronisations.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -17,12 +17,33 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Third Party class.
+ *  Doli Synchro Class.
  */
 class Doli_Synchro extends \eoxia\Singleton_Util {
+
+	/**
+	 * Tableau contenant les synchronisations à effectuer.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
 	public $sync_infos = array();
+
+	/**
+	 * Limites de synchronisation par requête.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var integer
+	 */
 	public $limit_entries_by_request = 50;
 
+	/**
+	 * Constructeur.
+	 *
+	 * @since 2.0.0
+	 */
 	protected function construct() {
 		$this->sync_infos = array(
 			'third-parties' => array(
@@ -30,27 +51,27 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 				'action'   => 'sync_third_parties',
 				'endpoint' => 'thirdparties?limit=-1',
 			),
-			'contacts' => array(
+			'contacts'      => array(
 				'title'    => __( 'Contacts', 'wpshop' ),
 				'action'   => 'sync_contacts',
 				'endpoint' => 'contacts?limit=-1',
 			),
-			'products' => array(
+			'products'      => array(
 				'title'    => __( 'Products', 'wpshop' ),
 				'action'   => 'sync_products',
 				'endpoint' => 'products?limit=-1',
 			),
-			'proposals' => array(
+			'proposals'     => array(
 				'title'    => __( 'Proposals', 'wpshop' ),
 				'action'   => 'sync_proposals',
 				'endpoint' => 'proposals?limit=-1',
 			),
-			'orders' => array(
+			'orders'        => array(
 				'title'    => __( 'Orders', 'wpshop' ),
 				'action'   => 'sync_orders',
 				'endpoint' => 'orders?limit=-1',
 			),
-			'invoices' => array(
+			'invoices'      => array(
 				'title'    => __( 'Invoices', 'wpshop' ),
 				'action'   => 'sync_invoices',
 				'endpoint' => 'invoices?limit=-1',

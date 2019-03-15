@@ -42,7 +42,7 @@ class Contact_Model extends \eoxia\User_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_phone',
-			'default'     => NULL,
+			'default'     => null,
 			'since'       => '2.0.0',
 			'description' => 'Le téléphone du contact (varchar(30)). Peut être NULL. Valeur par défaut NULL.',
 		);

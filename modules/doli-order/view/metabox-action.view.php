@@ -1,6 +1,6 @@
 <?php
 /**
- * Affichage des données de la commande
+ * Affichage des actions de la commande
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -14,4 +14,4 @@
 
 namespace wpshop;
 
-defined( 'ABSPATH' ) || exit; ?>
+defined( 'ABSPATH' ) || exit;

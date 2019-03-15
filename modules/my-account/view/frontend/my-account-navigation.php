@@ -11,7 +11,10 @@
  *
  * @since     2.0.0
  */
-?>
+
+namespace wpshop;
+
+defined( 'ABSPATH' ) || exit; ?>
 
 <ul class="wps-account-navigation gridw-1">
 	<li><a class="<?php echo ( 'orders' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages_Class::g()->get_account_link() . 'orders/' ); ?>"><?php esc_html_e( 'Orders', 'wpshop' ); ?></a></li>

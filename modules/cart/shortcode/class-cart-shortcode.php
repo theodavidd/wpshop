@@ -17,8 +17,8 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Handle order
-*/
+ * Cart Shortcode Class.
+ */
 class Cart_Shortcode extends \eoxia\Singleton_Util {
 
 	/**
@@ -29,10 +29,20 @@ class Cart_Shortcode extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {}
 
+	/**
+	 * Initialise le shortcode
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_init() {
 		add_shortcode( 'wps_cart', array( $this, 'callback_cart' ) );
 	}
 
+	/**
+	 * Affichage de la vue du shortcode
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_cart() {
 		if ( ! is_admin() ) {
 			$cart_contents = Class_Cart_Session::g()->cart_contents;

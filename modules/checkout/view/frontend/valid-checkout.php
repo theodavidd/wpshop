@@ -10,6 +10,8 @@
  * @package   WPshop\Templates
  *
  * @since     2.0.0
+ *
+ * @todo revoir
  */
 
 namespace wpshop;
@@ -25,19 +27,20 @@ defined( 'ABSPATH' ) || exit; ?>
 	<li><?php esc_html_e( 'Method of payment', 'wpshop' ); ?> :
 		<strong>
 		<?php
-		if ( $order->data['payment_method'] == 'payment_in_shop' ) :
+		if ( 'payment_in_shop' === $order->data['payment_method'] ) :
 			?>
 			Paiement en boutique
 			<?php
-		else:
+		else :
 			echo esc_html( $order->data['payment_method'] );
-		endif;?>
+		endif;
+		?>
 		</strong>
 	</li>
 </ul>
 
 <?php
-if ( $order->data['payment_method'] == 'cheque' ) :
+if ( 'cheque' === $order->data['payment_method'] ) :
 	?>
 	<h2><?php esc_html_e( 'How to pay for your order', 'wpshop' ); ?></h2>
 	<?php
@@ -47,7 +50,7 @@ endif;
 ?>
 
 <?php
-if ( $order->data['payment_method'] == 'payment_in_shop' ) :
+if ( 'payment_in_shop' === $order->data['payment_method'] ) :
 	?>
 	<h2><?php esc_html_e( 'Veuillez récuperez votre commande à la boutique', 'wpshop' ); ?></h2>
 	<?php
@@ -71,20 +74,20 @@ endif;
 	</thead>
 	<tbody>
 		<?php
-			if ( ! empty( $order->data['lines'] ) ) :
-				foreach ( $order->data['lines'] as $line ) :
-					?>
-					<tr>
-						<td><?php echo get_the_post_thumbnail( $line['id'], array( 80, 80 ) ); ?></td>
-						<td><a href="<?php echo esc_url( get_permalink( $line['id'] ) ); ?>"><?php esc_html_e( $line['libelle'] ); ?></a></td>
-						<td><?php esc_html_e( number_format( $line['tva_tx'], 2 , ',', '' ) ); ?>%</td>
-						<td><?php esc_html_e( number_format( $line['price'], 2, ',', '' ) ); ?>€</td>
-						<td><?php esc_html_e( $line['qty'] ); ?></td>
-						<td><?php esc_html_e( number_format( $line['price'] * $line['qty'], 2, ',', '' ) ); ?>€</td>
-					</tr>
-					<?php
-				endforeach;
-			endif;
+		if ( ! empty( $order->data['lines'] ) ) :
+			foreach ( $order->data['lines'] as $line ) :
+				?>
+				<tr>
+					<td><?php echo get_the_post_thumbnail( $line['id'], array( 80, 80 ) ); ?></td>
+					<td><a href="<?php echo esc_url( get_permalink( $line['id'] ) ); ?>"><?php echo esc_html( $line['libelle'] ); ?></a></td>
+					<td><?php echo esc_html( number_format( $line['tva_tx'], 2, ',', '' ) ); ?>%</td>
+					<td><?php echo esc_html( number_format( $line['price'], 2, ',', '' ) ); ?>€</td>
+					<td><?php echo esc_html( $line['qty'] ); ?></td>
+					<td><?php echo esc_html( number_format( $line['price'] * $line['qty'], 2, ',', '' ) ); ?>€</td>
+				</tr>
+				<?php
+			endforeach;
+		endif;
 		?>
 	</tbody>
 	<tfoot>

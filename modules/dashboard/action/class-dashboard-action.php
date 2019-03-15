@@ -1,6 +1,6 @@
 <?php
 /**
- * Gestion des actions des réglages.
+ * Gestion des actions du dashboard.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -17,12 +17,12 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of product module.
+ * Dashboard Action Class.
  */
 class Dashboard_Action {
 
 	/**
-	 * Constructor.
+	 * Constructeur.
 	 *
 	 * @since 2.0.0
 	 */
@@ -32,7 +32,7 @@ class Dashboard_Action {
 	}
 
 	/**
-	 * Initialise la page "Product".
+	 * Initialise la page "Tableau de bord".
 	 *
 	 * @since 2.0.0
 	 */
@@ -41,29 +41,34 @@ class Dashboard_Action {
 	}
 
 	/**
-	 * Appel la vue "main" du module "Product".
+	 * Appel la vue "main" du module "dashboard".
 	 *
 	 * @since 2.0.0
 	 */
 	public function callback_add_menu_page() {
-		add_meta_box( 'wps-dashboard-sync',  __( 'Synchronization', 'wpshop' ), array( $this, 'metabox_sync' ), 'wps-dashboard', 'normal', 'default' );
-		// add_meta_box( 'wps-dashboard-stats',  __( 'Stats', 'wpshop' ), array( $this, 'metabox_stats' ), 'wps-dashboard', 'normal', 'default' );
+		add_meta_box( 'wps-dashboard-sync', __( 'Synchronization', 'wpshop' ), array( $this, 'metabox_sync' ), 'wps-dashboard', 'normal', 'default' );
 
 		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'main' );
 	}
 
+	/**
+	 * Charges les script WP pour les metabox.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_load() {
 		wp_enqueue_script( 'common' );
 		wp_enqueue_script( 'wp-lists' );
 		wp_enqueue_script( 'postbox' );
 	}
 
+	/**
+	 * La metabox de synchronisation.
+	 *
+	 * @since 2.0.0
+	 */
 	public function metabox_sync() {
 		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'metaboxes/metabox-sync' );
-	}
-
-	public function metabox_stats() {
-		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'metaboxes/metabox-stats' );
 	}
 }
 

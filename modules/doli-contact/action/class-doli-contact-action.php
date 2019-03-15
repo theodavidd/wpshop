@@ -1,6 +1,6 @@
 <?php
 /**
- * Gestion des actions des tiers avec dolibarr.
+ * Gestion des actions des contact  avec dolibarr.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -17,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of Third Party module.
+ * Doli Contact Action Class.
  */
 class Doli_Contact_Action {
 
@@ -32,10 +32,25 @@ class Doli_Contact_Action {
 		add_action( 'wps_deleted_contact', array( $this, 'delete_contact' ), 10, 2 );
 	}
 
+	/**
+	 * Création d'un contact lors du tunnel de vente
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Contact_Model $wp_contact Les données du contact.
+	 */
 	public function checkout_create_contact( $wp_contact ) {
 		Doli_Contact_Class::g()->wp_to_doli( $wp_contact, null );
 	}
 
+	/**
+	 * Supprimes un contact
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Third_Party_Model $third_party Les données du tier.
+	 * @param  Contact_Model     $contact     Les données du contact.
+	 */
 	public function delete_contact( $third_party, $contact ) {
 		$data = array(
 			'socid' => -1,

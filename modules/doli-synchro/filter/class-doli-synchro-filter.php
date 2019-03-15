@@ -1,6 +1,6 @@
 <?php
 /**
- * Les fonctions principales des tiers avec dolibarr.
+ * Les filtres pour la synchronisation.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -17,14 +17,31 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Third Party class.
+ * Doli Synchro Filter Class.
  */
 class Doli_Synchro_Filter extends \eoxia\Singleton_Util {
 
+	/**
+	 * Constructeur.
+	 *
+	 * @since 2.0.0
+	 */
 	protected function construct() {
 		add_filter( 'wps_countries', array( $this, 'doli_countries' ) );
 	}
 
+	/**
+	 * Récupères tous les pays depuis Dolibarr.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @todo: A vérifier.
+	 *
+	 * @param  array $countries Les pays venant de WPShop.
+	 *
+	 * @return array            Les pays modifié de WPShop avec les données de
+	 * dolibarr.
+	 */
 	public function doli_countries( $countries ) {
 		$countries        = Request_Util::get( 'setup/dictionary/countries?sortfield=code&sortorder=ASC&limit=100' );
 		$countries_for_wp = array();

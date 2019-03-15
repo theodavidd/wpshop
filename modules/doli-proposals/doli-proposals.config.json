@@ -6,8 +6,6 @@
 	"path": "modules/doli-proposals/",
 	"dependencies": {
     "class": {},
-    "action": {},
-    "filter": {},
-    "model": {}
+    "action": {}
 	}
 }

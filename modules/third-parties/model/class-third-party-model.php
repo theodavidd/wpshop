@@ -102,7 +102,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'meta_type'   => 'single',
 			'field'       => '_contact_ids',
 			'since'       => '2.0.0',
-			'description' => 'Association des contacts. Attends un tableau d\'ids des contacts. Aucune valeur par défaut.'
+			'description' => 'Association des contacts. Attends un tableau d\'ids des contacts. Aucune valeur par défaut.',
 		);
 
 		$this->schema['siret'] = array(
@@ -111,7 +111,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'field'       => 'idprof2',
 			'since'       => '2.0.0',
 			'default'     => null,
-			'description' => 'Numéro SIRET de l\'entreprise (varchar(128)). Par défault NULL.'
+			'description' => 'Numéro SIRET de l\'entreprise (varchar(128)). Par défault NULL.',
 		);
 
 		$this->schema['email'] = array(
@@ -127,9 +127,6 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'field'     => '_last_sync',
 			'context'   => array( 'GET' ),
 		);
-
-		// $this->schema['mail']
-		// prospet
 
 		parent::__construct( $object, $req_method );
 	}

@@ -15,7 +15,6 @@
     "modules/doli-proposals/doli-proposals.config.json",
     "modules/proposals/proposals.config.json",
     "modules/doli-order/doli-order.config.json",
-    "modules/doli_cart/doli_cart.config.json",
     "modules/doli-third-parties/doli-third-parties.config.json",
     "modules/doli-contact/doli-contact.config.json",
     "modules/doli-invoice/doli-invoice.config.json",

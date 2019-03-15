@@ -1,8 +1,22 @@
 <?php
 /**
- * Admin new order email
+ * Email reçu par l'administrateur lors d'une nouvelle commande utilisateur.
  *
-*/
+ * @todo: Vérifier
+ *
+ * @author    Eoxia <dev@eoxia.com>
+ * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ *
+ * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
+ *
+ * @package   WPshop\Templates
+ *
+ * @since     2.0.0
+ */
+
+namespace wpshop;
+
+defined( 'ABSPATH' ) || exit;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -10,7 +24,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 do_action( 'wps_email_header' ); ?>
 
-<p><?php printf( __( 'You’ve received the following order from %s:', 'wpshop' ), $data['third_party']['title'] ); ?></p><?php // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
+<p>
+	<?php
+	/* translators: You’ve received the following order from customer name */
+	printf( __( 'You’ve received the following order from %s:', 'wpshop' ), $data['third_party']['title'] );
+	?>
+</p>
 <?php
 
 do_action( 'wps_email_order_details', $data['order'] );

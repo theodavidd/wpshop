@@ -1,6 +1,6 @@
 <?php
 /**
- * Gestion des actions PayPal.
+ * Gestion des actions pour les chèques.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -17,14 +17,25 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Gestion de PayPal.
-*/
+ * Cheque Action Class.
+ */
 class Cheque_Action {
+
+	/**
+	 * Constructeur
+	 *
+	 * @since 2.0.0
+	 */
 	public function __construct() {
 		add_action( 'wps_setting_payment_method_cheque', array( $this, 'callback_setting_payment_method' ), 10, 0 );
 		add_action( 'admin_post_wps_update_method_payment_cheque', array( $this, 'update_method_payment_cheque' ) );
 	}
 
+	/**
+	 * Affichage du formulaire de configuration
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_setting_payment_method() {
 		$cheque_options = Payment_Class::g()->get_payment_option( 'cheque' );
 
@@ -33,6 +44,11 @@ class Cheque_Action {
 		) );
 	}
 
+	/**
+	 * Mise à jour des configurations de la méthode de paiement de chèque.
+	 *
+	 * @since 2.0.0
+	 */
 	public function update_method_payment_cheque() {
 		if ( ! current_user_can( 'edit_themes' ) ) {
 			wp_die();

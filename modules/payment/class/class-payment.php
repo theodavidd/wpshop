@@ -1,8 +1,6 @@
 <?php
 /**
- * Les fonctions principales des produits.
- *
- * Le controlleur du modèle Product_Model.
+ * Les fonctions principales pour les paiements.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -19,14 +17,27 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Handle product
-*/
-class Payment_Class extends \eoxia\Singleton_Util {
+ * Payement Class.
+ */
+class Payment extends \eoxia\Singleton_Util {
+
+	/**
+	 * Les méthodes de paiement
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
 	public $default_options;
 
+	/**
+	 * Constructeur.
+	 *
+	 * @since 2.0.0
+	 */
 	protected function construct() {
 		$this->default_options = array(
-			'cheque' => array(
+			'cheque'          => array(
 				'active'      => true,
 				'title'       => __( 'Payment by cheque', 'wpshop' ),
 				'description' => __( 'Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.', 'wpshop' ),
@@ -36,7 +47,7 @@ class Payment_Class extends \eoxia\Singleton_Util {
 				'title'       => __( 'Payment in shop', 'wpshop' ),
 				'description' => __( 'Pay and pick up directly your products at the shop.', 'wpshop' ),
 			),
-			'paypal' => array(
+			'paypal'          => array(
 				'active'             => true,
 				'title'              => __( 'PayPal', 'wpshop' ),
 				'description'        => __( 'Accept payments via PayPal using account balance or credit card.', 'wpshop' ),
@@ -48,6 +59,15 @@ class Payment_Class extends \eoxia\Singleton_Util {
 		$this->default_options = apply_filters( 'wps_payment_methods', $this->default_options );
 	}
 
+	/**
+	 * Récupères les données d'un méthode de paiement selon $slug.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $slug Le slug de la méthode de paiement.
+	 *
+	 * @return array        Les données de la méthode de paiement.
+	 */
 	public function get_payment_option( $slug = '' ) {
 		$payment_methods_option = get_option( 'wps_payment_methods', $this->default_options );
 
@@ -58,6 +78,17 @@ class Payment_Class extends \eoxia\Singleton_Util {
 		return $payment_methods_option[ $slug ];
 	}
 
+	/**
+	 * Récupères les données d'un méthode de paiement selon $slug.
+	 *
+	 * @todo Voir ou c'est appelé
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $slug Le slug de la méthode de paiement.
+	 *
+	 * @return array        Le titre de la méthode de paiement.
+	 */
 	public function get_payment_title( $slug ) {
 		$payment_methods_option = get_option( 'wps_payment_methods', $this->default_options );
 		$payment_method         = $payment_methods_option[ $slug ];
@@ -69,10 +100,20 @@ class Payment_Class extends \eoxia\Singleton_Util {
 		return $payment_method['title'];
 	}
 
+	/**
+	 * Convertis le status vers un message lisible.
+	 *
+	 * @todo: A voir, a traduire.
+	 *
+	 * @param  array $object Un tableau contenant un type et la méta billed
+	 * ainsi que la méta payment_method.
+	 *
+	 * @return string Le message
+	 */
 	public function convert_status( $object ) {
 		$statut = '';
 
-		if ( $object['type'] == 'wps-order' ) {
+		if ( 'wps-order' === $object['type'] ) {
 			switch ( $object['payment_method'] ) {
 				case 'cheque':
 					if ( $object['billed'] ) {
@@ -100,7 +141,7 @@ class Payment_Class extends \eoxia\Singleton_Util {
 				default:
 					break;
 			}
-		} else if ( $object['type'] == 'wps-doli-invoice' ) {
+		} elseif ( 'wps-doli-invoice' === $object['type'] ) {
 			if ( $object['paye'] ) {
 				$statut = 'Payée';
 			} else {

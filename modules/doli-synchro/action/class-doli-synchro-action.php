@@ -17,9 +17,9 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of Third Party module.
+ * Doli Synchro Action Class.
  */
-class Doli_Syncho_Action {
+class Doli_Synchro_Action {
 
 	/**
 	 * Constructor.
@@ -31,17 +31,19 @@ class Doli_Syncho_Action {
 		add_action( 'wp_ajax_load_synchro_modal_single', array( $this, 'load_modal_synchro_single' ) );
 		add_action( 'wp_ajax_associate_and_synchronize', array( $this, 'associate_and_synchronize' ) );
 
-		add_action( 'admin_post_synchronization', array( $this, 'sync' ) );
 		add_action( 'wp_ajax_sync_third_parties', array( $this, 'sync_third_parties' ) );
 		add_action( 'wp_ajax_sync_contacts', array( $this, 'sync_contacts' ) );
 		add_action( 'wp_ajax_sync_products', array( $this, 'sync_products' ) );
 		add_action( 'wp_ajax_sync_proposals', array( $this, 'sync_proposals' ) );
 		add_action( 'wp_ajax_sync_orders', array( $this, 'sync_orders' ) );
 		add_action( 'wp_ajax_sync_invoices', array( $this, 'sync_invoices' ) );
-
-
 	}
 
+	/**
+	 * Charges la modal de synchronisation.
+	 *
+	 * @since 2.0.0
+	 */
 	public function load_modal_synchro() {
 		$sync_infos = Doli_Synchro::g()->sync_infos;
 
@@ -65,9 +67,14 @@ class Doli_Syncho_Action {
 		$view = ob_get_clean();
 		wp_send_json_success( array(
 			'view' => $view,
-	 	) );
+		) );
 	}
 
+	/**
+	 * Charges la modal de synchronisation pour un seul élément.
+	 *
+	 * @since 2.0.0
+	 */
 	public function load_modal_synchro_single() {
 		$wp_id        = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 		$doli_sync_id = ! empty( $_POST['entry_id'] ) ? (int) $_POST['entry_id'] : get_post_meta( $wp_id, '_external_id', true );
@@ -91,7 +98,7 @@ class Doli_Syncho_Action {
 			wp_send_json_success( array(
 				'view'         => $view,
 				'buttons_view' => $buttons_view,
-		 	) );
+			) );
 		} else {
 			$doli_third_party   = Request_Util::get( 'thirdparties/' . $doli_sync_id );
 			$wp_third_party     = Third_Party_Class::g()->get( array( 'id' => $wp_id ), true );
@@ -116,6 +123,13 @@ class Doli_Syncho_Action {
 		}
 	}
 
+	/**
+	 * Associe et synchronise l'élément.
+	 *
+	 * @todo: dolibarr wp en dur
+	 *
+	 * @since 2.0.0
+	 */
 	public function associate_and_synchronize() {
 		$entry_id = ! empty( $_POST['entry_id'] ) ? (int) $_POST['entry_id'] : 0;
 		$wp_id    = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
@@ -129,26 +143,29 @@ class Doli_Syncho_Action {
 
 		switch ( $post_type ) {
 			case 'wps-third-party':
-				if ( $from == 'dolibarr' ) {
+				if ( 'dolibarr' === $from ) {
 					$doli_third_party = Request_Util::get( 'thirdparties/' . $entry_id );
 					$wp_third_party   = Third_Party_Class::g()->get( array( 'id' => $wp_id ), true );
 
 					Doli_Third_Party_Class::g()->doli_to_wp( $doli_third_party, $wp_third_party );
 				}
 
-				if ( $from == 'wordpress' ) {
+				if ( 'wp' === $from ) {
 					$wp_third_party   = Third_Party_Class::g()->get( array( 'id' => $wp_id ), true );
 					$doli_third_party = Request_Util::get( 'thirdparties/' . $entry_id );
 
 					Doli_Third_Party_Class::g()->wp_to_doli( $wp_third_party, $doli_third_party );
 				}
+				break;
 			case 'wps-product':
-				if ( $from == 'dolibarr' ) {
+				if ( 'dolibarr' === $from ) {
 					$doli_product = Request_Util::get( 'products/' . $entry_id );
 					$wp_product   = Product_Class::g()->get( array( 'id' => $wp_id ), true );
 
 					Doli_Products_Class::g()->doli_to_wp( $doli_product, $wp_product );
 				}
+				break;
+			default:
 				break;
 		}
 
@@ -162,16 +179,13 @@ class Doli_Syncho_Action {
 		) );
 	}
 
-	public function sync() {
-		$id      = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-		$doli_id = get_post_meta( $id, 'external_id', true );
-
-		$orders = Orders_Class::g()->synchro_by_ids( $doli_id );
-
-		// wp_redirect( admin_url( 'admin.php?page=wps-order&id=' . $id ) );
-		exit;
-	}
-
+	/**
+	 * Synchornise les tiers.
+	 *
+	 * @todo: Faire qu'une seul fonction
+	 *
+	 * @since 2.0.0
+	 */
 	public function sync_third_parties() {
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
@@ -198,7 +212,7 @@ class Doli_Syncho_Action {
 
 		if ( $done_number >= $total_number ) {
 			$done_number = $total_number;
-			$done  = true;
+			$done        = true;
 		}
 
 		wp_send_json_success( array(
@@ -212,6 +226,13 @@ class Doli_Syncho_Action {
 		) );
 	}
 
+	/**
+	 * Synchornise les contacts.
+	 *
+	 * @todo: Faire qu'une seul fonction
+	 *
+	 * @since 2.0.0
+	 */
 	public function sync_contacts() {
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
@@ -238,7 +259,7 @@ class Doli_Syncho_Action {
 
 		if ( $done_number >= $total_number ) {
 			$done_number = $total_number;
-			$done  = true;
+			$done        = true;
 		}
 
 		wp_send_json_success( array(
@@ -252,6 +273,13 @@ class Doli_Syncho_Action {
 		) );
 	}
 
+	/**
+	 * Synchornise les produits.
+	 *
+	 * @todo: Faire qu'une seul fonction
+	 *
+	 * @since 2.0.0
+	 */
 	public function sync_products() {
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
@@ -278,7 +306,7 @@ class Doli_Syncho_Action {
 
 		if ( $done_number >= $total_number ) {
 			$done_number = $total_number;
-			$done  = true;
+			$done        = true;
 		}
 
 		wp_send_json_success( array(
@@ -292,6 +320,13 @@ class Doli_Syncho_Action {
 		) );
 	}
 
+	/**
+	 * Synchornise les devis.
+	 *
+	 * @todo: Faire qu'une seul fonction
+	 *
+	 * @since 2.0.0
+	 */
 	public function sync_proposals() {
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
@@ -318,7 +353,7 @@ class Doli_Syncho_Action {
 
 		if ( $done_number >= $total_number ) {
 			$done_number = $total_number;
-			$done  = true;
+			$done        = true;
 		}
 
 		wp_send_json_success( array(
@@ -332,6 +367,13 @@ class Doli_Syncho_Action {
 		) );
 	}
 
+	/**
+	 * Synchornise les commandes.
+	 *
+	 * @todo: Faire qu'une seul fonction
+	 *
+	 * @since 2.0.0
+	 */
 	public function sync_orders() {
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
@@ -358,7 +400,7 @@ class Doli_Syncho_Action {
 
 		if ( $done_number >= $total_number ) {
 			$done_number = $total_number;
-			$done  = true;
+			$done        = true;
 		}
 
 		wp_send_json_success( array(
@@ -372,6 +414,13 @@ class Doli_Syncho_Action {
 		) );
 	}
 
+	/**
+	 * Synchornise les factures.
+	 *
+	 * @todo: Faire qu'une seul fonction
+	 *
+	 * @since 2.0.0
+	 */
 	public function sync_invoices() {
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
@@ -398,7 +447,7 @@ class Doli_Syncho_Action {
 
 		if ( $done_number >= $total_number ) {
 			$done_number = $total_number;
-			$done  = true;
+			$done        = true;
 		}
 
 		wp_send_json_success( array(
@@ -413,4 +462,4 @@ class Doli_Syncho_Action {
 	}
 }
 
-new Doli_Syncho_Action();
+new Doli_Synchro_Action();

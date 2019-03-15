@@ -17,9 +17,9 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Handle order
-*/
-class Cart_Class extends \eoxia\Singleton_Util {
+ * Cart Class.
+ */
+class Cart extends \eoxia\Singleton_Util {
 
 	/**
 	 * Constructeur pour la classe Cart_Class. Charge les options et les actions.
@@ -28,6 +28,13 @@ class Cart_Class extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {}
 
+	/**
+	 * Ajout d'un produit dans le panier
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param Product_Model $product Les données du produit.
+	 */
 	public function add_to_cart( $product ) {
 		$data = array_merge(
 			array( 'qty' => 1 ),
@@ -40,13 +47,13 @@ class Cart_Class extends \eoxia\Singleton_Util {
 			foreach ( Class_Cart_Session::g()->cart_contents as $key => $line ) {
 				if ( $line['id'] == $product->data['id'] ) {
 					$data['qty'] = $line['qty'] + 1;
-					$index = $key;
+					$index       = $key;
 					break;
 				}
 			}
 		}
 
-		if ( $index == -1 ) {
+		if ( -1 === $index ) {
 			Class_Cart_Session::g()->cart_contents[] = $data;
 		} else {
 			Class_Cart_Session::g()->cart_contents[ $index ] = $data;
@@ -63,6 +70,13 @@ class Cart_Class extends \eoxia\Singleton_Util {
 		Class_Cart_Session::g()->update_session();
 	}
 
+	/**
+	 * Met à jour le contenu du panier
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Product_Model $product Les données du produit.
+	 */
 	public function update_cart( $product ) {
 		if ( ! empty( Class_Cart_Session::g()->cart_contents ) ) {
 			foreach ( Class_Cart_Session::g()->cart_contents as $key => &$line ) {
@@ -83,6 +97,13 @@ class Cart_Class extends \eoxia\Singleton_Util {
 		Class_Cart_Session::g()->update_session();
 	}
 
+	/**
+	 * Supprimes un produit du panier.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  integer $key La clé du produit dans le tableau.
+	 */
 	public function delete_product( $key ) {
 		array_splice( Class_Cart_Session::g()->cart_contents, $key, 1 );
 
@@ -93,7 +114,6 @@ class Cart_Class extends \eoxia\Singleton_Util {
 		do_action( 'wps_calculate_totals', $this );
 
 		do_action( 'wps_after_calculate_totals', $this );
-
 
 		Class_Cart_Session::g()->update_session();
 	}

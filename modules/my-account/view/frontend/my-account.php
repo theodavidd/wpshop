@@ -12,6 +12,10 @@
  * @since     2.0.0
  */
 
+namespace wpshop;
+
+defined( 'ABSPATH' ) || exit;
+
 ?>
 <div class="wps-account-page wpeo-gridlayout grid-5">
 	<?php do_action( 'wps_account_navigation', $tab ); ?>

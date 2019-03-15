@@ -1,8 +1,6 @@
 <?php
 /**
- * Les fonctions principales des produits.
- *
- * Le controlleur du modèle Product_Model.
+ * Filtres principales des pages de WordPress.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -19,18 +17,31 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Handle product
-*/
+ * Pages Filter Class.
+ */
 class Pages_Filter extends \eoxia\Singleton_Util {
 
+	/**
+	 * Constructeur.
+	 *
+	 * @since 2.0.0
+	 */
 	protected function construct() {
 
-		add_action( 'template_redirect', array( $this, 'check_page' ) );
+		add_action( 'template_redirect', array( $this, 'check_checkout_page' ) );
 		add_filter( 'display_post_states', array( $this, 'add_states_post' ), 10, 2 );
 		add_filter( 'the_content', array( $this, 'do_shortcode_page' ), 99, 1 );
 	}
 
-	public function check_page() {
+	/**
+	 * Vérifie si un produit est dans le panier pour accéder à la page checkout.
+	 *
+	 * Sinon fait une redirection vers la page panier.
+	 *
+	 * @since 2.0.0
+	 */
+	public function check_checkout_page() {
+
 		$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
 
 		if ( $page_ids_options['checkout_id'] && is_page( $page_ids_options['checkout_id'] ) ) {
@@ -43,32 +54,52 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 		}
 	}
 
+	/**
+	 * Affiches le status des pages lié à WPShop.
+	 *
+	 * @todo: A vérifier
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array   $post_states Les status actuels.
+	 * @param WP_Post $post        Les données du POST.
+	 *
+	 * @return array               Les status avec celui de WPShop en plus.
+	 */
 	public function add_states_post( $post_states, $post ) {
+
 		$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
 
-		$key = array_search($post->ID, $page_ids_options);
+		$key = array_search( $post->ID, $page_ids_options );
 
-		if ( FALSE !== $key ) {
+		if ( false !== $key ) {
 			$post_states[] = $key;
 		}
 
 		return $post_states;
 	}
 
+	/**
+	 * Appel le shortcode correspondant à la page.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $content Le contenu de la page.
+	 *
+	 * @return string $content Le contenu de la page + le contenu du shortcode.
+	 */
 	public function do_shortcode_page( $content ) {
 
 		if ( ! is_admin() ) {
 			$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
 
-			$key = array_search($GLOBALS['post']->ID, $page_ids_options);
+			$key = array_search( $GLOBALS['post']->ID, $page_ids_options );
 
 			$shortcode = '';
 			$params    = array();
 
-
-			if ( FALSE !== $key ) {
-				switch ($key)
-				{
+			if ( false !== $key ) {
+				switch ( $key ) {
 					case 'checkout_id':
 						$params['step'] = isset( $_GET['step'] ) ? $_GET['step'] : 1;
 						$shortcode      = 'checkout';

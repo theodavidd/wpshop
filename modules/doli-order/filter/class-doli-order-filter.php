@@ -1,12 +1,15 @@
 <?php
 /**
- * Les filtres relatives aux proposals.
+ * Les filtres relatives aux commandes de dolibarr.
  *
- * @author Eoxia <corentin-settelen@hotmail.com>
- * @since 2.0.0
- * @version 2.0.0
- * @copyright 2018 Eoxia
- * @package wpshop
+ * @author    Eoxia <dev@eoxia.com>
+ * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ *
+ * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
+ *
+ * @package   WPshop\Classes
+ *
+ * @since     2.0.0
  */
 
 namespace wpshop;
@@ -14,12 +17,12 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Les filtres relatives aux proposals.
+ * Doli Order Filter Class.
  */
-class Orders_Filter {
+class Doli_Order_Filter {
 
 	/**
-	 * Initialise les filtres liées aux proposals.
+	 * Constructeur.
 	 *
 	 * @since 2.0.0
 	 */
@@ -27,6 +30,13 @@ class Orders_Filter {
 		add_filter( 'eo_model_wps-order_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
 	}
 
+	/**
+	 * Ajoutes des données supplémentaires pour le register_post_type.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return array Les données supplementaires.
+	 */
 	public function callback_register_post_type_args() {
 		$labels = array(
 			'name'               => _x( 'Orders', 'post type general name', 'wpshop' ),
@@ -42,16 +52,16 @@ class Orders_Filter {
 			'search_items'       => __( 'Search Orders', 'wpshop' ),
 			'parent_item_colon'  => __( 'Parent Orders:', 'wpshop' ),
 			'not_found'          => __( 'No products found.', 'wpshop' ),
-			'not_found_in_trash' => __( 'No products found in Trash.', 'wpshop' )
+			'not_found_in_trash' => __( 'No products found in Trash.', 'wpshop' ),
 		);
 
-		$args['labels']               = $labels;
-		$args['supports']             = array( 'title' );
-		$args['public']               = true;
-		$args['has_archive']          = true;
-		$args['show_ui']              = true;
-		$args['show_in_nav_menus']    = false;
-		$args['show_in_menu']         = false;
+		$args['labels']            = $labels;
+		$args['supports']          = array( 'title' );
+		$args['public']            = true;
+		$args['has_archive']       = true;
+		$args['show_ui']           = true;
+		$args['show_in_nav_menus'] = false;
+		$args['show_in_menu']      = false;
 
 		return $args;
 	}

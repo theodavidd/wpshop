@@ -1,6 +1,6 @@
 <?php
 /**
- * Gestion des actions des réglages.
+ * Gestion des actions des mails.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -17,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Action of product module.
+ * Emails Action Class.
  */
 class Emails_Action {
 
@@ -33,6 +33,11 @@ class Emails_Action {
 		add_action( 'wps_email_order_details', array( $this, 'type_payment' ), 20, 1 );
 	}
 
+	/**
+	 * Copie le template vers le thème.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_copy_email_template() {
 		$tab          = 'emails';
 		$section      = ! empty( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : '';
@@ -47,6 +52,16 @@ class Emails_Action {
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab . '&section=' . $section ) );
 	}
 
+	/**
+	 * Ajoutes les détails de la commande dans le mail
+	 * "customer-processing-order.php"
+	 *
+	 * @todo: Bien placé ?
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param Order_Model $order Les données de la commande.
+	 */
 	public function order_details( $order ) {
 		$tva_lines = array();
 
@@ -67,11 +82,21 @@ class Emails_Action {
 			}
 		}
 
-		unset ( $line );
+		unset( $line );
 
 		include( Template_Util::get_template_part( 'emails', 'order-details' ) );
 	}
 
+	/**
+	 * Ajoutes les informations de paiement dans le mail
+	 * "customer-processing-order.php"
+	 *
+	 * @todo: Bien placé ?
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param Order_Model $order Les données de la commande.
+	 */
 	public function type_payment( $order ) {
 		$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
 

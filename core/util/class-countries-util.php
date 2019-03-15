@@ -10,12 +10,28 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Récupères le pays par le code.
+ *
+ * @since 2.0.0
+ *
+ * @param  string $code Le code.
+ *
+ * @return array        Définition du pays.
+ */
 function get_from_code( $code ) {
 	$countries = get_countries();
 
 	return $countries[ $code ];
 }
 
+/**
+ * Définition de tous les pays
+ *
+ * @since 2.0.0
+ *
+ * @return array Tous les pays.
+ */
 function get_countries() {
 	return apply_filters( 'wps_countries', array(
 		'AF' => __( 'Afghanistan', 'wpshop' ),
