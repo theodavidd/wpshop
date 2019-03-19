@@ -27,7 +27,7 @@ class Contact_Model extends \eoxia\User_Model {
 	 * @since 2.0.0
 	 *
 	 * @param Contact $object     Les données de l'objet.
-	 * @param string        $req_method La méthode de la requête.
+	 * @param string  $req_method La méthode de la requête.
 	 */
 	public function __construct( $object, $req_method = null ) {
 		$this->schema['external_id'] = array(

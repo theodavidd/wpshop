@@ -27,7 +27,7 @@ class Doli_Invoice_Model extends \eoxia\Post_Model {
 	 * @since 2.0.0
 	 *
 	 * @param Doli_Invoice $object     Les données de l'objet.
-	 * @param string             $req_method La méthode de la requête.
+	 * @param string       $req_method La méthode de la requête.
 	 */
 	public function __construct( $object, $req_method = null ) {
 		$this->schema['external_id'] = array(
