@@ -68,7 +68,7 @@ endif;
 				<?php
 			endforeach;
 		endif;
-	?>
+		?>
 	</tbody>
 	<tfoot>
 		<tr>

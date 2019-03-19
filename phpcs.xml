@@ -18,4 +18,8 @@
 		<exclude name="WordPress.NamingConventions.ValidVariableName" />
 	</rule>
 	<rule ref="WordPress-Docs"></rule>
+
+	<rule ref="PEAR.Functions.FunctionCallSignature">
+		<severity>0</severity>
+	</rule>
 </ruleset>

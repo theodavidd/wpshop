@@ -64,7 +64,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					</strong> sur
 					<strong style="font-weight: 700">WordPress</strong>.
 				</span>
-			<?php
+				<?php
 			elseif ( $date_wp < $date_doli ) :
 				$interval = $date_time_doli->diff( $date_time_wp );
 				?>
