@@ -86,7 +86,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	public function display_orders() {
 		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-		$orders      = Orders::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
+		$orders      = Doli_Order::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
 
 		if ( ! empty( $orders ) ) {
 			foreach ( $orders as &$order ) {

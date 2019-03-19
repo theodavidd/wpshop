@@ -61,15 +61,27 @@ class Cart_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_calculate_totals() {
+		$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
+
+
 		$price = 0;
+		$price_no_shipping = 0;
+		$price_ttc = 0;
 
 		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
 			foreach ( Cart_Session::g()->cart_contents as $key => $line ) {
-				$price += $line['price_ttc'] * $line['qty'];
+				$price     += $line['price'] * $line['qty'];
+				$price_ttc += $line['price_ttc'] * $line['qty'];
+
+				if ( $shipping_cost_option['shipping_product_id'] != $line['id'] ) {
+					$price_no_shipping += $line['price'] * $line['qty'];
+				}
 			}
 		}
 
-		Cart_Session::g()->total_price_ttc = $price;
+		Cart_Session::g()->total_price             = $price;
+		Cart_Session::g()->total_price_no_shipping = $price_no_shipping;
+		Cart_Session::g()->total_price_ttc         = $price_ttc;
 	}
 
 	/**

@@ -59,13 +59,21 @@ class Cart extends \eoxia\Singleton_Util {
 			Cart_Session::g()->cart_contents[ $index ] = $data;
 		}
 
-		do_action( 'wps_add_to_cart', $this, $data );
+		Cart_Session::g()->update_session();
 
-		do_action( 'wps_before_calculate_totals', $this );
+		do_action( 'wps_add_to_cart' );
 
-		do_action( 'wps_calculate_totals', $this );
+		Cart_Session::g()->update_session();
 
-		do_action( 'wps_after_calculate_totals', $this );
+		do_action( 'wps_before_calculate_totals' );
+
+		Cart_Session::g()->update_session();
+
+		do_action( 'wps_calculate_totals' );
+
+		Cart_Session::g()->update_session();
+
+		do_action( 'wps_after_calculate_totals' );
 
 		Cart_Session::g()->update_session();
 	}
@@ -86,13 +94,22 @@ class Cart extends \eoxia\Singleton_Util {
 			}
 		}
 
-		do_action( 'wps_update_cart', $this );
+		Cart_Session::g()->update_session();
 
-		do_action( 'wps_before_calculate_totals', $this );
+		do_action( 'wps_update_cart' );
 
-		do_action( 'wps_calculate_totals', $this );
+		Cart_Session::g()->update_session();
 
-		do_action( 'wps_after_calculate_totals', $this );
+
+		do_action( 'wps_before_calculate_totals' );
+
+		Cart_Session::g()->update_session();
+
+		do_action( 'wps_calculate_totals' );
+
+		Cart_Session::g()->update_session();
+
+		do_action( 'wps_after_calculate_totals' );
 
 		Cart_Session::g()->update_session();
 	}
@@ -107,13 +124,21 @@ class Cart extends \eoxia\Singleton_Util {
 	public function delete_product( $key ) {
 		array_splice( Cart_Session::g()->cart_contents, $key, 1 );
 
-		do_action( 'wps_delete_to_cart', $this, $key );
+		Cart_Session::g()->update_session();
 
-		do_action( 'wps_before_calculate_totals', $this );
+		do_action( 'wps_delete_to_cart', $key );
 
-		do_action( 'wps_calculate_totals', $this );
+		Cart_Session::g()->update_session();
 
-		do_action( 'wps_after_calculate_totals', $this );
+		do_action( 'wps_before_calculate_totals' );
+
+		Cart_Session::g()->update_session();
+
+		do_action( 'wps_calculate_totals' );
+
+		Cart_Session::g()->update_session();
+
+		do_action( 'wps_after_calculate_totals' );
 
 		Cart_Session::g()->update_session();
 	}

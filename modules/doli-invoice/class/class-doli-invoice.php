@@ -96,10 +96,10 @@ class Doli_Invoice extends \eoxia\Post_Class {
 		$wp_invoice->data['external_id'] = (int) $doli_invoice->id;
 
 		if ( ! empty( $doli_invoice->linkedObjectsIds->commande ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.
-			$order_id                        = Orders::g()->get_wp_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
+			$order_id                        = Doli_Order::g()->get_wp_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
 			$wp_invoice->data['post_parent'] = $order_id;
 
-			$order                         = Orders::g()->get( array( 'id' => $order_id ), true );
+			$order                         = Doli_Order::g()->get( array( 'id' => $order_id ), true );
 			$wp_invoice->data['author_id'] = $order->data['author_id'];
 		}
 		$wp_invoice->data['title']          = $doli_invoice->ref;

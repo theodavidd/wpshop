@@ -47,6 +47,15 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	public $total_price;
 
 	/**
+	 * Le prix total HT sans frais de port.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var float
+	 */
+	public $total_price_no_shipping;
+
+	/**
 	 * Le prix total TTC.
 	 *
 	 * @since 2.0.0
@@ -79,12 +88,13 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	protected function construct() {
-		$this->cart_contents   = isset( $_SESSION['wps_cart'] ) ? $_SESSION['wps_cart'] : array();
-		$this->total_price     = isset( $_SESSION['wps_total_price'] ) ? $_SESSION['wps_total_price'] : null;
-		$this->total_price_ttc = isset( $_SESSION['wps_total_price_ttc'] ) ? $_SESSION['wps_total_price_ttc'] : null;
-		$this->proposal_id     = isset( $_SESSION['wps_proposal_id'] ) ? $_SESSION['wps_proposal_id'] : null;
-		$this->order_id        = isset( $_SESSION['wps_order_id'] ) ? $_SESSION['wps_order_id'] : null;
-		$this->external_data   = isset( $_SESSION['wps_external_data'] ) ? $_SESSION['wps_external_data'] : array();
+		$this->cart_contents           = isset( $_SESSION['wps_cart'] ) ? $_SESSION['wps_cart'] : array();
+		$this->total_price             = isset( $_SESSION['wps_total_price'] ) ? $_SESSION['wps_total_price'] : null;
+		$this->total_price_no_shipping = isset( $_SESSION['wps_total_price_no_shipping'] ) ? $_SESSION['wps_total_price_no_shipping'] : null;
+		$this->total_price_ttc         = isset( $_SESSION['wps_total_price_ttc'] ) ? $_SESSION['wps_total_price_ttc'] : null;
+		$this->proposal_id             = isset( $_SESSION['wps_proposal_id'] ) ? $_SESSION['wps_proposal_id'] : null;
+		$this->order_id                = isset( $_SESSION['wps_order_id'] ) ? $_SESSION['wps_order_id'] : null;
+		$this->external_data           = isset( $_SESSION['wps_external_data'] ) ? $_SESSION['wps_external_data'] : array();
 	}
 
 	/**
@@ -105,12 +115,13 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function update_session() {
-		$_SESSION['wps_cart']            = $this->cart_contents;
-		$_SESSION['wps_total_price']     = $this->total_price;
-		$_SESSION['wps_total_price_ttc'] = $this->total_price_ttc;
-		$_SESSION['wps_proposal_id']     = $this->proposal_id;
-		$_SESSION['wps_order_id']        = $this->order_id;
-		$_SESSION['wps_external_data']   = $this->external_data;
+		$_SESSION['wps_cart']                    = $this->cart_contents;
+		$_SESSION['wps_total_price']             = $this->total_price;
+		$_SESSION['wps_total_price_no_shipping'] = $this->total_price_no_shipping;
+		$_SESSION['wps_total_price_ttc']         = $this->total_price_ttc;
+		$_SESSION['wps_proposal_id']             = $this->proposal_id;
+		$_SESSION['wps_order_id']                = $this->order_id;
+		$_SESSION['wps_external_data']           = $this->external_data;
 	}
 
 	/**
@@ -121,10 +132,36 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	public function destroy() {
 		unset( $_SESSION['wps_cart'] );
 		unset( $_SESSION['wps_total_price'] );
+		unset( $_SESSION['wps_total_price_no_shipping'] );
 		unset( $_SESSION['wps_total_price_ttc'] );
 		unset( $_SESSION['wps_proposal_id'] );
 		unset( $_SESSION['wps_order_id'] );
 		unset( $_SESSION['wps_external_data'] );
+	}
+
+	public function has_product( $id ) {
+		if ( ! empty( $this->cart_contents ) ) {
+			foreach ( $this->cart_contents as $cart_content ) {
+				if ( $cart_content['id'] === $id ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public function remove_product( $id ) {
+		if ( ! empty( $this->cart_contents ) ) {
+			foreach ( $this->cart_contents as $key => $cart_content ) {
+				if ( $cart_content['id'] === $id ) {
+					array_splice( $this->cart_contents, $key, 1 );
+					break;
+				}
+			}
+		}
+
+		$this->update_session();
 	}
 }
 

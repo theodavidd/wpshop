@@ -94,7 +94,7 @@ class My_Account_Action {
 		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
-		$order = Orders::g()->get( array( 'id' => $id ), true );
+		$order = Doli_Order::g()->get( array( 'id' => $id ), true );
 
 		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
@@ -125,7 +125,7 @@ class My_Account_Action {
 
 		Cart_Session::g()->destroy();
 
-		$order = Orders::g()->get( array( 'id' => $id ), true );
+		$order = Doli_Order::g()->get( array( 'id' => $id ), true );
 
 		if ( ! empty( $order->data['lines'] ) ) {
 			foreach ( $order->data['lines'] as $element ) {

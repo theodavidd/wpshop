@@ -41,6 +41,11 @@ class Settings extends \eoxia\Singleton_Util {
 			'dolibarr_secret' => '',
 			'shop_email'      => '',
 		);
+
+		$this->shipping_cost_default_settings = array(
+			'from_price_ht'       => null,
+			'shipping_product_id' => 0,
+		);
 	}
 
 	/**
@@ -129,6 +134,33 @@ class Settings extends \eoxia\Singleton_Util {
 				'payment_methods' => $payment_methods,
 			) );
 		}
+	}
+
+	/**
+	 * Affiches l'onglet "Frais de port" de la page options.
+	 *
+	 * @param  string $section La section.
+	 *
+	 * @since 2.0.0
+	 */
+	public function display_shipping_cost( $section = '' ) {
+		$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
+
+		$products = Product::g()->get();
+
+		$no_product = (object) array(
+			'data' => array(
+				'id' => 0,
+				'title' => __( 'No product', 'wpshop' ),
+			),
+		);
+
+		array_unshift( $products, $no_product );
+
+		\eoxia\View_Util::exec( 'wpshop', 'settings', 'shipping-cost', array(
+			'shipping_cost_option' => $shipping_cost_option,
+			'products'             => $products,
+		) );
 	}
 }
 

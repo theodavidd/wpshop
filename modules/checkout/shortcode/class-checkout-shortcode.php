@@ -82,7 +82,7 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 	public function callback_valid_checkout() {
 		if ( ! is_admin() ) {
 			$order_id = ! empty( $_GET['order_id'] ) ? (int) $_GET['order_id'] : 0;
-			$order    = Orders::g()->get( array( 'id' => $order_id ), true );
+			$order    = Doli_Order::g()->get( array( 'id' => $order_id ), true );
 
 			$tva_lines = array();
 

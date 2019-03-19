@@ -82,7 +82,7 @@ class Doli_Order_Action {
 	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
-			$order        = Orders::g()->get( array( 'id' => $_GET['id'] ), true );
+			$order        = Doli_Order::g()->get( array( 'id' => $_GET['id'] ), true );
 			$args_metabox = array(
 				'order' => $order,
 				'id'    => $_GET['id'],
@@ -200,12 +200,12 @@ class Doli_Order_Action {
 			'third_party' => $third_party->data,
 		) );
 
-		$wp_order = Orders::g()->get( array( 'schema' => true ), true );
-		$wp_order = Orders::g()->doli_to_wp( $doli_order, $wp_order );
+		$wp_order = Doli_Order::g()->get( array( 'schema' => true ), true );
+		$wp_order = Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
 
 		$wp_order->data['author_id'] = $current_user->ID;
 
-		return Orders::g()->update( $wp_order->data );
+		return Doli_Order::g()->update( $wp_order->data );
 	}
 
 	/**
@@ -216,11 +216,11 @@ class Doli_Order_Action {
 	 * @param array $data Les données IPN de PayPal.
 	 */
 	public function set_to_billed( $data ) {
-		$wp_order = Orders::g()->get( array( 'id' => (int) $data['custom'] ), true );
+		$wp_order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
 		$doli_order = Request_Util::post( 'orders/' . $wp_order->data['external_id'] . '/setinvoiced' );
 
-		Orders::g()->doli_to_wp( $doli_order, $wp_order );
+		Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
 	}
 
 	/**
@@ -231,10 +231,10 @@ class Doli_Order_Action {
 	 * @param array $data Les données IPN de PayPal.
 	 */
 	public function set_to_failed( $data ) {
-		$wp_order = Orders::g()->get( array( 'id' => (int) $data['custom'] ), true );
+		$wp_order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
 		$wp_order->data['payment_failed'] = true;
-		Orders::g()->update( $wp_order->data );
+		Doli_Order::g()->update( $wp_order->data );
 	}
 }
 

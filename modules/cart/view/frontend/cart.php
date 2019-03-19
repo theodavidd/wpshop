@@ -42,12 +42,30 @@ defined( 'ABSPATH' ) || exit; ?>
 						<td><a href="<?php echo esc_url( get_permalink( $cart_item['id'] ) ); ?>"><?php echo esc_html( $cart_item['title'] ); ?></a></td>
 						<td><?php echo esc_html( number_format( $cart_item['tva_tx'], 2, ',', '' ) ); ?>%</td>
 						<td><?php echo esc_html( number_format( $cart_item['price'], 2, ',', '' ) ); ?>€</td>
-						<td style="width: 60px;"><input style="width: 60px;" class="cart-qty" type="number" name="products[<?php echo esc_attr( $key ); ?>][qty]" value="<?php echo esc_html( $cart_item['qty'] ); ?>" /></td>
+						<td style="width: 60px;">
+							<?php
+							if ( $shipping_cost_option['shipping_product_id'] === $cart_item['id'] ) :
+								?>
+								-
+								<?php
+							else :
+								?>
+								<input style="width: 60px;" class="cart-qty" type="number" name="products[<?php echo esc_attr( $key ); ?>][qty]" value="<?php echo esc_html( $cart_item['qty'] ); ?>" />
+								<?php
+							endif;
+							?>
+						</td>
 						<td><?php echo esc_html( number_format( $cart_item['price'] * $cart_item['qty'], 2, ',', '' ) ); ?>€</td>
 						<td>
-							<a href="#" class="action-attribute" data-action="delete_product_from_cart" data-key="<?php echo esc_attr( $key ); ?>">
-								<i class="fas fa-trash"></i>
-							</a>
+							<?php
+							if ( $shipping_cost_option['shipping_product_id'] !== $cart_item['id'] ) :
+								?>
+								<a href="#" class="action-attribute" data-action="delete_product_from_cart" data-key="<?php echo esc_attr( $key ); ?>">
+									<i class="fas fa-trash"></i>
+								</a>
+								<?php
+							endif;
+							?>
 						</td>
 					</tr>
 					<?php

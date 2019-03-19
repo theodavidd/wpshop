@@ -113,6 +113,8 @@ class PayPal_Action {
 	 * @return boolean     True si OK, sinon false.
 	 */
 	public function validate_ipn( $data ) {
+		$paypal_options = Payment::g()->get_payment_option( 'paypal' );
+
 		$validate_ipn        = wp_unslash( $data );
 		$validate_ipn['cmd'] = '_notify-validate';
 
@@ -124,7 +126,7 @@ class PayPal_Action {
 			'decompress'  => false,
 		);
 
-		$response = wp_safe_remote_post( 'https://www.sandbox.paypal.com/cgi-bin/webscr', $params );
+		$response = wp_safe_remote_post( $paypal_options['use_paypal_sandbox'] ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr', $params );
 
 		if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && strstr( $response['body'], 'VERIFIED' ) ) {
 			return true;

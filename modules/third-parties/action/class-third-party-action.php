@@ -215,7 +215,7 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function metabox_orders( $post, $callback_args ) {
-		$orders = Orders::g()->get( array( 'post_parent' => $callback_args['args']['id'] ) );
+		$orders = Doli_Order::g()->get( array( 'post_parent' => $callback_args['args']['id'] ) );
 
 		if ( ! empty( $orders ) ) {
 			foreach ( $orders as &$order ) {
@@ -242,7 +242,7 @@ class Third_Party_Action {
 
 		if ( ! empty( $invoices ) ) {
 			foreach ( $invoices as &$invoice ) {
-				$invoice->data['order'] = Orders::g()->get( array( 'id' => $invoice->data['parent_id'] ), true );
+				$invoice->data['order'] = Doli_Order::g()->get( array( 'id' => $invoice->data['parent_id'] ), true );
 			}
 		}
 

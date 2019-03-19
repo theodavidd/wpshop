@@ -44,7 +44,7 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 		$wp_proposal->data['total_ttc']   = $doli_proposal->total_ttc;
 		$wp_proposal->data['lines']       = $doli_proposal->lines;
 		$wp_proposal->data['datec']       = date( 'Y-m-d h:i:s', $doli_proposal->datec );
-		$wp_proposal->data['parent_id']   = Doli_Third_Party::g()->get_wp_id_by_doli_id( $doli_proposal->socid );
+		$wp_proposal->data['parent_id']   = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_proposal->socid );
 		$wp_proposal->data['status']      = 'publish';
 
 		Proposals::g()->update( $wp_proposal->data );

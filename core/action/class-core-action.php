@@ -71,7 +71,11 @@ class Core_Action {
 	 * @todo A vérifier
 	 * @since 2.0.0
 	 */
-	public function define_ajax_url() {}
+	public function define_ajax_url() {
+		echo '<script type="text/javascript">
+		  var ajaxurl = "' . admin_url('admin-ajax.php') . '";
+		</script>';
+	}
 
 	/**
 	 * Init backend style and script

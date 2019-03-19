@@ -58,7 +58,7 @@ class Doli_Invoice_Action {
 	 * @param  array $data Les données venant de PayPal.
 	 */
 	public function create_invoice( $data ) {
-		$order = Orders::g()->get( array( 'id' => (int) $data['custom'] ), true );
+		$order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
 		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . $order->data['external_id'] );
 		$doli_invoice = Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
@@ -119,7 +119,7 @@ class Doli_Invoice_Action {
 
 		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-		$order       = Orders::g()->get( array( 'id' => $order_id ), true );
+		$order       = Doli_Order::g()->get( array( 'id' => $order_id ), true );
 		$invoice     = Doli_Invoice::g()->get( array( 'post_parent' => $order_id ), true );
 
 		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {

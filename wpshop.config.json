@@ -3,30 +3,39 @@
 	"slug": "wpshop",
 	"modules": [
 		"core/core.config.json",
+    
+    "modules/api/api.config.json",
+    
+    "modules/settings/settings.config.json",
+    
 		"modules/products/products.config.json",
 		"modules/third-parties/third-parties.config.json",
 		"modules/contacts/contacts.config.json",
+    "modules/proposals/proposals.config.json",
+    
     "modules/cart/cart.config.json",
     "modules/checkout/checkout.config.json",
+    
+    "modules/payment/payment.config.json",
     "modules/paypal/paypal.config.json",
     "modules/cheque/cheque.config.json",
-    "modules/api/api.config.json",
+    
     "modules/my-account/my-account.config.json",
+    "modules/pages/pages.config.json",
+    "modules/emails/emails.config.json",
+    
+    "modules/dashboard/dashboard.config.json",
+    "modules/transfert-data/transfert-data.config.json",
+    
+    "modules/doli-shipping-cost/doli-shipping-cost.config.json",
     "modules/doli-proposals/doli-proposals.config.json",
-    "modules/proposals/proposals.config.json",
     "modules/doli-order/doli-order.config.json",
     "modules/doli-third-parties/doli-third-parties.config.json",
     "modules/doli-contact/doli-contact.config.json",
     "modules/doli-invoice/doli-invoice.config.json",
     "modules/doli-payment/doli-payment.config.json",
-    "modules/settings/settings.config.json",
-    "modules/pages/pages.config.json",
-    "modules/payment/payment.config.json",
-    "modules/emails/emails.config.json",
     "modules/doli-synchro/doli-synchro.config.json",
-    "modules/dashboard/dashboard.config.json",
-    "modules/doli-products/doli-products.config.json",
-    "modules/transfert-data/transfert-data.config.json"
+    "modules/doli-products/doli-products.config.json"
 	],
 	"version": "2.0.0"
 }

@@ -33,6 +33,7 @@ class Settings_Action {
 		add_action( 'admin_post_wps_update_general_settings', array( $this, 'callback_update_general_settings' ) );
 		add_action( 'admin_post_wps_update_pages_settings', array( $this, 'callback_update_pages_settings' ) );
 		add_action( 'admin_post_wps_update_email', array( $this, 'callback_update_email' ) );
+		add_action( 'admin_post_wps_update_shipping_cost', array( $this, 'callback_update_shipping_cost' ) );
 	}
 
 	/**
@@ -144,32 +145,29 @@ class Settings_Action {
 	}
 
 	/**
-	 * Met à jour les options "emails".
+	 * Met à jour les options "frais de port".
 	 *
 	 * @since 2.0.0
 	 */
-	public function callback_update_email() {
+	public function callback_update_shipping_cost() {
 		if ( ! current_user_can( 'edit_themes' ) ) {
 			wp_die();
 		}
 
-		$tab     = ! empty( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'general';
-		$content = ! empty( $_POST['content'] ) ? wp_unslash( $_POST['content'] ) : '';
-		$section = ! empty( $_POST['section'] ) ? sanitize_text_field( $_POST['section'] ) : '';
+		$tab                 = ! empty( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'general';
+		$from_price_ht       = ! empty( $_POST['from_price_ht'] ) ? sanitize_text_field( $_POST['from_price_ht'] ) : '';
+		$shipping_product_id = ! empty( $_POST['shipping_product_id'] ) ? (int) $_POST['shipping_product_id'] : 0;
 
-		$email     = Emails::g()->emails[ $section ];
-		$path_file = Emails::g()->get_path( $email['filename_template'] );
+		$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
 
-		$f = fopen( $path_file, 'w+' );
+		$shipping_cost_option['from_price_ht']       = str_replace( ',', '.', $from_price_ht );
+		$shipping_cost_option['shipping_product_id'] = $shipping_product_id;
 
-		if ( false !== $f ) {
-			fwrite( $f, $content );
-			fclose( $f );
-		}
+		update_option( 'wps_shipping_cost', $shipping_cost_option );
 
 		set_transient( 'updated_wpshop_option_' . get_current_user_id(), __( 'Your settings have been saved.', 'wpshop' ), 30 );
 
-		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab . '&section=' . $section ) );
+		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab ) );
 	}
 }
 
