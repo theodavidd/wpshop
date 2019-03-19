@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 class Checkout extends \eoxia\Singleton_Util {
 
 	/**
-	 * Constructeur pour la classe Checkout_Class. Charge les options et les actions.
+	 * Constructeur pour la classe Checkout. Charge les options et les actions.
 	 *
 	 * @since 2.0.0
 	 */
@@ -161,8 +161,8 @@ class Checkout extends \eoxia\Singleton_Util {
 			case 'paypal':
 				update_post_meta( $order->data['id'], 'payment_method', 'paypal' );
 
-				$result = Paypal_Class::g()->process_payment( $order );
-				Class_Cart_Session::g()->destroy();
+				$result = Paypal::g()->process_payment( $order );
+				Cart_Session::g()->destroy();
 				if ( ! empty( $result['url'] ) ) {
 					wp_send_json_success( array(
 						'namespace'        => 'wpshopFrontend',
@@ -174,22 +174,22 @@ class Checkout extends \eoxia\Singleton_Util {
 				break;
 			case 'cheque':
 				update_post_meta( $order->data['id'], 'payment_method', 'cheque' );
-				Class_Cart_Session::g()->destroy();
+				Cart_Session::g()->destroy();
 				wp_send_json_success( array(
 					'namespace'        => 'wpshopFrontend',
 					'module'           => 'checkout',
 					'callback_success' => 'redirect',
-					'url'              => Pages_Class::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
+					'url'              => Pages::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
 				) );
 				break;
 			case 'payment_in_shop':
 				update_post_meta( $order->data['id'], 'payment_method', 'payment_in_shop' );
-				Class_Cart_Session::g()->destroy();
+				Cart_Session::g()->destroy();
 				wp_send_json_success( array(
 					'namespace'        => 'wpshopFrontend',
 					'module'           => 'checkout',
 					'callback_success' => 'redirect',
-					'url'              => Pages_Class::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
+					'url'              => Pages::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
 				) );
 				break;
 		}
@@ -197,4 +197,4 @@ class Checkout extends \eoxia\Singleton_Util {
 	}
 }
 
-Checkout_Class::g();
+Checkout::g();

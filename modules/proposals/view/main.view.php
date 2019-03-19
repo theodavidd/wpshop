@@ -21,5 +21,5 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<a href="<?php echo esc_attr( admin_url( 'post-new.php?post_type=wps-proposal' ) ); ?>" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
 
-	<?php Proposals_Class::g()->display(); ?>
+	<?php Proposals::g()->display(); ?>
 </div>

@@ -42,13 +42,13 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 	 */
 	public function check_checkout_page() {
 
-		$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
+		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
 		if ( $page_ids_options['checkout_id'] && is_page( $page_ids_options['checkout_id'] ) ) {
-			$cart_contents = Class_Cart_Session::g()->cart_contents;
+			$cart_contents = Cart_Session::g()->cart_contents;
 
 			if ( empty( $cart_contents ) ) {
-				wp_redirect( Pages_Class::g()->get_cart_link() );
+				wp_redirect( Pages::g()->get_cart_link() );
 				exit;
 			}
 		}
@@ -68,7 +68,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 	 */
 	public function add_states_post( $post_states, $post ) {
 
-		$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
+		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
 		$key = array_search( $post->ID, $page_ids_options );
 
@@ -91,7 +91,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 	public function do_shortcode_page( $content ) {
 
 		if ( ! is_admin() ) {
-			$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
+			$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
 			$key = array_search( $GLOBALS['post']->ID, $page_ids_options );
 

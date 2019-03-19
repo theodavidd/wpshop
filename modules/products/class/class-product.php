@@ -120,7 +120,7 @@ class Product extends \eoxia\Post_Class {
 			$product = $this->get( array( 'schema' => true ), true );
 		}
 
-		$dolibarr_option = get_option( 'wps_dolibarr', Settings_Class::g()->default_settings );
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 		\eoxia\View_Util::exec( 'wpshop', 'products', 'metabox/main', array(
 			'product'  => $product,
 			'doli_url' => $dolibarr_option['dolibarr_url'],

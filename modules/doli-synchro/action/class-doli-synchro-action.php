@@ -101,7 +101,7 @@ class Doli_Synchro_Action {
 			) );
 		} else {
 			$doli_third_party   = Request_Util::get( 'thirdparties/' . $doli_sync_id );
-			$wp_third_party     = Third_Party_Class::g()->get( array( 'id' => $wp_id ), true );
+			$wp_third_party     = Third_Party::g()->get( array( 'id' => $wp_id ), true );
 			$modified_date_wp   = get_post_modified_time( 'U', false, $wp_id );
 			$modified_date_doli = ! empty( $doli_third_party->date_modification ) ? $doli_third_party->date_modification : $doli_third_party->date_creation;
 
@@ -145,24 +145,24 @@ class Doli_Synchro_Action {
 			case 'wps-third-party':
 				if ( 'dolibarr' === $from ) {
 					$doli_third_party = Request_Util::get( 'thirdparties/' . $entry_id );
-					$wp_third_party   = Third_Party_Class::g()->get( array( 'id' => $wp_id ), true );
+					$wp_third_party   = Third_Party::g()->get( array( 'id' => $wp_id ), true );
 
-					Doli_Third_Party_Class::g()->doli_to_wp( $doli_third_party, $wp_third_party );
+					Doli_Third_Party::g()->doli_to_wp( $doli_third_party, $wp_third_party );
 				}
 
 				if ( 'wp' === $from ) {
-					$wp_third_party   = Third_Party_Class::g()->get( array( 'id' => $wp_id ), true );
+					$wp_third_party   = Third_Party::g()->get( array( 'id' => $wp_id ), true );
 					$doli_third_party = Request_Util::get( 'thirdparties/' . $entry_id );
 
-					Doli_Third_Party_Class::g()->wp_to_doli( $wp_third_party, $doli_third_party );
+					Doli_Third_Party::g()->wp_to_doli( $wp_third_party, $doli_third_party );
 				}
 				break;
 			case 'wps-product':
 				if ( 'dolibarr' === $from ) {
 					$doli_product = Request_Util::get( 'products/' . $entry_id );
-					$wp_product   = Product_Class::g()->get( array( 'id' => $wp_id ), true );
+					$wp_product   = Product::g()->get( array( 'id' => $wp_id ), true );
 
-					Doli_Products_Class::g()->doli_to_wp( $doli_product, $wp_product );
+					Doli_Products::g()->doli_to_wp( $doli_product, $wp_product );
 				}
 				break;
 			default:
@@ -195,16 +195,16 @@ class Doli_Synchro_Action {
 
 		if ( ! empty( $doli_third_parties ) ) {
 			foreach ( $doli_third_parties as $doli_third_party ) {
-				$wp_third_party = Third_Party_Class::g()->get( array(
+				$wp_third_party = Third_Party::g()->get( array(
 					'meta_key'   => '_external_id',
 					'meta_value' => (int) $doli_third_party->id,
 				), true );
 
 				if ( empty( $wp_third_party ) ) {
-					$wp_third_party = Third_Party_Class::g()->get( array( 'schema' => true ), true );
+					$wp_third_party = Third_Party::g()->get( array( 'schema' => true ), true );
 				}
 
-				Doli_Third_Party_Class::g()->doli_to_wp( $doli_third_party, $wp_third_party );
+				Doli_Third_Party::g()->doli_to_wp( $doli_third_party, $wp_third_party );
 
 				$done_number++;
 			}
@@ -242,16 +242,16 @@ class Doli_Synchro_Action {
 
 		if ( ! empty( $doli_contacts ) ) {
 			foreach ( $doli_contacts as $doli_contact ) {
-				$wp_contact = Contact_Class::g()->get( array(
+				$wp_contact = Contact::g()->get( array(
 					'meta_key'   => '_external_id',
 					'meta_value' => (int) $doli_contact->id,
 				), true );
 
 				if ( empty( $wp_contact ) ) {
-					$wp_contact = Contact_Class::g()->get( array( 'schema' => true ), true );
+					$wp_contact = Contact::g()->get( array( 'schema' => true ), true );
 				}
 
-				Doli_Contact_Class::g()->doli_to_wp( $doli_contact, $wp_contact );
+				Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
 
 				$done_number++;
 			}
@@ -289,16 +289,16 @@ class Doli_Synchro_Action {
 
 		if ( ! empty( $doli_products ) ) {
 			foreach ( $doli_products as $doli_product ) {
-				$wp_product = Product_Class::g()->get( array(
+				$wp_product = Product::g()->get( array(
 					'meta_key'   => '_external_id',
 					'meta_value' => (int) $doli_product->id,
 				), true );
 
 				if ( empty( $wp_product ) ) {
-					$wp_product = Product_Class::g()->get( array( 'schema' => true ), true );
+					$wp_product = Product::g()->get( array( 'schema' => true ), true );
 				}
 
-				Doli_Products_Class::g()->doli_to_wp( $doli_product, $wp_product );
+				Doli_Products::g()->doli_to_wp( $doli_product, $wp_product );
 
 				$done_number++;
 			}
@@ -336,16 +336,16 @@ class Doli_Synchro_Action {
 
 		if ( ! empty( $doli_proposals ) ) {
 			foreach ( $doli_proposals as $doli_proposal ) {
-				$wp_proposal = Proposals_Class::g()->get( array(
+				$wp_proposal = Proposals::g()->get( array(
 					'meta_key'   => '_external_id',
 					'meta_value' => (int) $doli_proposal->id,
 				), true );
 
 				if ( empty( $wp_proposal ) ) {
-					$wp_proposal = Proposals_Class::g()->get( array( 'schema' => true ), true );
+					$wp_proposal = Proposals::g()->get( array( 'schema' => true ), true );
 				}
 
-				Doli_Proposals_Class::g()->doli_to_wp( $doli_proposal, $wp_proposal );
+				Doli_Proposals::g()->doli_to_wp( $doli_proposal, $wp_proposal );
 
 				$done_number++;
 			}
@@ -383,16 +383,16 @@ class Doli_Synchro_Action {
 
 		if ( ! empty( $doli_orders ) ) {
 			foreach ( $doli_orders as $doli_order ) {
-				$wp_order = Orders_Class::g()->get( array(
+				$wp_order = Orders::g()->get( array(
 					'meta_key'   => '_external_id',
 					'meta_value' => (int) $doli_order->id,
 				), true );
 
 				if ( empty( $wp_order ) ) {
-					$wp_order = Orders_Class::g()->get( array( 'schema' => true ), true );
+					$wp_order = Orders::g()->get( array( 'schema' => true ), true );
 				}
 
-				Orders_Class::g()->doli_to_wp( $doli_order, $wp_order );
+				Orders::g()->doli_to_wp( $doli_order, $wp_order );
 
 				$done_number++;
 			}

@@ -45,7 +45,7 @@ class PayPal extends \eoxia\Singleton_Util {
 		 * @return array              L'URL pour aller à la page de paiement.
 		 */
 	public function process_payment( $order ) {
-		$paypal_options = Payment_Class::g()->get_payment_option( 'paypal' );
+		$paypal_options = Payment::g()->get_payment_option( 'paypal' );
 
 		$this->request_url = $paypal_options['use_paypal_sandbox'] ? 'https://www.sandbox.paypal.com/cgi-bin/webscr?test_ipn=1&' : 'https://www.paypal.com/cgi-bin/webscr?';
 		$paypal_args       = $this->get_paypal_args( $order );
@@ -88,8 +88,8 @@ class PayPal extends \eoxia\Singleton_Util {
 			'cheque' => array(),
 		) );
 
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $order->data['parent_id'] ), true );
-		$contact     = Contact_Class::g()->get( array( 'id' => end( $third_party->data['contact_ids'] ) ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
+		$contact     = Contact::g()->get( array( 'id' => end( $third_party->data['contact_ids'] ) ), true );
 
 		return array(
 			'cmd'           => '_cart',
@@ -101,7 +101,7 @@ class PayPal extends \eoxia\Singleton_Util {
 			'currency_code' => 'EUR',
 			'charset'       => 'utf-8',
 			'upload'        => 1,
-			'return'        => Pages_Class::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
+			'return'        => Pages::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
 			'notify_url'    => site_url( 'wp-json/wpshop/v2/wps_gateway_paypal' ),
 			'cancel_return' => '',
 			'email'         => $contact->data['email'],

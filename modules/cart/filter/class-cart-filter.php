@@ -44,10 +44,10 @@ class Cart_Filter {
 
 		if ( ! empty( $items ) ) {
 			foreach ( $items as &$item ) {
-				if ( Pages_Class::g()->get_cart_link() === $item->url ) {
+				if ( Pages::g()->get_cart_link() === $item->url ) {
 					$item->classes[] = 'cart-button';
 					$qty             = 0;
-					$cart_contents   = Class_Cart_Session::g()->cart_contents;
+					$cart_contents   = Cart_Session::g()->cart_contents;
 
 					if ( ! empty( $cart_contents ) ) {
 						foreach ( $cart_contents as $content ) {

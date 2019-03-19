@@ -87,7 +87,7 @@ class Doli_Payment extends \eoxia\Post_Class {
 	 * @return integer l'ID de dolibarr.
 	 */
 	public function convert_to_doli_id( $payment_method ) {
-		$payment_methods_option = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
 		$method                 = $payment_methods_option[ $payment_method ];
 
 		$payment_types = Request_Util::get( 'setup/dictionary/payment_types' );

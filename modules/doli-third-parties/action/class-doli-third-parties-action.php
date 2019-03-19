@@ -40,7 +40,7 @@ class Doli_Third_Parties_Action {
 	 * @param  Third_Party_Model $wp_third_party Les données du tier depuis WP.
 	 */
 	public function checkout_create_third_party( $wp_third_party ) {
-		Doli_Third_Party_Class::g()->wp_to_doli( $wp_third_party, null );
+		Doli_Third_Party::g()->wp_to_doli( $wp_third_party, null );
 	}
 
 	/**
@@ -87,4 +87,4 @@ class Doli_Third_Parties_Action {
 	}
 }
 
-new Doli_Third_Party_Action();
+new Doli_Third_Parties_Action();

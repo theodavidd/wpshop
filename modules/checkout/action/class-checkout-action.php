@@ -49,7 +49,7 @@ class Checkout_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_after_cart_table() {
-		$link_checkout = Pages_Class::g()->get_checkout_link();
+		$link_checkout = Pages::g()->get_checkout_link();
 		include( Template_Util::get_template_part( 'checkout', 'proceed-to-checkout-button' ) );
 	}
 
@@ -73,7 +73,7 @@ class Checkout_Action {
 	 * @param  Proposal_Model $proposal Les données du devis.
 	 */
 	public function callback_checkout_order_review( $proposal ) {
-		$cart_contents = Class_Cart_Session::g()->cart_contents;
+		$cart_contents = Cart_Session::g()->cart_contents;
 
 		$tva_lines = array();
 
@@ -97,7 +97,7 @@ class Checkout_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_checkout_payment() {
-		$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+		$payment_methods = get_option( 'wps_payment_methods', Payment::g()->default_options );
 
 		include( Template_Util::get_template_part( 'checkout', 'payment' ) );
 	}
@@ -109,9 +109,9 @@ class Checkout_Action {
 	 */
 	public function callback_checkout_create_third() {
 		$errors      = new \WP_Error();
-		$posted_data = Checkout_Class::g()->get_posted_data();
+		$posted_data = Checkout::g()->get_posted_data();
 
-		Checkout_Class::g()->validate_checkout( $posted_data, $errors );
+		Checkout::g()->validate_checkout( $posted_data, $errors );
 
 		if ( 0 === count( $errors->error_data ) ) {
 			if ( empty( $posted_data['third_party']['title'] ) || empty( $posted_data['contact']['lastname'] ) ) {
@@ -131,7 +131,7 @@ class Checkout_Action {
 			$posted_data['third_party']['phone']      = $posted_data['contact']['phone'];
 
 			if ( ! is_user_logged_in() ) {
-				$third_party = Third_Party_Class::g()->update( $posted_data['third_party'] );
+				$third_party = Third_Party::g()->update( $posted_data['third_party'] );
 
 				do_action( 'wps_checkout_create_third_party', $third_party );
 
@@ -139,10 +139,10 @@ class Checkout_Action {
 				$posted_data['contact']['password']       = wp_generate_password();
 				$posted_data['contact']['third_party_id'] = $third_party->data['id'];
 
-				$contact = Contact_Class::g()->update( $posted_data['contact'] );
+				$contact = Contact::g()->update( $posted_data['contact'] );
 
 				$third_party->data['contact_ids'][] = $contact->data['id'];
-				$thid_party                         = Third_Party_Class::g()->update( $third_party->data );
+				$thid_party                         = Third_Party::g()->update( $third_party->data );
 
 				do_action( 'wps_checkout_create_contact', $contact );
 
@@ -158,27 +158,27 @@ class Checkout_Action {
 				$trackcode = get_user_meta( $contact->data['id'], 'p_user_registration_code', true );
 				$track_url = get_option( 'siteurl' ) . '/wp-login.php?action=rp&key=' . $key . '&login=' . $posted_data['contact']['login'];
 
-				Emails_Class::g()->send_mail( $posted_data['contact']['email'], 'wps_email_customer_new_account', array_merge( $posted_data, array( 'url' => $track_url ) ) );
+				Emails::g()->send_mail( $posted_data['contact']['email'], 'wps_email_customer_new_account', array_merge( $posted_data, array( 'url' => $track_url ) ) );
 			} else {
 				$current_user = wp_get_current_user();
 
-				$contact = Contact_Class::g()->get( array(
+				$contact = Contact::g()->get( array(
 					'search' => $current_user->user_email,
 					'number' => 1,
 				), true );
 
-				$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+				$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
 				$posted_data['third_party']['id'] = $third_party->data['id'];
 
-				$third_party = Third_Party_Class::g()->update( $posted_data['third_party'] );
+				$third_party = Third_Party::g()->update( $posted_data['third_party'] );
 			}
 
 			$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : 'proposal';
 
-			$proposal = Proposals_Class::g()->get( array( 'schema' => true ), true );
+			$proposal = Proposals::g()->get( array( 'schema' => true ), true );
 
-			$last_ref = Proposals_Class::g()->get_last_ref();
+			$last_ref = Proposals::g()->get_last_ref();
 			$last_ref = empty( $last_ref ) ? 1 : $last_ref;
 			$last_ref++;
 
@@ -193,8 +193,8 @@ class Checkout_Action {
 			$total_ht  = 0;
 			$total_ttc = 0;
 
-			if ( ! empty( Class_Cart_Session::g()->cart_contents ) ) {
-				foreach ( Class_Cart_Session::g()->cart_contents as $content ) {
+			if ( ! empty( Cart_Session::g()->cart_contents ) ) {
+				foreach ( Cart_Session::g()->cart_contents as $content ) {
 					$proposal->data['lines'][] = $content;
 
 					$total_ht  += $content['price'];
@@ -205,17 +205,17 @@ class Checkout_Action {
 			$proposal->data['total_ht']  = $total_ht;
 			$proposal->data['total_ttc'] = $total_ttc;
 
-			$proposal = Proposals_Class::g()->update( $proposal->data );
+			$proposal = Proposals::g()->update( $proposal->data );
 			do_action( 'wps_checkout_create_proposal', $proposal );
 
-			Class_Cart_Session::g()->add_external_data( 'proposal_id', $proposal->data['id'] );
-			Class_Cart_Session::g()->update_session();
+			Cart_Session::g()->add_external_data( 'proposal_id', $proposal->data['id'] );
+			Cart_Session::g()->update_session();
 
 			wp_send_json_success( array(
 				'namespace'        => 'wpshopFrontend',
 				'module'           => 'checkout',
 				'callback_success' => 'createdThirdSuccess',
-				'redirect_url'     => Pages_Class::g()->get_checkout_link() . '?step=2',
+				'redirect_url'     => Pages::g()->get_checkout_link() . '?step=2',
 			) );
 		} else {
 			ob_start();
@@ -242,23 +242,23 @@ class Checkout_Action {
 
 		do_action( 'wps_checkout_process' );
 
-		$proposal                         = Proposals_Class::g()->get( array( 'id' => Class_Cart_Session::g()->external_data['proposal_id'] ), true );
+		$proposal                         = Proposals::g()->get( array( 'id' => Cart_Session::g()->external_data['proposal_id'] ), true );
 		$proposal->data['payment_method'] = $_POST['type_payment'];
 
-		$proposal = Proposals_Class::g()->update( $proposal->data );
+		$proposal = Proposals::g()->update( $proposal->data );
 
 		do_action( 'wps_checkout_update_proposal', $proposal );
 
 		if ( 'order' == $_POST['type'] ) {
 			$order = apply_filters( 'wps_checkout_create_order', $proposal );
-			Checkout_Class::g()->process_order_payment( $order );
+			Checkout::g()->process_order_payment( $order );
 		} else {
-			Class_Cart_Session::g()->destroy();
+			Cart_Session::g()->destroy();
 			wp_send_json_success( array(
 				'namespace'        => 'wpshopFrontend',
 				'module'           => 'checkout',
 				'callback_success' => 'redirect',
-				'url'              => Pages_Class::g()->get_valid_proposal_link() . '?proposal_id=' . $proposal->data['id'],
+				'url'              => Pages::g()->get_valid_proposal_link() . '?proposal_id=' . $proposal->data['id'],
 			) );
 		}
 	}

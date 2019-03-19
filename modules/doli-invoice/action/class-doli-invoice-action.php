@@ -58,7 +58,7 @@ class Doli_Invoice_Action {
 	 * @param  array $data Les données venant de PayPal.
 	 */
 	public function create_invoice( $data ) {
-		$order = Orders_Class::g()->get( array( 'id' => (int) $data['custom'] ), true );
+		$order = Orders::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
 		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . $order->data['external_id'] );
 		$doli_invoice = Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
@@ -80,8 +80,8 @@ class Doli_Invoice_Action {
 
 		Doli_Invoice::g()->update( $wp_invoice->data );
 
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $order->data['parent_id'] ), true );
-		$contact     = Contact_Class::g()->get( array( 'id' => $wp_invoice->data['author_id'] ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
+		$contact     = Contact::g()->get( array( 'id' => $wp_invoice->data['author_id'] ), true );
 
 		$invoice_file = Request_Util::get( 'documents/download?module_part=facture&original_file=' . $wp_invoice->data['title'] . '/' . $wp_invoice->data['title'] . '.pdf' );
 		$content      = base64_decode( $invoice_file->content );
@@ -94,7 +94,7 @@ class Doli_Invoice_Action {
 		fwrite( $f, $content );
 		fclose( $f );
 
-		Emails_Class::g()->send_mail( $contact->data['email'], 'wps_email_customer_invoice', array(
+		Emails::g()->send_mail( $contact->data['email'], 'wps_email_customer_invoice', array(
 			'order'       => $order,
 			'invoice'     => $wp_invoice,
 			'third_party' => $third_party,
@@ -117,9 +117,9 @@ class Doli_Invoice_Action {
 			exit;
 		}
 
-		$contact     = Contact_Class::g()->get( array( 'id' => get_current_user_id() ), true );
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-		$order       = Orders_Class::g()->get( array( 'id' => $order_id ), true );
+		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		$order       = Orders::g()->get( array( 'id' => $order_id ), true );
 		$invoice     = Doli_Invoice::g()->get( array( 'post_parent' => $order_id ), true );
 
 		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {

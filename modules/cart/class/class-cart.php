@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 class Cart extends \eoxia\Singleton_Util {
 
 	/**
-	 * Constructeur pour la classe Cart_Class. Charge les options et les actions.
+	 * Constructeur pour la classe Cart. Charge les options et les actions.
 	 *
 	 * @since 2.0.0
 	 */
@@ -43,8 +43,8 @@ class Cart extends \eoxia\Singleton_Util {
 
 		$index = -1;
 
-		if ( ! empty( Class_Cart_Session::g()->cart_contents ) ) {
-			foreach ( Class_Cart_Session::g()->cart_contents as $key => $line ) {
+		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
+			foreach ( Cart_Session::g()->cart_contents as $key => $line ) {
 				if ( $line['id'] == $product->data['id'] ) {
 					$data['qty'] = $line['qty'] + 1;
 					$index       = $key;
@@ -54,9 +54,9 @@ class Cart extends \eoxia\Singleton_Util {
 		}
 
 		if ( -1 === $index ) {
-			Class_Cart_Session::g()->cart_contents[] = $data;
+			Cart_Session::g()->cart_contents[] = $data;
 		} else {
-			Class_Cart_Session::g()->cart_contents[ $index ] = $data;
+			Cart_Session::g()->cart_contents[ $index ] = $data;
 		}
 
 		do_action( 'wps_add_to_cart', $this, $data );
@@ -67,7 +67,7 @@ class Cart extends \eoxia\Singleton_Util {
 
 		do_action( 'wps_after_calculate_totals', $this );
 
-		Class_Cart_Session::g()->update_session();
+		Cart_Session::g()->update_session();
 	}
 
 	/**
@@ -78,8 +78,8 @@ class Cart extends \eoxia\Singleton_Util {
 	 * @param  Product_Model $product Les données du produit.
 	 */
 	public function update_cart( $product ) {
-		if ( ! empty( Class_Cart_Session::g()->cart_contents ) ) {
-			foreach ( Class_Cart_Session::g()->cart_contents as $key => &$line ) {
+		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
+			foreach ( Cart_Session::g()->cart_contents as $key => &$line ) {
 				if ( $line['id'] == $product['id'] ) {
 					$line['qty'] = $product['qty'];
 				}
@@ -94,7 +94,7 @@ class Cart extends \eoxia\Singleton_Util {
 
 		do_action( 'wps_after_calculate_totals', $this );
 
-		Class_Cart_Session::g()->update_session();
+		Cart_Session::g()->update_session();
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Cart extends \eoxia\Singleton_Util {
 	 * @param  integer $key La clé du produit dans le tableau.
 	 */
 	public function delete_product( $key ) {
-		array_splice( Class_Cart_Session::g()->cart_contents, $key, 1 );
+		array_splice( Cart_Session::g()->cart_contents, $key, 1 );
 
 		do_action( 'wps_delete_to_cart', $this, $key );
 
@@ -115,8 +115,8 @@ class Cart extends \eoxia\Singleton_Util {
 
 		do_action( 'wps_after_calculate_totals', $this );
 
-		Class_Cart_Session::g()->update_session();
+		Cart_Session::g()->update_session();
 	}
 }
 
-Cart_Class::g();
+Cart::g();

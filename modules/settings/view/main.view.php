@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<div class="tab-content tab-active">
 
 
-				<?php call_user_func( array( Settings_Class::g(), 'display_' . $tab ), $section ); ?>
+				<?php call_user_func( array( Settings::g(), 'display_' . $tab ), $section ); ?>
 			</div>
 		</div>
 	</div>

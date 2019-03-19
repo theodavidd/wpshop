@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Third Party class.
  */
-class Third_Party_Class extends \eoxia\Post_Class {
+class Third_Party extends \eoxia\Post_Class {
 
 	/**
 	 * Model name @see ../model/*.model.php.
@@ -93,4 +93,4 @@ class Third_Party_Class extends \eoxia\Post_Class {
 	}
 }
 
-Third_Party_Class::g();
+Third_Party::g();

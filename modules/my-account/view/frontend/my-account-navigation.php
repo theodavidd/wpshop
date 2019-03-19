@@ -17,6 +17,6 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <ul class="wps-account-navigation gridw-1">
-	<li><a class="<?php echo ( 'orders' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages_Class::g()->get_account_link() . 'orders/' ); ?>"><?php esc_html_e( 'Orders', 'wpshop' ); ?></a></li>
+	<li><a class="<?php echo ( 'orders' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() . 'orders/' ); ?>"><?php esc_html_e( 'Orders', 'wpshop' ); ?></a></li>
 	<li><a href="<?php echo wp_logout_url(); ?>"><?php esc_html_e( 'Logout', 'wpshop' ); ?></a></li>
 </ul>

@@ -40,7 +40,7 @@ class Paypal_Filter {
 	 * @return string              Description modifiée.
 	 */
 	public function more_paypal_description( $description ) {
-		$paypal_options = Payment_Class::g()->get_payment_option( 'paypal' );
+		$paypal_options = Payment::g()->get_payment_option( 'paypal' );
 
 		if ( $paypal_options['use_paypal_sandbox'] ) {
 			$description .= __( ' SANDBOX ENABLED. You can use sandbox testing accounts only. See the <a href="https://developer.paypal.com/docs/classic/lifecycle/ug_sandbox/">PayPal Sandbox Testing Guide</a> for more details.', 'wpshop' );

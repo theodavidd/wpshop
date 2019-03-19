@@ -76,5 +76,5 @@ defined( 'ABSPATH' ) || exit; ?>
 			?>
 		</ul>
 	<?php endif; ?>
-	<?php Third_Party_Class::g()->display(); ?>
+	<?php Third_Party::g()->display(); ?>
 </div>

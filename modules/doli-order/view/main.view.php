@@ -19,5 +19,5 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wrap">
 	<h2><?php esc_html_e( 'Orders', 'wpshop' ); ?></h2>
 
-	<?php Orders_Class::g()->display(); ?>
+	<?php Orders::g()->display(); ?>
 </div>

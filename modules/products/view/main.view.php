@@ -23,5 +23,5 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<p><?php echo $count . ' éléments'; ?></p>
 
-	<?php Product_Class::g()->display(); ?>
+	<?php Product::g()->display(); ?>
 </div>

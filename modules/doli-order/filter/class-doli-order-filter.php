@@ -67,4 +67,4 @@ class Doli_Order_Filter {
 	}
 }
 
-new Orders_Filter();
+new Doli_Order_Filter();

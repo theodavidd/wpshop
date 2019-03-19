@@ -128,4 +128,4 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	}
 }
 
-Class_Cart_Session::g();
+Cart_Session::g();

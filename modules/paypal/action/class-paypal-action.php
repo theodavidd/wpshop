@@ -40,7 +40,7 @@ class PayPal_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_setting_payment_method() {
-		$paypal_options = Payment_Class::g()->get_payment_option( 'paypal' );
+		$paypal_options = Payment::g()->get_payment_option( 'paypal' );
 		\eoxia\View_Util::exec( 'wpshop', 'paypal', 'form-setting', array(
 			'paypal_options' => $paypal_options,
 		) );
@@ -61,7 +61,7 @@ class PayPal_Action {
 		$paypal_email       = ! empty( $_POST['paypal_email'] ) ? sanitize_text_field( $_POST['paypal_email'] ) : '';
 		$use_paypal_sandbox = ( isset( $_POST['use_paypal_sandbox'] ) && 'on' == $_POST['use_paypal_sandbox'] ) ? true : false;
 
-		$payment_methods_option = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
 
 		$payment_methods_option['paypal']['title']              = $title;
 		$payment_methods_option['paypal']['description']        = $description;

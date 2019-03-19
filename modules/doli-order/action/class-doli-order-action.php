@@ -82,7 +82,7 @@ class Doli_Order_Action {
 	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
-			$order        = Orders_Class::g()->get( array( 'id' => $_GET['id'] ), true );
+			$order        = Orders::g()->get( array( 'id' => $_GET['id'] ), true );
 			$args_metabox = array(
 				'order' => $order,
 				'id'    => $_GET['id'],
@@ -111,7 +111,7 @@ class Doli_Order_Action {
 	public function callback_meta_box( $post, $callback_args ) {
 		$order        = $callback_args['args']['order'];
 		$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
-		$third_party  = Third_Party_Class::g()->get( array( 'id' => $order->data['parent_id'] ), true );
+		$third_party  = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
 		$link_invoice = '';
 
 		if ( ! empty( $invoice ) ) {
@@ -182,30 +182,30 @@ class Doli_Order_Action {
 	 * @return Order_Model           Les données de la commande WP.
 	 */
 	public function create_order( $wp_proposal ) {
-		$third_party      = Third_Party_Class::g()->get( array( 'id' => $wp_proposal->data['parent_id'] ), true );
+		$third_party      = Third_Party::g()->get( array( 'id' => $wp_proposal->data['parent_id'] ), true );
 		$doli_proposal_id = get_post_meta( $wp_proposal->data['id'], '_external_id', true );
 
 		$doli_order = Request_Util::post( 'orders/createfromproposal/' . $doli_proposal_id );
 		$doli_order = Request_Util::post( 'orders/' . $doli_order->id . '/validate' );
 
-		Emails_Class::g()->send_mail( null, 'wps_email_new_order', array(
+		Emails::g()->send_mail( null, 'wps_email_new_order', array(
 			'order'       => $doli_order,
 			'third_party' => $third_party->data,
 		) );
 
 		$current_user = wp_get_current_user();
 
-		Emails_Class::g()->send_mail( $current_user->user_email, 'wps_email_customer_processing_order', array(
+		Emails::g()->send_mail( $current_user->user_email, 'wps_email_customer_processing_order', array(
 			'order'       => $doli_order,
 			'third_party' => $third_party->data,
 		) );
 
-		$wp_order = Orders_Class::g()->get( array( 'schema' => true ), true );
-		$wp_order = Orders_Class::g()->doli_to_wp( $doli_order, $wp_order );
+		$wp_order = Orders::g()->get( array( 'schema' => true ), true );
+		$wp_order = Orders::g()->doli_to_wp( $doli_order, $wp_order );
 
 		$wp_order->data['author_id'] = $current_user->ID;
 
-		return Orders_Class::g()->update( $wp_order->data );
+		return Orders::g()->update( $wp_order->data );
 	}
 
 	/**
@@ -216,11 +216,11 @@ class Doli_Order_Action {
 	 * @param array $data Les données IPN de PayPal.
 	 */
 	public function set_to_billed( $data ) {
-		$wp_order = Orders_Class::g()->get( array( 'id' => (int) $data['custom'] ), true );
+		$wp_order = Orders::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
 		$doli_order = Request_Util::post( 'orders/' . $wp_order->data['external_id'] . '/setinvoiced' );
 
-		Orders_Class::g()->doli_to_wp( $doli_order, $wp_order );
+		Orders::g()->doli_to_wp( $doli_order, $wp_order );
 	}
 
 	/**
@@ -231,10 +231,10 @@ class Doli_Order_Action {
 	 * @param array $data Les données IPN de PayPal.
 	 */
 	public function set_to_failed( $data ) {
-		$wp_order = Orders_Class::g()->get( array( 'id' => (int) $data['custom'] ), true );
+		$wp_order = Orders::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
 		$wp_order->data['payment_failed'] = true;
-		Orders_Class::g()->update( $wp_order->data );
+		Orders::g()->update( $wp_order->data );
 	}
 }
 

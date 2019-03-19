@@ -40,7 +40,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		endif;
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts-edit', array(
 			'third_party_id' => $third_party->data['id'],
-			'contact'        => Contact_Class::g()->get( array( 'schema' => true ), true ),
+			'contact'        => Contact::g()->get( array( 'schema' => true ), true ),
 		) );
 		?>
 	</tbody>

@@ -54,8 +54,8 @@ class Doli_Products extends \eoxia\Singleton_Util {
 		$wp_product->data['weight']          = $doli_product->weight;
 		$wp_product->data['status']          = 'publish';
 
-		Product_Class::g()->update( $wp_product->data );
+		Product::g()->update( $wp_product->data );
 	}
 }
 
-Doli_Products_Class::g();
+Doli_Products::g();

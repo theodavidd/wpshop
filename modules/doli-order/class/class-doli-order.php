@@ -88,7 +88,7 @@ class Doli_Order extends \eoxia\Post_Class {
 
 		if ( ! empty( $orders ) ) {
 			foreach ( $orders as &$element ) {
-				$element->data['tier'] = Third_Party_Class::g()->get( array( 'id' => $element->data['parent_id'] ), true );
+				$element->data['tier'] = Third_Party::g()->get( array( 'id' => $element->data['parent_id'] ), true );
 			}
 		}
 
@@ -116,7 +116,7 @@ class Doli_Order extends \eoxia\Post_Class {
 		$wp_order->data['lines']          = $doli_order->lines;
 		$wp_order->data['date_commande']  = date( 'Y-m-d H:i:s', $doli_order->date_commande );
 		$wp_order->data['datec']          = date( 'Y-m-d H:i:s', $doli_order->date_creation );
-		$wp_order->data['parent_id']      = Doli_Third_Party_Class::g()->get_wp_id_by_doli_id( $doli_order->socid );
+		$wp_order->data['parent_id']      = Doli_Third_Party::g()->get_wp_id_by_doli_id( $doli_order->socid );
 		$wp_order->data['payment_method'] = ( null === $doli_order->mode_reglement_code ) ? 'payment_in_shop' : Doli_Payment::g()->convert_to_wp( $doli_order->mode_reglement_code );
 
 		$status = '';
@@ -143,7 +143,7 @@ class Doli_Order extends \eoxia\Post_Class {
 
 		$wp_order->data['status'] = $status;
 
-		return Orders_Class::g()->update( $wp_order->data );
+		return Orders::g()->update( $wp_order->data );
 	}
 
 	/**
@@ -155,7 +155,7 @@ class Doli_Order extends \eoxia\Post_Class {
 	 * @return integer          L'ID de WP.
 	 */
 	public function get_wp_id_by_doli_id( $doli_id ) {
-		$order = Orders_Class::g()->get( array(
+		$order = Orders::g()->get( array(
 			'meta_key'   => '_external_id',
 			'meta_value' => $doli_id,
 		), true );

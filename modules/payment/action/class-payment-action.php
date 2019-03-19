@@ -38,7 +38,7 @@ class Payment_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_setting_payment_method() {
-		$payment_data = Payment_Class::g()->get_payment_option( 'payment_in_shop' );
+		$payment_data = Payment::g()->get_payment_option( 'payment_in_shop' );
 
 		\eoxia\View_Util::exec( 'wpshop', 'settings', 'payment-method-single-form', array(
 			'payment_data' => $payment_data,
@@ -58,7 +58,7 @@ class Payment_Action {
 		$title       = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
 		$description = ! empty( $_POST['description'] ) ? stripslashes( $_POST['description'] ) : '';
 
-		$payment_methods_option = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
 
 		$payment_methods_option['payment_in_shop']['title']       = $title;
 		$payment_methods_option['payment_in_shop']['description'] = $description;

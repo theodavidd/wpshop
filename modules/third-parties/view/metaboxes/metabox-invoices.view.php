@@ -56,7 +56,7 @@ defined( 'ABSPATH' ) || exit; ?>
 							?>
 						</ul>
 					</td>
-					<td><?php echo esc_html( Payment_Class::g()->convert_status( $invoice->data ) ); ?></td>
+					<td><?php echo esc_html( Payment::g()->convert_status( $invoice->data ) ); ?></td>
 					<td><?php echo esc_html( $invoice->data['payment_method'] ); ?></td>
 					<td><?php echo esc_html( $invoice->data['total_ttc'] ); ?>€</td>
 					<td>

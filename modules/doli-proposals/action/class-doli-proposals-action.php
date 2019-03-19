@@ -41,7 +41,7 @@ class Doli_Proposals_Action {
 	 * @param  Proposal_Model $wp_proposal Les données du devis.
 	 */
 	public function checkout_create_proposal( $wp_proposal ) {
-		$doli_proposal_id = Doli_Proposals_Class::g()->wp_to_doli( $wp_proposal );
+		$doli_proposal_id = Doli_Proposals::g()->wp_to_doli( $wp_proposal );
 
 		$doli_proposal = Request_Util::post( 'proposals/' . $doli_proposal_id . '/validate', array(
 			'notrigger' => 0,
@@ -59,7 +59,7 @@ class Doli_Proposals_Action {
 
 		update_post_meta( $wp_proposal->data['id'], '_external_id', $doli_proposal_id );
 
-		Doli_Proposals_Class::g()->doli_to_wp( $doli_proposal, $wp_proposal );
+		Doli_Proposals::g()->doli_to_wp( $doli_proposal, $wp_proposal );
 	}
 
 	/**
@@ -87,9 +87,9 @@ class Doli_Proposals_Action {
 			exit;
 		}
 
-		$contact     = Contact_Class::g()->get( array( 'id' => get_current_user_id() ), true );
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-		$proposal    = Proposals_Class::g()->get( array( 'id' => $proposal_id ), true );
+		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		$proposal    = Proposals::g()->get( array( 'id' => $proposal_id ), true );
 
 		if ( ( isset( $third_party->data ) && $proposal->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;

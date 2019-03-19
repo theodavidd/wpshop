@@ -180,7 +180,7 @@ class Transfert_Data_Action {
 								update_post_meta( $post_id, '_contact_ids', json_encode( $contact_ids ) );
 							} else {
 								// translators: <li><strong>1</strong>Contact #1 is already affected to another third party #2</li>.
-								$errors .= sprintf( __( '<li><strong>%1$d</strong>Contact #%2$d is already affected to another third party #%3$d</li>', 'wpshop' ), $index_error $user->ID, $third_party_id );
+								$errors .= sprintf( __( '<li><strong>%1$d</strong>Contact #%2$d is already affected to another third party #%3$d</li>', 'wpshop' ), $index_error, $user->ID, $third_party_id );
 								$index_error++;
 							}
 						}

@@ -88,4 +88,4 @@ class Contact extends \eoxia\User_Class {
 	}
 }
 
-Contact_Class::g();
+Contact::g();

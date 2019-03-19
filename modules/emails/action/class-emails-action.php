@@ -41,7 +41,7 @@ class Emails_Action {
 	public function callback_copy_email_template() {
 		$tab          = 'emails';
 		$section      = ! empty( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : '';
-		$email        = Emails_Class::g()->emails[ $section ];
+		$email        = Emails::g()->emails[ $section ];
 		$file_to_copy = \eoxia\Config_Util::$init['wpshop']->emails->path . '/view/' . $email['filename_template'];
 		$path         = get_template_directory() . '/wpshop/emails/view/' . $email['filename_template'];
 
@@ -73,7 +73,7 @@ class Emails_Action {
 
 				$tva_lines[ $line->tva_tx ] += $line->total_tva;
 
-				$wp_product = Product_Class::g()->get( array(
+				$wp_product = Product::g()->get( array(
 					'meta_key'   => '_external_id',
 					'meta_value' => (int) $line->fk_product,
 				), true );
@@ -98,7 +98,7 @@ class Emails_Action {
 	 * @param Order_Model $order Les données de la commande.
 	 */
 	public function type_payment( $order ) {
-		$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+		$payment_methods = get_option( 'wps_payment_methods', Payment::g()->default_options );
 
 		include( Template_Util::get_template_part( 'emails', 'type-payment' ) );
 	}

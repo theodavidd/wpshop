@@ -32,7 +32,7 @@ do_action( 'wps_email_header' );  ?>
 	printf( __( 'Thanks for creating an account on %1$s. Your username is %2$s. You can access your account area to view orders, change your password, and more at: <a target="_blank" href="%3$s">%4$s</a>', 'wpshop' ), array(
 		get_bloginfo(),
 		'<strong>' . esc_html( $data['contact']['login'] ) . '</strong>',
-		esc_url( Pages_Class::g()->get_account_link() ),
+		esc_url( Pages::g()->get_account_link() ),
 		get_bloginfo(),
 	);
 	?>

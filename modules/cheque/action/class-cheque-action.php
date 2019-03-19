@@ -37,7 +37,7 @@ class Cheque_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_setting_payment_method() {
-		$cheque_options = Payment_Class::g()->get_payment_option( 'cheque' );
+		$cheque_options = Payment::g()->get_payment_option( 'cheque' );
 
 		\eoxia\View_Util::exec( 'wpshop', 'cheque', 'form-setting', array(
 			'cheque_options' => $cheque_options,
@@ -57,7 +57,7 @@ class Cheque_Action {
 		$title       = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
 		$description = ! empty( $_POST['description'] ) ? stripslashes( $_POST['description'] ) : '';
 
-		$payment_methods_option = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
 
 		$payment_methods_option['cheque']['title']       = $title;
 		$payment_methods_option['cheque']['description'] = $description;

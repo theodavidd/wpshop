@@ -73,7 +73,7 @@ class Settings extends \eoxia\Singleton_Util {
 			'post_title' => __( 'No page', 'wpshop' ),
 		) );
 
-		$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
+		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
 		\eoxia\View_Util::exec( 'wpshop', 'settings', 'pages', array(
 			'pages'            => $pages,
@@ -90,19 +90,19 @@ class Settings extends \eoxia\Singleton_Util {
 	 */
 	public function display_emails( $section = '' ) {
 		if ( ! empty( $section ) ) {
-			$email            = Emails_Class::g()->emails[ $section ];
-			$path_to_template = Emails_Class::g()->get_path( $email['filename_template'] );
+			$email            = Emails::g()->emails[ $section ];
+			$path_to_template = Emails::g()->get_path( $email['filename_template'] );
 			$content          = file_get_contents( $path_to_template );
 
 			\eoxia\View_Util::exec( 'wpshop', 'settings', 'email-single', array(
 				'section'     => $section,
 				'email'       => $email,
 				'content'     => $content,
-				'is_override' => Emails_Class::g()->is_override( $email['filename_template'] ),
+				'is_override' => Emails::g()->is_override( $email['filename_template'] ),
 			) );
 		} else {
 			\eoxia\View_Util::exec( 'wpshop', 'settings', 'emails', array(
-				'emails' => Emails_Class::g()->emails,
+				'emails' => Emails::g()->emails,
 			) );
 		}
 	}
@@ -115,7 +115,7 @@ class Settings extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function display_payment_method( $section = '' ) {
-		$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+		$payment_methods = get_option( 'wps_payment_methods', Payment::g()->default_options );
 		if ( ! empty( $section ) ) {
 			$payment_methods = $payment_methods;
 			$payment         = $payment_methods[ $section ];

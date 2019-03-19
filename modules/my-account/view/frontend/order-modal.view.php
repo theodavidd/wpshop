@@ -22,7 +22,7 @@ if ( 'cheque' === $order->data['payment_method'] ) :
 	?>
 	<h2><?php esc_html_e( 'How to pay for your order', 'wpshop' ); ?></h2>
 	<?php
-	$payment_methods = get_option( 'wps_payment_methods', \wpshop\Payment_Class::g()->default_options );
+	$payment_methods = get_option( 'wps_payment_methods', \wpshop\Payment::g()->default_options );
 	echo stripslashes( nl2br( $payment_methods['cheque']['description'] ) );
 endif;
 ?>

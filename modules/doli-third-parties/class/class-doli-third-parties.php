@@ -53,7 +53,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 			$wp_third_party->data['date_modified'] = date( 'Y-m-d H:i:s', $doli_third_party->date_modification );
 		}
 
-		Third_Party_Class::g()->update( $wp_third_party->data );
+		Third_Party::g()->update( $wp_third_party->data );
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 			$doli_third_party_id                 = Request_Util::post( 'thirdparties', $data );
 			$wp_third_party->data['external_id'] = $doli_third_party_id;
 
-			Third_Party_Class::g()->update( $wp_third_party->data );
+			Third_Party::g()->update( $wp_third_party->data );
 		}
 	}
 
@@ -95,7 +95,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 	 * @return integer          L'ID WP du tier.
 	 */
 	public function get_wp_id_by_doli_id( $doli_id ) {
-		$third_party = Third_Party_Class::g()->get( array(
+		$third_party = Third_Party::g()->get( array(
 			'meta_key'   => '_external_id',
 			'meta_value' => (int) $doli_id,
 		), true ); // WPCS: slow query ok.
@@ -104,4 +104,4 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 	}
 }
 
-Doli_Third_Party_Class::g();
+Doli_Third_Parties::g();

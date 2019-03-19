@@ -24,5 +24,5 @@ defined( 'ABSPATH' ) || exit; ?>
 		<span><?php esc_html_e( 'Sync', 'wpshop' ); ?></span>
 	</div>
 
-	<?php Proposals_Class::g()->display(); ?>
+	<?php Proposals::g()->display(); ?>
 </div>

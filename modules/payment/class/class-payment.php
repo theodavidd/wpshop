@@ -153,4 +153,4 @@ class Payment extends \eoxia\Singleton_Util {
 	}
 }
 
-Payment_Class::g();
+Payment::g();

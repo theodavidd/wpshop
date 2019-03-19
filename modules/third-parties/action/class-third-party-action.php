@@ -30,10 +30,10 @@ class Third_Party_Action {
 	 *
 	 * @var array
 	 */
-	$metaboxes = null;
+	public $metaboxes = null;
 
 	/**
-	 * Constructor.
+	 * Constructeur.
 	 *
 	 * @since 2.0.0
 	 */
@@ -109,7 +109,7 @@ class Third_Party_Action {
 	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
-			$third_party  = Third_Party_Class::g()->get( array( 'id' => $_GET['id'] ), true );
+			$third_party  = Third_Party::g()->get( array( 'id' => $_GET['id'] ), true );
 			$args_metabox = array(
 				'third_party' => $third_party,
 				'id'          => $_GET['id'],
@@ -198,7 +198,7 @@ class Third_Party_Action {
 		$contacts = array();
 
 		if ( ! empty( $callback_args['args']['third_party']->data['contact_ids'] ) ) {
-			$contacts = Contact_Class::g()->get( array( 'include' => $callback_args['args']['third_party']->data['contact_ids'] ) );
+			$contacts = Contact::g()->get( array( 'include' => $callback_args['args']['third_party']->data['contact_ids'] ) );
 		}
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts', array(
 			'third_party' => $callback_args['args']['third_party'],
@@ -215,7 +215,7 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function metabox_orders( $post, $callback_args ) {
-		$orders = Orders_Class::g()->get( array( 'post_parent' => $callback_args['args']['id'] ) );
+		$orders = Orders::g()->get( array( 'post_parent' => $callback_args['args']['id'] ) );
 
 		if ( ! empty( $orders ) ) {
 			foreach ( $orders as &$order ) {
@@ -242,7 +242,7 @@ class Third_Party_Action {
 
 		if ( ! empty( $invoices ) ) {
 			foreach ( $invoices as &$invoice ) {
-				$invoice->data['order'] = Orders_Class::g()->get( array( 'id' => $invoice->data['parent_id'] ), true );
+				$invoice->data['order'] = Orders::g()->get( array( 'id' => $invoice->data['parent_id'] ), true );
 			}
 		}
 
@@ -263,7 +263,7 @@ class Third_Party_Action {
 			exit;
 		}
 
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $post_id ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $post_id ), true );
 
 		ob_start();
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'single-title-edit', array(
@@ -290,7 +290,7 @@ class Third_Party_Action {
 			exit;
 		}
 
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $post_id ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $post_id ), true );
 
 		$third_party->data['id'] = $post_id;
 
@@ -299,12 +299,12 @@ class Third_Party_Action {
 		}
 		$third_party->data['title'] = $title;
 
-		$third_party = Third_Party_Class::g()->update( $third_party->data );
+		$third_party = Third_Party::g()->update( $third_party->data );
 
 		$external_id = do_action( 'wps_saved_third_party', $third_party->data );
 
 		$third_party->data['external_id'] = $external_id;
-		$third_party                      = Third_Party_Class::g()->update( $third_party->data );
+		$third_party                      = Third_Party::g()->update( $third_party->data );
 
 		if ( wp_doing_ajax() ) {
 			ob_start();
@@ -335,7 +335,7 @@ class Third_Party_Action {
 			wp_send_json_error();
 		}
 
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $third_party_id ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $third_party_id ), true );
 
 		ob_start();
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-billing-address-edit', array(
@@ -363,7 +363,7 @@ class Third_Party_Action {
 			wp_send_json_error();
 		}
 
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $third_party_id ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $third_party_id ), true );
 
 		$third_party->data['title']   = $third_party_form['title'];
 		$third_party->data['address'] = $third_party_form['address'];
@@ -372,7 +372,7 @@ class Third_Party_Action {
 		$third_party->data['town']    = $third_party_form['town'];
 		$third_party->data['phone']   = $third_party_form['phone'];
 
-		$third_party = Third_Party_Class::g()->update( $third_party->data );
+		$third_party = Third_Party::g()->update( $third_party->data );
 
 		do_action( 'wps_saved_billing_address', $third_party );
 
@@ -400,7 +400,7 @@ class Third_Party_Action {
 			wp_send_json_error();
 		}
 
-		$contacts = Contact_Class::g()->get( array(
+		$contacts = Contact::g()->get( array(
 			'search'         => '*' . $term . '*',
 			'search_columns' => array(
 				'user_login',
@@ -438,15 +438,15 @@ class Third_Party_Action {
 			wp_send_json_error();
 		}
 
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $third_party_id ), true );
-		$contact     = Contact_Class::g()->get( array( 'id' => $contact_id ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $third_party_id ), true );
+		$contact     = Contact::g()->get( array( 'id' => $contact_id ), true );
 
 		if ( ! in_array( $contact->data['id'], $third_party->data['contact_ids'] ) ) {
 			$third_party->data['contact_ids'][] = $contact->data['id'];
 			$contact->data['third_party']       = $third_party->data['external_id'];
 
-			$third_party = Third_Party_Class::g()->update( $third_party->data );
-			Contact_Class::g()->update( $contact->data );
+			$third_party = Third_Party::g()->update( $third_party->data );
+			Contact::g()->update( $contact->data );
 
 			do_action( 'wps_saved_and_associated_contact', $third_party, $contact, false );
 		}
@@ -455,7 +455,7 @@ class Third_Party_Action {
 		$contacts = array();
 
 		if ( ! empty( $third_party->data['contact_ids'] ) ) {
-			$contacts = Contact_Class::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
+			$contacts = Contact::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
 		}
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts', array(
 			'third_party' => $third_party,
@@ -485,7 +485,7 @@ class Third_Party_Action {
 			wp_send_json_error();
 		}
 
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $third_party_id ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $third_party_id ), true );
 
 		if ( empty( $contact['id'] ) ) {
 			$email                = explode( '@', $contact['email'] );
@@ -494,13 +494,13 @@ class Third_Party_Action {
 		}
 
 		$contact       = apply_filters( 'wps_save_and_associate_contact', $contact, $third_party );
-		$saved_contact = Contact_Class::g()->update( $contact );
+		$saved_contact = Contact::g()->update( $contact );
 
 		if ( empty( $contact['id'] ) ) {
 			$third_party->data['contact_ids'][] = $saved_contact->data['id'];
 		}
 
-		$third_party = Third_Party_Class::g()->update( $third_party->data );
+		$third_party = Third_Party::g()->update( $third_party->data );
 
 		do_action( 'wps_saved_and_associated_contact', $third_party, $saved_contact, empty( $contact['id'] ) ? true : false );
 
@@ -508,7 +508,7 @@ class Third_Party_Action {
 		$contacts = array();
 
 		if ( ! empty( $third_party->data['contact_ids'] ) ) {
-			$contacts = Contact_Class::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
+			$contacts = Contact::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
 		}
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts', array(
 			'third_party' => $third_party,
@@ -535,7 +535,7 @@ class Third_Party_Action {
 			wp_send_json_error();
 		}
 
-		$contact = Contact_Class::g()->get( array( 'id' => $contact_id ), true );
+		$contact = Contact::g()->get( array( 'id' => $contact_id ), true );
 
 		ob_start();
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts-edit', array(
@@ -564,19 +564,19 @@ class Third_Party_Action {
 			wp_send_json_error();
 		}
 
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $third_party_id ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $third_party_id ), true );
 
 		$index = array_search( $contact_id, $third_party->data['contact_ids'], true );
 
 		if ( false !== $index ) {
 			array_splice( $third_party->data['contact_ids'], $index, 1 );
 
-			$contact = Contact_Class::g()->get( array( 'id' => $contact_id ), true );
+			$contact = Contact::g()->get( array( 'id' => $contact_id ), true );
 
 			$contact->data['third_party_id'] = -1;
 
-			Third_Party_Class::g()->update( $third_party->data );
-			Contact_Class::g()->update( $contact->data );
+			Third_Party::g()->update( $third_party->data );
+			Contact::g()->update( $contact->data );
 
 			do_action( 'wps_deleted_contact', $third_party, $contact );
 		}

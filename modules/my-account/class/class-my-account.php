@@ -48,7 +48,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	public function before_login_form() {
 		global $post;
 
-		if ( Pages_Class::g()->get_slug_link_shop_page( $post->ID ) == 'my-account' ) {
+		if ( Pages::g()->get_slug_link_shop_page( $post->ID ) == 'my-account' ) {
 			include( Template_Util::get_template_part( 'my-account', 'login-title' ) );
 		}
 	}
@@ -84,9 +84,9 @@ class My_Account extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function display_orders() {
-		$contact     = Contact_Class::g()->get( array( 'id' => get_current_user_id() ), true );
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-		$orders      = Orders_Class::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
+		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		$orders      = Orders::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
 
 		if ( ! empty( $orders ) ) {
 			foreach ( $orders as &$order ) {
@@ -105,9 +105,9 @@ class My_Account extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function display_proposals() {
-		$contact     = Contact_Class::g()->get( array( 'id' => get_current_user_id() ), true );
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-		$proposals   = Proposals_Class::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
+		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		$proposals   = Proposals::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-proposals' ) );
 	}

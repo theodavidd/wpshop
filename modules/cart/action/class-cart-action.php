@@ -51,7 +51,7 @@ class Cart_Action {
 	 * @return void
 	 */
 	public function callback_after_cart_table() {
-		$total_price = Class_Cart_Session::g()->total_price_ttc;
+		$total_price = Cart_Session::g()->total_price_ttc;
 		include( Template_Util::get_template_part( 'cart', 'cart-totals' ) );
 	}
 
@@ -63,13 +63,13 @@ class Cart_Action {
 	public function callback_calculate_totals() {
 		$price = 0;
 
-		if ( ! empty( Class_Cart_Session::g()->cart_contents ) ) {
-			foreach ( Class_Cart_Session::g()->cart_contents as $key => $line ) {
+		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
+			foreach ( Cart_Session::g()->cart_contents as $key => $line ) {
 				$price += $line['price_ttc'] * $line['qty'];
 			}
 		}
 
-		Class_Cart_Session::g()->total_price_ttc = $price;
+		Cart_Session::g()->total_price_ttc = $price;
 	}
 
 	/**
@@ -86,9 +86,9 @@ class Cart_Action {
 			wp_send_json_error();
 		}
 
-		$product = Product_Class::g()->get( array( 'id' => $id ), true );
+		$product = Product::g()->get( array( 'id' => $id ), true );
 
-		Cart_Class::g()->add_to_cart( $product );
+		Cart::g()->add_to_cart( $product );
 
 		ob_start();
 		include( Template_Util::get_template_part( 'cart', 'link-cart' ) );
@@ -116,15 +116,15 @@ class Cart_Action {
 			foreach ( $products as $key => $product ) {
 				$product['qty'] = (int) $product['qty'];
 				if ( $product['qty'] <= 0 ) {
-					Cart_Class::g()->delete_product( $key );
+					Cart::g()->delete_product( $key );
 				} else {
-					Cart_Class::g()->update_cart( $product );
+					Cart::g()->update_cart( $product );
 				}
 			}
 		}
 
 		ob_start();
-		$cart_contents = Class_Cart_Session::g()->cart_contents;
+		$cart_contents = Cart_Session::g()->cart_contents;
 
 		if ( ! empty( $cart_contents ) ) {
 			include( Template_Util::get_template_part( 'cart', 'cart' ) );
@@ -149,11 +149,11 @@ class Cart_Action {
 		$key = isset( $_POST['key'] ) ? (int) $_POST['key'] : -1;
 
 		if ( -1 != $key ) {
-			Cart_Class::g()->delete_product( $key );
+			Cart::g()->delete_product( $key );
 		}
 
 		ob_start();
-		$cart_contents = Class_Cart_Session::g()->cart_contents;
+		$cart_contents = Cart_Session::g()->cart_contents;
 
 		if ( ! empty( $cart_contents ) ) {
 			include( Template_Util::get_template_part( 'cart', 'cart' ) );

@@ -96,7 +96,7 @@ class Settings_Action {
 		$dolibarr_secret = ! empty( $_POST['dolibarr_secret'] ) ? sanitize_text_field( $_POST['dolibarr_secret'] ) : '';
 		$shop_email      = ! empty( $_POST['shop_email'] ) ? sanitize_text_field( $_POST['shop_email'] ) : '';
 
-		$dolibarr_option = get_option( 'wps_dolibarr', Settings_Class::g()->default_settings );
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
 		$dolibarr_option['dolibarr_url']    = $dolibarr_url;
 		$dolibarr_option['dolibarr_secret'] = $dolibarr_secret;
@@ -127,7 +127,7 @@ class Settings_Action {
 		$wps_page_valid_checkout_id = ! empty( $_POST['wps_page_valid_checkout_id'] ) ? (int) $_POST['wps_page_valid_checkout_id'] : 0;
 		$wps_page_valid_proposal_id = ! empty( $_POST['wps_page_valid_proposal_id'] ) ? (int) $_POST['wps_page_valid_proposal_id'] : 0;
 
-		$page_ids_options = get_option( 'wps_page_ids', Pages_Class::g()->default_options );
+		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
 		$page_ids_options['shop_id']           = $wps_page_shop_id;
 		$page_ids_options['cart_id']           = $wps_page_cart_id;
@@ -157,8 +157,8 @@ class Settings_Action {
 		$content = ! empty( $_POST['content'] ) ? wp_unslash( $_POST['content'] ) : '';
 		$section = ! empty( $_POST['section'] ) ? sanitize_text_field( $_POST['section'] ) : '';
 
-		$email     = Emails_Class::g()->emails[ $section ];
-		$path_file = Emails_Class::g()->get_path( $email['filename_template'] );
+		$email     = Emails::g()->emails[ $section ];
+		$path_file = Emails::g()->get_path( $email['filename_template'] );
 
 		$f = fopen( $path_file, 'w+' );
 

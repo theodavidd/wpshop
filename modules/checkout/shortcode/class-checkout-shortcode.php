@@ -52,22 +52,22 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 			$step     = $param['step'];
 			$proposal = null;
 
-			if ( isset( Class_Cart_Session::g()->external_data['proposal_id'] ) ) {
-				$proposal = Proposals_Class::g()->get( array( 'id' => Class_Cart_Session::g()->external_data['proposal_id'] ), true );
+			if ( isset( Cart_Session::g()->external_data['proposal_id'] ) ) {
+				$proposal = Proposals::g()->get( array( 'id' => Cart_Session::g()->external_data['proposal_id'] ), true );
 			}
 
 			$current_user = wp_get_current_user();
 
-			$third_party = Third_Party_Class::g()->get( array( 'schema' => true ), true );
-			$contact     = Third_Party_Class::g()->get( array( 'schema' => true ), true );
+			$third_party = Third_Party::g()->get( array( 'schema' => true ), true );
+			$contact     = Third_Party::g()->get( array( 'schema' => true ), true );
 
 			if ( 0 !== $current_user->ID ) {
-				$contact = Contact_Class::g()->get( array(
+				$contact = Contact::g()->get( array(
 					'search' => $current_user->user_email,
 					'number' => 1,
 				), true );
 
-				$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+				$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 			}
 
 			include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-' . $step ) );
@@ -82,7 +82,7 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 	public function callback_valid_checkout() {
 		if ( ! is_admin() ) {
 			$order_id = ! empty( $_GET['order_id'] ) ? (int) $_GET['order_id'] : 0;
-			$order    = Orders_Class::g()->get( array( 'id' => $order_id ), true );
+			$order    = Orders::g()->get( array( 'id' => $order_id ), true );
 
 			$tva_lines = array();
 
@@ -110,7 +110,7 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 	public function callback_valid_proposal() {
 		if ( ! is_admin() ) {
 			$proposal_id = ! empty( $_GET['proposal_id'] ) ? (int) $_GET['proposal_id'] : 0;
-			$proposal    = Proposals_Class::g()->get( array( 'id' => $proposal_id ), true );
+			$proposal    = Proposals::g()->get( array( 'id' => $proposal_id ), true );
 
 			if ( ! empty( $proposal_id ) ) {
 				include( Template_Util::get_template_part( 'checkout', 'valid-proposal' ) );

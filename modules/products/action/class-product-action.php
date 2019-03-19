@@ -77,10 +77,10 @@ class Product_Action {
 			wp_send_json_error();
 		}
 
-		$product                 = Product_Class::g()->get( array( 'id' => $id ), true );
+		$product                 = Product::g()->get( array( 'id' => $id ), true );
 		$product->data['status'] = 'trash';
 
-		Product_Class::g()->update( $product->data );
+		Product::g()->update( $product->data );
 
 		wp_send_json_success();
 	}

@@ -28,18 +28,18 @@ class My_Account_Action {
 	 */
 	public function __construct() {
 		add_action( 'init', array( My_Account_Shortcode::g(), 'init_shortcode' ) );
-		add_action( 'init', array( My_Account_Class::g(), 'init_endpoint' ) );
+		add_action( 'init', array( My_Account::g(), 'init_endpoint' ) );
 
-		add_action( 'wps_before_customer_login_form', array( My_Account_Class::g(), 'before_login_form' ) );
+		add_action( 'wps_before_customer_login_form', array( My_Account::g(), 'before_login_form' ) );
 
-		add_action( 'wps_before_checkout_form', array( My_Account_Class::g(), 'checkout_form_login' ) );
+		add_action( 'wps_before_checkout_form', array( My_Account::g(), 'checkout_form_login' ) );
 
 		add_action( 'admin_post_wps_login', array( $this, 'handle_login' ) );
 		add_action( 'admin_post_nopriv_wps_login', array( $this, 'handle_login' ) );
 
-		add_action( 'wps_account_navigation', array( My_Account_Class::g(), 'display_navigation' ) );
-		add_action( 'wps_account_orders', array( My_Account_Class::g(), 'display_orders' ) );
-		add_action( 'wps_account_proposals', array( My_Account_Class::g(), 'display_proposals' ) );
+		add_action( 'wps_account_navigation', array( My_Account::g(), 'display_navigation' ) );
+		add_action( 'wps_account_orders', array( My_Account::g(), 'display_orders' ) );
+		add_action( 'wps_account_proposals', array( My_Account::g(), 'display_proposals' ) );
 
 		add_action( 'wp_ajax_load_modal_resume_order', array( $this, 'load_modal_resume_order' ) );
 		add_action( 'wp_ajax_reorder', array( $this, 'do_reorder' ) );
@@ -91,10 +91,10 @@ class My_Account_Action {
 			wp_send_json_error();
 		}
 
-		$contact     = Contact_Class::g()->get( array( 'id' => get_current_user_id() ), true );
-		$third_party = Third_Party_Class::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
-		$order = Orders_Class::g()->get( array( 'id' => $id ), true );
+		$order = Orders::g()->get( array( 'id' => $id ), true );
 
 		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
@@ -123,20 +123,20 @@ class My_Account_Action {
 			wp_send_json_error();
 		}
 
-		Class_Cart_Session::g()->destroy();
+		Cart_Session::g()->destroy();
 
-		$order = Orders_Class::g()->get( array( 'id' => $id ), true );
+		$order = Orders::g()->get( array( 'id' => $id ), true );
 
 		if ( ! empty( $order->data['lines'] ) ) {
 			foreach ( $order->data['lines'] as $element ) {
-				$wp_product = Product_Class::g()->get( array(
+				$wp_product = Product::g()->get( array(
 					'meta_key'   => '_external_id',
 					'meta_value' => (int) $element['fk_product'],
 				), true );
 
 				if ( ! empty( $wp_product ) ) {
 					for ( $i = 0; $i < $element['qty']; ++$i ) {
-						Cart_Class::g()->add_to_cart( $wp_product );
+						Cart::g()->add_to_cart( $wp_product );
 					}
 				}
 			}
@@ -146,7 +146,7 @@ class My_Account_Action {
 			'namespace'        => 'wpshopFrontend',
 			'module'           => 'myAccount',
 			'callback_success' => 'reorderSuccess',
-			'redirect_url'     => Pages_Class::g()->get_cart_link(),
+			'redirect_url'     => Pages::g()->get_cart_link(),
 		) );
 	}
 }

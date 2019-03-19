@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<td><?php echo esc_html( $third_party->data['id'] ); ?></td>
 	<td><?php echo esc_html( $third_party->data['external_id'] ); ?></td>
 	<td><?php echo esc_html( $third_party->data['title'] ); ?></td>
-	<td><?php Contact_Class::g()->display( $third_party ); ?></td>
+	<td><?php Contact::g()->display( $third_party ); ?></td>
 	<td><?php echo esc_html( $third_party->data['address'] ); ?></td>
 	<td><?php echo esc_html( $third_party->data['zip'] ); ?></td>
 	<td><?php echo esc_html( $third_party->data['town'] ); ?></td>

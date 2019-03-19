@@ -44,7 +44,7 @@ if ( 'cheque' === $order->data['payment_method'] ) :
 	?>
 	<h2><?php esc_html_e( 'How to pay for your order', 'wpshop' ); ?></h2>
 	<?php
-	$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+	$payment_methods = get_option( 'wps_payment_methods', Payment::g()->default_options );
 	echo stripslashes( nl2br( $payment_methods['cheque']['description'] ) );
 endif;
 ?>
@@ -54,7 +54,7 @@ if ( 'payment_in_shop' === $order->data['payment_method'] ) :
 	?>
 	<h2><?php esc_html_e( 'Veuillez récuperez votre commande à la boutique', 'wpshop' ); ?></h2>
 	<?php
-	$payment_methods = get_option( 'wps_payment_methods', Payment_Class::g()->default_options );
+	$payment_methods = get_option( 'wps_payment_methods', Payment::g()->default_options );
 	echo stripslashes( nl2br( $payment_methods['payment_in_shop']['description'] ) );
 endif;
 ?>
@@ -115,6 +115,6 @@ endif;
 	</tfoot>
 </table>
 
-<a href="<?php echo Pages_Class::g()->get_account_link(); ?>orders/" class="wpeo-button button-main">
+<a href="<?php echo Pages::g()->get_account_link(); ?>orders/" class="wpeo-button button-main">
 	<span><?php esc_html_e( 'See my orders', 'wpshop' ); ?></span>
 </a>

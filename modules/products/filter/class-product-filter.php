@@ -67,7 +67,7 @@ class Product_Filter {
 		$args['show_in_menu']      = false;
 		$args['show_in_admin_bar'] = true;
 
-		$shop_page_slug = Pages_Class::g()->get_slug_shop_page();
+		$shop_page_slug = Pages::g()->get_slug_shop_page();
 
 		if ( ! empty( $shop_page_slug ) ) {
 			$args['rewrite'] = array(
@@ -75,7 +75,7 @@ class Product_Filter {
 			);
 		}
 
-		$args['register_meta_box_cb'] = array( Product_Class::g(), 'callback_register_meta_box' );
+		$args['register_meta_box_cb'] = array( Product::g(), 'callback_register_meta_box' );
 
 		flush_rewrite_rules();
 		return $args;
@@ -126,7 +126,7 @@ class Product_Filter {
 	public function get_custom_post_type_template( $single_template ) {
 		global $post;
 
-		if ( Product_Class::g()->get_type() === $post->post_type ) {
+		if ( Product::g()->get_type() === $post->post_type ) {
 			$single_template = Template_Util::get_template_part( 'products', 'single-wps-product' );
 		}
 

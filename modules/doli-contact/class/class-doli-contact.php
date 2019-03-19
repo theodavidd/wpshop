@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Doli Contact Class.
  */
-class Doli_Contact_Class extends \eoxia\Singleton_Util {
+class Doli_Contact extends \eoxia\Singleton_Util {
 
 	/**
 	 * Constructeur
@@ -40,7 +40,7 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 		$wp_third_party = null;
 
 		if ( ! empty( $doli_contact->socid ) ) {
-			$wp_third_party = Third_Party_Class::g()->get( array(
+			$wp_third_party = Third_Party::g()->get( array(
 				'meta_key'   => '_external_id',
 				'meta_value' => (int) $doli_contact->socid,
 			), true );
@@ -65,7 +65,7 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 			$wp_contact->data['password'] = wp_generate_password();
 		}
 
-		$contact_saved = Contact_Class::g()->update( $wp_contact->data );
+		$contact_saved = Contact::g()->update( $wp_contact->data );
 
 		if ( is_wp_error( $contact_saved ) ) {
 			return false;
@@ -73,7 +73,7 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 
 		if ( null !== $wp_third_party ) {
 			$wp_third_party->data['contact_ids'][] = $contact_saved->data['id'];
-			Third_Party_Class::g()->update( $wp_third_party->data );
+			Third_Party::g()->update( $wp_third_party->data );
 		}
 	}
 
@@ -88,7 +88,7 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 	 * @return integer                     L'ID de dolibarr.
 	 */
 	public function wp_to_doli( $wp_contact, $doli_contact ) {
-		$third_party = Third_Party_Class::g()->get( array(
+		$third_party = Third_Party::g()->get( array(
 			'id' => $wp_contact->data['third_party_id'],
 		), true );
 
@@ -104,4 +104,4 @@ class Doli_Contact_Class extends \eoxia\Singleton_Util {
 	}
 }
 
-Doli_Contact_Class::g();
+Doli_Contact::g();

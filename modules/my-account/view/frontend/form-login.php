@@ -37,7 +37,7 @@ endif;
 
 <form class="wpeo-form" action="<?php echo esc_attr( admin_url( 'admin-post.php' ) ); ?>" method="post">
 	<input type="hidden" name="action" value="wps_login" />
-	<input type="hidden" name="page" value="<?php echo Pages_Class::g()->get_slug_link_shop_page( $post->ID ); ?>" />
+	<input type="hidden" name="page" value="<?php echo Pages::g()->get_slug_link_shop_page( $post->ID ); ?>" />
 	<?php do_action( 'wps_login_form_start' ); ?>
 
 	<div class="form-element">

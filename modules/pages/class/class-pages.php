@@ -156,4 +156,4 @@ class Pages extends \eoxia\Singleton_Util {
 	}
 }
 
-Pages_Class::g();
+Pages::g();
