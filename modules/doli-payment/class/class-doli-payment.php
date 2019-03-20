@@ -110,11 +110,13 @@ class Doli_Payment extends \eoxia\Post_Class {
 	 *
 	 * @todo: a vérifier
 	 *
-	 * @param  string $payment_method Méthode de paiement venant de WP.
+	 * @param  string $payment_method Méthode de paiement venant de Dolibarr.
 	 *
 	 * @return string                 Texte lisible.
 	 */
 	public function convert_to_wp( $payment_method ) {
+		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
+		echo '<pre>'; print_r( $payment_methods_option  ); echo '</pre>';exit;
 		if ( 'CB' === $payment_method ) {
 			return 'paypal';
 		} elseif ( 'CHQ' === $payment_method ) {

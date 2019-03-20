@@ -105,8 +105,6 @@ class Checkout_Action {
 	/**
 	 * Créer le tier lors du tunnel de vente
 	 *
-	 * @todo: Sécurisé les données
-	 *
 	 * @since 2.0.0
 	 */
 	public function callback_checkout_create_third() {
@@ -238,8 +236,6 @@ class Checkout_Action {
 
 	/**
 	 * Créer la commande et passe au paiement
-	 *
-	 * @todo: Sécurisé les données
 	 *
 	 * @since 2.0.0
 	 */

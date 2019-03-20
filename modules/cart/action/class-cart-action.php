@@ -43,19 +43,6 @@ class Cart_Action {
 	}
 
 	/**
-	 * Ajoutes le total du panier.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @todo doublon ?
-	 * @return void
-	 */
-	public function callback_after_cart_table() {
-		$total_price = Cart_Session::g()->total_price_ttc;
-		include( Template_Util::get_template_part( 'cart', 'cart-totals' ) );
-	}
-
-	/**
 	 * Calcul le total du panier.
 	 *
 	 * @since 2.0.0
@@ -78,9 +65,9 @@ class Cart_Action {
 			}
 		}
 
-		Cart_Session::g()->total_price             = $price;
-		Cart_Session::g()->total_price_no_shipping = $price_no_shipping;
-		Cart_Session::g()->total_price_ttc         = $price_ttc;
+		Cart_Session::g()->update( 'total_price', $price );
+		Cart_Session::g()->update( 'total_price_no_shipping', $price_no_shipping );
+		Cart_Session::g()->update( 'total_price_ttc', $price_ttc );
 	}
 
 	/**
@@ -113,8 +100,6 @@ class Cart_Action {
 
 	/**
 	 * Action pour mêttre à jour le panier.
-	 *
-	 * @todo: Sécurisé les données du tableau produit
 	 *
 	 * @since 2.0.0
 	 */

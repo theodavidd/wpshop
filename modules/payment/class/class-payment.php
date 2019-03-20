@@ -39,7 +39,7 @@ class Payment extends \eoxia\Singleton_Util {
 		$this->default_options = array(
 			'cheque'          => array(
 				'active'      => true,
-				'title'       => __( 'Payment by cheque', 'wpshop' ),
+				'title'       => __( 'Cheque', 'wpshop' ),
 				'description' => __( 'Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.', 'wpshop' ),
 			),
 			'payment_in_shop' => array(

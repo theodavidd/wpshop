@@ -33,8 +33,6 @@ class Checkout extends \eoxia\Singleton_Util {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @todo: sécurité
-	 *
 	 * @return array Les données postées filtrés et sécurisés.
 	 */
 	public function get_posted_data() {
@@ -42,6 +40,17 @@ class Checkout extends \eoxia\Singleton_Util {
 			'contact'     => ! empty( $_POST['contact'] ) ? (array) $_POST['contact'] : array(),
 			'third_party' => ! empty( $_POST['third_party'] ) ? (array) $_POST['third_party'] : array(),
 		);
+
+		$data['contact']['firstname']      = ! empty( $_POST['contact']['firstname'] ) ? sanitize_text_field( $_POST['contact']['firstname'] ) : '';
+		$data['contact']['lastname']       = ! empty( $_POST['contact']['lastname'] ) ? sanitize_text_field( $_POST['contact']['lastname'] ) : '';
+		$data['contact']['phone']          = ! empty( $_POST['contact']['phone'] ) ? sanitize_text_field( $_POST['contact']['phone'] ) : '';
+		$data['contact']['email']          = ! empty( $_POST['contact']['email'] ) ? sanitize_email( $_POST['contact']['email'] ) : '';
+		$data['contact']['password']       = ! empty( $_POST['contact']['password'] ) ? (string) ( $_POST['contact']['password'] ) : '';
+		$data['third_party']['country_id'] = ! empty( $_POST['third_party']['country_id'] ) ? (int) ( $_POST['third_party']['country_id'] ) : '';
+		$data['third_party']['address']    = ! empty( $_POST['third_party']['address'] ) ? sanitize_text_field( $_POST['third_party']['address'] ) : '';
+		$data['third_party']['zip']        = ! empty( $_POST['third_party']['zip'] ) ? sanitize_text_field( $_POST['third_party']['zip'] ) : '';
+		$data['third_party']['town']       = ! empty( $_POST['third_party']['town'] ) ? sanitize_text_field( $_POST['third_party']['town'] ) : '';
+
 
 		return apply_filters( 'wps_checkout_posted_data', $data );
 	}

@@ -107,6 +107,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	 */
 	public function add_external_data( $property, $value ) {
 		$this->external_data[ $property ] = $value;
+		$this->update_session();
 	}
 
 	/**
@@ -137,6 +138,22 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		unset( $_SESSION['wps_proposal_id'] );
 		unset( $_SESSION['wps_order_id'] );
 		unset( $_SESSION['wps_external_data'] );
+	}
+
+	public function add_product( $data ) {
+		$this->cart_contents[] = $data;
+		$this->update_session();
+
+	}
+
+	public function update_product( $index, $data ) {
+		$this->cart_contents[ $index ] = $data;
+		$this->update_session();
+	}
+
+	public function update( $property, $value ) {
+		$this->$property = $value;
+		$this->update_session();
 	}
 
 	/**
@@ -176,6 +193,12 @@ class Cart_Session extends \eoxia\Singleton_Util {
 				}
 			}
 		}
+
+		$this->update_session();
+	}
+
+	public function remove_product_by_key( $key ) {
+		array_splice( $this->cart_contents, $key, 1 );
 
 		$this->update_session();
 	}

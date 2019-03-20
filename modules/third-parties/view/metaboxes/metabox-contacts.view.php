@@ -56,9 +56,9 @@ defined( 'ABSPATH' ) || exit; ?>
 
 		<ul class="autocomplete-search-list"></ul>
 
-		<div data-third-party_id="<?php echo esc_attr( $third_party->data['id'] ); ?>"
-			data-action="third_party_associate_contact"
-			data-nonce="<?php echo esc_attr( wp_create_nonce( 'associate_contact' ) ); ?>"
+		<div data-parent-id="<?php echo esc_attr( $third_party->data['id'] ); ?>"
+			data-action="third_party_save_contact"
+			data-nonce="<?php echo esc_attr( wp_create_nonce( 'save_and_associate_contact' ) ); ?>"
 			class="action-attribute button-associate-contact wpeo-button button-main">
 			<i class="button-icon fas fa-plus"></i>
 		</div>

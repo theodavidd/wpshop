@@ -28,7 +28,6 @@ class Contact_Action {
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_third_party_search_contact', array( $this, 'search_contact' ) );
-		add_action( 'wp_ajax_third_party_associate_contact', array( $this, 'associate_contact' ) );
 		add_action( 'wp_ajax_third_party_save_contact', array( $this, 'save_and_associate_contact' ) );
 		add_action( 'wp_ajax_third_party_load_contact', array( $this, 'load_contact' ) );
 		add_action( 'wp_ajax_third_party_delete_contact', array( $this, 'delete_contact' ) );
@@ -74,36 +73,50 @@ class Contact_Action {
 	}
 
 	/**
-	 * Associe un contact au tier
+	 * Enregistres et associes un contact au tier
 	 *
 	 * @since 2.0.0
 	 */
-	public function associate_contact() {
-		check_ajax_referer( 'associate_contact' );
+	public function save_and_associate_contact() {
+		check_ajax_referer( 'save_and_associate_contact' );
 
-		$third_party_id = ! empty( $_POST['third_party_id'] ) ? (int) $_POST['third_party_id'] : 0;
-		$contact_id     = ! empty( $_POST['contact_id'] ) ? (int) $_POST['contact_id'] : 0;
+		$third_party_id = ! empty( $_POST['parent_id'] ) ? (int) $_POST['parent_id'] : 0;
+		$contact        = ! empty( $_POST['contact'] ) ? (array) $_POST['contact'] : array();
+		$contact['id']  = ! empty( $_POST['contact']['id'] ) ? (int) $_POST['contact']['id'] : 0;
 
-		if ( empty( $contact_id ) || empty( $third_party_id ) ) {
+		if ( empty( $contact['id'] ) ) {
+			// Dans le cas ou c'est un contact ajouté depuis la recherche.
+			$contact['id'] = ! empty( $_POST['contact_id'] ) ? (int) $_POST['contact_id'] : 0;
+		}
+
+		if ( empty( $third_party_id ) ) {
 			wp_send_json_error();
 		}
 
 		$third_party = Third_Party::g()->get( array( 'id' => $third_party_id ), true );
-		$contact     = Contact::g()->get( array( 'id' => $contact_id ), true );
+
+		if ( empty( $contact['id'] ) ) {
+			$email                = explode( '@', $contact['email'] );
+			$contact['login']     = $email[0];
+			$contact['user_pass'] = wp_generate_password();
+			$contact = apply_filters( 'wps_save_and_associate_contact', $contact, $third_party );
+			$contact = Contact::g()->update( $contact );
+		} else {
+			$contact = Contact::g()->get( array( 'id' => $contact['id'] ), true );
+		}
 
 		if ( ! in_array( $contact->data['id'], $third_party->data['contact_ids'] ) ) {
 			$third_party->data['contact_ids'][] = $contact->data['id'];
 			$contact->data['third_party']       = $third_party->data['external_id'];
 
 			$third_party = Third_Party::g()->update( $third_party->data );
-			Contact::g()->update( $contact->data );
-
-			do_action( 'wps_saved_and_associated_contact', $third_party, $contact, false );
+			$contact     = Contact::g()->update( $contact->data );
 		}
+
+		do_action( 'wps_saved_and_associated_contact', $third_party, $contact, empty( $contact->data['id'] ) ? true : false );
 
 		ob_start();
 		$contacts = array();
-
 		if ( ! empty( $third_party->data['contact_ids'] ) ) {
 			$contacts = Contact::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
 		}
@@ -115,61 +128,6 @@ class Contact_Action {
 			'namespace'        => 'wpshop',
 			'module'           => 'thirdParties',
 			'callback_success' => 'associatedContactSuccess',
-			'view'             => ob_get_clean(),
-		) );
-	}
-
-	/**
-	 * Enregistres et associes un contact au tier
-	 *
-	 * @todo: Merger avec associate contact
-	 *
-	 * @since 2.0.0
-	 */
-	public function save_and_associate_contact() {
-		check_ajax_referer( 'save_and_associate_contact' );
-
-		$third_party_id = ! empty( $_POST['parent_id'] ) ? (int) $_POST['parent_id'] : 0;
-		$contact        = ! empty( $_POST['contact'] ) ? (array) $_POST['contact'] : array();
-		$contact['id']  = ! empty( $_POST['contact']['id'] ) ? (int) $_POST['contact']['id'] : 0;
-
-		if ( empty( $third_party_id ) || empty( $contact['email'] ) ) {
-			wp_send_json_error();
-		}
-
-		$third_party = Third_Party::g()->get( array( 'id' => $third_party_id ), true );
-
-		if ( empty( $contact['id'] ) ) {
-			$email                = explode( '@', $contact['email'] );
-			$contact['login']     = $email[0];
-			$contact['user_pass'] = wp_generate_password();
-		}
-
-		$contact       = apply_filters( 'wps_save_and_associate_contact', $contact, $third_party );
-		$saved_contact = Contact::g()->update( $contact );
-
-		if ( empty( $contact['id'] ) ) {
-			$third_party->data['contact_ids'][] = $saved_contact->data['id'];
-		}
-
-		$third_party = Third_Party::g()->update( $third_party->data );
-
-		do_action( 'wps_saved_and_associated_contact', $third_party, $saved_contact, empty( $contact['id'] ) ? true : false );
-
-		ob_start();
-		$contacts = array();
-
-		if ( ! empty( $third_party->data['contact_ids'] ) ) {
-			$contacts = Contact::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
-		}
-		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts', array(
-			'third_party' => $third_party,
-			'contacts'    => $contacts,
-		) );
-		wp_send_json_success( array(
-			'namespace'        => 'wpshop',
-			'module'           => 'thirdParties',
-			'callback_success' => 'savedContact',
 			'view'             => ob_get_clean(),
 		) );
 	}

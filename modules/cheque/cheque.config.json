@@ -1,9 +1,0 @@
-{
-	"name": "Cheque",
-	"slug": "cheque",
-	"since": "2.0.0",
-	"path": "modules/cheque",
-	"dependencies": {
-    "action": {}
-	}
-}

@@ -18,7 +18,6 @@
     
     "modules/payment/payment.config.json",
     "modules/paypal/paypal.config.json",
-    "modules/cheque/cheque.config.json",
     
     "modules/my-account/my-account.config.json",
     "modules/pages/pages.config.json",

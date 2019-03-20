@@ -10,8 +10,6 @@
  * @package   WPshop\Classes
  *
  * @since     2.0.0
- *
- * @todo: Enlevez les cart session de partout
  */
 
 namespace wpshop;
@@ -56,28 +54,15 @@ class Cart extends \eoxia\Singleton_Util {
 		}
 
 		if ( -1 === $index ) {
-			Cart_Session::g()->cart_contents[] = $data;
+			Cart_Session::g()->add_product( $data );
 		} else {
-			Cart_Session::g()->cart_contents[ $index ] = $data;
+			Cart_Session::g()->update_product( $index, $data );
 		}
 
-		Cart_Session::g()->update_session();
-
 		do_action( 'wps_add_to_cart' );
-
-		Cart_Session::g()->update_session();
-
 		do_action( 'wps_before_calculate_totals' );
-
-		Cart_Session::g()->update_session();
-
 		do_action( 'wps_calculate_totals' );
-
-		Cart_Session::g()->update_session();
-
 		do_action( 'wps_after_calculate_totals' );
-
-		Cart_Session::g()->update_session();
 	}
 
 	/**
@@ -89,30 +74,18 @@ class Cart extends \eoxia\Singleton_Util {
 	 */
 	public function update_cart( $product ) {
 		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
-			foreach ( Cart_Session::g()->cart_contents as $key => &$line ) {
+			foreach ( Cart_Session::g()->cart_contents as $key => $line ) {
 				if ( $line['id'] == $product['id'] ) {
 					$line['qty'] = $product['qty'];
+					Cart_Session::g()->update_product( $key, $line );
 				}
 			}
 		}
 
-		Cart_Session::g()->update_session();
-
 		do_action( 'wps_update_cart' );
-
-		Cart_Session::g()->update_session();
-
 		do_action( 'wps_before_calculate_totals' );
-
-		Cart_Session::g()->update_session();
-
 		do_action( 'wps_calculate_totals' );
-
-		Cart_Session::g()->update_session();
-
 		do_action( 'wps_after_calculate_totals' );
-
-		Cart_Session::g()->update_session();
 	}
 
 	/**
@@ -123,25 +96,12 @@ class Cart extends \eoxia\Singleton_Util {
 	 * @param  integer $key La clé du produit dans le tableau.
 	 */
 	public function delete_product( $key ) {
-		array_splice( Cart_Session::g()->cart_contents, $key, 1 );
-
-		Cart_Session::g()->update_session();
+		Cart_Session::g()->remove_product_by_key( $key );
 
 		do_action( 'wps_delete_to_cart', $key );
-
-		Cart_Session::g()->update_session();
-
 		do_action( 'wps_before_calculate_totals' );
-
-		Cart_Session::g()->update_session();
-
 		do_action( 'wps_calculate_totals' );
-
-		Cart_Session::g()->update_session();
-
 		do_action( 'wps_after_calculate_totals' );
-
-		Cart_Session::g()->update_session();
 	}
 }
 

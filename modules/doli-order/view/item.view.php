@@ -2,8 +2,6 @@
 /**
  * Affichage d'une commande dans le listing de la page des commandes (wps-order)
  *
- * @todo Proposal au lieu de devis
- *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
  *

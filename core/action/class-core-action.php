@@ -68,7 +68,6 @@ class Core_Action {
 	/**
 	 * Ajoutes ajaxurl
 	 *
-	 * @todo A vérifier
 	 * @since 2.0.0
 	 */
 	public function define_ajax_url() {
