@@ -38,7 +38,10 @@ before_script:
       composer global require wp-coding-standards/wpcs
       phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
     fi
-  - bash ./tests/bin/travis.sh before
+  - |
+    if [[ "$RUN_CODE_COVERAGE" == "1" ]]
+      bash ./tests/bin/travis.sh before
+    fi
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
@@ -50,4 +53,6 @@ script:
       phpcs ./
     fi
 after_script:
-  - bash ./tests/bin/travis.sh after
+  - | if [[ "$RUN_CODE_COVERAGE" == "1" ]]
+      bash ./tests/bin/travis.sh after
+    fi
