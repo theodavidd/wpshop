@@ -63,10 +63,9 @@ class Cart_Action {
 	public function callback_calculate_totals() {
 		$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
 
-
-		$price = 0;
+		$price             = 0;
 		$price_no_shipping = 0;
-		$price_ttc = 0;
+		$price_ttc         = 0;
 
 		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
 			foreach ( Cart_Session::g()->cart_contents as $key => $line ) {

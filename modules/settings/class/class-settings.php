@@ -150,7 +150,7 @@ class Settings extends \eoxia\Singleton_Util {
 
 		$no_product = (object) array(
 			'data' => array(
-				'id' => 0,
+				'id'    => 0,
 				'title' => __( 'No product', 'wpshop' ),
 			),
 		);

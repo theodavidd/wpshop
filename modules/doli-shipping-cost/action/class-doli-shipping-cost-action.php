@@ -17,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Doli Shipping Cost Action.
+ * Doli Shipping Cost Action Class.
  */
 class Doli_Shipping_Cost_Action {
 
@@ -30,6 +30,11 @@ class Doli_Shipping_Cost_Action {
 		add_action( 'wps_after_calculate_totals', array( $this, 'add_shipping_cost' ), 10, 0 );
 	}
 
+	/**
+	 * Ajoutes le frais de transport
+	 *
+	 * @since 2.0.0
+	 */
 	public function add_shipping_cost() {
 		$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
 
@@ -47,7 +52,6 @@ class Doli_Shipping_Cost_Action {
 			count( Cart_Session::g()->cart_contents ) == 1 && Cart_Session::g()->has_product( $shipping_cost_option['shipping_product_id'] ) ) {
 			Cart_Session::g()->remove_product( $shipping_cost_option['shipping_product_id'] );
 		}
-
 	}
 }
 

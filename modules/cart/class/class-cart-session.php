@@ -139,6 +139,15 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		unset( $_SESSION['wps_external_data'] );
 	}
 
+	/**
+	 * Recherches le produit dans le panier correspondant à l'ID.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  integer $id L'id du produit.
+	 *
+	 * @return boolean     True si trouvé. Sinon false.
+	 */
 	public function has_product( $id ) {
 		if ( ! empty( $this->cart_contents ) ) {
 			foreach ( $this->cart_contents as $cart_content ) {
@@ -151,6 +160,13 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		return false;
 	}
 
+	/**
+	 * Supprimes un produit du panier selon son $id.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  integer $id L'ID du produit.
+	 */
 	public function remove_product( $id ) {
 		if ( ! empty( $this->cart_contents ) ) {
 			foreach ( $this->cart_contents as $key => $cart_content ) {

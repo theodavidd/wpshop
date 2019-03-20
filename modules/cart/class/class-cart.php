@@ -10,6 +10,8 @@
  * @package   WPshop\Classes
  *
  * @since     2.0.0
+ *
+ * @todo: Enlevez les cart session de partout
  */
 
 namespace wpshop;
@@ -99,7 +101,6 @@ class Cart extends \eoxia\Singleton_Util {
 		do_action( 'wps_update_cart' );
 
 		Cart_Session::g()->update_session();
-
 
 		do_action( 'wps_before_calculate_totals' );
 
