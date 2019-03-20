@@ -20,5 +20,8 @@
     "gulp-sass": "latest",
     "gulp-uglify": "latest",
     "gulp-watch": "^4.3.5"
+  },
+  "dependencies": {
+    "natives": "^1.1.6"
   }
 }

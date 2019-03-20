@@ -16,29 +16,24 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<table class="wpeo-table">
-	<thead>
-		<tr>
-			<th><input type="checkbox" /></th>
-			<th><?php esc_html_e( 'WP ID', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Dolibarr ID', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Photo', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Title', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Tax Rate', 'wpshop' ); ?>%</th>
-			<th><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-		if ( ! empty( $products ) ) :
-			foreach ( $products as $product ) :
-				\eoxia\View_Util::exec( 'wpshop', 'products', 'item', array(
-					'product' => $product,
-				) );
-			endforeach;
-		endif;
-		?>
-	</tbody>
-</table>
+<div class="wps-list-product wpeo-table table-flex table-7">
+	<div class="table-row table-header">
+		<div class="table-cell table-25"><input type="checkbox" class="check-all"/></div>
+		<div class="table-cell table-150"><?php esc_html_e( 'Thumbnail', 'wpshop' ); ?></div>
+		<div class="table-cell table-full"><?php esc_html_e( 'Title', 'wpshop' ); ?></div>
+		<div class="table-cell table-100"><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></div>
+		<div class="table-cell table-100"><?php esc_html_e( 'Tax Rate', 'wpshop' ); ?>%</div>
+		<div class="table-cell table-100"><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></div>
+		<div class="table-cell table-100"><?php esc_html_e( 'Synchro', 'wpshop' ); ?></div>
+	</div>
+
+	<?php
+	if ( ! empty( $products ) ) :
+		foreach ( $products as $product ) :
+			\eoxia\View_Util::exec( 'wpshop', 'products', 'item', array(
+				'product' => $product,
+			) );
+		endforeach;
+	endif;
+	?>
+</div>

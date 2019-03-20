@@ -1,0 +1,84 @@
+@import "list-product";
+
+.wpeo-table {
+	td, th {
+		border: 0;
+	}
+
+	> tfoot {
+		background: rgba(0,0,0,0.05);
+		color: rgba(0,0,0,0.8);
+
+		td {
+			padding: .2em .6em;
+			border: 1px solid rgba(0,0,0,0.1);
+		}
+	}
+}
+
+.wps-checkout-review-order-table {
+	tbody tr td:last-child, tfoot tr td:last-child {
+		text-align: right;
+	}
+}
+
+.wpeo-table.table-flex {
+	border: 0;
+	background: #fff;
+
+	.table-row.table-header {
+		background: #fff;
+		border-bottom: 2px solid rgba(0,0,0,0.2);
+
+		.table-cell {
+			color: rgba(0,0,0,0.8);
+		}
+	}
+	.table-row:not(.table-header):nth-of-type(odd) {
+		background: rgba(0,0,0,0.02);
+	}
+}
+
+/** Synchro */
+.wpeo-table.table-flex .button-synchro {
+	float: left;
+	width: 25px;
+	height: 25px;
+	background: rgba(0,0,0,0.1);
+	color: rgba(0,0,0,0.6);
+	text-align: center;
+	line-height: 25px;
+	border-radius: 50%;
+	@include transition();
+
+	i {
+		@include transition();
+	}
+
+	&:hover {
+		cursor: pointer;
+		background: rgba(0,0,0,0.2);
+
+		i {
+			transform: rotate(180deg);
+		}
+	}
+}
+.wpeo-table.table-flex .statut {
+	float: left;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	margin-left: 0.6em;
+	background: rgba(0,0,0,0.1);
+
+	&.statut-green {
+		background: $color__green;
+	}
+	&.statut-orange {
+		background: $color__yellow;
+	}
+	&.statut-red {
+		background: $color__red;
+	}
+}
