@@ -47,10 +47,14 @@ class Cheque_Action {
 	/**
 	 * Mise à jour des configurations de la méthode de paiement de chèque.
 	 *
+	 * @todo: Mieux placé dans settings ?
+	 *
 	 * @since 2.0.0
 	 */
 	public function update_method_payment_cheque() {
-		if ( ! current_user_can( 'edit_themes' ) ) {
+		check_admin_referer( 'update_method_payement_cheque' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die();
 		}
 

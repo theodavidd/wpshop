@@ -71,6 +71,8 @@ class Product_Action {
 	 * @since 2.0.0
 	 */
 	public function ajax_delete_product() {
+		check_ajax_referer( 'ajax_delete_product' );
+
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 
 		if ( empty( $id ) ) {

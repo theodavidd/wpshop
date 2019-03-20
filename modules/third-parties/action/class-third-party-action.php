@@ -257,6 +257,8 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function load_title_edit() {
+		check_ajax_referer( 'load_title_edit' );
+
 		$post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : -1;
 
 		if ( -1 == $post_id ) {
@@ -283,6 +285,8 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function save_third() {
+		check_ajax_referer( 'save_third' );
+
 		$post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : -1;
 		$title   = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
 
@@ -329,6 +333,8 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function load_billing_address() {
+		check_ajax_referer( 'load_billing_address' );
+
 		$third_party_id = ! empty( $_POST['third_party_id'] ) ? (int) $_POST['third_party_id'] : 0;
 
 		if ( empty( $third_party_id ) ) {
@@ -356,6 +362,8 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function save_billing_address() {
+		check_ajax_referer( 'save_billing_address' );
+
 		$third_party_id   = ! empty( $_POST['third_party_id'] ) ? (int) $_POST['third_party_id'] : 0;
 		$third_party_form = ! empty( $_POST['third_party'] ) ? (array) $_POST['third_party'] : array();
 
@@ -394,6 +402,8 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function search_contact() {
+		check_ajax_referer( 'search_contact' );
+
 		$term = ! empty( $_POST['term'] ) ? sanitize_text_field( $_POST['term'] ) : '';
 
 		if ( empty( $term ) ) {
@@ -431,6 +441,8 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function associate_contact() {
+		check_ajax_referer( 'associate_contact' );
+
 		$third_party_id = ! empty( $_POST['third_party_id'] ) ? (int) $_POST['third_party_id'] : 0;
 		$contact_id     = ! empty( $_POST['contact_id'] ) ? (int) $_POST['contact_id'] : 0;
 
@@ -477,6 +489,8 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function save_and_associate_contact() {
+		check_ajax_referer( 'save_and_associate_contact' );
+
 		$third_party_id = ! empty( $_POST['parent_id'] ) ? (int) $_POST['parent_id'] : 0;
 		$contact        = ! empty( $_POST['contact'] ) ? (array) $_POST['contact'] : array();
 		$contact['id']  = ! empty( $_POST['contact']['id'] ) ? (int) $_POST['contact']['id'] : 0;
@@ -528,6 +542,8 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function load_contact() {
+		check_ajax_referer( 'load_contact' );
+
 		$third_party_id = ! empty( $_POST['third_party_id'] ) ? (int) $_POST['third_party_id'] : 0;
 		$contact_id     = ! empty( $_POST['contact_id'] ) ? (int) $_POST['contact_id'] : 0;
 
@@ -557,6 +573,8 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function delete_contact() {
+		check_ajax_referer( 'delete_contact' );
+
 		$third_party_id = ! empty( $_POST['third_party_id'] ) ? (int) $_POST['third_party_id'] : 0;
 		$contact_id     = ! empty( $_POST['contact_id'] ) ? (int) $_POST['contact_id'] : 0;
 

@@ -114,9 +114,13 @@ class Cart_Action {
 	/**
 	 * Action pour mêttre à jour le panier.
 	 *
+	 * @todo: Sécurisé les données du tableau produit
+	 *
 	 * @since 2.0.0
 	 */
 	public function ajax_update_cart() {
+		check_ajax_referer( 'ajax_update_cart' );
+
 		$products = ! empty( $_POST['products'] ) ? (array) $_POST['products'] : array();
 
 		if ( empty( $products ) ) {
@@ -157,6 +161,8 @@ class Cart_Action {
 	 * @since 2.0.0
 	 */
 	public function ajax_delete_product_from_cart() {
+		check_ajax_referer( 'ajax_delete_product_from_cart' );
+
 		$key = isset( $_POST['key'] ) ? (int) $_POST['key'] : -1;
 
 		if ( -1 != $key ) {

@@ -70,6 +70,8 @@ class Settings_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_load_tab() {
+		check_admin_referer( 'callback_load_tab' );
+
 		$tab     = ! empty( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'general';
 		$section = ! empty( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : '';
 
@@ -88,7 +90,9 @@ class Settings_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_update_general_settings() {
-		if ( ! current_user_can( 'edit_themes' ) ) {
+		check_admin_referer( 'callback_update_general_settings' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die();
 		}
 
@@ -116,7 +120,9 @@ class Settings_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_update_pages_settings() {
-		if ( ! current_user_can( 'edit_themes' ) ) {
+		check_admin_referer( 'callback_update_pages_settings' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die();
 		}
 
@@ -150,7 +156,9 @@ class Settings_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_update_shipping_cost() {
-		if ( ! current_user_can( 'edit_themes' ) ) {
+		check_admin_referer( 'callback_update_shipping_cost' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die();
 		}
 

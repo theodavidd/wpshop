@@ -45,6 +45,7 @@ class Doli_Synchro_Action {
 	 * @since 2.0.0
 	 */
 	public function load_modal_synchro() {
+		check_ajax_referer( 'load_modal_synchro' );
 		$sync_infos = Doli_Synchro::g()->sync_infos;
 
 		if ( ! empty( $sync_infos ) ) {
@@ -76,6 +77,8 @@ class Doli_Synchro_Action {
 	 * @since 2.0.0
 	 */
 	public function load_modal_synchro_single() {
+		check_ajax_referer( 'load_modal_synchro_single' );
+
 		$wp_id        = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 		$doli_sync_id = ! empty( $_POST['entry_id'] ) ? (int) $_POST['entry_id'] : get_post_meta( $wp_id, '_external_id', true );
 		$view         = '';
@@ -131,6 +134,7 @@ class Doli_Synchro_Action {
 	 * @since 2.0.0
 	 */
 	public function associate_and_synchronize() {
+		check_ajax_referer( 'associate_and_synchronize' );
 		$entry_id = ! empty( $_POST['entry_id'] ) ? (int) $_POST['entry_id'] : 0;
 		$wp_id    = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
 		$from     = ! empty( $_POST['from'] ) ? sanitize_text_field( $_POST['from'] ) : '';
@@ -187,6 +191,8 @@ class Doli_Synchro_Action {
 	 * @since 2.0.0
 	 */
 	public function sync_third_parties() {
+		check_ajax_referer( 'sync_third_parties' );
+
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
@@ -234,6 +240,8 @@ class Doli_Synchro_Action {
 	 * @since 2.0.0
 	 */
 	public function sync_contacts() {
+		check_ajax_referer( 'sync_contacts' );
+
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
@@ -281,6 +289,8 @@ class Doli_Synchro_Action {
 	 * @since 2.0.0
 	 */
 	public function sync_products() {
+		check_ajax_referer( 'sync_products' );
+
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
@@ -328,6 +338,8 @@ class Doli_Synchro_Action {
 	 * @since 2.0.0
 	 */
 	public function sync_proposals() {
+		check_ajax_referer( 'sync_proposals' );
+
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
@@ -375,6 +387,8 @@ class Doli_Synchro_Action {
 	 * @since 2.0.0
 	 */
 	public function sync_orders() {
+		check_ajax_referer( 'sync_orders' );
+
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
@@ -422,6 +436,8 @@ class Doli_Synchro_Action {
 	 * @since 2.0.0
 	 */
 	public function sync_invoices() {
+		check_ajax_referer( 'sync_invoices' );
+
 		$done         = false;
 		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
 		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;

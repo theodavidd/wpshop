@@ -111,6 +111,7 @@ class Doli_Invoice_Action {
 	 * @since 2.0.0
 	 */
 	public function download_invoice() {
+		check_admin_referer( 'download_invoice' );
 		$order_id = ! empty( $_GET['order_id'] ) ? (int) $_GET['order_id'] : 0;
 
 		if ( ! $order_id ) {

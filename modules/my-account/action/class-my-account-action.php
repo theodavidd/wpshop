@@ -57,6 +57,8 @@ class My_Account_Action {
 	 * @since 2.0.0
 	 */
 	public function handle_login() {
+		check_admin_referer( 'handle_login' );
+
 		$page = ! empty( $_POST['page'] ) ? sanitize_text_field( $_POST['page'] ) : 'my-account';
 
 		if ( empty( $_POST['username'] ) || empty( $_POST['password'] ) ) {
@@ -85,6 +87,8 @@ class My_Account_Action {
 	 * @since 2.0.0
 	 */
 	public function load_modal_resume_order() {
+		check_ajax_referer( 'load_modal_resume_order' );
+
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 
 		if ( empty( $id ) ) {
@@ -117,6 +121,8 @@ class My_Account_Action {
 	 * @since 2.0.0
 	 */
 	public function do_reorder() {
+		check_ajax_referer( 'do_reorder' );
+
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 
 		if ( empty( $id ) ) {

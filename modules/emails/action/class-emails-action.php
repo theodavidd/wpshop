@@ -39,6 +39,8 @@ class Emails_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_copy_email_template() {
+		check_admin_referer( 'callback_copy_email_template' );
+
 		$tab          = 'emails';
 		$section      = ! empty( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : '';
 		$email        = Emails::g()->emails[ $section ];

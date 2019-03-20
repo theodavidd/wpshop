@@ -52,7 +52,9 @@ class PayPal_Action {
 	 * @since 2.0.0
 	 */
 	public function update_method_payment_paypal() {
-		if ( ! current_user_can( 'edit_themes' ) ) {
+		check_admin_referer( 'update_method_payment_paypal' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die();
 		}
 

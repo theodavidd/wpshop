@@ -81,6 +81,8 @@ class Doli_Proposals_Action {
 	 * @since 2.0.0
 	 */
 	public function download_proposal() {
+		check_admin_referer( 'download_proposal' );
+
 		$proposal_id = ! empty( $_GET['proposal_id'] ) ? (int) $_GET['proposal_id'] : 0;
 
 		if ( ! $proposal_id ) {

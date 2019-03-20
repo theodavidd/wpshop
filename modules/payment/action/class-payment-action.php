@@ -48,10 +48,14 @@ class Payment_Action {
 	/**
 	 * Met à jour les données pour la méthode de paiement "Payer en boutique".
 	 *
+	 * @todo: Doublon ???
+	 *
 	 * @since 2.0.0
 	 */
 	public function update_method_payment_cheque() {
-		if ( ! current_user_can( 'edit_themes' ) ) {
+		check_admin_referer( 'update_method_payment_cheque' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die();
 		}
 

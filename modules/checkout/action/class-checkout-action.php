@@ -105,9 +105,13 @@ class Checkout_Action {
 	/**
 	 * Créer le tier lors du tunnel de vente
 	 *
+	 * @todo: Sécurisé les données
+	 *
 	 * @since 2.0.0
 	 */
 	public function callback_checkout_create_third() {
+		check_ajax_referer( 'callback_checkout_create_third' );
+
 		$errors      = new \WP_Error();
 		$posted_data = Checkout::g()->get_posted_data();
 
@@ -235,9 +239,13 @@ class Checkout_Action {
 	/**
 	 * Créer la commande et passe au paiement
 	 *
+	 * @todo: Sécurisé les données
+	 *
 	 * @since 2.0.0
 	 */
 	public function callback_place_order() {
+		check_ajax_referer( 'callback_place_order' );
+
 		do_action( 'wps_before_checkout_process' );
 
 		do_action( 'wps_checkout_process' );
