@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<li><a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $product->data['id'] . '&action=edit' ) ); ?>"><?php esc_html_e( 'Edit', 'wpshop' ); ?></a></li>
 			<!-- <li><a href="#"><?php esc_html_e( 'Quick edit', 'wpshop' ); ?></a></li> -->
 			<?php if ( ! empty( $product->data['external_id'] ) ) : ?>
-				<li><a href="<?php echo esc_attr( $doli_url ); ?>product/card.php?id=<?php echo $product->data['external_id']; ?>"><?php esc_html_e( 'Edit in Dolibarr', 'wpshop' ); ?></a></li>
+				<li><a href="<?php echo esc_attr( $doli_url ); ?>product/card.php?id=<?php echo $product->data['external_id']; ?>" target="_blank"><?php esc_html_e( 'Edit in Dolibarr', 'wpshop' ); ?></a></li>
 			<?php endif; ?>
 			<!-- <li class="delete"><a href="#"><?php esc_html_e( 'Delete', 'wpshop' ); ?></a></li> -->
 			<li><a href="<?php echo esc_attr( get_post_permalink( $product->data['id'] ) ); ?>"><?php esc_html_e( 'Preview', 'wpshop' ); ?></a></li>
