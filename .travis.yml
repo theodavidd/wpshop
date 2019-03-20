@@ -35,7 +35,7 @@ before_script:
       composer global require wp-coding-standards/wpcs
       phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
     fi
-
+  - bash tests/bin/travis.sh before  
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
@@ -46,3 +46,5 @@ script:
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
       phpcs ./
     fi
+after_script:
+  - bash test/bin/travis.sh after
