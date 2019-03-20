@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit; ?>
 <form class="wpeo-form" method="post" action="<?php echo ( 0 === $third_party->data['id'] ) ? admin_url( 'admin-post.php' ) : admin_url( 'admin-ajax.php' ); ?>">
 	<input type="hidden" name="action" value="third_party_save_title" />
 	<input type="hidden" name="post_id" value="<?php echo $third_party->data['id']; ?>" />
+	<?php wp_nonce_field( 'save_third' ); ?>
 
 	<div class="form-element">
 		<label class="form-field-container">

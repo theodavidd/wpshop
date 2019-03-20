@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					<td><?php echo $payment_method['title']; ?></td>
 					<td><?php echo $payment_method['active'] ? __( 'Activate', 'wpshop' ) : __( 'Deactivate', 'wpshop' ); ?></td>
 					<td>
-						<a href="<?php echo admin_url( 'admin-post.php?action=wps_load_settings_tab&page=wps-settings&tab=payment_method&section=' . $key ); ?>" class="wpeo-button button-main">
+						<a href="<?php echo admin_url( 'admin-post.php?action=wps_load_settings_tab&_wpnonce=' . wp_create_nonce( 'callback_load_tab' ) . '&page=wps-settings&tab=payment_method&section=' . $key ); ?>" class="wpeo-button button-main">
 							<span><?php esc_html_e( 'Configuration', 'wpshop' ); ?></span>
 						</a>
 					</td>

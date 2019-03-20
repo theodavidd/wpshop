@@ -36,7 +36,8 @@ defined( 'ABSPATH' ) || exit; ?>
 			data-title="Choix du tier à associer"
 			data-class="synchro-single"
 			data-id="<?php echo esc_attr( $third_party->data['id'] ); ?>"
-			data-action="load_synchro_modal_single">
+			data-action="load_synchro_modal_single"
+			data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_modal_synchro_single' ) ); ?>">
 			<span>
 				<?php
 				if ( ! empty( $third_party->data['external_id'] ) ) :

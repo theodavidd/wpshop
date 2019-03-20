@@ -17,6 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div data-action="third_party_load_address"
+	data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_billing_address' ) ); ?>"
 	data-third-party_id="<?php echo esc_attr( $third_party->data['id'] ); ?>"
 	class="action-attribute wpeo-button button-square-30" style="float: right;">
 	<i class="button-icon fas fa-pen"></i>

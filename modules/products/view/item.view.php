@@ -29,10 +29,5 @@ defined( 'ABSPATH' ) || exit; ?>
 		<a href="<?php echo esc_attr( get_post_permalink( $product->data['id'] ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-eye"></i></a>
 		<a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $product->data['id'] . '&action=edit' ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil-alt"></i></a>
 		<div class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-copy"></i></div>
-		<div
-			class="action-delete wpeo-button button-square-30 button-rounded"
-			data-action="wps_delete_product"
-			data-id="<?php echo esc_attr( $product->data['id'] ); ?>"
-			data-message-delete="<?php echo esc_attr_e( 'Are you sure you want to delete this product ?', 'wpshop' ); ?>"><i class="button-icon fas fa-trash"></i></div>
 	</td>
 </tr>

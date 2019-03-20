@@ -44,14 +44,17 @@ defined( 'ABSPATH' ) || exit;
 						<?php
 						if ( ! empty( $order->data['invoice'] ) ) :
 							?>
-							<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $order->data['id'] ) ); ?>" class="wpeo-button button-primary">
+							<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&order_id=' . $order->data['id'] ) ); ?>" class="wpeo-button button-primary">
 							<i class="button-icon fas fa-file-download"></i>
 							</a>
 							<?php
 						endif;
 						?>
 
-						<div data-action="reorder" data-id="<?php echo esc_attr( $order->data['id'] ); ?>" class="action-attribute wpeo-button button-primary">
+						<div data-action="reorder"
+							data-nonce="<?php echo esc_attr( wp_create_nonce( 'do_reorder' ) ); ?>"
+							data-id="<?php echo esc_attr( $order->data['id'] ); ?>"
+							class="action-attribute wpeo-button button-primary">
 						<span><?php esc_html_e( 'Reorder', 'wpshop' ); ?></span>
 					</div>
 

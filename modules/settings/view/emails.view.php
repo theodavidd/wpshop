@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				<tr>
 					<td><?php echo $email['title']; ?></td>
 					<td>
-						<a href="<?php echo admin_url( 'admin-post.php?action=wps_load_settings_tab&page=wps-settings&tab=emails&section=' . $key ); ?>" class="wpeo-button button-main">
+						<a href="<?php echo admin_url( 'admin-post.php?action=wps_load_settings_tab&_wpnonce=' . wp_create_nonce( 'callback_load_tab' ) . '&page=wps-settings&tab=emails&section=' . $key ); ?>" class="wpeo-button button-main">
 							<span>Gérer</span>
 						</a>
 					</td>

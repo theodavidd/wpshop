@@ -24,6 +24,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<td><?php echo esc_html( $contact->data['phone'] ); ?></td>
 	<td>
 		<div data-action="third_party_load_contact"
+			data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_contact' ) ); ?>"
 			data-third-party_id="<?php echo esc_attr( $third_party_id ); ?>"
 			data-contact-id="<?php echo esc_attr( $contact->data['id'] ); ?>"
 			class="action-attribute wpeo-button button-square-30">
@@ -31,6 +32,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		</div>
 
 		<div data-action="third_party_delete_contact"
+			data-nonce="<?php echo esc_attr( wp_create_nonce( 'delete_contact' ) ); ?>"
 			data-third-party_id="<?php echo esc_attr( $third_party_id ); ?>"
 			data-contact-id="<?php echo esc_attr( $contact->data['id'] ); ?>"
 			class="action-attribute wpeo-button button-square-30">

@@ -20,6 +20,7 @@ echo esc_html( $third_party->data['title'] );
 
 ?>
 <div data-action="third_party_load_title_edit"
+	data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_title_edit' ) ); ?>"
 	data-post-id="<?php echo esc_attr( $third_party->data['id'] ); ?>"
 	class="action-attribute wpeo-button button-square-30">
 	<i class="button-icon fas fa-pen"></i></div>

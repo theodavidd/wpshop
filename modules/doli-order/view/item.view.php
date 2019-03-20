@@ -20,15 +20,15 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <tr>
 	<td><input type="checkbox" /></td>
-	<td><?php echo esc_html( $proposal->data['id'] ); ?></td>
-	<td><?php echo esc_html( $proposal->data['external_id'] ); ?></td>
-	<td><?php echo esc_html( $proposal->data['datec']['rendered']['date_time'] ); ?></td>
-	<td><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $proposal->data['id'] ) ); ?>"><?php echo esc_html( $proposal->data['title'] ); ?></a></td>
+	<td><?php echo esc_html( $order->data['id'] ); ?></td>
+	<td><?php echo esc_html( $order->data['external_id'] ); ?></td>
+	<td><?php echo esc_html( $order->data['datec']['rendered']['date_time'] ); ?></td>
+	<td><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ) ); ?>"><?php echo esc_html( $order->data['title'] ); ?></a></td>
 	<td>
 		<?php
-		if ( ! empty( $proposal->data['tier'] ) ) :
+		if ( ! empty( $order->data['tier'] ) ) :
 			?>
-			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $proposal->data['tier']->data['id'] ) ); ?>"><?php echo $proposal->data['tier']->data['title']; ?></a>
+			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $order->data['tier']->data['id'] ) ); ?>"><?php echo $order->data['tier']->data['title']; ?></a>
 			<?php
 		else :
 			?>
@@ -37,10 +37,10 @@ defined( 'ABSPATH' ) || exit; ?>
 		endif;
 		?>
 	</td>
-	<td><?php echo Payment::g()->convert_status( $proposal->data ); ?></td>
-	<td><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</td>
-	<?php apply_filters( 'wps_order_table_tr', $proposal ); ?>
+	<td><?php echo Payment::g()->convert_status( $order->data ); ?></td>
+	<td><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</td>
+	<?php apply_filters( 'wps_order_table_tr', $order ); ?>
 	<td>
-		<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $proposal->data['id'] ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil-alt"></i></a>
+		<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil-alt"></i></a>
 	</td>
 </tr>

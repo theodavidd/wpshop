@@ -117,7 +117,7 @@ class Doli_Order_Action {
 		if ( ! empty( $invoice ) ) {
 			$invoice->data['payments'] = array();
 			$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
-			$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $order->data['id'] );
+			$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&order_id=' . $order->data['id'] );
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-order-details', array(

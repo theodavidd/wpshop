@@ -19,6 +19,8 @@ defined( 'ABSPATH' ) || exit; ?>
 <?php do_action( 'wps_before_cart_table' ); ?>
 
 <div class="cart">
+	<?php wp_nonce_field( 'ajax_update_cart' ); ?>
+
 	<table class="wpeo-table">
 		<thead>
 			<tr>
@@ -60,7 +62,10 @@ defined( 'ABSPATH' ) || exit; ?>
 							<?php
 							if ( $shipping_cost_option['shipping_product_id'] !== $cart_item['id'] ) :
 								?>
-								<a href="#" class="action-attribute" data-action="delete_product_from_cart" data-key="<?php echo esc_attr( $key ); ?>">
+								<a href="#" class="action-attribute"
+									data-action="delete_product_from_cart"
+									data-nonce="<?php echo esc_attr( wp_create_nonce( 'ajax_delete_product_from_cart' ) ); ?>"
+									data-key="<?php echo esc_attr( $key ); ?>">
 									<i class="fas fa-trash"></i>
 								</a>
 								<?php
@@ -76,11 +81,9 @@ defined( 'ABSPATH' ) || exit; ?>
 	</table>
 
 	<div data-parent="cart" data-action="wps_update_cart"
-		class="update-cart wpeo-button action-input button-disable"
-		wpeo-before-cb="wpshopFrontend/cart/makeLoadOnAllCart">
+		class="update-cart wpeo-button action-input button-disable">
 		<?php esc_html_e( 'Update cart', 'wpshop' ); ?>
 	</div>
+
+	<?php do_action( 'wps_after_cart_table' ); ?>
 </div>
-
-
-<?php do_action( 'wps_after_cart_table' ); ?>

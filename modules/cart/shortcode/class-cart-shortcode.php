@@ -44,16 +44,14 @@ class Cart_Shortcode extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function callback_cart() {
-		if ( ! is_admin() ) {
-			$cart_contents = Cart_Session::g()->cart_contents;
+		$cart_contents = Cart_Session::g()->cart_contents;
 
-			$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
+		$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
 
-			if ( ! empty( $cart_contents ) ) {
-				include( Template_Util::get_template_part( 'cart', 'cart' ) );
-			} else {
-				include( Template_Util::get_template_part( 'cart', 'empty-cart' ) );
-			}
+		if ( ! empty( $cart_contents ) ) {
+			include( Template_Util::get_template_part( 'cart', 'cart' ) );
+		} else {
+			include( Template_Util::get_template_part( 'cart', 'empty-cart' ) );
 		}
 	}
 }

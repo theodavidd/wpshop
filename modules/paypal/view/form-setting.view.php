@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <form class="wpeo-form" action="<?php echo admin_url( 'admin-post.php' ); ?>" method="POST">
 	<input type="hidden" name="action" value="wps_update_method_payment_paypal" />
+	<?php wp_nonce_field( 'update_method_payment_paypal' ); ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Title', 'wpshop' ); ?></span>

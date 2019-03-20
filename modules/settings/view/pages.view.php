@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit; ?>
 <form class="wpeo-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST">
 	<input type="hidden" name="action" value="<?php echo esc_attr( 'wps_update_pages_settings' ); ?>" />
 	<input type="hidden" name="tab" value="pages" />
+	<?php wp_nonce_field( 'callback_update_pages_settings' ); ?>
 
 	<div class="form-element">
 		<span class="form-label">Page boutique</span>

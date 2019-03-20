@@ -1,6 +1,6 @@
 <?php
 /**
- * Affichage du listing des tiers dans le backend.
+ * Affichage du listing des commandes dans le backend.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -33,10 +33,10 @@ defined( 'ABSPATH' ) || exit; ?>
 	</thead>
 	<tbody>
 		<?php
-		if ( ! empty( $proposals ) ) :
-			foreach ( $proposals as $proposal ) :
+		if ( ! empty( $orders ) ) :
+			foreach ( $orders as $order ) :
 				\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'item', array(
-					'proposal' => $proposal,
+					'order' => $order,
 				) );
 			endforeach;
 		endif;

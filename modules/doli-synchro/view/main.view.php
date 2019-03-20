@@ -31,6 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					<div class="item-container">
 						<form action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="POST">
 							<input type="hidden" name="action" value="<?php echo esc_attr( $info['action'] ); ?>" />
+							<?php wp_nonce_field( $info['nonce'] ); ?>
 							<div class="item-content" >
 								<div class="item-title"><?php echo esc_attr( $info['title'] ); ?></div>
 							</div>

@@ -111,6 +111,7 @@ defined( 'ABSPATH' ) || exit; ?>
 							<div class="action-attribute wpeo-button button-main"
 								style="text-align: center;display: block;margin: auto;width: 50%;"
 								data-action="associate_and_synchronize"
+								data-nonce="<?php echo esc_attr( wp_create_nonce( 'associate_and_synchronize' ) ); ?>"
 								data-entry-id="<?php echo $doli_third_party->id; ?>"
 								data-wp-id="<?php echo $wp_third_party->data['id']; ?>"
 								data-from="wordpress">
@@ -135,6 +136,7 @@ defined( 'ABSPATH' ) || exit; ?>
 							<div class="action-attribute wpeo-button button-main"
 								style="text-align: center;display: block;margin: auto;width: 50%;"
 								data-action="associate_and_synchronize"
+								data-nonce="<?php echo esc_attr( wp_create_nonce( 'associate_and_synchronize' ) ); ?>"
 								data-entry-id="<?php echo $doli_third_party->id; ?>"
 								data-wp-id="<?php echo $wp_third_party->data['id']; ?>"
 								data-from="dolibarr"

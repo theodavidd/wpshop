@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue principale de la page de réglages
+ * La vue principale d'un single d'un email
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	?>
 </p>
 
-<a href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_copy_email_template&section=' . $section ) ); ?>" class="wpeo-button button-light">
+<a href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_copy_email_template&_wpnonce=' . wp_create_nonce( 'callback_copy_email_template' ) . '&section=' . $section ) ); ?>" class="wpeo-button button-light">
 	<span>Copié le modèle</span>
 </a>
 

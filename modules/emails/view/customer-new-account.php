@@ -33,7 +33,7 @@ do_action( 'wps_email_header' );  ?>
 		get_bloginfo(),
 		'<strong>' . esc_html( $data['contact']['login'] ) . '</strong>',
 		esc_url( Pages::g()->get_account_link() ),
-		get_bloginfo(),
+		get_bloginfo()
 	);
 	?>
 </p>

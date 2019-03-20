@@ -27,6 +27,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div data-parent="row"
 			data-parent-id="<?php echo esc_attr( $third_party_id ); ?>"
 			data-action="third_party_save_contact"
+			data-nonce="<?php echo esc_attr( wp_create_nonce( 'save_and_associate_contact' ) ); ?>"
 			class="action-input wpeo-button button-square-30">
 			<i class="button-icon fas <?php echo ! empty( $contact->data['id'] ) ? 'fa-save' : 'fa-plus'; ?>"></i>
 		</div>

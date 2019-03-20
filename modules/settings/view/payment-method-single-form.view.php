@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue principale de la page de réglages
+ * Le formulaire pour régler le paiement en boutique
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -10,6 +10,8 @@
  * @package   WPshop\Templates
  *
  * @since     2.0.0
+ *
+ * @todo: Homogéniser les vues ?
  */
 
 namespace wpshop;
@@ -18,6 +20,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <form class="wpeo-form" action="<?php echo admin_url( 'admin-post.php' ); ?>" method="POST">
 	<input type="hidden" name="action" value="wps_update_method_payment_payment_in_shop" />
+	<?php wp_nonce_field( 'update_method_payment_in_shop' ); ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Title', 'wpshop' ); ?></span>

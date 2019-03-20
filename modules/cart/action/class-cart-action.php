@@ -129,24 +129,19 @@ class Cart_Action {
 
 		if ( ! empty( $products ) ) {
 			foreach ( $products as $key => $product ) {
+				if ( isset ( $product['qty'] ) ) {
 				$product['qty'] = (int) $product['qty'];
-				if ( $product['qty'] <= 0 ) {
-					Cart::g()->delete_product( $key );
-				} else {
-					Cart::g()->update_cart( $product );
+					if ( $product['qty'] <= 0 ) {
+						Cart::g()->delete_product( $key );
+					} else {
+						Cart::g()->update_cart( $product );
+					}
 				}
 			}
 		}
 
 		ob_start();
-		$cart_contents = Cart_Session::g()->cart_contents;
-
-		if ( ! empty( $cart_contents ) ) {
-			include( Template_Util::get_template_part( 'cart', 'cart' ) );
-		} else {
-			include( Template_Util::get_template_part( 'cart', 'empty-cart' ) );
-		}
-
+		echo do_shortcode( '[wps_cart]' );
 		wp_send_json_success( array(
 			'namespace'        => 'wpshopFrontend',
 			'module'           => 'cart',
@@ -170,14 +165,7 @@ class Cart_Action {
 		}
 
 		ob_start();
-		$cart_contents = Cart_Session::g()->cart_contents;
-
-		if ( ! empty( $cart_contents ) ) {
-			include( Template_Util::get_template_part( 'cart', 'cart' ) );
-		} else {
-			include( Template_Util::get_template_part( 'cart', 'empty-cart' ) );
-		}
-
+		echo do_shortcode( '[wps_cart]' );
 		wp_send_json_success( array(
 			'namespace'        => 'wpshopFrontend',
 			'module'           => 'cart',

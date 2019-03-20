@@ -28,7 +28,7 @@ class Payment_Action {
 	 */
 	public function __construct() {
 		add_action( 'wps_setting_payment_method_payment_in_shop', array( $this, 'callback_setting_payment_method' ), 10, 0 );
-		add_action( 'admin_post_wps_update_method_payment_payment_in_shop', array( $this, 'update_method_payment_cheque' ) );
+		add_action( 'admin_post_wps_update_method_payment_payment_in_shop', array( $this, 'update_method_payment_in_shop' ) );
 	}
 
 	/**
@@ -52,8 +52,8 @@ class Payment_Action {
 	 *
 	 * @since 2.0.0
 	 */
-	public function update_method_payment_cheque() {
-		check_admin_referer( 'update_method_payment_cheque' );
+	public function update_method_payment_in_shop() {
+		check_admin_referer( 'update_method_payment_in_shop' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die();

@@ -4,10 +4,6 @@
  *
  * Ajoutes une page "Product" dans le menu de WordPress.
  *
- * Gestion de la création d'un nouveau produit.
- * Gestion de la mise à jour d'un produit.
- * Gestion de la suppression d'un produit.
- *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
  *
@@ -34,7 +30,6 @@ class Product_Action {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
-		add_action( 'wp_ajax_wps_delete_product', array( $this, 'ajax_delete_product' ) );
 	}
 
 	/**
@@ -63,28 +58,6 @@ class Product_Action {
 		\eoxia\View_Util::exec( 'wpshop', 'products', 'main', array(
 			'count' => $count,
 		) );
-	}
-
-	/**
-	 * Met le produit à la corbeille.
-	 *
-	 * @since 2.0.0
-	 */
-	public function ajax_delete_product() {
-		check_ajax_referer( 'ajax_delete_product' );
-
-		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-
-		if ( empty( $id ) ) {
-			wp_send_json_error();
-		}
-
-		$product                 = Product::g()->get( array( 'id' => $id ), true );
-		$product->data['status'] = 'trash';
-
-		Product::g()->update( $product->data );
-
-		wp_send_json_success();
 	}
 }
 

@@ -41,7 +41,7 @@ class My_Account_Action {
 		add_action( 'wps_account_orders', array( My_Account::g(), 'display_orders' ) );
 		add_action( 'wps_account_proposals', array( My_Account::g(), 'display_proposals' ) );
 
-		add_action( 'wp_ajax_load_modal_resume_order', array( $this, 'load_modal_resume_order' ) );
+		// add_action( 'wp_ajax_load_modal_resume_order', array( $this, 'load_modal_resume_order' ) );
 		add_action( 'wp_ajax_reorder', array( $this, 'do_reorder' ) );
 	}
 

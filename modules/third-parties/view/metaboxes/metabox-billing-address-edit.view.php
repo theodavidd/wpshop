@@ -30,6 +30,8 @@ defined( 'ABSPATH' ) || exit; ?>
 	</ul>
 </div>
 
+<?php wp_nonce_field( 'save_billing_address' ); ?>
+
 <div data-parent="inside"
 	data-action="third_party_save_address"
 	data-third-party_id="<?php echo esc_attr( $third_party->data['id'] ); ?>"

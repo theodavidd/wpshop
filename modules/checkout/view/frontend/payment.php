@@ -49,6 +49,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	</ul>
 
 	<?php do_action( 'wps_review_order_before_submit' ); ?>
+	<?php wp_nonce_field( 'callback_place_order' ); ?>
 
 	<input type="hidden" name="action" value="wps_place_order" />
 	<!--<a class="action-input wpeo-button" data-type="proposal" data-parent="wps-checkout-step-2"><?php esc_html_e( 'Quotation', 'wpshop' ); ?></a>-->
