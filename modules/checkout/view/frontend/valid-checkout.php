@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<li><?php esc_html_e( 'Date', 'wpshop' ); ?> : <strong><?php echo esc_html( $order->data['date_commande']['rendered']['date'] ); ?></strong></li>
 	<li><?php esc_html_e( 'Total', 'wpshop' ); ?> : <strong><?php echo esc_html( number_format( $order->data['total_ttc'], 2 ) ); ?>€</strong></li>
 	<li><?php esc_html_e( 'Method of payment', 'wpshop' ); ?> :
-		<strong><?php echo esc_html( Paiment::g()->get_payment_title( $order->data['payment_method'] ) ); ?></strong>
+		<strong><?php echo esc_html( Payment::g()->get_payment_title( $order->data['payment_method'] ) ); ?></strong>
 	</li>
 </ul>
 

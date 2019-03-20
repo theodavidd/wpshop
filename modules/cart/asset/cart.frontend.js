@@ -39,9 +39,9 @@ window.eoxiaJS.wpshopFrontend.cart.addedToCart = function ( triggeredElement, re
 };
 
 window.eoxiaJS.wpshopFrontend.cart.updatedCart = function ( triggeredElement, response ) {
-	jQuery( '.entry-content .cart' ).replaceWith( response.data.view );
+	jQuery( '.cart' ).replaceWith( response.data.view );
 };
 
 window.eoxiaJS.wpshopFrontend.cart.deletedProdutFromCart = function ( triggeredElement, response ) {
-	jQuery( '.entry-content .cart' ).replaceWith( response.data.view );
+	jQuery( '.cart' ).replaceWith( response.data.view );
 };
