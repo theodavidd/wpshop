@@ -16,30 +16,24 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<table class="wpeo-table">
-	<thead>
-		<tr>
-			<th><input type="checkbox" /></th>
-			<th><?php esc_html_e( 'WP ID', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Dolibarr ID', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Date', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Ref', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Tier', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Statut', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Price', 'wpshop' ); ?></th>
-			<?php echo apply_filters( 'wps_order_table_th', '' ); ?>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-		if ( ! empty( $orders ) ) :
-			foreach ( $orders as $order ) :
-				\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'item', array(
-					'order' => $order,
-				) );
-			endforeach;
-		endif;
-		?>
-	</tbody>
-</table>
+<div class="wps-list-product wpeo-table table-flex table-7">
+	<div class="table-row table-header">
+		<div class="table-cell table-25"><input type="checkbox" class="check-all"/></div>
+		<div class="table-cell table-full"><?php esc_html_e( 'Order reference', 'wpshop' ); ?></div>
+		<div class="table-cell table-200"><?php esc_html_e( 'Billing', 'wpshop' ); ?></div>
+		<div class="table-cell table-150"><?php esc_html_e( 'Status', 'wpshop' ); ?></div>
+		<div class="table-cell table-100"><?php esc_html_e( 'Method of payment', 'wpshop' ); ?>%</div>
+		<div class="table-cell table-100"><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></div>
+		<div class="table-cell table-100"><?php esc_html_e( 'Synchro', 'wpshop' ); ?></div>
+	</div>
+
+	<?php
+	if ( ! empty( $orders ) ) :
+		foreach ( $orders as $order ) :
+			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'item', array(
+				'order' => $order,
+			) );
+		endforeach;
+	endif;
+	?>
+</div>
