@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://travis-ci.org/Eoxia/wpshop"><img src="https://travis-ci.org/Eoxia/wpshop.svg?branch=2.0.0" alt="Build Status"></a>
-  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Eoxia/wpshop/badges/quality-score.png?b=2.0.0)](https://scrutinizer-ci.com/g/Eoxia/wpshop/?branch=2.0.0)
+  <a href="https://scrutinizer-ci.com/g/Eoxia/wpshop/?branch=2.0.0"><img src="https://scrutinizer-ci.com/g/Eoxia/wpshop/badges/quality-score.png?b=2.0.0" /></a>
 </p>
 
 ## Guide d'installation
