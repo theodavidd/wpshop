@@ -49,7 +49,7 @@ script:
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
-      phpcs ./
+      phpcs
     fi
 after_script:
   - | 
