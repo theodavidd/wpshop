@@ -20,16 +20,16 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="table-cell table-25"><input type="checkbox" class="check"/></div>
 	<div class="table-cell table-100 table-padding-0"><?php echo get_the_post_thumbnail( $product->data['id'], array( 80, 80 ) ); ?></div>
 	<div class="table-cell table-full">
-		<ul class="product-id">
+		<ul class="reference-id">
 			<li><i class="fas fa-hashtag"></i>WP : <?php echo esc_html( $product->data['id'] ); ?></li>
 			<?php if ( ! empty( $product->data['external_id'] ) ) : ?>
 				<li><i class="fas fa-hashtag"></i>Doli : <?php echo esc_html( $product->data['external_id'] ); ?></li>
 			<?php endif; ?>
 		</ul>
-		<div class="product-title">
+		<div class="reference-title">
 			<a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $product->data['id'] . '&action=edit' ) ); ?>"><?php echo esc_html( $product->data['title'] ); ?></a>
 		</div>
-		<ul class="product-actions">
+		<ul class="reference-actions">
 			<li><a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $product->data['id'] . '&action=edit' ) ); ?>"><?php esc_html_e( 'Edit', 'wpshop' ); ?></a></li>
 			<!-- <li><a href="#"><?php esc_html_e( 'Quick edit', 'wpshop' ); ?></a></li> -->
 			<?php if ( ! empty( $product->data['external_id'] ) ) : ?>
