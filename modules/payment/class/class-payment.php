@@ -54,6 +54,14 @@ class Payment extends \eoxia\Singleton_Util {
 				'paypal_email'       => '',
 				'use_paypal_sandbox' => false,
 			),
+			'stripe'          => array(
+				'active'             => true,
+				'title'              => __( 'Stripe', 'wpshop' ),
+				'description'        => __( 'Use your credit card to place your order', 'wpshop' ),
+				'publish_key'        => '',
+				'secret_key'         => '',
+				'use_stripe_sandbox' => false,
+			),
 		);
 
 		$this->default_options = apply_filters( 'wps_payment_methods', $this->default_options );
@@ -136,6 +144,15 @@ class Payment extends \eoxia\Singleton_Util {
 						$statut = 'Payée';
 					} else {
 						$statut = 'En attente du paiement.<br />Paiement a régler en boutique';
+					}
+					break;
+				case 'stripe':
+					if ( $object['billed'] ) {
+						$statut = 'Payée';
+					} elseif ( $object['payment_failed'] ) {
+						$statut = 'Paiment échoué.';
+					} else {
+						$statut = 'En attente du paiement';
 					}
 					break;
 				default:

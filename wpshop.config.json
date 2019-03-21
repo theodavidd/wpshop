@@ -18,6 +18,7 @@
     
     "modules/payment/payment.config.json",
     "modules/paypal/paypal.config.json",
+    "modules/stripe/stripe.config.json",
     
     "modules/my-account/my-account.config.json",
     "modules/pages/pages.config.json",

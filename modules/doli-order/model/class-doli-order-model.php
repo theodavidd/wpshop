@@ -110,6 +110,13 @@ class Doli_Order_Model extends \eoxia\Post_Model {
 			'default'   => false,
 		);
 
+		$this->schema['external_data'] = array(
+			'type'      => 'array',
+			'meta_type' => 'single',
+			'field'     => '_external_data',
+			'default'   => array(),
+		);
+
 		parent::__construct( $object, $req_method );
 	}
 }

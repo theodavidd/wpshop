@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit; ?>
 <form class="wpeo-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST">
 	<input type="hidden" name="action" value="<?php echo esc_attr( 'wps_update_shipping_cost' ); ?>" />
 	<input type="hidden" name="tab" value="shipping_cost" />
-	<?php wp_nonce_field( 'callback_update_shipping_cost' ) ?>
+	<?php wp_nonce_field( 'callback_update_shipping_cost' ); ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Select shipping product', 'wpshop' ); ?></span>

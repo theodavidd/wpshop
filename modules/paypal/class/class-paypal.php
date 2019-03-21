@@ -36,14 +36,14 @@ class PayPal extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {}
 
-		/**
-		 * Prépares l'URL pour aller à la page de paiement
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param  Order_Model $order Les données de la commande.
-		 * @return array              L'URL pour aller à la page de paiement.
-		 */
+	/**
+	 * Prépares l'URL pour aller à la page de paiement
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Order_Model $order Les données de la commande.
+	 * @return array              L'URL pour aller à la page de paiement.
+	 */
 	public function process_payment( $order ) {
 		$paypal_options = Payment::g()->get_payment_option( 'paypal' );
 

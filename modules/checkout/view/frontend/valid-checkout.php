@@ -10,7 +10,6 @@
  * @package   WPshop\Templates
  *
  * @since     2.0.0
- *
  */
 
 namespace wpshop;

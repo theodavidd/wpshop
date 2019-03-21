@@ -22,13 +22,13 @@ defined( 'ABSPATH' ) || exit; ?>
 	<strong><?php esc_html_e( 'Payment status', 'wpshop' ); ?></strong> :
 	<span>
 	<?php
-		echo esc_html( Payment::g()->convert_status( $order->data ) );
-		if ( ! empty( $link_invoice ) ) :
-			?>
-			- <a href="<?php echo esc_url( $link_invoice ); ?>" target="_blank"><?php esc_html_e( 'View invoice', 'wpshop' ); ?></a>
-			<?php
-		endif;
+	echo esc_html( Payment::g()->convert_status( $order->data ) );
+	if ( ! empty( $link_invoice ) ) :
 		?>
+		- <a href="<?php echo esc_url( $link_invoice ); ?>" target="_blank"><?php esc_html_e( 'View invoice', 'wpshop' ); ?></a>
+		<?php
+	endif;
+	?>
 	</span>
 </p>
 

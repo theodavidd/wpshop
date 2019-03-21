@@ -134,7 +134,6 @@ class Checkout_Action {
 
 			if ( ! is_user_logged_in() ) {
 				$third_party = Third_Party::g()->update( $posted_data['third_party'] );
-
 				do_action( 'wps_checkout_create_third_party', $third_party );
 
 				$posted_data['contact']['login']          = sanitize_user( current( explode( '@', $posted_data['contact']['email'] ) ), true );

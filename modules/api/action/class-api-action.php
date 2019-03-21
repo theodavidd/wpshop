@@ -40,6 +40,11 @@ class API_Action {
 			'methods'  => array( 'GET', 'POST' ),
 			'callback' => array( $this, 'callback_wps_gateway_paypal' ),
 		) );
+
+		register_rest_route( 'wpshop/v2', '/wps_gateway_stripe', array(
+			'methods'  => array( 'GET', 'POST' ),
+			'callback' => array( $this, 'callback_wps_gateway_stripe' ),
+		) );
 	}
 
 	/**
@@ -60,6 +65,34 @@ class API_Action {
 			update_post_meta( $data['custom'], 'payment_method', 'paypal' );
 
 			do_action( 'wps_gateway_paypal', $data );
+		}
+	}
+
+	/**
+	 * Gestion de la route Stripe.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_Request $request L'objet contenant les informations de la
+	 * requête.
+	 */
+	public function callback_wps_gateway_stripe( $request ) {
+		$param = json_decode( $request->get_body(), true );
+
+		$order = Doli_Order::g()->get( array(
+			'meta_key'     => '_external_data',
+			'meta_compare' => 'LIKE',
+			'meta_value'   => $param['data']['object']['id'],
+		), true );
+
+		if ( ! empty( $order ) ) {
+			update_post_meta( $order->data['id'], 'payment_data', $param );
+			update_post_meta( $order->data['id'], 'payment_txn_id', $param['data']['object']['id'] );
+			update_post_meta( $order->data['id'], 'payment_method', 'stripe' );
+
+			$param['custom'] = $order->data['id'];
+
+			do_action( 'wps_gateway_stripe', $param );
 		}
 	}
 }

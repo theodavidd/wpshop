@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Contact Action Class.
  */
-class Contact_Action {
+class Contacts_Action {
 
 	/**
 	 * Le constructeur
@@ -99,6 +99,7 @@ class Contact_Action {
 			$email                = explode( '@', $contact['email'] );
 			$contact['login']     = $email[0];
 			$contact['user_pass'] = wp_generate_password();
+
 			$contact = apply_filters( 'wps_save_and_associate_contact', $contact, $third_party );
 			$contact = Contact::g()->update( $contact );
 		} else {
@@ -203,4 +204,4 @@ class Contact_Action {
 	}
 }
 
-new Contact_Action();
+new Contacts_Action();

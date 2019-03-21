@@ -140,17 +140,40 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		unset( $_SESSION['wps_external_data'] );
 	}
 
+	/**
+	 * Ajoutes un produit dans le panier.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param Product $data Les données du produit.
+	 */
 	public function add_product( $data ) {
 		$this->cart_contents[] = $data;
 		$this->update_session();
 
 	}
 
+	/**
+	 * Met à jour un produit dans le panier.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  integer $index L'index du produit dans le tableau cart_contents.
+	 * @param  Product $data  Les données du produit.
+	 */
 	public function update_product( $index, $data ) {
 		$this->cart_contents[ $index ] = $data;
 		$this->update_session();
 	}
 
+	/**
+	 * Met à jour une propriété et met à jour la SESSION.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $property Le nom de la propriété.
+	 * @param  mixed  $value    La valeur de la propriété.
+	 */
 	public function update( $property, $value ) {
 		$this->$property = $value;
 		$this->update_session();
@@ -197,6 +220,14 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		$this->update_session();
 	}
 
+	/**
+	 * Supprimes un produit depuis $key qui est son index dans le tableau
+	 * cart_contents.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param integer $key L'index dans le tableau cart_contents.
+	 */
 	public function remove_product_by_key( $key ) {
 		array_splice( $this->cart_contents, $key, 1 );
 

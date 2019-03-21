@@ -51,7 +51,6 @@ class Checkout extends \eoxia\Singleton_Util {
 		$data['third_party']['zip']        = ! empty( $_POST['third_party']['zip'] ) ? sanitize_text_field( $_POST['third_party']['zip'] ) : '';
 		$data['third_party']['town']       = ! empty( $_POST['third_party']['town'] ) ? sanitize_text_field( $_POST['third_party']['town'] ) : '';
 
-
 		return apply_filters( 'wps_checkout_posted_data', $data );
 	}
 
@@ -167,20 +166,6 @@ class Checkout extends \eoxia\Singleton_Util {
 		$type = ! empty( $_POST['type_payment'] ) ? $_POST['type_payment'] : '';
 
 		switch ( $type ) {
-			case 'paypal':
-				update_post_meta( $order->data['id'], 'payment_method', 'paypal' );
-
-				$result = Paypal::g()->process_payment( $order );
-				Cart_Session::g()->destroy();
-				if ( ! empty( $result['url'] ) ) {
-					wp_send_json_success( array(
-						'namespace'        => 'wpshopFrontend',
-						'module'           => 'checkout',
-						'callback_success' => 'redirectToPayment',
-						'url'              => $result['url'],
-					) );
-				}
-				break;
 			case 'cheque':
 				update_post_meta( $order->data['id'], 'payment_method', 'cheque' );
 				Cart_Session::g()->destroy();
@@ -200,6 +185,34 @@ class Checkout extends \eoxia\Singleton_Util {
 					'callback_success' => 'redirect',
 					'url'              => Pages::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
 				) );
+				break;
+			case 'paypal':
+				update_post_meta( $order->data['id'], 'payment_method', 'paypal' );
+
+				$result = Paypal::g()->process_payment( $order );
+				Cart_Session::g()->destroy();
+				if ( ! empty( $result['url'] ) ) {
+					wp_send_json_success( array(
+						'namespace'        => 'wpshopFrontend',
+						'module'           => 'checkout',
+						'callback_success' => 'redirectToPayment',
+						'url'              => $result['url'],
+					) );
+				}
+				break;
+			case 'stripe':
+				update_post_meta( $order->data['id'], 'payment_method', 'stripe' );
+				$result = Stripe::g()->process_payment( $order );
+				Cart_Session::g()->destroy();
+
+				if ( ! empty( $result['id'] ) ) {
+					wp_send_json_success( array(
+						'namespace'        => 'wpshopFrontend',
+						'module'           => 'stripe',
+						'callback_success' => 'redirectToPayment',
+						'id'               => $result['id'],
+					) );
+				}
 				break;
 		}
 

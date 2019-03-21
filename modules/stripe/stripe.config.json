@@ -1,0 +1,10 @@
+{
+	"name": "Gestion de Stripe",
+	"slug": "stripe",
+	"since": "2.0.0",
+	"path": "modules/stripe",
+	"dependencies": {
+		"class": {},
+    "action": {}
+	}
+}

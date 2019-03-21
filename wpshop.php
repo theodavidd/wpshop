@@ -23,5 +23,8 @@ DEFINE( 'PLUGIN_WPSHOP_DIR', basename( __DIR__ ) );
 // Include EO_Framework.
 require_once 'core/external/eo-framework/eo-framework.php';
 
+// Include composer component.
+require_once 'vendor/autoload.php';
+
 // Boot your plugin.
 \eoxia\Init_Util::g()->exec( PLUGIN_WPSHOP_PATH, basename( __FILE__, '.php' ) );

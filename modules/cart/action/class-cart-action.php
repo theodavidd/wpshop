@@ -115,7 +115,8 @@ class Cart_Action {
 		if ( ! empty( $products ) ) {
 			foreach ( $products as $key => $product ) {
 				if ( isset ( $product['qty'] ) ) {
-				$product['qty'] = (int) $product['qty'];
+					$product['qty'] = (int) $product['qty'];
+
 					if ( $product['qty'] <= 0 ) {
 						Cart::g()->delete_product( $key );
 					} else {
