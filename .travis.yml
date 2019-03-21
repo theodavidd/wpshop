@@ -52,6 +52,7 @@ script:
       phpcs ./
     fi
 after_script:
-  - | if [[ "$RUN_CODE_COVERAGE" == "1" ]] ; then
+  - | 
+    if [[ "$RUN_CODE_COVERAGE" == "1" ]] ; then
       bash ./tests/bin/travis.sh after
     fi
