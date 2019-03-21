@@ -46,7 +46,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 		<div></div>
 		<div></div>
-		<div><?php echo esc_html( $count ) . ' éléments'; ?></div> <?php /** @TODO : ajouter le nombre de commande */ ?>
+		<div><?php echo esc_html( $count ) . ' éléments'; ?></div>
 	</div>
 
 	<?php Doli_Order::g()->display(); ?>
