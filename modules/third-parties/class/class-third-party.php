@@ -87,8 +87,11 @@ class Third_Party extends \eoxia\Post_Class {
 
 		$third_parties = $this->get( $args );
 
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'list', array(
 			'third_parties' => $third_parties,
+			'doli_url'      => $dolibarr_option['dolibarr_url'],
 		) );
 	}
 

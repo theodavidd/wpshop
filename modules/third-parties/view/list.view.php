@@ -32,6 +32,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		foreach ( $third_parties as $third_party ) :
 			\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'item', array(
 				'third_party' => $third_party,
+				'doli_url'    => $doli_url,
 			) );
 		endforeach;
 	endif;
