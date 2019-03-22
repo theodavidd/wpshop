@@ -1,5 +1,7 @@
 @import "reference";
 @import "list-product";
+@import "list-contact";
+@import "commercial";
 
 .wpeo-table {
 	td, th {
@@ -14,6 +16,10 @@
 			padding: .2em .6em;
 			border: 1px solid rgba(0,0,0,0.1);
 		}
+	}
+	a {
+		color: $color__primary;
+		text-decoration: none;
 	}
 }
 

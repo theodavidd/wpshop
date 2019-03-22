@@ -98,7 +98,7 @@ class Third_Party extends \eoxia\Post_Class {
 			'posts_per_page' => 1
 		), true );
 
-		$devis = Proposals::g()->get( array(
+		$propal = Proposals::g()->get( array(
 			'post_parent'    => $third_party['id'],
 			'posts_per_page' => 1,
 		), true );
@@ -111,7 +111,7 @@ class Third_Party extends \eoxia\Post_Class {
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'commercial', array(
 			'order'   => $order,
-			'devis'   => $devis,
+			'propal'   => $propal,
 			'invoice' => $invoice,
 		) );
 	}

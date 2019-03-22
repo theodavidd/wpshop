@@ -9,6 +9,16 @@
 /* Bleu ciel, couleur principale */
 /* Bleu fonce, couleur de l'interface */
 /* Autres couleurs */
+.wpeo-button {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box; }
+
+.wpeo-button.button-square-30 {
+  width: 30px;
+  height: 30px;
+  line-height: 24px; }
+
 /**
  * Interface de mise à jour des données
  */
@@ -167,6 +177,13 @@
 .wpeo-table.table-flex .reference-title a:hover {
   color: rgba(0, 0, 0, 0.5); }
 
+.wpeo-table.table-flex .reference-content {
+  font-size: 14px;
+  margin: 0.2em 0; }
+
+.wpeo-table.table-flex .reference-content i {
+  color: rgba(0, 0, 0, 0.2); }
+
 .wpeo-table.table-flex .reference-actions {
   margin: 0.6em 0 0 0;
   line-height: 1;
@@ -183,11 +200,11 @@
   border-right: 1px solid rgba(0, 0, 0, 0.2); }
 
 .wpeo-table.table-flex .reference-actions li a {
-  color: #3495f0;
+  color: #00a1ff;
   text-decoration: none; }
 
 .wpeo-table.table-flex .reference-actions li a:hover {
-  color: rgba(52, 149, 240, 0.7); }
+  color: rgba(0, 161, 255, 0.7); }
 
 .wpeo-table.table-flex .reference-actions li.delete a {
   color: #e05353; }
@@ -208,6 +225,34 @@
 .wps-list-product img {
   display: block; }
 
+.wpeo-table .list-contact .contact {
+  margin-bottom: 0.6em; }
+
+.wpeo-table .list-contact .contact:last-child {
+  margin-bottom: 0; }
+
+.wpeo-table .list-contact .contact-title {
+  font-size: 16px; }
+
+.wpeo-table .list-contact .contact-list-data {
+  margin: 0; }
+
+.wpeo-table .list-contact .contact-data {
+  display: inline-block;
+  margin: 0 0.4em 0 0; }
+
+.wpeo-table .list-contact .contact-data:last-child {
+  margin: 0; }
+
+.wpeo-table .list-contact .contact-data i {
+  color: rgba(0, 0, 0, 0.2); }
+
+.wpeo-table .list-commercial .commercial-date {
+  color: rgba(0, 0, 0, 0.4); }
+
+.wpeo-table .list-commercial .commercial-title {
+  color: #00a1ff; }
+
 .wpeo-table td, .wpeo-table th {
   border: 0; }
 
@@ -218,6 +263,10 @@
 .wpeo-table > tfoot td {
   padding: .2em .6em;
   border: 1px solid rgba(0, 0, 0, 0.1); }
+
+.wpeo-table a {
+  color: #00a1ff;
+  text-decoration: none; }
 
 .wps-checkout-review-order-table tbody tr td:last-child, .wps-checkout-review-order-table tfoot tr td:last-child {
   text-align: right; }
@@ -328,12 +377,12 @@
 
 .synchro-single .select li:hover {
   color: white;
-  background-color: #3495f0;
+  background-color: #00a1ff;
   cursor: pointer; }
 
 .synchro-single .select li.active {
   color: white;
-  background-color: #3495f0; }
+  background-color: #00a1ff; }
 
 .need-to-confirm .modal-container {
   max-width: 600px;

@@ -33,7 +33,11 @@ defined( 'ABSPATH' ) || exit; ?>
 		</ul>
 	</div>
 	<div class="table-cell table-200">
-		<div><strong><?php echo esc_html( $order->data['tier']->data['title'] ); ?></strong></div>
+		<div>
+			<a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $order->data['tier']->data['id'] . '&action=edit' ) ); ?>">
+				<strong><?php echo esc_html( $order->data['tier']->data['title'] ); ?></strong>
+			</a>
+		</div>
 		<div><?php echo esc_html( $order->data['tier']->data['address'] ); ?></div>
 		<div><?php echo esc_html( $order->data['tier']->data['zip'] ) . ' ' . esc_html( $order->data['tier']->data['country'] ); ?></div>
 		<div><?php echo esc_html( $order->data['tier']->data['phone'] ); ?></div>

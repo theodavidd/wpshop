@@ -16,11 +16,35 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<tr>
-	<td><input type="checkbox" /></td>
-	<td><?php echo esc_html( $third_party->data['id'] ); ?></td>
-	<td><?php Contact::g()->display( $third_party ); ?></td>
-	<td><?php Third_Party::g()->display_commercial( $third_party->data ); ?></td>
-	<td>-</td>
-	<td></td>
-</tr>
+<div class="table-row">
+	<div class="table-cell table-25"><input type="checkbox" class="check"/></div>
+	<div class="table-cell table-200">
+		<ul class="reference-id">
+			<li><i class="fas fa-hashtag"></i>WP : <?php echo esc_html( $third_party->data['id'] ); ?></li>
+			<?php if ( ! empty( $third_party->data['external_id'] ) ) : ?>
+				<li><i class="fas fa-hashtag"></i>Doli : <?php echo esc_html( $third_party->data['external_id'] ); ?></li>
+			<?php endif; ?>
+		</ul>
+		<div class="reference-title">
+			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) ); ?>"><?php echo esc_html( $third_party->data['title'] ); ?></a>
+		</div>
+		<?php if ( ! empty( $third_party->data['phone'] ) ) : ?>
+			<div class="reference-content">
+				<i class="fas fa-phone"></i> <?php echo esc_html( $third_party->data['phone'] ); ?>
+			</div>
+		<?php endif ;?>
+		<ul class="reference-actions">
+			<li><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) ); ?>"><?php esc_html_e( 'Edit', 'wpshop' ); ?></a></li>
+			<?php if ( ! empty( $third_party->data['external_id'] ) ) : ?>
+				<li><a href="<?php echo esc_attr( $doli_url ); ?>commande/card.php?id=<?php echo $product->data['external_id']; ?>" target="_blank"><?php esc_html_e( 'Edit in Dolibarr', 'wpshop' ); ?></a></li>
+			<?php endif; ?>
+		</ul>
+	</div>
+	<div class="table-cell table-300"><?php Contact::g()->display( $third_party ); ?></div>
+	<div class="table-cell table-300"><?php Third_Party::g()->display_commercial( $third_party->data ); ?></div>
+	<div class="table-cell table-full">Historique des actions</div>
+	<div class="table-cell table-100">
+		<!-- <div class="button-synchro"><i class="fas fa-sync"></i></div>
+		<div class="statut statut-green wpeo-tooltip-event" data-direction="left" aria-label="Date de la derniere synchro"></div> -->
+	</div>
+</div>

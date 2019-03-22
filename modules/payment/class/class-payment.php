@@ -130,6 +130,13 @@ class Payment extends \eoxia\Singleton_Util {
 						$statut = 'En attente du chèque';
 					}
 					break;
+				case 'Cheque':
+					if ( $object['billed'] ) {
+						$statut = 'Payée';
+					} else {
+						$statut = 'En attente du chèque';
+					}
+					break;
 				case 'paypal':
 					if ( $object['billed'] ) {
 						$statut = 'Payée';

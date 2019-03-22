@@ -16,26 +16,24 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<table class="wpeo-table">
-	<thead>
-		<tr>
-			<th><input type="checkbox" /></th>
-			<th><?php esc_html_e( 'Society name', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Contacts', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Commercial', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Actions', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Sync', 'wpshop' ); ?></th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-		if ( ! empty( $third_parties ) ) :
-			foreach ( $third_parties as $third_party ) :
-				\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'item', array(
-					'third_party' => $third_party,
-				) );
-			endforeach;
-		endif;
-		?>
-	</tbody>
-</table>
+
+<div class="wps-list-third-parties wpeo-table table-flex table-6">
+	<div class="table-row table-header">
+		<div class="table-cell table-25"><input type="checkbox" class="check-all"/></div>
+		<div class="table-cell table-200"><?php esc_html_e( 'Society name', 'wpshop' ); ?></div>
+		<div class="table-cell table-300"><?php esc_html_e( 'Contacts', 'wpshop' ); ?></div>
+		<div class="table-cell table-300"><?php esc_html_e( 'Commercial', 'wpshop' ); ?></div>
+		<div class="table-cell table-full"><?php esc_html_e( 'Actions', 'wpshop' ); ?></div>
+		<div class="table-cell table-100"><?php esc_html_e( 'Synchro', 'wpshop' ); ?></div>
+	</div>
+
+	<?php
+	if ( ! empty( $third_parties ) ) :
+		foreach ( $third_parties as $third_party ) :
+			\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'item', array(
+				'third_party' => $third_party,
+			) );
+		endforeach;
+	endif;
+	?>
+</div>

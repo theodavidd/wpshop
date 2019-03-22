@@ -17,11 +17,9 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 
-<ul>
+<div class="list-contact">
 	<?php
 	if ( ! empty( $contacts ) ) :
-		?>
-		<?php
 		foreach ( $contacts as $contact ) :
 			\eoxia\View_Util::exec( 'wpshop', 'contacts', 'item', array(
 				'contact' => $contact,
@@ -29,4 +27,4 @@ defined( 'ABSPATH' ) || exit; ?>
 		endforeach;
 	endif;
 	?>
-</ul>
+</div>
