@@ -1,6 +1,9 @@
 <p align="center"><a href="https://www.wpshop.fr"><img src="https://www.eoxia.com/wp-content/uploads/2018/11/logo-final-max.png" alt="WPShop"></a></p>
 
-<p align="center"><a href="https://travis-ci.org/Eoxia/wpshop"><img src="https://travis-ci.org/Eoxia/wpshop.svg?branch=2.0.0" alt="Build Status"></a></p>
+<p align="center">
+  <a href="https://travis-ci.org/Eoxia/wpshop"><img src="https://travis-ci.org/Eoxia/wpshop.svg?branch=2.0.0" alt="Build Status"></a>
+  <a href="https://scrutinizer-ci.com/g/Eoxia/wpshop/?branch=2.0.0"><img src="https://scrutinizer-ci.com/g/Eoxia/wpshop/badges/quality-score.png?b=2.0.0" /></a>
+</p>
 
 ## Guide d'installation
 - Installer Dolibarr
