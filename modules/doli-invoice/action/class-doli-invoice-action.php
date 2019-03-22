@@ -28,6 +28,9 @@ class Doli_Invoice_Action {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'create_tmp_invoice_dir' ) );
+
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
+
 		add_action( 'wps_payment_complete', array( $this, 'create_invoice' ), 20, 1 );
 
 		add_action( 'admin_post_wps_download_invoice', array( $this, 'download_invoice' ) );
@@ -48,6 +51,105 @@ class Doli_Invoice_Action {
 			fwrite( $f, "Options -Indexes\r\ndeny from all" );
 			fclose( $f );
 		}
+	}
+
+	/**
+	 * Initialise la page "Facture".
+	 *
+	 * @since 2.0.0
+	 */
+	public function callback_admin_menu() {
+		add_submenu_page( 'wps-order', __( 'Invoices', 'wpshop' ), __( 'Invoices', 'wpshop' ), 'manage_options', 'wps-invoice', array( $this, 'callback_add_menu_page' ) );
+	}
+
+	/**
+	 * Affichage de la vue du menu
+	 *
+	 * @since 2.0.0
+	 */
+	public function callback_add_menu_page() {
+		if ( isset( $_GET['id'] ) ) {
+			$invoice        = Doli_Invoice::g()->get( array( 'id' => $_GET['id'] ), true );
+			$args_metabox = array(
+				'invoice' => $invoice,
+				'id'      => $_GET['id'],
+			);
+
+			/* translators: Order details CO00010 */
+			$box_invoice_detail_title = sprintf( __( 'Invoice details %s', 'wpshop' ), $invoice->data['title'] );
+
+			add_meta_box( 'wps-invoice-customer', $box_invoice_detail_title, array( $this, 'callback_meta_box' ), 'wps-invoice', 'normal', 'default', $args_metabox );
+			add_meta_box( 'wps-invoice-products', __( 'Products', 'wpshop' ), array( $this, 'callback_products' ), 'wps-invoice', 'normal', 'default', $args_metabox );
+
+			\eoxia\View_Util::exec( 'wpshop', 'doli-invoice', 'single', array( 'invoice' => $invoice ) );
+		} else {
+			$args = array(
+				'post_type'      => 'wps-doli-invoice',
+				'posts_per_page' => -1,
+				'post_status'    => 'any',
+			);
+
+			$count = count( get_posts( $args ) );
+
+			\eoxia\View_Util::exec( 'wpshop', 'doli-invoice', 'main', array(
+				'count' => $count,
+			) );
+		}
+	}
+
+	/**
+	 * La metabox des détails de la commande
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_Post $post          Les données du post.
+	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 */
+	public function callback_meta_box( $post, $callback_args ) {
+		$invoice      = $callback_args['args']['invoice'];
+		$third_party  = Third_Party::g()->get( array( 'id' => $invoice->data['third_party_id'] ), true );
+		$link_invoice = '';
+
+		if ( ! empty( $invoice ) ) {
+			$invoice->data['payments'] = array();
+			$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
+			$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&invoice_id=' . $invoice->data['id'] );
+		}
+
+		\eoxia\View_Util::exec( 'wpshop', 'doli-invoice', 'metabox-invoice-details', array(
+			'invoice'      => $invoice,
+			'third_party'  => $third_party,
+			'link_invoice' => $link_invoice,
+		) );
+	}
+
+	/**
+	 * Box affichant les produits de la commande
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_Post $post          Les données du post.
+	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 */
+	public function callback_products( $post, $callback_args ) {
+		$invoice = $callback_args['args']['invoice'];
+
+		$tva_lines = array();
+
+		if ( ! empty( $invoice->data['lines'] ) ) {
+			foreach ( $invoice->data['lines'] as $line ) {
+				if ( empty( $tva_lines[ $line['tva_tx'] ] ) ) {
+					$tva_lines[ $line['tva_tx'] ] = 0;
+				}
+
+				$tva_lines[ $line['tva_tx'] ] += $line['total_tva'];
+			}
+		}
+
+		\eoxia\View_Util::exec( 'wpshop', 'doli-invoice', 'metabox-invoice-products', array(
+			'invoice'     => $invoice,
+			'tva_lines' => $tva_lines,
+		) );
 	}
 
 	/**

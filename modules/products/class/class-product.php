@@ -87,8 +87,11 @@ class Product extends \eoxia\Post_Class {
 			'posts_per_page' => -1,
 		) );
 
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
 		\eoxia\View_Util::exec( 'wpshop', 'products', 'list', array(
 			'products' => $products,
+			'doli_url' => $dolibarr_option['dolibarr_url'],
 		) );
 	}
 

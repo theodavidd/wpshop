@@ -108,42 +108,44 @@ class Doli_Order extends \eoxia\Post_Class {
 	 * @return Order_Model             Les données de WP avec ceux de dolibarr.
 	 */
 	public function doli_to_wp( $doli_order, $wp_order ) {
-		$wp_order->data['external_id']    = (int) $doli_order->id;
-		$wp_order->data['title']          = $doli_order->ref;
-		$wp_order->data['total_ht']       = $doli_order->total_ht;
-		$wp_order->data['total_ttc']      = $doli_order->total_ttc;
-		$wp_order->data['billed']         = (int) $doli_order->billed;
-		$wp_order->data['lines']          = $doli_order->lines;
-		$wp_order->data['date_commande']  = date( 'Y-m-d H:i:s', $doli_order->date_commande );
-		$wp_order->data['datec']          = date( 'Y-m-d H:i:s', $doli_order->date_creation );
-		$wp_order->data['parent_id']      = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_order->socid );
-		$wp_order->data['payment_method'] = ( null === $doli_order->mode_reglement_code ) ? $doli_order->data['payment_method'] : Doli_Payment::g()->convert_to_wp( $doli_order->mode_reglement_code );
+		if ( is_object( $wp_order ) ) {
+			$wp_order->data['external_id']    = (int) $doli_order->id;
+			$wp_order->data['title']          = $doli_order->ref;
+			$wp_order->data['total_ht']       = $doli_order->total_ht;
+			$wp_order->data['total_ttc']      = $doli_order->total_ttc;
+			$wp_order->data['billed']         = (int) $doli_order->billed;
+			$wp_order->data['lines']          = $doli_order->lines;
+			$wp_order->data['date_commande']  = date( 'Y-m-d H:i:s', $doli_order->date_commande );
+			$wp_order->data['datec']          = date( 'Y-m-d H:i:s', $doli_order->date_creation );
+			$wp_order->data['parent_id']      = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_order->socid );
+			$wp_order->data['payment_method'] = ( null === $doli_order->mode_reglement_code ) ? $wp_order->data['payment_method'] : Doli_Payment::g()->convert_to_wp( $doli_order->mode_reglement_code );
 
-		$status = '';
+			$status = '';
 
-		switch ( $doli_order->statut ) {
-			case -1:
-				$status = 'wps-canceled';
-				break;
-			case 0:
-				$status = 'draft';
-				break;
-			case 1:
-				$status = 'publish';
-				break;
-			case 2:
-				break;
-			case 3:
-				$status = 'wps-delivered';
-				break;
-			default:
-				$status = 'publish';
-				break;
+			switch ( $doli_order->statut ) {
+				case -1:
+					$status = 'wps-canceled';
+					break;
+				case 0:
+					$status = 'draft';
+					break;
+				case 1:
+					$status = 'publish';
+					break;
+				case 2:
+					break;
+				case 3:
+					$status = 'wps-delivered';
+					break;
+				default:
+					$status = 'publish';
+					break;
+			}
+
+			$wp_order->data['status'] = $status;
+
+			return Doli_Order::g()->update( $wp_order->data );
 		}
-
-		$wp_order->data['status'] = $status;
-
-		return Doli_Order::g()->update( $wp_order->data );
 	}
 
 	/**

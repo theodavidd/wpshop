@@ -4,6 +4,7 @@
 	"since": "2.0.0",
 	"path": "modules/doli-invoice",
 	"dependencies": {
+    "filter": {},
     "action": {},
     "class": {},
     "model": {}

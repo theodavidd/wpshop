@@ -96,7 +96,16 @@ class Doli_Order_Action {
 
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array( 'order' => $order ) );
 		} else {
-			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'main' );
+			$args = array(
+				'post_type'      => 'wps-order',
+				'posts_per_page' => -1,
+			);
+
+			$count = count( get_posts( $args ) );
+
+			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'main', array(
+				'count' => $count,
+			) );
 		}
 	}
 

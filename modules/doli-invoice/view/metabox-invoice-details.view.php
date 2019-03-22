@@ -17,12 +17,12 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <h3><?php esc_html_e( 'Payment', 'wpshop' ); ?></h3>
-<p><strong><?php esc_html_e( 'Payment method', 'wpshop' ); ?></strong> : <?php echo empty( $order->data['payment_method'] ) ? 'N/D' : Payment::g()->get_payment_title( $order->data['payment_method'] ); ?></p>
+<p><strong><?php esc_html_e( 'Payment method', 'wpshop' ); ?></strong> : <?php echo empty( $invoice->data['payment_method'] ) ? 'N/D' : Payment::g()->get_payment_title( $invoice->data['payment_method'] ); ?></p>
 <p>
 	<strong><?php esc_html_e( 'Payment status', 'wpshop' ); ?></strong> :
 	<span>
 	<?php
-	echo esc_html( Payment::g()->convert_status( $order->data ) );
+	echo esc_html( Payment::g()->convert_status( $invoice->data ) );
 	if ( ! empty( $link_invoice ) ) :
 		?>
 		- <a href="<?php echo esc_url( $link_invoice ); ?>" target="_blank"><?php esc_html_e( 'View invoice', 'wpshop' ); ?></a>
@@ -75,6 +75,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<li>
 				<?php echo ! empty( $third_party->data['zip'] ) ? $third_party->data['zip'] : 'N/D'; ?>
 				<?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : 'N/D'; ?>
+				<?php echo ! empty( $third_party->data['country'] ) ? $third_party->data['country'] : 'N/D'; ?>
 			</li>
 			<li>
 				<strong><?php esc_html_e( 'Phone number', 'wpshop' ); ?> :</strong>

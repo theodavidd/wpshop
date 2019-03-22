@@ -77,6 +77,37 @@ class Doli_Invoice extends \eoxia\Post_Class {
 	 */
 	protected $post_type_name = 'Doli Invoice';
 
+	/*
+	* Récupères la liste des devis et appel la vue "list" du module "invoice".
+	*
+	* @since 2.0.0
+	*/
+   public function display() {
+	   $invoices = $this->get( array(
+		   'post_status' => 'any',
+	   ) );
+
+
+	   if ( ! empty( $invoices ) ) {
+		   foreach ( $invoices as &$element ) {
+			   $element->data['tier']  = null;
+			   $element->data['order'] = null;
+
+			   if ( ! empty( $element->data['parent_id'] ) ) {
+				   $element->data['order'] = Doli_Order::g()->get( array( 'id' => $element->data['parent_id'] ), true );
+			   }
+
+			   if ( ! empty( $element->data['third_party_id'] ) ) {
+				   $element->data['tier'] = Third_Party::g()->get( array( 'id' => $element->data['third_party_id'] ), true );
+			   }
+		   }
+	   }
+
+	   \eoxia\View_Util::exec( 'wpshop', 'doli-invoice', 'list', array(
+		   'invoices' => $invoices,
+	   ) );
+   }
+
 	/**
 	 * Synchronise depuis Dolibarr vers WP.
 	 *
@@ -102,6 +133,7 @@ class Doli_Invoice extends \eoxia\Post_Class {
 			$order                         = Doli_Order::g()->get( array( 'id' => $order_id ), true );
 			$wp_invoice->data['author_id'] = $order->data['author_id'];
 		}
+
 		$wp_invoice->data['title']          = $doli_invoice->ref;
 		$wp_invoice->data['lines']          = $doli_invoice->lines;
 		$wp_invoice->data['total_ttc']      = $doli_invoice->total_ttc;
@@ -109,6 +141,7 @@ class Doli_Invoice extends \eoxia\Post_Class {
 		$wp_invoice->data['total_ht']       = $doli_invoice->total_ht;
 		$wp_invoice->data['payment_method'] = Doli_Payment::g()->convert_to_wp( $doli_invoice->mode_reglement_code );
 		$wp_invoice->data['paye']           = (int) $doli_invoice->paye;
+		$wp_invoice->data['third_party_id'] = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_invoice->socid );
 
 		$status = '';
 

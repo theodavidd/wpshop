@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="table-cell table-25"><input type="checkbox" class="check"/></div>
 	<div class="table-cell table-full">
 		<ul class="reference-id">
-			<li><i class="fas fa-calendar-alt"></i> <?php echo esc_html( $order->data['date_commande']['rendered']['date'] ); ?></li>
+			<li><i class="fas fa-calendar-alt"></i> <?php echo esc_html( $order->data['datec']['rendered']['date_time'] ); ?></li>
 		</ul>
 		<div class="reference-title">
 			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ) ); ?>"><?php echo esc_html( $order->data['title'] ); ?></a>
