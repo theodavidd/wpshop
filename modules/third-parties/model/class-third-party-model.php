@@ -42,7 +42,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_address',
-			'default'     => null,
+			'default'     => '',
 			'since'       => '2.0.0',
 			'description' => 'L\'adresse d\'un tier (varchar(255)). Peut être NULL. Valeur par défaut NULL.',
 		);
@@ -51,7 +51,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_zip',
-			'default'     => null,
+			'default'     => '',
 			'since'       => '2.0.0',
 			'description' => 'Le code postal d\'un tier (varchar(25)). Peut être NULL. Valeur par défault NULL.',
 		);
@@ -60,7 +60,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_town',
-			'default'     => null,
+			'default'     => '',
 			'since'       => '2.0.0',
 			'description' => 'La ville d\'un tier (varchar(50)). Peut être NULL. Valeur par défault NULL.',
 		);
@@ -69,7 +69,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_state',
-			'default'     => null,
+			'default'     => '',
 			'since'       => '2.0.0',
 			'description' => 'Le département d\'un tier (varchar(50)). Peut être NULL. Valeur par défault NULL.',
 		);
@@ -78,6 +78,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'        => 'string',
 			'meta_type'   => 'single',
 			'field'       => '_country',
+			'default'     => '',
 			'since'       => '2.0.0',
 			'description' => 'Le pays d\'un tier (varchar(50)). Ne peut être NULL. Aucune valeur par défault.',
 		);
@@ -94,6 +95,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'type'      => 'string',
 			'meta_type' => 'single',
 			'field'     => '_phone',
+			'default'   => '',
 		);
 
 		$this->schema['contact_ids'] = array(
@@ -119,6 +121,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'meta_type' => 'single',
 			'field'     => 'email',
 			'since'     => '2.0.0',
+			'default'   => '',
 		);
 
 		$this->schema['last_sync'] = array(

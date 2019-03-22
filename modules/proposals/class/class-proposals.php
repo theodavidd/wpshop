@@ -83,8 +83,17 @@ class Proposals extends \eoxia\Post_Class {
 	public function display() {
 		$proposals = $this->get();
 
+		if ( ! empty( $proposals ) ) {
+			foreach ( $proposals as &$element ) {
+				$element->data['tier'] = Third_Party::g()->get( array( 'id' => $element->data['parent_id'] ), true );
+			}
+		}
+
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
 		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'list', array(
 			'proposals' => $proposals,
+			'doli_url'  => $dolibarr_option['dolibarr_url'],
 		) );
 	}
 

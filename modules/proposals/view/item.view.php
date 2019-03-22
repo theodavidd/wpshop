@@ -1,6 +1,6 @@
 <?php
 /**
- * Affichage d'une commande dans le listing de la page des commandes (wps-order)
+ * Affichage d'un devis dans le listing de la page des devis (wps-proposals)
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -16,15 +16,34 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<tr>
-	<td><input type="checkbox" /></td>
-	<td><?php echo esc_html( $proposal->data['id'] ); ?></td>
-	<td><?php echo esc_html( $proposal->data['external_id'] ); ?></td>
-	<td><?php echo esc_html( $proposal->data['title'] ); ?></td>
-	<td><?php echo esc_html( $proposal->data['status'] ); ?></td>
-	<td><?php echo esc_html( $proposal->data['total_ttc'] ); ?>€</td>
+<div class="table-row">
+	<div class="table-cell table-25"><input type="checkbox" class="check"/></div>
+	<div class="table-cell table-full">
+		<ul class="reference-id">
+			<li><i class="fas fa-calendar-alt"></i> <?php echo esc_html( $proposal->data['datec']['rendered']['date_time'] ); ?></li>
+		</ul>
+		<div class="reference-title">
+			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-proposal&id=' . $proposal->data['id'] ) ); ?>"><?php echo esc_html( $proposal->data['title'] ); ?></a>
+		</div>
+		<ul class="reference-actions">
+			<li><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-proposal&id=' . $proposal->data['id'] ) ); ?>"><?php esc_html_e( 'See', 'wpshop' ); ?></a></li>
+			<?php if ( ! empty( $proposal->data['external_id'] ) ) : ?>
+				<li><a href="<?php echo esc_attr( $doli_url ); ?>comm/propal/card.php?id=<?php echo $proposal->data['external_id']; ?>" target="_blank"><?php esc_html_e( 'See in Dolibarr', 'wpshop' ); ?></a></li>
+			<?php endif; ?>
+		</ul>
+	</div>
+	<div class="table-cell table-200">
+		<div><strong><?php echo esc_html( $proposal->data['tier']->data['title'] ); ?></strong></div>
+		<div><?php echo esc_html( $proposal->data['tier']->data['address'] ); ?></div>
+		<div><?php echo esc_html( $proposal->data['tier']->data['zip'] ) . ' ' . esc_html( $proposal->data['tier']->data['country'] ); ?></div>
+		<div><?php echo ! empty( $proposal->data['tier']->data['phone'] ) ? esc_html( $proposal->data['tier']->data['phone'] ) : ''; ?></div>
+	</div>
+	<div class="table-cell table-150"><?php echo Payment::g()->convert_status( $proposal->data ); ?></div>
+	<div class="table-cell table-100"><?php echo esc_html( $proposal->data['payment_method'] ); ?></div>
+	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</strong></div>
 	<?php apply_filters( 'wps_order_table_tr', $proposal ); ?>
-	<td>
-		<a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $proposal->data['id'] . '&action=edit' ) ); ?>" class="wpeo-button button-square-30 button-rounded"><i class="button-icon fas fa-pencil"></i></a>
-	</td>
-</tr>
+	<div class="table-cell table-100">
+		<!-- <div class="button-synchro"><i class="fas fa-sync"></i></div>
+		<div class="statut statut-green wpeo-tooltip-event" data-direction="left" aria-label="Date de la derniere synchro"></div> -->
+	</div>
+</div>

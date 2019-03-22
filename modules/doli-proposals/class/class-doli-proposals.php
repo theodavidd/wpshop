@@ -33,19 +33,45 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @todo: Gérer les status
+	 *
 	 * @param  stdClass       $doli_proposal Les données de dolibarr.
 	 *
 	 * @param  Proposal_Model $wp_proposal   Les données de WP.
 	 */
 	public function doli_to_wp( $doli_proposal, $wp_proposal ) {
-		$wp_proposal->data['external_id'] = (int) $doli_proposal->id;
-		$wp_proposal->data['title']       = $doli_proposal->ref;
-		$wp_proposal->data['total_ht']    = $doli_proposal->total_ht;
-		$wp_proposal->data['total_ttc']   = $doli_proposal->total_ttc;
-		$wp_proposal->data['lines']       = $doli_proposal->lines;
-		$wp_proposal->data['datec']       = date( 'Y-m-d h:i:s', $doli_proposal->datec );
-		$wp_proposal->data['parent_id']   = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_proposal->socid );
-		$wp_proposal->data['status']      = 'publish';
+		$wp_proposal->data['external_id']    = (int) $doli_proposal->id;
+		$wp_proposal->data['title']          = $doli_proposal->ref;
+		$wp_proposal->data['total_ht']       = $doli_proposal->total_ht;
+		$wp_proposal->data['total_ttc']      = $doli_proposal->total_ttc;
+		$wp_proposal->data['lines']          = 0 !== count( $doli_proposal->lines ) ? $doli_proposal->lines : null;
+		$wp_proposal->data['datec']          = date( 'Y-m-d H:i:s', $doli_proposal->datec );
+		$wp_proposal->data['parent_id']      = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_proposal->socid );
+		$wp_proposal->data['payment_method'] = ( null === $doli_proposal->mode_reglement_code ) ? $wp_proposal->data['payment_method'] : Doli_Payment::g()->convert_to_wp( $doli_proposal->mode_reglement_code );
+
+		$status = '';
+
+		switch ( $doli_proposal->statut ) {
+			case -1:
+				$status = 'wps-canceled';
+				break;
+			case 0:
+				$status = 'draft';
+				break;
+			case 1:
+				$status = 'publish';
+				break;
+			case 2:
+				break;
+			case 3:
+				$status = 'wps-delivered';
+				break;
+			default:
+				$status = 'publish';
+				break;
+		}
+
+		$wp_proposal->data['status'] = $status;
 
 		Proposals::g()->update( $wp_proposal->data );
 	}

@@ -58,6 +58,10 @@ class Third_Party_Action {
 				'title'    => __( 'Contacts', 'wpshop' ),
 				'callback' => array( $this, 'metabox_contacts' ),
 			),
+			'wps-third-party-propal'   => array(
+				'title'    => __( 'Proposals', 'wpshop' ),
+				'callback' => array( $this, 'metabox_proposals' ),
+			),
 			'wps-third-party-orders'   => array(
 				'title'    => __( 'Orders', 'wpshop' ),
 				'callback' => array( $this, 'metabox_orders' ),
@@ -197,6 +201,22 @@ class Third_Party_Action {
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts', array(
 			'third_party' => $callback_args['args']['third_party'],
 			'contacts'    => $contacts,
+		) );
+	}
+
+	/**
+	 * Appel la vue de la metabox des devis.
+	 *
+	 * @param  WP_Post $post          Le post actuel.
+	 * @param  array   $callback_args Les paramètres envoyées dans le add_meta_box.
+	 *
+	 * @since 2.0.0
+	 */
+	public function metabox_proposals( $post, $callback_args ) {
+		$proposals = Proposals::g()->get( array( 'post_parent' => $callback_args['args']['id'] ) );
+
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-proposals', array(
+			'proposals' => $proposals,
 		) );
 	}
 

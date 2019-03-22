@@ -36,14 +36,23 @@ defined( 'ABSPATH' ) || exit; ?>
 				?>
 				<tr>
 					<td>#<?php echo esc_html( $proposal->data['id'] ); ?></td>
-					<td><?php echo esc_html( $proposal->data['date_commande']['rendered']['date'] ); ?></td>
+					<td><?php echo esc_html( $proposal->data['datec']['rendered']['date'] ); ?></td>
 					<td>
 						<ul>
 							<?php
 							if ( ! empty( $proposal->data['lines'] ) ) :
 								foreach ( $proposal->data['lines'] as $line ) :
 									?>
-									<li><?php echo esc_html( $line['libelle'] ); ?> - <?php echo esc_html( $line['price'] ); ?>€</li>
+									<li>
+										<?php
+										if ( ! empty( $line['fk_product'] ) ) :
+											echo esc_html( $line['libelle'] ); ?> x<?php echo esc_html( $line['qty'] ); ?> - <?php echo esc_html( $line['price'] );
+										else:
+											echo esc_html( $line['desc'] ); ?> x<?php echo esc_html( $line['qty'] ); ?> - <?php echo esc_html( $line['price'] );
+
+										endif;
+										?>€
+									</li>
 									<?php
 								endforeach;
 							endif;
@@ -54,13 +63,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					<td>-</td>
 					<td><?php echo esc_html( $proposal->data['total_ttc'] ); ?>€</td>
 					<td>
-						<?php
-						if ( ! empty( $proposal->data['invoice'] ) ) :
-							?>
-								<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $proposal->data['id'] ) ); ?>"><i class="fas fa-file-download"></i></a>
-							<?php
-						endif;
-						?>
+						-
 					</td>
 				</tr>
 				<?php

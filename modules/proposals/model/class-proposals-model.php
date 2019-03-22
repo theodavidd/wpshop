@@ -34,7 +34,7 @@ class Proposals_Model extends \eoxia\Post_Model {
 		$this->schema['external_id'] = array(
 			'type'        => 'integer',
 			'meta_type'   => 'single',
-			'field'       => 'external_id',
+			'field'       => '_external_id',
 			'since'       => '2.0.0',
 			'description' => 'L\'ID du customer (dolibarr). Relation avec dolibarr.',
 		);
@@ -83,7 +83,7 @@ class Proposals_Model extends \eoxia\Post_Model {
 			'type'      => 'array',
 			'meta_type' => 'single',
 			'field'     => '_lines',
-			'default'   => array(),
+			'default'   => null,
 		);
 
 		$this->schema['payment_method'] = array(

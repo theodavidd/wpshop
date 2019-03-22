@@ -1,6 +1,6 @@
 <?php
 /**
- * Affichage du listing des tiers dans le backend.
+ * Affichage du listing des devis dans le backend.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -16,28 +16,25 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<table class="wpeo-table">
-	<thead>
-		<tr>
-			<th><input type="checkbox" /></th>
-			<th><?php esc_html_e( 'WP ID', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'DOLI ID', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Ref', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Status', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Price', 'wpshop' ); ?></th>
-			<?php echo apply_filters( 'wps_order_table_th', '' ); ?>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-		if ( ! empty( $proposals ) ) :
-			foreach ( $proposals as $proposal ) :
-				\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'item', array(
-					'proposal' => $proposal,
-				) );
-			endforeach;
-		endif;
-		?>
-	</tbody>
-</table>
+<div class="wps-list-product wpeo-table table-flex table-7">
+	<div class="table-row table-header">
+		<div class="table-cell table-25"><input type="checkbox" class="check-all"/></div>
+		<div class="table-cell table-full"><?php esc_html_e( 'Proposal reference', 'wpshop' ); ?></div>
+		<div class="table-cell table-200"><?php esc_html_e( 'Billing', 'wpshop' ); ?></div>
+		<div class="table-cell table-150"><?php esc_html_e( 'Status', 'wpshop' ); ?></div>
+		<div class="table-cell table-100"><?php esc_html_e( 'Method of payment', 'wpshop' ); ?></div>
+		<div class="table-cell table-100"><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></div>
+		<div class="table-cell table-100"><?php esc_html_e( 'Synchro', 'wpshop' ); ?></div>
+	</div>
+
+	<?php
+	if ( ! empty( $proposals ) ) :
+		foreach ( $proposals as $proposal) :
+			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'item', array(
+				'proposal' => $proposal,
+				'doli_url' => $doli_url,
+			) );
+		endforeach;
+	endif;
+	?>
+</div>
