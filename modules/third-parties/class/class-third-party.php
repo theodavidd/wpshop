@@ -91,6 +91,30 @@ class Third_Party extends \eoxia\Post_Class {
 			'third_parties' => $third_parties,
 		) );
 	}
+
+	public function display_commercial( $third_party ) {
+		$order = Doli_Order::g()->get( array(
+			'post_parent'    => $third_party['id'],
+			'posts_per_page' => 1
+		), true );
+
+		$devis = Proposals::g()->get( array(
+			'post_parent'    => $third_party['id'],
+			'posts_per_page' => 1,
+		), true );
+
+		$invoice = Doli_Invoice::g()->get( array(
+			'meta_key'       => '_third_party_id',
+			'meta_value'     => $third_party['id'],
+			'posts_per_page' => 1,
+		), true );
+
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'commercial', array(
+			'order'   => $order,
+			'devis'   => $devis,
+			'invoice' => $invoice,
+		) );
+	}
 }
 
 Third_Party::g();

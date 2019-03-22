@@ -16,4 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<li><?php echo esc_html( $contact->data['displayname'] ); ?></li>
+<li>
+	<?php echo esc_html( $contact->data['displayname'] ); ?>
+
+</li>

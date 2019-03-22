@@ -20,15 +20,11 @@ defined( 'ABSPATH' ) || exit; ?>
 	<thead>
 		<tr>
 			<th><input type="checkbox" /></th>
-			<th><?php esc_html_e( 'WP ID', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Dolibarr ID', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Title', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Associated contact', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Address', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Zip Code', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Town', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Country', 'wpshop' ); ?></th>
-			<th></th>
+			<th><?php esc_html_e( 'Society name', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Contacts', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Commercial', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Actions', 'wpshop' ); ?></th>
+			<th><?php esc_html_e( 'Sync', 'wpshop' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>

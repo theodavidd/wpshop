@@ -46,12 +46,13 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 			), true );
 		}
 
-		$wp_contact->data['external_id'] = (int) $doli_contact->id;
-		$wp_contact->data['login']       = sanitize_title( $doli_contact->email );
-		$wp_contact->data['firstname']   = $doli_contact->firstname;
-		$wp_contact->data['lastname']    = $doli_contact->lastname;
-		$wp_contact->data['phone']       = $doli_contact->phone_pro;
-		$wp_contact->data['email']       = $doli_contact->email;
+		$wp_contact->data['external_id']  = (int) $doli_contact->id;
+		$wp_contact->data['login']        = sanitize_title( $doli_contact->email );
+		$wp_contact->data['firstname']    = $doli_contact->firstname;
+		$wp_contact->data['lastname']     = $doli_contact->lastname;
+		$wp_contact->data['phone']        = $doli_contact->phone_pro;
+		$wp_contact->data['phone_mobile'] = $doli_contact->phone_mobile;
+		$wp_contact->data['email']        = $doli_contact->email;
 
 		if ( false !== email_exists( $wp_contact->data['email'] ) ) {
 			return false;

@@ -47,6 +47,15 @@ class Contact_Model extends \eoxia\User_Model {
 			'description' => 'Le téléphone du contact (varchar(30)). Peut être NULL. Valeur par défaut NULL.',
 		);
 
+		$this->schema['phone_mobile'] = array(
+			'type'        => 'string',
+			'meta_type'   => 'single',
+			'field'       => '_phone_mobile',
+			'default'     => null,
+			'since'       => '2.0.0',
+			'description' => 'Le téléphone mobile du contact (varchar(30)). Peut être NULL. Valeur par défaut NULL.',
+		);
+
 		$this->schema['third_party_id'] = array(
 			'type'      => 'integer',
 			'meta_type' => 'single',
