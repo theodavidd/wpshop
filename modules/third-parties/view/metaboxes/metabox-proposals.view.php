@@ -46,12 +46,24 @@ defined( 'ABSPATH' ) || exit; ?>
 									<li>
 										<?php
 										if ( ! empty( $line['fk_product'] ) ) :
-											echo esc_html( $line['libelle'] ); ?> x<?php echo esc_html( $line['qty'] ); ?> - <?php echo esc_html( $line['price'] );
-										else:
-											echo esc_html( $line['desc'] ); ?> x<?php echo esc_html( $line['qty'] ); ?> - <?php echo esc_html( $line['price'] );
-
+											?>
+											<span><?php echo esc_html( $line['libelle'] ); ?></span>
+											<span>x</span>
+											<span><?php echo esc_html( $line['qty'] ); ?></span>
+											<span>-</span>
+											<span><?php echo esc_html( $line['price'] ); ?></span>
+											<?php
+										else :
+											?>
+											<span> <?php echo esc_html( $line['desc'] ); ?></span>
+											<span>x</span>
+											<span><?php echo esc_html( $line['qty'] ); ?></span>
+											<span>-</span>
+											<span><?php echo esc_html( $line['price'] ); ?></span>
+											<?php
 										endif;
-										?>€
+										?>
+										<span>€</span>
 									</li>
 									<?php
 								endforeach;

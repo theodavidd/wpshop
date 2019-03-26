@@ -32,9 +32,11 @@ class Checkout_Action {
 
 		add_action( 'wps_after_cart_table', array( $this, 'callback_after_cart_table' ), 20 );
 
-		add_action( 'wps_checkout_shipping', array( $this, 'callback_checkout_shipping' ), 10, 2 );
+		add_action( 'wps_checkout_shipping', array( $this, 'callback_checkout_shipping' ), 10, 3 );
 		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_order_review' ), 10, 1 );
 		add_action( 'wps_checkout_after_order_review', array( $this, 'callback_checkout_payment' ) );
+
+		add_action( 'wp_ajax_load_edit_billing_address', array( $this, 'callback_load_edit_billing_address' ) );
 
 		add_action( 'wp_ajax_wps_checkout_create_third_party', array( $this, 'callback_checkout_create_third' ) );
 		add_action( 'wp_ajax_nopriv_wps_checkout_create_third_party', array( $this, 'callback_checkout_create_third' ) );
@@ -61,8 +63,12 @@ class Checkout_Action {
 	 * @param  Third_Party_Model $third_party Les données du tier.
 	 * @param  Contact_Model     $contact     Les données du contact.
 	 */
-	public function callback_checkout_shipping( $third_party, $contact ) {
-		include( Template_Util::get_template_part( 'checkout', 'form-shipping' ) );
+	public function callback_checkout_shipping( $third_party, $contact, $force_edit = false ) {
+		if ( 0 !== $contact->data['id'] && ! $force_edit ) {
+			include( Template_Util::get_template_part( 'checkout', 'form-shipping' ) );
+		} else {
+			include( Template_Util::get_template_part( 'checkout', 'form-shipping-edit' ) );
+		}
 	}
 
 	/**
@@ -100,6 +106,32 @@ class Checkout_Action {
 		$payment_methods = get_option( 'wps_payment_methods', Payment::g()->default_options );
 
 		include( Template_Util::get_template_part( 'checkout', 'payment' ) );
+	}
+
+	public function callback_load_edit_billing_address() {
+		check_ajax_referer( 'load_edit_billing_address' );
+
+		$current_user = wp_get_current_user();
+
+		if ( 0 !== $current_user->ID ) {
+			$contact = Contact::g()->get( array(
+				'search' => $current_user->user_email,
+				'number' => 1,
+			), true );
+
+			$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		} else {
+			wp_send_json_error();
+		}
+
+		ob_start();
+		do_action( 'wps_checkout_shipping', $third_party, $contact, true );
+		wp_send_json_success( array(
+			'namespace'        => 'wpshopFrontend',
+			'module'           => 'checkout',
+			'callback_success' => 'loadedEditBillingAddress',
+			'view'             => ob_get_clean(),
+		) );
 	}
 
 	/**

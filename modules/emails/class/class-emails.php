@@ -69,7 +69,7 @@ class Emails extends \eoxia\Singleton_Util {
 
 	/**
 	 * Récupères le chemin ABS vers le template du mail dans le thème.
-	 * Si introuvable récupère le template du mail dans le plugin WPShop.
+	 * Si introuvable récupère le template du mail dans le plugin WPshop.
 	 *
 	 * @since 2.0.0
 	 *

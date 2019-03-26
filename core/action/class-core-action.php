@@ -102,12 +102,12 @@ class Core_Action {
 	}
 
 	/**
-	 * Ajoutes le menu principal de WPShop.
+	 * Ajoutes le menu principal de WPshop.
 	 *
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_menu_page( __( 'WPShop', 'wpshop' ), __( 'WPShop', 'wpshop' ), 'manage_options', 'wps-order' );
+		add_menu_page( __( 'WPshop', 'wpshop' ), __( 'WPshop', 'wpshop' ), 'manage_options', 'wpshop' );
 	}
 }
 

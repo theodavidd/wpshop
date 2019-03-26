@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<input type="hidden" name="action" value="wps_checkout_create_third_party" />
 
 	<div><?php do_action( 'wps_checkout_billing', $third_party, $contact ); ?></div>
-	<div><?php do_action( 'wps_checkout_shipping', $third_party, $contact ); ?></div>
+	<div class="shipping-address"><?php do_action( 'wps_checkout_shipping', $third_party, $contact ); ?></div>
 
 	<a class="wpeo-button action-input alignright"
 		data-parent="wpeo-form">
@@ -34,7 +34,6 @@ defined( 'ABSPATH' ) || exit; ?>
 		endif;
 		?>
 	</a>
-
 </form>
 
 <?php do_action( 'wps_after_checkout_form' ); ?>

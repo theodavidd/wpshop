@@ -4,7 +4,7 @@
  *
  * Returns an array of countries and codes.
  *
- * @package WPShop
+ * @package WPshop
  * @version 2.0.0
  */
 

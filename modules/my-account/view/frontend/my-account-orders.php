@@ -41,30 +41,16 @@ defined( 'ABSPATH' ) || exit;
 					<td data-title="<?php echo esc_attr( number_format( $order->data['total_ht'], 2, ',', '' ) ); ?>€"><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</td>
 					<td data-title="<?php echo esc_attr( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€"><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</td>
 					<td data-title="View">
-						<?php
-						if ( ! empty( $order->data['invoice'] ) ) :
-							?>
-							<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&order_id=' . $order->data['id'] ) ); ?>" class="wpeo-button button-primary">
-							<i class="button-icon fas fa-file-download"></i>
-							</a>
-							<?php
-						endif;
-						?>
-
 						<div data-action="reorder"
 							data-nonce="<?php echo esc_attr( wp_create_nonce( 'do_reorder' ) ); ?>"
 							data-id="<?php echo esc_attr( $order->data['id'] ); ?>"
 							class="action-attribute wpeo-button button-primary">
-						<span><?php esc_html_e( 'Reorder', 'wpshop' ); ?></span>
-					</div>
+							<span><?php esc_html_e( 'Reorder', 'wpshop' ); ?></span>
+						</div>
 
-					<div class="wpeo-button button-primary wpeo-modal-event"
-					data-id="<?php echo esc_attr( $order->data['id'] ); ?>"
-					data-title="Commande <?php echo esc_attr( $order->data['title'] ); ?>"
-					data-action="load_modal_resume_order">
-						<span><?php esc_html_e( 'Resume', 'wpshop' ); ?></span>
-					</div>
-
+						<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_order&_wpnonce=' . wp_create_nonce( 'download_order' ) . '&order_id=' . $order->data['id'] ) ); ?>" class="wpeo-button button-primary">
+							<i class="button-icon fas fa-file-download"></i>
+						</a>
 					</td>
 				</tr>
 				<?php

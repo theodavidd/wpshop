@@ -60,7 +60,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					<td><?php echo esc_html( $invoice->data['payment_method'] ); ?></td>
 					<td><?php echo esc_html( $invoice->data['total_ttc'] ); ?>€</td>
 					<td>
-						<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $invoice->data['order']->data['id'] ) ); ?>"><i class="fas fa-file-download"></i></a>					</td>
+						<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $invoice->data['parent_id'] . '&avoir=' . $invoice->data['avoir'] . '&_wpnonce=' . wp_create_nonce( 'download_invoice' ) ) ); ?>"><i class="fas fa-file-download"></i></a>					</td>
 				</tr>
 				<?php
 			endforeach;

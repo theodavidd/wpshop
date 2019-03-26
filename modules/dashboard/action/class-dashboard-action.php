@@ -27,7 +27,7 @@ class Dashboard_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 10 );
 		add_action( 'load-toplevel_page_wps-third-party', array( $this, 'callback_load' ) );
 	}
 
@@ -37,7 +37,7 @@ class Dashboard_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page( 'wps-order', __( 'Dashboard', 'wpshop' ), __( 'Dashboard', 'wpshop' ), 'manage_options', 'wps-dashboard', array( $this, 'callback_add_menu_page' ) );
+		add_submenu_page( 'wpshop', __( 'Dashboard', 'wpshop' ), __( 'Dashboard', 'wpshop' ), 'manage_options', 'wpshop', array( $this, 'callback_add_menu_page' ) );
 	}
 
 	/**

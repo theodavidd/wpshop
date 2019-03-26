@@ -162,6 +162,8 @@ class Doli_Invoice extends \eoxia\Post_Class {
 
 		$wp_invoice->data['status'] = $status;
 
+		$wp_invoice->data['avoir'] = ( 2 === (int) $doli_invoice->type ) ? 1 : 0;
+
 		$wp_invoice = Doli_Invoice::g()->update( $wp_invoice->data );
 
 		// Récupères les paiements attachés à cette facture.

@@ -76,7 +76,7 @@ class Doli_Payment extends \eoxia\Post_Class {
 	protected $post_type_name = 'Doli Payment';
 
 	/**
-	 * Synchronise Dolibarr vers WPShop.
+	 * Synchronise Dolibarr vers WPshop.
 	 *
 	 * @since 2.0.0
 	 *

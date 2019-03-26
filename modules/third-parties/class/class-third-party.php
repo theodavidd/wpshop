@@ -95,6 +95,13 @@ class Third_Party extends \eoxia\Post_Class {
 		) );
 	}
 
+	/**
+	 * Affiches les trois dernières actions commerciales du tier.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Third_Party $third_party Les données du tier.
+	 */
 	public function display_commercial( $third_party ) {
 		$order = Doli_Order::g()->get( array(
 			'post_parent'    => $third_party['id'],

@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: core/external\n"
 
 #: core/action/class-core-action.php:85
-msgid "WPShop"
+msgid "WPshop"
 msgstr ""
 
 #: core/util/countries.util.php:21

@@ -97,8 +97,12 @@ class Stripe_Action {
 	 *
 	 * @param  array $data Donnée reçu par Stripe.
 	 */
-	public function callback_wps_gateway_stripe( $data ) {
-		do_action( 'wps_payment_complete', $data );
+	public function callback_wps_gateway_stripe( $param ) {
+		if ( 'order.payment_failed' === $param['type'] ) {
+			do_action( 'wps_payment_failed', $param );
+		} else {
+			do_action( 'wps_payment_complete', $param );
+		}
 	}
 }
 

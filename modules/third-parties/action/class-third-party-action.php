@@ -38,7 +38,7 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 11 );
 
 		add_action( 'load-wpshop_page_wps-third-party', array( $this, 'callback_load' ) );
 
@@ -80,7 +80,7 @@ class Third_Party_Action {
 	 */
 	public function callback_admin_menu() {
 		add_submenu_page(
-			'wps-order',
+			'wpshop',
 			__( 'Third Parties', 'wpshop' ),
 			__( 'Third Parties', 'wpshop' ),
 			'manage_options',
@@ -252,7 +252,10 @@ class Third_Party_Action {
 	 */
 	public function metabox_invoices( $post, $callback_args ) {
 
-		$invoices = Doli_Invoice::g()->get( array( 'author__in' => $callback_args['args']['third_party']->data['contact_ids'] ) );
+		$invoices = Doli_Invoice::g()->get( array(
+			'meta_key'   => '_third_party_id',
+			'meta_value' => $callback_args['args']['id'],
+		) );
 
 		if ( ! empty( $invoices ) ) {
 			foreach ( $invoices as &$invoice ) {

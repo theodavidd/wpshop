@@ -26,7 +26,6 @@
     "modules/emails/emails.config.json",
     
     "modules/dashboard/dashboard.config.json",
-    "modules/transfert-data/transfert-data.config.json",
     
     "modules/doli-shipping-cost/doli-shipping-cost.config.json",
     "modules/doli-proposals/doli-proposals.config.json",

@@ -5,7 +5,7 @@
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2006-2018 Eoxia <dev@eoxia.com>
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
- * @package   WPShop\Templates
+ * @package   WPshop\Templates
  * @since     2.0.0
  */
 

@@ -2,7 +2,7 @@
 /**
  * Gestion des actions du transfères de données
  *
- * Migration des données des tiers de WPShop 1.x.x vers WPShop 2.x.x
+ * Migration des données des tiers de WPshop 1.x.x vers WPshop 2.x.x
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.

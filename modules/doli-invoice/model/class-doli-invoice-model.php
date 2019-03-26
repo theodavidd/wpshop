@@ -82,6 +82,13 @@ class Doli_Invoice_Model extends \eoxia\Post_Model {
 			'field'     => '_third_party_id',
 		);
 
+		$this->schema['avoir'] = array(
+			'type'      => 'integer',
+			'meta_type' => 'single',
+			'field'     => '_avoir',
+			'default'   => 0,
+		);
+
 		parent::__construct( $object, $req_method );
 	}
 }

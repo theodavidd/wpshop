@@ -55,7 +55,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Affiches le status des pages lié à WPShop.
+	 * Affiches le status des pages lié à WPshop.
 	 *
 	 * @todo: A vérifier
 	 *
@@ -64,7 +64,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 	 * @param array   $post_states Les status actuels.
 	 * @param WP_Post $post        Les données du POST.
 	 *
-	 * @return array               Les status avec celui de WPShop en plus.
+	 * @return array               Les status avec celui de WPshop en plus.
 	 */
 	public function add_states_post( $post_states, $post ) {
 

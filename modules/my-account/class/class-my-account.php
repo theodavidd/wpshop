@@ -36,6 +36,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	 */
 	public function init_endpoint() {
 		add_rewrite_endpoint( 'orders', EP_ALL );
+		add_rewrite_endpoint( 'invoices', EP_ALL );
 	}
 
 	/**
@@ -97,6 +98,22 @@ class My_Account extends \eoxia\Singleton_Util {
 		unset( $order );
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-orders' ) );
+	}
+
+	/**
+	 * Affiches les factures liées au tier.
+	 *
+	 * @since 2.0.0
+	 */
+	public function display_invoices() {
+		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		$invoices    = Doli_Invoice::g()->get( array(
+			'meta_key'       => '_third_party_id',
+			'meta_value'     => $third_party->data['id'],
+		) );
+
+		include( Template_Util::get_template_part( 'my-account', 'my-account-invoices' ) );
 	}
 
 	/**

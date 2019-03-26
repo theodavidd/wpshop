@@ -20,6 +20,10 @@ window.eoxiaJS.wpshopFrontend.checkout.event = function() {
 	} );
 };
 
+window.eoxiaJS.wpshopFrontend.checkout.loadedEditBillingAddress = function( triggeredElement, response ) {
+	jQuery( '.shipping-address' ).html( response.data.view );
+};
+
 window.eoxiaJS.wpshopFrontend.checkout.checkoutErrors = function( triggeredElement, response ) {
 	if ( 0 === jQuery( 'form.wps-checkout-step-1 ul.error.notice' ).length ) {
 		jQuery( 'form.wps-checkout-step-1' ).prepend( response.data.template );

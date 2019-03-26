@@ -30,11 +30,13 @@ class Doli_Order_Action {
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
 		add_action( 'admin_init', array( $this, 'add_meta_box' ) );
 
-		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 12 );
 
 		add_action( 'wps_checkout_create_order', array( $this, 'create_order' ), 10, 1 );
 		add_action( 'wps_payment_complete', array( $this, 'set_to_billed' ), 30, 1 );
 		add_action( 'wps_payment_failed', array( $this, 'set_to_failed' ), 30, 1 );
+
+		add_action( 'admin_post_wps_download_order', array( $this, 'download_order' ) );
 	}
 
 	/**
@@ -95,7 +97,7 @@ class Doli_Order_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page( 'wps-order', __( 'Orders', 'wpshop' ), __( 'Orders', 'wpshop' ), 'manage_options', 'wps-order', array( $this, 'callback_add_menu_page' ) );
+		add_submenu_page( 'wpshop', __( 'Orders', 'wpshop' ), __( 'Orders', 'wpshop' ), 'manage_options', 'wps-order', array( $this, 'callback_add_menu_page' ) );
 	}
 
 	/**
@@ -210,6 +212,13 @@ class Doli_Order_Action {
 		$doli_order = Request_Util::post( 'orders/createfromproposal/' . $doli_proposal_id );
 		$doli_order = Request_Util::post( 'orders/' . $doli_order->id . '/validate' );
 
+		Request_Util::put( 'documents/builddoc', array(
+			'module_part'   => 'order',
+			'original_file' => $doli_order->ref . '/' . $doli_order->ref . '.pdf',
+			'doc_template'  => 'crabe',
+			'langcode'      => 'fr_FR',
+		) );
+
 		Emails::g()->send_mail( null, 'wps_email_new_order', array(
 			'order'       => $doli_order,
 			'third_party' => $third_party->data,
@@ -257,6 +266,42 @@ class Doli_Order_Action {
 
 		$wp_order->data['payment_failed'] = true;
 		Doli_Order::g()->update( $wp_order->data );
+	}
+
+	/**
+	 * Télécharges la commande au format PDT.
+	 *
+	 * @since 2.0.0
+	 */
+	public function download_order() {
+		check_admin_referer( 'download_order' );
+
+		$order_id = ! empty( $_GET['order_id'] ) ? (int) $_GET['order_id'] : 0;
+
+		if ( ! $order_id ) {
+			exit;
+		}
+
+		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		$order       = Doli_Order::g()->get( array( 'id' => $order_id ), true );
+
+		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
+			exit;
+		}
+
+		$order_file = Request_Util::get( 'documents/download?module_part=order&original_file=' . $order->data['title'] . '/' . $order->data['title'] . '.pdf' );
+
+		$content = base64_decode( $order_file->content );
+
+		header( 'Cache-Control: no-cache' );
+		header( 'Content-Type: application/pdf' );
+		header( 'Content-Disposition: inline; filename="' . $order->data['title'] . '.pdf"' );
+		header( 'Content-Length: ' . strlen( $content ) );
+
+		echo $content;
+
+		exit;
 	}
 }
 

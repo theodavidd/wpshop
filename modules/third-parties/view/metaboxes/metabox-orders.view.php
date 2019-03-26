@@ -55,19 +55,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					<td>-</td>
 					<td><?php echo esc_html( $order->data['payment_method'] ); ?></td>
 					<td><?php echo esc_html( $order->data['total_ttc'] ); ?>€</td>
-					<td>
-						<?php
-						if ( ! empty( $order->data['invoice'] ) ) :
-							?>
-								<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $order->data['id'] ) ); ?>"><i class="fas fa-file-download"></i></a>
-							<?php
-						else :
-							?>
-							-
-							<?php
-						endif;
-						?>
-					</td>
+					<td><a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_order&order_id=' . $order->data['id'] . '&_wpnonce=' . wp_create_nonce( 'download_order' ) ) ); ?>"><i class="fas fa-file-download"></i></a></td>
 				</tr>
 				<?php
 			endforeach;

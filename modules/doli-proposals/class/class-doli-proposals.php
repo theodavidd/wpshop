@@ -29,7 +29,7 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 	protected function construct() {}
 
 	/**
-	 * Synchronise Dolibarr vers WPShop.
+	 * Synchronise Dolibarr vers WPshop.
 	 *
 	 * @since 2.0.0
 	 *
@@ -77,7 +77,7 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Synchronise WPShop vers Dolibarr.
+	 * Synchronise WPshop vers Dolibarr.
 	 *
 	 * @since 2.0.0
 	 *

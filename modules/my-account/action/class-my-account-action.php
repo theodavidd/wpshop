@@ -39,9 +39,9 @@ class My_Account_Action {
 
 		add_action( 'wps_account_navigation', array( My_Account::g(), 'display_navigation' ) );
 		add_action( 'wps_account_orders', array( My_Account::g(), 'display_orders' ) );
+		add_action( 'wps_account_invoices', array( My_Account::g(), 'display_invoices' ) );
 		add_action( 'wps_account_proposals', array( My_Account::g(), 'display_proposals' ) );
 
-		add_action( 'wp_ajax_load_modal_resume_order', array( $this, 'load_modal_resume_order' ) );
 		add_action( 'wp_ajax_reorder', array( $this, 'do_reorder' ) );
 	}
 
@@ -79,39 +79,6 @@ class My_Account_Action {
 			wp_redirect( $page );
 			exit;
 		}
-	}
-
-	/**
-	 * Charges la modal résumant la commande
-	 *
-	 * @since 2.0.0
-	 */
-	public function load_modal_resume_order() {
-		check_ajax_referer( 'load_modal_resume_order' );
-
-		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-
-		if ( empty( $id ) ) {
-			wp_send_json_error();
-		}
-
-		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
-		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-
-		$order = Doli_Order::g()->get( array( 'id' => $id ), true );
-
-		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
-			exit;
-		}
-
-		ob_start();
-		\eoxia\View_Util::exec( 'wpshop', 'my-account', 'frontend/order-modal', array(
-			'order' => $order,
-		) );
-		wp_send_json_success( array(
-			'view'         => ob_get_clean(),
-			'buttons_view' => '<div class="wpeo-button button-main modal-close"><span>' . __( 'Close', 'wpshop' ) . '</span></div>',
-		) );
 	}
 
 	/**

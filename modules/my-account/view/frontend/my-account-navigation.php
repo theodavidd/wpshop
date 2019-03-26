@@ -18,5 +18,6 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <ul class="wps-account-navigation gridw-1">
 	<li><a class="<?php echo ( 'orders' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() . 'orders/' ); ?>"><?php esc_html_e( 'Orders', 'wpshop' ); ?></a></li>
-	<li><a href="<?php echo wp_logout_url(); ?>"><?php esc_html_e( 'Logout', 'wpshop' ); ?></a></li>
+	<li><a class="<?php echo ( 'invoices' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() . 'invoices/' ); ?>"><?php esc_html_e( 'Invoices', 'wpshop' ); ?></a></li>
+	<li><a href="<?php echo wp_logout_url( home_url() ); ?>"><?php esc_html_e( 'Logout', 'wpshop' ); ?></a></li>
 </ul>

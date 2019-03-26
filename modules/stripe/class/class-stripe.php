@@ -47,7 +47,7 @@ class Stripe extends \eoxia\Singleton_Util {
 		if ( ! empty( $order->data['lines'] ) ) {
 			foreach ( $order->data['lines'] as $line ) {
 				$lines[] = array(
-					'amount'   => (int) $line['price_ttc'] * 100,
+					'amount'   => (int) ( $line['price_ttc'] * 100 ),
 					'quantity' => $line['qty'],
 					'name'     => $line['libelle'],
 					'currency' => 'eur',

@@ -1,6 +1,6 @@
 <?php
 /**
- * Classe définisant le modèle d'une commande WPShop.
+ * Classe définisant le modèle d'une commande WPshop.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.

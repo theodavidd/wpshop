@@ -56,6 +56,10 @@ class My_Account_Shortcode extends \eoxia\Singleton_Util {
 					$tab = 'orders';
 				}
 
+				if ( array_key_exists( 'invoices', $wp->query_vars ) ) {
+					$tab = 'invoices';
+				}
+
 				if ( array_key_exists( 'proposals', $wp->query_vars ) ) {
 					$tab = 'proposals';
 				}

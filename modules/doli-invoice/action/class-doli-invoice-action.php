@@ -177,7 +177,13 @@ class Doli_Invoice_Action {
 		$doli_invoice = Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
 			'notrigger' => 0,
 		) );
-		$doli_invoice = Request_Util::post( 'invoices/' . $doli_invoice->id . '/settopaid' );
+
+		$doli_payment = Request_Util::post( 'invoices/' . $doli_invoice->id . '/payments', array(
+			'datepaye'          => current_time( 'timestamp' ),
+			'paiementid'        => (int) $doli_invoice->mode_reglement_id,
+			'closepaidinvoices' => 'yes',
+			'accountid'         => 1
+		) );
 
 		Request_Util::put( 'documents/builddoc', array(
 			'module_part'   => 'invoice',
@@ -218,15 +224,9 @@ class Doli_Invoice_Action {
 		unlink( $path_file );
 
 		// Création du règlement vers WP
-		$doli_payments = Request_Util::get( 'invoices/' . $invoice->data['id'] . '/payments' );
+		$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
 
-		if ( ! empty( $doli_payments ) ) {
-			foreach ( $doli_payments as $doli_payment ) {
-				$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
-
-				Doli_Payment::g()->doli_to_wp( $invoice->data['id'], $doli_payment, $wp_payment );
-			}
-		}
+		Doli_Payment::g()->doli_to_wp( $doli_invoice->id, $doli_payment, $wp_payment );
 	}
 
 	/**
@@ -238,6 +238,7 @@ class Doli_Invoice_Action {
 		check_admin_referer( 'download_invoice' );
 
 		$order_id = ! empty( $_GET['order_id'] ) ? (int) $_GET['order_id'] : 0;
+		$avoir    = ! empty( $_GET['avoir'] ) ? (int) $_GET['avoir'] : 0;
 
 		if ( ! $order_id ) {
 			exit;
@@ -246,7 +247,12 @@ class Doli_Invoice_Action {
 		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 		$order       = Doli_Order::g()->get( array( 'id' => $order_id ), true );
-		$invoice     = Doli_Invoice::g()->get( array( 'post_parent' => $order_id ), true );
+		$invoice     = Doli_Invoice::g()->get( array(
+			'post_parent'    => $order_id,
+			'meta_key'       => '_avoir',
+			'meta_value'     => $avoir,
+			'posts_per_page' => 1,
+		), true );
 
 		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
