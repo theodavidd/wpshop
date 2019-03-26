@@ -16,23 +16,25 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<table class="wpeo-table">
-	<thead>
-		<tr>
-			<th>Date</th>
-			<th>Type</th>
-			<th>Contenu</th>
-		</tr>
-	</thead>
+<div class="wps-metabox wps-billing-address view gridw-3">
+	<table class="wpeo-table">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Type</th>
+				<th>Contenu</th>
+			</tr>
+		</thead>
 
-	<tbody>
-		<tr>
-			<td>24/01/2019</td>
-			<td>Tâche</td>
-			<td>
-				Lorem ipsum dolor sit amet, lorem ipusm lorem ipsum lorem ipsum !
-			</td>
-		</tr>
+		<tbody>
+			<tr>
+				<td>24/01/2019</td>
+				<td>Tâche</td>
+				<td>
+					Lorem ipsum dolor sit amet, lorem ipusm lorem ipsum lorem ipsum !
+				</td>
+			</tr>
 
-	</tbody>
-</table>
+		</tbody>
+	</table>
+</div>

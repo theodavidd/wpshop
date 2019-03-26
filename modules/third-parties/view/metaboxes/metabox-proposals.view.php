@@ -16,59 +16,32 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<table class="wpeo-table">
-	<thead>
-		<tr>
-			<th><?php esc_html_e( 'Proposal', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Date', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Contenu', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Status', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Paiement', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Montant', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Facture', 'wpshop' ); ?></th>
-		</tr>
-	</thead>
+<div class="wps-metabox wps-billing-address view gridw-2">
+	<h3 class="metabox-title"><?php esc_html_e( 'Proposals' ); ?></h3>
 
-	<tbody>
+	<div class="wpeo-table table-flex table-4">
+		<div class="table-row table-header">
+			<div class="table-cell"><?php esc_html_e( 'Proposal', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Date', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( '€ TTC', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Status', 'wpshop' ); ?></div>
+		</div>
+
 		<?php
 		if ( ! empty( $proposals ) ) :
-			foreach ( $proposals as $proposal ) :
-				?>
-				<tr>
-					<td>#<?php echo esc_html( $proposal->data['id'] ); ?></td>
-					<td><?php echo esc_html( $proposal->data['datec']['rendered']['date'] ); ?></td>
-					<td>
-						<ul>
-							<?php
-							if ( ! empty( $proposal->data['lines'] ) ) :
-								foreach ( $proposal->data['lines'] as $line ) :
-									?>
-									<li>
-										<?php
-										if ( ! empty( $line['fk_product'] ) ) :
-											echo esc_html( $line['libelle'] ); ?> x<?php echo esc_html( $line['qty'] ); ?> - <?php echo esc_html( $line['price'] );
-										else:
-											echo esc_html( $line['desc'] ); ?> x<?php echo esc_html( $line['qty'] ); ?> - <?php echo esc_html( $line['price'] );
-
-										endif;
-										?>€
-									</li>
-									<?php
-								endforeach;
-							endif;
-							?>
-						</ul>
-					</td>
-					<td>Non validée</td>
-					<td>-</td>
-					<td><?php echo esc_html( $proposal->data['total_ttc'] ); ?>€</td>
-					<td>
-						-
-					</td>
-				</tr>
-				<?php
+			foreach ( $proposals as $proposal ) : ?>
+				<div class="table-row">
+					<div class="table-cell">
+						<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-proposal&id=' . $proposal->data['id'] ) ); ?>">
+							<?php echo esc_html( $proposal->data['title'] ); ?>
+						</a>
+					</div>
+					<div class="table-cell"><?php echo esc_html( $proposal->data['datec']['rendered']['date'] ); ?></div>
+					<div class="table-cell"><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
+					<div class="table-cell"><strong><?php echo Payment::g()->make_readable_statut( $proposal ); ?></strong></div>
+				</div> <?php
 			endforeach;
 		endif;
 		?>
-	</tbody>
-</table>
+	</div>
+</div>
