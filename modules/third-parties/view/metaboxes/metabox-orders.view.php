@@ -17,79 +17,31 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-metabox wps-billing-address view gridw-2">
-	<table class="wpeo-table">
-		<thead>
-			<tr>
-				<th><?php esc_html_e( 'Commande', 'wpshop' ); ?></th>
-				<th><?php esc_html_e( 'Date', 'wpshop' ); ?></th>
-				<th><?php esc_html_e( 'Contenu HT', 'wpshop' ); ?></th>
-				<th><?php esc_html_e( 'Status', 'wpshop' ); ?></th>
-				<th><?php esc_html_e( 'Paiement', 'wpshop' ); ?></th>
-				<th><?php esc_html_e( 'Montant TTC', 'wpshop' ); ?></th>
-				<th><?php esc_html_e( 'Facture', 'wpshop' ); ?></th>
-			</tr>
-		</thead>
+	<h3 class="metabox-title"><?php esc_html_e( 'Orders' ); ?></h3>
 
-		<tbody>
-			<?php
-			if ( ! empty( $orders ) ) :
-				foreach ( $orders as $order ) :
-					?>
-					<tr>
-						<td>
-							<a target="_blank" href="<?php echo admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ); ?>">#<?php echo esc_html( $order->data['title'] ); ?></a>
-						</td>
-						<td><?php echo esc_html( $order->data['datec']['rendered']['date_time'] ); ?></td>
-						<td>
-							<ul>
-								<?php
-								if ( ! empty( $order->data['lines'] ) ) :
-									foreach ( $order->data['lines'] as $line ) :
-										?>
-										<li><?php echo esc_html( $line['libelle'] ); ?> x<?php echo esc_html( $line['qty'] ); ?> - <?php echo esc_html( $line['price'] ); ?>€</li>
-										<?php
-									endforeach;
-								endif;
-								?>
-							</ul>
-						</td>
-						<td>-</td>
-						<td><?php echo esc_html( $order->data['payment_method'] ); ?></td>
-						<td><?php echo esc_html( $order->data['total_ttc'] ); ?>€</td>
-						<td>
-							<?php
-							if ( ! empty( $order->data['invoice'] ) ) :
-								?>
-									<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $order->data['id'] ) ); ?>"><i class="fas fa-file-download"></i></a>
-								<?php
-							else :
-								?>
-								-
-								<?php
-							endif;
-							?>
-<<<<<<< HEAD
-						</ul>
-					</td>
-					<td>-</td>
-					<td><?php echo esc_html( $order->data['payment_method'] ); ?></td>
-					<td><?php echo esc_html( $order->data['total_ttc'] ); ?>€</td>
-					<td><a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_order&order_id=' . $order->data['id'] . '&_wpnonce=' . wp_create_nonce( 'download_order' ) ) ); ?>"><i class="fas fa-file-download"></i></a></td>
-				</tr>
-				<?php
+	<div class="wpeo-table table-flex table-4">
+		<div class="table-row table-header">
+			<div class="table-cell"><?php esc_html_e( 'Order', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Date', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( '€ TTC', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Status', 'wpshop' ); ?></div>
+		</div>
+
+		<?php
+		if ( ! empty( $orders ) ) :
+			foreach ( $orders as $order ) : ?>
+				<div class="table-row">
+					<div class="table-cell">
+						<a href="<?php echo admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ); ?>">
+							<?php echo esc_html( $order->data['title'] ); ?>
+						</a>
+					</div>
+					<div class="table-cell"><?php echo esc_html( $order->data['datec']['rendered']['date'] ); ?></div>
+					<div class="table-cell"><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
+					<div class="table-cell"><strong><?php echo Payment::g()->make_readable_statut( $order ); ?></strong></div>
+				</div> <?php
 			endforeach;
 		endif;
 		?>
-	</tbody>
-</table>
-=======
-						</td>
-					</tr>
-					<?php
-				endforeach;
-			endif;
-			?>
-		</tbody>
-	</table>
+	</div>
 </div>
->>>>>>> b222688d19ab40a2ee19839eca0f84eb1201eaef

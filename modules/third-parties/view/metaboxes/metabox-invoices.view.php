@@ -17,97 +17,31 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-metabox wps-billing-address view gridw-2">
-	<table class="wpeo-table">
-		<thead>
-			<tr>
-				<th>Facture</th>
-				<th>Commande</th>
-				<th>Date</th>
-				<th>Contenu  HT</th>
-				<th>Status</th>
-				<th>Paiement</th>
-				<th>Montant TTC</th>
-				<th>Document</th>
-			</tr>
-		</thead>
+	<h3 class="metabox-title"><?php esc_html_e( 'Proposals' ); ?></h3>
 
-<<<<<<< HEAD
-	<tbody>
+	<div class="wpeo-table table-flex table-4">
+		<div class="table-row table-header">
+			<div class="table-cell"><?php esc_html_e( 'Billing', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Date', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( '€ TTC', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Status', 'wpshop' ); ?></div>
+		</div>
+
 		<?php
 		if ( ! empty( $invoices ) ) :
-			foreach ( $invoices as $invoice ) :
-				?>
-				<tr>
-					<td>
-						#<?php echo esc_html( $invoice->data['title'] ); ?>
-					</td>
-					<td>
-						#<?php echo esc_html( $invoice->data['order']->data['title'] ); ?>
-					</td>
-					<td><?php echo esc_html( $invoice->data['date']['rendered']['date'] ); ?></td>
-					<td>
-						<ul>
-							<?php
-							if ( ! empty( $invoice->data['lines'] ) ) :
-								foreach ( $invoice->data['lines'] as $line ) :
-									?>
-									<li><?php echo esc_html( $line['libelle'] ); ?> x<?php echo esc_html( $line['qty'] ); ?> - <?php echo esc_html( number_format( $line['total_ht'], 2, ',', '' ) ); ?>€</li>
-									<?php
-								endforeach;
-							endif;
-							?>
-						</ul>
-					</td>
-					<td>-</td>
-					<td><?php echo esc_html( $invoice->data['payment_method'] ); ?></td>
-					<td><?php echo esc_html( $invoice->data['total_ttc'] ); ?>€</td>
-					<td>
-						<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $invoice->data['parent_id'] . '&avoir=' . $invoice->data['avoir'] . '&_wpnonce=' . wp_create_nonce( 'download_invoice' ) ) ); ?>"><i class="fas fa-file-download"></i></a>					</td>
-				</tr>
-				<?php
+			foreach ( $invoices as $invoice ) : ?>
+				<div class="table-row">
+					<div class="table-cell">
+						<a href="<?php echo admin_url( 'admin.php?page=wps-invoicel&id=' . $invoice->data['id'] ); ?>">
+							<?php echo esc_html( $invoice->data['title'] ); ?>
+						</a>
+					</div>
+					<div class="table-cell"><?php echo esc_html( $invoice->data['date']['rendered']['date'] ); ?></div>
+					<div class="table-cell"><?php echo esc_html( number_format( $invoice->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
+					<div class="table-cell"><strong><?php echo Payment::g()->make_readable_statut( $invoice ); ?></strong></div>
+				</div> <?php
 			endforeach;
 		endif;
 		?>
-	</tbody>
-</table>
-=======
-		<tbody>
-			<?php
-			if ( ! empty( $invoices ) ) :
-				foreach ( $invoices as $invoice ) :
-					?>
-					<tr>
-						<td>
-							#<?php echo esc_html( $invoice->data['title'] ); ?>
-						</td>
-						<td>
-							#<?php echo esc_html( $invoice->data['order']->data['title'] ); ?>
-						</td>
-						<td><?php echo esc_html( $invoice->data['date']['rendered']['date'] ); ?></td>
-						<td>
-							<ul>
-								<?php
-								if ( ! empty( $invoice->data['lines'] ) ) :
-									foreach ( $invoice->data['lines'] as $line ) :
-										?>
-										<li><?php echo esc_html( $line['libelle'] ); ?> x<?php echo esc_html( $line['qty'] ); ?> - <?php echo esc_html( number_format( $line['total_ht'], 2, ',', '' ) ); ?>€</li>
-										<?php
-									endforeach;
-								endif;
-								?>
-							</ul>
-						</td>
-						<td>-</td>
-						<td><?php echo esc_html( $invoice->data['payment_method'] ); ?></td>
-						<td><?php echo esc_html( $invoice->data['total_ttc'] ); ?>€</td>
-						<td>
-							<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&order_id=' . $invoice->data['order']->data['id'] ) ); ?>"><i class="fas fa-file-download"></i></a>					</td>
-					</tr>
-					<?php
-				endforeach;
-			endif;
-			?>
-		</tbody>
-	</table>
+	</div>
 </div>
->>>>>>> b222688d19ab40a2ee19839eca0f84eb1201eaef

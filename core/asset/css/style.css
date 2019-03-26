@@ -595,8 +595,7 @@
   border-bottom: 2px solid rgba(0, 0, 0, 0.3); }
 
 .wpeo-table.table-flex .table-row.table-header .table-cell {
-  color: rgba(0, 0, 0, 0.8);
-  padding-top: 0; }
+  color: rgba(0, 0, 0, 0.8); }
 
 .wpeo-table.table-flex .table-row:not(.table-header):nth-of-type(odd) {
   background: rgba(0, 0, 0, 0.02); }
@@ -604,8 +603,6 @@
 .wpeo-table.table-flex .table-button-edit {
   color: #1897e7; }
 
-.wpeo-table.table-flex input[type=checkbox],
-.wpeo-table.table-flex input[type=color],
 .wpeo-table.table-flex input[type=date],
 .wpeo-table.table-flex input[type=datetime-local],
 .wpeo-table.table-flex input[type=datetime],
@@ -613,7 +610,6 @@
 .wpeo-table.table-flex input[type=month],
 .wpeo-table.table-flex input[type=number],
 .wpeo-table.table-flex input[type=password],
-.wpeo-table.table-flex input[type=radio],
 .wpeo-table.table-flex input[type=search],
 .wpeo-table.table-flex input[type=tel],
 .wpeo-table.table-flex input[type=text],

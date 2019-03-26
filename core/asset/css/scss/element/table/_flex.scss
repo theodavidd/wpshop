@@ -8,7 +8,6 @@
 
 		.table-cell {
 			color: rgba(0,0,0,0.8);
-			padding-top: 0;
 		}
 	}
 	.table-row:not(.table-header):nth-of-type(odd) {
@@ -17,8 +16,6 @@
 	.table-button-edit {
 		color: $color__primary
 	}
-	input[type=checkbox],
-	input[type=color],
 	input[type=date],
 	input[type=datetime-local],
 	input[type=datetime],
@@ -26,7 +23,6 @@
 	input[type=month],
 	input[type=number],
 	input[type=password],
-	input[type=radio],
 	input[type=search],
 	input[type=tel],
 	input[type=text],
