@@ -8,6 +8,7 @@
     
     "modules/settings/settings.config.json",
     
+    "modules/order/order.config.json",
 		"modules/products/products.config.json",
 		"modules/third-parties/third-parties.config.json",
 		"modules/contacts/contacts.config.json",

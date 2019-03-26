@@ -42,8 +42,8 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div><?php echo esc_html( $order->data['tier']->data['zip'] ) . ' ' . esc_html( $order->data['tier']->data['country'] ); ?></div>
 		<div><?php echo esc_html( $order->data['tier']->data['phone'] ); ?></div>
 	</div>
-	<div class="table-cell table-150"><?php echo Payment::g()->convert_status( $order->data ); ?></div>
-	<div class="table-cell table-100"><?php echo esc_html( $order->data['payment_method'] ); ?></div>
+	<div class="table-cell table-150"><?php echo Payment::g()->make_readable_statut( $order ); ?></div>
+	<div class="table-cell table-100"><?php echo esc_html( Payment::g()->get_payment_title( $order->data['payment_method'] ) ); ?></div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</strong></div>
 	<?php apply_filters( 'wps_order_table_tr', $order ); ?>
 	<div class="table-cell table-100">

@@ -37,6 +37,7 @@ class Doli_Synchro_Action {
 		add_action( 'wp_ajax_sync_proposals', array( $this, 'sync_proposals' ) );
 		add_action( 'wp_ajax_sync_orders', array( $this, 'sync_orders' ) );
 		add_action( 'wp_ajax_sync_invoices', array( $this, 'sync_invoices' ) );
+		add_action( 'wp_ajax_sync_payments', array( $this, 'sync_payments' ) );
 	}
 
 	/**
@@ -456,6 +457,61 @@ class Doli_Synchro_Action {
 				}
 
 				Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice );
+
+				$done_number++;
+			}
+		}
+
+		if ( $done_number >= $total_number ) {
+			$done_number = $total_number;
+			$done        = true;
+		}
+
+		wp_send_json_success( array(
+			'updateComplete'     => false,
+			'done'               => $done,
+			'progression'        => $done_number . '/' . $total_number,
+			'progressionPerCent' => 0 !== $total_number ? ( ( $done_number * 100 ) / $total_number ) : 100,
+			'doneDescription'    => $done_number . '/' . $total_number,
+			'doneElementNumber'  => $done_number,
+			'errors'             => null,
+		) );
+	}
+
+	/**
+	 * Synchornise les paiements.
+	 *
+	 * @todo: Faire qu'une seul fonction
+	 *
+	 * @since 2.0.0
+	 */
+	public function sync_payments() {
+		check_ajax_referer( 'sync_payments' );
+
+		$done         = false;
+		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
+		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
+
+		$invoices = Doli_Invoice::g()->get();
+
+		if ( ! empty( $invoices ) ) {
+			foreach ( $invoices as $invoice ) {
+				$doli_payments = Request_Util::get( 'invoices/' . $invoice->data['id'] . '/payments' );
+
+				if ( ! empty( $doli_payments ) ) {
+					foreach ( $doli_payments as $doli_payment ) {
+						$wp_payment = Doli_Payment::g()->get( array(
+							'meta_key'   => '_external_id',
+							'meta_value' => (int) $doli_payment->id,
+						), true );
+
+						if ( empty( $wp_payment ) ) {
+							$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
+						}
+
+						Doli_Payment::g()->doli_to_wp( $invoice->data['id'], $doli_payment, $wp_payment );
+					}
+				}
 
 				$done_number++;
 			}

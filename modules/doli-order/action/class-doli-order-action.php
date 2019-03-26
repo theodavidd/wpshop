@@ -28,6 +28,8 @@ class Doli_Order_Action {
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
+		add_action( 'admin_init', array( $this, 'add_meta_box' ) );
+
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 
 		add_action( 'wps_checkout_create_order', array( $this, 'create_order' ), 10, 1 );
@@ -67,6 +69,27 @@ class Doli_Order_Action {
 	}
 
 	/**
+	 * Ajoutes la metabox details
+	 *
+	 * @since 2.0.0
+	 */
+	public function add_meta_box() {
+		if ( isset( $_GET['id'] ) && isset( $_GET['page'] ) && 'wps-order' == $_GET['page'] ) {
+
+			$order        = Doli_Order::g()->get( array( 'id' => $_GET['id'] ), true );
+			$args_metabox = array(
+				'order' => $order,
+				'id'    => $_GET['id'],
+			);
+
+			/* translators: Order details CO00010 */
+			$box_order_detail_title = sprintf( __( 'Order details %s', 'wpshop' ), $order->data['title'] );
+
+			add_meta_box( 'wps-order-customer', $box_order_detail_title, array( $this, 'callback_meta_box' ), 'wps-order', 'normal', 'default', $args_metabox );
+		}
+	}
+
+	/**
 	 * Initialise la page "Commande".
 	 *
 	 * @since 2.0.0
@@ -82,17 +105,7 @@ class Doli_Order_Action {
 	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
-			$order        = Doli_Order::g()->get( array( 'id' => $_GET['id'] ), true );
-			$args_metabox = array(
-				'order' => $order,
-				'id'    => $_GET['id'],
-			);
-
-			/* translators: Order details CO00010 */
-			$box_order_detail_title = sprintf( __( 'Order details %s', 'wpshop' ), $order->data['title'] );
-
-			add_meta_box( 'wps-order-customer', $box_order_detail_title, array( $this, 'callback_meta_box' ), 'wps-order', 'normal', 'default', $args_metabox );
-			add_meta_box( 'wps-order-products', __( 'Products', 'wpshop' ), array( $this, 'callback_products' ), 'wps-order', 'normal', 'default', $args_metabox );
+			$order = Doli_Order::g()->get( array( 'id' => $_GET['id'] ), true );
 
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array( 'order' => $order ) );
 		} else {

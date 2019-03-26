@@ -17,5 +17,5 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wrap">
-	<?php do_meta_boxes( 'wps-order', 'normal', '' ); ?>
+	<?php do_meta_boxes( 'wps-order', 'normal', $order ); ?>
 </div>

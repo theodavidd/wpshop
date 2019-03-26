@@ -17,5 +17,5 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wrap">
-	<?php do_meta_boxes( 'wps-proposal', 'normal', '' ); ?>
+	<?php do_meta_boxes( 'wps-proposal', 'normal', $proposal ); ?>
 </div>

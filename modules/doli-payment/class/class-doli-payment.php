@@ -76,6 +76,29 @@ class Doli_Payment extends \eoxia\Post_Class {
 	protected $post_type_name = 'Doli Payment';
 
 	/**
+	 * Synchronise Dolibarr vers WPShop.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @todo: Gérer les status
+	 *
+	 * @param  stdClass $doli_payment Les données de dolibarr.
+	 *
+	 * @param  Payment  $wp_payment  Les données de WP.
+	 */
+	public function doli_to_wp( $doli_invoice_id, $doli_payment, $wp_payment ) {
+		$wp_payment->data['external_id']  = (int) $doli_payment->id;
+		$wp_payment->data['title']        = $doli_payment->ref;
+		$wp_payment->data['amount']       = $doli_payment->amount;
+		$wp_payment->data['date']         = date( 'Y-m-d H:i:s', $doli_payment->date );
+		$wp_payment->data['parent_id']    = Doli_Invoice::g()->get_wp_id_by_doli_id( $doli_invoice_id );
+		$wp_payment->data['payment_type'] = $doli_payment->type;
+		$wp_payment->data['status']       = 'publish';
+
+		Doli_Payment::g()->update( $wp_payment->data );
+	}
+
+	/**
 	 * Convertie vers l'ID de dolibarr
 	 *
 	 * @since 2.0.0
@@ -108,22 +131,26 @@ class Doli_Payment extends \eoxia\Post_Class {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @todo: a vérifier
-	 *
 	 * @param  string $payment_method Méthode de paiement venant de Dolibarr.
 	 *
-	 * @return string                 Texte lisible.
+	 * @return mixed                  Texte lisible ou null
 	 */
 	public function convert_to_wp( $payment_method ) {
+		if ( empty( $payment_method ) ) {
+			return '';
+		}
+
 		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
 
 		if ( 'CB' === $payment_method ) {
 			return 'paypal';
 		} elseif ( 'CHQ' === $payment_method ) {
-			return 'Cheque';
+			return 'cheque';
 		} elseif ( 'LIQ' === $payment_method ) {
-			return 'Espèce';
+			return 'espece';
 		}
+
+		return '';
 	}
 }
 

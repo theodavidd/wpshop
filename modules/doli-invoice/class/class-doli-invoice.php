@@ -192,6 +192,23 @@ class Doli_Invoice extends \eoxia\Post_Class {
 
 		return $wp_invoice;
 	}
+
+	/**
+	 * Récupères l'ID WP selon l'ID de dolibarr.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  integer $doli_id L'ID de dolibarr.
+	 * @return integer          L'ID de WP.
+	 */
+	public function get_wp_id_by_doli_id( $doli_id ) {
+		$invoice = Doli_Invoice::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => $doli_id,
+		), true );
+
+		return $invoice->data['id'];
+	}
 }
 
 Doli_Invoice::g();

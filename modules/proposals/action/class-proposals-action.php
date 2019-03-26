@@ -28,6 +28,8 @@ class Proposals_Action {
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
+		add_action( 'admin_init', array( $this, 'add_meta_box' ) );
+
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 	}
 
@@ -40,6 +42,27 @@ class Proposals_Action {
 		remove_post_type_support( 'wps-proposal', 'title' );
 		remove_post_type_support( 'wps-proposal', 'editor' );
 		remove_post_type_support( 'wps-proposal', 'excerpt' );
+	}
+
+	/**
+	 * Ajoutes la metabox details
+	 *
+	 * @since 2.0.0
+	 */
+	public function add_meta_box() {
+		if ( isset( $_GET['id'] ) && isset( $_GET['page'] ) && 'wps-proposal' == $_GET['page'] ) {
+			$proposal = Proposals::g()->get( array( 'id' => $_GET['id'] ), true );
+
+			$args_metabox = array(
+				'proposal' => $proposal,
+				'id'    => $_GET['id'],
+			);
+
+			/* translators: Order details CO00010 */
+			$box_proposal_detail_title = sprintf( __( 'Proposal details %s', 'wpshop' ), $proposal->data['title'] );
+
+			add_meta_box( 'wps-proposal-customer', $box_proposal_detail_title, array( $this, 'callback_meta_box' ), 'wps-proposal', 'normal', 'default', $args_metabox );
+		}
 	}
 
 	/**
@@ -59,16 +82,6 @@ class Proposals_Action {
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
 			$proposal        = Proposals::g()->get( array( 'id' => $_GET['id'] ), true );
-			$args_metabox = array(
-				'proposal' => $proposal,
-				'id'    => $_GET['id'],
-			);
-
-			/* translators: Order details CO00010 */
-			$box_proposal_detail_title = sprintf( __( 'Proposal details %s', 'wpshop' ), $proposal->data['title'] );
-
-			add_meta_box( 'wps-proposal-customer', $box_proposal_detail_title, array( $this, 'callback_meta_box' ), 'wps-proposal', 'normal', 'default', $args_metabox );
-			add_meta_box( 'wps-proposal-products', __( 'Products', 'wpshop' ), array( $this, 'callback_products' ), 'wps-proposal', 'normal', 'default', $args_metabox );
 
 			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'single', array( 'proposal' => $proposal ) );
 		} else {

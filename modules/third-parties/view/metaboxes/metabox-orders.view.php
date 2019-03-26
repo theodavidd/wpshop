@@ -52,7 +52,7 @@ defined( 'ABSPATH' ) || exit; ?>
 							?>
 						</ul>
 					</td>
-					<td><?php echo esc_html( Payment::g()->convert_status( $order->data ) ); ?></td>
+					<td>-</td>
 					<td><?php echo esc_html( $order->data['payment_method'] ); ?></td>
 					<td><?php echo esc_html( $order->data['total_ttc'] ); ?>€</td>
 					<td>

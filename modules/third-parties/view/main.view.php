@@ -19,9 +19,6 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wrap">
 	<h2><?php esc_html_e( 'Third Parties', 'wpshop' ); ?></h2>
 
-	<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=0' ) ); ?>" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
-
-
 	<form method="GET" action="<?php echo admin_url( 'admin.php' ); ?>" class="wps-filter-bar wpeo-form form-light">
 		<div class="form-element">
 			<label class="form-field-container">

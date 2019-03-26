@@ -17,20 +17,8 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <h3><?php esc_html_e( 'Payment', 'wpshop' ); ?></h3>
-<p><strong><?php esc_html_e( 'Payment method', 'wpshop' ); ?></strong> : <?php echo empty( $order->data['payment_method'] ) ? 'N/D' : Payment::g()->get_payment_title( $order->data['payment_method'] ); ?></p>
-<p>
-	<strong><?php esc_html_e( 'Payment status', 'wpshop' ); ?></strong> :
-	<span>
-	<?php
-	echo esc_html( Payment::g()->convert_status( $order->data ) );
-	if ( ! empty( $link_invoice ) ) :
-		?>
-		- <a href="<?php echo esc_url( $link_invoice ); ?>" target="_blank"><?php esc_html_e( 'View invoice', 'wpshop' ); ?></a>
-		<?php
-	endif;
-	?>
-	</span>
-</p>
+<p><strong><?php esc_html_e( 'Payment method', 'wpshop' ); ?></strong> : <?php echo esc_html( Payment::g()->get_payment_title( $order->data['payment_method'] ) ); ?></p>
+<p><strong><?php esc_html_e( 'Payment status', 'wpshop' ); ?></strong> : <?php echo Payment::g()->make_readable_statut( $order ); ?></p>
 
 <h3><?php esc_html_e( 'Customer address', 'wpshop' ); ?></h3>
 

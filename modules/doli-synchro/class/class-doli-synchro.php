@@ -82,6 +82,12 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 				'nonce'    => 'sync_invoices',
 				'endpoint' => 'invoices?limit=-1',
 			),
+			'payments'      => array(
+				'title'    => __( 'Payments', 'wpshop' ),
+				'action'   => 'sync_payments',
+				'nonce'    => 'sync_payments',
+				'endpoint' => 'invoices?limit=-1', // Total is invoice too.
+			),
 		);
 	}
 }

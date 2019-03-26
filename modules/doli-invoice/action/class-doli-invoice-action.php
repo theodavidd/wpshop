@@ -28,6 +28,7 @@ class Doli_Invoice_Action {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'create_tmp_invoice_dir' ) );
+		add_action( 'admin_init', array( $this, 'add_meta_box' ), 10 );
 
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 
@@ -54,6 +55,27 @@ class Doli_Invoice_Action {
 	}
 
 	/**
+	 * Ajoutes la metabox details
+	 *
+	 * @since 2.0.0
+	 */
+	public function add_meta_box() {
+		if ( isset( $_GET['id'] ) && isset( $_GET['page'] ) && 'wps-invoice' == $_GET['page'] ) {
+			$invoice = Doli_Invoice::g()->get( array( 'id' => $_GET['id'] ), true );
+
+			$args_metabox = array(
+				'invoice' => $invoice,
+				'id'      => $_GET['id'],
+			);
+
+			/* translators: Order details CO00010 */
+			$box_invoice_detail_title = sprintf( __( 'Invoice details %s', 'wpshop' ), $invoice->data['title'] );
+
+			add_meta_box( 'wps-invoice-customer', $box_invoice_detail_title, array( $this, 'callback_meta_box' ), 'wps-invoice', 'normal', 'default', $args_metabox );
+		}
+	}
+
+	/**
 	 * Initialise la page "Facture".
 	 *
 	 * @since 2.0.0
@@ -69,18 +91,7 @@ class Doli_Invoice_Action {
 	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
-			$invoice        = Doli_Invoice::g()->get( array( 'id' => $_GET['id'] ), true );
-			$args_metabox = array(
-				'invoice' => $invoice,
-				'id'      => $_GET['id'],
-			);
-
-			/* translators: Order details CO00010 */
-			$box_invoice_detail_title = sprintf( __( 'Invoice details %s', 'wpshop' ), $invoice->data['title'] );
-
-			add_meta_box( 'wps-invoice-customer', $box_invoice_detail_title, array( $this, 'callback_meta_box' ), 'wps-invoice', 'normal', 'default', $args_metabox );
-			add_meta_box( 'wps-invoice-products', __( 'Products', 'wpshop' ), array( $this, 'callback_products' ), 'wps-invoice', 'normal', 'default', $args_metabox );
-
+			$invoice = Doli_Invoice::g()->get( array( 'id' => $_GET['id'] ), true );
 			\eoxia\View_Util::exec( 'wpshop', 'doli-invoice', 'single', array( 'invoice' => $invoice ) );
 		} else {
 			$args = array(
@@ -205,6 +216,17 @@ class Doli_Invoice_Action {
 		) );
 
 		unlink( $path_file );
+
+		// Création du règlement vers WP
+		$doli_payments = Request_Util::get( 'invoices/' . $invoice->data['id'] . '/payments' );
+
+		if ( ! empty( $doli_payments ) ) {
+			foreach ( $doli_payments as $doli_payment ) {
+				$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
+
+				Doli_Payment::g()->doli_to_wp( $invoice->data['id'], $doli_payment, $wp_payment );
+			}
+		}
 	}
 
 	/**

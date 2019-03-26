@@ -38,8 +38,8 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div><?php echo esc_html( $proposal->data['tier']->data['zip'] ) . ' ' . esc_html( $proposal->data['tier']->data['country'] ); ?></div>
 		<div><?php echo ! empty( $proposal->data['tier']->data['phone'] ) ? esc_html( $proposal->data['tier']->data['phone'] ) : ''; ?></div>
 	</div>
-	<div class="table-cell table-150"><?php echo Payment::g()->convert_status( $proposal->data ); ?></div>
-	<div class="table-cell table-100"><?php echo esc_html( $proposal->data['payment_method'] ); ?></div>
+	<div class="table-cell table-150"><?php echo Payment::g()->make_readable_statut( $proposal ); ?></div>
+	<div class="table-cell table-100"><?php echo esc_html( Payment::g()->get_payment_title( $proposal->data['payment_method'] ) ); ?></div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</strong></div>
 	<?php apply_filters( 'wps_order_table_tr', $proposal ); ?>
 	<div class="table-cell table-100">

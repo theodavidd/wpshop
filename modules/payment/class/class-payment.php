@@ -31,6 +31,15 @@ class Payment extends \eoxia\Singleton_Util {
 	public $default_options;
 
 	/**
+	 * Les status des paiements
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
+	public $statut;
+
+	/**
 	 * Constructeur.
 	 *
 	 * @since 2.0.0
@@ -41,6 +50,7 @@ class Payment extends \eoxia\Singleton_Util {
 				'active'      => true,
 				'title'       => __( 'Cheque', 'wpshop' ),
 				'description' => __( 'Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.', 'wpshop' ),
+
 			),
 			'payment_in_shop' => array(
 				'active'      => true,
@@ -65,6 +75,25 @@ class Payment extends \eoxia\Singleton_Util {
 		);
 
 		$this->default_options = apply_filters( 'wps_payment_methods', $this->default_options );
+
+		$this->status = array(
+			'cheque'          => array(
+				'publish' => __( 'Waiting for the check', 'wpshop' ),
+				'billed'  => __( 'Paid', 'wpshop' ),
+			),
+			'payment_in_shop' => array(
+				'publish' => __( 'Waiting for the payment', 'wpshop' ),
+				'billed'  => __( 'Paid', 'wpshop' ),
+			),
+			'paypal'          => array(
+				'publish' => __( 'Waiting for the payment', 'wpshop' ),
+				'billed'  => __( 'Paid', 'wpshop' ),
+			),
+			'stripe'          => array(
+				'publish' => __( 'Waiting for the payment', 'wpshop' ),
+				'billed'  => __( 'Paid', 'wpshop' ),
+			),
+		);
 	}
 
 	/**
@@ -87,9 +116,7 @@ class Payment extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Récupères les données d'un méthode de paiement selon $slug.
-	 *
-	 * @todo Voir ou c'est appelé
+	 * Récupères le titre d'une méthode de paiement selon $slug.
 	 *
 	 * @since 2.0.0
 	 *
@@ -99,81 +126,37 @@ class Payment extends \eoxia\Singleton_Util {
 	 */
 	public function get_payment_title( $slug ) {
 		$payment_methods_option = get_option( 'wps_payment_methods', $this->default_options );
-		$payment_method         = $payment_methods_option[ $slug ];
+		$payment_method         = ! empty( $payment_methods_option[ $slug ] ) ? $payment_methods_option[ $slug ] : null;
 
 		if ( empty( $payment_method ) ) {
-			return null;
+			return '-';
 		}
 
-		return $payment_method['title'];
+		return ! empty( $payment_method['title'] ) ? $payment_method['title'] : '-';
 	}
 
 	/**
-	 * Convertis le status vers un message lisible.
+	 * Affiches un status lisible selon la méthode de paiement et le status du
+	 * paiement.
 	 *
-	 * @todo: A voir, a traduire.
+	 * @since 2.0.0
 	 *
-	 * @param  array $object Un tableau contenant un type et la méta billed
-	 * ainsi que la méta payment_method.
+	 * @param  mixed $object Les données de l'objet.
 	 *
-	 * @return string Le message
+	 * @return string        Le status lisible.
 	 */
-	public function convert_status( $object ) {
-		$statut = '';
-
-		if ( 'wps-order' === $object['type'] ) {
-			switch ( $object['payment_method'] ) {
-				case 'cheque':
-					if ( $object['billed'] ) {
-						$statut = 'Payée';
-					} else {
-						$statut = 'En attente du chèque';
-					}
-					break;
-				case 'Cheque':
-					if ( $object['billed'] ) {
-						$statut = 'Payée';
-					} else {
-						$statut = 'En attente du chèque';
-					}
-					break;
-				case 'paypal':
-					if ( $object['billed'] ) {
-						$statut = 'Payée';
-					} elseif ( $object['payment_failed'] ) {
-						$statut = 'Paiment échoué.';
-					} else {
-						$statut = 'En attente du paiement';
-					}
-					break;
-				case 'payment_in_shop':
-					if ( $object['billed'] ) {
-						$statut = 'Payée';
-					} else {
-						$statut = 'En attente du paiement.<br />Paiement a régler en boutique';
-					}
-					break;
-				case 'stripe':
-					if ( $object['billed'] ) {
-						$statut = 'Payée';
-					} elseif ( $object['payment_failed'] ) {
-						$statut = 'Paiment échoué.';
-					} else {
-						$statut = 'En attente du paiement';
-					}
-					break;
-				default:
-					break;
-			}
-		} elseif ( 'wps-doli-invoice' === $object['type'] ) {
-			if ( $object['paye'] ) {
-				$statut = 'Payée';
-			} else {
-				$statut = 'Impayée';
-			}
+	public function make_readable_statut( $object ) {
+		if ( empty( $object ) || empty( $object->data['payment_method'] ) ) {
+			return '-';
 		}
 
-		return $statut;
+		if ( isset( $object->data['billed'] ) && 1 === $object->data['billed'] ) {
+			return $this->status[ $object->data['payment_method'] ]['billed'];
+		} else {
+			return $this->status[ $object->data['payment_method'] ]['publish'];
+		}
+
+		return '-';
 	}
 }
 

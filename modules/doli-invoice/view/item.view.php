@@ -55,8 +55,8 @@ defined( 'ABSPATH' ) || exit; ?>
 		endif;
 		?>
 	</div>
-	<div class="table-cell table-150"><?php echo Payment::g()->convert_status( $invoice->data ); ?></div>
-	<div class="table-cell table-100"><?php echo esc_html( $invoice->data['payment_method'] ); ?></div>
+	<div class="table-cell table-150"><?php echo Payment::g()->make_readable_statut( $invoice ); ?></div>
+	<div class="table-cell table-100"><?php echo esc_html( Payment::g()->get_payment_title( $invoice->data['payment_method'] ) ); ?></div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $invoice->data['total_ttc'], 2, ',', '' ) ); ?>€</strong></div>
 	<?php apply_filters( 'wps_order_table_tr', $invoice ); ?>
 	<div class="table-cell table-100">
