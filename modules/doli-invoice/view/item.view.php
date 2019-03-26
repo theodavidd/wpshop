@@ -59,7 +59,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="table-cell table-100"><?php echo esc_html( Payment::g()->get_payment_title( $invoice->data['payment_method'] ) ); ?></div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $invoice->data['total_ttc'], 2, ',', '' ) ); ?>€</strong></div>
 	<?php apply_filters( 'wps_order_table_tr', $invoice ); ?>
-	<div class="table-cell table-100">
+	<div class="table-cell table-100 wps-sync">
 		<!-- <div class="button-synchro"><i class="fas fa-sync"></i></div>
 		<div class="statut statut-green wpeo-tooltip-event" data-direction="left" aria-label="Date de la derniere synchro"></div> -->
 	</div>

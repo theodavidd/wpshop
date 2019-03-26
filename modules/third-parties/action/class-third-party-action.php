@@ -51,23 +51,23 @@ class Third_Party_Action {
 
 		$this->metaboxes = array(
 			'wps-third-party-billing'  => array(
-				'title'    => __( 'Billing address', 'wpshop' ),
+				// 'title'    => __( 'Billing address', 'wpshop' ),
 				'callback' => array( $this, 'metabox_billing_address' ),
 			),
 			'wps-third-party-contacts' => array(
-				'title'    => __( 'Contacts', 'wpshop' ),
+				// 'title'    => __( 'Contacts', 'wpshop' ),
 				'callback' => array( $this, 'metabox_contacts' ),
 			),
 			'wps-third-party-propal'   => array(
-				'title'    => __( 'Proposals', 'wpshop' ),
+				// 'title'    => __( 'Proposals', 'wpshop' ),
 				'callback' => array( $this, 'metabox_proposals' ),
 			),
 			'wps-third-party-orders'   => array(
-				'title'    => __( 'Orders', 'wpshop' ),
+				// 'title'    => __( 'Orders', 'wpshop' ),
 				'callback' => array( $this, 'metabox_orders' ),
 			),
 			'wps-third-party-invoices' => array(
-				'title'    => __( 'Invoices', 'wpshop' ),
+				// 'title'    => __( 'Invoices', 'wpshop' ),
 				'callback' => array( $this, 'metabox_invoices' ),
 			),
 		);
@@ -115,15 +115,7 @@ class Third_Party_Action {
 
 			if ( ! empty( $this->metaboxes ) ) {
 				foreach ( $this->metaboxes as $key => $metabox ) {
-					add_meta_box(
-						$key,
-						$metabox['title'],
-						$metabox['callback'],
-						'wps-third-party',
-						'normal',
-						'default',
-						$args_metabox
-					);
+					add_action( 'wps-third-party', $metabox['callback'], 10, 1 );
 				}
 			}
 
@@ -178,9 +170,9 @@ class Third_Party_Action {
 	 *
 	 * @since 2.0.0
 	 */
-	public function metabox_billing_address( $post, $callback_args ) {
+	public function metabox_billing_address( $third_party ) {
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-billing-address', array(
-			'third_party' => $callback_args['args']['third_party'],
+			'third_party' => $third_party,
 		) );
 	}
 
@@ -192,14 +184,14 @@ class Third_Party_Action {
 	 *
 	 * @since 2.0.0
 	 */
-	public function metabox_contacts( $post, $callback_args ) {
+	public function metabox_contacts( $third_party ) {
 		$contacts = array();
 
-		if ( ! empty( $callback_args['args']['third_party']->data['contact_ids'] ) ) {
-			$contacts = Contact::g()->get( array( 'include' => $callback_args['args']['third_party']->data['contact_ids'] ) );
+		if ( ! empty( $third_party->data['contact_ids'] ) ) {
+			$contacts = Contact::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
 		}
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts', array(
-			'third_party' => $callback_args['args']['third_party'],
+			'third_party' => $third_party,
 			'contacts'    => $contacts,
 		) );
 	}
@@ -212,7 +204,7 @@ class Third_Party_Action {
 	 *
 	 * @since 2.0.0
 	 */
-	public function metabox_proposals( $post, $callback_args ) {
+	public function metabox_proposals( $third_party ) {
 		$proposals = Proposals::g()->get( array( 'post_parent' => $callback_args['args']['id'] ) );
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-proposals', array(
@@ -228,7 +220,7 @@ class Third_Party_Action {
 	 *
 	 * @since 2.0.0
 	 */
-	public function metabox_orders( $post, $callback_args ) {
+	public function metabox_orders( $third_party ) {
 		$orders = Doli_Order::g()->get( array( 'post_parent' => $callback_args['args']['id'] ) );
 
 		if ( ! empty( $orders ) ) {
@@ -250,11 +242,11 @@ class Third_Party_Action {
 	 *
 	 * @since 2.0.0
 	 */
-	public function metabox_invoices( $post, $callback_args ) {
+	public function metabox_invoices( $third_party ) {
 
 		$invoices = Doli_Invoice::g()->get( array(
 			'meta_key'   => '_third_party_id',
-			'meta_value' => $callback_args['args']['id'],
+			'meta_value' => $third_party->data['id'],
 		) );
 
 		if ( ! empty( $invoices ) ) {

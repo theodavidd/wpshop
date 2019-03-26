@@ -16,22 +16,20 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<table class="wpeo-table">
-	<thead>
-		<tr>
-			<th><?php esc_html_e( 'Proposal', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Date', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Contenu', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Status', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Paiement', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Montant', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Facture', 'wpshop' ); ?></th>
-		</tr>
-	</thead>
+<div class="wps-metabox wps-billing-address view gridw-2">
+	<h3 class="metabox-title"><?php esc_html_e( 'Proposals' ); ?></h3>
 
-	<tbody>
+	<div class="wpeo-table table-flex table-4">
+		<div class="table-row table-header">
+			<div class="table-cell"><?php esc_html_e( 'Proposal', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Date', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( '€ TTC', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Status', 'wpshop' ); ?></div>
+		</div>
+
 		<?php
 		if ( ! empty( $proposals ) ) :
+<<<<<<< HEAD
 			foreach ( $proposals as $proposal ) :
 				?>
 				<tr>
@@ -79,8 +77,21 @@ defined( 'ABSPATH' ) || exit; ?>
 					</td>
 				</tr>
 				<?php
+=======
+			foreach ( $proposals as $proposal ) : ?>
+				<div class="table-row">
+					<div class="table-cell">
+						<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-proposal&id=' . $proposal->data['id'] ) ); ?>">
+							<?php echo esc_html( $proposal->data['title'] ); ?>
+						</a>
+					</div>
+					<div class="table-cell"><?php echo esc_html( $proposal->data['datec']['rendered']['date'] ); ?></div>
+					<div class="table-cell"><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
+					<div class="table-cell"><strong><?php echo Payment::g()->make_readable_statut( $proposal ); ?></strong></div>
+				</div> <?php
+>>>>>>> b222688d19ab40a2ee19839eca0f84eb1201eaef
 			endforeach;
 		endif;
 		?>
-	</tbody>
-</table>
+	</div>
+</div>

@@ -16,18 +16,17 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<tr>
-	<td><?php echo esc_html( $contact->data['id'] ); ?></td>
-	<td><?php echo esc_html( $contact->data['lastname'] ); ?></td>
-	<td><?php echo esc_html( $contact->data['firstname'] ); ?></td>
-	<td><?php echo esc_html( $contact->data['email'] ); ?></td>
-	<td><?php echo esc_html( $contact->data['phone'] ); ?></td>
-	<td>
-		<div data-action="third_party_load_contact"
+<div class="table-row">
+	<div class="table-cell"><?php echo esc_html( $contact->data['lastname'] ); ?></div>
+	<div class="table-cell"><?php echo esc_html( $contact->data['firstname'] ); ?></div>
+	<div class="table-cell"><?php echo esc_html( $contact->data['email'] ); ?></div>
+	<div class="table-cell"><?php echo esc_html( $contact->data['phone'] ); ?></div>
+	<div class="table-cell table-end">
+		<!-- <div data-action="third_party_load_contact"
 			data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_contact' ) ); ?>"
 			data-third-party_id="<?php echo esc_attr( $third_party_id ); ?>"
 			data-contact-id="<?php echo esc_attr( $contact->data['id'] ); ?>"
-			class="action-attribute wpeo-button button-square-30">
+			class="action-attribute table-button-edit wpeo-button button-size-small button-square-30 button-transparent">
 			<i class="button-icon fas fa-pen"></i>
 		</div>
 
@@ -35,8 +34,8 @@ defined( 'ABSPATH' ) || exit; ?>
 			data-nonce="<?php echo esc_attr( wp_create_nonce( 'delete_contact' ) ); ?>"
 			data-third-party_id="<?php echo esc_attr( $third_party_id ); ?>"
 			data-contact-id="<?php echo esc_attr( $contact->data['id'] ); ?>"
-			class="action-attribute wpeo-button button-square-30">
+			class="action-attribute table-button-delete wpeo-button button-size-small button-square-30 button-transparent">
 			<i class="button-icon fas fa-trash"></i>
-		</div>
-	</td>
-</tr>
+		</div> -->
+	</div>
+</div>

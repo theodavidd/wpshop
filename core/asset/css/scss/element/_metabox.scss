@@ -1,0 +1,16 @@
+.wps-metabox {
+	background: #fff;
+	padding: 2em;
+	position: relative;
+
+	.metabox-title {
+		font-weight: 300;
+		font-size: 22px;
+		margin: 0 0 1em 0;
+	}
+	.metabox-edit {
+		position: absolute;
+		top: 1em;
+		right: 1em;
+	}
+}
