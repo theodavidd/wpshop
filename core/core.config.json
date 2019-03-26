@@ -6,6 +6,7 @@
 	"path": "core/",
 	"dependencies": {
 		"action": {},
+    "filter": {},
     "util": {}
 	}
 }

@@ -29,7 +29,7 @@ class Product_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 2 );
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 0 );
 	}
 
 	/**
