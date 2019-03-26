@@ -29,7 +29,7 @@ class Product_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 2 );
 	}
 
 	/**
@@ -38,8 +38,9 @@ class Product_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_menu_page( __( 'Products', 'wpshop' ), __( 'Products', 'wpshop' ), 'manage_options', 'wps-product' );
-		add_submenu_page( 'wpshop-product', __( 'Products Category', 'wpshop' ), __( 'Products Category', 'wpshop' ), 'manage_options', 'edit-tags.php?taxonomy=wps-product-cat' );
+		add_menu_page( __( 'Products', 'wpshop' ), __( 'Products', 'wpshop' ), 'manage_options', 'wps-product', '', 'dashicons-cart' );
+		add_submenu_page( 'wps-product', __( 'Products', 'wpshop' ), __( 'Products', 'wpshop' ), 'manage_options', 'wps-product', array( $this, 'callback_add_menu_page' ) );
+		add_submenu_page( 'wps-product', __( 'Products Category', 'wpshop' ), __( 'Products Category', 'wpshop' ), 'manage_options', 'edit-tags.php?taxonomy=wps-product-cat' );
 	}
 
 	/**

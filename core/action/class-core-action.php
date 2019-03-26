@@ -107,7 +107,7 @@ class Core_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_menu_page( __( 'WPshop', 'wpshop' ), __( 'WPshop', 'wpshop' ), 'manage_options', 'wpshop' );
+		add_menu_page( __( 'WPshop', 'wpshop' ), __( 'WPshop', 'wpshop' ), 'manage_options', 'wpshop', '', 'dashicons-store' );
 	}
 }
 
