@@ -42,18 +42,12 @@ class Stripe extends \eoxia\Singleton_Util {
 		\Stripe\Stripe::setApiKey( $stripe_options['secret_key'] );
 		\Stripe\Stripe::setApiVersion( '2019-03-14; checkout_sessions_beta=v1' );
 
-		$lines = array();
-
-		if ( ! empty( $order->data['lines'] ) ) {
-			foreach ( $order->data['lines'] as $line ) {
-				$lines[] = array(
-					'amount'   => (int) ( $line['price_ttc'] * 100 ),
-					'quantity' => $line['qty'],
-					'name'     => $line['libelle'],
-					'currency' => 'eur',
-				);
-			}
-		}
+		$lines = array(
+			'amount'   => (int) ( $order->data['total_ttc'] * 100 ),
+			'quantity' => 1,
+			'name'     => $order->data['title'],
+			'currency' => 'eur',
+		);
 
 		$session = \Stripe\Checkout\Session::create( array(
 			'success_url'          => Pages::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],

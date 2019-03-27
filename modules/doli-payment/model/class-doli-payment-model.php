@@ -30,14 +30,6 @@ class Doli_Payment_Model extends \eoxia\Post_Model {
 	 * @param string  $req_method La méthode de la requête.
 	 */
 	public function __construct( $object, $req_method = null ) {
-		$this->schema['external_id'] = array(
-			'type'        => 'integer',
-			'meta_type'   => 'single',
-			'field'       => '_external_id',
-			'since'       => '2.0.0',
-			'description' => 'L\'ID du paiement (dolibarr). Relation avec dolibarr.',
-		);
-
 		$this->schema['payment_type'] = array(
 			'type'        => 'string',
 			'meta_type'   => 'single',

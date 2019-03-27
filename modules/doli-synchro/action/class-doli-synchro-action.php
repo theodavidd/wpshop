@@ -500,14 +500,12 @@ class Doli_Synchro_Action {
 
 				if ( ! empty( $doli_payments ) ) {
 					foreach ( $doli_payments as $doli_payment ) {
-						$wp_payment = Doli_Payment::g()->get( array(
-							'meta_key'   => '_external_id',
-							'meta_value' => (int) $doli_payment->id,
-						), true );
+						$wp_payment = Doli_Payment::g()->get( array( 'title' => $doli_payment->ref ), true );
 
 						if ( empty( $wp_payment ) ) {
 							$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
 						}
+
 						Doli_Payment::g()->doli_to_wp( $invoice->data['id'], $doli_payment, $wp_payment );
 					}
 				}
