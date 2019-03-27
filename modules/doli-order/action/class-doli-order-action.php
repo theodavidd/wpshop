@@ -142,7 +142,11 @@ class Doli_Order_Action {
 	 * @param Order $order Les données de la commande.
 	 */
 	public function metabox_order_details( $order ) {
-		$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
+		$invoice      = Doli_Invoice::g()->get( array(
+			'post_parent' => $order->data['id'],
+			'meta_key'    => '_avoir',
+			'meta_value'  => 0,
+		), true );
 		$third_party  = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
 		$link_invoice = '';
 
@@ -169,7 +173,11 @@ class Doli_Order_Action {
 	 * @param  array   $callback_args Tableau contenu les données de la commande.
 	 */
 	public function metabox_order_payment( $order ) {
-		$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
+		$invoice = Doli_Invoice::g()->get( array(
+			'post_parent' => $order->data['id'],
+			'meta_key'    => '_avoir',
+			'meta_value'  => 0,
+		), true );
 
 		if ( ! empty( $invoice ) ) {
 			$invoice->data['payments'] = array();

@@ -19,25 +19,44 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wps-metabox wps-order-payment">
 	<h3 class="metabox-title"><?php esc_html_e( 'Payments', 'wpshop' ); ?></h3>
 
-	<?php
-	if ( ! empty( $invoice->data['payments'] ) ) :
-		?>
-		<li>
-			<?php
-			foreach ( $invoice->data['payments'] as $payment ) :
-				?>
-				<ul>
-					<li><?php esc_html_e( 'Payment method', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['payment_type'] ); ?></li>
-					<li><?php esc_html_e( 'Payment date', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['date']['rendered']['date_human_readable'] ); ?></li>
-					<li><?php esc_html_e( 'Payment reference', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['title'] ); ?></li>
-					<li><?php esc_html_e( 'Amount', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['amount'] ); ?>€</li>
-				</ul>
-				<?php
-			endforeach;
-			?>
-		</li>
-		<?php
-	endif;
-	?>
+	<table class="wpeo-table">
+		<thead>
+			<tr>
+				<th><?php esc_html_e( 'Date', 'wpshop' ); ?></th>
+				<th><?php esc_html_e( 'Type', 'wpshop' ); ?></th>
+				<th class="table-end"><?php esc_html_e( 'Amount TTC', 'wpshop' ); ?></th>
+			</tr>
+		</thead>
 
+		<tbody>
+			<?php
+			if ( ! empty( $invoice->data['payments'] ) ) :
+				foreach ( $invoice->data['payments'] as $payment ) :
+					?>
+					<tr>
+						<td><?php echo esc_html( $payment->data['date']['rendered']['date'] ); ?></td>
+						<td><?php echo esc_html( $payment->data['payment_type'] ); ?></td>
+						<td class="table-end"><?php echo number_format( $payment->data['amount'], 2, ',', '' ); ?>€</td>
+					</tr>
+					<?php
+				endforeach;
+			endif;
+			?>
+		</tbody>
+
+		<tfoot>
+			<tr>
+				<td colspan="2"><?php esc_html_e( 'Already paid' ); ?></td>
+				<td class="table-end"><?php echo number_format( $invoice->data['totalpaye'], 2, ',', '' ); ?>€</td>
+			</tr>
+			<tr>
+				<td colspan="2"><?php esc_html_e( 'Billed' ); ?></td>
+				<td class="table-end"><?php echo number_format( $invoice->data['total_ttc'], 2, ',', '' ); ?>€</td>
+			</tr>
+			<tr>
+				<td colspan="2"><?php esc_html_e( 'Remaining unpaid' ); ?></td>
+				<td class="table-end"><strong><?php echo number_format( $invoice->data['resteapayer'], 2, ',', '' ); ?>€</strong></td>
+			</tr>
+		</tfoot>
+	</table>
 </div>

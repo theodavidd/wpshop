@@ -9,6 +9,10 @@
 		border: 0;
 	}
 
+	td.table-end, th.table-end {
+		text-align: right;
+	}
+
 	> tfoot {
 		background: rgba(0,0,0,0.05);
 		color: rgba(0,0,0,0.8);

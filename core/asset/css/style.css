@@ -628,6 +628,9 @@
 .wpeo-wrap .wpeo-table td, .wpeo-wrap .wpeo-table th {
   border: 0; }
 
+.wpeo-wrap .wpeo-table td.table-end, .wpeo-wrap .wpeo-table th.table-end {
+  text-align: right; }
+
 .wpeo-wrap .wpeo-table > tfoot {
   background: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.8); }
