@@ -168,27 +168,6 @@ class Doli_Invoice extends \eoxia\Post_Class {
 		// Récupères les paiements attachés à cette facture.
 		$doli_payments = Request_Util::get( 'invoices/' . $doli_invoice->id . '/payments' );
 
-		if ( ! empty( $doli_payments ) ) {
-			foreach ( $doli_payments as $doli_payment ) {
-				$payment = Doli_Payment::g()->get( array(
-					'post_title' => $doli_payment->ref,
-				), true );
-
-				if ( empty( $payment ) ) {
-					$payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
-				}
-
-				$payment->data['post_parent']  = (int) $wp_invoice->data['id'];
-				$payment->data['title']        = $doli_payment->ref;
-				$payment->data['status']       = 'publish';
-				$payment->data['payment_type'] = $doli_payment->type;
-				$payment->data['amount']       = $doli_payment->amount;
-				$payment->data['date']         = $doli_payment->date;
-
-				Doli_Payment::g()->update( $payment->data );
-			}
-		}
-
 		do_action( 'wps_synchro_invoice', $wp_invoice->data, $doli_invoice );
 
 		return $wp_invoice;

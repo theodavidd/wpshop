@@ -31,7 +31,8 @@ defined( 'ABSPATH' ) || exit; ?>
 	if ( ! empty( $orders ) ) :
 		foreach ( $orders as $order ) :
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'item', array(
-				'order' => $order,
+				'order'    => $order,
+				'doli_url' => $doli_url,
 			) );
 		endforeach;
 	endif;

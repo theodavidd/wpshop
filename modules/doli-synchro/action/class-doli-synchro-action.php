@@ -496,7 +496,7 @@ class Doli_Synchro_Action {
 
 		if ( ! empty( $invoices ) ) {
 			foreach ( $invoices as $invoice ) {
-				$doli_payments = Request_Util::get( 'invoices/' . $invoice->data['id'] . '/payments' );
+				$doli_payments = Request_Util::get( 'invoices/' . $invoice->data['external_id'] . '/payments' );
 
 				if ( ! empty( $doli_payments ) ) {
 					foreach ( $doli_payments as $doli_payment ) {
@@ -508,7 +508,6 @@ class Doli_Synchro_Action {
 						if ( empty( $wp_payment ) ) {
 							$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
 						}
-
 						Doli_Payment::g()->doli_to_wp( $invoice->data['id'], $doli_payment, $wp_payment );
 					}
 				}

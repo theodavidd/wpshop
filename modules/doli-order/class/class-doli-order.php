@@ -92,8 +92,11 @@ class Doli_Order extends \eoxia\Post_Class {
 			}
 		}
 
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'list', array(
-			'orders' => $orders,
+			'orders'   => $orders,
+			'doli_url' => $dolibarr_option['dolibarr_url'],
 		) );
 	}
 
