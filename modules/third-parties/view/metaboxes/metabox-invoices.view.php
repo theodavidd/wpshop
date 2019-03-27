@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				?>
 				<div class="table-row">
 					<div class="table-cell">
-						<a href="<?php echo admin_url( 'admin.php?page=wps-invoicel&id=' . $invoice->data['id'] ); ?>">
+						<a href="<?php echo esc_attr( $doli_url . '/compta/facture/card.php?id=' . $invoice->data['external_id']; ?>">
 							<?php echo esc_html( $invoice->data['title'] ); ?>
 						</a>
 					</div>

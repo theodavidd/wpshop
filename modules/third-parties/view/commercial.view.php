@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<li class="commercial type-propal">
 			<i class="fas fa-file-signature"></i>
 			<span class="commercial-date"><?php echo $propal->data['datec']['rendered']['date']; ?></span>
-			<span class="commercial-title"><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-proposal&id=' . $propal->data['id'] ) ); ?>"><?php echo $propal->data['title']; ?></a></span> <?php // @TODO: lien Propal. ?>
+			<span class="commercial-title"><a href="<?php echo esc_attr( $doli_url . '/comm/propal/card.php?id=' . $propal->data['external_id']; ?>"><?php echo $propal->data['title']; ?></a></span> <?php // @TODO: lien Propal. ?>
 			<span class="commercial-price"><?php echo $propal->data['total_ttc']; ?>€TTC</span>
 			<span class="commercial-status"><?php echo 'STATUS'; ?></span>
 		</li>
@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<li class="commercial type-invoice">
 			<i class="fas fa-file-invoice-dollar"></i>
 			<span class="commercial-date"><?php echo $invoice->data['date']['rendered']['date']; ?></span>
-			<span class="commercial-title"><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-invoice&id=' . $invoice->data['id'] ) ); ?>"><?php echo $invoice->data['title']; ?></a></span> <?php // @TODO: lien Invoice. ?>
+			<span class="commercial-title"><a href="<?php echo esc_attr( $doli_url . '/compta/facture/card.php?id=' . $invoice->data['external_id']; ?>"><?php echo $invoice->data['title']; ?></a></span> <?php // @TODO: lien Invoice. ?>
 			<span class="commercial-price"><?php echo $invoice->data['total_ttc']; ?>€TTC</span>
 			<span class="commercial-status"><?php echo 'STATUS'; ?></span>
 		</li>

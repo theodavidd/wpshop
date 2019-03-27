@@ -103,6 +103,8 @@ class Third_Party extends \eoxia\Post_Class {
 	 * @param  Third_Party $third_party Les données du tier.
 	 */
 	public function display_commercial( $third_party ) {
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
 		$order = Doli_Order::g()->get( array(
 			'post_parent'    => $third_party['id'],
 			'posts_per_page' => 1,
@@ -120,9 +122,10 @@ class Third_Party extends \eoxia\Post_Class {
 		), true );
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'commercial', array(
-			'order'   => $order,
-			'propal'  => $propal,
-			'invoice' => $invoice,
+			'doli_url' => $dolibarr_option['dolibarr_url'],
+			'order'    => $order,
+			'propal'   => $propal,
+			'invoice'  => $invoice,
 		) );
 	}
 }

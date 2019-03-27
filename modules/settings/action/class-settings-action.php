@@ -28,6 +28,8 @@ class Settings_Action {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 13 );
+		add_action( 'admin_notices', array( $this, 'notice_activate_erp' ) );
+
 		add_action( 'admin_post_wps_load_settings_tab', array( $this, 'callback_load_tab' ) );
 
 		add_action( 'admin_post_wps_update_general_settings', array( $this, 'callback_update_general_settings' ) );
@@ -43,6 +45,14 @@ class Settings_Action {
 	 */
 	public function callback_admin_menu() {
 		add_submenu_page( 'wpshop', __( 'Settings', 'wpshop' ), __( 'Settings', 'wpshop' ), 'manage_options', 'wps-settings', array( $this, 'callback_add_menu_page' ) );
+	}
+
+	public function notice_activate_erp() {
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
+		if ( empty( $dolibarr_option['dolibarr_url'] ) || empty( $dolibarr_option['dolibarr_secret'] ) ) {
+			\eoxia\View_Util::exec( 'wpshop', 'settings', 'notice-activate-erp' );
+		}
 	}
 
 	/**
