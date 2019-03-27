@@ -28,6 +28,7 @@ class Doli_Order_Filter {
 	 */
 	public function __construct() {
 		add_filter( 'eo_model_wps-order_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
+		add_filter( 'wps_review_order_table_class', array( $this, 'add_review_order_table_class' ), 10, 2 );
 	}
 
 	/**
@@ -64,6 +65,27 @@ class Doli_Order_Filter {
 		$args['show_in_menu']      = false;
 
 		return $args;
+	}
+
+	/**
+	 * Ajoute une classe dans le tableau
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $class  Donnée reçue par le filtre.
+	 * @param mixed  $object Donnée de la commande/facture/devis.
+	 *
+	 * @return string        Classe renvoyée au tableau
+	 */
+	public function add_review_order_table_class( $class, $object ) {
+		switch ( $object->data['type'] ) {
+			case Doli_Order::g()->get_type():
+				$class = "gridw-3";
+				break;
+			default:
+				break;
+		}
+		return $class;
 	}
 }
 

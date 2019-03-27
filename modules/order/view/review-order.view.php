@@ -16,7 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<table class="wpeo-table">
+<table class="wpeo-table <?php echo apply_filters( 'wps_review_order_table_class', '', $object ); ?>">
 	<thead>
 		<tr>
 			<th><?php esc_html_e( 'Product name', 'wpshop' ); ?></th>
