@@ -16,7 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wrap wpeo-wrap wpeo-wrap wpeo-wrap">
+<div class="wrap wpeo-wrap">
 	<h2><?php esc_html_e( 'Dashboard', 'wpshop' ); ?></h2>
 
 	<?php do_meta_boxes( 'wps-dashboard', 'normal', '' ); ?>
