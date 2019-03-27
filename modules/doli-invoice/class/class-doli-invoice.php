@@ -137,7 +137,8 @@ class Doli_Invoice extends \eoxia\Post_Class {
 		$wp_invoice->data['lines']          = $doli_invoice->lines;
 		$wp_invoice->data['total_ttc']      = $doli_invoice->total_ttc;
 		$wp_invoice->data['total_ht']       = $doli_invoice->total_ht;
-		$wp_invoice->data['total_ht']       = $doli_invoice->total_ht;
+		$wp_invoice->data['resteapayer']    = $doli_invoice->resteapayer;
+		$wp_invoice->data['totalpaye']      = $doli_invoice->totalpaye;
 		$wp_invoice->data['payment_method'] = Doli_Payment::g()->convert_to_wp( $doli_invoice->mode_reglement_code );
 		$wp_invoice->data['paye']           = (int) $doli_invoice->paye;
 		$wp_invoice->data['third_party_id'] = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_invoice->socid );

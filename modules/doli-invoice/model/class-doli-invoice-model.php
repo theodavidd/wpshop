@@ -55,6 +55,24 @@ class Doli_Invoice_Model extends \eoxia\Post_Model {
 			'description' => 'Prix total de la facture, toutes taxes comprises (float). Peut être NULL. Valeur par défaut NULL.',
 		);
 
+		$this->schema['resteapayer'] = array(
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => 'resteapayer',
+			'default'     => 0.00000000,
+			'since'       => '2.0.0',
+			'description' => 'Prix total de la facture, toutes taxes comprises (float). Peut être NULL. Valeur par défaut NULL.',
+		);
+
+		$this->schema['totalpaye'] = array(
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => 'totalpaye',
+			'default'     => 0.00000000,
+			'since'       => '2.0.0',
+			'description' => 'Prix total de la facture, toutes taxes comprises (float). Peut être NULL. Valeur par défaut NULL.',
+		);
+
 		$this->schema['lines'] = array(
 			'type'      => 'array',
 			'meta_type' => 'single',
