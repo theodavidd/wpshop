@@ -10,8 +10,12 @@
 @import "variables/variables";
 
 @import "external/external";
-@import "element/element";
-@import "page/page";
+
+.wpeo-wrap {
+	@import "element/element";
+	@import "page/page";
+}
+
 
 /** Temporaire **/
 .wp-admin select {

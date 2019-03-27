@@ -16,7 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wrap">
+<div class="wrap wpeo-wrap">
 	<h2><?php esc_html_e( 'Orders', 'wpshop' ); ?></h2>
 
 	<div class="action-attribute wpeo-button button-main"

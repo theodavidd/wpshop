@@ -16,7 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wrap">
+<div class="wrap wpeo-wrap">
 	<h2><?php esc_html_e( 'Third Parties', 'wpshop' ); ?></h2>
 
 	<form method="GET" action="<?php echo admin_url( 'admin.php' ); ?>" class="wps-filter-bar wpeo-form form-light">

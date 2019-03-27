@@ -40,8 +40,6 @@ class Third_Party_Action {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 11 );
 
-		add_action( 'load-wpshop_page_wps-third-party', array( $this, 'callback_load' ) );
-
 		add_action( 'wp_ajax_third_party_load_title_edit', array( $this, 'load_title_edit' ) );
 		add_action( 'admin_post_third_party_save_title', array( $this, 'save_third' ) );
 		add_action( 'wp_ajax_third_party_save_title', array( $this, 'save_third' ) );
@@ -87,17 +85,6 @@ class Third_Party_Action {
 			'wps-third-party',
 			array( $this, 'callback_add_menu_page' )
 		);
-	}
-
-	/**
-	 * Gestion JS des metabox
-	 *
-	 * @since 2.0.0
-	 */
-	public function callback_load() {
-		wp_enqueue_script( 'common' );
-		wp_enqueue_script( 'wp-lists' );
-		wp_enqueue_script( 'postbox' );
 	}
 
 	/**

@@ -17,7 +17,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wrap transfert-data">
+<div class="wrap wpeo-wrap transfert-data">
 	<input type="hidden" name="number_customers" value="<?php echo esc_attr( $number_customers ); ?>" />
 	<input type="hidden" name="key_query" value="1" />
 	<input type="hidden" name="index" value="0" />

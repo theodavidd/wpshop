@@ -16,6 +16,6 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wrap">
+<div class="wrap wpeo-wrap">
 	<?php do_meta_boxes( 'wps-invoice', 'normal', $invoice ); ?>
 </div>

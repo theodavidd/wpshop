@@ -22,13 +22,21 @@ defined( 'ABSPATH' ) || exit;
 class Doli_Order_Action {
 
 	/**
+	 * Définition des metabox sur la page.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
+	public $metaboxes = null;
+
+	/**
 	 * Initialise les actions liées aux proposals.
 	 *
 	 * @since 2.0.0
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
-		add_action( 'admin_init', array( $this, 'add_meta_box' ) );
 
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 12 );
 
@@ -37,6 +45,15 @@ class Doli_Order_Action {
 		add_action( 'wps_payment_failed', array( $this, 'set_to_failed' ), 30, 1 );
 
 		add_action( 'admin_post_wps_download_order', array( $this, 'download_order' ) );
+
+		$this->metaboxes = array(
+			'wps-order-details'  => array(
+				'callback' => array( $this, 'metabox_order_details' ),
+			),
+			'wps-order-review' => array(
+				'callback' => array( $this, 'metabox_order_review' ),
+			),
+		);
 	}
 
 	/**
@@ -71,27 +88,6 @@ class Doli_Order_Action {
 	}
 
 	/**
-	 * Ajoutes la metabox details
-	 *
-	 * @since 2.0.0
-	 */
-	public function add_meta_box() {
-		if ( isset( $_GET['id'] ) && isset( $_GET['page'] ) && 'wps-order' == $_GET['page'] ) {
-
-			$order        = Doli_Order::g()->get( array( 'id' => $_GET['id'] ), true );
-			$args_metabox = array(
-				'order' => $order,
-				'id'    => $_GET['id'],
-			);
-
-			/* translators: Order details CO00010 */
-			$box_order_detail_title = sprintf( __( 'Order details %s', 'wpshop' ), $order->data['title'] );
-
-			add_meta_box( 'wps-order-customer', $box_order_detail_title, array( $this, 'callback_meta_box' ), 'wps-order', 'normal', 'default', $args_metabox );
-		}
-	}
-
-	/**
 	 * Initialise la page "Commande".
 	 *
 	 * @since 2.0.0
@@ -108,6 +104,12 @@ class Doli_Order_Action {
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
 			$order = Doli_Order::g()->get( array( 'id' => $_GET['id'] ), true );
+
+			if ( ! empty( $this->metaboxes ) ) {
+				foreach ( $this->metaboxes as $key => $metabox ) {
+					add_action( 'wps-order', $metabox['callback'], 10, 1 );
+				}
+			}
 
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array( 'order' => $order ) );
 		} else {
@@ -132,8 +134,7 @@ class Doli_Order_Action {
 	 * @param  WP_Post $post          Les données du post.
 	 * @param  array   $callback_args Tableau contenu les données de la commande.
 	 */
-	public function callback_meta_box( $post, $callback_args ) {
-		$order        = $callback_args['args']['order'];
+	public function metabox_order_details( $order ) {
 		$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
 		$third_party  = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
 		$link_invoice = '';
@@ -160,9 +161,7 @@ class Doli_Order_Action {
 	 * @param  WP_Post $post          Les données du post.
 	 * @param  array   $callback_args Tableau contenu les données de la commande.
 	 */
-	public function callback_products( $post, $callback_args ) {
-		$order = $callback_args['args']['order'];
-
+	public function metabox_order_review( $order ) {
 		$tva_lines = array();
 
 		if ( ! empty( $order->data['lines'] ) ) {
