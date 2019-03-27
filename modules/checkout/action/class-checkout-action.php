@@ -66,7 +66,7 @@ class Checkout_Action {
 	 * vue d'édition ou false.
 	 */
 	public function callback_checkout_shipping( $third_party, $contact, $force_edit = false ) {
-		if ( 0 !== $contact->data['id'] && ! $force_edit ) {
+		if ( null !== $contact->data['id'] && ! $force_edit ) {
 			include( Template_Util::get_template_part( 'checkout', 'form-shipping' ) );
 		} else {
 			include( Template_Util::get_template_part( 'checkout', 'form-shipping-edit' ) );

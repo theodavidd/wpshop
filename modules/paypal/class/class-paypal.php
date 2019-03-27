@@ -119,16 +119,12 @@ class PayPal extends \eoxia\Singleton_Util {
 	 * @return array              Les lignes pour le paiement PayPal.
 	 */
 	protected function get_line_item_args( $order ) {
-		$line_item_args = array();
-
-		if ( ! empty( $order->data['lines'] ) ) {
-			foreach ( $order->data['lines'] as $index => $line ) {
-				$line_item_args[ 'item_name_' . ( $index + 1 ) ]   = $line['libelle'];
-				$line_item_args[ 'quantity_' . ( $index + 1 ) ]    = $line['qty'];
-				$line_item_args[ 'amount_' . ( $index + 1 ) ]      = number_format( $line['price_ttc'], 2 );
-				$line_item_args[ 'item_number_' . ( $index + 1 ) ] = $line['ref'];
-			}
-		}
+		$line_item_args = array(
+			'item_name_1'   => $order->data['title'],
+			'quantity_1'    => 1,
+			'amount'        => $order->data['total_ttc'],
+			'item_number_1' => $order->data['title'],
+		);
 
 		return $line_item_args;
 	}
