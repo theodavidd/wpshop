@@ -106,7 +106,9 @@ class Doli_Order_Action {
 	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
-			$order = Doli_Order::g()->get( array( 'id' => $_GET['id'] ), true );
+			$order       = Doli_Order::g()->get( array( 'id' => $_GET['id'] ), true );
+			$third_party = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
+
 
 			if ( ! empty( $this->metaboxes ) ) {
 				foreach ( $this->metaboxes as $key => $metabox ) {
@@ -114,7 +116,10 @@ class Doli_Order_Action {
 				}
 			}
 
-			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array( 'order' => $order ) );
+			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array(
+				'third_party' => $third_party,
+				'order'       => $order,
+			) );
 		} else {
 			$args = array(
 				'post_type'      => 'wps-order',
@@ -198,8 +203,8 @@ class Doli_Order_Action {
 			}
 		}
 
-		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-orders', array(
-			'order'     => $order,
+		\eoxia\View_Util::exec( 'wpshop', 'order', 'review-order', array(
+			'object'     => $order,
 			'tva_lines' => $tva_lines,
 		) );
 	}
