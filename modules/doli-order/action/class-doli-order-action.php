@@ -47,13 +47,10 @@ class Doli_Order_Action {
 		add_action( 'admin_post_wps_download_order', array( $this, 'download_order' ) );
 
 		$this->metaboxes = array(
-			'wps-order-details'  => array(
+			'wps-order-details' => array(
 				'callback' => array( $this, 'metabox_order_details' ),
 			),
-			'wps-order-payment'  => array(
-				'callback' => array( $this, 'metabox_order_payment' ),
-			),
-			'wps-order-review' => array(
+			'wps-order-review'  => array(
 				'callback' => array( $this, 'metabox_order_review' ),
 			),
 		);
@@ -110,7 +107,7 @@ class Doli_Order_Action {
 
 			if ( ! empty( $this->metaboxes ) ) {
 				foreach ( $this->metaboxes as $key => $metabox ) {
-					add_action( 'wps-order', $metabox['callback'], 10, 1 );
+					add_action( 'wps_order', $metabox['callback'], 10, 1 );
 				}
 			}
 
@@ -134,8 +131,7 @@ class Doli_Order_Action {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  WP_Post $post          Les données du post.
-	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 * @param Order $order Les données de la commande.
 	 */
 	public function metabox_order_details( $order ) {
 		$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
@@ -184,8 +180,7 @@ class Doli_Order_Action {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  WP_Post $post          Les données du post.
-	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 * @param Order $order Les données de la commande.
 	 */
 	public function metabox_order_review( $order ) {
 		$tva_lines = array();
@@ -211,10 +206,9 @@ class Doli_Order_Action {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  WP_Post $post          Les données du post.
-	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 * @param Order $order Les données de la commande.
 	 */
-	public function callback_order_action( $post, $callback_args ) {
+	public function callback_order_action( $order ) {
 		$order = $callback_args['args']['order'];
 
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-action', array(

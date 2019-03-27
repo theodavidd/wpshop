@@ -60,8 +60,10 @@ class Checkout_Action {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  Third_Party_Model $third_party Les données du tier.
-	 * @param  Contact_Model     $contact     Les données du contact.
+	 * @param Third_Party_Model $third_party Les données du tier.
+	 * @param Contact_Model     $contact     Les données du contact.
+	 * @param Boolean           $force_edit  True pour forcer l'affichage la
+	 * vue d'édition ou false.
 	 */
 	public function callback_checkout_shipping( $third_party, $contact, $force_edit = false ) {
 		if ( 0 !== $contact->data['id'] && ! $force_edit ) {
@@ -108,6 +110,11 @@ class Checkout_Action {
 		include( Template_Util::get_template_part( 'checkout', 'payment' ) );
 	}
 
+	/**
+	 * Charges le template pour éditer l'adresse de livraison.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_load_edit_billing_address() {
 		check_ajax_referer( 'load_edit_billing_address' );
 

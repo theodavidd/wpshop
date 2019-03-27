@@ -95,7 +95,7 @@ class Stripe_Action {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  array $data Donnée reçu par Stripe.
+	 * @param array $param Donnée reçu par Stripe.
 	 */
 	public function callback_wps_gateway_stripe( $param ) {
 		if ( 'order.payment_failed' === $param['type'] ) {

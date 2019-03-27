@@ -30,6 +30,11 @@ class Order_Action {
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ), 11 );
 	}
 
+	/**
+	 * Ajoutes les meta box
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_admin_init() {
 		add_meta_box( 'wps-invoice-products', __( 'Products', 'wpshop' ), array( $this, 'callback_products' ), 'wps-invoice', 'normal', 'default' );
 		add_meta_box( 'wps-proposal-products', __( 'Products', 'wpshop' ), array( $this, 'callback_products' ), 'wps-proposal', 'normal', 'default' );
@@ -58,7 +63,7 @@ class Order_Action {
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'order', 'review-order', array(
-			'object'     => $object,
+			'object'    => $object,
 			'tva_lines' => $tva_lines,
 		) );
 	}

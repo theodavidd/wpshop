@@ -29,7 +29,8 @@ defined( 'ABSPATH' ) || exit; ?>
 
 		<?php
 		if ( ! empty( $invoices ) ) :
-			foreach ( $invoices as $invoice ) : ?>
+			foreach ( $invoices as $invoice ) :
+				?>
 				<div class="table-row">
 					<div class="table-cell">
 						<a href="<?php echo admin_url( 'admin.php?page=wps-invoicel&id=' . $invoice->data['id'] ); ?>">
@@ -39,7 +40,8 @@ defined( 'ABSPATH' ) || exit; ?>
 					<div class="table-cell"><?php echo esc_html( $invoice->data['date']['rendered']['date'] ); ?></div>
 					<div class="table-cell"><?php echo esc_html( number_format( $invoice->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
 					<div class="table-cell"><strong><?php echo Payment::g()->make_readable_statut( $invoice ); ?></strong></div>
-				</div> <?php
+				</div>
+				<?php
 			endforeach;
 		endif;
 		?>

@@ -158,7 +158,7 @@ class Doli_Invoice_Action {
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'doli-invoice', 'metabox-invoice-products', array(
-			'invoice'     => $invoice,
+			'invoice'   => $invoice,
 			'tva_lines' => $tva_lines,
 		) );
 	}
@@ -182,7 +182,7 @@ class Doli_Invoice_Action {
 			'datepaye'          => current_time( 'timestamp' ),
 			'paiementid'        => (int) $doli_invoice->mode_reglement_id,
 			'closepaidinvoices' => 'yes',
-			'accountid'         => 1
+			'accountid'         => 1,
 		) );
 
 		Request_Util::put( 'documents/builddoc', array(
@@ -223,7 +223,7 @@ class Doli_Invoice_Action {
 
 		unlink( $path_file );
 
-		// Création du règlement vers WP
+		// Création du règlement vers WP.
 		$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
 
 		Doli_Payment::g()->doli_to_wp( $doli_invoice->id, $doli_payment, $wp_payment );

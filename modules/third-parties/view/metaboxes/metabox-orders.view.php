@@ -29,7 +29,8 @@ defined( 'ABSPATH' ) || exit; ?>
 
 		<?php
 		if ( ! empty( $orders ) ) :
-			foreach ( $orders as $order ) : ?>
+			foreach ( $orders as $order ) :
+				?>
 				<div class="table-row">
 					<div class="table-cell">
 						<a href="<?php echo admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ); ?>">
@@ -39,7 +40,8 @@ defined( 'ABSPATH' ) || exit; ?>
 					<div class="table-cell"><?php echo esc_html( $order->data['datec']['rendered']['date'] ); ?></div>
 					<div class="table-cell"><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
 					<div class="table-cell"><strong><?php echo Payment::g()->make_readable_statut( $order ); ?></strong></div>
-				</div> <?php
+				</div>
+				<?php
 			endforeach;
 		endif;
 		?>

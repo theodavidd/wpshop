@@ -29,7 +29,8 @@ defined( 'ABSPATH' ) || exit; ?>
 
 		<?php
 		if ( ! empty( $proposals ) ) :
-			foreach ( $proposals as $proposal ) : ?>
+			foreach ( $proposals as $proposal ) :
+				?>
 				<div class="table-row">
 					<div class="table-cell">
 						<a href="<?php echo admin_url( 'admin.php?page=wps-proposal&id=' . $proposal->data['id'] ); ?>">
@@ -39,7 +40,8 @@ defined( 'ABSPATH' ) || exit; ?>
 					<div class="table-cell"><?php echo esc_html( $proposal->data['datec']['rendered']['date'] ); ?></div>
 					<div class="table-cell"><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
 					<div class="table-cell"><strong><?php echo Payment::g()->make_readable_statut( $proposal ); ?></strong></div>
-				</div> <?php
+				</div>
+				<?php
 			endforeach;
 		endif;
 		?>

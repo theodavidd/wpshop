@@ -31,6 +31,15 @@ class Core_Filter {
 		add_filter( 'menu_order', array( $this, 'order_menu' ), 10, 1 );
 	}
 
+	/**
+	 * Réorganises le menu du backadmin de WordPress.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $order_menu Le menu.
+	 *
+	 * @return array             Le menu réorgéanisé.
+	 */
 	public function order_menu( $order_menu ) {
 		if ( ! $order_menu ) {
 			return true;

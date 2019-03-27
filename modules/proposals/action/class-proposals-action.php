@@ -29,8 +29,6 @@ class Proposals_Action {
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
 		add_action( 'admin_init', array( $this, 'add_meta_box' ) );
-
-		// add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 	}
 
 	/**
@@ -55,7 +53,7 @@ class Proposals_Action {
 
 			$args_metabox = array(
 				'proposal' => $proposal,
-				'id'    => $_GET['id'],
+				'id'       => $_GET['id'],
 			);
 
 			/* translators: Order details CO00010 */
@@ -81,7 +79,7 @@ class Proposals_Action {
 	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
-			$proposal        = Proposals::g()->get( array( 'id' => $_GET['id'] ), true );
+			$proposal = Proposals::g()->get( array( 'id' => $_GET['id'] ), true );
 
 			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'single', array( 'proposal' => $proposal ) );
 		} else {
@@ -107,7 +105,7 @@ class Proposals_Action {
 	 * @param  array   $callback_args Tableau contenu les données de la commande.
 	 */
 	public function callback_meta_box( $post, $callback_args ) {
-		$proposal        = $callback_args['args']['proposal'];
+		$proposal     = $callback_args['args']['proposal'];
 		$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $proposal->data['id'] ), true );
 		$third_party  = Third_Party::g()->get( array( 'id' => $proposal->data['parent_id'] ), true );
 		$link_invoice = '';
@@ -119,7 +117,7 @@ class Proposals_Action {
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'metabox-proposal-details', array(
-			'proposal'        => $proposal,
+			'proposal'     => $proposal,
 			'third_party'  => $third_party,
 			'invoice'      => $invoice,
 			'link_invoice' => $link_invoice,
@@ -149,7 +147,7 @@ class Proposals_Action {
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'metabox-proposal-products', array(
-			'proposal'     => $proposal,
+			'proposal'  => $proposal,
 			'tva_lines' => $tva_lines,
 		) );
 	}

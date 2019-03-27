@@ -82,9 +82,9 @@ class Doli_Payment extends \eoxia\Post_Class {
 	 *
 	 * @todo: Gérer les status
 	 *
-	 * @param  stdClass $doli_payment Les données de dolibarr.
-	 *
-	 * @param  Payment  $wp_payment  Les données de WP.
+	 * @param integer  $doli_invoice_id L'ID de la facture.
+	 * @param stdClass $doli_payment    Les données de dolibarr.
+	 * @param Payment  $wp_payment      Les données de WP.
 	 */
 	public function doli_to_wp( $doli_invoice_id, $doli_payment, $wp_payment ) {
 		$wp_payment->data['external_id']  = (int) $doli_payment->id;

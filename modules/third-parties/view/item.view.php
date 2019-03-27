@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<div class="reference-content">
 				<i class="fas fa-phone"></i> <?php echo esc_html( $third_party->data['phone'] ); ?>
 			</div>
-		<?php endif ; ?>
+		<?php endif; ?>
 		<ul class="reference-actions">
 			<li><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) ); ?>"><?php esc_html_e( 'Edit', 'wpshop' ); ?></a></li>
 			<?php if ( ! empty( $third_party->data['external_id'] ) ) : ?>
