@@ -1,6 +1,6 @@
 <?php
 /**
- * Gestion des actions des commandes.
+ * Gestion des actions dans la page mon compte.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
@@ -98,6 +98,9 @@ class My_Account_Action {
 
 		Cart_Session::g()->destroy();
 
+		$shipping_cost_option     = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
+		$shippint_cost_product_id = ! empty( $shipping_cost_option['shipping_product_id'] ) ? $shipping_cost_option['shipping_product_id'] : 0;
+
 		$order = Doli_Order::g()->get( array( 'id' => $id ), true );
 
 		if ( ! empty( $order->data['lines'] ) ) {
@@ -107,7 +110,7 @@ class My_Account_Action {
 					'meta_value' => (int) $element['fk_product'],
 				), true );
 
-				if ( ! empty( $wp_product ) ) {
+				if ( ! empty( $wp_product ) && $wp_product->data['id'] != $shippint_cost_product_id ) {
 					for ( $i = 0; $i < $element['qty']; ++$i ) {
 						Cart::g()->add_to_cart( $wp_product );
 					}

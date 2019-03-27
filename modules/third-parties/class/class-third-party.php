@@ -105,7 +105,7 @@ class Third_Party extends \eoxia\Post_Class {
 	public function display_commercial( $third_party ) {
 		$order = Doli_Order::g()->get( array(
 			'post_parent'    => $third_party['id'],
-			'posts_per_page' => 1
+			'posts_per_page' => 1,
 		), true );
 
 		$propal = Proposals::g()->get( array(
@@ -121,7 +121,7 @@ class Third_Party extends \eoxia\Post_Class {
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'commercial', array(
 			'order'   => $order,
-			'propal'   => $propal,
+			'propal'  => $propal,
 			'invoice' => $invoice,
 		) );
 	}

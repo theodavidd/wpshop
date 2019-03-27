@@ -102,7 +102,7 @@ class Third_Party_Action {
 
 			if ( ! empty( $this->metaboxes ) ) {
 				foreach ( $this->metaboxes as $key => $metabox ) {
-					add_action( 'wps-third-party', $metabox['callback'], 10, 1 );
+					add_action( 'wps_third_party', $metabox['callback'], 10, 1 );
 				}
 			}
 
@@ -152,8 +152,7 @@ class Third_Party_Action {
 	/**
 	 * Appel la vue de la metabox des adresses.
 	 *
-	 * @param  WP_Post $post          Le post actuel.
-	 * @param  array   $callback_args Les paramètres envoyées dans le add_meta_box.
+	 * @param Third_Party $third_party Les données du tiers.
 	 *
 	 * @since 2.0.0
 	 */
@@ -166,8 +165,7 @@ class Third_Party_Action {
 	/**
 	 * Appel la vue de la metabox des contacts.
 	 *
-	 * @param  WP_Post $post          Le post actuel.
-	 * @param  array   $callback_args Les paramètres envoyées dans le add_meta_box.
+	 * @param Third_Party $third_party Les données du tiers.
 	 *
 	 * @since 2.0.0
 	 */
@@ -186,8 +184,7 @@ class Third_Party_Action {
 	/**
 	 * Appel la vue de la metabox des devis.
 	 *
-	 * @param  WP_Post $post          Le post actuel.
-	 * @param  array   $callback_args Les paramètres envoyées dans le add_meta_box.
+	 * @param Third_Party $third_party Les données du tiers.
 	 *
 	 * @since 2.0.0
 	 */
@@ -202,8 +199,7 @@ class Third_Party_Action {
 	/**
 	 * Appel la vue de la metabox des commandes.
 	 *
-	 * @param  WP_Post $post          Le post actuel.
-	 * @param  array   $callback_args Les paramètres envoyées dans le add_meta_box.
+	 * @param Third_Party $third_party Les données du tiers.
 	 *
 	 * @since 2.0.0
 	 */
@@ -224,8 +220,7 @@ class Third_Party_Action {
 	/**
 	 * Appel la vue de la metabox des factures.
 	 *
-	 * @param  WP_Post $post          Le post actuel.
-	 * @param  array   $callback_args Les paramètres envoyées dans le add_meta_box.
+	 * @param Third_Party $third_party Les données du tiers.
 	 *
 	 * @since 2.0.0
 	 */

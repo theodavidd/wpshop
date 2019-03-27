@@ -46,10 +46,15 @@ defined( 'ABSPATH' ) || exit; ?>
 					<td>
 						<?php
 						if ( ! empty( $line['fk_product'] ) ) :
-							echo number_format( $line['price'], 2, ',', '' ); ?>€<?php
+							echo number_format( $line['price'], 2, ',', '' );
+							?>
+							<span>€</span>
+							<?php
 						else :
-							echo number_format( $line['subprice'], 2, ',', '' ); ?>€<?php
-
+							echo number_format( $line['subprice'], 2, ',', '' );
+							?>
+							<span>€</span>
+							<?php
 						endif;
 						?>
 					</td>

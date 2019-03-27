@@ -54,7 +54,6 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 		$wp_contact->data['phone_mobile'] = $doli_contact->phone_mobile;
 		$wp_contact->data['email']        = $doli_contact->email;
 
-
 		if ( 0 === $wp_contact->data['id'] && false !== email_exists( $wp_contact->data['email'] ) ) {
 			return false;
 		}
