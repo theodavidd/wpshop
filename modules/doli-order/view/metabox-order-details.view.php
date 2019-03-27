@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		</div>
 
 		<div>
-			<h4 class="metabox-list-title"><i class="fas fa-file-invoice-dollar"></i> <?php esc_html_e( 'Billing', 'wpshop' ); ?></h4>
+			<h4 class="metabox-list-title"><i class="fas fa-file-invoice-dollar"></i> <?php esc_html_e( 'Billing address', 'wpshop' ); ?></h4>
 			<ul class="metabox-list">
 				<li><span><?php esc_html_e( 'Name', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['title'] ) ? $third_party->data['title'] : 'N/D'; ?></li>
 				<li><span><?php esc_html_e( 'Address', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : 'N/D'; ?></li>
@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		</div>
 
 		<div>
-			<h4 class="metabox-list-title"><i class="fas fa-truck"></i> <?php esc_html_e( 'Shipment', 'wpshop' ); ?></h4>
+			<h4 class="metabox-list-title"><i class="fas fa-truck"></i> <?php esc_html_e( 'Shipment address', 'wpshop' ); ?></h4>
 			<ul class="metabox-list">
 				<li><span><?php esc_html_e( 'Name', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['title'] ) ? $third_party->data['title'] : 'N/D'; ?></li>
 				<li><span><?php esc_html_e( 'Address', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : 'N/D'; ?></li>
