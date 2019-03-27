@@ -357,6 +357,7 @@
  * Interface de mise à jour des données
  */
   /** Synchro */
+  /** Metabox List */
   /** Page Content */ }
 
 .wpeo-wrap .wpeo-modal .notice {
@@ -711,6 +712,20 @@
   top: 1em;
   right: 1em; }
 
+.wpeo-wrap .wps-metabox .metabox-list-title {
+  font-size: 16px;
+  margin: 0 0 1em 0; }
+
+.wpeo-wrap .wps-metabox .metabox-list {
+  margin: 0; }
+
+.wpeo-wrap .wps-metabox .metabox-list li {
+  margin: 0; }
+
+.wpeo-wrap .wps-metabox .metabox-list li span {
+  font-weight: 700;
+  margin-right: 0.4em; }
+
 .wpeo-wrap .page-header {
   display: -webkit-box;
   display: -webkit-flex;
@@ -734,12 +749,9 @@
 .wpeo-wrap .page-header .wps-sync {
   margin: auto 1em; }
 
-.wpeo-wrap body.wpshop_page_wps-third-party .wps-billing-address ul, .wpeo-wrap body.wpshop_page_wps-third-party .wps-billing-address li {
-  margin: 0; }
-
-.wpeo-wrap body.wpshop_page_wps-third-party .wps-billing-address ul span, .wpeo-wrap body.wpshop_page_wps-third-party .wps-billing-address li span {
-  font-weight: 700;
-  margin-right: 0.4em; }
+.wpeo-wrap a:not(.wpeo-button) {
+  color: #1897e7;
+  text-decoration: none; }
 
 /** Temporaire **/
 .wp-admin select {

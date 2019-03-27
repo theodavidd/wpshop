@@ -16,7 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<table class="wpeo-table">
+<table class="wpeo-table gridw-3">
 	<thead>
 		<tr>
 			<th><?php esc_html_e( 'Product name', 'wpshop' ); ?></th>

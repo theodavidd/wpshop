@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wrap wpeo-wrap">
 	<div class="page-header">
-		<h2><?php esc_html_e( 'Order' ); ?></h2>
+		<h2><?php echo esc_html__( 'Order', 'wpshop' ) . ' ' . esc_html( $order->data['title'] ); ?></h2>
 
 		<div class="wps-sync">
 			<div class="button-synchro <?php echo ! empty( $third_party->data['external_id'] ) ? 'action-attribute' : 'wpeo-modal-event'; ?>"
@@ -44,7 +44,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		</div>
 	</div>
 
-	<div class="wps-page-content">
+	<div class="wps-page-content wpeo-gridlayout grid-3">
 		<?php do_action( 'wps-order', $order ); ?>
 	</div>
 </div>

@@ -16,58 +16,38 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<h3><?php esc_html_e( 'Payment', 'wpshop' ); ?></h3>
-<p><strong><?php esc_html_e( 'Payment method', 'wpshop' ); ?></strong> : <?php echo esc_html( Payment::g()->get_payment_title( $order->data['payment_method'] ) ); ?></p>
-<p><strong><?php esc_html_e( 'Payment status', 'wpshop' ); ?></strong> : <?php echo Payment::g()->make_readable_statut( $order ); ?></p>
+<div class="wps-metabox gridw-2 wps-customer-address">
+	<h3 class="metabox-title"><?php esc_html_e( 'Customer address', 'wpshop' ); ?></h3>
 
-<h3><?php esc_html_e( 'Customer address', 'wpshop' ); ?></h3>
+	<div class="wpeo-gridlayout grid-3">
+		<div>
+			<h4 class="metabox-list-title"><i class="fas fa-building"></i> <?php esc_html_e( 'Informations', 'wpshop' ); ?></h4>
+			<ul class="metabox-list">
+				<li><span><?php esc_html_e( 'Date', 'wpshop' ); ?></span> <?php echo esc_html( $order->data['datec']['rendered']['date_time'] ); ?></li>
+				<li><span><?php esc_html_e( 'Customer', 'wpshop' ); ?></span> <a href="<?php echo admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ); ?>" target="_blank"><?php echo esc_html( $third_party->data['title'] ); ?></a></li>
+				<li><span><?php esc_html_e( 'Phone', 'wpshop' ); ?></span> <?php echo esc_html( $third_party->data['phone'] ); ?></li>
+				<li><span><?php esc_html_e( 'Order status', 'wpshop' ); ?></span> <?php echo Payment::g()->make_readable_statut( $order ); ?></li>
+			</ul>
+		</div>
 
-<div class="wpeo-gridlayout grid-3">
-	<div>
-		<ul>
-			<li><strong><?php esc_html_e( 'Customer', 'wpshop' ); ?></strong> : <a href="<?php echo admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ); ?>" target="_blank"><?php echo $third_party->data['title']; ?></a></li>
-		<?php
-		if ( ! empty( $invoice->data['payments'] ) ) :
-			?>
-			<li>
-				<?php
-				foreach ( $invoice->data['payments'] as $payment ) :
-					?>
-					<ul>
-						<li><?php esc_html_e( 'Payment method', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['payment_type'] ); ?></li>
-						<li><?php esc_html_e( 'Payment date', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['date']['rendered']['date_human_readable'] ); ?></li>
-						<li><?php esc_html_e( 'Payment reference', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['title'] ); ?></li>
-						<li><?php esc_html_e( 'Amount', 'wpshop' ); ?> : <?php echo esc_html( $payment->data['amount'] ); ?>€</li>
-					</ul>
-					<?php
-				endforeach;
-				?>
-			</li>
-			<?php
-		endif;
-		?>
-	</div>
-	<div>
-		<strong><?php esc_html_e( 'Billing', 'wpshop' ); ?></strong>
+		<div>
+			<h4 class="metabox-list-title"><i class="fas fa-file-invoice-dollar"></i> <?php esc_html_e( 'Billing', 'wpshop' ); ?></h4>
+			<ul class="metabox-list">
+				<li><span><?php esc_html_e( 'Name', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['title'] ) ? $third_party->data['title'] : 'N/D'; ?></li>
+				<li><span><?php esc_html_e( 'Address', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : 'N/D'; ?></li>
+				<li><span><?php esc_html_e( 'ZIP Code', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['zip'] ) ? $third_party->data['zip'] : 'N/D'; ?></li>
+				<li><span><?php esc_html_e( 'City', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : 'N/D'; ?></li>
+			</ul>
+		</div>
 
-		<ul>
-			<li><?php esc_html_e( 'No billing address', 'wpshop' ); ?></li>
-		</ul>
-	</div>
-	<div>
-		<strong><?php esc_html_e( 'Shipment', 'wpshop' ); ?></strong>
-
-		<ul>
-			<li><?php echo ! empty( $third_party->data['title'] ) ? $third_party->data['title'] : 'N/D'; ?></li>
-			<li><?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : 'N/D'; ?></li>
-			<li>
-				<?php echo ! empty( $third_party->data['zip'] ) ? $third_party->data['zip'] : 'N/D'; ?>
-				<?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : 'N/D'; ?>
-			</li>
-			<li>
-				<strong><?php esc_html_e( 'Phone number', 'wpshop' ); ?> :</strong>
-				<p><?php echo ! empty( $third_party->data['phone'] ) ? $third_party->data['phone'] : 'N/D'; ?></p>
-			</li>
-		</ul>
+		<div>
+			<h4 class="metabox-list-title"><i class="fas fa-truck"></i> <?php esc_html_e( 'Shipment', 'wpshop' ); ?></h4>
+			<ul class="metabox-list">
+				<li><span><?php esc_html_e( 'Name', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['title'] ) ? $third_party->data['title'] : 'N/D'; ?></li>
+				<li><span><?php esc_html_e( 'Address', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : 'N/D'; ?></li>
+				<li><span><?php esc_html_e( 'ZIP Code', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['zip'] ) ? $third_party->data['zip'] : 'N/D'; ?></li>
+				<li><span><?php esc_html_e( 'City', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : 'N/D'; ?></li>
+			</ul>
+		</div>
 	</div>
 </div>

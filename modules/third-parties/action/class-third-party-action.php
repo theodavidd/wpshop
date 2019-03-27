@@ -192,7 +192,7 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function metabox_proposals( $third_party ) {
-		$proposals = Proposals::g()->get( array( 'post_parent' => $callback_args['args']['id'] ) );
+		$proposals = Proposals::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-proposals', array(
 			'proposals' => $proposals,
@@ -208,7 +208,7 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function metabox_orders( $third_party ) {
-		$orders = Doli_Order::g()->get( array( 'post_parent' => $callback_args['args']['id'] ) );
+		$orders = Doli_Order::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
 
 		if ( ! empty( $orders ) ) {
 			foreach ( $orders as &$order ) {

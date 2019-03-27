@@ -4,3 +4,9 @@
 @import "sync-element";
 @import "metabox";
 @import "page-header";
+@import "metabox-list";
+
+a:not(.wpeo-button) {
+	color: $color__primary;
+	text-decoration: none;
+}

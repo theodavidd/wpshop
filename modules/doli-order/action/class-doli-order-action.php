@@ -50,6 +50,9 @@ class Doli_Order_Action {
 			'wps-order-details'  => array(
 				'callback' => array( $this, 'metabox_order_details' ),
 			),
+			'wps-order-payment'  => array(
+				'callback' => array( $this, 'metabox_order_payment' ),
+			),
 			'wps-order-review' => array(
 				'callback' => array( $this, 'metabox_order_review' ),
 			),
@@ -150,6 +153,29 @@ class Doli_Order_Action {
 			'third_party'  => $third_party,
 			'invoice'      => $invoice,
 			'link_invoice' => $link_invoice,
+		) );
+	}
+
+	/**
+	 * La metabox des détails de la commande
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_Post $post          Les données du post.
+	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 */
+	public function metabox_order_payment( $order ) {
+		$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
+
+		if ( ! empty( $invoice ) ) {
+			$invoice->data['payments'] = array();
+			$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
+			$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&order_id=' . $order->data['id'] );
+		}
+
+		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-order-payment', array(
+			'order'        => $order,
+			'invoice'      => $invoice,
 		) );
 	}
 
