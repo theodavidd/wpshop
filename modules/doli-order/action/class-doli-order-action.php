@@ -50,6 +50,9 @@ class Doli_Order_Action {
 			'wps-order-details' => array(
 				'callback' => array( $this, 'metabox_order_details' ),
 			),
+			'wps-order-payment' => array(
+				'callback' => array( $this, 'metabox_order_payment' ),
+			),
 			'wps-order-review'  => array(
 				'callback' => array( $this, 'metabox_order_review' ),
 			),
