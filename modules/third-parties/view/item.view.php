@@ -41,8 +41,8 @@ defined( 'ABSPATH' ) || exit; ?>
 		</ul>
 	</div>
 	<div class="table-cell table-300"><?php Contact::g()->display( $third_party ); ?></div>
-	<div class="table-cell table-300"><?php Third_Party::g()->display_commercial( $third_party->data ); ?></div>
-	<div class="table-cell table-full">Historique des actions</div>
+	<div class="table-cell table-350"><?php Third_Party::g()->display_commercial( $third_party->data ); ?></div>
+	<div class="table-cell table-full"></div>
 	<div class="table-cell table-100 wps-sync">
 		<!-- <div class="button-synchro"><i class="fas fa-sync"></i></div>
 		<div class="statut statut-green wpeo-tooltip-event" data-direction="left" aria-label="Date de la derniere synchro"></div> -->

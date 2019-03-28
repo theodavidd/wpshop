@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div class="table-cell table-25"><input type="checkbox" class="check-all"/></div>
 		<div class="table-cell table-200"><?php esc_html_e( 'Society name', 'wpshop' ); ?></div>
 		<div class="table-cell table-300"><?php esc_html_e( 'Contacts', 'wpshop' ); ?></div>
-		<div class="table-cell table-300"><?php esc_html_e( 'Commercial', 'wpshop' ); ?></div>
+		<div class="table-cell table-350"><?php esc_html_e( 'Commercial', 'wpshop' ); ?></div>
 		<div class="table-cell table-full"><?php esc_html_e( 'Actions', 'wpshop' ); ?></div>
 		<div class="table-cell table-100"><?php esc_html_e( 'Synchro', 'wpshop' ); ?></div>
 	</div>
