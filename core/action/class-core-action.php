@@ -98,6 +98,7 @@ class Core_Action {
 		wp_dequeue_script( 'wpeo-assets-datepicker-js' );
 		wp_dequeue_style( 'wpeo-assets-datepicker' );
 		wp_enqueue_style( 'wpshop-style', PLUGIN_WPSHOP_URL . 'core/asset/css/style.css', array(), \eoxia\Config_Util::$init['wpshop']->version );
+		wp_enqueue_style( 'wpshop-style-frontend', PLUGIN_WPSHOP_URL . 'core/asset/css/style.frontend.min.css', array(), \eoxia\Config_Util::$init['wpshop']->version );
 		wp_enqueue_script( 'wpshop-frontend-script', PLUGIN_WPSHOP_URL . 'core/asset/js/frontend.min.js', array(), \eoxia\Config_Util::$init['wpshop']->version );
 	}
 
