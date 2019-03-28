@@ -46,48 +46,48 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {
 		$this->sync_infos = array(
-			// 'third-parties' => array(
-			// 	'title'    => __( 'Third parties', 'wpshop' ),
-			// 	'action'   => 'sync_third_parties',
-			// 	'nonce'    => 'sync_third_parties',
-			// 	'endpoint' => 'thirdparties?limit=-1',
-			// ),
-			// 'contacts'      => array(
-			// 	'title'    => __( 'Contacts', 'wpshop' ),
-			// 	'action'   => 'sync_contacts',
-			// 	'nonce'    => 'sync_contacts',
-			// 	'endpoint' => 'contacts?limit=-1',
-			// ),
-			// 'products'      => array(
-			// 	'title'    => __( 'Products', 'wpshop' ),
-			// 	'action'   => 'sync_products',
-			// 	'nonce'    => 'sync_products',
-			// 	'endpoint' => 'products?limit=-1',
-			// ),
-			// 'proposals'     => array(
-			// 	'title'    => __( 'Proposals', 'wpshop' ),
-			// 	'action'   => 'sync_proposals',
-			// 	'nonce'    => 'sync_proposals',
-			// 	'endpoint' => 'proposals?limit=-1',
-			// ),
-			// 'orders'        => array(
-			// 	'title'    => __( 'Orders', 'wpshop' ),
-			// 	'action'   => 'sync_orders',
-			// 	'nonce'    => 'sync_orders',
-			// 	'endpoint' => 'orders?limit=-1',
-			// ),
+			'third-parties' => array(
+				'title'    => __( 'Third parties', 'wpshop' ),
+				'action'   => 'sync_third_parties',
+				'nonce'    => 'sync_third_parties',
+				'endpoint' => 'thirdparties?limit=-1',
+			),
+			'contacts'      => array(
+				'title'    => __( 'Contacts', 'wpshop' ),
+				'action'   => 'sync_contacts',
+				'nonce'    => 'sync_contacts',
+				'endpoint' => 'contacts?limit=-1',
+			),
+			'products'      => array(
+				'title'    => __( 'Products', 'wpshop' ),
+				'action'   => 'sync_products',
+				'nonce'    => 'sync_products',
+				'endpoint' => 'products?limit=-1',
+			),
+			'proposals'     => array(
+				'title'    => __( 'Proposals', 'wpshop' ),
+				'action'   => 'sync_proposals',
+				'nonce'    => 'sync_proposals',
+				'endpoint' => 'proposals?limit=-1',
+			),
+			'orders'        => array(
+				'title'    => __( 'Orders', 'wpshop' ),
+				'action'   => 'sync_orders',
+				'nonce'    => 'sync_orders',
+				'endpoint' => 'orders?limit=-1',
+			),
 			'invoices'      => array(
 				'title'    => __( 'Invoices', 'wpshop' ),
 				'action'   => 'sync_invoices',
 				'nonce'    => 'sync_invoices',
 				'endpoint' => 'invoices?limit=-1',
 			),
-			// 'payments'      => array(
-			// 	'title'    => __( 'Payments', 'wpshop' ),
-			// 	'action'   => 'sync_payments',
-			// 	'nonce'    => 'sync_payments',
-			// 	'endpoint' => 'invoices?limit=-1', // Total is invoice too.
-			// ),
+			'payments'      => array(
+				'title'    => __( 'Payments', 'wpshop' ),
+				'action'   => 'sync_payments',
+				'nonce'    => 'sync_payments',
+				'endpoint' => 'invoices?limit=-1', // Total is invoice too.
+			),
 		);
 	}
 }
