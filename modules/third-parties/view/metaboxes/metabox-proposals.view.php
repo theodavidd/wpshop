@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				?>
 				<div class="table-row">
 					<div class="table-cell">
-						<a href="<?php echo esc_attr( $doli_url . '/comm/propal/card.php?id=' . $proposal->data['external_id']; ?>">
+						<a href="<?php echo esc_attr( $doli_url . '/comm/propal/card.php?id=' . $proposal->data['external_id'] ); ?>">
 							<?php echo esc_html( $proposal->data['title'] ); ?>
 						</a>
 					</div>

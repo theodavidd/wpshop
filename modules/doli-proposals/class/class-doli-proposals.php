@@ -62,9 +62,13 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 				$status = 'publish';
 				break;
 			case 2:
+				$status = 'wps-accepted';
 				break;
 			case 3:
-				$status = 'wps-delivered';
+				$status = 'wps-refused';
+				break;
+			case 4:
+				$status = 'wps-billed';
 				break;
 			default:
 				$status = 'publish';

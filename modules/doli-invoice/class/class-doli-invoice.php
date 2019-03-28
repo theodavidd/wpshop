@@ -146,7 +146,7 @@ class Doli_Invoice extends \eoxia\Post_Class {
 		$status = '';
 
 		switch ( $doli_invoice->statut ) {
-			case 1:
+			case -1:
 				$status = 'wps-canceled';
 				break;
 			case 0:
@@ -154,6 +154,12 @@ class Doli_Invoice extends \eoxia\Post_Class {
 				break;
 			case 1:
 				$status = 'publish';
+				break;
+			case 2:
+				$status = 'wps-billed';
+				break;
+			case 3:
+				$status = 'wps-abandoned';
 				break;
 			default:
 				$status = 'publish';

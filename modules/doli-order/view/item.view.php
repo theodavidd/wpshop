@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 	<div class="table-cell table-200">
 		<div>
-			<a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $order->data['tier']->data['id'] . '&action=edit' ) ); ?>">
+			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $order->data['tier']->data['id'] ) ); ?>">
 				<strong><?php echo esc_html( $order->data['tier']->data['title'] ); ?></strong>
 			</a>
 		</div>

@@ -1,0 +1,9 @@
+{
+	"name": "Gestion des status de dolibarr",
+	"slug": "doli-statut",
+	"since": "2.0.0",
+	"path": "modules/doli-statut",
+	"dependencies": {
+		"class": {}
+	}
+}

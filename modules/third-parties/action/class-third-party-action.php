@@ -189,6 +189,8 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function metabox_proposals( $third_party ) {
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
 		$proposals = Proposals::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-proposals', array(
