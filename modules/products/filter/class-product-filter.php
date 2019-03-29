@@ -30,6 +30,7 @@ class Product_Filter {
 		add_filter( 'eo_model_wps-product_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
 		add_filter( 'eo_model_wps-product_wps-product-cat', array( $this, 'callback_taxonomy' ) );
 		add_filter( 'single_template', array( $this, 'get_custom_post_type_template' ), 11 );
+		add_filter( 'taxonomy_template', array( $this, 'get_custom_taxonomy_template' ), 11 );
 	}
 
 	/**
@@ -128,6 +129,23 @@ class Product_Filter {
 
 		if ( Product::g()->get_type() === $post->post_type ) {
 			$single_template = Template_Util::get_template_part( 'products', 'single-wps-product' );
+		}
+
+		return $single_template;
+	}
+
+	/**
+	 * Get template for single taxonomy
+	 *
+	 * @since  2.0.0
+	 * @param  string $single_template Template path.
+	 * @return string $single_template Template path.
+	 */
+	public function get_custom_taxonomy_template( $single_template ) {
+		global $post;
+
+		if ( Product::g()->get_type() === $post->post_type ) {
+			$single_template = Template_Util::get_template_part( 'products', 'taxonomy-wps-product-cat' );
 		}
 
 		return $single_template;
