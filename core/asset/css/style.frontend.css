@@ -4,3 +4,7 @@
 body.single-wps-product .wps-product-price {
   font-size: 2em;
   font-weight: 300; }
+
+.wps-list-product .wps-product .wps-product-price {
+  font-size: 18px;
+  font-weight: 700; }
