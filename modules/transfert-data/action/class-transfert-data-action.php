@@ -114,7 +114,7 @@ class Transfert_Data_Action {
 					$data['ID'] = $new_customer->ID;
 				}
 
-				$post_id = wp_insert_post( $data );
+				$post_id    = wp_insert_post( $data );
 				$messages[] = 'Create the new customer ' . $customer->post_title . ' from old customer';
 
 				$old_id = get_post_meta( $post_id, 'old_id', true );
@@ -171,13 +171,11 @@ class Transfert_Data_Action {
 							update_user_meta( $user->ID, '_phone', $phone );
 							$messages[] = 'Add meta _phone for the user ' . $user->displayname;
 
-
 							$third_party_id = get_user_meta( $user->ID, '_third_party_id', true );
 
 							if ( empty( $third_party_id ) ) {
 								update_user_meta( $user->ID, '_third_party_id', $post_id );
 								$messages[] = 'Add meta _third_party_id for the user ' . $user->displayname;
-
 
 								$contact_ids = json_decode( get_post_meta( $post_id, '_contact_ids', true ) );
 
