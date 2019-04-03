@@ -28,7 +28,7 @@ class Doli_Synchro_Action {
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_load_modal_synchro', array( $this, 'load_modal_synchro' ) );
-		add_action( 'wp_ajax_load_synchro_modal_single', array( $this, 'load_modal_synchro_single' ) );
+		add_action( 'wp_ajax_load_modal_synchro_single', array( $this, 'load_modal_synchro_single' ) );
 		add_action( 'wp_ajax_associate_and_synchronize', array( $this, 'associate_and_synchronize' ) );
 
 		add_action( 'wp_ajax_sync_third_parties', array( $this, 'sync_third_parties' ) );
@@ -83,7 +83,7 @@ class Doli_Synchro_Action {
 	public function load_modal_synchro_single() {
 		check_ajax_referer( 'load_modal_synchro_single' );
 
-		$wp_id        = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$wp_id        = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
 		$doli_sync_id = ! empty( $_POST['entry_id'] ) ? (int) $_POST['entry_id'] : get_post_meta( $wp_id, '_external_id', true );
 		$view         = '';
 		$buttons_view = '';
@@ -109,7 +109,7 @@ class Doli_Synchro_Action {
 		} else {
 			$doli_third_party   = Request_Util::get( 'thirdparties/' . $doli_sync_id );
 			$wp_third_party     = Third_Party::g()->get( array( 'id' => $wp_id ), true );
-			$modified_date_wp   = get_post_modified_time( 'U', false, $wp_id );
+			$modified_date_wp   = strtotime( $wp_third_party->data['date']['raw'] );
 			$modified_date_doli = ! empty( $doli_third_party->date_modification ) ? $doli_third_party->date_modification : $doli_third_party->date_creation;
 
 			ob_start();

@@ -14,11 +14,17 @@ window.eoxiaJS.wpshop.transfertData.init = function() {
 	if ( jQuery( '.transfert-data' ).length > 0 ) {
 		window.eoxiaJS.wpshop.transfertData.start(0);
 	}
+
+	jQuery( document ).on( 'click', '.wrap .toggle', function(e) {
+		jQuery( '.errors' ).toggleClass( 'hidden' );
+		jQuery( this ).toggleClass( 'fa-toggle-off, fa-toggle-on' );
+	} );
 };
 
 window.eoxiaJS.wpshop.transfertData.start = function(index, index_error) {
 	var data = {
 		action: 'wps_transfert_data',
+		_wpnonce: jQuery( '.wrap input#_wpnonce' ).val(),
 		number_customers: jQuery( '.wrap input[name=number_customers]' ).val(),
 		index: index,
 		index_error: index_error,

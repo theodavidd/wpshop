@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit; ?>
 <p>Tier de votre ERP</p>
 
 <input type="hidden" name="entry_id" />
-<input type="hidden" name="id" value="<?php echo $wp_id; ?>" />
+<input type="hidden" name="wp_id" value="<?php echo $wp_id; ?>" />
 
 <input type="text" class="filter-entry" />
 <ul class="select">

@@ -17,9 +17,10 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="table-cell table-100 wps-sync">
-	<div class="button-synchro action-attribute"
-		data-action="associate_and_synchronize"
-		data-nonce="<?php echo esc_attr( wp_create_nonce( 'associate_and_synchronize' ) ); ?>"
+	<div class="button-synchro <?php echo ! empty( $object->data['external_id'] ) ? 'action-attribute' : 'wpeo-modal-event'; ?>"
+		data-class="synchro-single"
+		data-action="<?php echo ! empty( $object->data['external_id'] ) ? 'associate_and_synchronize' : 'load_modal_synchro_single'; ?>"
+		data-nonce="<?php echo esc_attr( wp_create_nonce( ! empty( $object->data['external_id'] ) ? 'associate_and_synchronize' : 'load_modal_synchro_single' ) ); ?>"
 		data-entry-id="<?php echo $object->data['external_id']; ?>"
 		data-wp-id="<?php echo $object->data['id']; ?>"
 		data-from="dolibarr"><i class="fas fa-sync"></i></div>

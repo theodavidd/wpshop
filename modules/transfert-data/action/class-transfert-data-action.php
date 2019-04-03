@@ -39,7 +39,7 @@ class Transfert_Data_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page( 'wps-order', __( 'Transfert data', 'wpshop' ), __( 'Transfert data', 'wpshop' ), 'manage_options', 'wps-transfert-data', array( $this, 'callback_add_menu_page' ) );
+		add_submenu_page( 'wpshop', __( 'Transfert data', 'wpshop' ), __( 'Transfert data', 'wpshop' ), 'manage_options', 'wps-transfert-data', array( $this, 'callback_add_menu_page' ) );
 	}
 
 	/**
@@ -64,7 +64,6 @@ class Transfert_Data_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_transfert_data() {
-		define( 'SAVEQUERIES', true );
 		global $wpdb;
 
 		check_ajax_referer( 'wps_transfert_data' );
@@ -76,9 +75,10 @@ class Transfert_Data_Action {
 		$done             = false;
 		$output           = '';
 		$errors           = '';
+		$messages         = array();
 
 		$results = new \WP_Query( array(
-			'posts_per_page' => 20,
+			'posts_per_page' => 100,
 			'post_type'      => 'wpshop_customers',
 			'offset'         => $index,
 			'post_status'    => 'draft',
@@ -100,6 +100,8 @@ class Transfert_Data_Action {
 					$new_customer = $results->posts[0];
 				}
 
+				$messages[] = 'Get old customer ' . $customer->post_title;
+
 				$data = array(
 					'post_title'    => $customer->post_title,
 					'post_date'     => $customer->post_date,
@@ -113,11 +115,13 @@ class Transfert_Data_Action {
 				}
 
 				$post_id = wp_insert_post( $data );
+				$messages[] = 'Create the new customer ' . $customer->post_title . ' from old customer';
 
 				$old_id = get_post_meta( $post_id, 'old_id', true );
 
 				if ( empty( $old_id ) ) {
 					add_post_meta( $post_id, 'old_id', $customer->ID );
+					$messages[] = 'Add meta old_id for the new customer from old customer ' . $customer->post_title;
 				}
 
 				$contact_ids = update_post_meta( $post_id, '_contact_ids', array() );
@@ -137,6 +141,8 @@ class Transfert_Data_Action {
 					update_post_meta( $post_id, '_zip', $address_meta['postcode'] );
 					update_post_meta( $post_id, '_town', $address_meta['city'] );
 					update_post_meta( $post_id, '_country', $address_meta['country'] );
+
+					$messages[] = 'Add meta _address, _zip, ,_town, _country, for the new customer ' . $customer->post_title;
 				}
 
 				$users_id = get_post_meta( $customer->ID, '_wpscrm_associated_user', true );
@@ -163,11 +169,15 @@ class Transfert_Data_Action {
 							}
 
 							update_user_meta( $user->ID, '_phone', $phone );
+							$messages[] = 'Add meta _phone for the user ' . $user->displayname;
+
 
 							$third_party_id = get_user_meta( $user->ID, '_third_party_id', true );
 
 							if ( empty( $third_party_id ) ) {
 								update_user_meta( $user->ID, '_third_party_id', $post_id );
+								$messages[] = 'Add meta _third_party_id for the user ' . $user->displayname;
+
 
 								$contact_ids = json_decode( get_post_meta( $post_id, '_contact_ids', true ) );
 
@@ -178,6 +188,8 @@ class Transfert_Data_Action {
 								$contact_ids[] = $user->ID;
 
 								update_post_meta( $post_id, '_contact_ids', json_encode( $contact_ids ) );
+								$messages[] = 'Add meta _contact_ids for the user ' . $user->displayname;
+
 							} else {
 								// translators: <li><strong>1</strong>Contact #1 is already affected to another third party #2</li>.
 								$errors .= sprintf( __( '<li><strong>%1$d</strong>Contact #%2$d is already affected to another third party #%3$d</li>', 'wpshop' ), $index_error, $user->ID, $third_party_id );
@@ -192,9 +204,9 @@ class Transfert_Data_Action {
 			}
 		}
 
-		if ( ! empty( $wpdb->queries ) ) {
-			foreach ( $wpdb->queries as $key => $element ) {
-				$output .= '<li><strong>' . ( $key + $key_query ) . '</strong> ' . $element[0] . '</li>';
+		if ( ! empty( $messages ) ) {
+			foreach ( $messages as $key => $element ) {
+				$output .= '<li><strong>' . ( $key + $key_query ) . '</strong> ' . $element . '</li>';
 
 			}
 		}

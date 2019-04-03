@@ -18,11 +18,18 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wrap wpeo-wrap transfert-data">
+	<h1>Transfère des tiers de WPshop 1.x.x</h1>
+	<?php wp_nonce_field( 'wps_transfert_data' ); ?>
 	<input type="hidden" name="number_customers" value="<?php echo esc_attr( $number_customers ); ?>" />
 	<input type="hidden" name="key_query" value="1" />
 	<input type="hidden" name="index" value="0" />
 
+	<h2>Output</h2>
 	<ul class="output"></ul>
 
-	<ul class="errors"></ul>
+	<h2>
+		<span>Errors</span>
+		<i class="toggle fas fa-toggle-off"></i>
+	</h2>
+	<ul class="errors hidden"></ul>
 </div>

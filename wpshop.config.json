@@ -4,6 +4,8 @@
 	"modules": [
 		"core/core.config.json",
     
+    "modules/transfert-data/transfert-data.config.json",
+    
     "modules/api/api.config.json",
     
     "modules/settings/settings.config.json",

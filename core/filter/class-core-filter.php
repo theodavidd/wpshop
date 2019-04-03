@@ -41,7 +41,7 @@ class Core_Filter {
 	 * @return array             Le menu réorgéanisé.
 	 */
 	public function order_menu( $order_menu ) {
-		if ( ! $order_menu ) {
+		if ( ! $order_menu || !is_array( $order_menu ) ) {
 			return true;
 		}
 

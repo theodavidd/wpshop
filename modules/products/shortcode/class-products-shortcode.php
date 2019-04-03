@@ -65,4 +65,4 @@ class Products_Shortcode {
 	}
 }
 
-new Product_Shortcode();
+new Products_Shortcode();
