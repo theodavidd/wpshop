@@ -47,6 +47,11 @@ class Settings_Action {
 		add_submenu_page( 'wpshop', __( 'Settings', 'wpshop' ), __( 'Settings', 'wpshop' ), 'manage_options', 'wps-settings', array( $this, 'callback_add_menu_page' ) );
 	}
 
+	/**
+	 * Call notice activate erp view if dolibarr url and secret is empty;
+	 *
+	 * @since 2.0.0
+	 */
 	public function notice_activate_erp() {
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 

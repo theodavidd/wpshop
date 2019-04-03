@@ -109,7 +109,6 @@ class Doli_Order_Action {
 			$order       = Doli_Order::g()->get( array( 'id' => $_GET['id'] ), true );
 			$third_party = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
 
-
 			if ( ! empty( $this->metaboxes ) ) {
 				foreach ( $this->metaboxes as $key => $metabox ) {
 					add_action( 'wps_order', $metabox['callback'], 10, 1 );
@@ -169,8 +168,7 @@ class Doli_Order_Action {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  WP_Post $post          Les données du post.
-	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 * @param  Order $order Les données de la commande.
 	 */
 	public function metabox_order_payment( $order ) {
 		$invoice = Doli_Invoice::g()->get( array(
@@ -186,8 +184,8 @@ class Doli_Order_Action {
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-order-payment', array(
-			'order'        => $order,
-			'invoice'      => $invoice,
+			'order'   => $order,
+			'invoice' => $invoice,
 		) );
 	}
 
@@ -212,7 +210,7 @@ class Doli_Order_Action {
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'order', 'review-order', array(
-			'object'     => $order,
+			'object'    => $order,
 			'tva_lines' => $tva_lines,
 		) );
 	}

@@ -18,7 +18,8 @@ get_header(); ?>
 	<main id="primary" class="content-area" role="main">
 
 		<?php
-		if ( have_posts() ) : ?>
+		if ( have_posts() ) :
+			?>
 
 			<header class="primary-header">
 				<h1 class="page-title"><?php echo esc_html( single_cat_title() ); ?></h1>
@@ -26,9 +27,11 @@ get_header(); ?>
 			</header><!-- .primary-header -->
 
 			<div class="wps-list-product wpeo-gridlayout grid-4">
-				<?php while ( have_posts() ) : the_post(); ?>
-
-					<?php $product = Product::g()->get( array( 'id' => get_the_ID() ), true ); ?>
+				<?php
+				while ( have_posts() ) :
+					the_post();
+					$product = Product::g()->get( array( 'id' => get_the_ID() ), true );
+					?>
 
 					<div class="wps-product">
 						<figure class="wps-product-thumbnail">
@@ -45,11 +48,12 @@ get_header(); ?>
 							</div>
 						</div>
 					</div>
-				<?php endwhile; ?>
+					<?php
+				endwhile;
+				?>
 			</div>
 
-			<?php beflex_pagination();
-
+			<?php
 		endif;
 		?>
 

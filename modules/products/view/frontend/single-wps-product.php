@@ -18,9 +18,11 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 
-		<?php while ( have_posts() ) : the_post(); ?>
-
-			<?php $product = Product::g()->get( array( 'id' => get_the_ID() ), true ); ?>
+		<?php
+		while ( have_posts() ) :
+			the_post();
+			$product = Product::g()->get( array( 'id' => get_the_ID() ), true );
+			?>
 
 			<div class="wpeo-gridlayout grid-3 grid-gap-3">
 				<?php if ( has_post_thumbnail() ) : ?>

@@ -17,9 +17,9 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Product Action Class.
+ * Product Shortcode Class.
  */
-class Product_Shortcode {
+class Products_Shortcode {
 
 	/**
 	 * Constructor.
@@ -30,10 +30,18 @@ class Product_Shortcode {
 		add_shortcode( 'wps_product', array( $this, 'do_shortcode_product' ) );
 	}
 
+	/**
+	 * Gestion du shortcode
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $atts Les paramètres du shortcode. (Voir shorcode_atts
+	 * ci dessous pour les paramètres disponibles).
+	 */
 	public function do_shortcode_product( $atts ) {
 		$a = shortcode_atts( array(
-			'id'  => 0,
-			'ids' => array(),
+			'id'         => 0,
+			'ids'        => array(),
 			'categories' => array(),
 		), $atts );
 

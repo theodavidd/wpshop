@@ -80,7 +80,7 @@ class Doli_Order_Filter {
 	public function add_review_order_table_class( $class, $object ) {
 		switch ( $object->data['type'] ) {
 			case Doli_Order::g()->get_type():
-				$class = "gridw-3";
+				$class = 'gridw-3';
 				break;
 			default:
 				break;

@@ -533,10 +533,23 @@ class Doli_Synchro_Action {
 		) );
 	}
 
+	/**
+	 * Appel la vue pour ajouter "Synchro" dans le header du listing.
+	 *
+	 * @since 2.0.0
+	 */
 	public function add_sync_header() {
 		\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'sync-header' );
 	}
 
+	/**
+	 * Prépares les données pour l'état de synchronisation de l'entité.
+	 * et appel la vue sync-item.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param mixed $object Peut être Order, Product ou Tier.
+	 */
 	public function add_sync_item( $object ) {
 		$class           = '';
 		$message_tooltip = '';
@@ -545,7 +558,8 @@ class Doli_Synchro_Action {
 			$class           = 'red';
 			$message_tooltip = __( 'No associated to an ERP Entity', 'wpshop' );
 		} else {
-			$class           = 'green';
+			$class = 'green';
+			// translators: Last synchronisation on 03/04/2019 12:00.
 			$message_tooltip = sprintf( __( 'Last synchronisation on %s', 'wpshop'), $object->data['date_last_synchro']['rendered']['date_time'] );
 		}
 
