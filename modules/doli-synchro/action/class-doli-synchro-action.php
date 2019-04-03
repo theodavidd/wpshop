@@ -38,6 +38,9 @@ class Doli_Synchro_Action {
 		add_action( 'wp_ajax_sync_orders', array( $this, 'sync_orders' ) );
 		add_action( 'wp_ajax_sync_invoices', array( $this, 'sync_invoices' ) );
 		add_action( 'wp_ajax_sync_payments', array( $this, 'sync_payments' ) );
+
+		add_action( 'wps_listing_table_header_end', array( $this, 'add_sync_header' ) );
+		add_action( 'wps_listing_table_end', array( $this, 'add_sync_item' ) );
 	}
 
 	/**
@@ -527,6 +530,29 @@ class Doli_Synchro_Action {
 			'doneDescription'    => $done_number . '/' . $total_number,
 			'doneElementNumber'  => $done_number,
 			'errors'             => null,
+		) );
+	}
+
+	public function add_sync_header() {
+		\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'sync-header' );
+	}
+
+	public function add_sync_item( $object ) {
+		$class           = '';
+		$message_tooltip = '';
+
+		if ( empty( $object->data['external_id'] ) ) {
+			$class           = 'red';
+			$message_tooltip = __( 'No associated to an ERP Entity', 'wpshop' );
+		} else {
+			$class           = 'green';
+			$message_tooltip = sprintf( __( 'Last synchronisation on %s', 'wpshop'), $object->data['date_last_synchro']['rendered']['date_time'] );
+		}
+
+		\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'sync-item', array(
+			'object'          => $object,
+			'class'           => $class,
+			'message_tooltip' => $message_tooltip,
 		) );
 	}
 }

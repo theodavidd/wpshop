@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div class="table-cell table-100"><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></div>
 		<div class="table-cell table-100"><?php esc_html_e( 'Tax Rate', 'wpshop' ); ?>%</div>
 		<div class="table-cell table-100"><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></div>
-		<div class="table-cell table-100"><?php esc_html_e( 'Synchro', 'wpshop' ); ?></div>
+		<?php do_action( 'wps_listing_table_header_end' ); ?>
 	</div>
 
 	<?php

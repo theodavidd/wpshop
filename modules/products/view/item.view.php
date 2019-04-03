@@ -42,8 +42,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="table-cell table-100"><?php echo esc_html( number_format( $product->data['price'], 2, ',', '' ) ); ?>€</div>
 	<div class="table-cell table-100"><?php echo esc_html( number_format( $product->data['tva_tx'], 2, ',', '' ) ); ?>%</div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ); ?>€</strong></div>
-	<div class="table-cell table-100 wps-sync">
-		<!-- <div class="button-synchro"><i class="fas fa-sync"></i></div>
-		<div class="statut statut-green wpeo-tooltip-event" data-direction="left" aria-label="Date de la derniere synchro"></div> -->
-	</div>
+	<?php do_action( 'wps_listing_table_end', $product ); ?>
+
 </div>

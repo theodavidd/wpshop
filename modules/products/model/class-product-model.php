@@ -46,6 +46,15 @@ class Product_Model extends \eoxia\Post_Model {
 			'description' => 'La référence du produit (varchar(128)). Ne peut être NULL. Clé unique. Aucune valeur par défaut. Relation avec dolibarr.',
 		);
 
+		$this->schema['date_last_synchro'] = array(
+			'type'        => 'wpeo_date',
+			'meta_type'   => 'single',
+			'field'       => '_date_last_synchro',
+			'since'       => '2.0.0',
+			'description' => 'La date de la dernière synchronisation.',
+			'context'     => array( 'GET' ),
+		);
+
 		$this->schema['price'] = array(
 			'type'        => 'float',
 			'meta_type'   => 'single',
