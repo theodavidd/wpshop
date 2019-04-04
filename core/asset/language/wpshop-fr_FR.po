@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
-"POT-Creation-Date: 2019-04-04 14:57+0200\n"
-"PO-Revision-Date: 2019-04-04 15:03+0200\n"
+"POT-Creation-Date: 2019-04-04 15:20+0200\n"
+"PO-Revision-Date: 2019-04-04 15:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -1818,7 +1818,7 @@ msgstr "Vous avez reçu la commande suivante de %s:"
 #: modules/emails/view/admin-new-order.php:32
 #, php-format
 msgid "<a href=\"%s\" target=\"_blank\">View order</a>"
-msgstr ""
+msgstr "<a href=\"%s\" target=\"_blank\">Voir la commande</a>"
 
 #: modules/emails/view/customer-invoice.php:30
 #: modules/emails/view/customer-new-account.php:26
@@ -1869,8 +1869,8 @@ msgstr ""
 
 #: modules/emails/view/frontend/order-details.php:26
 #, php-format
-msgid "Order #%s"
-msgstr "[Commande  #%s]"
+msgid "Order #%s (<time datetime=\"%s\">%s</time>)"
+msgstr "Commande #%s (<time datetime=\"%s\">%s</time>)"
 
 #: modules/my-account/action/class-my-account-action.php:75
 msgid "Your username or password is incorrect."
@@ -2371,6 +2371,9 @@ msgid ""
 "<li><strong>%1$d</strong>Contact #%2$d is already affected to another third "
 "party #%3$d</li>"
 msgstr ""
+
+#~ msgid "Order #%s"
+#~ msgstr "Commande  #%s"
 
 #~ msgid "How to pay for your order"
 #~ msgstr "Marche à suivre pour payer votre commande"

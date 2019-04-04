@@ -23,7 +23,7 @@ do_action( 'wps_email_before_order_table', $order ); ?>
 <h2>
 	<?php
 	/* translators: %s: Order ID. */
-	echo wp_kses_post( sprintf( __( 'Order #%s', 'wpshop' ) . ' (<time datetime="%s">%s</time>)', $order->ref, date( 'd/m/Y H:i:s', $order->date_modification ), date( 'd/m/Y H:i:s', $order->date_modification ) ) );
+	echo wp_kses_post( sprintf( __( 'Order #%s (<time datetime="%s">%s</time>)', 'wpshop' ), $order->ref, date( 'd/m/Y H:i:s', $order->date_modification ), date( 'd/m/Y H:i:s', $order->date_modification ) ) );
 	?>
 </h2>
 
