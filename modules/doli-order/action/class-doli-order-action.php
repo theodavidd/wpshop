@@ -252,11 +252,6 @@ class Doli_Order_Action {
 			'langcode'      => 'fr_FR',
 		) );
 
-		Emails::g()->send_mail( null, 'wps_email_new_order', array(
-			'order'       => $doli_order,
-			'third_party' => $third_party->data,
-		) );
-
 		$current_user = wp_get_current_user();
 
 		Emails::g()->send_mail( $current_user->user_email, 'wps_email_customer_processing_order', array(
@@ -282,7 +277,13 @@ class Doli_Order_Action {
 	public function set_to_billed( $data ) {
 		$wp_order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
-		$doli_order = Request_Util::post( 'orders/' . $wp_order->data['external_id'] . '/setinvoiced' );
+		$doli_order  = Request_Util::post( 'orders/' . $wp_order->data['external_id'] . '/setinvoiced' );
+		$third_party = Third_Party::g()->get( array( 'id' => $wp_order->data['parent_id'] ), true );
+
+		Emails::g()->send_mail( null, 'wps_email_new_order', array(
+			'order'       => $doli_order,
+			'third_party' => $third_party->data,
+		) );
 
 		Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
 	}

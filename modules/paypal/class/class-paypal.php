@@ -122,7 +122,7 @@ class PayPal extends \eoxia\Singleton_Util {
 		$line_item_args = array(
 			'item_name_1'   => $order->data['title'],
 			'quantity_1'    => 1,
-			'amount'        => $order->data['total_ttc'],
+			'amount_1'        => $order->data['total_ttc'],
 			'item_number_1' => $order->data['title'],
 		);
 

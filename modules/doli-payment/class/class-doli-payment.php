@@ -90,7 +90,7 @@ class Doli_Payment extends \eoxia\Post_Class {
 		$wp_payment->data['title']        = $doli_payment->ref;
 		$wp_payment->data['amount']       = $doli_payment->amount;
 		$wp_payment->data['date']         = $doli_payment->date;
-		$wp_payment->data['parent_id']    = $wp_invoice_id;
+		$wp_payment->data['parent_id']    = (int) $wp_invoice_id;
 		$wp_payment->data['payment_type'] = $doli_payment->type;
 		$wp_payment->data['status']       = 'publish';
 
