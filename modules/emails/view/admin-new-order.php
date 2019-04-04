@@ -28,6 +28,8 @@ do_action( 'wps_email_header' ); ?>
 	<?php
 	/* translators: You’ve received the following order from customer name */
 	printf( __( 'You’ve received the following order from %s:', 'wpshop' ), $data['third_party']['title'] );
+
+	printf( __( '<a href="%s" target="_blank">View order</a>', 'wpshop' ), admin_url( 'admin.php?page=wps-order&id=' . $data['order_id'] ) );
 	?>
 </p>
 <?php

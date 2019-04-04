@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
-"POT-Creation-Date: 2019-04-04 11:52+0200\n"
-"PO-Revision-Date: 2019-04-04 14:51+0200\n"
+"POT-Creation-Date: 2019-04-04 14:57+0200\n"
+"PO-Revision-Date: 2019-04-04 14:57+0200\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -1814,6 +1814,11 @@ msgstr "Mot de passe réinitialisé"
 #, php-format
 msgid "You’ve received the following order from %s:"
 msgstr "Vous avez reçu la commande suivante de %s:"
+
+#: modules/emails/view/admin-new-order.php:32
+#, php-format
+msgid "<a href=\"%s\" target=\"_blank\">View order</a>"
+msgstr ""
 
 #: modules/emails/view/customer-invoice.php:30
 #: modules/emails/view/customer-new-account.php:26

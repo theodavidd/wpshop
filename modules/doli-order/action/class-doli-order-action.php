@@ -281,6 +281,7 @@ class Doli_Order_Action {
 		$third_party = Third_Party::g()->get( array( 'id' => $wp_order->data['parent_id'] ), true );
 
 		Emails::g()->send_mail( null, 'wps_email_new_order', array(
+			'order_id'    => $wp_order->data['id'],
 			'order'       => $doli_order,
 			'third_party' => $third_party->data,
 		) );
