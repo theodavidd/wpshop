@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
 "POT-Creation-Date: 2019-04-04 11:52+0200\n"
-"PO-Revision-Date: 2019-04-04 12:01+0200\n"
+"PO-Revision-Date: 2019-04-04 14:51+0200\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -1787,10 +1787,8 @@ msgid "Proposals"
 msgstr "Propositions commerciales"
 
 #: modules/emails/class/class-emails.php:40
-#, fuzzy
-#| msgid "New Order"
 msgid "New order"
-msgstr "Nouvelle commande"
+msgstr "Nouvelle commande payée"
 
 #: modules/emails/class/class-emails.php:45
 msgid "Pending order"
