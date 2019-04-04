@@ -83,7 +83,7 @@ class Doli_Order extends \eoxia\Post_Class {
 	public function display() {
 		$orders = $this->get( array(
 			'orderby'  => 'meta_value',
-			'meta_key' => 'date_commande',
+			'meta_key' => 'datec',
 		) );
 
 		if ( ! empty( $orders ) ) {

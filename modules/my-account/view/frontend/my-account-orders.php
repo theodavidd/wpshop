@@ -36,9 +36,9 @@ defined( 'ABSPATH' ) || exit;
 				?>
 				<tr>
 					<td data-title="<?php echo esc_attr( $order->data['title'] ); ?>"><?php echo esc_html( $order->data['title'] ); ?></td>
-					<td data-title="<?php echo esc_attr( $order->data['date_commande']['rendered']['date'] ); ?>"><?php echo esc_html( $order->data['date_commande']['rendered']['date'] ); ?></td>
+					<td data-title="<?php echo esc_attr( $order->data['datec']['rendered']['date'] ); ?>"><?php echo esc_html( $order->data['datec']['rendered']['date'] ); ?></td>
 					<td data-title="N/D"><?php echo Payment::g()->make_readable_statut( $order ); ?></td>
-					<td data-title="<?php echo esc_attr( number_format( $order->data['total_ht'], 2, ',', '' ) ); ?>€"><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</td>
+					<td data-title="<?php echo esc_attr( number_format( $order->data['total_ht'], 2, ',', '' ) ); ?>€"><?php echo esc_html( number_format( $order->data['total_ht'], 2, ',', '' ) ); ?>€</td>
 					<td data-title="<?php echo esc_attr( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€"><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</td>
 					<td data-title="View">
 						<div data-action="reorder"
