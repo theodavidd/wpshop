@@ -40,7 +40,7 @@ class Doli_Synchro_Action {
 		add_action( 'wp_ajax_sync_payments', array( $this, 'sync_payments' ) );
 
 		add_action( 'wps_listing_table_header_end', array( $this, 'add_sync_header' ) );
-		add_action( 'wps_listing_table_end', array( $this, 'add_sync_item' ) );
+		add_action( 'wps_listing_table_end', array( $this, 'add_sync_item' ), 10, 2 );
 	}
 
 	/**
@@ -85,16 +85,18 @@ class Doli_Synchro_Action {
 
 		$wp_id        = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
 		$doli_sync_id = ! empty( $_POST['entry_id'] ) ? (int) $_POST['entry_id'] : get_post_meta( $wp_id, '_external_id', true );
+		$route        = ! empty( $_POST['route'] ) ? sanitize_text_field( $_POST['route'] ) : '';
 		$view         = '';
 		$buttons_view = '';
 
 		if ( empty( $doli_sync_id ) ) {
-			$third_parties = Request_Util::get( 'thirdparties?limit=-1' );
+			$third_parties = Request_Util::get( $route . '?limit=-1' );
 
 			ob_start();
 			\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'single', array(
 				'third_parties' => $third_parties,
 				'wp_id'         => $wp_id,
+				'route'         => $route,
 			) );
 			$view = ob_get_clean();
 
@@ -107,17 +109,24 @@ class Doli_Synchro_Action {
 				'buttons_view' => $buttons_view,
 			) );
 		} else {
-			$doli_third_party   = Request_Util::get( 'thirdparties/' . $doli_sync_id );
-			$wp_third_party     = Third_Party::g()->get( array( 'id' => $wp_id ), true );
-			$modified_date_wp   = strtotime( $wp_third_party->data['date']['raw'] );
-			$modified_date_doli = ! empty( $doli_third_party->date_modification ) ? $doli_third_party->date_modification : $doli_third_party->date_creation;
+			$doli_entity = Request_Util::get( $route . '/' . $doli_sync_id );
+			switch ( $route ) {
+				case 'products':
+					$wp_entity = Product::g()->get( array( 'id' => $wp_id ), true );
+					break;
+				default:
+				break;
+			}
+
+			$modified_date_wp   = strtotime( $wp_entity->data['date']['raw'] );
+			$modified_date_doli = ! empty( $doli_entity->date_modification ) ? $doli_entity->date_modification : strtotime( $doli_entity->date_creation );
 
 			ob_start();
-			\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'need-to-confirm', array(
-				'date_wp'          => $modified_date_wp,
-				'date_doli'        => $modified_date_doli,
-				'doli_third_party' => $doli_third_party,
-				'wp_third_party'   => $wp_third_party,
+			\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'need-to-confirm-product', array(
+				'date_wp'     => $modified_date_wp,
+				'date_doli'   => $modified_date_doli,
+				'doli_entity' => $doli_entity,
+				'wp_entity'   => $wp_entity
 			) );
 			$view = ob_get_clean();
 
@@ -139,6 +148,7 @@ class Doli_Synchro_Action {
 	 */
 	public function associate_and_synchronize() {
 		check_ajax_referer( 'associate_and_synchronize' );
+
 		$entry_id = ! empty( $_POST['entry_id'] ) ? (int) $_POST['entry_id'] : 0;
 		$wp_id    = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
 		$from     = ! empty( $_POST['from'] ) ? sanitize_text_field( $_POST['from'] ) : '';
@@ -147,37 +157,7 @@ class Doli_Synchro_Action {
 			wp_send_json_error();
 		}
 
-		$post_type = get_post_type( $wp_id );
-
-		switch ( $post_type ) {
-			case 'wps-third-party':
-				if ( 'dolibarr' === $from ) {
-					$doli_third_party = Request_Util::get( 'thirdparties/' . $entry_id );
-					$wp_third_party   = Third_Party::g()->get( array( 'id' => $wp_id ), true );
-
-					Doli_Third_Parties::g()->doli_to_wp( $doli_third_party, $wp_third_party );
-				}
-
-				if ( 'wp' === $from ) {
-					$wp_third_party   = Third_Party::g()->get( array( 'id' => $wp_id ), true );
-					$doli_third_party = Request_Util::get( 'thirdparties/' . $entry_id );
-
-					Doli_Third_Parties::g()->wp_to_doli( $wp_third_party, $doli_third_party );
-				}
-				break;
-			case 'wps-product':
-				if ( 'dolibarr' === $from ) {
-					$doli_product = Request_Util::get( 'products/' . $entry_id );
-					$wp_product   = Product::g()->get( array( 'id' => $wp_id ), true );
-
-					Doli_Products::g()->doli_to_wp( $doli_product, $wp_product );
-				}
-				break;
-			default:
-				break;
-		}
-
-		update_post_meta( $wp_id, '_last_sync', current_time( 'mysql' ) );
+		Doli_Synchro::g()->associate_and_synchronize( $from, $wp_id, $entry_id );
 
 		wp_send_json_success( array(
 			'namespace'        => 'wpshop',
@@ -550,7 +530,7 @@ class Doli_Synchro_Action {
 	 *
 	 * @param mixed $object Peut être Order, Product ou Tier.
 	 */
-	public function add_sync_item( $object ) {
+	public function add_sync_item( $object, $route ) {
 		$class           = '';
 		$message_tooltip = '';
 
@@ -566,6 +546,7 @@ class Doli_Synchro_Action {
 		\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'sync-item', array(
 			'object'          => $object,
 			'class'           => $class,
+			'route'           => $route,
 			'message_tooltip' => $message_tooltip,
 		) );
 	}

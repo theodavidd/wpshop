@@ -149,7 +149,8 @@ class Doli_Order extends \eoxia\Post_Class {
 					break;
 			}
 
-			$wp_order->data['status'] = $status;
+			$wp_order->data['status']            = $status;
+			$wp_order->data['date_last_synchro'] = current_time( 'mysql');
 
 			return Doli_Order::g()->update( $wp_order->data );
 		}

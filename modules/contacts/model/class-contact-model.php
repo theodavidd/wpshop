@@ -62,6 +62,15 @@ class Contact_Model extends \eoxia\User_Model {
 			'field'     => '_third_party_id',
 		);
 
+		$this->schema['date_last_synchro'] = array(
+			'type'        => 'wpeo_date',
+			'meta_type'   => 'single',
+			'field'       => '_date_last_synchro',
+			'since'       => '2.0.0',
+			'description' => 'La date de la dernière synchronisation.',
+			'context'     => array( 'GET' ),
+		);
+
 		parent::__construct( $object, $req_method );
 	}
 }

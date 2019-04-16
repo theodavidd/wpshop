@@ -186,7 +186,9 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 		 * @return mixed                     New created element.
 		 */
 		public function create_from_parent( $request ) {
-			return $this->update( $request->get_params() );
+			$params = $request->get_params();
+
+			return $this->update( $params );
 		}
 
 	}

@@ -54,7 +54,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			$wp_product->data['height']            = $doli_product->height;
 			$wp_product->data['weight']            = $doli_product->weight;
 			$wp_product->data['status']            = 'publish';
-			$wp_product->data['date_last_synchro'] = current_time( 'mysql');
+			$wp_product->data['date_last_synchro'] = ! empty( $doli_product->last_sync_date ) ? $doli_product->last_sync_date : current_time( 'mysql' );
 
 			Product::g()->update( $wp_product->data );
 		}

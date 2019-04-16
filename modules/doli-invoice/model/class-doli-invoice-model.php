@@ -107,6 +107,15 @@ class Doli_Invoice_Model extends \eoxia\Post_Model {
 			'default'   => 0,
 		);
 
+		$this->schema['date_last_synchro'] = array(
+			'type'        => 'wpeo_date',
+			'meta_type'   => 'single',
+			'field'       => '_date_last_synchro',
+			'since'       => '2.0.0',
+			'description' => 'La date de la dernière synchronisation.',
+			'context'     => array( 'GET' ),
+		);
+
 		parent::__construct( $object, $req_method );
 	}
 }

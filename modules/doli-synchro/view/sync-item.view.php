@@ -23,6 +23,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		data-nonce="<?php echo esc_attr( wp_create_nonce( ! empty( $object->data['external_id'] ) ? 'associate_and_synchronize' : 'load_modal_synchro_single' ) ); ?>"
 		data-entry-id="<?php echo $object->data['external_id']; ?>"
 		data-wp-id="<?php echo $object->data['id']; ?>"
+		data-route="<?php echo esc_attr( $route ); ?>"
 		data-from="dolibarr"><i class="fas fa-sync"></i></div>
 	<div class="statut statut-<?php echo esc_attr( $class ); ?> wpeo-tooltip-event" data-direction="left" aria-label="<?php echo esc_html( $message_tooltip ); ?>"></div>
 </div>

@@ -17,9 +17,11 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wrap wpeo-wrap">
-	<h2><?php esc_html_e( 'Products', 'wpshop' ); ?></h2>
+	<h2>
+		<?php esc_html_e( 'Products', 'wpshop' ); ?>
+		<a href="<?php echo esc_attr( admin_url( 'post-new.php?post_type=wps-product' ) ); ?>" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
+	</h2>
 
-	<!--<a href="<?php echo esc_attr( admin_url( 'post-new.php?post_type=wps-product' ) ); ?>" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>-->
 
 	<div class="wps-filter-bar wpeo-form form-light">
 		<div class="form-element">

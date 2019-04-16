@@ -43,7 +43,7 @@ class Doli_Synchro_Filter extends \eoxia\Singleton_Util {
 	 * dolibarr.
 	 */
 	public function doli_countries( $countries ) {
-		$countries        = Request_Util::get( 'setup/dictionary/countries?sortfield=code&sortorder=ASC&limit=100' );
+		$countries        = Request_Util::get( 'setup/dictionary/countries?sortfield=code&sortorder=ASC&limit=500' );
 		$countries_for_wp = array();
 
 		if ( ! empty( $countries ) ) {
@@ -51,6 +51,8 @@ class Doli_Synchro_Filter extends \eoxia\Singleton_Util {
 				$countries_for_wp[ $country->id ] = $country->label;
 			}
 		}
+
+		sort( $countries_for_wp );
 
 		return $countries_for_wp;
 	}

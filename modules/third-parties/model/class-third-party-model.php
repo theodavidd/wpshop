@@ -124,11 +124,13 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'default'   => '',
 		);
 
-		$this->schema['last_sync'] = array(
-			'type'      => 'wpeo_date',
-			'meta_type' => 'single',
-			'field'     => '_last_sync',
-			'context'   => array( 'GET' ),
+		$this->schema['date_last_synchro'] = array(
+			'type'        => 'wpeo_date',
+			'meta_type'   => 'single',
+			'field'       => '_date_last_synchro',
+			'since'       => '2.0.0',
+			'description' => 'La date de la dernière synchronisation.',
+			'context'     => array( 'GET' ),
 		);
 
 		parent::__construct( $object, $req_method );

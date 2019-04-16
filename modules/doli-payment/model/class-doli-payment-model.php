@@ -46,6 +46,13 @@ class Doli_Payment_Model extends \eoxia\Post_Model {
 			'description' => '',
 		);
 
+		$this->schema['last_sync'] = array(
+			'type'      => 'wpeo_date',
+			'meta_type' => 'single',
+			'field'     => '_last_sync',
+			'context'   => array( 'GET' ),
+		);
+
 		parent::__construct( $object, $req_method );
 	}
 }

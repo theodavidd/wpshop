@@ -24,6 +24,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <input type="hidden" name="entry_id" />
 <input type="hidden" name="wp_id" value="<?php echo $wp_id; ?>" />
+<input type="hidden" name="route" value="<?php echo $route; ?>" />
 
 <input type="text" class="filter-entry" />
 <ul class="select">
@@ -31,7 +32,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	if ( ! empty( $third_parties ) ) :
 		foreach ( $third_parties as $third_party ) :
 			?>
-			<li data-id="<?php echo esc_attr( $third_party->id ); ?>">#<?php echo $third_party->id . ' ' . $third_party->name; ?></li>
+			<li data-id="<?php echo esc_attr( $third_party->id ); ?>">#<?php echo $third_party->id . ' ' . ( ! empty( $third_party->name ) ? $third_party->name : $third_party->label ); ?></li>
 			<?php
 		endforeach;
 	endif;

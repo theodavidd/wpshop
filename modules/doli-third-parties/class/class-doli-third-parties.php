@@ -53,6 +53,8 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 			$wp_third_party->data['date_modified'] = date( 'Y-m-d H:i:s', $doli_third_party->date_modification );
 		}
 
+		$wp_third_party->data['date_last_synchro'] = current_time( 'mysql');
+
 		Third_Party::g()->update( $wp_third_party->data );
 	}
 
