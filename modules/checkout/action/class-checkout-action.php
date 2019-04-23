@@ -41,6 +41,9 @@ class Checkout_Action {
 		add_action( 'wp_ajax_wps_checkout_create_third_party', array( $this, 'callback_checkout_create_third' ) );
 		add_action( 'wp_ajax_nopriv_wps_checkout_create_third_party', array( $this, 'callback_checkout_create_third' ) );
 
+		add_action( 'wps_review_order_after_submit', array( $this, 'add_devis_button' ) );
+		add_action( 'wps_review_order_after_submit', array( $this, 'add_place_order_button' ) );
+
 		add_action( 'wp_ajax_wps_place_order', array( $this, 'callback_place_order' ) );
 		add_action( 'wp_ajax_nopriv_wps_place_order', array( $this, 'callback_place_order' ) );
 	}
@@ -167,8 +170,10 @@ class Checkout_Action {
 				}
 			}
 
+			$country = get_from_id( $posted_data['third_party']['country_id'] );
+
 			$posted_data['third_party']['country_id'] = (int) $posted_data['third_party']['country_id'];
-			$posted_data['third_party']['country']    = get_from_code( $posted_data['third_party']['country_id'] );
+			$posted_data['third_party']['country']    = $country['label'];
 			$posted_data['third_party']['phone']      = $posted_data['contact']['phone'];
 
 			if ( ! is_user_logged_in() ) {
@@ -269,6 +274,17 @@ class Checkout_Action {
 				'errors'           => $errors,
 				'template'         => $template,
 			) );
+		}
+	}
+
+	public function add_devis_button() {
+		include( Template_Util::get_template_part( 'checkout', 'devis-button' ) );
+
+	}
+
+	public function add_place_order_button() {
+		if ( Settings::g()->dolibarr_is_active() ) {
+			include( Template_Util::get_template_part( 'checkout', 'place-order-button' ) );
 		}
 	}
 

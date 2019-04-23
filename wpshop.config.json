@@ -3,32 +3,33 @@
 	"slug": "wpshop",
 	"modules": [
 		"core/core.config.json",
-    
+
     "modules/transfert-data/transfert-data.config.json",
-    
+
     "modules/api/api.config.json",
-    
+
     "modules/settings/settings.config.json",
-    
+
     "modules/order/order.config.json",
-		"modules/products/products.config.json",
+    "modules/products/products.config.json",
+		"modules/products-downloadable/products-downloadable.config.json",
 		"modules/third-parties/third-parties.config.json",
 		"modules/contacts/contacts.config.json",
     "modules/proposals/proposals.config.json",
-    
+
     "modules/cart/cart.config.json",
     "modules/checkout/checkout.config.json",
-    
+
     "modules/payment/payment.config.json",
     "modules/paypal/paypal.config.json",
     "modules/stripe/stripe.config.json",
-    
+
     "modules/my-account/my-account.config.json",
     "modules/pages/pages.config.json",
     "modules/emails/emails.config.json",
-    
+
     "modules/dashboard/dashboard.config.json",
-    
+
     "modules/doli-shipping-cost/doli-shipping-cost.config.json",
     "modules/doli-statut/doli-statut.config.json",
     "modules/doli-proposals/doli-proposals.config.json",

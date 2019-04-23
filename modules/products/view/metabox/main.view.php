@@ -47,7 +47,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				<input type="hidden" name="product_data[product_downloadable]" class="product_downloadable" value="<?php echo $product->data['product_downloadable'] == '1' ? 'true' : 'false'; ?>" />
 				<i style="font-size: 2em;" class="toggle fas fa-toggle-<?php echo $product->data['product_downloadable'] ? 'on': 'off'; ?>" data-bloc="label-upload" data-input="product_downloadable"></i>
 				<label class="label-upload form-field-container" style="<?php echo $product->data['product_downloadable'] ? '': 'display: none;'; ?>">
-					<?php echo do_shortcode( '[wpeo_upload id="' . $product->data['id'] . '" field_name="downloadable_product_id" single="false" model_name="/wpshop/Product" mime_type="" display_type="list"]' ); ?>
+					<?php echo do_shortcode( '[wpeo_upload id="' . $product->data['id'] . '" upload_dir="wpshop_uploads" field_name="downloadable_product_id" single="false" model_name="/wpshop/Product" mime_type="" display_type="list"]' ); ?>
 				</label>
 			</div>
 		</div>

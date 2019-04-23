@@ -79,4 +79,6 @@ do_action( 'wps_email_before_order_table', $order ); ?>
 	</tfoot>
 </table>
 
+<strong><a target="_blank" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() ); ?>"><?php esc_html_e( 'See my orders or my downloadable products', 'wpshop' ); ?></a></strong>
+
 <?php do_action( 'wps_email_after_order_table', $order ); ?>

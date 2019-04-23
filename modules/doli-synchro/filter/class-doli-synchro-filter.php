@@ -48,11 +48,17 @@ class Doli_Synchro_Filter extends \eoxia\Singleton_Util {
 
 		if ( ! empty( $countries ) ) {
 			foreach ( $countries as $country ) {
-				$countries_for_wp[ $country->id ] = $country->label;
+				$countries_for_wp[ $country->id ] = (array) $country;
 			}
 		}
 
-		sort( $countries_for_wp );
+		usort( $countries_for_wp, function( $a, $b ) {
+			if ( $a['label'] == $b['label'] ) {
+				return 0;
+			}
+
+			return ($a['label'] > $b['label'] ) ? 1 : -1;
+		} );
 
 		return $countries_for_wp;
 	}

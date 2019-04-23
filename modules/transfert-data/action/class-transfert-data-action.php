@@ -29,7 +29,7 @@ class Transfert_Data_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
+		// add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 		add_action( 'wp_ajax_wps_transfert_data', array( $this, 'callback_transfert_data' ) );
 	}
 

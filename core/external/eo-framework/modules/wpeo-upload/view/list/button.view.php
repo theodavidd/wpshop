@@ -27,6 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			data-single="<?php echo esc_attr( $atts['single'] ); ?>"
 			data-mime-type="<?php echo esc_attr( $atts['mime_type'] ); ?>"
 			data-size="<?php echo esc_attr( $atts['size'] ); ?>"
+			data-upload-dir="<?php echo esc_attr( $atts['upload_dir'] ); ?>"
 			data-display-type="<?php echo esc_attr( $atts['display_type'] ); ?>">
 			<i class="fas fa-plus" aria-hidden="true"></i>
 			<?php esc_html_e( 'Add an attached file', 'wpeo-upload' ); ?></a>

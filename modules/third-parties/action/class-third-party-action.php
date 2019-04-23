@@ -207,11 +207,15 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function metabox_orders( $third_party ) {
-		$orders = Doli_Order::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
+		$orders = array();
 
-		if ( ! empty( $orders ) ) {
-			foreach ( $orders as &$order ) {
-				$order->data['invoice'] = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
+		if ( Settings::g()->dolibarr_is_active() ) {
+			$orders = Doli_Order::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
+
+			if ( ! empty( $orders ) ) {
+				foreach ( $orders as &$order ) {
+					$order->data['invoice'] = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
+				}
 			}
 		}
 
@@ -230,14 +234,18 @@ class Third_Party_Action {
 	public function metabox_invoices( $third_party ) {
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
-		$invoices = Doli_Invoice::g()->get( array(
-			'meta_key'   => '_third_party_id',
-			'meta_value' => $third_party->data['id'],
-		) );
+		$invoices = array();
 
-		if ( ! empty( $invoices ) ) {
-			foreach ( $invoices as &$invoice ) {
-				$invoice->data['order'] = Doli_Order::g()->get( array( 'id' => $invoice->data['parent_id'] ), true );
+		if ( Settings::g()->dolibarr_is_active() ) {
+			$invoices = Doli_Invoice::g()->get( array(
+				'meta_key'   => '_third_party_id',
+				'meta_value' => $third_party->data['id'],
+			) );
+
+			if ( ! empty( $invoices ) ) {
+				foreach ( $invoices as &$invoice ) {
+					$invoice->data['order'] = Doli_Order::g()->get( array( 'id' => $invoice->data['parent_id'] ), true );
+				}
 			}
 		}
 

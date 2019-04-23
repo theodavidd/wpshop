@@ -105,28 +105,36 @@ class Third_Party extends \eoxia\Post_Class {
 	 */
 	public function display_commercial( $third_party ) {
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$dolibarr_active = Settings::g()->dolibarr_is_active() ? true : false;
 
-		$order = Doli_Order::g()->get( array(
-			'post_parent'    => $third_party['id'],
-			'posts_per_page' => 1,
-		), true );
+		// Move to doli module.
+		$order   = array();
+		$invoice = array();
 
 		$propal = Proposals::g()->get( array(
 			'post_parent'    => $third_party['id'],
 			'posts_per_page' => 1,
 		), true );
 
-		$invoice = Doli_Invoice::g()->get( array(
-			'meta_key'       => '_third_party_id',
-			'meta_value'     => $third_party['id'],
-			'posts_per_page' => 1,
-		), true );
+		if ( $dolibarr_active ) {
+			$order = Doli_Order::g()->get( array(
+				'post_parent'    => $third_party['id'],
+				'posts_per_page' => 1,
+			), true );
+
+			$invoice = Doli_Invoice::g()->get( array(
+				'meta_key'       => '_third_party_id',
+				'meta_value'     => $third_party['id'],
+				'posts_per_page' => 1,
+			), true );
+		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'commercial', array(
-			'doli_url' => $dolibarr_option['dolibarr_url'],
-			'order'    => $order,
-			'propal'   => $propal,
-			'invoice'  => $invoice,
+			'doli_url'    => $dolibarr_option['dolibarr_url'],
+			'order'       => $order,
+			'propal'      => $propal,
+			'invoice'     => $invoice,
+			'doli_active' => $dolibarr_active,
 		) );
 	}
 }

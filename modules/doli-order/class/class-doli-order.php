@@ -139,14 +139,14 @@ class Doli_Order extends \eoxia\Post_Class {
 					break;
 				case 3:
 					$status = 'wps-delivered';
-
-					if ( $wp_order->data['billed'] ) {
-						$status = 'wps-billed';
-					}
 					break;
 				default:
 					$status = 'publish';
 					break;
+			}
+
+			if ( $wp_order->data['billed'] ) {
+				Product_Downloadable::g()->create_from_order( $wp_order );
 			}
 
 			$wp_order->data['status']            = $status;

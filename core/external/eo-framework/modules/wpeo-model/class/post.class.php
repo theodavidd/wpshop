@@ -232,7 +232,7 @@ if ( ! class_exists( '\eoxia\Post_Class' ) ) {
 			}
 			$args_cb['data'] = $data;
 
-			$data['id'] = (int) $data['id'];
+			$data['id'] = (int) ! empty( $data['id'] ) ? $data['id'] : 0;
 
 			$object = new $model_name( $data, $req_method );
 

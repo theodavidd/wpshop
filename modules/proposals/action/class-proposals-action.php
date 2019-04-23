@@ -29,6 +29,7 @@ class Proposals_Action {
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
 		add_action( 'admin_init', array( $this, 'add_meta_box' ) );
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 	}
 
 	/**
@@ -106,14 +107,17 @@ class Proposals_Action {
 	 */
 	public function callback_meta_box( $post, $callback_args ) {
 		$proposal     = $callback_args['args']['proposal'];
-		$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $proposal->data['id'] ), true );
 		$third_party  = Third_Party::g()->get( array( 'id' => $proposal->data['parent_id'] ), true );
-		$link_invoice = '';
+		$invoice      = null;
 
-		if ( ! empty( $invoice ) ) {
-			$invoice->data['payments'] = array();
-			$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
-			$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&proposal_id=' . $proposal->data['id'] );
+		if ( Settings::g()->dolibarr_is_active ) {
+			$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $proposal->data['id'] ), true );
+			$link_invoice = '';
+			if ( ! empty( $invoice ) ) {
+				$invoice->data['payments'] = array();
+				$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
+				$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&proposal_id=' . $proposal->data['id'] );
+			}
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'metabox-proposal-details', array(

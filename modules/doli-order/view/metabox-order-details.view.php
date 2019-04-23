@@ -37,6 +37,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				<li><span><?php esc_html_e( 'Address', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : 'N/D'; ?></li>
 				<li><span><?php esc_html_e( 'ZIP Code', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['zip'] ) ? $third_party->data['zip'] : 'N/D'; ?></li>
 				<li><span><?php esc_html_e( 'City', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : 'N/D'; ?></li>
+				<li><span><?php esc_html_e( 'Country', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['country'] ) ? $third_party->data['country'] : 'N/D'; ?></li>
 			</ul>
 		</div>
 
@@ -47,6 +48,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				<li><span><?php esc_html_e( 'Address', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : 'N/D'; ?></li>
 				<li><span><?php esc_html_e( 'ZIP Code', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['zip'] ) ? $third_party->data['zip'] : 'N/D'; ?></li>
 				<li><span><?php esc_html_e( 'City', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : 'N/D'; ?></li>
+				<li><span><?php esc_html_e( 'Country', 'wpshop' ); ?></span> <?php echo ! empty( $third_party->data['country'] ) ? $third_party->data['country'] : 'N/D'; ?></li>
 			</ul>
 		</div>
 	</div>

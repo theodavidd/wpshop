@@ -40,7 +40,8 @@ class My_Account_Action {
 		add_action( 'wps_account_navigation', array( My_Account::g(), 'display_navigation' ) );
 		add_action( 'wps_account_orders', array( My_Account::g(), 'display_orders' ) );
 		add_action( 'wps_account_invoices', array( My_Account::g(), 'display_invoices' ) );
-		add_action( 'wps_account_proposals', array( My_Account::g(), 'display_proposals' ) );
+		add_action( 'wps_account_download', array( My_Account::g(), 'display_downloads' ) );
+		add_action( 'wps_account_quotations', array( My_Account::g(), 'display_quotations' ) );
 
 		add_action( 'wp_ajax_reorder', array( $this, 'do_reorder' ) );
 	}

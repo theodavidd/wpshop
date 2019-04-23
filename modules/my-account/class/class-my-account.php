@@ -35,8 +35,13 @@ class My_Account extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function init_endpoint() {
-		add_rewrite_endpoint( 'orders', EP_ALL );
-		add_rewrite_endpoint( 'invoices', EP_ALL );
+		if ( Settings::g()->dolibarr_is_active() ) {
+			add_rewrite_endpoint( 'orders', EP_ALL );
+			add_rewrite_endpoint( 'invoices', EP_ALL );
+		}
+
+		add_rewrite_endpoint( 'quotations', EP_ALL );
+		add_rewrite_endpoint( 'download', EP_ALL );
 	}
 
 	/**
@@ -117,11 +122,27 @@ class My_Account extends \eoxia\Singleton_Util {
 	}
 
 	/**
+	 * Affiches les téléchargements liées au tier.
+	 *
+	 * @since 2.0.0
+	 */
+	public function display_downloads() {
+		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+
+		$products_downloadable = Product_Downloadable::g()->get( array(
+			'author' => $contact->data['id'],
+		) );
+
+		include( Template_Util::get_template_part( 'my-account', 'my-account-downloads' ) );
+	}
+
+	/**
 	 * Affiches les devis liés au tiers.
 	 *
 	 * @since 2.0.0
 	 */
-	public function display_proposals() {
+	public function display_quotations() {
 		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 		$proposals   = Proposals::g()->get( array( 'post_parent' => $third_party->data['id'] ) );

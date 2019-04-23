@@ -57,15 +57,15 @@ defined( 'ABSPATH' ) || exit; ?>
 			<select id="monselect" class="form-field" name="third_party[country_id]">
 				<?php
 				if ( ! empty( $countries ) ) :
-					foreach ( $countries as $key => $country ) :
+					foreach ( $countries as $country ) :
 						$selected = '';
 
-						if ( ! empty( $third_party ) && $key == $third_party->data['country_id'] ) :
+						if ( ! empty( $third_party ) && $country['id'] == $third_party->data['country_id'] ) :
 							$selected = 'selected="selected"';
 						endif;
 
 						?>
-						<option <?php echo $selected; ?> value="<?php echo esc_attr( $key ); ?>"><?php echo $country; ?></option>
+						<option <?php echo $selected; ?> value="<?php echo esc_attr( $country['id'] ); ?>"><?php echo $country['label']; ?></option>
 						<?php
 					endforeach;
 				endif;

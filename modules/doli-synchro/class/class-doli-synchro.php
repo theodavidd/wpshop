@@ -123,6 +123,19 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 					) );
 				}
 				break;
+			case 'wps-order':
+				if ( 'dolibarr' === $from ) {
+					$doli_product = Request_Util::get( 'orders/' . $entry_id );
+					$wp_product   = Doli_Order::g()->get( array( 'id' => $wp_id ), true );
+
+					Doli_Order::g()->doli_to_wp( $doli_product, $wp_product );
+
+					Request_Util::post( 'wpshopapi/associate/order', array(
+						'wp_product' => $wp_id,
+						'fk_product' => $entry_id,
+					) );
+				}
+				break;
 			default:
 				break;
 		}
