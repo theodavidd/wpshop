@@ -94,6 +94,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
 		$api_url = $dolibarr_option['dolibarr_url'] . 'api/index.php/' . $end_point;
+
 		$request = wp_remote_get( $api_url, array(
 			'headers' => array(
 				'Content-type' => 'application/json',

@@ -30,6 +30,7 @@ class Product_Action {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 0 );
+		add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
 	}
 
 	/**
@@ -59,6 +60,27 @@ class Product_Action {
 		\eoxia\View_Util::exec( 'wpshop', 'products', 'main', array(
 			'count' => $count,
 		) );
+	}
+
+	public function callback_save_post( $post_id, $post ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return $post_id;
+		}
+
+		if ( 'wps-product' !== $post->post_type && 'publish' !== $post->post_status ) {
+			return $post_id;
+		}
+
+		$product = Product::g()->get( array( 'id' => $post_id ), true );
+
+		if ( empty( $product ) || ( ! empty( $product ) && 0 === $product->data['id'] ) ) {
+			return $post_id;
+		}
+
+		$product_data = ! empty( $_POST['product_data'] ) ? (array) $_POST['product_data'] : array();
+		$product_data['product_downloadable'] = ( ! empty( $product_data['product_downloadable'] ) && 'true' == $product_data['product_downloadable'] ) ? true : false;
+
+		update_post_meta( $post_id, '_product_downloadable', $product_data['product_downloadable'] );
 	}
 }
 

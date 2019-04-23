@@ -31,7 +31,7 @@ class Doli_Products_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
+		add_action( 'save_post', array( $this, 'callback_save_post' ), 20, 2 );
 	}
 
 	public function callback_save_post( $post_id, $post ) {

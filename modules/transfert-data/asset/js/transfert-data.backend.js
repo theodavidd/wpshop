@@ -16,8 +16,17 @@ window.eoxiaJS.wpshop.transfertData.init = function() {
 	}
 
 	jQuery( document ).on( 'click', '.wrap .toggle', function(e) {
-		jQuery( '.errors' ).toggleClass( 'hidden' );
-		jQuery( this ).toggleClass( 'fa-toggle-off, fa-toggle-on' );
+		jQuery( this ).closest( '.form-element' ).find( '.' + jQuery( this ).data( 'bloc' ) ).toggle()
+		var value = ( jQuery( this ).closest( '.form-element' ).find( '.' + jQuery( this ).data( 'input' ) ).val() == 'true' ) ? true : false;
+		value = !value;
+		jQuery( this ).closest( '.form-element' ).find( '.' + jQuery( this ).data( 'input' ) ).val(value);
+
+		console.log(value);
+		if (value) {
+			jQuery( this ).removeClass( 'fa-toggle-off' ).addClass( 'fa-toggle-on' );
+		} else {
+			jQuery( this ).removeClass( 'fa-toggle-on' ).addClass( 'fa-toggle-off' );
+		}
 	} );
 };
 

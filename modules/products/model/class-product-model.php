@@ -96,7 +96,16 @@ class Product_Model extends \eoxia\Post_Model {
 			'type'        => 'integer',
 			'meta_type'   => 'single',
 			'field'       => '_fk_product_type',
-			'default'     => null,
+			'default'     => 0,
+			'since'       => '2.0.0',
+			'description' => 'Le type du produit (int(11)). Peut être NULL. Valeur par défaut 0. Valeur attendu: 0 (Produit) ou 1 (Service).',
+		);
+
+		$this->schema['product_downloadable'] = array(
+			'type'        => 'boolean',
+			'meta_type'   => 'single',
+			'field'       => '_product_downloadable',
+			'default'     => false,
 			'since'       => '2.0.0',
 			'description' => 'Le type du produit (int(11)). Peut être NULL. Valeur par défaut 0. Valeur attendu: 0 (Produit) ou 1 (Service).',
 		);
@@ -144,6 +153,21 @@ class Product_Model extends \eoxia\Post_Model {
 			'default'     => null,
 			'since'       => '2.0.0',
 			'description' => 'Le poids en Kg (float). Peut être NULL. Valeur par défaut NULL.',
+		);
+
+		$this->schema['associated_document_id'] = array(
+			'since'     => '6.1.6',
+			'version'   => '6.1.6',
+			'type'      => 'array',
+			'meta_type' => 'multiple',
+			'child'     => array(),
+		);
+		$this->schema['associated_document_id']['child']['downloadable_product_id'] = array(
+			'since'      => '6.1.6',
+			'version'    => '6.1.6',
+			'type'       => 'array',
+			'array_type' => 'integer',
+			'meta_type'  => 'multiple',
 		);
 
 		parent::__construct( $object, $req_method );

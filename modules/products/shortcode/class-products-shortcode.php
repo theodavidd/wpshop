@@ -62,6 +62,8 @@ class Products_Shortcode {
 		}
 
 		$products = Product::g()->get( $args );
+
+		include( Template_Util::get_template_part( 'products', 'list-wps-product' ) );
 	}
 }
 

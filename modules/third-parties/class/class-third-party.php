@@ -77,6 +77,7 @@ class Third_Party extends \eoxia\Post_Class {
 		$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
 
 		$args = array(
+			'orderby'        => 'ID',
 			'offset'         => ( $current_page - 1 ) * 25,
 			'posts_per_page' => 25,
 		);

@@ -920,3 +920,6 @@
   -webkit-transform: translateY(-70%);
       -ms-transform: translateY(-70%);
           transform: translateY(-70%); }
+
+.fa-toggle-on {
+  color: green; }

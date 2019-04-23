@@ -21,7 +21,6 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php wp_nonce_field( basename( __FILE__ ), 'wpshop_data_fields' ); ?>
 
 		<div class="wpeo-gridlayout grid-3">
-
 			<div class="form-element">
 				<span class="form-label"><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></span>
 				<label class="form-field-container">
@@ -43,6 +42,14 @@ defined( 'ABSPATH' ) || exit; ?>
 				</label>
 			</div>
 
+			<div class="form-element">
+				<span class="form-label"><?php esc_html_e( 'Product Downloadable', 'wpshop' ); ?></span>
+				<input type="hidden" name="product_data[product_downloadable]" class="product_downloadable" value="<?php echo $product->data['product_downloadable'] == '1' ? 'true' : 'false'; ?>" />
+				<i style="font-size: 2em;" class="toggle fas fa-toggle-<?php echo $product->data['product_downloadable'] ? 'on': 'off'; ?>" data-bloc="label-upload" data-input="product_downloadable"></i>
+				<label class="label-upload form-field-container" style="<?php echo $product->data['product_downloadable'] ? '': 'display: none;'; ?>">
+					<?php echo do_shortcode( '[wpeo_upload id="' . $product->data['id'] . '" field_name="downloadable_product_id" single="false" model_name="/wpshop/Product" mime_type="" display_type="list"]' ); ?>
+				</label>
+			</div>
 		</div>
 	</div>
 </div>
