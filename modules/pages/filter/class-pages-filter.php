@@ -27,7 +27,6 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	protected function construct() {
-
 		add_action( 'template_redirect', array( $this, 'check_checkout_page' ) );
 		add_filter( 'display_post_states', array( $this, 'add_states_post' ), 10, 2 );
 		add_filter( 'the_content', array( $this, 'do_shortcode_page' ), 99, 1 );
@@ -67,13 +66,12 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 	 * @return array               Les status avec celui de WPshop en plus.
 	 */
 	public function add_states_post( $post_states, $post ) {
-
 		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
 		$key = array_search( $post->ID, $page_ids_options );
 
 		if ( false !== $key ) {
-			$post_states[] = $key;
+			$post_states[] = Pages::g()->page_state_titles[ $key ];
 		}
 
 		return $post_states;
@@ -89,7 +87,6 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 	 * @return string $content Le contenu de la page + le contenu du shortcode.
 	 */
 	public function do_shortcode_page( $content ) {
-
 		if ( ! is_admin() ) {
 			$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
@@ -132,7 +129,9 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 						$shortcode_attr = $key . '=' . $value . ' ';
 					}
 				}
-				$content  = do_shortcode( '[wps_' . $shortcode . ' ' . $shortcode_attr . ']' );
+				ob_start();
+				do_shortcode( '[wps_' . $shortcode . ' ' . $shortcode_attr . ']' );
+				$content = ob_get_clean();
 				$content .= $tmp_content;
 			}
 		}

@@ -29,6 +29,8 @@ class Pages extends \eoxia\Singleton_Util {
 	 */
 	public $default_options;
 
+	public $page_state_titles;
+
 	/**
 	 * Tableau contenant toutes les pages personnalisables dans la base de
 	 * donnée.
@@ -45,7 +47,6 @@ class Pages extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	protected function construct() {
-
 		$this->default_options = array(
 			'shop_id'           => 0,
 			'cart_id'           => 0,
@@ -53,6 +54,15 @@ class Pages extends \eoxia\Singleton_Util {
 			'my_account_id'     => 0,
 			'valid_checkout_id' => 0,
 			'valid_proposal_id' => 0,
+		);
+
+		$this->page_state_titles = array(
+			'shop_id'           => __( 'Shop', 'wpshop' ),
+			'cart_id'           => __( 'Cart', 'wpshop' ),
+			'checkout_id'       => __( 'Checkout', 'wpshop' ),
+			'my_account_id'     => __( 'My account', 'wpshop' ),
+			'valid_checkout_id' => __( 'Valid checkout', 'wpshop' ),
+			'valid_proposal_id' => __( 'Valid proposal', 'wpshop' ),
 		);
 
 		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );

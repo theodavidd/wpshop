@@ -69,7 +69,7 @@ class Checkout_Action {
 	 * vue d'édition ou false.
 	 */
 	public function callback_checkout_shipping( $third_party, $contact, $force_edit = false ) {
-		if ( null !== $contact->data['id'] && ! $force_edit ) {
+		if ( null !== $contact->data['id'] && null !== $third_party->data['id'] && ! $force_edit ) {
 			include( Template_Util::get_template_part( 'checkout', 'form-shipping' ) );
 		} else {
 			include( Template_Util::get_template_part( 'checkout', 'form-shipping-edit' ) );
@@ -215,8 +215,18 @@ class Checkout_Action {
 				$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
 				$posted_data['third_party']['id'] = $third_party->data['id'];
+				if ( ! empty( $third_party->data['id'] ) ) {
+					$third_party = Third_Party::g()->update( $posted_data['third_party'] );
+				} else {
+					$posted_data['contact_ids'][] = $contact->data['id'];
+					$third_party                  = Third_Party::g()->update( $posted_data['third_party'] );
+					do_action( 'wps_checkout_create_third_party', $third_party );
+					do_action( 'wps_checkout_create_contact', $contact );
+				}
 
-				$third_party = Third_Party::g()->update( $posted_data['third_party'] );
+				$contact->data['third_party_id'] = $third_party->data['id'];
+
+				Contact::g()->update( $contact->data );
 			}
 
 			$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : 'proposal';

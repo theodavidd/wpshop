@@ -50,10 +50,23 @@ class Doli_Synchro_Action {
 	 */
 	public function load_modal_synchro() {
 		check_ajax_referer( 'load_modal_synchro' );
-		$sync_infos = Doli_Synchro::g()->sync_infos;
+
+		$sync_action = ! empty( $_POST['sync'] ) ? sanitize_text_field( $_POST['sync'] ) : '';
+		$sync_infos  = Doli_Synchro::g()->sync_infos;
+
+		if ( empty( $sync_action ) ) {
+			$sync_action = array( 'third-parties','contacts','products','proposals','orders','invoices','payments' );
+		} else {
+			$sync_action = explode( ',', $sync_action );
+		}
 
 		if ( ! empty( $sync_infos ) ) {
-			foreach ( $sync_infos as &$sync_info ) {
+			foreach ( $sync_infos as $key => &$sync_info ) {
+				if ( ! in_array( $key, $sync_action ) ) {
+					unset ( $sync_infos[ $key ] );
+					continue;
+				}
+
 				$sync_info['total_number'] = 0;
 				if ( ! empty( $sync_info['endpoint'] ) ) {
 					$tmp = Request_Util::get( $sync_info['endpoint'] );

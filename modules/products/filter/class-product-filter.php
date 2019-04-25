@@ -31,6 +31,7 @@ class Product_Filter {
 		add_filter( 'eo_model_wps-product_wps-product-cat', array( $this, 'callback_taxonomy' ) );
 		add_filter( 'single_template', array( $this, 'get_custom_post_type_template' ), 11 );
 		add_filter( 'taxonomy_template', array( $this, 'get_custom_taxonomy_template' ), 11 );
+		add_filter( 'parent_file', array( $this, 'highlight_menu' ) );
 	}
 
 	/**
@@ -112,6 +113,9 @@ class Product_Filter {
 			'show_admin_column' => true,
 			'show_in_nav_menus' => true,
 			'query_var'         => true,
+			'rewrite'           => array(
+				'slug' => __( 'category-product', 'wpshop' ),
+			),
 		);
 
 		return $args;
@@ -149,6 +153,26 @@ class Product_Filter {
 		}
 
 		return $single_template;
+	}
+
+	public function highlight_menu( $parent_file ) {
+		global $submenu_file, $current_screen, $pagenow;
+
+        # Set the submenu as active/current while anywhere in your Custom Post Type (nwcm_news)
+        if ( $current_screen->post_type == 'wps-product' ) {
+
+            if ( $pagenow == 'post.php' ) {
+                $submenu_file = 'edit.php?post_type=' . $current_screen->post_type;
+            }
+
+            if ( $pagenow == 'edit-tags.php' ) {
+                $submenu_file = 'edit-tags.php?taxonomy=wps-product-cat&post_type=' . $current_screen->post_type;
+            }
+
+            $parent_file = 'wps-product';
+        }
+
+        return $parent_file;
 	}
 
 }

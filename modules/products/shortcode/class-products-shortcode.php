@@ -46,7 +46,9 @@ class Products_Shortcode {
 		), $atts );
 
 		$products = array();
-		$args     = array();
+		$args     = array(
+			'tax_query' => array(),
+		);
 
 		if ( ! empty( $a['id'] ) ) {
 			$args['id'] = $a['id'];
@@ -58,7 +60,14 @@ class Products_Shortcode {
 		}
 
 		if ( ! empty( $a['categories'] ) ) {
-			$args['category_name'] = $a['categories'];
+			$a['categories'] = explode( ',', $a['categories'] );
+			foreach ( $a['categories'] as $category_slug ) {
+				$args['tax_query'][] = array(
+					'taxonomy' => 'wps-product-cat',
+					'field'    => 'slug',
+					'terms'    => $category_slug,
+				);
+			}
 		}
 
 		$products = Product::g()->get( $args );

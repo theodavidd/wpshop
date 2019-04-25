@@ -29,6 +29,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<input type="hidden" class="form-field" name="third_party[address]" value="<?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : ''; ?>"  />
 	<input type="hidden" class="form-field" name="third_party[zip]" value="<?php echo ! empty( $third_party->data['zip'] ) ? $third_party->data['zip'] : ''; ?>"  />
 	<input type="hidden" class="form-field" name="third_party[town]" value="<?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : ''; ?>"  />
+	<input type="hidden" class="form-field" name="third_party[country_id]" value="<?php echo ! empty( $third_party->data['country_id'] ) ? $third_party->data['country_id'] : ''; ?>"  />
 	<input type="hidden" class="form-field" name="contact[phone]" value="<?php echo ! empty( $third_party->data['phone'] ) ? $third_party->data['phone'] : ''; ?>"  />
 	<input type="hidden" class="form-field" name="contact[email]" value="<?php echo ! empty( $contact->data['email'] ) ? $contact->data['email'] : ''; ?>"  />
 
@@ -59,6 +60,10 @@ defined( 'ABSPATH' ) || exit; ?>
 		<li>
 			<span><?php esc_html_e( 'Town / City', 'wpshop' ); ?>
 				<strong><?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : ''; ?></strong></span>
+		</li>
+		<li>
+			<span><?php esc_html_e( 'Country', 'wpshop' ); ?>
+				<strong><?php echo ! empty( $third_party->data['country'] ) ? $third_party->data['country'] : ''; ?></strong></span>
 		</li>
 		<li>
 			<span><?php esc_html_e( 'Phone number', 'wpshop' ); ?>

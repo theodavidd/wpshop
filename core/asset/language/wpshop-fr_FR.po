@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
 "POT-Creation-Date: 2019-04-04 15:20+0200\n"
-"PO-Revision-Date: 2019-04-04 15:21+0200\n"
+"PO-Revision-Date: 2019-04-24 17:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -2185,7 +2185,7 @@ msgstr "Référence du paiement"
 #: modules/settings/view/main.view.php:20
 #: modules/settings/view/payment-method.view.php:25
 msgid "Settings"
-msgstr "Options"
+msgstr "Réglages"
 
 #: modules/settings/class/class-settings.php:78
 msgid "No page"

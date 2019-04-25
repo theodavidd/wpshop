@@ -41,7 +41,8 @@ class Product_Action {
 	public function callback_admin_menu() {
 		add_menu_page( __( 'Products', 'wpshop' ), __( 'Products', 'wpshop' ), 'manage_options', 'wps-product', '', 'dashicons-cart' );
 		add_submenu_page( 'wps-product', __( 'Products', 'wpshop' ), __( 'Products', 'wpshop' ), 'manage_options', 'wps-product', array( $this, 'callback_add_menu_page' ) );
-		add_submenu_page( 'wps-product', __( 'Products Category', 'wpshop' ), __( 'Products Category', 'wpshop' ), 'manage_options', 'edit-tags.php?taxonomy=wps-product-cat' );
+		add_submenu_page( 'wps-product', __( 'Add', 'wpshop' ), __( 'Add', 'wpshop' ), 'manage_options', 'post-new.php?post_type=wps-product' );
+		add_submenu_page( 'wps-product', __( 'Products Category', 'wpshop' ), __( 'Products Category', 'wpshop' ), 'manage_options', 'edit-tags.php?taxonomy=wps-product-cat&post_type=wps-product' );
 	}
 
 	/**
