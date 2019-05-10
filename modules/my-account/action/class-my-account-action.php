@@ -111,7 +111,7 @@ class My_Account_Action {
 					'meta_value' => (int) $element['fk_product'],
 				), true );
 
-				if ( ! empty( $wp_product ) && $wp_product->data['id'] != $shippint_cost_product_id ) {
+				if ( ! empty( $wp_product ) && $wp_product->data['id'] !== $shippint_cost_product_id ) {
 					for ( $i = 0; $i < $element['qty']; ++$i ) {
 						Cart::g()->add_to_cart( $wp_product );
 					}
