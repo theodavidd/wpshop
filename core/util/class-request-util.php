@@ -56,7 +56,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 		) );
 
 		if ( ! is_wp_error( $request ) ) {
-			if ( 200 == $request['response']['code'] ) {
+			if ( 200 === $request['response']['code'] ) {
 				$response = json_decode( $request['body'] );
 				return $response;
 			} else {

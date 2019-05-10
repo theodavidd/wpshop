@@ -59,7 +59,7 @@ class Cart_Action {
 				$price     += $line['price'] * $line['qty'];
 				$price_ttc += $line['price_ttc'] * $line['qty'];
 
-				if ( $shipping_cost_option['shipping_product_id'] != $line['id'] ) {
+				if ( $shipping_cost_option['shipping_product_id'] !== $line['id'] ) {
 					$price_no_shipping += $line['price'] * $line['qty'];
 				}
 			}
@@ -146,7 +146,7 @@ class Cart_Action {
 
 		$key = isset( $_POST['key'] ) ? (int) $_POST['key'] : -1;
 
-		if ( -1 != $key ) {
+		if ( -1 !== $key ) {
 			Cart::g()->delete_product( $key );
 		}
 

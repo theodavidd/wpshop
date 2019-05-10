@@ -45,15 +45,15 @@ class Core_Filter {
 			return true;
 		}
 
-		$key         = array_search( 'edit-comments.php', $order_menu );
-		$key_product = array_search( 'wps-product', $order_menu );
+		$key         = array_search( 'edit-comments.php', $order_menu, true );
+		$key_product = array_search( 'wps-product', $order_menu, true );
 
 		if ( false !== $key ) {
 			array_splice( $order_menu, $key, 0, array( 'wps-product' ) );
 			array_splice( $order_menu, $key_product + 1, 1 );
 		}
 
-		$key_wpshop = array_search( 'wpshop', $order_menu );
+		$key_wpshop = array_search( 'wpshop', $order_menu, true );
 
 		if ( false !== $key ) {
 			array_splice( $order_menu, $key, 0, array( 'wpshop' ) );

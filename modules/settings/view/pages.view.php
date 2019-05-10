@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					foreach ( $pages as $page ) :
 						$selected = '';
 
-						if ( $page->ID == $page_ids_options['shop_id'] ) :
+						if ( $page->ID === $page_ids_options['shop_id'] ) :
 							$selected = 'selected="selected"';
 						endif;
 						?>
@@ -52,7 +52,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					foreach ( $pages as $page ) :
 						$selected = '';
 
-						if ( $page->ID == $page_ids_options['cart_id'] ) :
+						if ( $page->ID === $page_ids_options['cart_id'] ) :
 							$selected = 'selected="selected"';
 						endif;
 						?>
@@ -74,7 +74,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					foreach ( $pages as $page ) :
 						$selected = '';
 
-						if ( $page->ID == $page_ids_options['checkout_id'] ) :
+						if ( $page->ID === $page_ids_options['checkout_id'] ) :
 							$selected = 'selected="selected"';
 						endif;
 						?>
@@ -96,7 +96,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					foreach ( $pages as $page ) :
 						$selected = '';
 
-						if ( $page->ID == $page_ids_options['my_account_id'] ) :
+						if ( $page->ID === $page_ids_options['my_account_id'] ) :
 							$selected = 'selected="selected"';
 						endif;
 						?>
@@ -118,7 +118,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					foreach ( $pages as $page ) :
 						$selected = '';
 
-						if ( $page->ID == $page_ids_options['valid_checkout_id'] ) :
+						if ( $page->ID === $page_ids_options['valid_checkout_id'] ) :
 							$selected = 'selected="selected"';
 						endif;
 						?>
@@ -140,7 +140,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					foreach ( $pages as $page ) :
 						$selected = '';
 
-						if ( $page->ID == $page_ids_options['valid_proposal_id'] ) :
+						if ( $page->ID === $page_ids_options['valid_proposal_id'] ) :
 							$selected = 'selected="selected"';
 						endif;
 						?>

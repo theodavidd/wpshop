@@ -265,7 +265,7 @@ class Third_Party_Action {
 
 		$post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : -1;
 
-		if ( -1 == $post_id ) {
+		if ( -1 === $post_id ) {
 			exit;
 		}
 
@@ -294,7 +294,7 @@ class Third_Party_Action {
 		$post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : -1;
 		$title   = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
 
-		if ( -1 == $post_id ) {
+		if ( -1 === $post_id ) {
 			exit;
 		}
 

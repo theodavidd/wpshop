@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="page-header">
 		<h2>
 			<?php
-			if ( 0 == $third_party->data['id'] ) :
+			if ( 0 === $third_party->data['id'] ) :
 				\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'single-title-edit', array(
 					'third_party' => $third_party,
 				) );
