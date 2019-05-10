@@ -60,7 +60,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					foreach ( $countries as $country ) :
 						$selected = '';
 
-						if ( ! empty( $third_party ) && $country['id'] == $third_party->data['country_id'] ) :
+						if ( ! empty( $third_party ) && $country['id'] === $third_party->data['country_id'] ) :
 							$selected = 'selected="selected"';
 						endif;
 

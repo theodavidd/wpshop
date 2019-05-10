@@ -49,7 +49,7 @@ class Proposals_Action {
 	 * @since 2.0.0
 	 */
 	public function add_meta_box() {
-		if ( isset( $_GET['id'] ) && isset( $_GET['page'] ) && 'wps-proposal' == $_GET['page'] ) {
+		if ( isset( $_GET['id'] ) && isset( $_GET['page'] ) && 'wps-proposal' === $_GET['page'] ) {
 			$proposal = Proposals::g()->get( array( 'id' => $_GET['id'] ), true );
 
 			$args_metabox = array(

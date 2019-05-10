@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					foreach ( $products as $product ) :
 						$selected = '';
 
-						if ( $product->data['id'] == $shipping_cost_option['shipping_product_id'] ) :
+						if ( $product->data['id'] === $shipping_cost_option['shipping_product_id'] ) :
 							$selected = 'selected="selected"';
 						endif;
 						?>

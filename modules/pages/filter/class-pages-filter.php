@@ -68,7 +68,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 	public function add_states_post( $post_states, $post ) {
 		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
-		$key = array_search( $post->ID, $page_ids_options );
+		$key = array_search( $post->ID, $page_ids_options, true );
 
 		if ( false !== $key ) {
 			$post_states[] = Pages::g()->page_state_titles[ $key ];
@@ -90,7 +90,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 		if ( ! is_admin() ) {
 			$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
-			$key = array_search( $GLOBALS['post']->ID, $page_ids_options );
+			$key = array_search( $GLOBALS['post']->ID, $page_ids_options, true );
 
 			$shortcode = '';
 			$params    = array();

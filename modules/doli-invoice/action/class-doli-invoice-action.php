@@ -60,7 +60,7 @@ class Doli_Invoice_Action {
 	 * @since 2.0.0
 	 */
 	public function add_meta_box() {
-		if ( isset( $_GET['id'] ) && isset( $_GET['page'] ) && 'wps-invoice' == $_GET['page'] ) {
+		if ( isset( $_GET['id'] ) && isset( $_GET['page'] ) && 'wps-invoice' === $_GET['page'] ) {
 			$invoice = Doli_Invoice::g()->get( array( 'id' => $_GET['id'] ), true );
 
 			$args_metabox = array(
@@ -257,7 +257,7 @@ class Doli_Invoice_Action {
 			'posts_per_page' => 1,
 		), true );
 
-		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
+		if ( ( isset( $third_party->data ) && $order->data['parent_id'] !== $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
 		}
 

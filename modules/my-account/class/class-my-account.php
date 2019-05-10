@@ -54,7 +54,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	public function before_login_form() {
 		global $post;
 
-		if ( Pages::g()->get_slug_link_shop_page( $post->ID ) == 'my-account' ) {
+		if ( Pages::g()->get_slug_link_shop_page( $post->ID ) === 'my-account' ) {
 			include( Template_Util::get_template_part( 'my-account', 'login-title' ) );
 		}
 	}

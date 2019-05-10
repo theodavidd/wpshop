@@ -326,7 +326,7 @@ class Checkout_Action {
 
 		do_action( 'wps_checkout_update_proposal', $proposal );
 
-		if ( 'order' == $_POST['type'] ) {
+		if ( 'order' === $_POST['type'] ) {
 			$order = apply_filters( 'wps_checkout_create_order', $proposal );
 			Checkout::g()->process_order_payment( $order );
 		} else {

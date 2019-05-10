@@ -106,7 +106,7 @@ class Contacts_Action {
 			$contact = Contact::g()->get( array( 'id' => $contact['id'] ), true );
 		}
 
-		if ( ! in_array( $contact->data['id'], $third_party->data['contact_ids'] ) ) {
+		if ( ! in_array( $contact->data['id'], $third_party->data['contact_ids'], true ) ) {
 			$third_party->data['contact_ids'][] = $contact->data['id'];
 			$contact->data['third_party']       = $third_party->data['external_id'];
 

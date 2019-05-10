@@ -68,7 +68,7 @@ class Product_Downloadable_Action {
 		$third_party          = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 		$product_downloadable = Product_Downloadable::g()->get( array( 'id' => $product_id ), true );
 
-		if ( ( $product_downloadable->data['author_id'] != $contact->data['id'] ) && ! current_user_can( 'administrator' ) ) {
+		if ( ( $product_downloadable->data['author_id'] !== $contact->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
 		}
 

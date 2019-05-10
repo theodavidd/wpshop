@@ -62,7 +62,7 @@ class Doli_Synchro_Action {
 
 		if ( ! empty( $sync_infos ) ) {
 			foreach ( $sync_infos as $key => &$sync_info ) {
-				if ( ! in_array( $key, $sync_action ) ) {
+				if ( ! in_array( $key, $sync_action, true ) ) {
 					unset ( $sync_infos[ $key ] );
 					continue;
 				}
@@ -298,7 +298,7 @@ class Doli_Synchro_Action {
 
 		if ( ! empty( $doli_products ) ) {
 			foreach ( $doli_products as $doli_product ) {
-				if ( isset( $doli_product->array_options->options_web ) && '1' == $doli_product->array_options->options_web ) {
+				if ( isset( $doli_product->array_options->options_web ) && '1' === $doli_product->array_options->options_web ) {
 					$wp_product = Product::g()->get( array(
 						'meta_key'   => '_external_id',
 						'meta_value' => (int) $doli_product->id,

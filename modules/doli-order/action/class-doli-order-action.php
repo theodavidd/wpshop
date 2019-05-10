@@ -321,7 +321,7 @@ class Doli_Order_Action {
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 		$order       = Doli_Order::g()->get( array( 'id' => $order_id ), true );
 
-		if ( ( isset( $third_party->data ) && $order->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
+		if ( ( isset( $third_party->data ) && $order->data['parent_id'] !== $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
 		}
 

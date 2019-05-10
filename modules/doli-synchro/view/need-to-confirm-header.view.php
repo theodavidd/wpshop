@@ -31,11 +31,11 @@ $date_time_doli = new \DateTime( date( 'Y-m-d H:i:s', $date_doli ) );
 		Les données du tier sont plus récentes de<strong style="font-weight: 700">
 		<span>
 			<?php
-			if ( $interval->format( '%a' ) != 0 ) :
+			if ( $interval->format( '%a' ) !== 0 ) :
 				echo $interval->format( '%a jour(s) et ' );
 			endif;
 
-			if ( $interval->format( '%h' ) != 0 ) :
+			if ( $interval->format( '%h' ) !== 0 ) :
 				echo $interval->format( '%hh' );
 			endif;
 
@@ -45,17 +45,17 @@ $date_time_doli = new \DateTime( date( 'Y-m-d H:i:s', $date_doli ) );
 			<strong style="font-weight: 700">WordPress</strong>.
 		</span>
 		<?php
-	elseif ( $date_wp < $date_doli ) :
+	else if ( $date_wp < $date_doli ) :
 		$interval = $date_time_doli->diff( $date_time_wp );
 		?>
 		Les données du tier sont plus récentes de<strong style="font-weight: 700">
 		<span>
 			<?php
-			if ( $interval->format( '%a' ) != 0 ) :
+			if ( $interval->format( '%a' ) !== 0 ) :
 				echo $interval->format( '%a jour(s) et ' );
 			endif;
 
-			if ( $interval->format( '%h' ) != 0 ) :
+			if ( $interval->format( '%h' ) !== 0 ) :
 				echo $interval->format( '%hh' );
 			endif;
 

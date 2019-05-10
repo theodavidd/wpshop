@@ -91,7 +91,7 @@ class Product_Action {
 		$product_data                         = ! empty( $_POST['product_data'] ) ? (array) $_POST['product_data'] : array();
 		$product_data['price']                = isset( $product_data['price'] ) ? (float) round( str_replace( ',', '.', $product_data['price'] ), 2 ) : $product->data['price'];
 		$product_data['tva_tx']               = ! empty( $product_data['tva_tx'] ) ? (float) round( str_replace( ',', '.', $product_data['tva_tx'] ), 2 ) : $product->data['tva_tx'];
-		$product_data['product_downloadable'] = ( ! empty( $product_data['product_downloadable'] ) && 'true' == $product_data['product_downloadable'] ) ? true : false;
+		$product_data['product_downloadable'] = ( ! empty( $product_data['product_downloadable'] ) && 'true' === $product_data['product_downloadable'] ) ? true : false;
 		$product_data['price_ttc']            = price2num( $product_data['price'] * ( 1 + ( $product_data['tva_tx'] / 100 ) ) );
 
 		update_post_meta( $post_id, '_price', $product_data['price'] );

@@ -53,7 +53,7 @@ class Doli_Synchro_Filter extends \eoxia\Singleton_Util {
 		}
 
 		usort( $countries_for_wp, function( $a, $b ) {
-			if ( $a['label'] == $b['label'] ) {
+			if ( $a['label'] === $b['label'] ) {
 				return 0;
 			}
 

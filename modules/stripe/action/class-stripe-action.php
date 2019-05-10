@@ -73,7 +73,7 @@ class Stripe_Action {
 		$description        = ! empty( $_POST['description'] ) ? sanitize_text_field( $_POST['description'] ) : '';
 		$publish_key        = ! empty( $_POST['publish_key'] ) ? sanitize_text_field( $_POST['publish_key'] ) : '';
 		$secret_key         = ! empty( $_POST['secret_key'] ) ? sanitize_text_field( $_POST['secret_key'] ) : '';
-		$use_stripe_sandbox = ( isset( $_POST['use_stripe_sandbox'] ) && 'on' == $_POST['use_stripe_sandbox'] ) ? true : false;
+		$use_stripe_sandbox = ( isset( $_POST['use_stripe_sandbox'] ) && 'on' === $_POST['use_stripe_sandbox'] ) ? true : false;
 
 		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
 

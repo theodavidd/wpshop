@@ -93,7 +93,7 @@ class Doli_Proposals_Action {
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 		$proposal    = Proposals::g()->get( array( 'id' => $proposal_id ), true );
 
-		if ( ( isset( $third_party->data ) && $proposal->data['parent_id'] != $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
+		if ( ( isset( $third_party->data ) && $proposal->data['parent_id'] !== $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
 		}
 
