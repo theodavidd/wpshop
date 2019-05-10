@@ -57,7 +57,7 @@ class Doli_Synchro_Filter extends \eoxia\Singleton_Util {
 				return 0;
 			}
 
-			return ($a['label'] > $b['label'] ) ? 1 : -1;
+			return ( $a['label'] > $b['label'] ) ? 1 : -1;
 		} );
 
 		return $countries_for_wp;

@@ -29,7 +29,7 @@ class Transfert_Data_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		// add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
+		// add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );.
 		add_action( 'wp_ajax_wps_transfert_data', array( $this, 'callback_transfert_data' ) );
 	}
 
@@ -39,7 +39,7 @@ class Transfert_Data_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page( 'wpshop', __( 'Transfert data', 'wpshop' ), __( 'Transfert data', 'wpshop' ), 'manage_options', 'wps-transfert-data', array( $this, 'callback_add_menu_page' ) );
+		// add_submenu_page( 'wpshop', __( 'Transfert data', 'wpshop' ), __( 'Transfert data', 'wpshop' ), 'manage_options', 'wps-transfert-data', array( $this, 'callback_add_menu_page' ) );.
 	}
 
 	/**
@@ -67,9 +67,6 @@ class Transfert_Data_Action {
 	public function callback_transfert_data() {
 		global $wpdb;
 
-		ini_set( "display_errors", true );
-		error_reporting( E_ALL );
-
 		check_ajax_referer( 'wps_transfert_data' );
 
 		$number_customers = ! empty( $_POST['number_customers'] ) ? (int) $_POST['number_customers'] : 0; // WPCS: Input var okay.
@@ -94,12 +91,12 @@ class Transfert_Data_Action {
 				$post_id = (int) $customer->ID;
 
 				$post_type_status = set_post_type( $post_id, 'wps-third-party' );
-				$update_status = wp_update_post( array(
+				$update_status    = wp_update_post( array(
 					'ID'          => $post_id,
 					'post_status' => 'publish',
 				) );
-				$messages[] = '#' . $customer->ID . ' ' . $customer->post_title . ': Change post_type wpshop_customers to wps-third-party with the post type status: ' . $post_type_status . ' and with the update status: ' . $update_status;
 
+				$messages[] = '#' . $customer->ID . ' ' . $customer->post_title . ': Change post_type wpshop_customers to wps-third-party with the post type status: ' . $post_type_status . ' and with the update status: ' . $update_status;
 
 				$contact_ids = update_post_meta( $post_id, '_contact_ids', array() );
 
@@ -132,7 +129,6 @@ class Transfert_Data_Action {
 						update_post_meta( $post_id, '_country', $address_meta['country'] );
 						$messages[] = '#' . $customer->ID . ' ' . $customer->post_title . ': Add meta _country';
 					}
-
 				}
 
 				$users_id = get_post_meta( $customer->ID, '_wpscrm_associated_user', true );

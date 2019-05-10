@@ -31,7 +31,7 @@ class Product_Model extends \eoxia\Post_Model {
 	 */
 	public function __construct( $object, $req_method = null ) {
 		$this->schema['external_id'] = array(
-			'type'        => 'string',
+			'type'        => 'integer',
 			'meta_type'   => 'single',
 			'field'       => '_external_id',
 			'since'       => '2.0.0',
@@ -162,6 +162,7 @@ class Product_Model extends \eoxia\Post_Model {
 			'meta_type' => 'multiple',
 			'child'     => array(),
 		);
+
 		$this->schema['associated_document_id']['child']['downloadable_product_id'] = array(
 			'since'      => '6.1.6',
 			'version'    => '6.1.6',

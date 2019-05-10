@@ -163,6 +163,13 @@ class Settings extends \eoxia\Singleton_Util {
 		) );
 	}
 
+	/**
+	 * Vérifie si dolibarr est actif.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return boolean true or false.
+	 */
 	public function dolibarr_is_active() {
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 

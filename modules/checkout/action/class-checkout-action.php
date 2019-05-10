@@ -287,11 +287,20 @@ class Checkout_Action {
 		}
 	}
 
+	/**
+	 * Ajoutes le bouton "Demande de devis".
+	 *
+	 * @since 2.0.0
+	 */
 	public function add_devis_button() {
 		include( Template_Util::get_template_part( 'checkout', 'devis-button' ) );
-
 	}
 
+	/**
+	 * Ajoutes le bouton "Passer commande".
+	 *
+	 * @since 2.0.0
+	 */
 	public function add_place_order_button() {
 		if ( Settings::g()->dolibarr_is_active() ) {
 			include( Template_Util::get_template_part( 'checkout', 'place-order-button' ) );

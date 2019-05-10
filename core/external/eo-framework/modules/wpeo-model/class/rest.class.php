@@ -188,6 +188,10 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 		public function create_from_parent( $request ) {
 			$params = $request->get_params();
 
+			if ( isset( $params['id'] ) ) {
+				$params['id'] = (int) $params['id'];
+			}
+
 			return $this->update( $params );
 		}
 

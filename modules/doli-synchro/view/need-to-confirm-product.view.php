@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<div class="content">
 				<h3>Synchronisation terminée</h3>
 
-				<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $wp_entity->data['id'] ) ); ?>" class="wpeo-button button-main">
+				<a href="<?php echo esc_attr( $url ); ?>" class="wpeo-button button-main">
 					<span>Rafraichir la page</span>
 				</a>
 			</div>
@@ -60,7 +60,7 @@ defined( 'ABSPATH' ) || exit; ?>
 								data-nonce="<?php echo esc_attr( wp_create_nonce( 'associate_and_synchronize' ) ); ?>"
 								data-entry-id="<?php echo $doli_entity->id; ?>"
 								data-wp-id="<?php echo $wp_entity->data['id']; ?>"
-								data-from="wordpress">
+								data-from="wp">
 								<span>Choisir WordPress</span>
 							</div>
 						</li>
@@ -70,7 +70,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				<div class="choose dolibarr">
 					<h3>Dolibarr</h3>
 
-					<p>Dernière modification le <?php echo date( 'd/m/Y H:i:s', $date_doli ); ?></p>
+					<p>Dernière modification le <?php echo date( 'd/m/Y H:i:s', strtotime( $date_doli ) ); ?></p>
 
 					<ul>
 						<li><strong><?php esc_html_e( 'Label', 'wpshop' ); ?></strong>: <?php echo ! empty( $doli_entity->label ) ? esc_html( $doli_entity->label ) : 'Non définie'; ?></li>

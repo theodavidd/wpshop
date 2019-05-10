@@ -39,7 +39,6 @@ class Doli_Products extends \eoxia\Singleton_Util {
 	 */
 	public function doli_to_wp( $doli_product, $wp_product ) {
 		if ( is_object( $wp_product ) ) {
-			$wp_product->data['external_id']       = $doli_product->id;
 			$wp_product->data['ref']               = $doli_product->ref;
 			$wp_product->data['title']             = $doli_product->label;
 			$wp_product->data['content']           = $doli_product->description;
@@ -56,8 +55,36 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			$wp_product->data['status']            = 'publish';
 			$wp_product->data['date_last_synchro'] = ! empty( $doli_product->last_sync_date ) ? $doli_product->last_sync_date : current_time( 'mysql' );
 
+			update_post_meta( $wp_product->data['id'], '_external_id', (int) $doli_product->id );
+
 			Product::g()->update( $wp_product->data );
 		}
+	}
+
+	/**
+	 * Appel la route update de dolibarr pour modifier le produit sur dolibarr.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Product_Model $wp_product   Les données du produit sur WordPress.
+	 * @param  Object        $doli_product Les données du produit sur dolibarr.
+	 *
+	 * @return void
+	 */
+	public function wp_to_doli( $wp_product, $doli_product ) {
+		$doli_product = Request_Util::put( 'wpshopapi/update/product/' . $wp_product->data['external_id'], array(
+			'label'       => $wp_product->data['title'],
+			'description' => $wp_product->data['content'],
+			'price'       => ! empty( $wp_product->data['price'] ) ? $wp_product->data['price'] : 0,
+			'tva_tx'      => ! empty( $wp_product->data['tva_tx'] ) ? $wp_product->data['tva_tx'] : 0,
+			'fk_product'  => (int) $wp_product->data['external_id'],
+			'wp_product'  => (int) $wp_product->data['id'],
+		) );
+
+		update_post_meta( $wp_product->data['id'], '_price', $doli_product->price );
+		update_post_meta( $wp_product->data['id'], '_tva_tx', $doli_product->tva_tx );
+		update_post_meta( $wp_product->data['id'], '_price_ttc', $doli_product->price_ttc );
+		update_post_meta( $wp_product->data['id'], '_date_last_synchro', date( 'Y-m-d H:i:s', $doli_product->last_sync_date ) );
 	}
 }
 

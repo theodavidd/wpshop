@@ -227,7 +227,7 @@ class Doli_Invoice_Action {
 		$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
 
 		$doli_payments = Request_Util::get( 'invoices/' . $doli_invoice->id . '/payments' );
-		$doli_payment = $doli_payments[0];
+		$doli_payment  = $doli_payments[0];
 
 		Doli_Payment::g()->doli_to_wp( $doli_invoice->id, $doli_payment, $wp_payment );
 	}

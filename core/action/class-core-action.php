@@ -39,7 +39,6 @@ class Core_Action {
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_enqueue_scripts' ), 11 );
 
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
-		add_action( 'admin_head-post.php', array( $this, 'highlight_menu' ) );
 	}
 
 	/**
@@ -110,9 +109,7 @@ class Core_Action {
 	 */
 	public function callback_admin_menu() {
 		add_menu_page( __( 'WPshop', 'wpshop' ), __( 'WPshop', 'wpshop' ), 'manage_options', 'wpshop', '', 'dashicons-store' );
-	}
-
-	public function highlight_menu() {
+		add_submenu_page( 'wpshop', __( 'Dashboard', 'wpshop' ), __( 'Dashboard', 'wpshop' ), 'manage_options', 'wpshop', array( Dashboard::g(), 'callback_add_menu_page' ) );
 	}
 }
 

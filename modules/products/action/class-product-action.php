@@ -63,6 +63,16 @@ class Product_Action {
 		) );
 	}
 
+	/**
+	 * Enregistres les métadonnées d'un produit.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  integer $post_id L'ID du produit.
+	 * @param  WP_Post $post    Les données du produit.
+	 *
+	 * @return integer|void
+	 */
 	public function callback_save_post( $post_id, $post ) {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return $post_id;
@@ -79,8 +89,8 @@ class Product_Action {
 		}
 
 		$product_data                         = ! empty( $_POST['product_data'] ) ? (array) $_POST['product_data'] : array();
-		$product_data['price']                = isset( $product_data['price'] ) ? (float) round( str_replace( ',' , '.', $product_data['price'] ), 2 ) : $product->data['price'];
-		$product_data['tva_tx']               = ! empty( $product_data['tva_tx'] ) ? (float) round( str_replace( ',' , '.', $product_data['tva_tx'] ), 2 ) : $product->data['tva_tx'];
+		$product_data['price']                = isset( $product_data['price'] ) ? (float) round( str_replace( ',', '.', $product_data['price'] ), 2 ) : $product->data['price'];
+		$product_data['tva_tx']               = ! empty( $product_data['tva_tx'] ) ? (float) round( str_replace( ',', '.', $product_data['tva_tx'] ), 2 ) : $product->data['tva_tx'];
 		$product_data['product_downloadable'] = ( ! empty( $product_data['product_downloadable'] ) && 'true' == $product_data['product_downloadable'] ) ? true : false;
 		$product_data['price_ttc']            = price2num( $product_data['price'] * ( 1 + ( $product_data['tva_tx'] / 100 ) ) );
 

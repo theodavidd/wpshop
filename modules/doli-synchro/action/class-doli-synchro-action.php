@@ -55,7 +55,7 @@ class Doli_Synchro_Action {
 		$sync_infos  = Doli_Synchro::g()->sync_infos;
 
 		if ( empty( $sync_action ) ) {
-			$sync_action = array( 'third-parties','contacts','products','proposals','orders','invoices','payments' );
+			$sync_action = array( 'third-parties', 'contacts', 'products', 'proposals', 'orders', 'invoices', 'payments' );
 		} else {
 			$sync_action = explode( ',', $sync_action );
 		}
@@ -126,9 +126,10 @@ class Doli_Synchro_Action {
 			switch ( $route ) {
 				case 'products':
 					$wp_entity = Product::g()->get( array( 'id' => $wp_id ), true );
+					$url       = admin_url( 'admin.php?page=wps-product' );
 					break;
 				default:
-				break;
+					break;
 			}
 
 			$modified_date_wp   = strtotime( $wp_entity->data['date']['raw'] );
@@ -139,7 +140,8 @@ class Doli_Synchro_Action {
 				'date_wp'     => $modified_date_wp,
 				'date_doli'   => $modified_date_doli,
 				'doli_entity' => $doli_entity,
-				'wp_entity'   => $wp_entity
+				'wp_entity'   => $wp_entity,
+				'url'         => $url,
 			) );
 			$view = ob_get_clean();
 
@@ -296,17 +298,19 @@ class Doli_Synchro_Action {
 
 		if ( ! empty( $doli_products ) ) {
 			foreach ( $doli_products as $doli_product ) {
-				$wp_product = Product::g()->get( array(
-					'meta_key'   => '_external_id',
-					'meta_value' => (int) $doli_product->id,
-				), true );
+				if ( isset( $doli_product->array_options->options_web ) && '1' == $doli_product->array_options->options_web ) {
+					$wp_product = Product::g()->get( array(
+						'meta_key'   => '_external_id',
+						'meta_value' => (int) $doli_product->id,
+					), true );
 
-				if ( empty( $wp_product ) ) {
-					$wp_product = Product::g()->get( array( 'schema' => true ), true );
+					if ( empty( $wp_product ) ) {
+						$wp_product = Product::g()->get( array( 'schema' => true ), true );
+					}
+
+					Doli_Products::g()->doli_to_wp( $doli_product, $wp_product );
+
 				}
-
-				Doli_Products::g()->doli_to_wp( $doli_product, $wp_product );
-
 				$done_number++;
 			}
 		}
@@ -541,7 +545,8 @@ class Doli_Synchro_Action {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param mixed $object Peut être Order, Product ou Tier.
+	 * @param mixed  $object Peut être Order, Product ou Tier.
+	 * @param string $route  La route pour l'api dolibarr.
 	 */
 	public function add_sync_item( $object, $route ) {
 		$class           = '';

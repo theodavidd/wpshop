@@ -66,6 +66,15 @@ class Product_Downloadable extends \eoxia\Post_Class {
 	 */
 	protected $post_type_name = 'Product_Downloadables';
 
+	/**
+	 * Créer un produit téléchargable depuis les produits dans les commandes.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Order_Model $order Les données de la commande.
+	 *
+	 * @return void
+	 */
 	public function create_from_order( $order ) {
 		if ( ! empty( $order->data['lines'] ) ) {
 			foreach ( $order->data['lines'] as $line ) {
@@ -75,7 +84,7 @@ class Product_Downloadable extends \eoxia\Post_Class {
 				), true );
 
 				if ( ! empty( $product->data['associated_document_id']['downloadable_product_id'] ) ) {
-					foreach( $product->data['associated_document_id']['downloadable_product_id'] as $id ) {
+					foreach ( $product->data['associated_document_id']['downloadable_product_id'] as $id ) {
 						if ( $product->data['product_downloadable'] ) {
 							$downlodable_product_guid = get_the_guid( $id );
 							Product_Downloadable::g()->create( array(

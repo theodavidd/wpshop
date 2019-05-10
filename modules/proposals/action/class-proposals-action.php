@@ -106,11 +106,11 @@ class Proposals_Action {
 	 * @param  array   $callback_args Tableau contenu les données de la commande.
 	 */
 	public function callback_meta_box( $post, $callback_args ) {
-		$proposal     = $callback_args['args']['proposal'];
-		$third_party  = Third_Party::g()->get( array( 'id' => $proposal->data['parent_id'] ), true );
-		$invoice      = null;
+		$proposal    = $callback_args['args']['proposal'];
+		$third_party = Third_Party::g()->get( array( 'id' => $proposal->data['parent_id'] ), true );
+		$invoice     = null;
 
-		if ( Settings::g()->dolibarr_is_active ) {
+		if ( Settings::g()->dolibarr_is_active() ) {
 			$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $proposal->data['id'] ), true );
 			$link_invoice = '';
 			if ( ! empty( $invoice ) ) {

@@ -29,6 +29,13 @@ class Pages extends \eoxia\Singleton_Util {
 	 */
 	public $default_options;
 
+	/**
+	 * Les titres des pages lisible.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
 	public $page_state_titles;
 
 	/**

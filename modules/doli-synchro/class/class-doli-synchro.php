@@ -91,6 +91,17 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 		);
 	}
 
+	/**
+	 * Associes et synchronises les données d'une entité.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string  $from     De quel coté la synchro ? WordPress ou Dolibarr.
+	 * @param  integer $wp_id    L'ID de l'entitée sur WordPress.
+	 * @param  integer $entry_id L'ID de l'entitée sur Dolibarr.
+	 *
+	 * @return void
+	 */
 	public function associate_and_synchronize( $from, $wp_id, $entry_id ) {
 		$post_type = get_post_type( $wp_id );
 
@@ -121,6 +132,15 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 						'wp_product' => $wp_id,
 						'fk_product' => $entry_id,
 					) );
+				}
+
+				if ( 'wp' === $from ) {
+					$wp_product   = Product::g()->get( array( 'id' => $wp_id ), true );
+					$doli_product = Request_Util::get( 'products/' . $entry_id );
+
+					update_post_meta( $wp_id, '_external_id', $entry_id );
+					$wp_product->data['external_id'] = $entry_id;
+					Doli_Products::g()->wp_to_doli( $wp_product, $doli_product );
 				}
 				break;
 			case 'wps-order':

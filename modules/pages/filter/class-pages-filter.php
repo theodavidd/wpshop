@@ -131,7 +131,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 				}
 				ob_start();
 				do_shortcode( '[wps_' . $shortcode . ' ' . $shortcode_attr . ']' );
-				$content = ob_get_clean();
+				$content  = ob_get_clean();
 				$content .= $tmp_content;
 			}
 		}

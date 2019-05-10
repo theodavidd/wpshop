@@ -31,9 +31,20 @@ class Doli_Products_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		// add_action( 'save_post', array( $this, 'callback_save_post' ), 20, 2 );
+		add_action( 'save_post', array( $this, 'callback_save_post' ), 20, 2 );
 	}
 
+	/**
+	 * Appel l'api de dolibarr pour mêttre à jour ou créer un produit sur
+	 * dolibarr.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  integer $post_id ID du produit.
+	 * @param  WP_Post $post    Les données du produit.
+	 *
+	 * @return integer|void.
+	 */
 	public function callback_save_post( $post_id, $post ) {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return $post_id;
@@ -49,19 +60,19 @@ class Doli_Products_Action {
 			return $post_id;
 		}
 
-		$product_data = ! empty( $_POST['product_data'] ) ? (array) $_POST['product_data'] : array();
-		$product_data['price'] = isset( $product_data['price'] ) ? (float) round( str_replace( ',' , '.', $product_data['price'] ), 2 ) : $product->data['price'];
-		$product_data['tva_tx'] = ! empty( $product_data['tva_tx'] ) ? (float) round( str_replace( ',' , '.', $product_data['tva_tx'] ), 2 ) : $product->data['tva_tx'];
+		$product_data           = ! empty( $_POST['product_data'] ) ? (array) $_POST['product_data'] : array();
+		$product_data['price']  = isset( $product_data['price'] ) ? (float) round( str_replace( ',', '.', $product_data['price'] ), 2 ) : 00.00;
+		$product_data['tva_tx'] = ! empty( $product_data['tva_tx'] ) ? (float) round( str_replace( ',', '.', $product_data['tva_tx'] ), 2 ) : 00.00;
 
-		// Synchronisation Produit
+		// Synchronisation Produit.
 		if ( ! empty( $product->data['external_id'] ) ) {
 			$doli_product = Request_Util::put( 'wpshopapi/update/product/' . $product->data['external_id'], array(
 				'label'       => $product->data['title'],
 				'description' => $product->data['content'],
 				'price'       => $product_data['price'],
 				'tva_tx'      => $product_data['tva_tx'],
-				'fk_product'  => $product->data['external_id'],
-				'wp_product'  => $product->data['id'],
+				'fk_product'  => (int) $product->data['external_id'],
+				'wp_product'  => (int) $product->data['id'],
 			) );
 
 			update_post_meta( $post_id, '_price', $doli_product->price );
@@ -76,8 +87,8 @@ class Doli_Products_Action {
 				'description' => $product->data['content'],
 				'price'       => $product_data['price'],
 				'tva_tx'      => $product_data['tva_tx'],
-				'status'      => 1, // En vente
-				'status_buy'  => 1, // En achat
+				'status'      => 1, // En vente.
+				'status_buy'  => 1, // En achat.
 				'wp_product'  => $product->data['id'],
 			);
 
