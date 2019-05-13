@@ -30,6 +30,7 @@ class Product_Filter {
 		add_filter( 'eo_model_wps-product_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
 		add_filter( 'eo_model_wps-product_wps-product-cat', array( $this, 'callback_taxonomy' ) );
 		add_filter( 'single_template', array( $this, 'get_custom_post_type_template' ), 11 );
+		add_filter( 'archive_template', array( $this, 'get_custom_archive_template' ), 11 ) ;
 		add_filter( 'taxonomy_template', array( $this, 'get_custom_taxonomy_template' ), 11 );
 		add_filter( 'parent_file', array( $this, 'highlight_menu' ) );
 	}
@@ -153,6 +154,23 @@ class Product_Filter {
 		}
 
 		return $single_template;
+	}
+
+	/**
+	 * Get template for single taxonomy
+	 *
+	 * @since  2.0.0
+	 * @param  string $single_template Template path.
+	 * @return string $single_template Template path.
+	 */
+	public function get_custom_archive_template( $archive_template ) {
+		global $post;
+
+		if ( is_post_type_archive ( $post->post_type ) ) {
+			$archive_template = Template_Util::get_template_part( 'products', 'taxonomy-wps-product' );
+		}
+
+		return $archive_template;
 	}
 
 	/**

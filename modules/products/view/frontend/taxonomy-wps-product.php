@@ -21,7 +21,8 @@ get_header(); ?>
 		if ( have_posts() ) :
 			?>
 			<header class="primary-header entry-header">
-				<h1 class="page-title"><?php echo esc_html( single_cat_title() ); ?></h1>
+				<!-- <h1 class="page-title"><?php single_post_title(); ?></h1> -->
+				<h1 class="page-title entry-title">Titre de la page</h1>
 			</header>
 
 			<div class="entry-content">

@@ -36,6 +36,8 @@ class Settings_Action {
 		add_action( 'admin_post_wps_update_pages_settings', array( $this, 'callback_update_pages_settings' ) );
 		add_action( 'admin_post_wps_update_email', array( $this, 'callback_update_email' ) );
 		add_action( 'admin_post_wps_update_shipping_cost', array( $this, 'callback_update_shipping_cost' ) );
+
+		add_action( 'init', array( $this, 'callback_add_product_thumbnail_size' ) );
 	}
 
 	/**
@@ -191,6 +193,15 @@ class Settings_Action {
 		set_transient( 'updated_wpshop_option_' . get_current_user_id(), __( 'Your settings have been saved.', 'wpshop' ), 30 );
 
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab ) );
+	}
+
+	/**
+	 * Ajoute la taille des images des produits
+	 *
+	 * @since 2.0.0
+	 */
+	public function callback_add_product_thumbnail_size() {
+		add_image_size( 'wps-product-thumbnail', 360, 460, true);
 	}
 }
 
