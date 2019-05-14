@@ -24,7 +24,7 @@ function price2num( $amount ) {
 		$temps   = sprintf( '%0.10F', $amount - intval( $amount ) );
 		$temps   = preg_replace( '/([\.1-9])0+$/', '\\1', $temps );
 		$nbofdec = max( 0, strlen( $temps ) - 2 );
-		$amount  = number_format( $amount, $nbofdec, $dec, $thousand);
+		$amount  = number_format( $amount, $nbofdec, $dec, $thousand );
 	}
 
 	if ( ',' !== $thousand && '.' !== $thousand ) {

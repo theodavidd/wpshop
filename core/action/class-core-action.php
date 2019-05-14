@@ -62,7 +62,7 @@ class Core_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_language() {
-		$i18n_loaded = load_plugin_textdomain( 'wpshop', false, PLUGIN_WPSHOP_DIR . '/core/asset/language/' );
+		load_plugin_textdomain( 'wpshop', false, PLUGIN_WPSHOP_DIR . '/core/asset/language/' );
 	}
 
 	/**
@@ -72,7 +72,7 @@ class Core_Action {
 	 */
 	public function define_ajax_url() {
 		echo '<script type="text/javascript">
-		  var ajaxurl = "' . admin_url('admin-ajax.php') . '";
+		  var ajaxurl = "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '";
 		</script>';
 	}
 
