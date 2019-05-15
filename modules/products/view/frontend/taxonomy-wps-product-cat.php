@@ -25,14 +25,14 @@ get_header(); ?>
 			</header>
 
 			<div class="entry-content">
-				<div class="wps-list-product wpeo-gridlayout grid-3">
+				<div class="wps-grid-product wpeo-gridlayout grid-3">
 					<?php
 					while ( have_posts() ) :
 						the_post();
 						$product = Product::g()->get( array( 'id' => get_the_ID() ), true );
 						?>
 
-						<div itemscope itemtype="http://schema.org/Product" class="wps-product">
+						<div itemscope itemtype="https://schema.org/Product" class="wps-product">
 							<figure class="wps-product-thumbnail">
 								<?php the_post_thumbnail( 'wps-product-thumbnail', array( 'itemprop' => 'image' ) ); ?>
 
@@ -50,15 +50,11 @@ get_header(); ?>
 							<div class="wps-product-content">
 								<div itemprop="name" class="wps-product-title"><?php the_title(); ?></div>
 								<?php if ( ! empty( $product->data['price'] ) ) : ?>
-									<div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="wps-product-price">
+									<div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="wps-product-price">
 										<span itemprop="price" content="<?php echo esc_html( number_format( $product->data['price_ttc'], 2, '.', '' ) ); ?>"><?php echo esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ); ?></span>
 										<span itemprop="priceCurrency" content="EUR"><?php echo esc_html( '€', 'wpshop' ); ?></span>
 									</div>
 								<?php endif; ?>
-								<div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="wps-product-price">
-									<span itemprop="price" content="<?php echo esc_html( '102.02' ); ?>"><?php echo esc_html( '102,02' ); ?></span>
-									<span itemprop="priceCurrency" content="EUR"><?php echo esc_html( '€', 'wpshop' ); ?></span>
-								</div>
 							</div>
 						</div>
 						<?php

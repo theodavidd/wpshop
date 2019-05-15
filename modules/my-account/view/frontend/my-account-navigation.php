@@ -16,16 +16,16 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<ul class="wps-account-navigation gridw-1">
+<ul class="wps-account-navigation gridw-2">
 	<?php
 	if ( Settings::g()->dolibarr_is_active() ) :
 		?>
-		<li><a class="<?php echo ( 'orders' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() . 'orders/' ); ?>"><?php esc_html_e( 'Orders', 'wpshop' ); ?></a></li>
-		<li><a class="<?php echo ( 'invoices' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() . 'invoices/' ); ?>"><?php esc_html_e( 'Invoices', 'wpshop' ); ?></a></li>
+		<li class="wps-account-navigation-item"><a class="<?php echo ( 'orders' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() . 'orders/' ); ?>"><i class="navigation-icon fas fa-shopping-cart"></i> <?php esc_html_e( 'Orders', 'wpshop' ); ?></a></li>
+		<li class="wps-account-navigation-item"><a class="<?php echo ( 'invoices' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() . 'invoices/' ); ?>"><i class="navigation-icon fas fa-file-invoice-dollar"></i> <?php esc_html_e( 'Invoices', 'wpshop' ); ?></a></li>
 		<?php
 	endif;
 	?>
-	<li><a class="<?php echo ( 'quotations' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() . 'quotations/' ); ?>"><?php esc_html_e( 'Quotations', 'wpshop' ); ?></a></li>
-	<li><a class="<?php echo ( 'download' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() . 'download/' ); ?>"><?php esc_html_e( 'Downloads', 'wpshop' ); ?></a></li>
-	<li><a href="<?php echo wp_logout_url( home_url() ); ?>"><?php esc_html_e( 'Logout', 'wpshop' ); ?></a></li>
+	<li class="wps-account-navigation-item"><a class="<?php echo ( 'quotations' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() . 'quotations/' ); ?>"><i class="navigation-icon fas fa-file-signature"></i> <?php esc_html_e( 'Quotations', 'wpshop' ); ?></a></li>
+	<li class="wps-account-navigation-item"><a class="<?php echo ( 'download' === $tab ) ? 'active' : ''; ?>" href="<?php echo esc_attr( \wpshop\Pages::g()->get_account_link() . 'download/' ); ?>"><i class="navigation-icon fas fa-file-download"></i> <?php esc_html_e( 'Downloads', 'wpshop' ); ?></a></li>
+	<li class="wps-account-navigation-item"><a href="<?php echo wp_logout_url( home_url() ); ?>"><i class="navigation-icon fas fa-sign-out-alt"></i> <?php esc_html_e( 'Logout', 'wpshop' ); ?></a></li>
 </ul>

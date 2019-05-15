@@ -41,24 +41,26 @@ endif;
 	<input type="hidden" name="page" value="<?php echo Pages::g()->get_slug_link_shop_page( $post->ID ); ?>" />
 	<?php do_action( 'wps_login_form_start' ); ?>
 
-	<div class="form-element">
-		<span class="form-label"><?php esc_html_e( 'Username or email address', 'wpshop' ); ?></span>
-		<label class="form-field-container">
-			<input type="text" class="form-field" name="username" />
-		</label>
-	</div>
+	<div class="wpeo-gridlayout grid-2 grid-margin-1">
+		<div class="form-element">
+			<span class="form-label"><?php esc_html_e( 'Username or email address', 'wpshop' ); ?></span>
+			<label class="form-field-container">
+				<input type="text" class="form-field" name="username" />
+			</label>
+		</div>
 
-	<div class="form-element">
-		<span class="form-label"><?php esc_html_e( 'Password', 'wpshop' ); ?></span>
-		<label class="form-field-container">
-			<input type="password" class="form-field" name="password" />
-		</label>
+		<div class="form-element">
+			<span class="form-label"><?php esc_html_e( 'Password', 'wpshop' ); ?></span>
+			<label class="form-field-container">
+				<input type="password" class="form-field" name="password" />
+			</label>
+		</div>
 	</div>
 
 	<?php do_action( 'wps_login_form' ); ?>
 
 	<input class="wpeo-button button-main" type="submit" value="<?php esc_attr_e( 'Log in', 'wphsop' ); ?>" />
-	<a class="wpeo-button button-grey" href="<?php echo wp_lostpassword_url(); ?>" title="Lost Password"><?php esc_html_e( 'Lost Password', 'wpshop' ); ?></a>
+	<a href="<?php echo wp_lostpassword_url(); ?>" title="Lost Password"><?php esc_html_e( 'Lost Password', 'wpshop' ); ?></a>
 
 	<?php do_action( 'wps_login_form_end' ); ?>
 </form>

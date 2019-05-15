@@ -31,6 +31,7 @@ class Product_Action {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 0 );
 		add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
+		add_action( 'pre_get_posts', array( $this, 'wps_remove_archive_page' ) );
 	}
 
 	/**
@@ -98,6 +99,22 @@ class Product_Action {
 		update_post_meta( $post_id, '_tva_tx', $product_data['tva_tx'] );
 		update_post_meta( $post_id, '_price_ttc', $product_data['price_ttc'] );
 		update_post_meta( $post_id, '_product_downloadable', $product_data['product_downloadable'] );
+	}
+
+	/**
+	 * Change la page archive des produits en page standard
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_Query $query Paramètres de la query
+	 *
+	 * @return void
+	 */
+	public function wps_remove_archive_page( $query ) {
+		if ( is_tax( 'wps-product-cat' ) ) {
+			$query->is_archive           = false;
+			$query->is_page              = true;
+		}
 	}
 }
 
