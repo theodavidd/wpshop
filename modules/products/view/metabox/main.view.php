@@ -30,8 +30,25 @@ defined( 'ABSPATH' ) || exit; ?>
 
 			<div class="form-element">
 				<span class="form-label"><?php esc_html_e( 'VAT Rate', 'wpshop' ); ?></span>
+
 				<label class="form-field-container">
-					<input type="text" class="form-field" name="product_data[tva_tx]" value="<?php echo esc_attr( $product->data['tva_tx'] ); ?>" />
+					<select name="product_data[tva_tx]">
+						<?php
+						$has_selected = false;
+						if ( ! empty( Settings::g()->tva ) ) :
+							foreach ( Settings::g()->tva as $tva ) :
+								$selected = '';
+								if ( (float) $tva === (float) $product->data['tva_tx'] || ( ! $has_selected && $tva === 20 ) ) :
+									$selected = 'selected="selected"';
+									$has_selected = true;
+								endif;
+								?>
+								<option <?php echo esc_attr( $selected ); ?> value="<?php echo esc_attr( $tva ); ?>"><?php echo esc_html( $tva ); ?>%</option>
+								<?php
+							endforeach;
+						endif;
+						?>
+					</select>
 				</label>
 			</div>
 

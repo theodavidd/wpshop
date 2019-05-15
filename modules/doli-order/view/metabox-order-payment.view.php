@@ -47,15 +47,15 @@ defined( 'ABSPATH' ) || exit; ?>
 		<tfoot>
 			<tr>
 				<td colspan="2"><?php esc_html_e( 'Already paid' ); ?></td>
-				<td class="table-end"><?php echo number_format( $invoice->data['totalpaye'], 2, ',', '' ); ?>€</td>
+				<td class="table-end"><?php echo ( ! empty( $invoice ) ) ? number_format( $invoice->data['totalpaye'], 2, ',', '' ) : '00,00'; ?>€</td>
 			</tr>
 			<tr>
 				<td colspan="2"><?php esc_html_e( 'Billed' ); ?></td>
-				<td class="table-end"><?php echo number_format( $invoice->data['total_ttc'], 2, ',', '' ); ?>€</td>
+				<td class="table-end"><?php echo ( ! empty( $invoice ) ) ? number_format( $invoice->data['total_ttc'], 2, ',', '' ) : number_format( $order->data['total_ttc'], 2, ',', '' ); ?>€</td>
 			</tr>
 			<tr>
 				<td colspan="2"><?php esc_html_e( 'Remaining unpaid' ); ?></td>
-				<td class="table-end"><strong><?php echo number_format( $invoice->data['resteapayer'], 2, ',', '' ); ?>€</strong></td>
+				<td class="table-end"><strong><?php echo ( ! empty( $invoice ) ) ? number_format( $invoice->data['resteapayer'], 2, ',', '' ) : number_format( $order->data['total_ttc'], 2, ',', '' ); ?>€</strong></td>
 			</tr>
 		</tfoot>
 	</table>

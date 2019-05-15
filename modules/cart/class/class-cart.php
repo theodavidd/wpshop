@@ -75,7 +75,7 @@ class Cart extends \eoxia\Singleton_Util {
 	public function update_cart( $product ) {
 		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
 			foreach ( Cart_Session::g()->cart_contents as $key => $line ) {
-				if ( $line['id'] === $product['id'] ) {
+				if ( (int) $line['id'] === (int) $product['id'] ) {
 					$line['qty'] = $product['qty'];
 					Cart_Session::g()->update_product( $key, $line );
 				}

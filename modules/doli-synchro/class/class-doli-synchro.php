@@ -145,15 +145,35 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 				break;
 			case 'wps-order':
 				if ( 'dolibarr' === $from ) {
-					$doli_product = Request_Util::get( 'orders/' . $entry_id );
-					$wp_product   = Doli_Order::g()->get( array( 'id' => $wp_id ), true );
+					$doli_order = Request_Util::get( 'orders/' . $entry_id );
+					$wp_order   = Doli_Order::g()->get( array( 'id' => $wp_id ), true );
 
-					Doli_Order::g()->doli_to_wp( $doli_product, $wp_product );
+					Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
 
 					Request_Util::post( 'wpshopapi/associate/order', array(
 						'wp_product' => $wp_id,
 						'fk_product' => $entry_id,
 					) );
+
+					// Facture
+					if ( ! empty( $doli_order->linkedObjectsIds->facture ) ) {
+						foreach ( $doli_order->linkedObjectsIds->facture as $facture_id ) {
+							$doli_invoice = Request_Util::get( 'invoices/' . $facture_id );
+
+							$wp_invoice = Doli_Invoice::g()->get( array(
+								'meta_key'   => '_external_id',
+								'meta_value' => (int) $facture_id,
+							), true );
+
+							if ( empty( $wp_invoice ) ) {
+								$wp_invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
+							}
+
+							Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice );
+						}
+					}
+
+					// Règlement
 				}
 				break;
 			default:

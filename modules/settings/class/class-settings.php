@@ -31,6 +31,11 @@ class Settings extends \eoxia\Singleton_Util {
 	public $default_settings;
 
 	/**
+	 * TVA
+	 */
+	public $tva = array( 0, 2.1, 5.5, 10, 20 );
+
+	/**
 	 * Constructeur.
 	 *
 	 * @since 2.0.0
@@ -40,6 +45,7 @@ class Settings extends \eoxia\Singleton_Util {
 			'dolibarr_url'    => '',
 			'dolibarr_secret' => '',
 			'shop_email'      => '',
+			'error'           => '',
 		);
 
 		$this->shipping_cost_default_settings = array(
@@ -173,7 +179,7 @@ class Settings extends \eoxia\Singleton_Util {
 	public function dolibarr_is_active() {
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
-		if ( ! empty( $dolibarr_option['dolibarr_url'] ) && ! empty( $dolibarr_option['dolibarr_secret'] ) ) {
+		if ( ! empty( $dolibarr_option['dolibarr_url'] ) && ! empty( $dolibarr_option['dolibarr_secret'] ) && empty( $dolibarr_option['error'] ) ) {
 			return true;
 		}
 

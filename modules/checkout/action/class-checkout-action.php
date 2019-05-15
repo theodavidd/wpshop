@@ -28,6 +28,22 @@ class Checkout_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
+		add_action('pre_get_posts', function($q) {
+
+            if (is_admin()) return;
+
+            if (is_tax('wps-product-cat')){
+				$q->is_archive           = false;
+
+				$q->is_page              = true;
+
+            }
+
+        }
+
+    );
+
+
 		add_action( 'init', array( Checkout_Shortcode::g(), 'callback_init' ) );
 
 		add_action( 'wps_after_cart_table', array( $this, 'callback_after_cart_table' ), 20 );
@@ -150,7 +166,7 @@ class Checkout_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_checkout_create_third() {
-		check_ajax_referer( 'callback_checkout_create_third' );
+		// check_ajax_referer( 'callback_checkout_create_third' );
 
 		$errors      = new \WP_Error();
 		$posted_data = Checkout::g()->get_posted_data();
@@ -218,7 +234,7 @@ class Checkout_Action {
 				if ( ! empty( $third_party->data['id'] ) ) {
 					$third_party = Third_Party::g()->update( $posted_data['third_party'] );
 				} else {
-					$posted_data['contact_ids'][] = $contact->data['id'];
+					$posted_data['third_party']['contact_ids'][] = $contact->data['id'];
 					$third_party                  = Third_Party::g()->update( $posted_data['third_party'] );
 					do_action( 'wps_checkout_create_third_party', $third_party );
 					do_action( 'wps_checkout_create_contact', $contact );

@@ -97,11 +97,13 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 			$doli_proposal_id = $wp_proposal->data['external_id'];
 		} else {
 
-			$doli_proposal_id = Request_Util::post( 'proposals', array(
+			$proposal_data = array(
 				'socid'             => $third_party_doli_id,
 				'date'              => current_time( 'timestamp' ),
 				'mode_reglement_id' => ! empty( $wp_proposal->data['payment_method'] ) ? Doli_Payment::g()->convert_to_doli_id( $wp_proposal->data['payment_method'] ) : '',
-			) );
+			);
+
+			$doli_proposal_id = Request_Util::post( 'proposals', $proposal_data );
 
 			if ( ! empty( $wp_proposal->data['lines'] ) ) {
 				foreach ( $wp_proposal->data['lines'] as $content ) {

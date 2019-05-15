@@ -150,6 +150,10 @@ class Payment extends \eoxia\Singleton_Util {
 			return '-';
 		}
 
+		if ( empty( $this->status[ $object->data['payment_method'] ] ) ) {
+			return '-';
+		}
+
 		if ( ( isset( $object->data['billed'] ) && 1 === $object->data['billed'] ) ||
 			( isset( $object->data['paye'] ) && 1 === $object->data['paye'] ) ) {
 			return $this->status[ $object->data['payment_method'] ]['billed'];
