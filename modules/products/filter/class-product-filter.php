@@ -16,6 +16,8 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit;
 
+
+
 /**
  * Product Filter Class.
  */
@@ -29,13 +31,13 @@ class Product_Filter {
 	public function __construct() {
 		add_filter( 'eo_model_wps-product_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
 		add_filter( 'eo_model_wps-product_wps-product-cat', array( $this, 'callback_taxonomy' ) );
-		// add_filter( 'single_template', array( $this, 'get_custom_post_type_template' ), 11 );
-		// add_filter( 'template_include', array( $this, 'get_custom_archive_template' ), 11 );
-		// add_filter( 'taxonomy_template', array( $this, 'get_custom_taxonomy_template' ), 11 );
 		add_filter( 'parent_file', array( $this, 'highlight_menu' ) );
 		add_filter( 'the_content', array( $this, 'display_content_grid_product' ) );
-		// add_filter( 'the_title', array( $this, 'get_product_archive_title' ), 10, 2 );
+		add_filter( 'the_content', array( $this, 'display_single_page_product' ) );
 	}
+
+
+
 
 	/**
 	 * Permet d'ajouter l'argument public à true pour le register_post_type de EOModel.
@@ -71,8 +73,6 @@ class Product_Filter {
 		$args['show_in_nav_menus'] = false;
 		$args['show_in_menu']      = false;
 		$args['show_in_admin_bar'] = true;
-
-		$shop_page_slug = Pages::g()->get_slug_shop_page();
 
 		$args['register_meta_box_cb'] = array( Product::g(), 'callback_register_meta_box' );
 
@@ -119,66 +119,6 @@ class Product_Filter {
 	}
 
 	/**
-	 * Get template for single post type
-	 *
-	 * @since  2.0.0
-	 * @param  string $single_template Template path.
-	 * @return string $single_template Template path.
-	 */
-	public function get_custom_post_type_template( $single_template ) {
-		global $post;
-
-		if ( Product::g()->get_type() === $post->post_type ) {
-			$single_template = Template_Util::get_template_part( 'products', 'single-wps-product' );
-		}
-
-		return $single_template;
-	}
-
-	/**
-	 * Get template for single taxonomy
-	 *
-	 * @since  2.0.0
-	 *
-	 * @param  string $single_template Template path.
-	 *
-	 * @return string $single_template Template path.
-	 */
-	public function get_custom_taxonomy_template( $single_template ) {
-		global $post;
-
-		if ( Product::g()->get_type() === $post->post_type ) {
-			$single_template = Template_Util::get_template_part( 'products', 'taxonomy-wps-product-cat' );
-		}
-
-		return $single_template;
-	}
-
-	/**
-	 * Get template for single taxonomy
-	 *
-	 * @since  2.0.0
-	 * @param  string $archive_template Template path.
-	 *
-	 * @return string $archive_template Template path.
-	 */
-	public function get_custom_archive_template( $archive_template ) {
-		global $post;
-
-		// echo '<pre>'; print_r( $post ); echo '</pre>';
-		// echo '<pre>'; print_r( $post ); echo '</pre>';
-
-		if ( is_post_type_archive ( $post->post_type ) ) {
-			// $archive_template = locate_template( 'page.php' );
-			$archive_template = locate_template( PLUGIN_WPSHOP_PATH . '/modules/products/view/frontend/wps-product-grid.php' );
-			// echo '<pre>'; print_r( $archive_template ); echo '</pre>';
-		}
-
-		// echo '<pre>'; print_r( $archive_template ); echo '</pre>';
-		return $archive_template;
-	}
-
-	/**
 	 * Permet d'ajouter l'active sur le menu.
 	 *
 	 * @since 2.0.0
@@ -205,46 +145,59 @@ class Product_Filter {
 		return $parent_file;
 	}
 
-	public function display_content_grid_product($content) {
+	/**
+	 * Affihe la grille des produits sur les pages concernées
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $content Contenu de la page.
+	 * @return string
+	 */
+	public function display_content_grid_product( $content ) {
 		global $post;
 		global $wp_query;
+
 		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
+		if ( $post->ID === $page_ids_options['shop_id'] ) {
+			$wps_query = new \WP_Query( array(
+				'post_type'      => 'wps-product',
+				'paged'          => get_query_var('paged') ? get_query_var('paged') : 1
+			) );
 
-		if ( ! is_single() ) {
-			if ( $post->ID === $page_ids_options['shop_id'] ) {
-				$wps_query = new \WP_Query( array(
-					'post_type'      => 'wps-product',
-					'paged'          => get_query_var('paged') ? get_query_var('paged') : 1
-				) );
-			} elseif ( Product::g()->get_type() === $post->post_type ) {
-				$wps_query = new \WP_Query( $wp_query->query_vars );
-
+			foreach( $wps_query->posts as &$product ) {
+				$product->price_ttc = get_post_meta( $product->ID, '_price_ttc', true );
 			}
 
-			if ( $post->ID === $page_ids_options['shop_id'] || Product::g()->get_type() === $post->post_type ) {
-				foreach( $wps_query->posts as &$product ) {
-					$product->price_ttc = get_post_meta( $product->ID, '_price_ttc', true );
-				}
+			ob_start();
+			include( Template_Util::get_template_part( 'products', 'wps-product-grid-container' ) );
+			$view = ob_get_clean();
 
-				ob_start();
-				include( Template_Util::get_template_part( 'products', 'wps-product-grid' ) );
-				$view = ob_get_clean();
-			}
-
-			if ( $post->ID === $page_ids_options['shop_id'] ) {
-				$content .= $view;
-			} elseif ( Product::g()->get_type() === $post->post_type ) {
-				$content = $view;
-			}
+			$content .= $view;
 		}
-
 		return $content;
 	}
 
-	function get_product_archive_title( $title, $id ) {
+	/**
+	 * Affihe la page single des produits
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $content Contenu de la page.
+	 * @return string
+	 */
+	public function display_single_page_product( $content ) {
+		global $post;
 		global $wp_query;
-			$title ="chocolat";
-		return $title;
+
+		if ( is_singular( Product::g()->get_type() ) ) {
+			ob_start();
+			include( Template_Util::get_template_part( 'products', 'wps-product-single' ) );
+			$view = ob_get_clean();
+
+			$content = $view;
+		}
+
+		return $content;
 	}
 
 }

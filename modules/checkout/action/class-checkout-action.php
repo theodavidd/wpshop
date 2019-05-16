@@ -28,21 +28,6 @@ class Checkout_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action('pre_get_posts', function($q) {
-
-            if (is_admin()) return;
-
-            if (is_tax('wps-product-cat')){
-				$q->is_archive           = false;
-
-				$q->is_page              = true;
-
-            }
-
-        }
-
-    );
-
 
 		add_action( 'init', array( Checkout_Shortcode::g(), 'callback_init' ) );
 
