@@ -59,29 +59,8 @@ defined( 'ABSPATH' ) || exit;
 				<div class="wps-box-detail wps-list-product">
 					<?php
 					if ( ! empty( $order->data['lines'] ) ) :
-						foreach( $order->data['lines'] as $line ) :
-							?>
-							<div itemscope itemtype="https://schema.org/Product" class="wps-product">
-								<figure class="wps-product-thumbnail">
-									<?php echo get_the_post_thumbnail( $line['wp_id'], 'thumbnail', array( 'itemprop' => 'image' ) ); ?>
-								</figure>
-								<div class="wps-product-content">
-									<div itemprop="name" class="wps-product-title"><?php echo esc_html( $line['libelle'] ); ?></div>
-									<!-- <ul class="wps-product-attributes">
-										<li class="wps-product-attributes-item"></li>
-									</ul> -->
-									<div class="wps-product-footer">
-										<div class="wps-product-quantity"><?php echo esc_html( $line['qty'] ); ?></div>
-										<?php if ( ! empty( $line['total_ttc'] ) ) : ?>
-											<div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="wps-product-price">
-												<span itemprop="price" content="<?php echo esc_html( number_format( $line['total_ttc'], 2, '.', '' ) ); ?>"><?php echo esc_html( number_format( $line['total_ttc'], 2, '.', '' ) ); ?></span>
-												<span itemprop="priceCurrency" content="EUR"><?php echo esc_html( '€', 'wpshop' ); ?></span>
-											</div>
-										<?php endif; ?>
-									</div>
-								</div>
-							</div>
-							<?php
+						foreach( $order->data['lines'] as $product ) :
+							include( Template_Util::get_template_part( 'products', 'wps-product-list' ) );
 						endforeach;
 					else :
 						esc_html_e( 'No products to display', 'wpshop' );
@@ -91,6 +70,14 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 			<?php
 		endforeach;
+	else :
+		?>
+		<div class="wpeo-notice notice-info">
+			<div class="notice-content">
+				<div class="notice-title"><?php esc_html_e( 'No orders', 'wpshop' ); ?></div>
+			</div>
+		</div>
+		<?php
 	endif;
 	?>
 </div>

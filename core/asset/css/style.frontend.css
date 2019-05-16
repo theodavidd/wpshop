@@ -409,6 +409,9 @@
   max-width: 400px;
   min-width: 400px; }
 
+.wps-account-page .wpeo-notice {
+  margin: 0; }
+
 body.single-wps-product .wps-product-price {
   font-size: 2em;
   font-weight: 300; }
