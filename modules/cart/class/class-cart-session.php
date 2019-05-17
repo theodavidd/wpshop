@@ -65,6 +65,15 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	public $total_price_ttc;
 
 	/**
+	 * Le total TVA.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var float
+	 */
+	public $tva_amount;
+
+	/**
 	 * L'ID du devis.
 	 *
 	 * @since 2.0.0
@@ -92,6 +101,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		$this->total_price             = isset( $_SESSION['wps_total_price'] ) ? $_SESSION['wps_total_price'] : null;
 		$this->total_price_no_shipping = isset( $_SESSION['wps_total_price_no_shipping'] ) ? $_SESSION['wps_total_price_no_shipping'] : null;
 		$this->total_price_ttc         = isset( $_SESSION['wps_total_price_ttc'] ) ? $_SESSION['wps_total_price_ttc'] : null;
+		$this->tva_amount              = isset( $_SESSION['wps_tva_amount'] ) ? $_SESSION['wps_tva_amount'] : null;
 		$this->proposal_id             = isset( $_SESSION['wps_proposal_id'] ) ? $_SESSION['wps_proposal_id'] : null;
 		$this->order_id                = isset( $_SESSION['wps_order_id'] ) ? $_SESSION['wps_order_id'] : null;
 		$this->external_data           = isset( $_SESSION['wps_external_data'] ) ? $_SESSION['wps_external_data'] : array();
@@ -120,6 +130,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		$_SESSION['wps_total_price']             = $this->total_price;
 		$_SESSION['wps_total_price_no_shipping'] = $this->total_price_no_shipping;
 		$_SESSION['wps_total_price_ttc']         = $this->total_price_ttc;
+		$_SESSION['wps_tva_amount']              = $this->tva_amount;
 		$_SESSION['wps_proposal_id']             = $this->proposal_id;
 		$_SESSION['wps_order_id']                = $this->order_id;
 		$_SESSION['wps_external_data']           = $this->external_data;
@@ -135,6 +146,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		unset( $_SESSION['wps_total_price'] );
 		unset( $_SESSION['wps_total_price_no_shipping'] );
 		unset( $_SESSION['wps_total_price_ttc'] );
+		unset( $_SESSION['wps_tva_amount'] );
 		unset( $_SESSION['wps_proposal_id'] );
 		unset( $_SESSION['wps_order_id'] );
 		unset( $_SESSION['wps_external_data'] );
