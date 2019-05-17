@@ -60,6 +60,13 @@ defined( 'ABSPATH' ) || exit;
 					<?php
 					if ( ! empty( $order->data['lines'] ) ) :
 						foreach( $order->data['lines'] as $product ) :
+							$qty                  = $product['qty'];
+							$product              = Product::g()->get( array(
+								'meta_key'         => '_external_id',
+								'meta_value'       => (int) $product['fk_product'],
+							), true );
+							$product->data['qty'] = $qty;
+							$product              = $product->data;
 							include( Template_Util::get_template_part( 'products', 'wps-product-list' ) );
 						endforeach;
 					else :

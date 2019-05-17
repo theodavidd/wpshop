@@ -3,6 +3,7 @@
 	background: #fff;
 	padding: 1em;
 	margin-bottom: 0.6em;
+	position: relative;
 
 	&:last-child {
 		margin-bottom: 0;
@@ -22,6 +23,20 @@
 			display: block;
 		}
 	}
+
+	.wps-delete-product {
+		position: absolute;
+		top: 0.6em;
+		right: 0.6em;
+		color: rgba(0,0,0,0.4);
+		@include transition();
+
+		&:hover {
+			cursor: pointer;
+			color: rgba(0,0,0,0.9);
+		}
+	}
+
 	.wps-product-content {
 		width: 100%;
 		line-height: 1.2;

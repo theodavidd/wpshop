@@ -416,6 +416,9 @@
 .wps-account-page .wpeo-notice {
   margin: 0; }
 
+.wps-cart .wps-list-product .wps-product {
+  background: rgba(0, 0, 0, 0.075); }
+
 body.single-wps-product .wps-product-price {
   font-size: 2em;
   font-weight: 300; }
@@ -522,7 +525,8 @@ body.single-wps-product .wps-product-price {
   display: flex;
   background: #fff;
   padding: 1em;
-  margin-bottom: 0.6em; }
+  margin-bottom: 0.6em;
+  position: relative; }
 
 .wps-list-product .wps-product:last-child {
   margin-bottom: 0; }
@@ -539,6 +543,18 @@ body.single-wps-product .wps-product-price {
   width: 100%;
   height: auto;
   display: block; }
+
+.wps-list-product .wps-product .wps-delete-product {
+  position: absolute;
+  top: 0.6em;
+  right: 0.6em;
+  color: rgba(0, 0, 0, 0.4);
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out; }
+
+.wps-list-product .wps-product .wps-delete-product:hover {
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.9); }
 
 .wps-list-product .wps-product .wps-product-content {
   width: 100%;
