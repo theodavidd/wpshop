@@ -99,6 +99,7 @@ class Product_Action {
 		update_post_meta( $post_id, '_price', $product_data['price'] );
 		update_post_meta( $post_id, '_tva_tx', $product_data['tva_tx'] );
 		update_post_meta( $post_id, '_price_ttc', $product_data['price_ttc'] );
+		update_post_meta( $post_id, '_tva_amount', ( $product_data['price_ttc'] - $product_data['price'] ) );
 		update_post_meta( $post_id, '_product_downloadable', $product_data['product_downloadable'] );
 	}
 

@@ -73,6 +73,15 @@ class Product_Model extends \eoxia\Post_Model {
 			'description' => 'Le prix TTC du produit (double(24,8)). Peut être NULL. Valeur par défaut 0.00000000',
 		);
 
+		$this->schema['tva_amount'] = array(
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => '_tva_amount',
+			'default'     => 0.00000000,
+			'since'       => '2.0.0',
+			'description' => 'Le montant de la TVA du produit (double(24,8)). Peut être NULL. Valeur par défaut 0.00000000',
+		);
+
 		$this->schema['tva_tx'] = array(
 			'type'        => 'float',
 			'meta_type'   => 'single',
