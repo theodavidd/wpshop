@@ -13,16 +13,24 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit;
 
-echo '<pre>'; print_r( $product ); echo '</pre>';
 ?>
 <div itemscope itemtype="https://schema.org/Product" class="wps-product">
 	<figure class="wps-product-thumbnail">
-		<!-- <?php echo get_the_post_thumbnail( $product['wp_id'], 'thumbnail', array( 'itemprop' => 'image' ) ); ?> -->
+		<?php
+		if ( ! empty( $product['wp_id'] ) ) :
+			$post_thumbnail = get_the_post_thumbnail( $product['wp_id'], 'thumbnail', array( 'itemprop' => 'image' ) );
+		endif;
+		if ( ! empty( $post_thumbnail ) ) :
+			echo $post_thumbnail;
+		else :
+			echo '<img src="' . PLUGIN_WPSHOP_URL . '/core/asset/image/default-product-thumbnail-min.jpg" class="attachment-wps-product-thumbnail" itemprop="image" /> ';
+		endif;
+		?>
 	</figure>
 	<div class="wps-product-content">
 		<div itemprop="name" class="wps-product-title"><?php echo esc_html( $product['libelle'] ); ?></div>
 		<!-- <ul class="wps-product-attributes">
-			<li class="wps-product-attributes-item"></li>
+			<li class="wps-product-attributes-item">Prix unitaire : 40€</li>
 		</ul> -->
 		<div class="wps-product-footer">
 			<div class="wps-product-quantity"><?php echo esc_html( $product['qty'] ); ?></div>
