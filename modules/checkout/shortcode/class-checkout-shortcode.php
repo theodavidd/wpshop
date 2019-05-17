@@ -70,7 +70,7 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 				$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 			}
 
-			include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-' . $step ) );
+			include( Template_Util::get_template_part( 'checkout', 'form-checkout' ) );
 		}
 	}
 
