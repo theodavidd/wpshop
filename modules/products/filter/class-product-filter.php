@@ -32,12 +32,9 @@ class Product_Filter {
 		add_filter( 'eo_model_wps-product_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
 		add_filter( 'eo_model_wps-product_wps-product-cat', array( $this, 'callback_taxonomy' ) );
 		add_filter( 'parent_file', array( $this, 'highlight_menu' ) );
-		add_filter( 'the_content', array( $this, 'display_content_grid_product' ) );
-		add_filter( 'the_content', array( $this, 'display_single_page_product' ) );
+		// add_filter( 'the_content', array( $this, 'display_content_grid_product' ) );
+		// add_filter( 'the_content', array( $this, 'display_single_page_product' ) );
 	}
-
-
-
 
 	/**
 	 * Permet d'ajouter l'argument public à true pour le register_post_type de EOModel.

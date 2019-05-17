@@ -23,14 +23,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Doli Products Action Class.
  */
-class Doli_Products_Action {
+class Doli_Products_Action extends \eoxia\Singleton_Util {
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 2.0.0
 	 */
-	public function __construct() {
+	protected function construct() {
 		add_action( 'save_post', array( $this, 'callback_save_post' ), 20, 2 );
 	}
 
@@ -61,8 +61,8 @@ class Doli_Products_Action {
 		}
 
 		$product_data           = ! empty( $_POST['product_data'] ) ? (array) $_POST['product_data'] : array();
-		$product_data['price']  = isset( $product_data['price'] ) ? (float) round( str_replace( ',', '.', $product_data['price'] ), 2 ) : 00.00;
-		$product_data['tva_tx'] = ! empty( $product_data['tva_tx'] ) ? (float) round( str_replace( ',', '.', $product_data['tva_tx'] ), 2 ) : 00.00;
+		$product_data['price']  = isset( $product_data['price'] ) ? (float) round( str_replace( ',', '.', $product_data['price'] ), 2 ) : $product->data['price'];
+		$product_data['tva_tx'] = ! empty( $product_data['tva_tx'] ) ? (float) round( str_replace( ',', '.', $product_data['tva_tx'] ), 2 ) : $product->data['tva_tx'];
 
 		// Synchronisation Produit.
 		if ( ! empty( $product->data['external_id'] ) ) {

@@ -39,6 +39,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 	 */
 	public function doli_to_wp( $doli_product, $wp_product ) {
 		if ( is_object( $wp_product ) ) {
+			$wp_product->data['external_id']       = (int) $doli_product->id;
 			$wp_product->data['ref']               = $doli_product->ref;
 			$wp_product->data['title']             = $doli_product->label;
 			$wp_product->data['content']           = $doli_product->description;
@@ -55,8 +56,11 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			$wp_product->data['status']            = 'publish';
 			$wp_product->data['date_last_synchro'] = ! empty( $doli_product->last_sync_date ) ? $doli_product->last_sync_date : current_time( 'mysql' );
 
-			update_post_meta( $wp_product->data['id'], '_external_id', (int) $doli_product->id );
+			remove_all_actions( 'save_post' );
+			$wp_product = Product::g()->update( $wp_product->data );
 
+			update_post_meta( $wp_product->data['id'], '_external_id', (int) $doli_product->id );
+			add_action( 'save_post', array( Doli_Products_Action::g(), 'callback_save_post' ), 20, 2 );
 			Product::g()->update( $wp_product->data );
 		}
 	}
