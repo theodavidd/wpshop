@@ -59,9 +59,9 @@ class Cart_Action {
 			foreach ( Cart_Session::g()->cart_contents as $key => $line ) {
 				$price     += $line['price'] * $line['qty'];
 				$price_ttc += $line['price_ttc'] * $line['qty'];
-				$tva_amount += $line['tva_amount'] * $line['qty'];
 
 				if ( $shipping_cost_option['shipping_product_id'] !== $line['id'] ) {
+					$tva_amount += $line['tva_amount'] * $line['qty'];
 					$price_no_shipping += $line['price'] * $line['qty'];
 				}
 			}
