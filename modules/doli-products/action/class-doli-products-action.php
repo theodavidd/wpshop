@@ -60,20 +60,28 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 			return $post_id;
 		}
 
+
 		$product_data           = ! empty( $_POST['product_data'] ) ? (array) $_POST['product_data'] : array();
 		$product_data['price']  = isset( $product_data['price'] ) ? (float) round( str_replace( ',', '.', $product_data['price'] ), 2 ) : $product->data['price'];
 		$product_data['tva_tx'] = ! empty( $product_data['tva_tx'] ) ? (float) round( str_replace( ',', '.', $product_data['tva_tx'] ), 2 ) : $product->data['tva_tx'];
 
+		if ( is_null( $product_data['price'] ) ) {
+			$product_data['price'] = 00.00;
+		}
+
+
 		// Synchronisation Produit.
 		if ( ! empty( $product->data['external_id'] ) ) {
-			$doli_product = Request_Util::put( 'wpshopapi/update/product/' . $product->data['external_id'], array(
+			$data = array(
 				'label'       => $product->data['title'],
 				'description' => $product->data['content'],
 				'price'       => $product_data['price'],
 				'tva_tx'      => $product_data['tva_tx'],
 				'fk_product'  => (int) $product->data['external_id'],
 				'wp_product'  => (int) $product->data['id'],
-			) );
+			);
+
+			$doli_product = Request_Util::put( 'wpshopapi/update/product/' . $product->data['external_id'], $data );
 
 			update_post_meta( $post_id, '_price', $doli_product->price );
 			update_post_meta( $post_id, '_tva_tx', $doli_product->tva_tx );
