@@ -28,6 +28,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					endif;
 					?>
 					<li>
+						<?php echo $payment_method['logo']; ?>
 						<div class="form-field-inline">
 							<input type="radio" id="radio-<?php echo esc_attr( $key ); ?>" class="form-field" name="type_payment" <?php echo esc_attr( $checked ); ?> value="<?php echo $key; ?>">
 							<label for="radio-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $payment_method['title'] ); ?></label>

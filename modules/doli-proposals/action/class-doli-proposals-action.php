@@ -41,25 +41,27 @@ class Doli_Proposals_Action {
 	 * @param  Proposal_Model $wp_proposal Les données du devis.
 	 */
 	public function checkout_create_proposal( $wp_proposal ) {
-		$doli_proposal_id = Doli_Proposals::g()->wp_to_doli( $wp_proposal );
+		if ( Settings::g()->dolibarr_is_active() ) {
+			$doli_proposal_id = Doli_Proposals::g()->wp_to_doli( $wp_proposal );
 
-		$doli_proposal = Request_Util::post( 'proposals/' . $doli_proposal_id . '/validate', array(
-			'notrigger' => 0,
-		) );
+			$doli_proposal = Request_Util::post( 'proposals/' . $doli_proposal_id . '/validate', array(
+				'notrigger' => 0,
+			) );
 
-		$doli_proposal = Request_Util::post( 'proposals/' . $doli_proposal_id . '/close', array(
-			'status'    => 2,
-			'notrigger' => 0,
-		) );
+			$doli_proposal = Request_Util::post( 'proposals/' . $doli_proposal_id . '/close', array(
+				'status'    => 2,
+				'notrigger' => 0,
+			) );
 
-		Request_Util::put( 'documents/builddoc', array(
-			'module_part'   => 'propal',
-			'original_file' => $doli_proposal->ref . '/' . $doli_proposal->ref . '.pdf',
-		) );
+			Request_Util::put( 'documents/builddoc', array(
+				'module_part'   => 'propal',
+				'original_file' => $doli_proposal->ref . '/' . $doli_proposal->ref . '.pdf',
+			) );
 
-		update_post_meta( $wp_proposal->data['id'], '_external_id', $doli_proposal_id );
+			update_post_meta( $wp_proposal->data['id'], '_external_id', $doli_proposal_id );
 
-		Doli_Proposals::g()->doli_to_wp( $doli_proposal, $wp_proposal );
+			Doli_Proposals::g()->doli_to_wp( $doli_proposal, $wp_proposal );
+		}
 	}
 
 	/**

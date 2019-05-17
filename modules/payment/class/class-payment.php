@@ -48,18 +48,20 @@ class Payment extends \eoxia\Singleton_Util {
 		$this->default_options = array(
 			'cheque'          => array(
 				'active'      => true,
-				'logo'        => '',
+				'logo'        => '<i class="fas fa-money-check"></i>',
 				'title'       => __( 'Cheque', 'wpshop' ),
 				'description' => __( 'Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.', 'wpshop' ),
 
 			),
 			'payment_in_shop' => array(
 				'active'      => true,
+				'logo'        => '<i class="fas fa-money-bill-alt"></i>',
 				'title'       => __( 'Payment in shop', 'wpshop' ),
 				'description' => __( 'Pay and pick up directly your products at the shop.', 'wpshop' ),
 			),
 			'paypal'          => array(
 				'active'             => true,
+				'logo'               => '<i class="fab fa-paypal"></i>',
 				'title'              => __( 'PayPal', 'wpshop' ),
 				'description'        => __( 'Accept payments via PayPal using account balance or credit card.', 'wpshop' ),
 				'paypal_email'       => '',
@@ -67,6 +69,7 @@ class Payment extends \eoxia\Singleton_Util {
 			),
 			'stripe'          => array(
 				'active'             => true,
+				'logo'               => '<i class="fab fa-stripe"></i>',
 				'title'              => __( 'Stripe', 'wpshop' ),
 				'description'        => __( 'Use your credit card to place your order', 'wpshop' ),
 				'publish_key'        => '',

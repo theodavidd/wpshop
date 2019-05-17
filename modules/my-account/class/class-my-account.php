@@ -97,23 +97,6 @@ class My_Account extends \eoxia\Singleton_Util {
 		if ( ! empty( $orders ) ) {
 			foreach ( $orders as &$order ) {
 				$order->data['invoice'] = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
-
-				if ( ! empty( $order->lines ) ) {
-					foreach ( $order->lines as &$line ) {
-						if ( empty( $tva_lines[ $line->tva_tx ] ) ) {
-							$tva_lines[ $line->tva_tx ] = 0;
-						}
-
-						$tva_lines[ $line->tva_tx ] += $line->total_tva;
-
-						$wp_product = Product::g()->get( array(
-							'meta_key'   => '_external_id',
-							'meta_value' => (int) $line->fk_product,
-						), true );
-
-						$line->wp_id = $wp_product->data['id'];
-					}
-				}
 			}
 		}
 

@@ -81,6 +81,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 			Request_Util::put( 'thirdparties/' . $doli_third_party->id, $data );
 		} else {
 			$doli_third_party_id                 = Request_Util::post( 'thirdparties', $data );
+			var_dump( $doli_third_party_id );
 			$wp_third_party->data['external_id'] = $doli_third_party_id;
 
 			Third_Party::g()->update( $wp_third_party->data );
