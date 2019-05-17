@@ -31,7 +31,6 @@ defined( 'ABSPATH' ) || exit; ?>
 			foreach ( $payment_methods as $key => $payment_method ) :
 				?>
 				<tr>
-					<td></td>
 					<td><?php echo $payment_method['title']; ?></td>
 					<td><?php echo $payment_method['active'] ? __( 'Activate', 'wpshop' ) : __( 'Deactivate', 'wpshop' ); ?></td>
 					<td>

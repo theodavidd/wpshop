@@ -46,7 +46,7 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 	 * @return integer|void.
 	 */
 	public function callback_save_post( $post_id, $post ) {
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) || ! Settings::g()->dolibarr_is_active() ) {
 			return $post_id;
 		}
 
@@ -68,7 +68,6 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 		if ( is_null( $product_data['price'] ) ) {
 			$product_data['price'] = 00.00;
 		}
-
 
 		// Synchronisation Produit.
 		if ( ! empty( $product->data['external_id'] ) ) {

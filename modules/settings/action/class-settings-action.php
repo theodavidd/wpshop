@@ -116,16 +116,22 @@ class Settings_Action {
 			wp_die();
 		}
 
-		$tab             = ! empty( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'general';
-		$dolibarr_url    = ! empty( $_POST['dolibarr_url'] ) ? sanitize_text_field( $_POST['dolibarr_url'] ) : '';
-		$dolibarr_secret = ! empty( $_POST['dolibarr_secret'] ) ? sanitize_text_field( $_POST['dolibarr_secret'] ) : '';
-		$shop_email      = ! empty( $_POST['shop_email'] ) ? sanitize_text_field( $_POST['shop_email'] ) : '';
+		$tab                      = ! empty( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'general';
+		$dolibarr_url             = ! empty( $_POST['dolibarr_url'] ) ? sanitize_text_field( $_POST['dolibarr_url'] ) : '';
+		$dolibarr_secret          = ! empty( $_POST['dolibarr_secret'] ) ? sanitize_text_field( $_POST['dolibarr_secret'] ) : '';
+		$shop_email               = ! empty( $_POST['shop_email'] ) ? sanitize_text_field( $_POST['shop_email'] ) : '';
+		$thumbnail_size           = ! empty( $_POST['thumbnail_size'] ) ? (array) $_POST['thumbnail_size'] : array();
+		$thumbnail_size['width']  = ! empty( $thumbnail_size['width'] ) ? (int) $thumbnail_size['width'] : 0;
+		$thumbnail_size['height'] = ! empty( $thumbnail_size['height'] ) ? (int) $thumbnail_size['height'] : 0;
 
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
 		$dolibarr_option['dolibarr_url']    = $dolibarr_url;
 		$dolibarr_option['dolibarr_secret'] = $dolibarr_secret;
 		$dolibarr_option['shop_email']      = $shop_email;
+
+		$dolibarr_option['thumbnail_size']['width']  = $thumbnail_size['width'];
+		$dolibarr_option['thumbnail_size']['height'] = $thumbnail_size['height'];
 
 		update_option( 'wps_dolibarr', $dolibarr_option );
 
@@ -213,7 +219,9 @@ class Settings_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_add_product_thumbnail_size() {
-		add_image_size( 'wps-product-thumbnail', 360, 460, true);
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
+		add_image_size( 'wps-product-thumbnail', $dolibarr_option['thumbnail_size']['width'], $dolibarr_option['thumbnail_size']['height'], true );
 	}
 }
 

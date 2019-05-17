@@ -46,6 +46,10 @@ class Settings extends \eoxia\Singleton_Util {
 			'dolibarr_secret' => '',
 			'shop_email'      => '',
 			'error'           => '',
+			'thumbnail_size'  => array(
+				'width'  => 360,
+				'height' => 460,
+			),
 		);
 
 		$this->shipping_cost_default_settings = array(
