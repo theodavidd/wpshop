@@ -32,25 +32,15 @@ defined( 'ABSPATH' ) || exit; ?>
 				endforeach;
 			endif;
 			?>
+			<div data-parent="wps-cart" data-action="wps_update_cart"
+				class="update-cart wpeo-button action-input button-disable">
+				<?php esc_html_e( 'Update cart', 'wpshop' ); ?>
+			</div>
 		</div>
 
-		<ul class="wps-cart-resume">
-			<?php do_action( 'wps_before_cart_resume' ); ?>
-			<li class="wps-resume-line">
-				<span class="wps-line-content"><?php echo esc_html( $shipping_cost_product->data['title'] ); ?></span>
-				<span class="wps-line-value"><?php echo esc_html( $shipping_cost_product->data['price_ttc'] ); ?></span>
-			</li>
-			<li class="wps-resume-line-featured">
-				<span class="wps-line-content"><?php esc_html_e( 'Total TTC', 'wpshop' ); ?></span>
-				<span class="wps-line-value"><</span>
-			</li>
-			<?php do_action( 'wps_after_cart_resume' ); ?>
-		</ul>
-	</div>
-
-	<div data-parent="wps-cart" data-action="wps_update_cart"
-		class="update-cart wpeo-button action-input button-disable">
-		<?php esc_html_e( 'Update cart', 'wpshop' ); ?>
+		<div>
+			<?php include( Template_Util::get_template_part( 'cart', 'cart-resume' ) ); ?>
+		</div>
 	</div>
 
 	<?php do_action( 'wps_after_cart_table' ); ?>
