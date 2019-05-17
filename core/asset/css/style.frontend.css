@@ -2,6 +2,10 @@
 /* Bleu ciel, couleur principale */
 /* Bleu fonce, couleur de l'interface */
 /* Autres couleurs */
+/*!
+ * Font Awesome Pro 5.0.10 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license (Commercial License)
+ */
 .wpeo-autocomplete .autocomplete-label:hover {
   border: 1px solid #0088FF; }
 
@@ -517,7 +521,7 @@ body.single-wps-product .wps-product-price {
   display: -ms-flexbox;
   display: flex;
   background: #fff;
-  padding: 0.6em;
+  padding: 1em;
   margin-bottom: 0.6em; }
 
 .wps-list-product .wps-product:last-child {
@@ -634,7 +638,8 @@ body.single-wps-product .wps-product-price {
 
 .wps-list-box .wps-box {
   background: rgba(0, 0, 0, 0.075);
-  padding: 0.6em; }
+  padding: 1em;
+  margin-bottom: 1em; }
 
 .wps-list-box .wps-box .wps-box-resume {
   display: -webkit-box;
@@ -684,6 +689,9 @@ body.single-wps-product .wps-product-price {
   opacity: 0.6;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)"; }
 
+.wps-list-box .wps-box .wps-box-resume .wps-box-primary .wps-box-display-more.active .wps-box-display-more-icon:before {
+  content: "\f107"; }
+
 .wps-list-box .wps-box .wps-box-resume .wps-box-secondary {
   text-align: right;
   padding: 0 1.2em; }
@@ -715,3 +723,6 @@ body.single-wps-product .wps-product-price {
 
 .wps-list-box .wps-box .wps-box-resume .wps-box-action > * {
   margin: auto 0; }
+
+.wps-list-box .wps-box .wps-box-detail {
+  display: none; }

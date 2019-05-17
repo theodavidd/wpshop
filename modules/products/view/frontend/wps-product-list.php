@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 	<figure class="wps-product-thumbnail">
 		<?php
 		if ( ! empty( $product['wp_id'] ) ) :
-			$post_thumbnail = get_the_post_thumbnail( $product['wp_id'], 'thumbnail', array( 'itemprop' => 'image' ) );
+			$post_thumbnail = get_the_post_thumbnail( $product['wp_id'], 'thumbnail', array( 'class' => 'attachment-wps-product-thumbnail', 'itemprop' => 'image' ) );
 		endif;
 		if ( ! empty( $post_thumbnail ) ) :
 			echo $post_thumbnail;
