@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php
 		if ( has_post_thumbnail() ) :
-			the_post_thumbnail( 'wps-product-thumbnail', array( 'itemprop' => 'image' ) );
+			the_post_thumbnail( 'wps-product-thumbnail', array( 'class' => 'attachment-wps-product-thumbnail', 'itemprop' => 'image' ) );
 		else :
 			echo '<img src="' . PLUGIN_WPSHOP_URL . '/core/asset/image/default-product-thumbnail.jpg" class="attachment-wps-product-thumbnail" itemprop="image" /> ';
 		endif;

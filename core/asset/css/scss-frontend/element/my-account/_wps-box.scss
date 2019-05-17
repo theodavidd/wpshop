@@ -1,6 +1,7 @@
 .wps-list-box .wps-box {
 	background: rgba(0,0,0,0.075);
-	padding: 0.6em;
+	padding: 1em;
+	margin-bottom: 1em;
 }
 
 .wps-list-box .wps-box .wps-box-resume {
@@ -43,6 +44,9 @@
 				cursor: pointer;
 				opacity: 0.6;
 			}
+			&.active .wps-box-display-more-icon::before {
+				content: fa-content( $fa-var-angle-down );
+			}
 		}
 	}
 
@@ -76,4 +80,8 @@
 			margin: auto 0;
 		}
 	}
+}
+
+.wps-list-box .wps-box .wps-box-detail {
+	display: none;
 }
