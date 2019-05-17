@@ -17,32 +17,37 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 ?>
-
-<table class="wpeo-table">
-	<thead>
-		<tr>
-			<th data-title="Product"><?php esc_html_e( 'Product', 'wpshop' ); ?></th>
-			<th data-title="Download"><?php esc_html_e( 'Download', 'wpshop' ); ?></th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-		if ( ! empty( $products_downloadable ) ) :
-			foreach ( $products_downloadable as $product_downloadable ) :
-				?>
-				<tr>
-					<td data-title="test"><?php echo esc_html( $product_downloadable->data['title'] ); ?></td>
-					<td>
-						<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_product&_wpnonce=' . wp_create_nonce( 'download_product' ) . '&product_id=' . $product_downloadable->data['id'] ) ); ?>" class="wpeo-button button-primary">
+<div class="wps-list-invoice wps-list-box">
+	<?php
+	if ( ! empty( $products_downloadable ) ) :
+		foreach ( $products_downloadable as $product_downloadable ) :
+			?>
+			<div class="wps-order wps-box">
+				<div class="wps-box-resume">
+					<div class="wps-box-primary">
+						<div class="wps-box-title"><?php echo esc_attr( $product_downloadable->data['title'] ); ?></div>
+						<ul class="wps-box-attributes">
+							<li class="wps-box-subtitle-item"><i class="wps-box-subtitle-icon fas fa-shopping-cart"></i> <?php echo esc_html( $product_downloadable->data['date']['rendered']['date'] ); ?></li>
+							<li class="wps-box-subtitle-item"><i class="wps-box-subtitle-icon fas fa-shopping-basket"></i> <?php echo esc_html( get_the_title( $product_downloadable->data['product_id'] ) ); ?></li>
+						</ul>
+					</div>
+					<div class="wps-box-action">
+						<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_product&_wpnonce=' . wp_create_nonce( 'download_product' ) . '&product_id=' . $product_downloadable->data['id'] ) ); ?>" class="wpeo-button button-primary button-square-50 button-rounded">
 							<i class="button-icon fas fa-file-download"></i>
 						</a>
-					</td>
-
-				</tr>
-				<?php
-			endforeach;
-		endif;
+					</div>
+				</div>
+			</div>
+			<?php
+		endforeach;
+	else :
 		?>
-
-	</tbody>
-</table>
+		<div class="wpeo-notice notice-info">
+			<div class="notice-content">
+				<div class="notice-title"><?php esc_html_e( 'No downloadable product', 'wpshop' ); ?></div>
+			</div>
+		</div>
+		<?php
+	endif;
+	?>
+</div>
