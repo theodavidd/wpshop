@@ -35,15 +35,15 @@ class Checkout_Action {
 
 		add_action( 'wps_checkout_shipping', array( $this, 'callback_checkout_shipping' ), 10, 3 );
 		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_order_review' ), 10, 1 );
-		add_action( 'wps_checkout_after_order_review', array( $this, 'callback_checkout_payment' ) );
+		add_action( 'wps_checkout_payment', array( $this, 'callback_checkout_payment' ) );
 
 		add_action( 'wp_ajax_load_edit_billing_address', array( $this, 'callback_load_edit_billing_address' ) );
 
 		add_action( 'wp_ajax_wps_checkout_create_third_party', array( $this, 'callback_checkout_create_third' ) );
 		add_action( 'wp_ajax_nopriv_wps_checkout_create_third_party', array( $this, 'callback_checkout_create_third' ) );
 
-		add_action( 'wps_review_order_after_submit', array( $this, 'add_devis_button' ) );
 		add_action( 'wps_review_order_after_submit', array( $this, 'add_place_order_button' ) );
+		add_action( 'wps_review_order_after_submit', array( $this, 'add_devis_button' ) );
 
 		add_action( 'wp_ajax_wps_place_order', array( $this, 'callback_place_order' ) );
 		add_action( 'wp_ajax_nopriv_wps_place_order', array( $this, 'callback_place_order' ) );
@@ -73,7 +73,7 @@ class Checkout_Action {
 		if ( null !== $contact->data['id'] && null !== $third_party->data['id'] && ! $force_edit ) {
 			include( Template_Util::get_template_part( 'checkout', 'form-shipping' ) );
 		} else {
-			include( Template_Util::get_template_part( 'checkout', 'form-shipping-edit' ) );
+			include( Template_Util::get_template_part( 'checkout', 'form-shipping' ) );
 		}
 	}
 
@@ -100,7 +100,7 @@ class Checkout_Action {
 			}
 		}
 
-		include( Template_Util::get_template_part( 'checkout', 'review-order' ) );
+		include( Template_Util::get_template_part( 'cart', 'cart-resume' ) );
 	}
 
 	/**

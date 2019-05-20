@@ -15,6 +15,20 @@
 namespace wpshop;
 
 defined( 'ABSPATH' ) || exit;
+?>
+<div class="wps-checkout wpeo-gridlayout grid-5">
+	<div class="gridw-3">
+		<?php include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-1' ) ); ?>
+		<?php include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-2' ) ); ?>
+	</div>
+	<div class="gridw-2">
+		<?php include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-3' ) ); ?>
 
-include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-1' ) );
-include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-2' ) );
+		<?php do_action( 'wps_review_order_before_submit' ); ?>
+
+		<?php wp_nonce_field( 'callback_place_order' ); ?>
+		<input type="hidden" name="action" value="wps_place_order" />
+
+		<?php do_action( 'wps_review_order_after_submit' ); ?>
+	</div>
+</div>

@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div><?php do_action( 'wps_checkout_billing', $third_party, $contact ); ?></div>
 	<div class="shipping-address"><?php do_action( 'wps_checkout_shipping', $third_party, $contact ); ?></div>
 
-	<a class="wpeo-button action-input alignright"
+	<!-- <a class="wpeo-button action-input alignright"
 		data-parent="wpeo-form">
 		<?php
 		if ( 0 === $third_party->data['id'] ) :
@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			esc_html_e( 'Continue', 'wpshop' );
 		endif;
 		?>
-	</a>
+	</a> -->
 </form>
 
 <?php do_action( 'wps_after_checkout_form' ); ?>

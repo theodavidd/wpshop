@@ -19,9 +19,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="checkout-login hide">
-	<div class="wpeo-button button-main button-size-large">
-		<span><?php esc_html_e( 'Returning customer? Click here to login', 'wpshop' ); ?></span>
-	</div>
+	<div class="checkout-login-toggle"><?php esc_html_e( 'Returning customer ?', 'wpshop' ); ?> <span><?php esc_html_e( 'Click here to login', 'wpshop' ); ?></span></div>
 	<div class="content-login" style="display: none;">
 		<?php include( \wpshop\Template_Util::get_template_part( 'my-account', 'form-login' ) ); ?>
 	</div>

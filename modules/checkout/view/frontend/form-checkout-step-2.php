@@ -16,19 +16,12 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<?php do_action( 'wps_before_checkout_form' ); ?>
+<?php do_action( 'wps_checkout_before_payment' ); ?>
 
 <form method="post" class="wps-checkout-step-2">
 
-	<h3 id="order_review_heading"><?php esc_html_e( 'Your order', 'wpshop' ); ?></h3>
+	<?php do_action( 'wps_checkout_payment' ); ?>
 
-	<?php do_action( 'wps_checkout_before_order_review', $proposal ); ?>
-
-	<div id="order_review" class="wps-checkout-review-order">
-		<?php do_action( 'wps_checkout_order_review', $proposal ); ?>
-	</div>
-
-	<?php do_action( 'wps_checkout_after_order_review' ); ?>
 </form>
 
-<?php do_action( 'wps_after_checkout_form' ); ?>
+<?php do_action( 'wps_checkout_after_payment' ); ?>

@@ -43,16 +43,14 @@ endif;
 
 	<div class="wpeo-gridlayout grid-2 grid-margin-1">
 		<div class="form-element">
-			<span class="form-label"><?php esc_html_e( 'Username or email address', 'wpshop' ); ?></span>
 			<label class="form-field-container">
-				<input type="text" class="form-field" name="username" />
+				<input type="text" class="form-field" placeholder="<?php esc_html_e( 'Username or email address', 'wpshop' ); ?>" name="username" />
 			</label>
 		</div>
 
 		<div class="form-element">
-			<span class="form-label"><?php esc_html_e( 'Password', 'wpshop' ); ?></span>
 			<label class="form-field-container">
-				<input type="password" class="form-field" name="password" />
+				<input type="password" class="form-field" placeholder="<?php esc_html_e( 'Password', 'wpshop' ); ?>" name="password" />
 			</label>
 		</div>
 	</div>

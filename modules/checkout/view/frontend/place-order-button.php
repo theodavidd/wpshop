@@ -16,4 +16,6 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<a class="action-input wpeo-button alignright" data-type="order" data-parent="wps-checkout-step-2"><?php esc_html_e( 'Place order', 'wpshop' ); ?></a>
+<a class="wps-process-checkout-button action-input wpeo-button" data-type="order" data-parent="wps-checkout-step-2">
+	<?php esc_html_e( 'Place order', 'wpshop' ); ?>
+</a>

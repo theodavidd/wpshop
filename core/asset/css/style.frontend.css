@@ -426,6 +426,7 @@
   background: rgba(0, 0, 0, 0.075); }
 
 .wps-cart-resume .wps-resume-line {
+  margin: 0;
   list-style-type: none;
   font-size: 16px;
   font-weight: 400;
@@ -445,15 +446,96 @@
   font-weight: 600;
   color: rgba(0, 0, 0, 0.8); }
 
-.wps-cart .process-checkout {
+.wps-cart .wps-process-checkout-button, .wps-checkout .wps-process-checkout-button {
   display: block;
   float: none;
   width: 100%;
   text-align: center;
   -webkit-border-radius: 6px;
           border-radius: 6px;
-  margin: 1em 0 0 0;
+  margin: 1em 0;
   text-decoration: none !important; }
+
+.wps-cart .wps-checkout-quotation-button, .wps-checkout .wps-checkout-quotation-button {
+  display: block;
+  text-align: center;
+  font-weight: 700;
+  text-decoration: underline;
+  color: rgba(0, 0, 0, 0.8); }
+
+.wps-cart .wps-checkout-quotation-button:hover, .wps-checkout .wps-checkout-quotation-button:hover {
+  color: #0088FF;
+  cursor: pointer; }
+
+.wps-checkout .wps-checkout-subtitle {
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 0.8em;
+  color: rgba(0, 0, 0, 0.8); }
+
+.wps-checkout .wps-checkout-subtitle:before {
+  display: inline-block;
+  content: '';
+  font-weight: 900;
+  color: #0088FF;
+  margin-right: 0.4em; }
+
+.wps-checkout .wps-checkout-step-1 .wps-checkout-subtitle:before {
+  content: '01.'; }
+
+.wps-checkout .wps-checkout-step-2 .wps-checkout-subtitle:before {
+  content: '02.'; }
+
+.wps-checkout .wps-checkout-step-3 .wps-checkout-subtitle:before {
+  content: '03.'; }
+
+.wps-checkout [class*="wps-checkout-step"] {
+  margin-bottom: 1em; }
+
+/** Etape 3 */
+.wps-checkout .wps-checkout-step-3 .wps-checkout-subtitle {
+  float: left; }
+
+.wps-checkout .wps-checkout-step-3 .wps-checkout-edit-order {
+  float: right;
+  line-height: 2.3;
+  color: #0088FF; }
+
+.wps-checkout .wps-checkout-step-3 .wps-checkout-review-order {
+  clear: both; }
+
+.wps-checkout-payment .wps-payment-list, .wps-checkout-payment .wps-payment {
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+
+.wps-checkout-payment .wps-payment-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.8);
+  line-height: 1.4;
+  margin-bottom: 0.4em; }
+
+.wps-checkout-payment .wps-payment-title .wps-payement-icon {
+  font-weight: 400;
+  color: #0088FF; }
+
+.wps-checkout-payment .wps-payment-description {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: 1.4; }
+
+.wps-checkout-payment .wps-payment {
+  padding: 0.6em;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out; }
+
+.wps-checkout-payment .wps-payment.checked {
+  background: #0088FF;
+  color: #fff; }
+
+.wps-checkout-payment .wps-payment.checked .wps-payment-title, .wps-checkout-payment .wps-payment.checked .wps-payment-description, .wps-checkout-payment .wps-payment.checked .wps-payement-icon {
+  color: #fff; }
 
 body.single-wps-product .wps-product-price {
   font-size: 2em;
@@ -764,7 +846,7 @@ body.single-wps-product .wps-product-price {
   margin-right: 0.2em; }
 
 .wps-list-box .wps-box .wps-box-resume .wps-box-secondary .wps-box-price {
-  font-weight: 800;
+  font-weight: 700;
   font-size: 35px; }
 
 .wps-list-box .wps-box .wps-box-resume .wps-box-action {
@@ -779,3 +861,10 @@ body.single-wps-product .wps-product-price {
 
 .wps-list-box .wps-box .wps-box-detail {
   display: none; }
+
+.checkout-login .checkout-login-toggle span {
+  color: #0088FF; }
+
+.checkout-login .checkout-login-toggle span:hover {
+  cursor: pointer;
+  text-decoration: underline; }

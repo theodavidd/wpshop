@@ -17,7 +17,10 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div id="payment" class="wps-checkout-payment">
-	<ul>
+
+	<div class="wps-checkout-subtitle"><?php esc_html_e( 'Payment method', 'wpshop' ); ?></div>
+
+	<ul class="wps-payment-list wpeo-gridlayout grid-2 grid-gap-0">
 		<?php
 		if ( ! empty( $payment_methods ) ) :
 			foreach ( $payment_methods as $key => $payment_method ) :
@@ -27,20 +30,21 @@ defined( 'ABSPATH' ) || exit; ?>
 						$checked = 'checked';
 					endif;
 					?>
-					<li>
-						<?php echo $payment_method['logo']; ?>
-						<div class="form-field-inline">
-							<input type="radio" id="radio-<?php echo esc_attr( $key ); ?>" class="form-field" name="type_payment" <?php echo esc_attr( $checked ); ?> value="<?php echo $key; ?>">
-							<label for="radio-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $payment_method['title'] ); ?></label>
-						</div>
-
-						<?php
-						if ( ! empty( $payment_method['description'] ) ) :
-							?>
-							</p><?php echo apply_filters( 'wps_payment_method_' . $key . '_description', nl2br( $payment_method['description'] ) ); ?></p>
+					<li class="wps-payment <?php echo esc_attr( $checked ); ?>">
+						<label for="radio-<?php echo esc_attr( $key ); ?>" class="wps-payment-container">
+							<div class="wps-payment-title">
+								<input type="radio" id="radio-<?php echo esc_attr( $key ); ?>" class="form-field" name="type_payment" <?php echo esc_attr( $checked ); ?> value="<?php echo $key; ?>">
+								<span class="wps-payement-icon"><?php echo $payment_method['logo']; ?></span>
+								<span class="wps-payement-label"><?php echo esc_html( $payment_method['title'] ); ?></span>
+							</div>
 							<?php
-						endif;
-						?>
+							if ( ! empty( $payment_method['description'] ) ) :
+								?>
+								<div class="wps-payment-description"><?php echo apply_filters( 'wps_payment_method_' . $key . '_description', nl2br( $payment_method['description'] ) ); ?></div>
+								<?php
+							endif;
+							?>
+						</label>
 					</li>
 					<?php
 				endif;
@@ -49,11 +53,4 @@ defined( 'ABSPATH' ) || exit; ?>
 		?>
 	</ul>
 
-	<?php do_action( 'wps_review_order_before_submit' ); ?>
-
-	<?php wp_nonce_field( 'callback_place_order' ); ?>
-
-	<input type="hidden" name="action" value="wps_place_order" />
-
-	<?php do_action( 'wps_review_order_after_submit' ); ?>
 </div>

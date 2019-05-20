@@ -17,4 +17,4 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 
-<a class="action-input wpeo-button" data-type="proposal" data-parent="wps-checkout-step-2"><?php esc_html_e( 'Quotation', 'wpshop' ); ?></a>
+<a class="wps-checkout-quotation-button action-input" data-type="proposal" data-parent="wps-checkout-step-2"><?php esc_html_e( 'Ask for a Quotation', 'wpshop' ); ?></a>
