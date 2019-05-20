@@ -40,6 +40,8 @@ defined( 'ABSPATH' ) || exit; ?>
 
 		<div>
 			<?php include( Template_Util::get_template_part( 'cart', 'cart-resume' ) ); ?>
+
+			<?php do_action( 'wps_after_cart_resume' ); ?>
 		</div>
 	</div>
 

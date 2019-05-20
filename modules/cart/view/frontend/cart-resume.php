@@ -35,9 +35,10 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<?php do_action( 'wps_after_cart_resume_lines' ); ?>
 
-	<li class="wps-resume-line-featured">
+	<li class="wps-resume-line featured">
 		<span class="wps-line-content"><?php esc_html_e( 'Total TTC', 'wpshop' ); ?></span>
 		<span class="wps-line-value"><?php echo esc_html( number_format( Cart_Session::g()->total_price_ttc, 2, '.', '' ) ); ?>€</span>
 	</li>
-	<?php do_action( 'wps_after_cart_resume' ); ?>
+
+	<?php do_action( 'wps_after_cart_resume_total' ); ?>
 </ul>

@@ -31,7 +31,7 @@ class Checkout_Action {
 
 		add_action( 'init', array( Checkout_Shortcode::g(), 'callback_init' ) );
 
-		add_action( 'wps_after_cart_table', array( $this, 'callback_after_cart_table' ), 20 );
+		add_action( 'wps_after_cart_resume', array( $this, 'callback_after_cart_table' ), 20 );
 
 		add_action( 'wps_checkout_shipping', array( $this, 'callback_checkout_shipping' ), 10, 3 );
 		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_order_review' ), 10, 1 );
