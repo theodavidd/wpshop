@@ -20,11 +20,11 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div id="order_review_heading" class="wps-checkout-subtitle"><?php esc_html_e( 'Your order', 'wpshop' ); ?></div>
 	<a href="#" class="wps-checkout-edit-order"><i class="fas fa-pencil-alt"></i> <?php esc_html_e( 'Edit order', 'wpshop' ); ?></a>
 
-	<?php do_action( 'wps_checkout_before_order_review', $proposal ); ?>
+	<?php do_action( 'wps_checkout_before_order_review' ); ?>
 
 	<div id="order_review" class="wps-checkout-review-order">
-		<?php do_action( 'wps_checkout_order_review', $proposal ); ?>
+		<?php do_action( 'wps_checkout_order_review' ); ?>
 	</div>
 
-	<?php do_action( 'wps_checkout_after_order_review', $proposal ); ?>
+	<?php do_action( 'wps_checkout_after_order_review' ); ?>
 </div>

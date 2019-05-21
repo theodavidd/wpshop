@@ -21,8 +21,6 @@ defined( 'ABSPATH' ) || exit; ?>
 <?php do_action( 'wps_before_checkout_billing_form' ); ?>
 
 <div class="wpeo-form">
-	<?php wp_nonce_field( 'callback_checkout_create_third' ); ?>
-
 	<div class="wpeo-grid grid-2">
 		<div>
 			<div class="form-element contact-firstname">

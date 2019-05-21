@@ -49,13 +49,6 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 	 */
 	public function callback_checkout( $param ) {
 		if ( ! is_admin() ) {
-			$step     = $param['step'];
-			$proposal = null;
-
-			if ( isset( Cart_Session::g()->external_data['proposal_id'] ) ) {
-				$proposal = Proposals::g()->get( array( 'id' => Cart_Session::g()->external_data['proposal_id'] ), true );
-			}
-
 			$current_user = wp_get_current_user();
 
 			$third_party = Third_Party::g()->get( array( 'schema' => true ), true );

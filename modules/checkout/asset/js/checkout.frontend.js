@@ -18,6 +18,13 @@ window.eoxiaJS.wpshopFrontend.checkout.event = function() {
 	jQuery( '.checkout-login .checkout-login-toggle' ).click( function() {
 		jQuery( '.checkout-login .content-login' ).slideToggle();
 	} );
+
+	jQuery( document ).on( 'change', '.wps-checkout .wps-payment-list li.wps-payment input', window.eoxiaJS.wpshopFrontend.checkout.makeActive );
+};
+
+window.eoxiaJS.wpshopFrontend.checkout.makeActive = function( event ) {
+	jQuery( '.wps-checkout .wps-payment-list li.wps-payment.checked' ).removeClass( 'checked' );
+	jQuery( this ).closest( 'li.wps-payment' ).addClass( 'checked' );
 };
 
 window.eoxiaJS.wpshopFrontend.checkout.loadedEditBillingAddress = function( triggeredElement, response ) {

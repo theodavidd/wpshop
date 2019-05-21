@@ -107,7 +107,6 @@ class Pages extends \eoxia\Singleton_Util {
 	 * @return string Le slug de la page shop.
 	 */
 	public function get_slug_shop_page() {
-
 		$page = get_page( $this->page_ids['shop_id'] );
 
 		if ( ! $page ) {
@@ -170,6 +169,12 @@ class Pages extends \eoxia\Singleton_Util {
 	 */
 	public function get_valid_proposal_link() {
 		return get_permalink( $this->page_ids['valid_proposal_id'] );
+	}
+
+	public function is_checkout_page() {
+		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
+
+		return ( get_the_ID() === $this->page_ids['checkout_id'] ) ? true : false;
 	}
 }
 

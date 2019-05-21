@@ -134,6 +134,10 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		$_SESSION['wps_proposal_id']             = $this->proposal_id;
 		$_SESSION['wps_order_id']                = $this->order_id;
 		$_SESSION['wps_external_data']           = $this->external_data;
+
+		if ( empty( $this->cart_contents ) ) {
+			$this->destroy();
+		}
 	}
 
 	/**
