@@ -62,13 +62,7 @@ class Checkout_Action {
 		if ( Pages::g()->is_checkout_page() ) {
 			$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
 
-			if ( ! empty( Cart_Session::g()->cart_contents ) ) {
-				foreach ( Cart_Session::g()->cart_contents as $key => $product ) {
-					if ( $shipping_cost_option['shipping_product_id'] !== $product['id'] ) {
-						include( Template_Util::get_template_part( 'products', 'wps-product-list' ) );
-					}
-				}
-			}
+			include( Template_Util::get_template_part( 'checkout', 'resume-list-product' ) );
 		}
 	}
 
