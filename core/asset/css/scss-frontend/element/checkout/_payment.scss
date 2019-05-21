@@ -24,7 +24,6 @@
 	}
 
 	.wps-payment {
-		padding: 0.6em;
 		@include transition;
 
 		&.checked {
@@ -33,6 +32,14 @@
 
 			.wps-payment-title, .wps-payment-description, .wps-payement-icon {
 				color: #fff;
+			}
+		}
+		.wps-payment-container {
+			padding: 0.6em;
+			display: block;
+
+			&:hover {
+				cursor: pointer;
 			}
 		}
 	}
