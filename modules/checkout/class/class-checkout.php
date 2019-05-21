@@ -117,7 +117,7 @@ class Checkout extends \eoxia\Singleton_Util {
 	protected function validate_posted_data( &$data, &$errors ) {
 		foreach ( $this->get_checkout_fields() as $fieldset_key => $fieldset ) {
 			foreach ( $fieldset as $field_key => $field ) {
-				if ( $field['required'] && ( '' === $data[ $fieldset_key ][ $field_key ] || '0' === $data[ $fieldset_key ][ $field_key ] ) ) {
+				if ( $field['required'] && ( '' == $data[ $fieldset_key ][ $field_key ] || '0' == $data[ $fieldset_key ][ $field_key ] ) ) {
 					/* translators: Lastname is a required field. */
 					$errors->add( 'required-field', apply_filters( 'wps_checkout_required_field_notice', sprintf( __( '%s is a required field.', 'wpshop' ), '<strong>' . esc_html( $field['label'] ) . '</strong>' ), $field['label'] ) );
 

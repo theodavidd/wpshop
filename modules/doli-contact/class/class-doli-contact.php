@@ -93,13 +93,22 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 			'id' => $wp_contact->data['third_party_id'],
 		), true );
 
-		$contact_id = Request_Util::post( 'contacts', array(
+		$data = array(
 			'lastname'  => $wp_contact->data['lastname'],
 			'firstname' => $wp_contact->data['firstname'],
 			'email'     => $wp_contact->data['email'],
 			'phone_pro' => $wp_contact->data['phone'],
 			'socid'     => $third_party->data['external_id'],
-		) );
+		);
+
+		if ( ! empty( $wp_contact->data['external_id'] ) ) {
+			Request_Util::put( 'contacts/' . $wp_contact->data['external_id'], $data );
+		} else {
+			$contact_id                 = Request_Util::post( 'contacts', $data );
+			$wp_contact->data['external_id'] = $contact_id;
+
+			Contact::g()->update( $wp_contact->data );
+		}
 
 		return $contact_id;
 	}

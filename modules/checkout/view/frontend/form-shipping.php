@@ -22,16 +22,6 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wpeo-gridlayout grid-6">
 	<?php wp_nonce_field( 'callback_checkout_create_third' ); ?>
-	<input type="hidden" class="form-field" name="contact[firstname]" value="<?php echo ! empty( $contact->data['firstname'] ) ? $contact->data['firstname'] : ''; ?>" />
-	<input type="hidden" class="form-field" name="contact[lastname]"  value="<?php echo ! empty( $contact->data['lastname'] ) ? $contact->data['lastname'] : ''; ?>" />
-	<input type="hidden" class="form-field" name="third_party[title]" value="<?php echo ! empty( $third_party->data['title'] ) ? $third_party->data['title'] : ''; ?>" />
-	<input type="hidden" name="third_party[country_id]" value="<?php echo $third_party->data['country_id']; ?>" />
-	<input type="hidden" class="form-field" name="third_party[address]" value="<?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : ''; ?>"  />
-	<input type="hidden" class="form-field" name="third_party[zip]" value="<?php echo ! empty( $third_party->data['zip'] ) ? $third_party->data['zip'] : ''; ?>"  />
-	<input type="hidden" class="form-field" name="third_party[town]" value="<?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : ''; ?>"  />
-	<input type="hidden" class="form-field" name="third_party[country_id]" value="<?php echo ! empty( $third_party->data['country_id'] ) ? $third_party->data['country_id'] : ''; ?>"  />
-	<input type="hidden" class="form-field" name="contact[phone]" value="<?php echo ! empty( $third_party->data['phone'] ) ? $third_party->data['phone'] : ''; ?>"  />
-	<input type="hidden" class="form-field" name="contact[email]" value="<?php echo ! empty( $contact->data['email'] ) ? $contact->data['email'] : ''; ?>"  />
 
 	<div class="form-element contact-firstname gridw-3">
 		<label class="form-field-container">
@@ -78,12 +68,12 @@ defined( 'ABSPATH' ) || exit; ?>
 					foreach ( $countries as $country ) :
 						$selected = '';
 
-						if ( ! empty( $third_party ) && $country['id'] === $third_party->data['country_id'] ) :
+						if ( ! empty( $third_party ) && (int) $country['id'] === (int) $third_party->data['country_id'] ) :
 							$selected = 'selected="selected"';
 						endif;
 
 						?>
-						<option <?php echo $selected; ?> value="<?php echo esc_attr( $country['id'] ); ?>"><?php echo $country['label']; ?></option>
+						<option <?php echo $selected; ?> value="<?php echo esc_attr( (int) $country['id'] ); ?>"><?php echo $country['label']; ?></option>
 						<?php
 					endforeach;
 				endif;
@@ -105,16 +95,5 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 
 </div>
-
-<?php
-if ( 0 !== $third_party->data['id'] ) :
-	?>
-	<!-- <a class="wpeo-button button-grey action-attribute alignright"
-		data-action="load_edit_billing_address"
-		data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_edit_billing_address' ) ); ?>"
-		data-id="<?php echo $contact->data['id']; ?>"><?php esc_html_e( 'Edit billing address', 'wpshop' ); ?></a> -->
-	<?php
-endif;
-?>
 
 <?php do_action( 'wps_after_checkout_billing_form' ); ?>

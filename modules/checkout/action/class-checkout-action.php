@@ -178,6 +178,15 @@ class Checkout_Action {
 				$posted_data['third_party']['id'] = $third_party->data['id'];
 				if ( ! empty( $third_party->data['id'] ) ) {
 					$third_party = Third_Party::g()->update( $posted_data['third_party'] );
+
+					if ( empty( $third_party->data['external_id'] ) ) {
+						do_action( 'wps_checkout_create_third_party', $third_party );
+					}
+
+					if ( empty( $contact->data['external_id'] ) ) {
+						do_action( 'wps_checkout_create_contact', $contact );
+					}
+
 				} else {
 					$posted_data['third_party']['contact_ids'][] = $contact->data['id'];
 					$third_party                  = Third_Party::g()->update( $posted_data['third_party'] );
@@ -187,7 +196,10 @@ class Checkout_Action {
 
 				$contact->data['third_party_id'] = $third_party->data['id'];
 
-				Contact::g()->update( $contact->data );
+				$contact->data['firstname'] = ! empty( $posted_data['contact']['firstname'] ) ? $posted_data['contact']['firstname'] : $contact->data['firstname'];
+				$contact->data['lastname']  = ! empty( $posted_data['contact']['lastname'] ) ? $posted_data['contact']['lastname'] : $contact->data['lastname'];
+
+				$contact = Contact::g()->update( $contact->data );
 			}
 
 			$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : 'proposal';

@@ -60,7 +60,7 @@ function get_countries() {
 			'id'       => '0',
 			'code'     => '',
 			'code_iso' => null,
-			'label'    => '-',
+			'label'    => __( 'Country', 'wpshop' ),
 			'active'   => '1',
 		),
 		array(

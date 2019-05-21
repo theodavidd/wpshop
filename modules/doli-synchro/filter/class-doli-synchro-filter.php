@@ -49,7 +49,13 @@ class Doli_Synchro_Filter extends \eoxia\Singleton_Util {
 
 			if ( ! empty( $countries ) ) {
 				foreach ( $countries as $country ) {
-					$countries_for_wp[ $country->id ] = (array) $country;
+					$country = (array) $country;
+
+					if ( $country['label'] === '-' ) {
+						$country['label'] = __( 'Country', 'wpshop' );
+					}
+
+					$countries_for_wp[ $country['id'] ] = $country;
 				}
 			}
 
