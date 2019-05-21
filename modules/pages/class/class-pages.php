@@ -176,6 +176,12 @@ class Pages extends \eoxia\Singleton_Util {
 
 		return ( get_the_ID() === $this->page_ids['checkout_id'] ) ? true : false;
 	}
+
+	public function is_valid_checkout_page() {
+		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
+
+		return ( get_the_ID() === $this->page_ids['valid_checkout_id'] ) ? true : false;
+	}
 }
 
 Pages::g();
