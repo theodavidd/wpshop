@@ -33,10 +33,11 @@ defined( 'ABSPATH' ) || exit; ?>
 			endif;
 			?>
 			<div data-parent="wps-cart" data-action="wps_update_cart"
-				class="update-cart wpeo-button action-input button-disable">
+				class="wpeo-util-hidden update-cart wpeo-button action-input">
 				<?php esc_html_e( 'Update cart', 'wpshop' ); ?>
 			</div>
 		</div>
+
 
 		<div>
 			<?php include( Template_Util::get_template_part( 'cart', 'cart-resume' ) ); ?>

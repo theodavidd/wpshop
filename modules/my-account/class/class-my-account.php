@@ -92,15 +92,20 @@ class My_Account extends \eoxia\Singleton_Util {
 	public function display_orders() {
 		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-		$orders      = Doli_Order::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
 
-		if ( ! empty( $orders ) ) {
-			foreach ( $orders as &$order ) {
-				$order->data['invoice'] = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
+		$orders = array();
+
+		if ( ! empty( $third_party->data['id'] ) ) {
+			$orders = Doli_Order::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
+
+			if ( ! empty( $orders ) ) {
+				foreach ( $orders as &$order ) {
+					$order->data['invoice'] = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
+				}
 			}
-		}
 
-		unset( $order );
+			unset( $order );
+		}
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-orders' ) );
 	}
@@ -113,10 +118,15 @@ class My_Account extends \eoxia\Singleton_Util {
 	public function display_invoices() {
 		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-		$invoices    = Doli_Invoice::g()->get( array(
-			'meta_key'   => '_third_party_id',
-			'meta_value' => $third_party->data['id'],
-		) );
+
+		$invoices = array();
+
+		if ( ! empty( $third_party->data['id'] ) ) {
+			$invoices = Doli_Invoice::g()->get( array(
+				'meta_key'   => '_third_party_id',
+				'meta_value' => $third_party->data['id'],
+			) );
+		}
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-invoices' ) );
 	}
@@ -130,9 +140,13 @@ class My_Account extends \eoxia\Singleton_Util {
 		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
-		$products_downloadable = Product_Downloadable::g()->get( array(
-			'author' => $contact->data['id'],
-		) );
+		$products_downloadable = array();
+
+		if ( ! empty( $third_party->data['id'] ) ) {
+			$products_downloadable = Product_Downloadable::g()->get( array(
+				'author' => $contact->data['id'],
+			) );
+		}
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-downloads' ) );
 	}
@@ -145,7 +159,12 @@ class My_Account extends \eoxia\Singleton_Util {
 	public function display_quotations() {
 		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-		$proposals   = Proposals::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
+
+		$proposals = array();
+
+		if ( ! empty( $third_party->data['id'] ) ) {
+			$proposals = Proposals::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
+		}
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-proposals' ) );
 	}

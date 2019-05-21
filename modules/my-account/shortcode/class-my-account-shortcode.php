@@ -64,8 +64,8 @@ class My_Account_Shortcode extends \eoxia\Singleton_Util {
 					$tab = 'download';
 				}
 
-				if ( array_key_exists( 'proposals', $wp->query_vars ) ) {
-					$tab = 'proposals';
+				if ( array_key_exists( 'quotations', $wp->query_vars ) ) {
+					$tab = 'quotations';
 				}
 
 				include( Template_Util::get_template_part( 'my-account', 'my-account' ) );

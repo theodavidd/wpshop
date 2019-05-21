@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-checkout-step-3">
 	<div id="order_review_heading" class="wps-checkout-subtitle"><?php esc_html_e( 'Your order', 'wpshop' ); ?></div>
-	<a href="#" class="wps-checkout-edit-order"><i class="fas fa-pencil-alt"></i> <?php esc_html_e( 'Edit order', 'wpshop' ); ?></a>
+	<a href="<?php echo esc_url( Pages::g()->get_cart_link() ); ?>" class="wps-checkout-edit-order"><i class="fas fa-pencil-alt"></i> <?php esc_html_e( 'Edit order', 'wpshop' ); ?></a>
 
 	<?php do_action( 'wps_checkout_before_order_review' ); ?>
 

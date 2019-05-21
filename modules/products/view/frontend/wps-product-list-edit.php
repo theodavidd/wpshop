@@ -14,6 +14,8 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 ?>
+<input type="hidden" name="products[<?php echo esc_attr( $key ); ?>][id]" value="<?php echo esc_attr( $product['id'] ); ?>" />
+
 <div itemscope itemtype="https://schema.org/Product" class="wps-product">
 	<a href="#" class="wps-delete-product action-attribute"
 		data-action="delete_product_from_cart"
@@ -39,13 +41,14 @@ defined( 'ABSPATH' ) || exit;
 		</ul>
 		<div class="wps-product-footer">
 			<div class="wps-product-quantity">
+				<input type="hidden" name="products[<?php echo esc_attr( $key ); ?>][qty]" value="<?php echo esc_attr( $product['qty'] ); ?>" />
 				<span class="wps-quantity-minus fas fa-minus-circle"></span>
-				<?php echo esc_html( $product['qty'] ); ?>
+				<span class="qty"><?php echo esc_html( $product['qty'] ); ?></span>
 				<span class="wps-quantity-plus fas fa-plus-circle"></span>
 			</div>
 			<?php if ( ! empty( $product['price_ttc'] ) ) : ?>
 				<div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="wps-product-price">
-					<span itemprop="price" content="<?php echo esc_html( number_format( $product['price_ttc'], 2, '.', '' ) ); ?>"><?php echo esc_html( number_format( $product['price_ttc'], 2, '.', '' ) ); ?></span>
+					<span itemprop="price" content="<?php echo esc_html( number_format( $product['price_ttc'] * $product['qty'], 2, '.', '' ) ); ?>"><?php echo esc_html( number_format( $product['price_ttc'] * $product['qty'], 2, '.', '' ) ); ?></span>
 					<span itemprop="priceCurrency" content="EUR"><?php echo esc_html( '€', 'wpshop' ); ?></span>
 				</div>
 			<?php endif; ?>
