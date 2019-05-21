@@ -238,13 +238,6 @@ class Checkout_Action {
 
 			Cart_Session::g()->add_external_data( 'proposal_id', $proposal->data['id'] );
 			Cart_Session::g()->update_session();
-
-			wp_send_json_success( array(
-				'namespace'        => 'wpshopFrontend',
-				'module'           => 'checkout',
-				'callback_success' => 'createdThirdSuccess',
-				'redirect_url'     => Pages::g()->get_checkout_link() . '?step=2',
-			) );
 		} else {
 			ob_start();
 			include( Template_Util::get_template_part( 'checkout', 'notice-error' ) );
