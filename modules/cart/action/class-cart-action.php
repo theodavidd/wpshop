@@ -27,7 +27,6 @@ class Cart_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-
 		add_action( 'init', array( Cart_Shortcode::g(), 'callback_init' ), 5 );
 
 		add_action( 'wps_calculate_totals', array( $this, 'callback_calculate_totals' ) );
@@ -61,7 +60,7 @@ class Cart_Action {
 				$price_ttc += $line['price_ttc'] * $line['qty'];
 
 				if ( $shipping_cost_option['shipping_product_id'] !== $line['id'] ) {
-					$tva_amount += $line['tva_amount'] * $line['qty'];
+					$tva_amount        += $line['tva_amount'] * $line['qty'];
 					$price_no_shipping += $line['price'] * $line['qty'];
 				}
 			}
@@ -136,6 +135,7 @@ class Cart_Action {
 			'module'           => 'cart',
 			'callback_success' => 'updatedCart',
 			'view'             => ob_get_clean(),
+			'qty'              => Cart_Session::g()->qty,
 		) );
 	}
 
@@ -160,6 +160,7 @@ class Cart_Action {
 			'module'           => 'cart',
 			'callback_success' => 'deletedProdutFromCart',
 			'view'             => ob_get_clean(),
+			'qty'              => null === Cart_Session::g()->qty ? 0 : Cart_Session::g()->qty,
 		) );
 	}
 }

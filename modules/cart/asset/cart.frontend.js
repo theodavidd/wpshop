@@ -44,7 +44,7 @@ window.eoxiaJS.wpshopFrontend.cart.addedToCart = function ( triggeredElement, re
 		triggeredElement.after( response.data.view );
 	}
 
-	var qty = jQuery( '.wps-cart-button .qty-value' ).text();
+	var qty = jQuery( '.cart-button .qty-value' ).text();
 
 	if ( ! qty ) {
 		qty = 1;
@@ -52,14 +52,28 @@ window.eoxiaJS.wpshopFrontend.cart.addedToCart = function ( triggeredElement, re
 		qty++;
 	}
 
-	jQuery( '.wps-cart-button .qty' ).html( '(<span class="qty-value">' + qty + '</span>)' );
+	jQuery( '.cart-button .qty' ).html( '(<span class="qty-value">' + qty + '</span>)' );
 
 };
 
 window.eoxiaJS.wpshopFrontend.cart.updatedCart = function ( triggeredElement, response ) {
 	jQuery( '.wps-cart' ).replaceWith( response.data.view );
+
+	if ( response.data.qty == 0 ) {
+		jQuery( '.cart-button .qty' ).html( '<span class="qty-value"></span>' );
+
+	} else {
+		jQuery( '.cart-button .qty' ).html( '(<span class="qty-value">' + response.data.qty + '</span>)' );
+	}
 };
 
 window.eoxiaJS.wpshopFrontend.cart.deletedProdutFromCart = function ( triggeredElement, response ) {
 	jQuery( '.wps-cart' ).replaceWith( response.data.view );
+
+	if ( response.data.qty == 0 ) {
+		jQuery( '.cart-button .qty' ).html( '<span class="qty-value"></span>' );
+
+	} else {
+		jQuery( '.cart-button .qty' ).html( '(<span class="qty-value">' + response.data.qty + '</span>)' );
+	}
 };

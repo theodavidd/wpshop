@@ -28,13 +28,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	 *
 	 * @since 2.0.0
 	 */
-	protected function construct() {
-		add_action( 'init', array( $this, 'callback_init' ) );
-	}
-
-	public function callback_init() {
-
-	}
+	protected function construct() {}
 
 	/**
 	 * Ajoutes la route orders.

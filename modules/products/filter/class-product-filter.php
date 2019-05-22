@@ -154,14 +154,22 @@ class Product_Filter {
 		global $post;
 		global $wp_query;
 
-		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
+		$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
+		$page_ids_options     = get_option( 'wps_page_ids', Pages::g()->default_options );
+
 		if ( $post->ID === $page_ids_options['shop_id'] ) {
-			$wps_query = new \WP_Query( array(
+			$args = array(
 				'post_type'      => 'wps-product',
 				'paged'          => get_query_var('paged') ? get_query_var('paged') : 1
-			) );
+			);
 
-			foreach( $wps_query->posts as &$product ) {
+			if ( ! empty( $shipping_cost_option['shipping_product_id'] ) ) {
+				$args['post__not_in'] = array( $shipping_cost_option['shipping_product_id'] );
+			}
+
+			$wps_query = new \WP_Query( $args );
+
+			foreach( $wps_query->posts as $key => &$product ) {
 				$product->price_ttc = get_post_meta( $product->ID, '_price_ttc', true );
 			}
 

@@ -91,6 +91,8 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	 */
 	public $order_id;
 
+	public $qty;
+
 	/**
 	 * Le constructeur.
 	 *
@@ -104,6 +106,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		$this->tva_amount              = isset( $_SESSION['wps_tva_amount'] ) ? $_SESSION['wps_tva_amount'] : null;
 		$this->proposal_id             = isset( $_SESSION['wps_proposal_id'] ) ? $_SESSION['wps_proposal_id'] : null;
 		$this->order_id                = isset( $_SESSION['wps_order_id'] ) ? $_SESSION['wps_order_id'] : null;
+		$this->qty                     = isset( $_SESSION['wps_qty'] ) ? $_SESSION['wps_qty'] : null;
 		$this->external_data           = isset( $_SESSION['wps_external_data'] ) ? $_SESSION['wps_external_data'] : array();
 	}
 
@@ -126,6 +129,22 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function update_session() {
+		$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
+
+		$this->qty = 0;
+
+		if ( ! empty( $this->cart_contents ) ) {
+			foreach ( $this->cart_contents as $key => $product ) {
+				if ( isset ( $product['qty'] ) ) {
+					if ( empty( $shipping_cost_option['shipping_product_id'] ) ||
+						( ! empty( $shipping_cost_option['shipping_product_id'] ) && $shipping_cost_option['shipping_product_id'] !== $product['id'] ) ) {
+						$product['qty'] = (int) $product['qty'];
+						$this->qty += $product['qty'];
+					}
+				}
+			}
+		}
+
 		$_SESSION['wps_cart']                    = $this->cart_contents;
 		$_SESSION['wps_total_price']             = $this->total_price;
 		$_SESSION['wps_total_price_no_shipping'] = $this->total_price_no_shipping;
@@ -133,6 +152,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		$_SESSION['wps_tva_amount']              = $this->tva_amount;
 		$_SESSION['wps_proposal_id']             = $this->proposal_id;
 		$_SESSION['wps_order_id']                = $this->order_id;
+		$_SESSION['wps_qty']                     = $this->qty;
 		$_SESSION['wps_external_data']           = $this->external_data;
 
 		if ( empty( $this->cart_contents ) ) {
@@ -153,6 +173,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		unset( $_SESSION['wps_tva_amount'] );
 		unset( $_SESSION['wps_proposal_id'] );
 		unset( $_SESSION['wps_order_id'] );
+		unset( $_SESSION['wps_qty'] );
 		unset( $_SESSION['wps_external_data'] );
 	}
 
