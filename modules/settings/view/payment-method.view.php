@@ -19,7 +19,6 @@ defined( 'ABSPATH' ) || exit; ?>
 <table class="wpeo-table">
 	<thead>
 		<tr>
-			<th></th>
 			<th><?php esc_html_e( 'Method', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Activated', 'wpshop' ); ?></th>
 			<th><?php esc_html_e( 'Settings', 'wpshop' ); ?></th>
