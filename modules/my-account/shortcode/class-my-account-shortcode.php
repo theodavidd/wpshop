@@ -68,6 +68,8 @@ class My_Account_Shortcode extends \eoxia\Singleton_Util {
 					$tab = 'quotations';
 				}
 
+				$tab = apply_filters( 'wps_navigation_shortcode', $wp->query_vars, $tab );
+
 				include( Template_Util::get_template_part( 'my-account', 'my-account' ) );
 			}
 		}

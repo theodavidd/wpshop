@@ -4,8 +4,8 @@
 	"since": "2.0.0",
 	"path": "modules/my-account",
 	"dependencies": {
-    "shortcode": {},
     "class": {},
+    "shortcode": {},
     "action": {}
 	}
 }

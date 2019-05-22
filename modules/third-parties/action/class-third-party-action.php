@@ -47,28 +47,23 @@ class Third_Party_Action {
 		add_action( 'wp_ajax_third_party_load_address', array( $this, 'load_billing_address' ) );
 		add_action( 'wp_ajax_third_party_save_address', array( $this, 'save_billing_address' ) );
 
-		$this->metaboxes = array(
+		$this->metaboxes = apply_filters( 'wps_third_party_metaboxes', array(
 			'wps-third-party-billing'  => array(
-				// 'title'    => __( 'Billing address', 'wpshop' ),
-				'callback' => array( $this, 'metabox_billing_address' ),
+				'callback' => 'metabox_billing_address',
 			),
 			'wps-third-party-contacts' => array(
-				// 'title'    => __( 'Contacts', 'wpshop' ),
-				'callback' => array( $this, 'metabox_contacts' ),
+				'callback' => 'metabox_contacts',
 			),
 			'wps-third-party-propal'   => array(
-				// 'title'    => __( 'Proposals', 'wpshop' ),
-				'callback' => array( $this, 'metabox_proposals' ),
+				'callback' => 'metabox_proposals',
 			),
 			'wps-third-party-orders'   => array(
-				// 'title'    => __( 'Orders', 'wpshop' ),
-				'callback' => array( $this, 'metabox_orders' ),
+				'callback' => 'metabox_orders',
 			),
 			'wps-third-party-invoices' => array(
-				// 'title'    => __( 'Invoices', 'wpshop' ),
-				'callback' => array( $this, 'metabox_invoices' ),
+				'callback' => 'metabox_invoices',
 			),
-		);
+		) );
 	}
 
 	/**
@@ -104,7 +99,7 @@ class Third_Party_Action {
 
 			if ( ! empty( $this->metaboxes ) ) {
 				foreach ( $this->metaboxes as $key => $metabox ) {
-					add_action( 'wps_third_party', $metabox['callback'], 10, 1 );
+					add_action( 'wps_third_party', array( $this, $metabox['callback'] ), 10, 1 );
 				}
 			}
 
@@ -263,6 +258,30 @@ class Third_Party_Action {
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-invoices', array(
 			'doli_url' => $dolibarr_option['dolibarr_url'],
 			'invoices' => $invoices,
+		) );
+	}
+
+	public function metabox_tasks( $third_party ) {
+		$post = get_post( $third_party->data['id'] );
+
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-task', array(
+			'post' => $post
+		) );
+	}
+
+	public function metabox_indicator( $third_party ) {
+		$post = get_post( $third_party->data['id'] );
+
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-indicator', array(
+			'post' => $post
+		) );
+	}
+
+	public function metabox_activity( $third_party ) {
+		$post = get_post( $third_party->data['id'] );
+
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-activity', array(
+			'post' => $post
 		) );
 	}
 

@@ -21,13 +21,20 @@ defined( 'ABSPATH' ) || exit;
  */
 class My_Account extends \eoxia\Singleton_Util {
 
+	public $menu = array();
+
 	/**
 	 * Constructor.
 	 *
 	 * @since 2.0.0
 	 */
-	protected function construct() {}
+	protected function construct() {
+		add_action( 'init', array( $this, 'callback_init' ) );
+	}
 
+	public function callback_init() {
+
+	}
 
 	/**
 	 * Ajoutes la route orders.
@@ -42,6 +49,8 @@ class My_Account extends \eoxia\Singleton_Util {
 
 		add_rewrite_endpoint( 'quotations', EP_ALL );
 		add_rewrite_endpoint( 'download', EP_ALL );
+
+		do_action( 'wps_account_navigation_endpoint' );
 	}
 
 	/**
@@ -81,6 +90,34 @@ class My_Account extends \eoxia\Singleton_Util {
 	 * @param  string $tab Le slug de l'onglet actuel.
 	 */
 	public function display_navigation( $tab ) {
+		$this->menu = apply_filters( 'wps_account_navigation_items', array(
+			'orders'     => array(
+				'link'  => Pages::g()->get_account_link() . 'orders/',
+				'icon'  => 'fas fa-shopping-cart',
+				'title' => __( 'Orders', 'wpshop' ),
+			),
+			'invoices'   => array(
+				'link'  => Pages::g()->get_account_link() . 'invoices/',
+				'icon'  => 'fas fa-file-invoice-dollar',
+				'title' => __( 'Invoices', 'wpshop' ),
+			),
+			'download'   => array(
+				'link'  => Pages::g()->get_account_link() . 'download/',
+				'icon'  => 'fas fa-file-download',
+				'title' => __( 'Downloads', 'wpshop' ),
+			),
+			'quotations' => array(
+				'link'  => Pages::g()->get_account_link() . 'quotations/',
+				'icon'  => 'fas fa-file-signature',
+				'title' => __( 'Quotations', 'wpshop' ),
+			),
+			'logout'     => array(
+				'link'  => wp_logout_url( home_url() ),
+				'icon'  => 'fas fa-sign-out-alt',
+				'title' => __( 'Logout', 'wpshop' ),
+			),
+		) );
+
 		include( Template_Util::get_template_part( 'my-account', 'my-account-navigation' ) );
 	}
 
