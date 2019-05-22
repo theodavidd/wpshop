@@ -170,8 +170,8 @@ class Third_Party extends \eoxia\Post_Class {
 
 			$users_id = array_merge( $users_id, get_users( array(
 				'meta_key'     => '_phone',
-				'meta_value'   => $s,
-				'meta_compare' => 'LIKE',
+				'meta_value'   => implode( '[. ]*', \str_split( str_replace( ' ', '', $s ) ) ) . '[. ]*',
+				'meta_compare' => 'REGEXP',
 				'fields'       => 'ID',
 			) ) );
 
