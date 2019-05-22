@@ -40,7 +40,9 @@ class Doli_Contact_Action {
 	 * @param  Contact_Model $wp_contact Les données du contact.
 	 */
 	public function checkout_create_contact( $wp_contact ) {
-		Doli_Contact::g()->wp_to_doli( $wp_contact, null );
+		if ( Settings::g()->dolibarr_is_active() ) {
+			Doli_Contact::g()->wp_to_doli( $wp_contact, null );
+		}
 	}
 
 	/**
