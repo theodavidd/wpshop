@@ -68,20 +68,30 @@ class Third_Party extends \eoxia\Post_Class {
 	 */
 	protected $attached_taxonomy_type = '';
 
+	public $limit = 10;
+
+	public $option_per_page = 'third_party_per_page';
+
 	/**
 	 * Récupères la liste des produits et appel la vue "list" du module "Product".
 	 *
 	 * @since 2.0.0
 	 */
 	public function display() {
+		$per_page = get_user_meta( get_current_user_id(), $this->option_per_page, true );
+
+		if ( empty( $per_page ) || 1 > $per_page ) {
+			$per_page = $this->limit;
+		}
+
 		$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
 
 		$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 
 		$third_parties_ids = Third_Party::g()->search( $s, array(
 			'orderby'        => 'ID',
-			'offset'         => ( $current_page - 1 ) * 25,
-			'posts_per_page' => 25,
+			'offset'         => ( $current_page - 1 ) * $per_page,
+			'posts_per_page' => $per_page,
 		) );
 
 		$third_parties = array();
@@ -149,7 +159,7 @@ class Third_Party extends \eoxia\Post_Class {
 			'fields'         => 'ids',
 		);
 
-		$args = wp_parse_args( $args, $default_args );
+		$args = wp_parse_args( $default_args, $args );
 
 		if ( ! empty( $s ) ) {
 			// Search in contact.

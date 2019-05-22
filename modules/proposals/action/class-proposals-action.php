@@ -70,7 +70,20 @@ class Proposals_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page( 'wpshop', __( 'Proposals', 'wpshop' ), __( 'Proposals', 'wpshop' ), 'manage_options', 'wps-proposal', array( $this, 'callback_add_menu_page' ) );
+		$hook = add_submenu_page( 'wpshop', __( 'Proposals', 'wpshop' ), __( 'Proposals', 'wpshop' ), 'manage_options', 'wps-proposal', array( $this, 'callback_add_menu_page' ) );
+
+		add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+	}
+
+	public function callback_add_screen_option() {
+		add_screen_option(
+			'per_page',
+			array(
+				'label'   => _x( 'Proposals', 'Proposal per page', 'wpshop' ),
+				'default' => Proposals::g()->limit,
+				'option'  => Proposals::g()->option_per_page,
+			)
+		);
 	}
 
 	/**
@@ -84,11 +97,17 @@ class Proposals_Action {
 
 			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'single', array( 'proposal' => $proposal ) );
 		} else {
+			$per_page = get_user_meta( get_current_user_id(), Third_Party::g()->option_per_page, true );
+
+			if ( empty( $per_page ) || 1 > $per_page ) {
+				$per_page = Third_Party::g()->limit;
+			}
+
 			$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 
 			$count = Proposals::g()->search( $s, array(), true );
 
-			$number_page  = ceil( $count / 25 );
+			$number_page  = ceil( $count / $per_page );
 			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
 
 			$base_url = admin_url( 'admin.php?page=wps-proposal' );

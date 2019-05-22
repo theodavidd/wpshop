@@ -42,9 +42,11 @@ class Product_Action {
 	 */
 	public function callback_admin_menu() {
 		add_menu_page( __( 'Products', 'wpshop' ), __( 'Products', 'wpshop' ), 'manage_options', 'wps-product', '', 'dashicons-cart' );
-		add_submenu_page( 'wps-product', __( 'Products', 'wpshop' ), __( 'Products', 'wpshop' ), 'manage_options', 'wps-product', array( $this, 'callback_add_menu_page' ) );
+		$hook = add_submenu_page( 'wps-product', __( 'Products', 'wpshop' ), __( 'Products', 'wpshop' ), 'manage_options', 'wps-product', array( $this, 'callback_add_menu_page' ) );
 		add_submenu_page( 'wps-product', __( 'Add', 'wpshop' ), __( 'Add', 'wpshop' ), 'manage_options', 'post-new.php?post_type=wps-product' );
 		add_submenu_page( 'wps-product', __( 'Products Category', 'wpshop' ), __( 'Products Category', 'wpshop' ), 'manage_options', 'edit-tags.php?taxonomy=wps-product-cat&post_type=wps-product' );
+
+		add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
 	}
 
 	/**
@@ -53,11 +55,17 @@ class Product_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_add_menu_page() {
+		$per_page = get_user_meta( get_current_user_id(), Third_Party::g()->option_per_page, true );
+
+		if ( empty( $per_page ) || 1 > $per_page ) {
+			$per_page = Third_Party::g()->limit;
+		}
+
 		$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 
 		$count = Product::g()->search( $s, array(), true );
 
-		$number_page  = ceil( $count / 25 );
+		$number_page  = ceil( $count / $per_page );
 		$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
 
 		$base_url = admin_url( 'admin.php?page=wps-product' );
@@ -84,6 +92,17 @@ class Product_Action {
 			'prev_url'     => $prev_url,
 			'next_url'     => $next_url,
 		) );
+	}
+
+	public function callback_add_screen_option() {
+		add_screen_option(
+			'per_page',
+			array(
+				'label'   => _x( 'Products', 'Product per page', 'wpshop' ),
+				'default' => Product::g()->limit,
+				'option'  => Product::g()->option_per_page,
+			)
+		);
 	}
 
 	/**

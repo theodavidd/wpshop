@@ -96,7 +96,9 @@ class Doli_Order_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page( 'wpshop', __( 'Orders', 'wpshop' ), __( 'Orders', 'wpshop' ), 'manage_options', 'wps-order', array( $this, 'callback_add_menu_page' ) );
+		$hook = add_submenu_page( 'wpshop', __( 'Orders', 'wpshop' ), __( 'Orders', 'wpshop' ), 'manage_options', 'wps-order', array( $this, 'callback_add_menu_page' ) );
+
+		add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
 	}
 
 	/**
@@ -120,11 +122,16 @@ class Doli_Order_Action {
 				'order'       => $order,
 			) );
 		} else {
+			$per_page = get_user_meta( get_current_user_id(), Doli_Order::g()->option_per_page, true );
+
+			if ( empty( $per_page ) || 1 > $per_page ) {
+				$per_page = Doli_Order::g()->limit;
+			}
+
 			$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 
 			$count = Doli_Order::g()->search( $s, array(), true );
-
-			$number_page  = ceil( $count / 25 );
+			$number_page  = ceil( $count / $per_page );
 			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
 
 			$base_url = admin_url( 'admin.php?page=wps-third-party' );
@@ -152,6 +159,17 @@ class Doli_Order_Action {
 				'next_url'     => $next_url,
 			) );
 		}
+	}
+
+	public function callback_add_screen_option() {
+		add_screen_option(
+			'per_page',
+			array(
+				'label'   => _x( 'Orders', 'Order per page', 'wpshop' ),
+				'default' => Doli_Order::g()->limit,
+				'option'  => Doli_Order::g()->option_per_page,
+			)
+		);
 	}
 
 	/**

@@ -77,7 +77,7 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page(
+		$hook = add_submenu_page(
 			'wpshop',
 			__( 'Third Parties', 'wpshop' ),
 			__( 'Third Parties', 'wpshop' ),
@@ -85,6 +85,8 @@ class Third_Party_Action {
 			'wps-third-party',
 			array( $this, 'callback_add_menu_page' )
 		);
+
+		add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
 	}
 
 	/**
@@ -108,10 +110,16 @@ class Third_Party_Action {
 
 			\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'single', array( 'third_party' => $third_party ) );
 		} else {
+			$per_page = get_user_meta( get_current_user_id(), Third_Party::g()->option_per_page, true );
+
+			if ( empty( $per_page ) || 1 > $per_page ) {
+				$per_page = Third_Party::g()->limit;
+			}
+
 			$s     = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 			$count = Third_Party::g()->search( $s, array(), true );
 
-			$number_page  = ceil( $count / 25 );
+			$number_page  = ceil( $count / $per_page );
 			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
 
 			$base_url = admin_url( 'admin.php?page=wps-third-party' );
@@ -139,6 +147,17 @@ class Third_Party_Action {
 				'next_url'     => $next_url,
 			) );
 		}
+	}
+
+	public function callback_add_screen_option() {
+		add_screen_option(
+			'per_page',
+			array(
+				'label'   => _x( 'Third parties', 'Third party per page', 'wpshop' ),
+				'default' => Third_Party::g()->limit,
+				'option'  => Third_Party::g()->option_per_page,
+			)
+		);
 	}
 
 	/**
