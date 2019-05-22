@@ -108,7 +108,8 @@ class Third_Party_Action {
 
 			\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'single', array( 'third_party' => $third_party ) );
 		} else {
-			$count = Third_Party::g()->search( $_GET['s'], array(), true );
+			$s     = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
+			$count = Third_Party::g()->search( $s, array(), true );
 
 			$number_page  = ceil( $count / 25 );
 			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;

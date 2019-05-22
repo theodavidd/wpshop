@@ -76,15 +76,21 @@ class Third_Party extends \eoxia\Post_Class {
 	public function display() {
 		$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
 
-		$third_parties_ids = Third_Party::g()->search( $_GET['s'], array(
+		$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
+
+		$third_parties_ids = Third_Party::g()->search( $s, array(
 			'orderby'        => 'ID',
 			'offset'         => ( $current_page - 1 ) * 25,
 			'posts_per_page' => 25,
 		) );
 
-		$third_parties = $this->get( array(
-			'post__in' => $third_parties_ids,
-		) );
+		$third_parties = array();
+
+		if ( ! empty( $third_parties_ids ) ) {
+			$third_parties = $this->get( array(
+				'post__in' => $third_parties_ids,
+			) );
+		}
 
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
@@ -174,12 +180,20 @@ class Third_Party extends \eoxia\Post_Class {
 
 			array_unique( $third_parties_id );
 
-			$args['post__in'] = $third_parties_id;
-
-			if ( $count ) {
-				return count( get_posts( $args ) );
+			if ( empty( $third_parties_id ) ) {
+				if ( $count ) {
+					return 0;
+				} else {
+					return array();
+				}
 			} else {
-				return $third_parties_id;
+				$args['post__in'] = $third_parties_id;
+
+				if ( $count ) {
+					return count( get_posts( $args ) );
+				} else {
+					return $third_parties_id;
+				}
 			}
 		}
 
