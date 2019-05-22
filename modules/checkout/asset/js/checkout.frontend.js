@@ -33,13 +33,13 @@ window.eoxiaJS.wpshopFrontend.checkout.loadedEditBillingAddress = function( trig
 
 window.eoxiaJS.wpshopFrontend.checkout.checkoutErrors = function( triggeredElement, response ) {
 	if ( 0 === jQuery( 'form.wps-checkout-step-1 ul.error.notice' ).length ) {
-		jQuery( 'form.wps-checkout-step-1' ).prepend( response.data.template );
+		jQuery( '.wps-checkout .wps-checkout-step-1' ).prepend( response.data.template );
 	} else {
-		jQuery( 'form.wps-checkout-step-1 ul.error.notice' ).replaceWith( response.data.template );
+		jQuery( '.wps-checkout .wps-checkout-step-1 ul.error.notice' ).replaceWith( response.data.template );
 	}
 
 	for ( var key in response.data.errors.error_data ) {
-		jQuery( 'form.wps-checkout-step-1 .' + response.data.errors.error_data[ key ].input_class ).addClass( 'form-element-error' );
+		jQuery( '.wps-checkout .' + response.data.errors.error_data[ key ].input_class ).addClass( 'form-element-error' );
 	}
 };
 

@@ -50,6 +50,7 @@ class Checkout extends \eoxia\Singleton_Util {
 		$data['third_party']['address']    = ! empty( $_POST['third_party']['address'] ) ? sanitize_text_field( $_POST['third_party']['address'] ) : '';
 		$data['third_party']['zip']        = ! empty( $_POST['third_party']['zip'] ) ? sanitize_text_field( $_POST['third_party']['zip'] ) : '';
 		$data['third_party']['town']       = ! empty( $_POST['third_party']['town'] ) ? sanitize_text_field( $_POST['third_party']['town'] ) : '';
+		$data['terms']                     = ( ! empty( $_POST['terms'] ) && 'true' === $_POST['terms'] ) ? true : false;
 
 		return apply_filters( 'wps_checkout_posted_data', $data );
 	}
@@ -63,6 +64,10 @@ class Checkout extends \eoxia\Singleton_Util {
 	 */
 	private function get_checkout_fields() {
 		return array(
+			'terms'       => array(
+				'label'    => __( 'Terms', 'wpshop' ),
+				'required' => true,
+			),
 			'contact'     => array(
 				'firstname' => array(
 					'label'    => __( 'First name', 'wpshop' ),
@@ -116,28 +121,41 @@ class Checkout extends \eoxia\Singleton_Util {
 	 */
 	protected function validate_posted_data( &$data, &$errors ) {
 		foreach ( $this->get_checkout_fields() as $fieldset_key => $fieldset ) {
-			foreach ( $fieldset as $field_key => $field ) {
-				if ( $field['required'] && ( '' == $data[ $fieldset_key ][ $field_key ] || '0' == $data[ $fieldset_key ][ $field_key ] ) ) {
-					/* translators: Lastname is a required field. */
-					$errors->add( 'required-field', apply_filters( 'wps_checkout_required_field_notice', sprintf( __( '%s is a required field.', 'wpshop' ), '<strong>' . esc_html( $field['label'] ) . '</strong>' ), $field['label'] ) );
+			if ( 'terms' === $fieldset_key ) {
+				if ( ! $data[ $fieldset_key ] ) {
+					$errors->add( 'terms-field', apply_filters( 'wps_checkout_terms', __( 'You need to accept <strong>the general conditions of sale</strong> and <strong>the privacy policy</strong>' ) ) );
 
 					$error_field = array(
 						'required'    => true,
-						'input_class' => $fieldset_key . '-' . $field_key,
+						'input_class' => 'terms',
 					);
 
-					$errors->add_data( $error_field, 'input_' . $fieldset_key . '_' . $field_key );
+					$errors->add_data( $error_field, 'input_terms' );
 				}
+			} else {
+				foreach ( $fieldset as $field_key => $field ) {
+					if ( $field['required'] && ( '' == $data[ $fieldset_key ][ $field_key ] || '0' == $data[ $fieldset_key ][ $field_key ] ) ) {
+						/* translators: Lastname is a required field. */
+						$errors->add( 'required-field', apply_filters( 'wps_checkout_required_field_notice', sprintf( __( '%s is a required field.', 'wpshop' ), '<strong>' . esc_html( $field['label'] ) . '</strong>' ), $field['label'] ) );
 
-				if ( ! is_user_logged_in() && 'email' === $field_key && false !== email_exists( $data['contact']['email'] ) ) {
-					/* translators: mail@domain.ext is already used. */
-					$errors->add( 'email-exists', apply_filters( 'wps_checkout_email_exists_notice', sprintf( __( '%s is already used.', 'wpshop' ), '<strong>' . esc_html( $field['label'] ) . '</strong>' ), $field['label'] ) );
-					$error_field = array(
-						'email_exists' => true,
-						'input_class'  => $fieldset_key . '-' . $field_key,
-					);
+						$error_field = array(
+							'required'    => true,
+							'input_class' => $fieldset_key . '-' . $field_key,
+						);
 
-					$errors->add_data( $error_field, 'input_' . $fieldset_key . '_' . $field_key );
+						$errors->add_data( $error_field, 'input_' . $fieldset_key . '_' . $field_key );
+					}
+
+					if ( ! is_user_logged_in() && 'email' === $field_key && false !== email_exists( $data['contact']['email'] ) ) {
+						/* translators: mail@domain.ext is already used. */
+						$errors->add( 'email-exists', apply_filters( 'wps_checkout_email_exists_notice', sprintf( __( '%s is already used.', 'wpshop' ), '<strong>' . esc_html( $field['label'] ) . '</strong>' ), $field['label'] ) );
+						$error_field = array(
+							'email_exists' => true,
+							'input_class'  => $fieldset_key . '-' . $field_key,
+						);
+
+						$errors->add_data( $error_field, 'input_' . $fieldset_key . '_' . $field_key );
+					}
 				}
 			}
 		}

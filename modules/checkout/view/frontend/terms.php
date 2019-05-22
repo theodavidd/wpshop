@@ -16,4 +16,11 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-Termes
+<div class="form-element terms">
+	<label class="form-field-container">
+		<div class="form-field-inline">
+			<input type="checkbox" id="terms" class="form-field" name="terms">
+			<label for="terms"><?php echo apply_filters( 'wps_checkout_terms', $terms_message ); ?></label>
+		</div>
+	</label>
+</div>

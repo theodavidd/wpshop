@@ -108,16 +108,7 @@ class Third_Party_Action {
 
 			\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'single', array( 'third_party' => $third_party ) );
 		} else {
-			$args = array(
-				'post_type'      => 'wps-third-party',
-				'posts_per_page' => -1,
-			);
-
-			if ( ! empty( $_GET['s'] ) ) {
-				$args['s'] = $_GET['s'];
-			}
-
-			$count = count( get_posts( $args ) );
+			$count = Third_Party::g()->search( $_GET['s'], array(), true );
 
 			$number_page  = ceil( $count / 25 );
 			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;

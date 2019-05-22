@@ -19,5 +19,7 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wrap wpeo-wrap">
 	<h2><?php esc_html_e( 'Dashboard', 'wpshop' ); ?></h2>
 
-	<?php do_meta_boxes( 'wps-dashboard', 'normal', '' ); ?>
+	<div class="wpeo-gridlayout grid-2">
+		<?php do_action( 'wps_dashboard' ); ?>
+	</div>
 </div>

@@ -41,8 +41,9 @@ class Checkout_Action {
 
 		add_action( 'checkout_create_third_party', array( $this, 'callback_checkout_create_third' ) );
 
-		add_action( 'wps_review_order_after_submit', array( $this, 'add_place_order_button' ) );
-		add_action( 'wps_review_order_after_submit', array( $this, 'add_devis_button' ) );
+		add_action( 'wps_review_order_after_submit', array( $this, 'add_terms' ), 10 );
+		add_action( 'wps_review_order_after_submit', array( $this, 'add_place_order_button' ), 20 );
+		add_action( 'wps_review_order_after_submit', array( $this, 'add_devis_button' ), 30 );
 
 		add_action( 'wp_ajax_wps_place_order', array( $this, 'callback_place_order' ) );
 		add_action( 'wp_ajax_nopriv_wps_place_order', array( $this, 'callback_place_order' ) );
@@ -244,6 +245,33 @@ class Checkout_Action {
 				'errors'           => $errors,
 				'template'         => $template,
 			) );
+		}
+	}
+
+	/**
+	 * Ajoutes la case à cocher pour confirmer les termes.
+	 *
+	 * @since 2.0.0
+	 */
+	public function add_terms() {
+		$page_ids             = get_option( 'wps_page_ids', Pages::g()->default_options );
+		$privacy_policy_id    = (int) get_option( 'wp_page_for_privacy_policy', true );
+		$condition_general_id = ! empty( $page_ids['general_conditions_of_sale'] ) ? (int) $page_ids['general_conditions_of_sale'] : 0;
+
+		if ( ! empty( $privacy_policy_id ) || ! empty( $condition_general_id ) ) {
+			$privacy_policy         = get_post( $privacy_policy_id );
+			$condition_general      = get_post( $condition_general_id );
+			$terms_message = __( 'I accept ', 'wpshop' );
+
+			if ( ! empty( $condition_general_id ) ) {
+				$terms_message .= sprintf( __( 'the <a href="%s">%s</a> and ', 'wpshop' ), get_permalink( $condition_general->ID ), $condition_general->post_title );
+			}
+
+			if ( ! empty( $privacy_policy_id ) ) {
+				$terms_message .= sprintf( __( 'the <a href="%s">%s</a>', 'wpshop' ), get_permalink( $privacy_policy->ID ), $privacy_policy->post_title );
+			}
+
+			include( Template_Util::get_template_part( 'checkout', 'terms' ) );
 		}
 	}
 

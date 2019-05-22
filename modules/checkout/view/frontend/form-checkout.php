@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 		<?php include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-1' ) ); ?>
 		<?php include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-2' ) ); ?>
 	</div>
-	<div class="gridw-2">
+	<div class="gridw-2 wpeo-form">
 		<?php include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-3' ) ); ?>
 
 		<?php do_action( 'wps_review_order_before_submit' ); ?>

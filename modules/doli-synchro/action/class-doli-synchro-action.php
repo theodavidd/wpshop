@@ -51,6 +51,8 @@ class Doli_Synchro_Action {
 	public function load_modal_synchro() {
 		check_ajax_referer( 'load_modal_synchro' );
 
+		ini_set('memory_limit','-1');
+
 		$sync_action = ! empty( $_POST['sync'] ) ? sanitize_text_field( $_POST['sync'] ) : '';
 		$sync_infos  = Doli_Synchro::g()->sync_infos;
 

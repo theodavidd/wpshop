@@ -55,21 +55,23 @@ class Pages extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {
 		$this->default_options = array(
-			'shop_id'           => 0,
-			'cart_id'           => 0,
-			'checkout_id'       => 0,
-			'my_account_id'     => 0,
-			'valid_checkout_id' => 0,
-			'valid_proposal_id' => 0,
+			'shop_id'                    => 0,
+			'cart_id'                    => 0,
+			'checkout_id'                => 0,
+			'my_account_id'              => 0,
+			'valid_checkout_id'          => 0,
+			'valid_proposal_id'          => 0,
+			'general_conditions_of_sale' => 0,
 		);
 
 		$this->page_state_titles = array(
-			'shop_id'           => __( 'Shop', 'wpshop' ),
-			'cart_id'           => __( 'Cart', 'wpshop' ),
-			'checkout_id'       => __( 'Checkout', 'wpshop' ),
-			'my_account_id'     => __( 'My account', 'wpshop' ),
-			'valid_checkout_id' => __( 'Valid checkout', 'wpshop' ),
-			'valid_proposal_id' => __( 'Valid proposal', 'wpshop' ),
+			'shop_id'                    => __( 'Shop', 'wpshop' ),
+			'cart_id'                    => __( 'Cart', 'wpshop' ),
+			'checkout_id'                => __( 'Checkout', 'wpshop' ),
+			'my_account_id'              => __( 'My account', 'wpshop' ),
+			'valid_checkout_id'          => __( 'Valid checkout', 'wpshop' ),
+			'valid_proposal_id'          => __( 'Valid proposal', 'wpshop' ),
+			'general_conditions_of_sale' => __( 'General condiftions of sale', 'wpshop' ),
 		);
 
 		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
@@ -158,6 +160,17 @@ class Pages extends \eoxia\Singleton_Util {
 	 */
 	public function get_valid_checkout_link() {
 		return get_permalink( $this->page_ids['valid_checkout_id'] );
+	}
+
+	/**
+	 * Récupères le lien vers la page "Condition générale de vente".
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return string Le lien vers la page "Condition général de vente".
+	 */
+	public function get_general_conditions_of_sale_link() {
+		return get_permalink( $this->page_ids['general_conditions_of_sale'] );
 	}
 
 	/**

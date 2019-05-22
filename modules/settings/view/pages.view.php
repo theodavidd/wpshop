@@ -153,6 +153,28 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
+	<div class="form-element">
+		<span class="form-label">Page conditions générales de vente</span>
+		<label class="form-field-container">
+			<select id="" class="form-field" name="wps_page_general_conditions_of_sale">
+				<?php
+				if ( ! empty( $pages ) ) :
+					foreach ( $pages as $page ) :
+						$selected = '';
+
+						if ( $page->ID === $page_ids_options['general_conditions_of_sale'] ) :
+							$selected = 'selected="selected"';
+						endif;
+						?>
+						<option <?php echo $selected; ?> value="<?php echo esc_attr( $page->ID ); ?>"><?php echo esc_html( $page->post_title ); ?></option>
+						<?php
+					endforeach;
+				endif;
+				?>
+			</select>
+		</label>
+	</div>
+
 	<div>
 		<input type="submit" class="wpeo-button button-main" value="Enregister les modifications" />
 	</div>

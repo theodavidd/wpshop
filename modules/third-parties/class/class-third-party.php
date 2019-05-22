@@ -76,17 +76,15 @@ class Third_Party extends \eoxia\Post_Class {
 	public function display() {
 		$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
 
-		$args = array(
+		$third_parties_ids = Third_Party::g()->search( $_GET['s'], array(
 			'orderby'        => 'ID',
 			'offset'         => ( $current_page - 1 ) * 25,
 			'posts_per_page' => 25,
-		);
+		) );
 
-		if ( ! empty( $_GET['s'] ) ) {
-			$args['s'] = $_GET['s'];
-		}
-
-		$third_parties = $this->get( $args );
+		$third_parties = $this->get( array(
+			'post__in' => $third_parties_ids,
+		) );
 
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
@@ -136,6 +134,62 @@ class Third_Party extends \eoxia\Post_Class {
 			'invoice'     => $invoice,
 			'doli_active' => $dolibarr_active,
 		) );
+	}
+
+	public function search( $s = '', $default_args = array(), $count = false ) {
+		$args = array(
+			'post_type'      => 'wps-third-party',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+		);
+
+		$args = wp_parse_args( $args, $default_args );
+
+		if ( ! empty( $s ) ) {
+			// Search in contact.
+			$users_id = get_users( array(
+				'search' => '*' . $s . '*',
+				'fields' => 'ID',
+			) );
+
+			$users_id = array_merge( $users_id, get_users( array(
+				'meta_key'     => '_phone',
+				'meta_value'   => $s,
+				'meta_compare' => 'LIKE',
+				'fields'       => 'ID',
+			) ) );
+
+			$third_parties_id = array_map( function( $id ) {
+				return get_user_meta( $id, '_third_party_id', true );
+			}, $users_id );
+
+			$third_parties_id_from_contact = array_filter( $third_parties_id, 'is_numeric' );
+
+			$third_parties_id = array_merge( $third_parties_id_from_contact, get_posts( array(
+				's'              => $s,
+				'fields'         => 'ids',
+				'post_type'      => 'wps-third-party',
+				'posts_per_page' => -1,
+			) ) );
+
+			array_unique( $third_parties_id );
+
+			$args['post__in'] = $third_parties_id;
+
+			if ( $count ) {
+				return count( get_posts( $args ) );
+			} else {
+				return $third_parties_id;
+			}
+		}
+
+		if ( $count ) {
+			return count( get_posts( $args ) );
+		} else {
+			return get_posts( $args );
+		}
+
+		return $result;
 	}
 }
 
