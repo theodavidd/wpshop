@@ -45,11 +45,13 @@ class Doli_Shipping_Cost_Action {
 		if ( (float) Cart_Session::g()->total_price_no_shipping < (float) $shipping_cost_option['from_price_ht'] &&
 			! Cart_Session::g()->has_product( $shipping_cost_option['shipping_product_id'] ) && count( Cart_Session::g()->cart_contents ) > 0 ) {
 			$product = Product::g()->get( array( 'id' => $shipping_cost_option['shipping_product_id'] ), true );
+			Cart_Session::g()->update( 'shipping_cost', $product->data['price_ttc'] );
 			Cart::g()->add_to_cart( $product );
 		}
 
 		if ( (float) Cart_Session::g()->total_price_no_shipping >= (float) $shipping_cost_option['from_price_ht'] ||
 			count( Cart_Session::g()->cart_contents ) === 1 && Cart_Session::g()->has_product( $shipping_cost_option['shipping_product_id'] ) ) {
+			Cart_Session::g()->update( 'shipping_cost', 0 );
 			Cart_Session::g()->remove_product( $shipping_cost_option['shipping_product_id'] );
 		}
 	}

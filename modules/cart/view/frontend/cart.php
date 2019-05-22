@@ -40,7 +40,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 
 		<div>
-			<?php include( Template_Util::get_template_part( 'cart', 'cart-resume' ) ); ?>
+			<?php Cart::g()->display_cart_resume( $total_price_no_shipping, $tva_amount, $total_price_ttc, $shipping_cost ); ?>
 
 			<?php do_action( 'wps_after_cart_resume' ); ?>
 		</div>

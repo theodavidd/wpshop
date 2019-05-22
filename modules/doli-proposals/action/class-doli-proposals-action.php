@@ -85,6 +85,7 @@ class Doli_Proposals_Action {
 	public function download_proposal() {
 		check_admin_referer( 'download_proposal' );
 
+
 		$proposal_id = ! empty( $_GET['proposal_id'] ) ? (int) $_GET['proposal_id'] : 0;
 
 		if ( ! $proposal_id ) {
@@ -98,6 +99,7 @@ class Doli_Proposals_Action {
 		if ( ( isset( $third_party->data ) && $proposal->data['parent_id'] !== $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
 		}
+
 
 		$proposal_file = Request_Util::get( 'documents/download?module_part=propale&original_file=' . $proposal->data['title'] . '/' . $proposal->data['title'] . '.pdf' );
 		$content       = base64_decode( $proposal_file->content );

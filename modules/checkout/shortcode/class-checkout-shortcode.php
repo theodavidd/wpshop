@@ -63,6 +63,11 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 				$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 			}
 
+			$total_price_no_shipping = Cart_Session::g()->total_price_no_shipping;
+			$tva_amount              = Cart_Session::g()->tva_amount;
+			$total_price_ttc         = Cart_Session::g()->total_price_ttc;
+			$shipping_cost           = Cart_Session::g()->shipping_cost;
+
 			include( Template_Util::get_template_part( 'checkout', 'form-checkout' ) );
 		}
 	}
@@ -90,6 +95,11 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 			}
 
 			if ( ! empty( $order_id ) ) {
+				$total_price_no_shipping = $order->data['total_price_no_shipping'];
+				$tva_amount              = $order->data['tva_amount'];
+				$total_price_ttc         = $order->data['total_ttc'];
+				$shipping_cost           = $order->data['shipping_cost'];
+
 				include( Template_Util::get_template_part( 'checkout', 'valid-checkout' ) );
 			}
 		}

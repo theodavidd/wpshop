@@ -86,13 +86,22 @@ class Product_Downloadable extends \eoxia\Post_Class {
 				if ( ! empty( $product->data['associated_document_id']['downloadable_product_id'] ) ) {
 					foreach ( $product->data['associated_document_id']['downloadable_product_id'] as $id ) {
 						if ( $product->data['product_downloadable'] ) {
-							$downlodable_product_guid = get_the_guid( $id );
-							Product_Downloadable::g()->create( array(
-								'title'      => basename( $downlodable_product_guid ),
+							$product_downloadable = Product_Downloadable::g()->get( array(
 								'parent_id'  => $order->data['id'],
 								'author_id'  => $order->data['author_id'],
-								'product_id' => $id,
-							) );
+								'meta_key'   => '_product_id',
+								'meta_value' => $id,
+							), true );
+
+							if ( empty( $product_downloadable ) ) {
+								$downlodable_product_guid = get_the_guid( $id );
+								Product_Downloadable::g()->create( array(
+									'title'      => basename( $downlodable_product_guid ),
+									'parent_id'  => $order->data['id'],
+									'author_id'  => $order->data['author_id'],
+									'product_id' => $id,
+								) );
+							}
 						}
 					}
 				}

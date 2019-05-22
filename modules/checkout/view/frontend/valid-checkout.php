@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	</ul>
 
 	<div id="order_review" class="wps-checkout-review-order">
-		<?php do_action( 'wps_checkout_order_review' ); ?>
+		<?php do_action( 'wps_checkout_order_review', $total_price_no_shipping, $tva_amount, $total_price_ttc, $shipping_cost ); ?>
 	</div>
 </div>
 

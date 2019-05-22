@@ -93,6 +93,8 @@ class Cart_Session extends \eoxia\Singleton_Util {
 
 	public $qty;
 
+	public $shipping_cost;
+
 	/**
 	 * Le constructeur.
 	 *
@@ -107,6 +109,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		$this->proposal_id             = isset( $_SESSION['wps_proposal_id'] ) ? $_SESSION['wps_proposal_id'] : null;
 		$this->order_id                = isset( $_SESSION['wps_order_id'] ) ? $_SESSION['wps_order_id'] : null;
 		$this->qty                     = isset( $_SESSION['wps_qty'] ) ? $_SESSION['wps_qty'] : null;
+		$this->shipping_cost           = isset( $_SESSION['wps_shipping_cost'] ) ? $_SESSION['wps_shipping_cost'] : null;
 		$this->external_data           = isset( $_SESSION['wps_external_data'] ) ? $_SESSION['wps_external_data'] : array();
 	}
 
@@ -153,6 +156,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		$_SESSION['wps_proposal_id']             = $this->proposal_id;
 		$_SESSION['wps_order_id']                = $this->order_id;
 		$_SESSION['wps_qty']                     = $this->qty;
+		$_SESSION['wps_shipping_cost']           = $this->shipping_cost;
 		$_SESSION['wps_external_data']           = $this->external_data;
 
 		if ( empty( $this->cart_contents ) ) {
@@ -174,6 +178,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		unset( $_SESSION['wps_proposal_id'] );
 		unset( $_SESSION['wps_order_id'] );
 		unset( $_SESSION['wps_qty'] );
+		unset( $_SESSION['wps_shipping_cost'] );
 		unset( $_SESSION['wps_external_data'] );
 	}
 

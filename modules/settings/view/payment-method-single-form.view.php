@@ -19,8 +19,8 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <form class="wpeo-form" action="<?php echo admin_url( 'admin-post.php' ); ?>" method="POST">
-	<input type="hidden" name="action" value="wps_update_method_payment_payment_in_shop" />
-	<?php wp_nonce_field( 'update_method_payment_in_shop' ); ?>
+	<input type="hidden" name="action" value="<?php echo esc_attr( $action ); ?>" />
+	<?php wp_nonce_field( $nonce ); ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Title', 'wpshop' ); ?></span>

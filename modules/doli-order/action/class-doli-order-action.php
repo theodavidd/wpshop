@@ -302,7 +302,10 @@ class Doli_Order_Action {
 		$wp_order = Doli_Order::g()->get( array( 'schema' => true ), true );
 		$wp_order = Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
 
-		$wp_order->data['author_id'] = $current_user->ID;
+		$wp_order->data['total_price_no_shipping'] = Cart_Session::g()->total_price_no_shipping;
+		$wp_order->data['tva_amount']              = Cart_Session::g()->tva_amount;
+		$wp_order->data['shipping_cost']           = Cart_Session::g()->shipping_cost;
+		$wp_order->data['author_id']               = $current_user->ID;
 
 		return Doli_Order::g()->update( $wp_order->data );
 	}

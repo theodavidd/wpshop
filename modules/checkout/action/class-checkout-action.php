@@ -36,7 +36,7 @@ class Checkout_Action {
 		add_action( 'wps_before_cart_resume_lines', array( $this, 'callback_before_resume' ) );
 
 		add_action( 'wps_checkout_shipping', array( $this, 'callback_checkout_shipping' ), 10, 2 );
-		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_order_review' ), 10, 0 );
+		add_action( 'wps_checkout_order_review', array( $this, 'callback_checkout_order_review' ), 10, 4 );
 		add_action( 'wps_checkout_payment', array( $this, 'callback_checkout_payment' ) );
 
 		add_action( 'checkout_create_third_party', array( $this, 'callback_checkout_create_third' ) );
@@ -85,8 +85,8 @@ class Checkout_Action {
 	 *
 	 * @since 2.0.0
 	 */
-	public function callback_checkout_order_review() {
-		include( Template_Util::get_template_part( 'cart', 'cart-resume' ) );
+	public function callback_checkout_order_review( $total_price_no_shipping, $tva_amount, $total_ttc, $shipping_cost ) {
+		Cart::g()->display_cart_resume( $total_price_no_shipping, $tva_amount, $total_ttc, $shipping_cost );
 	}
 
 	/**

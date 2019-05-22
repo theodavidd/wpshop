@@ -46,14 +46,7 @@ class Cart_Filter {
 			foreach ( $items as &$item ) {
 				if ( Pages::g()->get_cart_link() === $item->url ) {
 					$item->classes[] = 'cart-button';
-					$qty             = 0;
-					$cart_contents   = Cart_Session::g()->cart_contents;
-
-					if ( ! empty( $cart_contents ) ) {
-						foreach ( $cart_contents as $content ) {
-							$qty += $content['qty'];
-						}
-					}
+					$qty   = Cart_Session::g()->qty;
 
 					if ( ! empty( $qty ) ) {
 						$item->title .= ' <span class="qty">(<span class="qty-value">' . $qty . '</span>)</span>';

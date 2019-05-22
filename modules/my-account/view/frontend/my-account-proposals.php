@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit;
 					<td data-title="N/D">N/D</td>
 					<td data-title="<?php echo esc_attr( number_format( $proposal->data['total_ttc'], 2 ) ); ?>€"><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2 ) ); ?>€</td>
 					<td data-title="View">
-					<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_proposal&proposal_id=' . $proposal->data['id'] ) ); ?>"><i class="fas fa-file-download"></i></a>
+					<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_proposal&_wpnonce=' . wp_create_nonce( 'download_proposal' ) . '&proposal_id=' . $proposal->data['id'] ) ); ?>"><i class="fas fa-file-download"></i></a>
 					</td>
 				</tr>
 				<?php

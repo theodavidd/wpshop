@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
 			<div class="wps-product-quantity"><?php echo esc_html( $product['qty'] ); ?></div>
 			<?php if ( ! empty( $product['price_ttc'] ) ) : ?>
 				<div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="wps-product-price">
-					<span itemprop="price" content="<?php echo esc_html( number_format( $product['price_ttc'], 2, '.', '' ) ); ?>"><?php echo esc_html( number_format( $product['price_ttc'], 2, '.', '' ) ); ?></span>
+					<span itemprop="price" content="<?php echo esc_html( number_format( $product['price_ttc'] * $product['qty'], 2, '.', '' ) ); ?>"><?php echo esc_html( number_format( $product['price_ttc'] * $product['qty'], 2, '.', '' ) ); ?></span>
 					<span itemprop="priceCurrency" content="EUR"><?php echo esc_html( '€', 'wpshop' ); ?></span>
 				</div>
 			<?php endif; ?>
