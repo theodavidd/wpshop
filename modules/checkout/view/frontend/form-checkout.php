@@ -15,7 +15,9 @@
 namespace wpshop;
 
 defined( 'ABSPATH' ) || exit;
-?>
+
+do_action( 'wps_before_checkout_form' ); ?>
+
 <div class="wps-checkout wpeo-gridlayout grid-5">
 	<div class="gridw-3">
 		<?php include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-1' ) ); ?>
