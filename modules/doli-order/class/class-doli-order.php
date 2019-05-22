@@ -81,10 +81,25 @@ class Doli_Order extends \eoxia\Post_Class {
 	 * @since 2.0.0
 	 */
 	public function display() {
-		$orders = $this->get( array(
-			'orderby'  => 'meta_value',
-			'meta_key' => 'datec',
+		$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
+
+		$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
+
+		$order_ids = Doli_Order::g()->search( $s, array(
+			'orderby'        => 'meta_value',
+			'meta_key'       => 'datec',
+			'offset'         => ( $current_page - 1 ) * 25,
+			'posts_per_page' => 25,
+			'post_status'    => 'any',
 		) );
+
+		$orders = array();
+
+		if ( ! empty( $order_ids ) ) {
+			$orders = $this->get( array(
+				'post__in' => $order_ids,
+			) );
+		}
 
 		if ( ! empty( $orders ) ) {
 			foreach ( $orders as &$element ) {
@@ -171,6 +186,49 @@ class Doli_Order extends \eoxia\Post_Class {
 		), true );
 
 		return $order->data['id'];
+	}
+
+	public function search( $s = '', $default_args = array(), $count = false ) {
+		$args = array(
+			'post_type'      => 'wps-order',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'post_status'    => 'any',
+		);
+
+		$args = wp_parse_args( $args, $default_args );
+
+		if ( ! empty( $s ) ) {
+			$orders_id = get_posts( array(
+				's'              => $s,
+				'fields'         => 'ids',
+				'post_type'      => 'wps-order',
+				'posts_per_page' => -1,
+				'post_status'    => 'any',
+			) );
+
+			if ( empty( $orders_id ) ) {
+				if ( $count ) {
+					return 0;
+				} else {
+					return array();
+				}
+			} else {
+				$args['post__in'] = $orders_id;
+
+				if ( $count ) {
+					return count( get_posts( $args ) );
+				} else {
+					return $orders_id;
+				}
+			}
+		}
+
+		if ( $count ) {
+			return count( get_posts( $args ) );
+		} else {
+			return get_posts( $args );
+		}
 	}
 }
 

@@ -84,15 +84,36 @@ class Proposals_Action {
 
 			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'single', array( 'proposal' => $proposal ) );
 		} else {
-			$args = array(
-				'post_type'      => 'wps-proposal',
-				'posts_per_page' => -1,
-			);
+			$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 
-			$count = count( get_posts( $args ) );
+			$count = Proposals::g()->search( $s, array(), true );
+
+			$number_page  = ceil( $count / 25 );
+			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
+
+			$base_url = admin_url( 'admin.php?page=wps-proposal' );
+
+			$begin_url = $base_url . '&current_page=1';
+			$end_url   = $base_url . '&current_page=' . $number_page;
+
+			$prev_url = $base_url . '&current_page=' . ( $current_page - 1 );
+			$next_url = $base_url . '&current_page=' . ( $current_page + 1 );
+
+			if ( ! empty( $_GET['s'] ) ) {
+				$begin_url .= '&s=' . $_GET['s'];
+				$end_url   .= '&s=' . $_GET['s'];
+				$prev_url  .= '&s=' . $_GET['s'];
+				$next_url  .= '&s=' . $_GET['s'];
+			}
 
 			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'main', array(
-				'count' => $count,
+				'number_page'  => $number_page,
+				'current_page' => $current_page,
+				'count'        => $count,
+				'begin_url'    => $begin_url,
+				'end_url'      => $end_url,
+				'prev_url'     => $prev_url,
+				'next_url'     => $next_url,
 			) );
 		}
 	}

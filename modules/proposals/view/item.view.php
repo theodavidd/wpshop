@@ -17,7 +17,6 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="table-row">
-	<div class="table-cell table-25"><input type="checkbox" class="check"/></div>
 	<div class="table-cell table-full">
 		<ul class="reference-id">
 			<li><i class="fas fa-calendar-alt"></i> <?php echo esc_html( $proposal->data['datec']['rendered']['date_time'] ); ?></li>
@@ -41,9 +40,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="table-cell table-150"><?php echo Payment::g()->make_readable_statut( $proposal ); ?></div>
 	<div class="table-cell table-100"><?php echo esc_html( Payment::g()->get_payment_title( $proposal->data['payment_method'] ) ); ?></div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</strong></div>
-	<?php apply_filters( 'wps_order_table_tr', $proposal ); ?>
-	<div class="table-cell table-100 wps-sync">
-		<!-- <div class="button-synchro"><i class="fas fa-sync"></i></div>
-		<div class="statut statut-green wpeo-tooltip-event" data-direction="left" aria-label="Date de la derniere synchro"></div> -->
-	</div>
+	<?php apply_filters( 'wps_proposal_table_tr', $proposal ); ?>
+	<?php do_action( 'wps_listing_table_end', $proposal, 'proposals' ); ?>
 </div>

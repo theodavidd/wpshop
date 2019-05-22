@@ -18,9 +18,8 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-list-product wpeo-table table-flex table-7">
 	<div class="table-row table-header">
-		<div class="table-cell table-25"><input type="checkbox" class="check-all"/></div>
 		<div class="table-cell table-full"><?php esc_html_e( 'Order reference', 'wpshop' ); ?></div>
-		<div class="table-cell table-200"><?php esc_html_e( 'Billing', 'wpshop' ); ?></div>
+		<div class="table-cell table-200"><?php esc_html_e( 'Billing address', 'wpshop' ); ?></div>
 		<div class="table-cell table-150"><?php esc_html_e( 'Status', 'wpshop' ); ?></div>
 		<div class="table-cell table-100"><?php esc_html_e( 'Method of payment', 'wpshop' ); ?></div>
 		<div class="table-cell table-100"><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></div>

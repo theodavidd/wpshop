@@ -46,7 +46,6 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 			), true );
 		}
 
-
 		$wp_contact->data['external_id']  = (int) $doli_contact->id;
 		$wp_contact->data['login']        = sanitize_title( $doli_contact->email );
 		$wp_contact->data['firstname']    = $doli_contact->firstname;

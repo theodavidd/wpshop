@@ -81,7 +81,23 @@ class Proposals extends \eoxia\Post_Class {
 	 * @since 2.0.0
 	 */
 	public function display() {
-		$proposals = $this->get();
+		$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
+
+		$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
+
+		$proposal_ids = Proposals::g()->search( $s, array(
+			'offset'         => ( $current_page - 1 ) * 25,
+			'posts_per_page' => 25,
+			'post_status'    => 'any',
+		) );
+
+		$proposals = array();
+
+		if ( ! empty( $proposal_ids ) ) {
+			$proposals = $this->get( array(
+				'post__in' => $proposal_ids,
+			) );
+		}
 
 		if ( ! empty( $proposals ) ) {
 			foreach ( $proposals as &$element ) {
@@ -116,6 +132,49 @@ class Proposals extends \eoxia\Post_Class {
 		" );
 
 		return $last_ref;
+	}
+
+	public function search( $s = '', $default_args = array(), $count = false ) {
+		$args = array(
+			'post_type'      => 'wps-proposal',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'post_status'    => 'any',
+		);
+
+		$args = wp_parse_args( $args, $default_args );
+
+		if ( ! empty( $s ) ) {
+			$proposals_id = get_posts( array(
+				's'              => $s,
+				'fields'         => 'ids',
+				'post_type'      => 'wps-proposal',
+				'posts_per_page' => -1,
+				'post_status'    => 'any',
+			) );
+
+			if ( empty( $proposals_id ) ) {
+				if ( $count ) {
+					return 0;
+				} else {
+					return array();
+				}
+			} else {
+				$args['post__in'] = $proposals_id;
+
+				if ( $count ) {
+					return count( get_posts( $args ) );
+				} else {
+					return $proposals_id;
+				}
+			}
+		}
+
+		if ( $count ) {
+			return count( get_posts( $args ) );
+		} else {
+			return get_posts( $args );
+		}
 	}
 }
 

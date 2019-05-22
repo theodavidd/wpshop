@@ -33,18 +33,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	<form method="GET" action="<?php echo admin_url( 'admin.php' ); ?>" class="wps-filter-bar wpeo-form form-light">
 		<div class="form-element">
 			<label class="form-field-container">
-				<span class="form-field-icon-prev"><i class="fas fa-filter"></i></span>
-				<select id="monselect" class="form-field">
-					<option value="valeur1" selected><?php esc_html_e( 'Nom', 'wpshop' ); ?></option>
-					<option value="valeur2"><?php esc_html_e( 'Date de dernière commande', 'wpshop' ); ?></option>
-				</select>
-			</label>
-		</div>
-
-		<a href="#" class="wpeo-button button-filter"><?php esc_html_e( 'Filter', 'wpshop' ); ?></a>
-
-		<div class="form-element">
-			<label class="form-field-container">
 				<span class="form-field-icon-prev"><i class="fas fa-search"></i></span>
 				<input type="hidden" name="page" value="wps-third-party" />
 				<input type="text" name="s" class="form-field" value="<?php echo esc_attr( ! empty( $_GET['s'] ) ? $_GET['s'] : '' ); ?>" />
@@ -55,7 +43,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 		<div></div>
 		<div></div>
-		<div><?php echo $count . ' éléments'; ?></div>
+		<div class="alignright"><?php echo $count . ' éléments'; ?></div>
 	</form>
 
 	<?php

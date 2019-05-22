@@ -120,15 +120,36 @@ class Doli_Order_Action {
 				'order'       => $order,
 			) );
 		} else {
-			$args = array(
-				'post_type'      => 'wps-order',
-				'posts_per_page' => -1,
-			);
+			$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 
-			$count = count( get_posts( $args ) );
+			$count = Doli_Order::g()->search( $s, array(), true );
+
+			$number_page  = ceil( $count / 25 );
+			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
+
+			$base_url = admin_url( 'admin.php?page=wps-third-party' );
+
+			$begin_url = $base_url . '&current_page=1';
+			$end_url   = $base_url . '&current_page=' . $number_page;
+
+			$prev_url = $base_url . '&current_page=' . ( $current_page - 1 );
+			$next_url = $base_url . '&current_page=' . ( $current_page + 1 );
+
+			if ( ! empty( $_GET['s'] ) ) {
+				$begin_url .= '&s=' . $_GET['s'];
+				$end_url   .= '&s=' . $_GET['s'];
+				$prev_url  .= '&s=' . $_GET['s'];
+				$next_url  .= '&s=' . $_GET['s'];
+			}
 
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'main', array(
-				'count' => $count,
+				'number_page'  => $number_page,
+				'current_page' => $current_page,
+				'count'        => $count,
+				'begin_url'    => $begin_url,
+				'end_url'      => $end_url,
+				'prev_url'     => $prev_url,
+				'next_url'     => $next_url,
 			) );
 		}
 	}

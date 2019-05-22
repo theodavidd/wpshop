@@ -17,7 +17,6 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="table-row">
-	<div class="table-cell table-25"><input type="checkbox" class="check"/></div>
 	<div class="table-cell table-200">
 		<ul class="reference-id">
 			<li><i class="fas fa-hashtag"></i>WP : <?php echo esc_html( $third_party->data['id'] ); ?></li>

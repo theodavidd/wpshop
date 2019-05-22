@@ -17,7 +17,6 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="table-row">
-	<div class="table-cell table-25"><input type="checkbox" class="check"/></div>
 	<div class="table-cell table-full">
 		<ul class="reference-id">
 			<li><i class="fas fa-calendar-alt"></i> <?php echo esc_html( $order->data['datec']['rendered']['date_time'] ); ?></li>
