@@ -11,6 +11,7 @@
 		color: rgba(0,0,0,0.8);
 		line-height: 1.4;
 		margin-bottom: 0.4em;
+		user-select: none;
 
 		.wps-payement-icon {
 			font-weight: 400;
@@ -21,6 +22,7 @@
 		font-size: 14px;
 		color: rgba(0,0,0,0.5);
 		line-height: 1.4;
+		user-select: none;
 	}
 
 	.wps-payment {
