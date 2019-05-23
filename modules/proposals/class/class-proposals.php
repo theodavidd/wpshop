@@ -111,7 +111,11 @@ class Proposals extends \eoxia\Post_Class {
 
 		if ( ! empty( $proposals ) ) {
 			foreach ( $proposals as &$element ) {
-				$element->data['tier'] = Third_Party::g()->get( array( 'id' => $element->data['parent_id'] ), true );
+				$element->data['tier'] = null;
+
+				if ( ! empty( $element->data['parent_id'] ) ) {
+					$element->data['tier'] = Third_Party::g()->get( array( 'id' => $element->data['parent_id'] ), true );
+				}
 			}
 		}
 

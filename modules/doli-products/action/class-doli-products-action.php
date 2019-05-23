@@ -50,7 +50,7 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 			return $post_id;
 		}
 
-		if ( 'wps-product' !== $post->post_type && 'publish' !== $post->post_status ) {
+		if ( 'wps-product' !== $post->post_type || 'publish' !== $post->post_status ) {
 			return $post_id;
 		}
 
@@ -59,7 +59,6 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 		if ( empty( $product ) || ( ! empty( $product ) && 0 === $product->data['id'] ) ) {
 			return $post_id;
 		}
-
 
 		$product_data           = ! empty( $_POST['product_data'] ) ? (array) $_POST['product_data'] : array();
 		$product_data['price']  = isset( $product_data['price'] ) ? (float) round( str_replace( ',', '.', $product_data['price'] ), 2 ) : $product->data['price'];

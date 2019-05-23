@@ -42,6 +42,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="table-cell table-100"><?php echo esc_html( number_format( $product->data['price'], 2, ',', '' ) ); ?>€</div>
 	<div class="table-cell table-100"><?php echo esc_html( number_format( $product->data['tva_tx'], 2, ',', '' ) ); ?>%</div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ); ?>€</strong></div>
-	<?php do_action( 'wps_listing_table_end', $product, 'products' ); ?>
+	<?php do_action( 'wps_listing_table_end', $product, 'wpshopapi/product/get/web' ); ?>
 
 </div>

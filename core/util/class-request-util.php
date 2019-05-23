@@ -60,6 +60,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 				$response = json_decode( $request['body'] );
 				return $response;
 			} else {
+				echo "<pre>"; print_r( $request['body'] ); echo "</pre>";exit;
 				return false;
 			}
 		}

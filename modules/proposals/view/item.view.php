@@ -32,9 +32,9 @@ defined( 'ABSPATH' ) || exit; ?>
 		</ul>
 	</div>
 	<div class="table-cell table-200">
-		<div><strong><?php echo esc_html( $proposal->data['tier']->data['title'] ); ?></strong></div>
-		<div><?php echo esc_html( $proposal->data['tier']->data['address'] ); ?></div>
-		<div><?php echo esc_html( $proposal->data['tier']->data['zip'] ) . ' ' . esc_html( $proposal->data['tier']->data['country'] ); ?></div>
+		<div><strong><?php echo esc_html( ! empty( $proposal->data['tier'] ) ? $proposal->data['tier']->data['title'] : '' ); ?></strong></div>
+		<div><?php echo esc_html( ! empty( $proposal->data['tier'] ) ? $proposal->data['tier']->data['address'] : '' ); ?></div>
+		<div><?php echo esc_html( ! empty( $proposal->data['tier'] ) ? $proposal->data['tier']->data['zip'] : '' ) . ' ' . esc_html( ! empty(  $proposal->data['tier'] ) ? $proposal->data['tier']->data['country'] : '' ); ?></div>
 		<div><?php echo ! empty( $proposal->data['tier']->data['phone'] ) ? esc_html( $proposal->data['tier']->data['phone'] ) : ''; ?></div>
 	</div>
 	<div class="table-cell table-150"><?php echo Payment::g()->make_readable_statut( $proposal ); ?></div>

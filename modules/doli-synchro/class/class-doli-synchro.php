@@ -50,45 +50,72 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 				'title'    => __( 'Third parties', 'wpshop' ),
 				'action'   => 'sync_third_parties',
 				'nonce'    => 'sync_third_parties',
-				'endpoint' => 'thirdparties?limit=-1',
+				'endpoint' => 'thirdparties',
 			),
 			'contacts'      => array(
 				'title'    => __( 'Contacts', 'wpshop' ),
 				'action'   => 'sync_contacts',
 				'nonce'    => 'sync_contacts',
-				'endpoint' => 'contacts?limit=-1',
+				'endpoint' => 'contacts',
 			),
 			'products'      => array(
 				'title'    => __( 'Products', 'wpshop' ),
 				'action'   => 'sync_products',
 				'nonce'    => 'sync_products',
-				'endpoint' => 'products?limit=-1',
+				'endpoint' => 'wpshopapi/product/get/web',
 			),
 			'proposals'     => array(
 				'title'    => __( 'Proposals', 'wpshop' ),
 				'action'   => 'sync_proposals',
 				'nonce'    => 'sync_proposals',
-				'endpoint' => 'proposals?limit=-1',
+				'endpoint' => 'proposals',
 			),
 			'orders'        => array(
 				'title'    => __( 'Orders', 'wpshop' ),
 				'action'   => 'sync_orders',
 				'nonce'    => 'sync_orders',
-				'endpoint' => 'orders?limit=-1',
+				'endpoint' => 'orders',
 			),
 			'invoices'      => array(
 				'title'    => __( 'Invoices', 'wpshop' ),
 				'action'   => 'sync_invoices',
 				'nonce'    => 'sync_invoices',
-				'endpoint' => 'invoices?limit=-1',
+				'endpoint' => 'invoices',
 			),
 			'payments'      => array(
 				'title'    => __( 'Payments', 'wpshop' ),
 				'action'   => 'sync_payments',
 				'nonce'    => 'sync_payments',
-				'endpoint' => 'invoices?limit=-1', // Total is invoice too.
+				'endpoint' => 'invoices', // Total is invoice too.
 			),
 		);
+	}
+
+	public function count_entries( $sync_info ) {
+		if ( ! empty( $sync_info['endpoint'] ) ) {
+			$args = array(
+				'limit' => $this->limit_entries_by_request,
+				'page'  => $sync_info['page'],
+			);
+
+			$args = implode( '&', array_map( function( $v, $k ) {
+				return $k . '=' . $v;
+			}, $args, array_keys( $args ) ) );
+
+			$tmp = Request_Util::get( $sync_info['endpoint'] . '?' . $args );
+
+			if ( $tmp ) {
+				$count                      = count( $tmp );
+				$sync_info['total_number'] += count( $tmp );
+
+				if ( $count >= $this->limit_entries_by_request ) {
+					$sync_info['page']++;
+					$sync_info = $this->count_entries( $sync_info );
+				}
+			}
+		}
+
+		return $sync_info;
 	}
 
 	/**

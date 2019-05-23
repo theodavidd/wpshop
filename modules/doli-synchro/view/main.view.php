@@ -30,12 +30,14 @@ defined( 'ABSPATH' ) || exit; ?>
 					</div>
 					<div class="item-container">
 						<form action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="POST">
-							<input type="hidden" name="action" value="<?php echo esc_attr( $info['action'] ); ?>" />
-							<?php wp_nonce_field( $info['nonce'] ); ?>
-							<div class="item-content" >
+							<input type="hidden" name="action" value="sync" />
+							<?php wp_nonce_field( 'sync' ); ?>
+							<input type="hidden" name="type" value="<?php echo $key; ?>" />
+
+							<div class="item-content">
 								<div class="item-title"><?php echo esc_attr( $info['title'] ); ?></div>
 							</div>
-							<div class="item-result" >
+							<div class="item-result">
 								<input type="hidden" name="total_number" value="<?php echo ( null !== $info['total_number'] ? esc_attr( $info['total_number'] ) : 0 ); ?>" />
 								<input type="hidden" name="done_number" value="0" />
 								<div class="item-progress" >
