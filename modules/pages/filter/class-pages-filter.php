@@ -101,13 +101,10 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 						$params['step'] = isset( $_GET['step'] ) ? $_GET['step'] : 1;
 						$shortcode      = 'checkout';
 						break;
-					case 'valid_checkout_id':
-						$shortcode          = 'valid_checkout';
-						$params['order_id'] = isset( $_GET['order_id'] ) ? $_GET['order_id'] : 0;
-						break;
-					case 'valid_proposal_id':
-						$shortcode             = 'valid_proposal';
-						$params['proposal_id'] = isset( $_GET['proposal_id'] ) ? $_GET['proposal_id'] : 0;
+					case 'valid_page_id':
+						$shortcode      = 'valid';
+						$params['id']   = (int) get_query_var( 'id' );
+						$params['type'] = sanitize_text_field( get_query_var( 'type' ) );
 						break;
 					case 'cart_id':
 						$shortcode = 'cart';
@@ -126,7 +123,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 				$shortcode_attr = '';
 				if ( ! empty( $params ) ) {
 					foreach ( $params as $key => $value ) {
-						$shortcode_attr = $key . '=' . $value . ' ';
+						$shortcode_attr .= $key . '=' . $value . ' ';
 					}
 				}
 				ob_start();

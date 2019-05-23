@@ -29,10 +29,7 @@ class Dashboard extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	protected function construct() {
-		$this->metaboxes = array(
-			'wps-dashboard-sync'  => array(
-				'callback' => array( $this, 'metabox_sync' ),
-			),
+		$this->metaboxes = apply_filters( 'wps_dashboard_metaboxes', array(
 			'wps-dashboard-invoices'  => array(
 				'callback' => array( $this, 'metabox_invoices' ),
 			),
@@ -51,7 +48,7 @@ class Dashboard extends \eoxia\Singleton_Util {
 			'wps-dashboard-payments'  => array(
 				'callback' => array( $this, 'metabox_payments' ),
 			),
-		);
+		) );
 	}
 
 	/**
@@ -67,15 +64,6 @@ class Dashboard extends \eoxia\Singleton_Util {
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'main' );
-	}
-
-	/**
-	 * La metabox de synchronisation.
-	 *
-	 * @since 2.0.0
-	 */
-	public function metabox_sync() {
-		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'metaboxes/metabox-sync' );
 	}
 
 	/**

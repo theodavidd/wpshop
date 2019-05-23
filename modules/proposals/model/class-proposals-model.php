@@ -70,6 +70,34 @@ class Proposals_Model extends \eoxia\Post_Model {
 			'description' => '',
 		);
 
+		$this->schema['tva_amount'] = array(
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => 'tva_amount',
+			'default'     => 0.00000000,
+			'since'       => '2.0.0',
+			'description' => 'Prix total de la commande, toutes taxes comprises (float). Peut être NULL. Valeur par défaut NULL.',
+		);
+
+		$this->schema['shipping_cost'] = array(
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => 'shipping_cost',
+			'default'     => 0.00000000,
+			'since'       => '2.0.0',
+			'description' => 'Prix total de la commande, toutes taxes comprises (float). Peut être NULL. Valeur par défaut NULL.',
+		);
+
+
+		$this->schema['total_price_no_shipping'] = array(
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => 'total_price_no_shipping',
+			'default'     => 0.00000000,
+			'since'       => '2.0.0',
+			'description' => 'Prix total de la commande, toutes taxes comprises (float). Peut être NULL. Valeur par défaut NULL.',
+		);
+
 		$this->schema['total_ttc'] = array(
 			'type'        => 'float',
 			'meta_type'   => 'single',
@@ -93,11 +121,18 @@ class Proposals_Model extends \eoxia\Post_Model {
 			'default'   => '',
 		);
 
+		$this->schema['billed'] = array(
+			'type'      => 'integer',
+			'meta_type' => 'single',
+			'field'     => 'billed',
+			'default'   => 0,
+		);
+
 		$this->schema['mode_reglement_id'] = array(
 			'type'      => 'integer',
 			'meta_type' => 'single',
 			'field'     => 'mode_reglement_id',
-			'default'   => '',
+			'default'   => 0,
 		);
 
 		$this->schema['date_last_synchro'] = array(

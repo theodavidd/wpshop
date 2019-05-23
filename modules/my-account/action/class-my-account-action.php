@@ -44,6 +44,8 @@ class My_Account_Action {
 		add_action( 'wps_account_quotations', array( My_Account::g(), 'display_quotations' ) );
 
 		add_action( 'wp_ajax_reorder', array( $this, 'do_reorder' ) );
+
+		add_action( 'wps_my_account_proposals_actions', array( $this, 'add_proposal_pdf' ), 10, 1 );
 	}
 
 	/**
@@ -125,6 +127,12 @@ class My_Account_Action {
 			'callback_success' => 'reorderSuccess',
 			'redirect_url'     => Pages::g()->get_cart_link(),
 		) );
+	}
+
+	public function add_proposal_pdf( $proposal ) {
+		if ( Settings::g()->dolibarr_is_active() ) {
+			include( Template_Util::get_template_part( 'my-account', 'my-account-proposals-devis' ) );
+		}
 	}
 }
 

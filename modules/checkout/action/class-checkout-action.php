@@ -28,8 +28,8 @@ class Checkout_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-
 		add_action( 'init', array( Checkout_Shortcode::g(), 'callback_init' ) );
+		add_action( 'init', array( $this, 'init_endpoint' ) );
 
 		add_action( 'wps_after_cart_resume', array( $this, 'callback_after_cart_table' ), 20 );
 
@@ -49,6 +49,26 @@ class Checkout_Action {
 		add_action( 'wp_ajax_nopriv_wps_place_order', array( $this, 'callback_place_order' ) );
 	}
 
+	public function init_endpoint() {
+		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
+
+		if ( Settings::g()->dolibarr_is_active() ) {
+			add_rewrite_endpoint( 'order/(.*)', EP_ALL );
+		}
+
+		if ( ! empty( $page_ids_options['valid_page_id'] ) ) {
+
+			add_rewrite_rule( get_post_field( 'post_name', $page_ids_options['valid_page_id'] ) . '/(.*)/([0-9]+)/?$', 'index.php?page_id=' . $page_ids_options['valid_page_id'] . '&type=$matches[1]&id=$matches[2]', 'top' );
+		}
+
+		do_action( 'wps_checkout_endpoint' );
+
+		if ( ! get_option( 'plugin_permalinks_flushed' ) ) {
+			flush_rewrite_rules(false);
+			update_option('plugin_permalinks_flushed', 1);
+		}
+	}
+
 	/**
 	 * Ajoutes le bouton "Passer à la commande".
 	 *
@@ -60,7 +80,7 @@ class Checkout_Action {
 	}
 
 	public function callback_before_resume() {
-		if ( Pages::g()->is_checkout_page() || Pages::g()->is_valid_checkout_page() ) {
+		if ( Pages::g()->is_checkout_page() || Pages::g()->is_valid_page() ) {
 			$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
 
 			include( Template_Util::get_template_part( 'checkout', 'resume-list-product' ) );
@@ -205,13 +225,16 @@ class Checkout_Action {
 			$last_ref = empty( $last_ref ) ? 1 : $last_ref;
 			$last_ref++;
 
-			$proposal->data['title']     = 'PR' . sprintf( '%06d', $last_ref );
-			$proposal->data['ref']       = sprintf( '%06d', $last_ref );
-			$proposal->data['datec']     = current_time( 'mysql' );
-			$proposal->data['parent_id'] = $third_party->data['id'];
-			$proposal->data['author_id'] = $contact->data['id'];
-			$proposal->data['status']    = 'publish';
-			$proposal->data['lines']     = array();
+			$proposal->data['title']                   = 'PR' . sprintf( '%06d', $last_ref );
+			$proposal->data['ref']                     = sprintf( '%06d', $last_ref );
+			$proposal->data['datec']                   = current_time( 'mysql' );
+			$proposal->data['parent_id']               = $third_party->data['id'];
+			$proposal->data['author_id']               = $contact->data['id'];
+			$proposal->data['status']                  = 'publish';
+			$proposal->data['lines']                   = array();
+			$proposal->data['total_price_no_shipping'] = Cart_Session::g()->total_price_no_shipping;
+			$proposal->data['tva_amount']              = Cart_Session::g()->tva_amount;
+			$proposal->data['shipping_cost']           = Cart_Session::g()->shipping_cost;
 
 			$total_ht  = 0;
 			$total_ttc = 0;
@@ -325,7 +348,7 @@ class Checkout_Action {
 				'namespace'        => 'wpshopFrontend',
 				'module'           => 'checkout',
 				'callback_success' => 'redirect',
-				'url'              => Pages::g()->get_valid_proposal_link() . '?proposal_id=' . $proposal->data['id'],
+				'url'              => Pages::g()->get_valid_page_link() . '/proposal/' . $proposal->data['id'] .'/',
 			) );
 		}
 	}

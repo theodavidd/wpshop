@@ -37,14 +37,19 @@ class My_Account extends \eoxia\Singleton_Util {
 	 */
 	public function init_endpoint() {
 		if ( Settings::g()->dolibarr_is_active() ) {
-			add_rewrite_endpoint( 'orders', EP_ALL );
-			add_rewrite_endpoint( 'invoices', EP_ALL );
+			add_rewrite_endpoint( 'orders', EP_PAGES );
+			add_rewrite_endpoint( 'invoices', EP_PAGES );
 		}
 
-		add_rewrite_endpoint( 'quotations', EP_ALL );
-		add_rewrite_endpoint( 'download', EP_ALL );
+		add_rewrite_endpoint( 'quotations', EP_PAGES );
+		add_rewrite_endpoint( 'download', EP_PAGES );
 
 		do_action( 'wps_account_navigation_endpoint' );
+
+		if ( ! get_option( 'plugin_permalinks_flushed' ) ) {
+			flush_rewrite_rules(false);
+			update_option('plugin_permalinks_flushed', 1);
+		}
 	}
 
 	/**
@@ -85,21 +90,6 @@ class My_Account extends \eoxia\Singleton_Util {
 	 */
 	public function display_navigation( $tab ) {
 		$this->menu = apply_filters( 'wps_account_navigation_items', array(
-			'orders'     => array(
-				'link'  => Pages::g()->get_account_link() . 'orders/',
-				'icon'  => 'fas fa-shopping-cart',
-				'title' => __( 'Orders', 'wpshop' ),
-			),
-			'invoices'   => array(
-				'link'  => Pages::g()->get_account_link() . 'invoices/',
-				'icon'  => 'fas fa-file-invoice-dollar',
-				'title' => __( 'Invoices', 'wpshop' ),
-			),
-			'download'   => array(
-				'link'  => Pages::g()->get_account_link() . 'download/',
-				'icon'  => 'fas fa-file-download',
-				'title' => __( 'Downloads', 'wpshop' ),
-			),
 			'quotations' => array(
 				'link'  => Pages::g()->get_account_link() . 'quotations/',
 				'icon'  => 'fas fa-file-signature',

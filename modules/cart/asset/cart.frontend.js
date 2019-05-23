@@ -41,7 +41,7 @@ window.eoxiaJS.wpshopFrontend.cart.updateQuantity = function() {
 
 window.eoxiaJS.wpshopFrontend.cart.addedToCart = function ( triggeredElement, response ) {
 	if ( ! triggeredElement.next().hasClass('view-cart') ) {
-		triggeredElement.after( response.data.view );
+		triggeredElement.closest( '.wps-product-action' ).html( response.data.view );
 	}
 
 	var qty = jQuery( '.cart-button .qty-value' ).text();

@@ -5,6 +5,7 @@
 	"path": "modules/dashboard",
 	"dependencies": {
 		"action": {},
-    "class": {}
+    "class": {},
+    "filter": {}
 	}
 }

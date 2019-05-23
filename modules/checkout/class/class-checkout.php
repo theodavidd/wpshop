@@ -93,19 +93,19 @@ class Checkout extends \eoxia\Singleton_Util {
 			'third_party' => array(
 				'country_id' => array(
 					'label'    => __( 'Country', 'wpshop' ),
-					'required' => true,
+					'required' => false,
 				),
 				'address'    => array(
 					'label'    => __( 'Street Address', 'wpshop' ),
-					'required' => true,
+					'required' => false,
 				),
 				'zip'        => array(
 					'label'    => __( 'Postcode / Zip', 'wpshop' ),
-					'required' => true,
+					'required' => false,
 				),
 				'town'       => array(
 					'label'    => __( 'Town / City', 'wpshop' ),
-					'required' => true,
+					'required' => false,
 				),
 			),
 		);
@@ -191,7 +191,7 @@ class Checkout extends \eoxia\Singleton_Util {
 					'namespace'        => 'wpshopFrontend',
 					'module'           => 'checkout',
 					'callback_success' => 'redirect',
-					'url'              => Pages::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
+					'url'              => Pages::g()->get_valid_page_link() . '/order/' . $order->data['id'] . '/',
 				) );
 				break;
 			case 'payment_in_shop':
@@ -201,7 +201,7 @@ class Checkout extends \eoxia\Singleton_Util {
 					'namespace'        => 'wpshopFrontend',
 					'module'           => 'checkout',
 					'callback_success' => 'redirect',
-					'url'              => Pages::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
+					'url'              => Pages::g()->get_valid_page_link() . '/order/' . $order->data['id'] . '/',
 				) );
 				break;
 			case 'paypal':

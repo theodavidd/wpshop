@@ -36,8 +36,7 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 	 */
 	public function callback_init() {
 		add_shortcode( 'wps_checkout', array( $this, 'callback_checkout' ) );
-		add_shortcode( 'wps_valid_checkout', array( $this, 'callback_valid_checkout' ) );
-		add_shortcode( 'wps_valid_proposal', array( $this, 'callback_valid_proposal' ) );
+		add_shortcode( 'wps_valid', array( $this, 'callback_valid' ) );
 	}
 
 	/**
@@ -77,28 +76,27 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 	 *
 	 * @since 2.0.0
 	 */
-	public function callback_valid_checkout() {
+	public function callback_valid( $param ) {
 		if ( ! is_admin() ) {
-			$order_id = ! empty( $_GET['order_id'] ) ? (int) $_GET['order_id'] : 0;
-			$order    = Doli_Order::g()->get( array( 'id' => $order_id ), true );
+			$object      = null;
+			$text        = '';
+			$button_text = '';
 
-			$tva_lines = array();
-
-			if ( ! empty( $order->data['lines'] ) ) {
-				foreach ( $order->data['lines'] as $line ) {
-					if ( empty( $tva_lines[ $line['tva_tx'] ] ) ) {
-						$tva_lines[ $line['tva_tx'] ] = 0;
-					}
-
-					$tva_lines[ $line['tva_tx'] ] += $line['total_tva'];
-				}
+			if ( 'proposal' === $param['type'] ) {
+				$object      = Proposals::g()->get( array( 'id' => $param['id'] ), true );
+				$title       = __( 'quotation', 'wpshop' );
+				$button_text = __( 'See my quotations', 'wpshop' );
+			} else if ( 'order' === $param['type'] ) {
+				$object = Doli_Order::g()->get( array( 'id' => $param['id'] ), true );
+				$title       = __( 'order', 'wpshop' );
+				$button_text = __( 'See my orders', 'wpshop' );
 			}
 
-			if ( ! empty( $order_id ) ) {
-				$total_price_no_shipping = $order->data['total_price_no_shipping'];
-				$tva_amount              = $order->data['tva_amount'];
-				$total_price_ttc         = $order->data['total_ttc'];
-				$shipping_cost           = $order->data['shipping_cost'];
+			if ( null !== $object ) {
+				$total_price_no_shipping = $object->data['total_price_no_shipping'];
+				$tva_amount              = $object->data['tva_amount'];
+				$total_price_ttc         = $object->data['total_ttc'];
+				$shipping_cost           = $object->data['shipping_cost'];
 
 				include( Template_Util::get_template_part( 'checkout', 'valid-checkout' ) );
 			}

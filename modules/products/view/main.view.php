@@ -21,15 +21,20 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php esc_html_e( 'Products', 'wpshop' ); ?>
 		<a href="<?php echo esc_attr( admin_url( 'post-new.php?post_type=wps-product' ) ); ?>" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
 
-		<div class="wpeo-button button-main wpeo-modal-event"
-			data-action="load_modal_synchro"
-			data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_modal_synchro' ) ); ?>"
-			data-class="modal-sync"
-			data-sync="products"
-			data-title="<?php echo esc_attr_e( 'Data synchronization', 'wpshop' ); ?>">
-			<span><?php esc_html_e( 'All Product Sync', 'wpshop' ); ?></span>
-		</div>
-
+		<?php
+		if ( Settings::g()->dolibarr_is_active() ) :
+			?>
+			<div class="wpeo-button button-main wpeo-modal-event"
+				data-action="load_modal_synchro"
+				data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_modal_synchro' ) ); ?>"
+				data-class="modal-sync"
+				data-sync="products"
+				data-title="<?php echo esc_attr_e( 'Data synchronization', 'wpshop' ); ?>">
+				<span><?php esc_html_e( 'All Product Sync', 'wpshop' ); ?></span>
+			</div>
+			<?php
+		endif;
+		?>
 	</h2>
 
 	<form method="GET" action="<?php echo admin_url( 'admin.php' ); ?>" class="wps-filter-bar wpeo-form form-light">

@@ -59,8 +59,7 @@ class Pages extends \eoxia\Singleton_Util {
 			'cart_id'                    => 0,
 			'checkout_id'                => 0,
 			'my_account_id'              => 0,
-			'valid_checkout_id'          => 0,
-			'valid_proposal_id'          => 0,
+			'valid_page_id'              => 0,
 			'general_conditions_of_sale' => 0,
 		);
 
@@ -69,8 +68,7 @@ class Pages extends \eoxia\Singleton_Util {
 			'cart_id'                    => __( 'Cart', 'wpshop' ),
 			'checkout_id'                => __( 'Checkout', 'wpshop' ),
 			'my_account_id'              => __( 'My account', 'wpshop' ),
-			'valid_checkout_id'          => __( 'Valid checkout', 'wpshop' ),
-			'valid_proposal_id'          => __( 'Valid proposal', 'wpshop' ),
+			'valid_page_id'              => __( 'Valid page', 'wpshop' ),
 			'general_conditions_of_sale' => __( 'General condiftions of sale', 'wpshop' ),
 		);
 
@@ -158,8 +156,8 @@ class Pages extends \eoxia\Singleton_Util {
 	 *
 	 * @return string Le lien vers la page "Validation du paiement".
 	 */
-	public function get_valid_checkout_link() {
-		return get_permalink( $this->page_ids['valid_checkout_id'] );
+	public function get_valid_page_link() {
+		return get_permalink( $this->page_ids['valid_page_id'] );
 	}
 
 	/**
@@ -173,27 +171,16 @@ class Pages extends \eoxia\Singleton_Util {
 		return get_permalink( $this->page_ids['general_conditions_of_sale'] );
 	}
 
-	/**
-	 * Récupères le lien vers la page "Validation de devis".
-	 *
-	 * @since 2.0.0
-	 *
-	 * @return string Le lien vers la page "Validation de devis".
-	 */
-	public function get_valid_proposal_link() {
-		return get_permalink( $this->page_ids['valid_proposal_id'] );
-	}
-
 	public function is_checkout_page() {
 		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
 
 		return ( get_the_ID() === $this->page_ids['checkout_id'] ) ? true : false;
 	}
 
-	public function is_valid_checkout_page() {
+	public function is_valid_page() {
 		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
 
-		return ( get_the_ID() === $this->page_ids['valid_checkout_id'] ) ? true : false;
+		return ( get_the_ID() === $this->page_ids['valid_page_id'] ) ? true : false;
 	}
 }
 

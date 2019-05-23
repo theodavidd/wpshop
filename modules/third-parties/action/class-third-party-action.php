@@ -57,12 +57,6 @@ class Third_Party_Action {
 			'wps-third-party-propal'   => array(
 				'callback' => 'metabox_proposals',
 			),
-			'wps-third-party-orders'   => array(
-				'callback' => 'metabox_orders',
-			),
-			'wps-third-party-invoices' => array(
-				'callback' => 'metabox_invoices',
-			),
 		) );
 	}
 

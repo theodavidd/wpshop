@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<li class="commercial type-propal">
 			<i class="fas fa-file-signature"></i>
 			<span class="commercial-date"><?php echo $propal->data['datec']['rendered']['date']; ?></span>
-			<span class="commercial-title"><a href="<?php echo esc_attr( $doli_url . '/comm/propal/card.php?id=' . $propal->data['external_id'] ); ?>"><?php echo $propal->data['title']; ?></a></span>
+			<span class="commercial-title"><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-proposal&id=' . $propal->data['id'] ) ); ?>"><?php echo $propal->data['title']; ?></a></span>
 			<span class="commercial-price"><?php echo ! empty( $propal->data['total_ttc'] ) ? $propal->data['total_ttc'] . '€ TTC' : ''; ?></span>
 			<span class="commercial-status">-</span>
 		</li>

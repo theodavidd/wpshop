@@ -28,6 +28,7 @@ class Third_Party_Filter {
 	 */
 	public function __construct() {
 		add_filter( 'eo_model_wps-third-party_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
+		add_filter( 'wps_third_party_metaboxes', array( $this, 'add_orders_and_billings_metaboxes' ) );
 	}
 
 	/**
@@ -64,6 +65,20 @@ class Third_Party_Filter {
 		$args['show_in_menu']      = false;
 
 		return $args;
+	}
+
+	public function add_orders_and_billings_metaboxes( $metaboxes ) {
+		if ( Settings::g()->dolibarr_is_active() ) {
+			$metaboxes['wps-third-party-orders'] = array(
+				'callback' => 'metabox_orders',
+			);
+
+			$metaboxes['wps-third-party-invoices'] = array(
+				'callback' => 'metabox_invoices',
+			);
+		}
+
+		return $metaboxes;
 	}
 }
 

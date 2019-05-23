@@ -16,15 +16,15 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<?php esc_html_e( 'Thanks, your order has been received', 'wpshop' ); ?>
+<?php printf( __( 'Thanks, your %s has been received', 'wpshop' ), $title ); ?>
 
 <div class="wpeo-gridlayout grid-2">
 	<ul>
-		<li><?php esc_html_e( 'Order number', 'wpshop' ); ?> : <strong><?php echo esc_html( $order->data['title'] ); ?></strong></li>
-		<li><?php esc_html_e( 'Date', 'wpshop' ); ?> : <strong><?php echo esc_html( $order->data['date_commande']['rendered']['date'] ); ?></strong></li>
-		<li><?php esc_html_e( 'Total', 'wpshop' ); ?> : <strong><?php echo esc_html( number_format( $order->data['total_ttc'], 2 ) ); ?>€</strong></li>
+		<li><?php printf( __( '%s number', 'wpshop' ), ucfirst( $title ) ) ?> : <strong><?php echo esc_html( $object->data['title'] ); ?></strong></li>
+		<li><?php esc_html_e( 'Date', 'wpshop' ); ?> : <strong><?php echo esc_html( $object->data['date']['rendered']['date'] ); ?></strong></li>
+		<li><?php esc_html_e( 'Total', 'wpshop' ); ?> : <strong><?php echo esc_html( number_format( $object->data['total_ttc'], 2 ) ); ?>€</strong></li>
 		<li><?php esc_html_e( 'Method of payment', 'wpshop' ); ?> :
-			<strong><?php echo esc_html( Payment::g()->get_payment_title( $order->data['payment_method'] ) ); ?></strong>
+			<strong><?php echo esc_html( Payment::g()->get_payment_title( $object->data['payment_method'] ) ); ?></strong>
 		</li>
 	</ul>
 
@@ -33,6 +33,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 </div>
 
-<a href="<?php echo Pages::g()->get_account_link(); ?>orders/" class="wpeo-button button-main">
-	<span><?php esc_html_e( 'See my orders', 'wpshop' ); ?></span>
+<a href="<?php echo Pages::g()->get_account_link() . $param['type']; ?>/" class="wpeo-button button-main">
+	<span><?php echo $button_text; ?></span>
 </a>

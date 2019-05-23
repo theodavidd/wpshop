@@ -96,9 +96,11 @@ class Doli_Order_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		$hook = add_submenu_page( 'wpshop', __( 'Orders', 'wpshop' ), __( 'Orders', 'wpshop' ), 'manage_options', 'wps-order', array( $this, 'callback_add_menu_page' ) );
+		if ( Settings::g()->dolibarr_is_active() ) {
+			$hook = add_submenu_page( 'wpshop', __( 'Orders', 'wpshop' ), __( 'Orders', 'wpshop' ), 'manage_options', 'wps-order', array( $this, 'callback_add_menu_page' ) );
 
-		add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+			add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+		}
 	}
 
 	/**

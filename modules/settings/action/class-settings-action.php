@@ -137,7 +137,7 @@ class Settings_Action {
 
 		$response = Request_Util::get( 'status' );
 		if ( $response == false ) {
-			$dolibarr_option['error'] = __( 'WPshop canno\'t connect to dolibarr. Please check your settings', 'wpshop' );
+			$dolibarr_option['error'] = __( 'WPshop cannot connect to dolibarr. Please check your settings', 'wpshop' );
 		} else {
 			$dolibarr_option['error'] = '';
 		}
@@ -166,8 +166,7 @@ class Settings_Action {
 		$wps_page_cart_id                    = ! empty( $_POST['wps_page_cart_id'] ) ? (int) $_POST['wps_page_cart_id'] : 0;
 		$wps_page_checkout_id                = ! empty( $_POST['wps_page_checkout_id'] ) ? (int) $_POST['wps_page_checkout_id'] : 0;
 		$wps_page_my_account_id              = ! empty( $_POST['wps_page_my_account_id'] ) ? (int) $_POST['wps_page_my_account_id'] : 0;
-		$wps_page_valid_checkout_id          = ! empty( $_POST['wps_page_valid_checkout_id'] ) ? (int) $_POST['wps_page_valid_checkout_id'] : 0;
-		$wps_page_valid_proposal_id          = ! empty( $_POST['wps_page_valid_proposal_id'] ) ? (int) $_POST['wps_page_valid_proposal_id'] : 0;
+		$wps_page_valid_page_id              = ! empty( $_POST['wps_page_valid_page_id'] ) ? (int) $_POST['wps_page_valid_page_id'] : 0;
 		$wps_page_general_conditions_of_sale = ! empty( $_POST['wps_page_general_conditions_of_sale'] ) ? (int) $_POST['wps_page_general_conditions_of_sale'] : 0;
 
 		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
@@ -176,7 +175,7 @@ class Settings_Action {
 		$page_ids_options['cart_id']                    = $wps_page_cart_id;
 		$page_ids_options['checkout_id']                = $wps_page_checkout_id;
 		$page_ids_options['my_account_id']              = $wps_page_my_account_id;
-		$page_ids_options['valid_checkout_id']          = $wps_page_valid_checkout_id;
+		$page_ids_options['valid_page_id']              = $wps_page_valid_page_id;
 		$page_ids_options['valid_proposal_id']          = $wps_page_valid_proposal_id;
 		$page_ids_options['general_conditions_of_sale'] = $wps_page_general_conditions_of_sale;
 
