@@ -748,6 +748,19 @@ body.single-wps-product .wps-product-price {
   font-weight: 700;
   color: rgba(0, 0, 0, 0.8); }
 
+.wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-price .wps-quantity-plus, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-price .wps-quantity-minus, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-quantity .wps-quantity-plus, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-quantity .wps-quantity-minus {
+  position: relative;
+  -webkit-transition: opacity 0.2s ease-out;
+  transition: opacity 0.2s ease-out; }
+
+.wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-price .wps-quantity-plus:focus, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-price .wps-quantity-plus:active, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-price .wps-quantity-minus:focus, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-price .wps-quantity-minus:active, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-quantity .wps-quantity-plus:focus, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-quantity .wps-quantity-plus:active, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-quantity .wps-quantity-minus:focus, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-quantity .wps-quantity-minus:active {
+  top: 2px; }
+
+.wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-price .wps-quantity-plus:hover, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-price .wps-quantity-minus:hover, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-quantity .wps-quantity-plus:hover, .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-quantity .wps-quantity-minus:hover {
+  opacity: 0.6;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  cursor: pointer; }
+
 .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-price {
   margin-left: auto; }
 
