@@ -17,34 +17,61 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 ?>
-
-<table class="wpeo-table">
-	<thead>
-		<tr>
-			<th data-title="Proposal"><?php esc_html_e( 'Proposal', 'wpshop' ); ?></th>
-			<th data-title="Date"><?php esc_html_e( 'Date', 'wpshop' ); ?></th>
-			<th data-title="Status"><?php esc_html_e( 'Status', 'wpshop' ); ?></th>
-			<th data-title="Total"><?php esc_html_e( 'Total', 'wpshop' ); ?></th>
-			<th data-title="Total"><?php esc_html_e( 'Actions', 'wpshop' ); ?></th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-		if ( ! empty( $proposals ) ) :
-			foreach ( $proposals as $proposal ) :
-				?>
-				<tr>
-					<th data-title="<?php echo esc_attr( $proposal->data['title'] ); ?>"><?php echo esc_html( $proposal->data['title'] ); ?></th>
-					<td data-title="<?php echo esc_attr( $proposal->data['datec']['rendered']['date'] ); ?>"><?php echo esc_html( $proposal->data['datec']['rendered']['date'] ); ?></td>
-					<td data-title="N/D">N/D</td>
-					<td data-title="<?php echo esc_attr( number_format( $proposal->data['total_ttc'], 2 ) ); ?>€"><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2 ) ); ?>€</td>
-					<td data-title="View">
+<div class="wps-list-quotation wps-list-box">
+	<?php
+	if ( ! empty( $proposals ) ) :
+		foreach ( $proposals as $proposal ) :
+			?>
+			<div class="wps-order wps-box">
+				<div class="wps-box-resume">
+					<div class="wps-box-primary">
+						<div class="wps-box-title"><?php echo esc_html( $proposal->data['datec']['rendered']['date'] ); ?></div>
+						<ul class="wps-box-attributes">
+							<li class="wps-box-subtitle-item"><i class="wps-box-subtitle-icon fas fa-shopping-cart"></i> <?php echo esc_attr( $proposal->data['title'] ); ?></li>
+						</ul>
+						<div class="wps-box-display-more">
+							<i class="wps-box-display-more-icon fas fa-angle-right"></i>
+							<span class="wps-box-display-more-text"><?php esc_html_e( 'View details', 'wpshop' ); ?></span>
+						</div>
+					</div>
+					<div class="wps-box-secondary">
+						<div class="wps-box-status"><span class="wps-box-status-dot"></span> <?php echo Payment::g()->make_readable_statut( $proposal ); ?></div>
+						<div class="wps-box-price"><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
+					</div>
+					<div class="wps-box-action">
 						<?php do_action( 'wps_my_account_proposals_actions', $proposal ); ?>
-					</td>
-				</tr>
-				<?php
-			endforeach;
-		endif;
+					</div>
+				</div>
+
+				<div class="wps-box-detail wps-list-product">
+					<?php
+					if ( ! empty( $proposal->data['lines'] ) ) :
+						foreach( $proposal->data['lines'] as $product ) :
+							$qty                  = $product['qty'];
+							$product              = Product::g()->get( array(
+								'meta_key'         => '_external_id',
+								'meta_value'       => (int) $product['fk_product'],
+							), true );
+							$product->data['qty'] = $qty;
+							$product              = $product->data;
+							include( Template_Util::get_template_part( 'products', 'wps-product-list' ) );
+						endforeach;
+					else :
+						esc_html_e( 'No products to display', 'wpshop' );
+					endif;
+					?>
+				</div>
+			</div>
+			<?php
+		endforeach;
+	else :
 		?>
-	</tbody>
-</table>
+		<div class="wpeo-notice notice-info">
+			<div class="notice-content">
+				<div class="notice-title"><?php esc_html_e( 'No quotations', 'wpshop' ); ?></div>
+			</div>
+		</div>
+		<?php
+	endif;
+	?>
+</div>
