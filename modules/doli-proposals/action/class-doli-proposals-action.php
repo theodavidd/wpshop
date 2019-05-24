@@ -3,7 +3,7 @@
  * Gestion des actions des devis venant de dolibarr.
  *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
  *
@@ -72,9 +72,11 @@ class Doli_Proposals_Action {
 	 * @param  Proposal_Model $wp_proposal Les données du devis.
 	 */
 	public function checkout_update_proposal( $wp_proposal ) {
-		$doli_proposal = Request_Util::put( 'proposals/' . $wp_proposal->data['external_id'], array(
-			'mode_reglement_id' => Doli_Payment::g()->convert_to_doli_id( $wp_proposal->data['payment_method'] ),
-		) );
+		if ( Settings::g()->dolibarr_is_active() ) {
+			$doli_proposal = Request_Util::put( 'proposals/' . $wp_proposal->data['external_id'], array(
+				'mode_reglement_id' => Doli_Payment::g()->convert_to_doli_id( $wp_proposal->data['payment_method'] ),
+			) );
+		}
 	}
 
 	/**

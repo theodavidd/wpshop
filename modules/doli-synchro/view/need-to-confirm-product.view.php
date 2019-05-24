@@ -5,7 +5,7 @@
  * @todo: template pas OK
  *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
  *
@@ -21,18 +21,6 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wpeo-modal need-to-confirm modal-active">
 
 	<div class="modal-container">
-
-		<div class="mask" style="display: none;">
-			<div class="content">
-				<h3>Synchronisation terminée</h3>
-
-				<a href="<?php echo esc_attr( $url ); ?>" class="wpeo-button button-main">
-					<span>Rafraichir la page</span>
-				</a>
-			</div>
-
-		</div>
-
 		<!-- Entête -->
 		<div class="modal-header">
 			<h2 class="modal-title">Synchroniser depuis WordPress ou depuis Dolibarr ?</h2>

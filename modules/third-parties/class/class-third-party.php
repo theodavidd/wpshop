@@ -5,7 +5,7 @@
  * Le controlleur du modèle Third_Party_Model.
  *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
  *
@@ -214,6 +214,29 @@ class Third_Party extends \eoxia\Post_Class {
 		}
 
 		return $result;
+	}
+
+	public function dessociate_contact( $third_party ) {
+		$messages = array();
+
+		if ( ! empty( $third_party->data['contact_ids'] ) ) {
+			$contacts = Contact::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
+
+			if ( ! empty( $contacts ) ) {
+				foreach ( $contacts as $contact ) {
+					$contact->data['third_party_id'] = 0;
+
+					Contact::g()->update( $contact->data );
+					$messages[] = sprintf( __( 'Dissociate contact <strong>%s</strong> from <strong>%s</strong>', 'wpshop' ), $contact->data['email'], $third_party->data['title'] );
+				}
+			}
+
+			$third_party->data['contact_ids'] = array();
+
+			$this->update( $third_party->data );
+		}
+
+		return $messages;
 	}
 }
 

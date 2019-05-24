@@ -143,9 +143,11 @@ window.eoxiaJS.wpshop.doliSynchro.goSync = function (triggeredElement) {
 }
 
 
-window.eoxiaJS.wpshop.doliSynchro.associatedAndSynchronized = function (triggeredElement, response) {
+window.eoxiaJS.wpshop.doliSynchro.associatedAndSynchronized = function ( triggeredElement, response ) {
 	var modal = jQuery( triggeredElement ).closest( '.wpeo-modal' );
-	modal.removeClass( 'modal-force-display' );
+	modal.addClass( 'modal-force-display' );
+	modal.find( '.modal-title' ).html( 'Association terminée' );
+	modal.find( '.modal-content' ).html( response.data.view );
 
 	modal.find( 'button-light' ).hide();
 

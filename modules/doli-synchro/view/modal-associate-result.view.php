@@ -1,6 +1,7 @@
 <?php
 /**
- * Affichages des messages d'erreur.
+ * Résultat de l'association
+ *
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
@@ -16,7 +17,22 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<ul class="error notice">
+<div class="wpeo-notice notice-success">
+	<ul class="notice-content">
+		<?php
+		if ( ! empty( $messages ) ) :
+			foreach ( $messages as $message ) :
+				?>
+				<li><?php echo $message; ?></li>
+				<?php
+			endforeach;
+		endif;
+		?>
+	</ul>
+</div>
+
+<div class="wpeo-notice notice-warning">
+	<ul class="notice-content">
 	<?php
 	if ( ! empty( $errors->get_error_messages() ) ) :
 		foreach ( $errors->get_error_messages() as $message ) :
@@ -27,3 +43,8 @@ defined( 'ABSPATH' ) || exit; ?>
 	endif;
 	?>
 </ul>
+</div>
+
+<a href="<?php echo esc_attr( $url ); ?>" class="wpeo-button button-main">
+	<span>Rafraichir la page</span>
+</a>

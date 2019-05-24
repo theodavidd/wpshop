@@ -3,7 +3,7 @@
  * La vue principale de la page des produits (wps-third-party)
  *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
  *
@@ -31,6 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<li><span><?php esc_html_e( 'Address', 'wpshop' ); ?></span> <?php echo $third_party->data['address']; ?></li>
 		<li><span><?php esc_html_e( 'ZIP Code', 'wpshop' ); ?></span> <?php echo $third_party->data['zip']; ?></li>
 		<li><span><?php esc_html_e( 'City', 'wpshop' ); ?></span> <?php echo $third_party->data['town']; ?></li>
+		<li><span><?php esc_html_e( 'Country', 'wpshop' ); ?></span> <?php echo $third_party->data['country']; ?></li>
 		<li><span><?php esc_html_e( 'Phone', 'wpshop' ); ?></span> <?php echo $third_party->data['phone']; ?></li>
 	</ul>
 </div>

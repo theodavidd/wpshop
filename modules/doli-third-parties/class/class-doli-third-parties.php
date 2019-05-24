@@ -3,7 +3,7 @@
  * Les fonctions principales des tiers avec dolibarr.
  *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
  *
@@ -75,10 +75,12 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 			'address'    => $wp_third_party->data['address'],
 			'zip'        => $wp_third_party->data['zip'],
 			'state'      => $wp_third_party->data['state'],
+			'phone'      => $wp_third_party->data['phone'],
+			'town'       => $wp_third_party->data['town'],
 		);
 
 		if ( ! empty( $wp_third_party->data['external_id'] ) ) {
-			Request_Util::put( 'thirdparties/' . $doli_third_party->id, $data );
+			Request_Util::put( 'thirdparties/' . $wp_third_party->data['external_id'], $data );
 		} else {
 			$doli_third_party_id                 = Request_Util::post( 'thirdparties', $data );
 			$wp_third_party->data['external_id'] = $doli_third_party_id;

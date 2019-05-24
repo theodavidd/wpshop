@@ -3,7 +3,7 @@
  * Gestion des actions de synchronisations des entités avec dolibarr.
  *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
  *
@@ -92,32 +92,52 @@ class Doli_Synchro_Action {
 		$view         = '';
 		$buttons_view = '';
 		$text         = '';
+		$wp_class     = '\wpshop\\';
 
 		if ( empty( $doli_sync_id ) ) {
 			switch ( $route ) {
-				case 'third-parties':
-					$text = __( 'third party', 'wpshop' );
+				case 'thirdparties':
+					$text      = __( 'third party', 'wpshop' );
+					$wp_class .= 'Third_Party';
 					break;
 				case 'contacts':
-					$text = __( 'contact', 'wpshop' );
+					$text      = __( 'contact', 'wpshop' );
+					$wp_class .= 'Contact';
 					break;
 				case 'products':
-				 	$text = __( 'product', 'wpshop' );
+				 	$text      = __( 'product', 'wpshop' );
+					$wp_class .= 'Product';
 					break;
 				case 'proposals':
-					$text = __( 'proposal', 'wpshop' );
+					$text      = __( 'proposal', 'wpshop' );
+					$wp_class .= 'Proposals';
 					break;
 				case 'orders':
-					$text = __( 'order', 'wpshop' );
+					$text      = __( 'order', 'wpshop' );
+					$wp_class .= 'Doli_Order';
 					break;
 				case 'invoices':
-					$text = __( 'invoice', 'wpshop' );
+					$text      = __( 'invoice', 'wpshop' );
+					$wp_class .= 'Doli_Invoice';
 					break;
 				default:
 					break;
 			}
 
 			$entries = Request_Util::get( $route . '?limit=-1' );
+
+			if ( ! empty( $entries ) ) {
+				foreach ( $entries as $key => $entry ) {
+					$wp_entry = $wp_class::g()->get( array(
+						'meta_key'   => '_external_id',
+						'meta_value' => (int) $entry->id,
+					), true );
+
+					if ( ! empty( $wp_entry ) ) {
+						unset( $entries[ $key ] );
+					}
+				}
+			}
 
 			ob_start();
 			\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'single', array(
@@ -139,6 +159,20 @@ class Doli_Synchro_Action {
 		} else {
 			$doli_entity = Request_Util::get( $route . '/' . $doli_sync_id );
 			switch ( $route ) {
+				case 'thirdparties':
+					$wp_entity = Third_Party::g()->get( array( 'id' => $wp_id ), true );
+
+					$wp_entity->data['contacts'] = array();
+
+					if ( ! empty( $wp_entity->data['contact_ids'] ) ) {
+						$wp_entity->data['contacts'] = Contact::g()->get( array( 'include' => $wp_entity->data['contact_ids'] ) );
+					}
+
+					$modified_date_doli = ! empty( $doli_entity->date_modification ) ? $doli_entity->date_modification : $doli_entity->date_creation;
+					$url                = admin_url( 'admin.php?page=wps-third-party' );
+
+					$doli_entity->contacts = Request_Util::get( 'contacts?sortfield=t.rowid&sortorder=ASC&limit=-1&thirdparty_ids=' . $doli_sync_id );
+					break;
 				case 'products':
 					$wp_entity = Product::g()->get( array( 'id' => $wp_id ), true );
 					$url       = admin_url( 'admin.php?page=wps-product' );
@@ -148,10 +182,9 @@ class Doli_Synchro_Action {
 			}
 
 			$modified_date_wp   = strtotime( $wp_entity->data['date']['raw'] );
-			$modified_date_doli = ! empty( $doli_entity->date_modification ) ? $doli_entity->date_modification : strtotime( $doli_entity->date_creation );
 
 			ob_start();
-			\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'need-to-confirm-product', array(
+			\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'need-to-confirm-' . $route, array(
 				'date_wp'     => $modified_date_wp,
 				'date_doli'   => $modified_date_doli,
 				'doli_entity' => $doli_entity,
@@ -187,12 +220,20 @@ class Doli_Synchro_Action {
 			wp_send_json_error();
 		}
 
-		Doli_Synchro::g()->associate_and_synchronize( $from, $wp_id, $entry_id );
+		$data = Doli_Synchro::g()->associate_and_synchronize( $from, $wp_id, $entry_id );
 
+		$url = '';
+		ob_start();
+		\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'modal-associate-result', array(
+			'url'      => $url,
+			'messages' => $data['messages'],
+			'errors'   => $data['wp_error'],
+		) );
 		wp_send_json_success( array(
 			'namespace'        => 'wpshop',
 			'module'           => 'doliSynchro',
 			'callback_success' => 'associatedAndSynchronized',
+			'view'             => ob_get_clean(),
 			'from'             => $from,
 		) );
 	}
@@ -278,7 +319,6 @@ class Doli_Synchro_Action {
 					}
 
 					$doli_class::g()->doli_to_wp( $doli_entry, $wp_entry );
-
 				}
 
 				$done_number++;

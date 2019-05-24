@@ -3,7 +3,7 @@
  * Les fonctions principales des synchronisations.
  *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
  *
@@ -132,13 +132,53 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 	public function associate_and_synchronize( $from, $wp_id, $entry_id ) {
 		$post_type = get_post_type( $wp_id );
 
+		$wp_error = new \WP_Error();
+		$messages = array();
+
 		switch ( $post_type ) {
 			case 'wps-third-party':
 				if ( 'dolibarr' === $from ) {
 					$doli_third_party = Request_Util::get( 'thirdparties/' . $entry_id );
 					$wp_third_party   = Third_Party::g()->get( array( 'id' => $wp_id ), true );
 
+
 					Doli_Third_Parties::g()->doli_to_wp( $doli_third_party, $wp_third_party );
+					$messages[] = sprintf( __( 'Erase data for thie third party <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_third_party->data['title'] );
+
+					$messages = array_merge( $messages, Third_Party::g()->dessociate_contact( $wp_third_party ) );
+
+					$doli_third_party->contacts = Request_Util::get( 'contacts?sortfield=t.rowid&sortorder=ASC&limit=-1&thirdparty_ids=' . $entry_id );
+
+					if ( ! empty( $doli_third_party->contacts ) ) {
+						foreach ( $doli_third_party->contacts as $doli_contact ) {
+							// Gestion contact déjà existant
+							$wp_contact = Contact::g()->get( array(
+								'search' => $doli_contact->email,
+							), true );
+
+							$messages[] = sprintf( __( 'Work in progress for the contact <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'] );
+
+							if ( ! empty( $wp_contact ) ) {
+								// Est-ce qu'il a une société ?
+								if ( ! empty( $wp_contact->data['third_party_id'] ) && $wp_contact->data['third_party_id'] !== $wp_third_party->data['id'] ) {
+									$third_party_contact = Third_Party::g()->get( array( 'id' => $wp_contact->data['third_party_id'] ), true );
+									// Erreur
+									$wp_error->add( 'contact-already-exist', sprintf( __( '<strong>%s</strong> is already associated to the third party %s. <strong>This entry was not associated and not synchronized</strong>', 'wpshop' ), '<strong>' . esc_html( $wp_contact->data['email'] ) . '</strong>', '<strong>' . esc_html( $third_party_contact->data['title'] ) . '</strong>' ) );
+									$messages[] = sprintf( __( 'Error for the contact <strong>%s</strong>, see warning section <i class="fas fa-exclamation-triangle"></i>', 'wpshop' ), $wp_contact->data['email'] );
+								} else {
+									// On le met à jour et on l'affecte à la société
+									Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
+									$messages[] = sprintf( __( 'Erase data for the contact <strong>%s</strong> with <strong>Dolibarr</strong> data and associate it to <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
+
+								}
+
+							} else {
+								// On le créer et on l'affecte à la société
+								Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
+								$messages[] = sprintf( __( 'Create the contact <strong>%s</strong> with <strong>Dolibarr</strong> data and associate it to <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
+							}
+						}
+					}
 				}
 
 				if ( 'wp' === $from ) {
@@ -208,6 +248,11 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 		}
 
 		update_post_meta( $wp_id, '_last_sync', current_time( 'mysql' ) );
+
+		return array(
+			'messages' => $messages,
+			'wp_error' => $wp_error,
+		);
 	}
 }
 

@@ -3,7 +3,7 @@
  * Gestion des actions du tunnel de vente.
  *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2018 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
  *
@@ -194,9 +194,7 @@ class Checkout_Action {
 				if ( ! empty( $third_party->data['id'] ) ) {
 					$third_party = Third_Party::g()->update( $posted_data['third_party'] );
 
-					if ( empty( $third_party->data['external_id'] ) ) {
-						do_action( 'wps_checkout_create_third_party', $third_party );
-					}
+					do_action( 'wps_checkout_create_third_party', $third_party );
 
 					if ( empty( $contact->data['external_id'] ) ) {
 						do_action( 'wps_checkout_create_contact', $contact );
