@@ -19,8 +19,10 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="table-cell table-100 wps-sync">
 	<div class="button-synchro <?php echo ! empty( $object->data['external_id'] ) ? 'action-attribute' : 'wpeo-modal-event'; ?>"
 		data-class="synchro-single"
-		data-action="<?php echo ! empty( $object->data['external_id'] ) ? 'associate_and_synchronize' : 'load_modal_synchro_single'; ?>"
-		data-nonce="<?php echo esc_attr( wp_create_nonce( ! empty( $object->data['external_id'] ) ? 'associate_and_synchronize' : 'load_modal_synchro_single' ) ); ?>"
+		data-title="<?php printf( __( 'Associate and synchronize %s', 'wpshop' ), $object->data['title'] ); ?>"
+		data-action="<?php echo ! empty( $object->data['external_id'] ) ? 'sync_entry' : 'load_associate_modal'; ?>"
+		data-nonce="<?php echo esc_attr( wp_create_nonce( ! empty( $object->data['external_id'] ) ? 'sync_entry' : 'load_associate_modal' ) ); ?>"
+		data-type="<?php echo esc_attr( $object->get_class() ); ?>"
 		data-entry-id="<?php echo $object->data['external_id']; ?>"
 		data-wp-id="<?php echo $object->data['id']; ?>"
 		data-route="<?php echo esc_attr( $route ); ?>"

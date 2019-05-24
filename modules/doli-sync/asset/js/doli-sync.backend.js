@@ -4,8 +4,8 @@
  * @since 1.0.0
  * @version 1.0.0
  */
-window.eoxiaJS.wpshop.doliSynchro = {};
-window.eoxiaJS.wpshop.doliSynchro.completed = false;
+window.eoxiaJS.wpshop.doliSync = {};
+window.eoxiaJS.wpshop.doliSync.completed = false;
 
 /**
  * La méthode appelée automatiquement par la bibliothèque EoxiaJS.
@@ -15,36 +15,14 @@ window.eoxiaJS.wpshop.doliSynchro.completed = false;
  * @since 1.0.0
  * @version 1.0.0
  */
-window.eoxiaJS.wpshop.doliSynchro.init = function() {
-	jQuery( document ).on( 'keyup', '.synchro-single .filter-entry', window.eoxiaJS.wpshop.doliSynchro.filter );
-	jQuery( document ).on( 'click', '.synchro-single li', window.eoxiaJS.wpshop.doliSynchro.clickEntry );
-
+window.eoxiaJS.wpshop.doliSync.init = function() {
 	jQuery( document ).on( 'modal-opened', '.modal-sync', function() {
 		if ( 0 < jQuery( '.waiting-item' ).length ) {
-			window.eoxiaJS.wpshop.doliSynchro.declareUpdateForm();
-			window.eoxiaJS.wpshop.doliSynchro.requestUpdate();
-			window.addEventListener( 'beforeunload', window.eoxiaJS.wpshop.doliSynchro.safeExit );
+			window.eoxiaJS.wpshop.doliSync.declareUpdateForm();
+			window.eoxiaJS.wpshop.doliSync.requestUpdate();
+			window.addEventListener( 'beforeunload', window.eoxiaJS.wpshop.doliSync.safeExit );
 		}
 	});
-};
-
-window.eoxiaJS.wpshop.doliSynchro.filter = function( event ) {
-	var entries = jQuery( '.synchro-single ul.select li' );
-	entries.show();
-
-	var val = jQuery( this ).val().toLowerCase();
-
-	for ( var i = 0; i < entries.length; i++ ) {
-		if ( jQuery( entries[i] ).text().toLowerCase().indexOf( val ) == -1 ) {
-			jQuery( entries[i] ).hide();
-		}
-	}
-};
-
-window.eoxiaJS.wpshop.doliSynchro.clickEntry = function( event ) {
-	jQuery( '.synchro-single li.active' ).removeClass( 'active' );
-	jQuery( this ).addClass( 'active' );
-	jQuery( '.synchro-single input[name="entry_id"]' ).val( jQuery( this ).data( 'id' ) );
 };
 
 /**
@@ -52,7 +30,7 @@ window.eoxiaJS.wpshop.doliSynchro.clickEntry = function( event ) {
  *
  * @type {void}
  */
-window.eoxiaJS.wpshop.doliSynchro.declareUpdateForm = function() {
+window.eoxiaJS.wpshop.doliSync.declareUpdateForm = function() {
 	jQuery( '.item' ).find( 'form' ).ajaxForm({
 		dataType: 'json',
 		success: function( responseText, statusText, xhr, $form ) {
@@ -68,7 +46,7 @@ window.eoxiaJS.wpshop.doliSynchro.declareUpdateForm = function() {
 					$form.find( '.item-stats' ).html( responseText.data.doneDescription );
 				}
 			} else {
-				if ( ! window.eoxiaJS.wpshop.doliSynchro.completed ) {
+				if ( ! window.eoxiaJS.wpshop.doliSync.completed ) {
 					$form.find( '.item-stats' ).html( responseText.data.progression );
 					$form.find( 'input[name="done_number"]' ).val( responseText.data.doneElementNumber );
 					$form.find( '.item-progression' ).css( 'width', responseText.data.progressionPerCent + '%' );
@@ -80,13 +58,13 @@ window.eoxiaJS.wpshop.doliSynchro.declareUpdateForm = function() {
 						$form.find( '.item-stats' ).html( responseText.data.doneDescription );
 					}
 
-					window.eoxiaJS.wpshop.doliSynchro.completed = true;
+					window.eoxiaJS.wpshop.doliSync.completed = true;
 					jQuery( '.general-message' ).html( responseText.data.doneDescription );
-					window.removeEventListener( 'beforeunload', window.eoxiaJS.wpshop.doliSynchro.safeExit );
+					window.removeEventListener( 'beforeunload', window.eoxiaJS.wpshop.doliSync.safeExit );
 				}
 			}
 
-			window.eoxiaJS.wpshop.doliSynchro.requestUpdate();
+			window.eoxiaJS.wpshop.doliSync.requestUpdate();
 		}
 	});
 };
@@ -96,8 +74,8 @@ window.eoxiaJS.wpshop.doliSynchro.declareUpdateForm = function() {
  *
  * @return {void}
  */
-window.eoxiaJS.wpshop.doliSynchro.requestUpdate = function() {
-	if ( ! window.eoxiaJS.wpshop.doliSynchro.completed ) {
+window.eoxiaJS.wpshop.doliSync.requestUpdate = function() {
+	if ( ! window.eoxiaJS.wpshop.doliSync.completed ) {
 		var currentUpdateItemID = '#' + jQuery( '.waiting-item:first' ).attr( 'id' );
 
 		jQuery( currentUpdateItemID ).addClass( 'in-progress-item' );
@@ -115,7 +93,7 @@ window.eoxiaJS.wpshop.doliSynchro.requestUpdate = function() {
  * @param  {WindowEventHandlers} event L'évènement de la fenêtre.
  * @return {string}
  */
-window.eoxiaJS.wpshop.doliSynchro.safeExit = function( event ) {
+window.eoxiaJS.wpshop.doliSync.safeExit = function( event ) {
 	var confirmationMessage = taskManager.wpshopconfirmExit;
 	if ( taskManager.wpshopUrlPage === event.currentTarget.adminpage ) {
 		event.returnValue = confirmationMessage;
@@ -123,34 +101,6 @@ window.eoxiaJS.wpshop.doliSynchro.safeExit = function( event ) {
 	}
 };
 
-/**
- * @todo: voir processus de MAJ des MU.
- *
- * @type {Object}
- */
-window.eoxiaJS.wpshop.doliSynchro.requestUpdateFunc = {
-	endMethod: []
-};
-
-window.eoxiaJS.wpshop.doliSynchro.loadedModalSynchroSingle = function( triggeredElement, response ) {
-	jQuery( 'body' ).append( response.data.view );
-}
-
-window.eoxiaJS.wpshop.doliSynchro.goSync = function (triggeredElement) {
-	jQuery( triggeredElement ).closest( '.wpeo-modal' ).addClass( 'modal-force-display' );
-
-	return true;
-}
-
-
-window.eoxiaJS.wpshop.doliSynchro.associatedAndSynchronized = function ( triggeredElement, response ) {
-	var modal = jQuery( triggeredElement ).closest( '.wpeo-modal' );
-	modal.addClass( 'modal-force-display' );
-	modal.find( '.modal-title' ).html( 'Association terminée' );
-	modal.find( '.modal-content' ).html( response.data.view );
-
-	modal.find( 'button-light' ).hide();
-
-	modal.find( '.mask' ).fadeIn();
-
+window.eoxiaJS.wpshop.doliSync.syncEntrySuccess = function( triggeredElement, response ) {
+	jQuery( triggeredElement ).closest( '.wps-sync' ).replaceWith( response.data.view );
 }

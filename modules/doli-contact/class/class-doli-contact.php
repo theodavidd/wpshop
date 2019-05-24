@@ -36,7 +36,7 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 	 * @param  stdClass      $doli_contact Les données provenant de Dolibarr.
 	 * @param  Contact_Model $wp_contact   Les données de WP.
 	 */
-	public function doli_to_wp( $doli_contact, $wp_contact ) {
+	public function doli_to_wp( $doli_contact, $wp_contact, $save = true ) {
 		$wp_third_party = null;
 
 		if ( ! empty( $doli_contact->socid ) ) {
@@ -59,7 +59,7 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 			return false;
 		}
 
-		if ( null !== $wp_third_party ) {
+		if ( ! empty( $wp_third_party ) ) {
 			$wp_contact->data['third_party_id'] = $wp_third_party->data['id'];
 		}
 
@@ -67,16 +67,20 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 			$wp_contact->data['password'] = wp_generate_password();
 		}
 
-		$contact_saved = Contact::g()->update( $wp_contact->data );
+		if ( $save ) {
+			$contact_saved = Contact::g()->update( $wp_contact->data );
 
-		if ( is_wp_error( $contact_saved ) ) {
-			return false;
+			if ( is_wp_error( $contact_saved ) ) {
+				return false;
+			}
+
+			if ( null !== $wp_third_party ) {
+				$wp_third_party->data['contact_ids'][] = $contact_saved->data['id'];
+				Third_Party::g()->update( $wp_third_party->data );
+			}
 		}
 
-		if ( null !== $wp_third_party ) {
-			$wp_third_party->data['contact_ids'][] = $contact_saved->data['id'];
-			Third_Party::g()->update( $wp_third_party->data );
-		}
+		return $wp_contact;
 	}
 
 	/**

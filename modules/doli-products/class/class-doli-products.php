@@ -37,7 +37,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 	 * dolibarr.
 	 * @param  Product_Model $wp_product   Les données du produit de WP.
 	 */
-	public function doli_to_wp( $doli_product, $wp_product ) {
+	public function doli_to_wp( $doli_product, $wp_product, $save = true, &$wp_error = null ) {
 		if ( is_object( $wp_product ) ) {
 			$wp_product->data['external_id']       = (int) $doli_product->id;
 			$wp_product->data['ref']               = $doli_product->ref;
@@ -56,12 +56,16 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			$wp_product->data['status']            = 'publish';
 			$wp_product->data['date_last_synchro'] = ! empty( $doli_product->last_sync_date ) ? $doli_product->last_sync_date : current_time( 'mysql' );
 
-			remove_all_actions( 'save_post' );
-			$wp_product = Product::g()->update( $wp_product->data );
+			if ( $save ) {
+				remove_all_actions( 'save_post' );
+				$wp_product = Product::g()->update( $wp_product->data );
 
-			update_post_meta( $wp_product->data['id'], '_external_id', (int) $doli_product->id );
-			add_action( 'save_post', array( Doli_Products_Action::g(), 'callback_save_post' ), 20, 2 );
-			Product::g()->update( $wp_product->data );
+				update_post_meta( $wp_product->data['id'], '_external_id', (int) $doli_product->id );
+				add_action( 'save_post', array( Doli_Products_Action::g(), 'callback_save_post' ), 20, 2 );
+				Product::g()->update( $wp_product->data );
+			}
+
+			return $wp_product;
 		}
 	}
 

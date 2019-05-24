@@ -17,7 +17,6 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="table-row">
-	<div class="table-cell table-25"><input type="checkbox" class="check"/></div>
 	<div class="table-cell table-100 table-padding-0"><?php echo get_the_post_thumbnail( $product->data['id'], array( 80, 80 ) ); ?></div>
 	<div class="table-cell table-full">
 		<ul class="reference-id">

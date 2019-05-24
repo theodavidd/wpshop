@@ -38,8 +38,10 @@
     "modules/doli-contact/doli-contact.config.json",
     "modules/doli-invoice/doli-invoice.config.json",
     "modules/doli-payment/doli-payment.config.json",
-    "modules/doli-synchro/doli-synchro.config.json",
-    "modules/doli-products/doli-products.config.json"
+    "modules/doli-products/doli-products.config.json",
+    
+    "modules/doli-sync/doli-sync.config.json",
+    "modules/doli-associate/doli-associate.config.json"
 	],
 	"version": "2.0.0"
 }

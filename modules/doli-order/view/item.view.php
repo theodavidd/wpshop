@@ -19,6 +19,10 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="table-row">
 	<div class="table-cell table-full">
 		<ul class="reference-id">
+			<li><i class="fas fa-hashtag"></i>WP : <?php echo esc_html( $order->data['id'] ); ?></li>
+			<?php if ( ! empty( $order->data['external_id'] ) ) : ?>
+				<li><i class="fas fa-hashtag"></i>Doli : <?php echo esc_html( $order->data['external_id'] ); ?></li>
+			<?php endif; ?>
 			<li><i class="fas fa-calendar-alt"></i> <?php echo esc_html( $order->data['datec']['rendered']['date_time'] ); ?></li>
 		</ul>
 		<div class="reference-title">

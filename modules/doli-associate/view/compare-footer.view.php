@@ -1,6 +1,6 @@
 <?php
 /**
- * Le footer de la modal de synchronisation.
+ * Le footer de la modal de comparaison.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
@@ -18,12 +18,5 @@ defined( 'ABSPATH' ) || exit; ?>
 
 
 <div class="wpeo-button button-light modal-close">
-	<span>Annuler</span>
-</div>
-
-<div class="wpeo-button button-main action-input"
-	data-action="load_modal_synchro_single"
-	data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_modal_synchro_single' ) ); ?>"
-	data-parent="wpeo-modal">
-	<span>Associer et synchroniser</span>
+	<span><?php esc_html_e( 'Back', 'wpshop' ); ?></span>
 </div>

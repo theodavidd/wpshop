@@ -18,7 +18,6 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-list-product wpeo-table table-flex table-7">
 	<div class="table-row table-header">
-		<div class="table-cell table-25"><input type="checkbox" class="check-all"/></div>
 		<div class="table-cell table-150"><?php esc_html_e( 'Thumbnail', 'wpshop' ); ?></div>
 		<div class="table-cell table-full"><?php esc_html_e( 'Title', 'wpshop' ); ?></div>
 		<div class="table-cell table-100"><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></div>

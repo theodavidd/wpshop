@@ -28,11 +28,11 @@ class Doli_Synchro_Action {
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_load_modal_synchro', array( $this, 'load_modal_synchro' ) );
-		add_action( 'wp_ajax_load_modal_synchro_single', array( $this, 'load_modal_synchro_single' ) );
-		add_action( 'wp_ajax_associate_and_synchronize', array( $this, 'associate_and_synchronize' ) );
 
 		add_action( 'wp_ajax_sync', array( $this, 'sync' ) );
 		add_action( 'wps_sync_payments_before', array( $this, 'sync_payments' ), 10, 2 );
+
+		add_action( 'wp_ajax_sync_entry', array( $this, 'sync_entry' ) );
 
 		add_action( 'wps_listing_table_header_end', array( $this, 'add_sync_header' ) );
 		add_action( 'wps_listing_table_end', array( $this, 'add_sync_item' ), 10, 2 );
@@ -69,7 +69,7 @@ class Doli_Synchro_Action {
 		}
 
 		ob_start();
-		\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'main', array(
+		\eoxia\View_Util::exec( 'wpshop', 'doli-sync', 'main', array(
 			'sync_infos' => $sync_infos,
 		) );
 		$view = ob_get_clean();
@@ -79,169 +79,7 @@ class Doli_Synchro_Action {
 	}
 
 	/**
-	 * Charges la modal de synchronisation pour un seul élément.
-	 *
-	 * @since 2.0.0
-	 */
-	public function load_modal_synchro_single() {
-		check_ajax_referer( 'load_modal_synchro_single' );
-
-		$wp_id        = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
-		$doli_sync_id = ! empty( $_POST['entry_id'] ) ? (int) $_POST['entry_id'] : get_post_meta( $wp_id, '_external_id', true );
-		$route        = ! empty( $_POST['route'] ) ? sanitize_text_field( $_POST['route'] ) : '';
-		$view         = '';
-		$buttons_view = '';
-		$text         = '';
-		$wp_class     = '\wpshop\\';
-
-		if ( empty( $doli_sync_id ) ) {
-			switch ( $route ) {
-				case 'thirdparties':
-					$text      = __( 'third party', 'wpshop' );
-					$wp_class .= 'Third_Party';
-					break;
-				case 'contacts':
-					$text      = __( 'contact', 'wpshop' );
-					$wp_class .= 'Contact';
-					break;
-				case 'products':
-				 	$text      = __( 'product', 'wpshop' );
-					$wp_class .= 'Product';
-					break;
-				case 'proposals':
-					$text      = __( 'proposal', 'wpshop' );
-					$wp_class .= 'Proposals';
-					break;
-				case 'orders':
-					$text      = __( 'order', 'wpshop' );
-					$wp_class .= 'Doli_Order';
-					break;
-				case 'invoices':
-					$text      = __( 'invoice', 'wpshop' );
-					$wp_class .= 'Doli_Invoice';
-					break;
-				default:
-					break;
-			}
-
-			$entries = Request_Util::get( $route . '?limit=-1' );
-
-			if ( ! empty( $entries ) ) {
-				foreach ( $entries as $key => $entry ) {
-					$wp_entry = $wp_class::g()->get( array(
-						'meta_key'   => '_external_id',
-						'meta_value' => (int) $entry->id,
-					), true );
-
-					if ( ! empty( $wp_entry ) ) {
-						unset( $entries[ $key ] );
-					}
-				}
-			}
-
-			ob_start();
-			\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'single', array(
-				'entries' => $entries,
-				'wp_id'   => $wp_id,
-				'route'   => $route,
-				'text'    => $text,
-			) );
-			$view = ob_get_clean();
-
-			ob_start();
-			\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'single-footer' );
-			$buttons_view = ob_get_clean();
-
-			wp_send_json_success( array(
-				'view'         => $view,
-				'buttons_view' => $buttons_view,
-			) );
-		} else {
-			$doli_entity = Request_Util::get( $route . '/' . $doli_sync_id );
-			switch ( $route ) {
-				case 'thirdparties':
-					$wp_entity = Third_Party::g()->get( array( 'id' => $wp_id ), true );
-
-					$wp_entity->data['contacts'] = array();
-
-					if ( ! empty( $wp_entity->data['contact_ids'] ) ) {
-						$wp_entity->data['contacts'] = Contact::g()->get( array( 'include' => $wp_entity->data['contact_ids'] ) );
-					}
-
-					$modified_date_doli = ! empty( $doli_entity->date_modification ) ? $doli_entity->date_modification : $doli_entity->date_creation;
-					$url                = admin_url( 'admin.php?page=wps-third-party' );
-
-					$doli_entity->contacts = Request_Util::get( 'contacts?sortfield=t.rowid&sortorder=ASC&limit=-1&thirdparty_ids=' . $doli_sync_id );
-					break;
-				case 'products':
-					$wp_entity = Product::g()->get( array( 'id' => $wp_id ), true );
-					$url       = admin_url( 'admin.php?page=wps-product' );
-					break;
-				default:
-					break;
-			}
-
-			$modified_date_wp   = strtotime( $wp_entity->data['date']['raw'] );
-
-			ob_start();
-			\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'need-to-confirm-' . $route, array(
-				'date_wp'     => $modified_date_wp,
-				'date_doli'   => $modified_date_doli,
-				'doli_entity' => $doli_entity,
-				'wp_entity'   => $wp_entity,
-				'url'         => $url,
-			) );
-			$view = ob_get_clean();
-
-			wp_send_json_success( array(
-				'namespace'        => 'wpshop',
-				'module'           => 'doliSynchro',
-				'callback_success' => 'loadedModalSynchroSingle',
-				'view'             => $view,
-			) );
-		}
-	}
-
-	/**
-	 * Associe et synchronise l'élément.
-	 *
-	 * @todo: dolibarr wp en dur
-	 *
-	 * @since 2.0.0
-	 */
-	public function associate_and_synchronize() {
-		check_ajax_referer( 'associate_and_synchronize' );
-
-		$entry_id = ! empty( $_POST['entry_id'] ) ? (int) $_POST['entry_id'] : 0;
-		$wp_id    = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
-		$from     = ! empty( $_POST['from'] ) ? sanitize_text_field( $_POST['from'] ) : '';
-
-		if ( empty( $entry_id ) || empty( $wp_id ) || empty( $from ) ) {
-			wp_send_json_error();
-		}
-
-		$data = Doli_Synchro::g()->associate_and_synchronize( $from, $wp_id, $entry_id );
-
-		$url = '';
-		ob_start();
-		\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'modal-associate-result', array(
-			'url'      => $url,
-			'messages' => $data['messages'],
-			'errors'   => $data['wp_error'],
-		) );
-		wp_send_json_success( array(
-			'namespace'        => 'wpshop',
-			'module'           => 'doliSynchro',
-			'callback_success' => 'associatedAndSynchronized',
-			'view'             => ob_get_clean(),
-			'from'             => $from,
-		) );
-	}
-
-	/**
-	 * Synchornise les tiers.
-	 *
-	 * @todo: Faire qu'une seul fonction
+	 * Synchornise.
 	 *
 	 * @since 2.0.0
 	 */
@@ -345,8 +183,6 @@ class Doli_Synchro_Action {
 	/**
 	 * Synchornise les paiements.
 	 *
-	 * @todo: Faire qu'une seul fonction
-	 *
 	 * @since 2.0.0
 	 */
 	public function sync_payments( $doli_invoice, $wp_invoice ) {
@@ -365,6 +201,50 @@ class Doli_Synchro_Action {
 		}
 	}
 
+	public function sync_entry() {
+		check_ajax_referer( 'sync_entry' );
+
+		$wp_id    = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
+		$entry_id = ! empty( $_POST['entry_id'] ) ? (int) $_POST['entry_id'] : 0;
+		$route    = ! empty( $_POST['route'] ) ? sanitize_text_field( $_POST['route'] ) : '';
+		$type     = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
+		$type     = str_replace( '_Class', '', str_replace( '/', '\\', '/' . $type ) );
+		$from     = ! empty( $_POST['from'] ) ? sanitize_text_field( $_POST['from'] ) : '';
+
+		$wp_entry         = $type::g()->get( array( 'id' => $wp_id ), true );
+		$doli_entry       = Request_Util::get( $route . '/' . $entry_id );
+		$doli_to_wp_entry = $type::g()->get( array( 'schema' => true ), true );
+
+		$wp_entry   = $type::g()->get( array( 'id' => $wp_id ), true );
+		$doli_entry = Request_Util::get( $route . '/' . $entry_id );
+
+		switch( $route ) {
+			case 'thirdparties':
+				if ( 'dolibarr' === $from ) {
+					$wp_entry = Doli_Third_Parties::g()->doli_to_wp( $doli_entry, $wp_entry, true );
+				} else if ( 'wordpress' === $from ) {
+
+				}
+				break;
+			default:
+				break;
+		}
+
+		$last_sync = current_time( 'mysql' );
+		update_post_meta( $wp_entry, '_last_sync', $last_sync );
+
+		$wp_entry->data['date_last_synchro']['rendered'] = \eoxia\Date_Util::g()->fill_date( $wp_object->data['date_last_synchro'] );
+
+		ob_start();
+		$this->add_sync_item( $wp_entry, $route );
+		wp_send_json_success( array(
+			'namespace'        => 'wpshop',
+			'module'           => 'doliSync',
+			'callback_success' => 'syncEntrySuccess',
+			'view'             => ob_get_clean(),
+		) );
+	}
+
 	/**
 	 * Appel la vue pour ajouter "Synchro" dans le header du listing.
 	 *
@@ -372,7 +252,7 @@ class Doli_Synchro_Action {
 	 */
 	public function add_sync_header() {
 		if ( Settings::g()->dolibarr_is_active() ) {
-			\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'sync-header' );
+			\eoxia\View_Util::exec( 'wpshop', 'doli-sync', 'sync-header' );
 		}
 	}
 
@@ -399,7 +279,7 @@ class Doli_Synchro_Action {
 				$message_tooltip = sprintf( __( 'Last synchronisation on %s', 'wpshop'), $object->data['date_last_synchro']['rendered']['date_time'] );
 			}
 
-			\eoxia\View_Util::exec( 'wpshop', 'doli-synchro', 'sync-item', array(
+			\eoxia\View_Util::exec( 'wpshop', 'doli-sync', 'sync-item', array(
 				'object'          => $object,
 				'class'           => $class,
 				'route'           => $route,

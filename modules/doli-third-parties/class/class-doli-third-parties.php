@@ -37,7 +37,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 	 *
 	 * @since 2.0.0
 	 */
-	public function doli_to_wp( $doli_third_party, $wp_third_party ) {
+	public function doli_to_wp( $doli_third_party, $wp_third_party, $save = true ) {
 		$wp_third_party->data['external_id'] = (int) $doli_third_party->id;
 		$wp_third_party->data['title']       = $doli_third_party->name;
 		$wp_third_party->data['address']     = $doli_third_party->address;
@@ -49,13 +49,42 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 		$wp_third_party->data['email']       = $doli_third_party->email;
 		$wp_third_party->data['status']      = 'publish';
 
-		if ( ! empty( $doli_third_party->date_modification ) ) {
-			$wp_third_party->data['date_modified'] = date( 'Y-m-d H:i:s', $doli_third_party->date_modification );
+		if ( $save ) {
+			if ( ! empty( $doli_third_party->date_modification ) ) {
+				$wp_third_party->data['date_modified'] = date( 'Y-m-d H:i:s', $doli_third_party->date_modification );
+			}
+
+			$wp_third_party->data['date_last_synchro'] = current_time( 'mysql');
+			Third_Party::g()->update( $wp_third_party->data );
 		}
 
-		$wp_third_party->data['date_last_synchro'] = current_time( 'mysql');
+		$doli_third_party->contacts = Request_Util::get( 'contacts?sortfield=t.rowid&sortorder=ASC&limit=-1&thirdparty_ids=' . $doli_third_party->id );
 
-		Third_Party::g()->update( $wp_third_party->data );
+		if ( ! empty( $doli_third_party->contacts ) ) {
+			foreach ( $doli_third_party->contacts as $doli_contact ) {
+				// Gestion contact déjà existant
+				$wp_contact = Contact::g()->get( array(
+					'search' => $doli_contact->email,
+				), true );
+
+				if ( ! empty( $wp_contact ) ) {
+					// Est-ce qu'il a une société ?
+					if ( ! empty( $wp_contact->data['third_party_id'] ) && $wp_contact->data['third_party_id'] !== $wp_third_party->data['id'] ) {
+						// erreur sync
+					} else {
+						// On le met à jour et on l'affecte à la société
+						Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
+					}
+
+				} else {
+					$wp_contact = Contact::g()->get( array( 'schema' => true ), true );
+					// On le créer et on l'affecte à la société
+					Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
+				}
+			}
+		}
+
+		return $wp_third_party;
 	}
 
 	/**
