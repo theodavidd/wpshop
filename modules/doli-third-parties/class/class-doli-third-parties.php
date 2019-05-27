@@ -37,7 +37,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 	 *
 	 * @since 2.0.0
 	 */
-	public function doli_to_wp( $doli_third_party, $wp_third_party, $save = true ) {
+	public function doli_to_wp( $doli_third_party, $wp_third_party, $save = true, &$notices = array( 'errors' => array(), 'messages' => array() ) ) {
 		$wp_third_party->data['external_id'] = (int) $doli_third_party->id;
 		$wp_third_party->data['title']       = $doli_third_party->name;
 		$wp_third_party->data['address']     = $doli_third_party->address;
@@ -56,6 +56,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 
 			$wp_third_party->data['date_last_synchro'] = current_time( 'mysql');
 			Third_Party::g()->update( $wp_third_party->data );
+			$notices['messages'][] = sprintf( __( 'Erase data for the third party <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_third_party->data['title'] );
 		}
 
 		$doli_third_party->contacts = Request_Util::get( 'contacts?sortfield=t.rowid&sortorder=ASC&limit=-1&thirdparty_ids=' . $doli_third_party->id );
@@ -67,19 +68,25 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 					'search' => $doli_contact->email,
 				), true );
 
+				$notices['messages'][] = sprintf( __( 'Try to add contact <strong>%s</strong> to the third party <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
+
+
 				if ( ! empty( $wp_contact ) ) {
 					// Est-ce qu'il a une société ?
 					if ( ! empty( $wp_contact->data['third_party_id'] ) && $wp_contact->data['third_party_id'] !== $wp_third_party->data['id'] ) {
 						// erreur sync
+						$notices['errors'][] = sprintf( __( 'The contact <strong>%s</strong> is already associated to another third party', 'wpshop' ), $wp_contact->data['email'] );
 					} else {
 						// On le met à jour et on l'affecte à la société
 						Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
+						$notices['messages'][] = sprintf( __( 'Erase data for the contact <strong>%s</strong> with the <strong>dolibarr</strong>data and affect to <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
 					}
 
 				} else {
 					$wp_contact = Contact::g()->get( array( 'schema' => true ), true );
 					// On le créer et on l'affecte à la société
 					Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
+					$notices['messages'][] = sprintf( __( 'Erase data for the contact <strong>%s</strong> with the <strong>dolibarr</strong>data and affect to <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
 				}
 			}
 		}
@@ -96,7 +103,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 	 * @param  stdClass          $doli_third_party Les données du tier venant
 	 * de dolibarr.
 	 */
-	public function wp_to_doli( $wp_third_party, $doli_third_party ) {
+	public function wp_to_doli( $wp_third_party, $doli_third_party, $save = true, &$notices = array( 'errors' => array(), 'messages' => array() )  ) {
 		$data = array(
 			'name'       => $wp_third_party->data['title'],
 			'country'    => $wp_third_party->data['country'],
@@ -110,12 +117,14 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 
 		if ( ! empty( $wp_third_party->data['external_id'] ) ) {
 			Request_Util::put( 'thirdparties/' . $wp_third_party->data['external_id'], $data );
+			$notices['messages'][] = sprintf( __( 'Erase data for the third party <strong>%s</strong> with the <strong>WordPress</strong> data', 'wpshop' ), $doli_third_party->name );
 		} else {
 			$doli_third_party_id                 = Request_Util::post( 'thirdparties', $data );
 			$wp_third_party->data['external_id'] = $doli_third_party_id;
-
-			Third_Party::g()->update( $wp_third_party->data );
 		}
+
+		$wp_third_party = Third_Party::g()->update( $wp_third_party->data );
+		return $wp_third_party;
 	}
 
 	/**

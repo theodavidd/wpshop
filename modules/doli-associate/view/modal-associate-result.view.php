@@ -17,34 +17,40 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wpeo-notice notice-success">
-	<ul class="notice-content">
-		<?php
-		if ( ! empty( $messages ) ) :
-			foreach ( $messages as $message ) :
+<?php
+if ( ! empty( $notice['messages'] ) ) :
+	?>
+	<div class="wpeo-notice notice-success">
+		<ul class="notice-content">
+			<?php
+			foreach ( $notice['messages'] as $message ) :
 				?>
 				<li><?php echo $message; ?></li>
 				<?php
 			endforeach;
-		endif;
-		?>
-	</ul>
-</div>
-
-<div class="wpeo-notice notice-warning">
-	<ul class="notice-content">
-	<?php
-	if ( ! empty( $errors->get_error_messages() ) ) :
-		foreach ( $errors->get_error_messages() as $message ) :
 			?>
-			<li><?php echo $message; ?></li>
-			<?php
-		endforeach;
-	endif;
+		</ul>
+	</div>
+	<?php
+endif;
+
+if ( ! empty( $notice['errors'] ) ) :
 	?>
-</ul>
-</div>
+	<div class="wpeo-notice notice-warning">
+		<ul class="notice-content">
+			<?php
+			foreach ( $notice['errors'] as $message ) :
+				?>
+				<li><?php echo $message; ?></li>
+				<?php
+			endforeach;
+			?>
+		</ul>
+	</div>
+	<?php
+endif;
+?>
 
 <a href="<?php echo esc_attr( $url ); ?>" class="wpeo-button button-main">
-	<span>Rafraichir la page</span>
+	<span><?php esc_html_e( 'Refresh page', 'wpshop' ); ?></span>
 </a>

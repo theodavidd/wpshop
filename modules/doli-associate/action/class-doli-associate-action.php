@@ -110,7 +110,6 @@ class Doli_Associate_Action {
 
 		switch( $route ) {
 			case 'thirdparties':
-
 				$wp_entry->data['contacts'] = array();
 
 				if ( ! empty( $wp_entry->data['contact_ids'] ) ) {
@@ -128,26 +127,33 @@ class Doli_Associate_Action {
 					}
 				}
 				break;
-			case 'products':
+			case 'wpshopapi/product/get/web':
+				$route            = 'products';
+				$doli_entry       = Request_Util::get( $route . '/' . $entry_id );
+				$doli_to_wp_entry = Doli_Products::g()->doli_to_wp( $doli_entry, $doli_to_wp_entry, false );
 				break;
 			default:
 				break;
 		}
 
 		$entries = array(
-			'wp'   => array(
+			'wordpress' => array(
 				'title' => __( 'WordPress', 'wpshop' ),
 				'data'  => $wp_entry->data,
+				'id'    => $wp_entry->data['id'],
 			),
-			'doli' => array(
+			'dolibarr' => array(
 				'title' => __( 'Dolibarr', 'wpshop' ),
 				'data'  => $doli_to_wp_entry->data,
+				'id'    => $entry_id,
 			),
 		);
 
 		ob_start();
-		\eoxia\View_Util::exec( 'wpshop', 'doli-associate', 'compare-thirdparties', array(
+		\eoxia\View_Util::exec( 'wpshop', 'doli-associate', 'compare-' . $route, array(
 			'entries' => $entries,
+			'type'    => $type,
+			'route'   => $route,
 		) );
 		$view = ob_get_clean();
 

@@ -66,9 +66,14 @@ defined( 'ABSPATH' ) || exit; ?>
 
 				<div class="action-attribute wpeo-button button-main"
 					style="text-align: center;display: block;margin: auto;width: 50%;"
-					data-action="associate_and_synchronize"
-					data-nonce="<?php echo esc_attr( wp_create_nonce( 'associate_and_synchronize' ) ); ?>"
-					data-from="<?php esc_attr( $key ); ?>">
+					data-action="sync_entry"
+					data-nonce="<?php echo esc_attr( wp_create_nonce( 'sync_entry' ) ); ?>"
+					data-type="<?php echo esc_attr( 'wpshop/Third_Party_Class' ); ?>"
+					data-entry-id="<?php echo $entries['dolibarr']['id'] ?>"
+					data-wp-id="<?php echo $entries['wordpress']['id']; ?>"
+					data-route="<?php echo esc_attr( $route ); ?>"
+					data-from="<?php echo esc_attr( $key ); ?>"
+					data-modal="1">
 					<span><?php printf( __( 'Choose %s', 'wpshop' ), $entry['title'] ); ?></span>
 				</div>
 			</div>

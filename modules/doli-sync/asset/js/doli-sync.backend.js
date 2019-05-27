@@ -102,5 +102,10 @@ window.eoxiaJS.wpshop.doliSync.safeExit = function( event ) {
 };
 
 window.eoxiaJS.wpshop.doliSync.syncEntrySuccess = function( triggeredElement, response ) {
-	jQuery( triggeredElement ).closest( '.wps-sync' ).replaceWith( response.data.view );
+	if ( jQuery( '.wpeo-modal.modal-active' ).length > 0 ) {
+		jQuery( '.wpeo-modal.modal-active' ).addClass( 'modal-force-display' );
+		jQuery( '.wpeo-modal.modal-active' ).find( '.modal-content' ).html( response.data.view );
+	} else {
+		jQuery( triggeredElement ).closest( '.wps-sync' ).replaceWith( response.data.view );
+	}
 }

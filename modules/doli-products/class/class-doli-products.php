@@ -37,7 +37,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 	 * dolibarr.
 	 * @param  Product_Model $wp_product   Les données du produit de WP.
 	 */
-	public function doli_to_wp( $doli_product, $wp_product, $save = true, &$wp_error = null ) {
+	public function doli_to_wp( $doli_product, $wp_product, $save = true, &$notices = array( 'errors' => array(), 'messages' => array() ) ) {
 		if ( is_object( $wp_product ) ) {
 			$wp_product->data['external_id']       = (int) $doli_product->id;
 			$wp_product->data['ref']               = $doli_product->ref;
@@ -59,6 +59,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			if ( $save ) {
 				remove_all_actions( 'save_post' );
 				$wp_product = Product::g()->update( $wp_product->data );
+				$notices['messages'][] = sprintf( __( 'Erase data for the product <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_product->data['title'] );
 
 				update_post_meta( $wp_product->data['id'], '_external_id', (int) $doli_product->id );
 				add_action( 'save_post', array( Doli_Products_Action::g(), 'callback_save_post' ), 20, 2 );
@@ -79,7 +80,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 	 *
 	 * @return void
 	 */
-	public function wp_to_doli( $wp_product, $doli_product ) {
+	public function wp_to_doli( $wp_product, $doli_product, $save = true, &$notices = array( 'errors' => array(), 'messages' => array() ) ) {
 		$doli_product = Request_Util::put( 'wpshopapi/update/product/' . $wp_product->data['external_id'], array(
 			'label'       => $wp_product->data['title'],
 			'description' => $wp_product->data['content'],
@@ -93,6 +94,11 @@ class Doli_Products extends \eoxia\Singleton_Util {
 		update_post_meta( $wp_product->data['id'], '_tva_tx', $doli_product->tva_tx );
 		update_post_meta( $wp_product->data['id'], '_price_ttc', $doli_product->price_ttc );
 		update_post_meta( $wp_product->data['id'], '_date_last_synchro', date( 'Y-m-d H:i:s', $doli_product->last_sync_date ) );
+		update_post_meta( $wp_product->data['id'], '_external_id', $wp_product->data['external_id'] );
+
+		$notices['messages'][] = sprintf( __( 'Erase data for the product <strong>%s</strong> with the <strong>WordPress</strong> data', 'wpshop' ), $doli_product->label );
+
+		return $wp_product;
 	}
 }
 
