@@ -63,30 +63,32 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 
 		if ( ! empty( $doli_third_party->contacts ) ) {
 			foreach ( $doli_third_party->contacts as $doli_contact ) {
-				// Gestion contact déjà existant
-				$wp_contact = Contact::g()->get( array(
-					'search' => $doli_contact->email,
-				), true );
+				if ( ! empty( $doli_contact->email ) ) {
+					// Gestion contact déjà existant
+					$wp_contact = Contact::g()->get( array(
+						'search' => $doli_contact->email,
+					), true );
 
-				$notices['messages'][] = sprintf( __( 'Try to add contact <strong>%s</strong> to the third party <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
+					$notices['messages'][] = sprintf( __( 'Try to add contact <strong>%s</strong> to the third party <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
 
 
-				if ( ! empty( $wp_contact ) ) {
-					// Est-ce qu'il a une société ?
-					if ( ! empty( $wp_contact->data['third_party_id'] ) && $wp_contact->data['third_party_id'] !== $wp_third_party->data['id'] ) {
-						// erreur sync
-						$notices['errors'][] = sprintf( __( 'The contact <strong>%s</strong> is already associated to another third party', 'wpshop' ), $wp_contact->data['email'] );
+					if ( ! empty( $wp_contact ) ) {
+						// Est-ce qu'il a une société ?
+						if ( ! empty( $wp_contact->data['third_party_id'] ) && $wp_contact->data['third_party_id'] !== $wp_third_party->data['id'] ) {
+							// erreur sync
+							$notices['errors'][] = sprintf( __( 'The contact <strong>%s</strong> is already associated to another third party', 'wpshop' ), $wp_contact->data['email'] );
+						} else {
+							// On le met à jour et on l'affecte à la société
+							Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
+							$notices['messages'][] = sprintf( __( 'Erase data for the contact <strong>%s</strong> with the <strong>dolibarr</strong>data and affect to <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
+						}
+
 					} else {
-						// On le met à jour et on l'affecte à la société
+						$wp_contact = Contact::g()->get( array( 'schema' => true ), true );
+						// On le créer et on l'affecte à la société
 						Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
 						$notices['messages'][] = sprintf( __( 'Erase data for the contact <strong>%s</strong> with the <strong>dolibarr</strong>data and affect to <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
 					}
-
-				} else {
-					$wp_contact = Contact::g()->get( array( 'schema' => true ), true );
-					// On le créer et on l'affecte à la société
-					Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
-					$notices['messages'][] = sprintf( __( 'Erase data for the contact <strong>%s</strong> with the <strong>dolibarr</strong>data and affect to <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
 				}
 			}
 		}

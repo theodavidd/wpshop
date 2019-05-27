@@ -36,7 +36,7 @@ defined( 'ABSPATH' ) || exit;
 						</div>
 					</div>
 					<div class="wps-box-secondary">
-						<div class="wps-box-status"><span class="wps-box-status-dot"></span> <?php echo Payment::g()->make_readable_statut( $order ); ?></div>
+						<div class="wps-box-status"><span class="wps-box-status-dot"></span> <?php echo Doli_Statut::g()->display_status( $order ); ?></div>
 						<div class="wps-box-price"><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
 					</div>
 					<div class="wps-box-action">

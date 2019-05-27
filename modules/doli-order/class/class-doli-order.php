@@ -171,6 +171,7 @@ class Doli_Order extends \eoxia\Post_Class {
 			}
 
 			if ( $wp_order->data['billed'] ) {
+				$status = 'wps-billed';
 				Product_Downloadable::g()->create_from_order( $wp_order );
 			}
 

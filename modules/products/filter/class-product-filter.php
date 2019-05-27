@@ -31,7 +31,6 @@ class Product_Filter {
 	public function __construct() {
 		add_filter( 'eo_model_wps-product_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
 		add_filter( 'eo_model_wps-product_wps-product-cat', array( $this, 'callback_taxonomy' ) );
-		add_filter( 'parent_file', array( $this, 'highlight_menu' ) );
 		add_filter( 'the_content', array( $this, 'display_content_grid_product' ) );
 		add_filter( 'the_content', array( $this, 'display_single_page_product' ) );
 	}
@@ -113,33 +112,6 @@ class Product_Filter {
 		);
 
 		return $args;
-	}
-
-	/**
-	 * Permet d'ajouter l'active sur le menu.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param  string $parent_file Le fichier parent.
-	 * @return $parent_file        Le nouveau parent.
-	 */
-	public function highlight_menu( $parent_file ) {
-		global $submenu_file, $current_screen, $pagenow;
-
-		if ( 'wps-product' === $current_screen->post_type ) {
-
-			if ( 'post.php' === $pagenow ) {
-				$submenu_file = 'edit.php?post_type=' . $current_screen->post_type;
-			}
-
-			if ( 'edit-tags.php' === $pagenow ) {
-				$submenu_file = 'edit-tags.php?taxonomy=wps-product-cat&post_type=' . $current_screen->post_type;
-			}
-
-			$parent_file = 'wps-product';
-		}
-
-		return $parent_file;
 	}
 
 	/**

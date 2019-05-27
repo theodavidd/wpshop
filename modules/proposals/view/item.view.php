@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<ul class="reference-actions">
 			<li><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-proposal&id=' . $proposal->data['id'] ) ); ?>"><?php esc_html_e( 'See', 'wpshop' ); ?></a></li>
 			<?php if ( ! empty( $proposal->data['external_id'] ) ) : ?>
-				<li><a href="<?php echo esc_attr( $doli_url ); ?>comm/propal/card.php?id=<?php echo $proposal->data['external_id']; ?>" target="_blank"><?php esc_html_e( 'See in Dolibarr', 'wpshop' ); ?></a></li>
+				<li><a href="<?php echo esc_attr( $doli_url ); ?>/comm/propal/card.php?id=<?php echo $proposal->data['external_id']; ?>" target="_blank"><?php esc_html_e( 'See in Dolibarr', 'wpshop' ); ?></a></li>
 			<?php endif; ?>
 		</ul>
 	</div>
@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div><?php echo esc_html( ! empty( $proposal->data['tier'] ) ? $proposal->data['tier']->data['zip'] : '' ) . ' ' . esc_html( ! empty(  $proposal->data['tier'] ) ? $proposal->data['tier']->data['country'] : '' ); ?></div>
 		<div><?php echo ! empty( $proposal->data['tier']->data['phone'] ) ? esc_html( $proposal->data['tier']->data['phone'] ) : ''; ?></div>
 	</div>
-	<div class="table-cell table-150"><?php echo Payment::g()->make_readable_statut( $proposal ); ?></div>
+	<div class="table-cell table-150"><?php echo Doli_Statut::g()->display_status( $proposal ); ?></div>
 	<div class="table-cell table-100"><?php echo esc_html( Payment::g()->get_payment_title( $proposal->data['payment_method'] ) ); ?></div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</strong></div>
 	<?php apply_filters( 'wps_proposal_table_tr', $proposal ); ?>

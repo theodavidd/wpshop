@@ -24,6 +24,8 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php if ( ! empty( $contact->data['email'] ) ) : ?>
 			<a href="mailto:<?php echo esc_html( $contact->data['email'] ); ?>" class="wpeo-tooltip-event" aria-label="<?php echo esc_html( $contact->data['email'] ); ?>"><i class="fas fa-envelope"></i></a>
 		<?php endif; ?>
+
+		<?php do_action( 'wps_contact_item_contact_title_after', $contact ); ?>
 	</div>
 	<ul class="contact-list-data">
 		<?php if ( ! empty( $contact->data['phone'] ) ) : ?>

@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					</div>
 					<div class="table-cell"><?php echo esc_html( $invoice->data['date']['rendered']['date'] ); ?></div>
 					<div class="table-cell"><?php echo esc_html( number_format( $invoice->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
-					<div class="table-cell"><strong><?php echo Payment::g()->make_readable_statut( $invoice ); ?></strong></div>
+					<div class="table-cell"><strong><?php echo Doli_Statut::g()->display_status( $invoice ); ?></strong></div>
 				</div>
 				<?php
 			endforeach;

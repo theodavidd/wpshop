@@ -29,6 +29,8 @@ class Core_Filter {
 	public function __construct() {
 		add_filter( 'custom_menu_order', array( $this, 'order_menu' ), 10, 1 );
 		add_filter( 'menu_order', array( $this, 'order_menu' ), 10, 1 );
+
+		add_filter( 'parent_file', array( $this, 'highlight_menu' ) );
 	}
 
 	/**
@@ -63,6 +65,32 @@ class Core_Filter {
 		return $order_menu;
 	}
 
+
+	/**
+	 * Permet d'ajouter l'active sur le menu.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $parent_file Le fichier parent.
+	 * @return $parent_file        Le nouveau parent.
+	 */
+	public function highlight_menu( $parent_file ) {
+		global $submenu_file, $current_screen, $pagenow;
+
+		if ( 'wps-product' === $current_screen->post_type ) {
+			if ( 'post.php' === $pagenow ) {
+				$submenu_file = 'wps-product';
+			}
+
+			if ( 'edit-tags.php' === $pagenow ) {
+				$submenu_file = 'edit-tags.php?taxonomy=wps-product-cat&post_type=' . $current_screen->post_type;
+			}
+
+			$parent_file = 'wps-product';
+		}
+
+		return $parent_file;
+	}
 }
 
 new Core_Filter();

@@ -41,7 +41,7 @@ class Doli_Statut extends \eoxia\Singleton_Util {
 					'class' => 'status-grey',
 				),
 				'publish'       => array(
-					'text'  => __( 'Validate', 'wpshop' ),
+					'text'  => __( 'Waiting for a signature', 'wpshop' ),
 					'class' => 'status-orange',
 				),
 				'wps-accepted'  => array(
@@ -67,15 +67,11 @@ class Doli_Statut extends \eoxia\Singleton_Util {
 					'class' => 'status-grey',
 				),
 				'publish'       => array(
-					'text'  => __( 'Validate', 'wpshop' ),
+					'text'  => __( 'Not paid', 'wpshop' ),
 					'class' => 'status-orange',
 				),
-				'wps-accepted'  => array(
-					'text'  => __( 'Signed', 'wpshop' ),
-					'class' => 'status-orange',
-				),
-				'wps-refused'   => array(
-					'text'  => __( 'Not signed', 'wpshop' ),
+				'wps-canceled'   => array(
+					'text'  => __( 'Canceled', 'wpshop' ),
 					'class' => 'status-red',
 				),
 				'wps-billed'    => array(
@@ -127,6 +123,18 @@ class Doli_Statut extends \eoxia\Singleton_Util {
 				'text'  => $status['text'],
 				'class' => $status['class'],
 			) );
+		}
+	}
+
+	public function display_status_class( $object ) {
+		$status = null;
+
+		if ( $this->status[ $object->data['type'] ][ $object->data['status'] ] ) {
+			$status = $this->status[ $object->data['type'] ][ $object->data['status'] ];
+		}
+
+		if ( $status ) {
+			return $status['class'];
 		}
 	}
 }

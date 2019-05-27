@@ -136,7 +136,7 @@ class Doli_Order_Action {
 			$number_page  = ceil( $count / $per_page );
 			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
 
-			$base_url = admin_url( 'admin.php?page=wps-third-party' );
+			$base_url = admin_url( 'admin.php?page=wps-order' );
 
 			$begin_url = $base_url . '&current_page=1';
 			$end_url   = $base_url . '&current_page=' . $number_page;
