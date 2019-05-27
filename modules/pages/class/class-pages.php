@@ -69,7 +69,7 @@ class Pages extends \eoxia\Singleton_Util {
 			'checkout_id'                => __( 'Checkout', 'wpshop' ),
 			'my_account_id'              => __( 'My account', 'wpshop' ),
 			'valid_page_id'              => __( 'Valid page', 'wpshop' ),
-			'general_conditions_of_sale' => __( 'General condiftions of sale', 'wpshop' ),
+			'general_conditions_of_sale' => __( 'General conditions of sale', 'wpshop' ),
 		);
 
 		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
