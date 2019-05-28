@@ -33,6 +33,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 </div>
 
-<a href="<?php echo Pages::g()->get_account_link() . $param['type']; ?>/" class="wpeo-button button-main">
+<a href="<?php echo Pages::g()->get_account_link() . $param['type']; ?>s/" class="wpeo-button button-main">
 	<span><?php echo $button_text; ?></span>
 </a>

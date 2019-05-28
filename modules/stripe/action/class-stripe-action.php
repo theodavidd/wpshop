@@ -26,12 +26,22 @@ class Stripe_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
+		add_action( 'wp_head', array( $this, 'define_stripe_option' ) );
+
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_enqueue_scripts' ), 9 );
 
 		add_action( 'wps_setting_payment_method_stripe', array( $this, 'callback_setting_payment_method' ), 10, 0 );
 		add_action( 'admin_post_wps_update_method_payment_stripe', array( $this, 'update_method_payment_stripe' ) );
 
 		add_action( 'wps_gateway_stripe', array( $this, 'callback_wps_gateway_stripe' ), 10, 1 );
+	}
+
+	public function define_stripe_option() {
+		$stripe_options = Payment::g()->get_payment_option( 'stripe' );
+
+		echo '<script type="text/javascript">
+		  var stripe_key = "' . $stripe_options['publish_key'] . '";
+		</script>';
 	}
 
 	/**
@@ -42,7 +52,9 @@ class Stripe_Action {
 	 * @todo: Inclusions que si on est sur la page de paieemnt.
 	 */
 	public function callback_enqueue_scripts() {
-		wp_enqueue_script( 'wpshop-stripe', 'https://js.stripe.com/v3/', array(), \eoxia\Config_Util::$init['wpshop']->version );
+		if ( Pages::g()->is_checkout_page() ) {
+			wp_enqueue_script( 'wpshop-stripe', 'https://js.stripe.com/v3/', array(), \eoxia\Config_Util::$init['wpshop']->version );
+		}
 	}
 
 	/**

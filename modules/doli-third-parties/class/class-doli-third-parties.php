@@ -118,7 +118,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 		);
 
 		if ( ! empty( $wp_third_party->data['external_id'] ) ) {
-			Request_Util::put( 'thirdparties/' . $wp_third_party->data['external_id'], $data );
+			$doli_third_party = Request_Util::put( 'thirdparties/' . $wp_third_party->data['external_id'], $data );
 			$notices['messages'][] = sprintf( __( 'Erase data for the third party <strong>%s</strong> with the <strong>WordPress</strong> data', 'wpshop' ), $doli_third_party->name );
 		} else {
 			$doli_third_party_id                 = Request_Util::post( 'thirdparties', $data );

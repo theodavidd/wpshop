@@ -143,6 +143,8 @@ class Doli_Payment extends \eoxia\Post_Class {
 
 		if ( 'CB' === $payment_method ) {
 			return 'paypal';
+		} elseif ( 'STR' === $payment_method ) {
+			return 'stripe';
 		} elseif ( 'CHQ' === $payment_method ) {
 			return 'cheque';
 		} elseif ( 'LIQ' === $payment_method ) {

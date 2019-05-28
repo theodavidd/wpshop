@@ -50,7 +50,7 @@ class Stripe extends \eoxia\Singleton_Util {
 		);
 
 		$session = \Stripe\Checkout\Session::create( array(
-			'success_url'          => Pages::g()->get_valid_checkout_link() . '?order_id=' . $order->data['id'],
+			'success_url'          => Pages::g()->get_valid_page_link() . '/order/' . $order->data['id'],
 			'cancel_url'           => site_url(),
 			'payment_method_types' => array( 'card' ),
 			'line_items'           => array( $lines ),

@@ -33,6 +33,7 @@ defined( 'ABSPATH' ) || exit; ?>
 							<input type="hidden" name="action" value="sync" />
 							<?php wp_nonce_field( 'sync' ); ?>
 							<input type="hidden" name="type" value="<?php echo $key; ?>" />
+							<input type="hidden" name="last" value="<?php echo $info['last']; ?>" />
 
 							<div class="item-content">
 								<div class="item-title"><?php echo esc_attr( $info['title'] ); ?></div>

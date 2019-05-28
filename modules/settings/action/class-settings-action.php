@@ -171,12 +171,13 @@ class Settings_Action {
 
 		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
+		$page_ids_options = Pages::g()->default_options;
+
 		$page_ids_options['shop_id']                    = $wps_page_shop_id;
 		$page_ids_options['cart_id']                    = $wps_page_cart_id;
 		$page_ids_options['checkout_id']                = $wps_page_checkout_id;
 		$page_ids_options['my_account_id']              = $wps_page_my_account_id;
 		$page_ids_options['valid_page_id']              = $wps_page_valid_page_id;
-		$page_ids_options['valid_proposal_id']          = $wps_page_valid_proposal_id;
 		$page_ids_options['general_conditions_of_sale'] = $wps_page_general_conditions_of_sale;
 
 		update_option( 'wps_page_ids', $page_ids_options );
@@ -222,7 +223,9 @@ class Settings_Action {
 	public function callback_add_product_thumbnail_size() {
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
-		add_image_size( 'wps-product-thumbnail', $dolibarr_option['thumbnail_size']['width'], $dolibarr_option['thumbnail_size']['height'], true );
+		if ( ! empty( $dolibarr_option['thumbnail_size']['width'] ) && ! empty( $dolibarr_option['thumbnail_size']['height'] ) ) {
+			add_image_size( 'wps-product-thumbnail', $dolibarr_option['thumbnail_size']['width'], $dolibarr_option['thumbnail_size']['height'], true );
+		}
 	}
 }
 

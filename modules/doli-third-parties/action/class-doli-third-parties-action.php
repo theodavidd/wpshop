@@ -30,6 +30,8 @@ class Doli_Third_Parties_Action {
 		add_action( 'wps_checkout_create_third_party', array( $this, 'checkout_create_third_party' ) );
 		add_action( 'wps_saved_third_party', array( $this, 'save_third_party' ) );
 		add_action( 'wps_saved_billing_address', array( $this, 'update_billing_address' ) );
+
+		add_action( 'wps_payment_complete', array( $this, 'update_address' ), 10, 1 );
 	}
 
 	/**
@@ -86,6 +88,32 @@ class Doli_Third_Parties_Action {
 			'zip'     => $third_party->data['zip'],
 			'email'   => $third_party->data['email'],
 		) );
+	}
+
+	/**
+	 * Passes la commande à payé.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $data Les données IPN de PayPal.
+	 */
+	public function update_address( $data ) {
+		$wp_order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );
+
+		if ( 'paypal' === $wp_order->data['payment_method'] ) {
+			$third_party = Third_Party::g()->get( array( 'id' => $wp_order->data['parent_id'] ), true );
+
+			$third_party->data['address'] = $data['address_street'];
+			$third_party->data['town']    = $data['address_city'];
+			$third_party->data['zip']     = $data['address_zip'];
+			$third_party->data['country'] = $data['address_country'];
+			$third_party->data['phone']   = $data['phone'];
+
+			$third_party = Third_Party::g()->update( $third_party->data );
+
+			$doli_third_party = Request_Util::get( 'thirdparties/' . $third_party->data['external_id'] );
+			Doli_Third_Parties::g()->wp_to_doli( $third_party, $doli_third_party );
+		}
 	}
 }
 

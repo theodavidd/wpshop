@@ -62,9 +62,14 @@ class Doli_Synchro_Action {
 					continue;
 				}
 
+				$sync_info['last']         = false;
 				$sync_info['total_number'] = 0;
 				$sync_info['page']         = 0;
 				$sync_info                 = Doli_Synchro::g()->count_entries( $sync_info );
+
+				if ( $key == end( $sync_action ) ) {
+					$sync_info['last'] = true;
+				}
 			}
 		}
 
@@ -73,8 +78,13 @@ class Doli_Synchro_Action {
 			'sync_infos' => $sync_infos,
 		) );
 		$view = ob_get_clean();
+
+		ob_start();
+		\eoxia\View_Util::exec( 'wpshop', 'doli-sync', 'modal-sync-button' );
+		$buttons_view = ob_get_clean();
 		wp_send_json_success( array(
-			'view' => $view,
+			'view'         => $view,
+			'buttons_view' => $buttons_view,
 		) );
 	}
 
@@ -86,10 +96,12 @@ class Doli_Synchro_Action {
 	public function sync() {
 		check_ajax_referer( 'sync' );
 
-		$done         = false;
-		$done_number  = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
-		$total_number = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
-		$type         = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
+		$done           = false;
+		$updateComplete = false;
+		$done_number    = ! empty( $_POST['done_number'] ) ? (int) $_POST['done_number'] : 0;
+		$total_number   = ! empty( $_POST['total_number'] ) ? (int) $_POST['total_number'] : 0;
+		$type           = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
+		$last           = ( ! empty( $_POST['last'] ) && '1' == $_POST['last'] ) ? true : false;
 
 		$route      = '';
 		$wp_class   = '\wpshop\\';
@@ -167,10 +179,14 @@ class Doli_Synchro_Action {
 		if ( $done_number >= $total_number ) {
 			$done_number = $total_number;
 			$done        = true;
+
+			if ( $last ) {
+				$updateComplete = true;
+			}
 		}
 
 		wp_send_json_success( array(
-			'updateComplete'     => false,
+			'updateComplete'     => $updateComplete,
 			'done'               => $done,
 			'progression'        => $done_number . '/' . $total_number,
 			'progressionPerCent' => 0 !== $total_number ? ( ( $done_number * 100 ) / $total_number ) : 0,

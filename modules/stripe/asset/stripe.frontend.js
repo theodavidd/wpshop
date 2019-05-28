@@ -14,7 +14,7 @@ window.eoxiaJS.wpshopFrontend.stripe.init = function() {};
 
 window.eoxiaJS.wpshopFrontend.stripe.redirectToPayment = function(triggeredElement, response) {
 	var stripe = Stripe(
-	  'pk_live_pYts1WDeu2Mn4NHzVnMC3peF',
+	  stripe_key,
 	  {
 	    betas: ['checkout_beta_4'],
 	  }

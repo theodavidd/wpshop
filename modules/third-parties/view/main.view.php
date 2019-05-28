@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<div class="wpeo-button button-main wpeo-modal-event"
 				data-action="load_modal_synchro"
 				data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_modal_synchro' ) ); ?>"
-				data-class="modal-sync"
+				data-class="modal-sync modal-force-display"
 				data-sync="third-parties,contacts"
 				data-title="<?php echo esc_attr_e( 'Data synchronization', 'wpshop' ); ?>">
 				<span><?php esc_html_e( 'All Third Parties Sync', 'wpshop' ); ?></span>
