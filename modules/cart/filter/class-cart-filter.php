@@ -45,6 +45,8 @@ class Cart_Filter {
 		if ( ! empty( $items ) ) {
 			foreach ( $items as &$item ) {
 				if ( Pages::g()->get_cart_link() === $item->url ) {
+					$item->original_title = $title;
+
 					$item->classes[] = 'cart-button';
 					$qty   = Cart_Session::g()->qty;
 
@@ -54,7 +56,7 @@ class Cart_Filter {
 						$item->title .= ' <span class="qty"></span>';
 					}
 
-					$item->title = apply_filters( 'wps_cart_menu_item_qty', $item->title,$item, $qty );
+					$item->title = apply_filters( 'wps_cart_menu_item_qty', $item->title, $item, $qty );
 				}
 			}
 		}
