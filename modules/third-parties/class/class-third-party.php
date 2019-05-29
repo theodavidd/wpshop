@@ -166,6 +166,7 @@ class Third_Party extends \eoxia\Post_Class {
 			$users_id = get_users( array(
 				'search' => '*' . $s . '*',
 				'fields' => 'ID',
+				'number' => 20,
 			) );
 
 			$users_id = array_merge( $users_id, get_users( array(
@@ -173,6 +174,7 @@ class Third_Party extends \eoxia\Post_Class {
 				'meta_value'   => implode( '[. ]*', \str_split( str_replace( ' ', '', $s ) ) ) . '[. ]*',
 				'meta_compare' => 'REGEXP',
 				'fields'       => 'ID',
+				'number'       => 20,
 			) ) );
 
 			$third_parties_id = array_map( function( $id ) {

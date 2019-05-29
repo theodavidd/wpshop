@@ -108,6 +108,8 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 				$count                      = count( $tmp );
 				$sync_info['total_number'] += count( $tmp );
 
+				return $sync_info;
+
 				if ( $count >= $this->limit_entries_by_request ) {
 					$sync_info['page']++;
 					$sync_info = $this->count_entries( $sync_info );

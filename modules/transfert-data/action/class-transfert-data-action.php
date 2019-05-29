@@ -29,7 +29,7 @@ class Transfert_Data_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		// add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );.
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 		add_action( 'wp_ajax_wps_transfert_data', array( $this, 'callback_transfert_data' ) );
 	}
 
@@ -39,7 +39,7 @@ class Transfert_Data_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		// add_submenu_page( 'wpshop', __( 'Transfert data', 'wpshop' ), __( 'Transfert data', 'wpshop' ), 'manage_options', 'wps-transfert-data', array( $this, 'callback_add_menu_page' ) );.
+		// add_submenu_page( 'wpshop', __( 'Transfert data', 'wpshop' ), __( 'Transfert data', 'wpshop' ), 'manage_options', 'wps-transfert-data', array( $this, 'callback_add_menu_page' ) );
 	}
 
 	/**
@@ -55,6 +55,10 @@ class Transfert_Data_Action {
 		\eoxia\View_Util::exec( 'wpshop', 'transfert-data', 'main', array(
 			'number_customers' => $number_customers,
 		) );
+	}
+
+	public function add_wpshop1_data_page() {
+		\eoxia\View_Util::exec( 'wpshop', 'transfert-data', 'wpshop1-data-page' );
 	}
 
 	/**

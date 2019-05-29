@@ -34,7 +34,9 @@ defined( 'ABSPATH' ) || exit; ?>
 	if ( ! empty( $entries ) ) :
 		foreach ( $entries as $entry ) :
 			?>
-			<li data-id="<?php echo esc_attr( $entry->id ); ?>">#<?php echo $entry->id . ' ' . ( ! empty( $entry->name ) ? $entry->name : $entry->label ); ?></li>
+			<li data-id="<?php echo esc_attr( $entry->id ); ?>">
+				<?php echo apply_filters( 'wps_associate_entry', '#' . $entry->id . ' ' . ( ! empty( $entry->name ) ? $entry->name : $entry->label ), $entry ); ?>
+			</li>
 			<?php
 		endforeach;
 	endif;

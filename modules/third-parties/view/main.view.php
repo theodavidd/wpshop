@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php esc_html_e( 'Third Parties', 'wpshop' ); ?>
 
 		<?php
-		if ( Settings::g()->dolibarr_is_active() ) :
+		if ( Settings::g()->dolibarr_is_active() && \eoxia\Config_Util::$init['wpshop']->use_global_sync ) :
 			?>
 			<div class="wpeo-button button-main wpeo-modal-event"
 				data-action="load_modal_synchro"

@@ -211,7 +211,6 @@ class Checkout_Action {
 
 				$contact->data['firstname'] = ! empty( $posted_data['contact']['firstname'] ) ? $posted_data['contact']['firstname'] : $contact->data['firstname'];
 				$contact->data['lastname']  = ! empty( $posted_data['contact']['lastname'] ) ? $posted_data['contact']['lastname'] : $contact->data['lastname'];
-
 				$contact = Contact::g()->update( $contact->data );
 			}
 
@@ -284,11 +283,11 @@ class Checkout_Action {
 			$condition_general      = get_post( $condition_general_id );
 			$terms_message = __( 'I accept ', 'wpshop' );
 
-			if ( ! empty( $condition_general_id ) ) {
+			if ( ! empty( $condition_general_id ) && null !== $condition_general ) {
 				$terms_message .= sprintf( __( 'the <a href="%s">%s</a> and ', 'wpshop' ), get_permalink( $condition_general->ID ), $condition_general->post_title );
 			}
 
-			if ( ! empty( $privacy_policy_id ) ) {
+			if ( ! empty( $privacy_policy_id ) && null !== $privacy_policy ) {
 				$terms_message .= sprintf( __( 'the <a href="%s">%s</a>', 'wpshop' ), get_permalink( $privacy_policy->ID ), $privacy_policy->post_title );
 			}
 

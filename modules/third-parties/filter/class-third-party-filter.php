@@ -28,7 +28,7 @@ class Third_Party_Filter {
 	 */
 	public function __construct() {
 		add_filter( 'eo_model_wps-third-party_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
-		add_filter( 'wps_third_party_metaboxes', array( $this, 'add_orders_and_billings_metaboxes' ) );
+		add_filter( 'wps_third_party_metaboxes', array( $this, 'add_orders_and_billings_metaboxes' ), 9, 1 );
 	}
 
 	/**

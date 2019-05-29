@@ -71,7 +71,6 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 
 					$notices['messages'][] = sprintf( __( 'Try to add contact <strong>%s</strong> to the third party <strong>%s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
 
-
 					if ( ! empty( $wp_contact ) ) {
 						// Est-ce qu'il a une société ?
 						if ( ! empty( $wp_contact->data['third_party_id'] ) && $wp_contact->data['third_party_id'] !== $wp_third_party->data['id'] ) {

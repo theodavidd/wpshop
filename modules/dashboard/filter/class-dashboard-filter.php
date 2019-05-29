@@ -27,7 +27,7 @@ class Dashboard_Filter {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_filter( 'wps_dashboard_metaboxes', array( $this, 'add_sync_metabox' ) );
+		// add_filter( 'wps_dashboard_metaboxes', array( $this, 'add_sync_metabox' ) );
 	}
 
 	public function add_sync_metabox( $metaboxes ) {

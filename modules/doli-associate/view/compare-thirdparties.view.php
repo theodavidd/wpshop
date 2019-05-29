@@ -69,6 +69,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					data-action="sync_entry"
 					data-nonce="<?php echo esc_attr( wp_create_nonce( 'sync_entry' ) ); ?>"
 					data-type="<?php echo esc_attr( 'wpshop/Third_Party_Class' ); ?>"
+					data-wp-type="\wpshop\Third_Party"
 					data-entry-id="<?php echo $entries['dolibarr']['id'] ?>"
 					data-wp-id="<?php echo $entries['wordpress']['id']; ?>"
 					data-route="<?php echo esc_attr( $route ); ?>"
