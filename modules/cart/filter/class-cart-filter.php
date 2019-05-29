@@ -53,6 +53,8 @@ class Cart_Filter {
 					} else {
 						$item->title .= ' <span class="qty"></span>';
 					}
+
+					$item->title = apply_filters( 'wps_cart_menu_item_qty', $item->title );
 				}
 			}
 		}
