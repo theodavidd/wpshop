@@ -785,6 +785,9 @@ body.single-wps-product .wps-product-price {
 .wps-list-product .wps-product .wps-product-content .wps-product-footer .wps-product-price {
   margin-left: auto; }
 
+.wps-taxonomy .wps-taxonomy-title {
+  font-weight: 900; }
+
 .wps-account-page .wps-account-navigation {
   list-style-type: none;
   margin: 0;
