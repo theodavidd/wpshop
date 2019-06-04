@@ -618,7 +618,8 @@ body.single-wps-product .wps-product-price {
   transition: all 0.2s ease-out; }
 
 .wps-product-grid .wps-product .wps-product-thumbnail .attachment-wps-product-thumbnail {
-  display: block; }
+  display: block;
+  width: 100%; }
 
 .wps-product-grid .wps-product .wps-product-thumbnail .wps-product-action {
   position: absolute;

@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 
 if ( $wps_query->have_posts() ) :
 	?>
-	<div class="wps-product-grid wpeo-gridlayout grid-3">
+	<div class="wps-product-grid wpeo-gridlayout grid-4">
 
 		<?php
 		while ( $wps_query->have_posts() ) : $wps_query->the_post();
