@@ -202,7 +202,6 @@ class Product_Action {
 
 		$wp_query->post  = $post;
 		$wp_query->posts = array( $post );
-
 		$wp_query->post_count    = 1;
 		$wp_query->is_404        = false;
 		$wp_query->is_page       = true;
@@ -259,6 +258,15 @@ class Product_Action {
 			$wp_query->query_vars['post__not_in'] = array( $shipping_cost_option['shipping_product_id'] );
 		}
 
+		$wp_query->query_vars['tax_query'] = array(
+			array(
+				'taxonomy'         => 'wps-product-cat',
+				'field'            => 'slug',
+				'terms'            => $wp_query->query_vars['wps-product-cat'],
+				'include_children' => 0,
+			),
+		);
+
 		$wps_query = new \WP_Query( $wp_query->query_vars );
 
 		foreach( $wps_query->posts as &$product ) {
@@ -267,7 +275,15 @@ class Product_Action {
 
 		setup_postdata( $post );
 
+		$term               = get_term_by( 'slug', $wp_query->query_vars['wps-product-cat'], 'wps-product-cat' );
+		$product_taxonomies = get_terms( array(
+			'taxonomy'   => 'wps-product-cat',
+			'parent'     => $term->term_id,
+			'hide_empty' => false,
+		) );
+
 		ob_start();
+		include( Template_Util::get_template_part( 'products', 'wps-product-taxonomy-container' ) );
 		include( Template_Util::get_template_part( 'products', 'wps-product-grid-container' ) );
 		$view = ob_get_clean();
 
