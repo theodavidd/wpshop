@@ -28,6 +28,7 @@ class Products_Shortcode {
 	 */
 	public function __construct() {
 		add_shortcode( 'wps_product', array( $this, 'do_shortcode_product' ) );
+		add_shortcode( 'wps_categories', array( $this, 'do_shortcode_categories' ) );
 	}
 
 	/**
@@ -74,6 +75,30 @@ class Products_Shortcode {
 			$products = Product::g()->get( $args );
 
 			include( Template_Util::get_template_part( 'products', 'wps-product-grid' ) );
+		}
+	}
+
+	public function do_shortcode_categories( $atts ) {
+		if ( ! is_admin() ) {
+			$a = shortcode_atts( array(
+				'slug' => '',
+			), $atts );
+
+			$args = array(
+				'taxonomy'   => 'wps-product-cat',
+				'hide_empty' => false,
+			);
+
+			if ( ! empty( $a['slug'] ) ) {
+				$a['slug'] = explode( ',', $a['slug'] );
+				$args['slug'] = $a['slug'];
+			}
+
+			$product_taxonomies = get_terms( $args );
+
+			ob_start();
+			include( Template_Util::get_template_part( 'products', 'wps-product-taxonomy-container' ) );
+			return ob_get_clean();
 		}
 	}
 }
