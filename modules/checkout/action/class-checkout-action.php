@@ -346,9 +346,10 @@ class Checkout_Action {
 		if ( 'order' === $_POST['type'] ) {
 			$order = apply_filters( 'wps_checkout_create_order', $proposal );
 
-			$stock_statut = Cart::g()->check_stock( $order );
+			$stock_statut = Cart::g()->check_stock();
 
 			if ( $stock_statut['is_valid'] ) {
+				$stock_statut = Cart::g()->decreate_stock();
 				Checkout::g()->process_order_payment( $order );
 			} else {
 				$errors = new \WP_Error();

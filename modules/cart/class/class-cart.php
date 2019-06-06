@@ -118,7 +118,7 @@ class Cart extends \eoxia\Singleton_Util {
 		include( Template_Util::get_template_part( 'cart', 'cart-resume' ) );
 	}
 
-	public function check_stock( $order ) {
+	public function check_stock() {
 		$stock_statut = array(
 			'is_valid' => true,
 			'errors'   => array(),
@@ -138,6 +138,20 @@ class Cart extends \eoxia\Singleton_Util {
 		}
 
 		return $stock_statut;
+	}
+
+	public function decreate_stock() {
+		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
+			foreach ( Cart_Session::g()->cart_contents as $product ) {
+				if ( ! $product['manage_stock'] ) {
+					continue;
+				}
+
+				$product['stock'] -= $product['qty'];
+
+				Product::g()->update( $product );
+			}
+		}
 	}
 }
 
