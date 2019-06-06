@@ -84,7 +84,7 @@ class Product extends \eoxia\Post_Class {
 	 *
 	 * @since 2.0.0
 	 */
-	public function display() {
+	public function display( $mode = 'view' ) {
 		$per_page = get_user_meta( get_current_user_id(), $this->option_per_page, true );
 
 		if ( empty( $per_page ) || 1 > $per_page ) {
@@ -111,9 +111,12 @@ class Product extends \eoxia\Post_Class {
 
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
+		$view = 'view' === $mode ? '' : '-edit';
+
 		\eoxia\View_Util::exec( 'wpshop', 'products', 'list', array(
 			'products' => $products,
 			'doli_url' => $dolibarr_option['dolibarr_url'],
+			'view'     => $view,
 		) );
 	}
 

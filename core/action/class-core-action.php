@@ -82,6 +82,8 @@ class Core_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_enqueue_scripts() {
+		wp_enqueue_media();
+
 		wp_dequeue_script( 'wpeo-assets-datepicker-js' );
 		wp_dequeue_style( 'wpeo-assets-datepicker' );
 

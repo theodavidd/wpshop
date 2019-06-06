@@ -35,7 +35,7 @@ class Doli_Synchro_Action {
 		add_action( 'wp_ajax_sync_entry', array( $this, 'sync_entry' ) );
 
 		add_action( 'wps_listing_table_header_end', array( $this, 'add_sync_header' ) );
-		add_action( 'wps_listing_table_end', array( $this, 'add_sync_item' ), 10, 2 );
+		add_action( 'wps_listing_table_end', array( $this, 'add_sync_item' ), 10, 3 );
 	}
 
 	/**
@@ -314,18 +314,24 @@ class Doli_Synchro_Action {
 	 * @param mixed  $object Peut être Order, Product ou Tier.
 	 * @param string $route  La route pour l'api dolibarr.
 	 */
-	public function add_sync_item( $object, $route ) {
+	public function add_sync_item( $object, $route, $mode = 'view' ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
 			$class           = '';
 			$message_tooltip = '';
 
-			if ( empty( $object->data['external_id'] ) ) {
-				$class           = 'red';
-				$message_tooltip = __( 'No associated to an ERP Entity', 'wpshop' );
+			if ( 'view' === $mode ) {
+				if ( empty( $object->data['external_id'] ) ) {
+					$class           = 'red';
+					$message_tooltip = __( 'No associated to an ERP Entity', 'wpshop' );
+				} else {
+					$class = 'green';
+					// translators: Last synchronisation on 03/04/2019 12:00.
+					$message_tooltip = sprintf( __( 'Last synchronisation on %s', 'wpshop'), $object->data['date_last_synchro']['rendered']['date_time'] );
+				}
 			} else {
-				$class = 'green';
-				// translators: Last synchronisation on 03/04/2019 12:00.
-				$message_tooltip = sprintf( __( 'Last synchronisation on %s', 'wpshop'), $object->data['date_last_synchro']['rendered']['date_time'] );
+				$class = 'grey';
+
+				$message_tooltip = __( 'Not available in quick release', 'wpshop' );
 			}
 
 			\eoxia\View_Util::exec( 'wpshop', 'doli-sync', 'sync-item', array(
@@ -333,6 +339,7 @@ class Doli_Synchro_Action {
 				'class'           => $class,
 				'route'           => $route,
 				'message_tooltip' => $message_tooltip,
+				'mode'            => $mode,
 			) );
 		}
 	}

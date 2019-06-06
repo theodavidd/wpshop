@@ -31,6 +31,8 @@ class Product_Action {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 0 );
 		add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
+		add_action( 'wp_ajax_change_mode', array( $this, 'change_mode' ) );
+		add_action( 'wp_ajax_quick_save', array( $this, 'save_quick_save' ) );
 		add_action( 'template_redirect', array( $this, 'init_product_archive_page' ) );
 
 	}
@@ -146,6 +148,56 @@ class Product_Action {
 		update_post_meta( $post_id, '_stock', $product_data['stock'] );
 		update_post_meta( $post_id, '_product_downloadable', $product_data['product_downloadable'] );
 	}
+
+	public function change_mode() {
+		$id   = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$mode = ! empty( $_POST['mode'] ) ? sanitize_text_field( $_POST['mode'] ) : 'edit';
+
+		$product         = Product::g()->get( array( 'id' => $id ), true );
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
+		$view = '';
+		if ( 'view' === $mode ) {
+			$view = '';
+		} else {
+			$view = '-edit';
+		}
+
+		ob_start();
+		\eoxia\View_Util::exec( 'wpshop', 'products', 'item' . $view, array(
+			'product'  => $product,
+			'doli_url' => $dolibarr_option['dolibarr_url'],
+
+		) );
+		wp_send_json_success( array(
+			'namespace'        => 'wpshop',
+			'module'           => 'product',
+			'callback_success' => 'changeMode',
+			'view'             => ob_get_clean(),
+		) );
+	}
+
+	public function save_quick_save() {
+		wp_update_post( array(
+			'ID'         => $_POST['id'],
+			'post_title' => $_POST['title'],
+		) );
+
+		$product         = Product::g()->get( array( 'id' => $_POST['id'] ), true );
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
+		ob_start();
+		\eoxia\View_Util::exec( 'wpshop', 'products', 'item', array(
+			'product'  => $product,
+			'doli_url' => $dolibarr_option['dolibarr_url'],
+		) );
+		wp_send_json_success( array(
+			'namespace'        => 'wpshop',
+			'module'           => 'product',
+			'callback_success' => 'changeMode',
+			'view'             => ob_get_clean(),
+		) );
+	   }
 
 
 	/**

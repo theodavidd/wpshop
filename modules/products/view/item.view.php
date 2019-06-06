@@ -17,6 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="table-row">
+	<div class="table-cell table-50"><input type="checkbox" /></div>
 	<div class="table-cell table-100 table-padding-0"><?php echo get_the_post_thumbnail( $product->data['id'], array( 80, 80 ) ); ?></div>
 	<div class="table-cell table-full">
 		<ul class="reference-id">
@@ -30,7 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		</div>
 		<ul class="reference-actions">
 			<li><a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $product->data['id'] . '&action=edit' ) ); ?>"><?php esc_html_e( 'Edit', 'wpshop' ); ?></a></li>
-			<!-- <li><a href="#"><?php esc_html_e( 'Quick edit', 'wpshop' ); ?></a></li> -->
+			<li><a href="#" class="action-attribute" data-action="change_mode" data-id="<?php echo esc_attr( $product->data['id'] ); ?>" data-mode="edit"><?php esc_html_e( 'Quick edit', 'wpshop' ); ?></a></li>
 			<?php if ( ! empty( $product->data['external_id'] ) ) : ?>
 				<li><a href="<?php echo esc_attr( $doli_url ); ?>/product/card.php?id=<?php echo $product->data['external_id']; ?>" target="_blank"><?php esc_html_e( 'Edit in Dolibarr', 'wpshop' ); ?></a></li>
 			<?php endif; ?>

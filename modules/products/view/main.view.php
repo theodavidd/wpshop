@@ -37,21 +37,41 @@ defined( 'ABSPATH' ) || exit; ?>
 		?>
 	</h2>
 
-	<form method="GET" action="<?php echo admin_url( 'admin.php' ); ?>" class="wps-filter-bar wpeo-form form-light">
-		<div class="form-element">
-			<label class="form-field-container">
-				<span class="form-field-icon-prev"><i class="fas fa-search"></i></span>
-				<input type="hidden" name="page" value="wps-product" />
-				<input type="text" name="s" class="form-field" value="<?php echo esc_attr( ! empty( $_GET['s'] ) ? $_GET['s'] : '' ); ?>" />
-			</label>
+	<div class="wpeo-gridlayout">
+		<div class="wpeo-form wpeo-grid  grid-padding-1 grid-2 form-light">
+			<div>
+				<div class="form-element">
+					<label class="form-field-container">
+						<select class="form-field select-apply">
+							<option value="quick-edit">Quick edit</option>
+						</select>
+					</label>
+				</div>
+			</div>
+
+			<div>
+				<div class="wpeo-button button-main button-apply"><?php esc_html_e( 'Apply', 'wpshop' ); ?></div>
+			</div>
 		</div>
 
-		<input type="submit" class="wpeo-button button-main button-filter" value="<?php esc_html_e( 'Search', 'wpshop' ); ?>" />
+		<div>
+			<form method="GET" action="<?php echo admin_url( 'admin.php' ); ?>" class="wps-filter-bar wpeo-form form-light">
+				<div class="form-element">
+					<label class="form-field-container">
+						<span class="form-field-icon-prev"><i class="fas fa-search"></i></span>
+						<input type="hidden" name="page" value="wps-product" />
+						<input type="text" name="s" class="form-field" value="<?php echo esc_attr( ! empty( $_GET['s'] ) ? $_GET['s'] : '' ); ?>" />
+					</label>
+				</div>
 
-		<div></div>
-		<div></div>
-		<div class="alignright"><?php echo $count . ' éléments'; ?></div>
-	</form>
+				<input type="submit" class="wpeo-button button-main button-filter" value="<?php esc_html_e( 'Search', 'wpshop' ); ?>" />
+
+				<div></div>
+				<div></div>
+				<div class="alignright"><?php echo $count . ' éléments'; ?></div>
+			</form>
+		</div>
+	</div>
 
 	<?php
 	if ( ! empty( $_GET['s'] ) ) :
