@@ -80,8 +80,10 @@ class Products_Shortcode {
 
 	public function do_shortcode_categories( $atts ) {
 		if ( ! is_admin() ) {
-			$a = shortcode_atts( array(
-				'slug' => '',
+			$default_atts = shortcode_atts( array(
+				'slug'  => '',
+				'id'    => '',
+				'order' => 'custom',
 			), $atts );
 
 			$args = array(
@@ -89,12 +91,29 @@ class Products_Shortcode {
 				'hide_empty' => false,
 			);
 
-			if ( ! empty( $a['slug'] ) ) {
-				$a['slug'] = explode( ',', $a['slug'] );
-				$args['slug'] = $a['slug'];
+			if ( ! empty( $default_atts['slug'] ) ) {
+				$default_atts['slug']    = explode( ',', $default_atts['slug'] );
+				$args['slug'] = $default_atts['slug'];
+			}
+
+			if ( ! empty( $default_atts['id'] ) ) {
+				$default_atts['id']         = explode( ',', $default_atts['id'] );
+				$args['include'] = $default_atts['id'];
 			}
 
 			$product_taxonomies = get_terms( $args );
+
+			if ( 'custom' === $default_atts['order'] ) {
+				$new_array = array();
+				if ( ! empty( $product_taxonomies ) ) {
+					foreach ( $product_taxonomies as $taxonomies ) {
+						$new_array[ $taxonomies->slug ] = $taxonomies;
+					}
+				}
+
+				$product_taxonomies = array_replace( array_flip( $default_atts['slug'] ), $new_array );
+
+			}
 
 			ob_start();
 			include( Template_Util::get_template_part( 'products', 'wps-product-taxonomy-container' ) );
