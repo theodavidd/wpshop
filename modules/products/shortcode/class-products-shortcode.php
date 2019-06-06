@@ -83,7 +83,7 @@ class Products_Shortcode {
 			$default_atts = shortcode_atts( array(
 				'slug'    => '',
 				'id'      => '',
-				'orderby' => 'slug__in',
+				'orderby' => 'include',
 				'order'   => 'ASC',
 			), $atts );
 
