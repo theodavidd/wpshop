@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
 "POT-Creation-Date: 2019-04-04 15:20+0200\n"
-"PO-Revision-Date: 2019-04-24 17:50+0200\n"
+"PO-Revision-Date: 2019-06-06 10:32+0200\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -2051,7 +2051,7 @@ msgstr "Catégorie de produit"
 
 #: modules/products/filter/class-product-filter.php:97
 msgid "Search Products category"
-msgstr "Recherche uen catégorie de produits"
+msgstr "Recherche une catégorie de produits"
 
 #: modules/products/filter/class-product-filter.php:98
 msgid "All Products category"

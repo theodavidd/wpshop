@@ -119,25 +119,25 @@ class Cart extends \eoxia\Singleton_Util {
 	}
 
 	public function check_stock( $order ) {
-		$is_valid = true;
+		$stock_statut = array(
+			'is_valid' => true,
+			'errors'   => array(),
+		);
 
-		if ( ! empty( $order->data['lines'] ) ) {
-			foreach ( $order->data['lines'] as $line ) {
-				$manage_stock = get_post_meta( $line['fk_product'], '_manage_stock', true );
-				$stock        = get_post_meta( $line['fk_product'], '_stock', true );
-
-				if ( ! $manage_stock ) {
+		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
+			foreach ( Cart_Session::g()->cart_contents as $product ) {
+				if ( ! $product['manage_stock'] ) {
 					continue;
 				}
 
-				if ( $line['qty'] > $stock ) {
-					$is_valid = false;
-					break;
+				if ( $product['stock'] < $product['qty'] ) {
+					$stock_statut['is_valid'] = false;
+					$stock_statut['errors'][] = __( sprintf( '%s is sold out.', $product['title'] ), 'wpshop' );
 				}
 			}
 		}
 
-		return $is_valid;
+		return $stock_statut;
 	}
 }
 

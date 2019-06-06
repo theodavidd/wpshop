@@ -346,12 +346,18 @@ class Checkout_Action {
 		if ( 'order' === $_POST['type'] ) {
 			$order = apply_filters( 'wps_checkout_create_order', $proposal );
 
-			$stock_is_valid = Cart::g()->check_stock( $order );
+			$stock_statut = Cart::g()->check_stock( $order );
 
-			if ( $stock_is_valid ) {
+			if ( $stock_statut['is_valid'] ) {
 				Checkout::g()->process_order_payment( $order );
 			} else {
 				$errors = new \WP_Error();
+
+				if ( ! empty( $stock_statut['errors'] ) ) {
+					foreach ( $stock_statut['errors'] as $message ) {
+						$errors->add( 'no-stock', apply_filters( 'wps_product_no_stock', $message ) );
+					}
+				}
 
 				ob_start();
 				include( Template_Util::get_template_part( 'checkout', 'notice-error' ) );

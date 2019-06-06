@@ -78,7 +78,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			?>
 
 			<form method="GET" action="<?php echo admin_url( 'admin.php' ); ?>" />
-				<input type="hidden" name="page" value="wps-order" />
+				<input type="hidden" name="page" value="wps-product" />
 				<input type="hidden" name="s" value="<?php echo esc_attr( ! empty( $_GET['s'] ) ? $_GET['s'] : '' ); ?>" />
 				<input style="width: 50px;" type="text" name="current_page" value="<?php echo esc_attr( $current_page ); ?>" />
 			</form>
