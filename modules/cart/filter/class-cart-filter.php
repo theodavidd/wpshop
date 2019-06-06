@@ -28,6 +28,8 @@ class Cart_Filter {
 	 */
 	public function __construct() {
 		add_filter( 'wp_nav_menu_objects', array( $this, 'nav_menu_add_search' ), 10, 2 );
+
+		add_filter( 'wps_add_to_cart_product', array( $this, 'check_stock' ), 10, 2 );
 	}
 
 	/**
@@ -62,6 +64,14 @@ class Cart_Filter {
 		}
 
 		return $items;
+	}
+
+	public function check_stock( $can_add, $product ) {
+		if ( $product->data['manage_stock'] && 0 >= $product->data['stock'] ) {
+			$can_add = false;
+		}
+
+		return $can_add;
 	}
 }
 

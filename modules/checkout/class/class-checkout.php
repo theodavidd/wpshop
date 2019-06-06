@@ -186,6 +186,8 @@ class Checkout extends \eoxia\Singleton_Util {
 		switch ( $type ) {
 			case 'cheque':
 				update_post_meta( $order->data['id'], 'payment_method', 'cheque' );
+				\eoxia\LOG_Util::log( sprintf( "Order: Add cheque payment to the order %s", $order->data['id'] ), 'wpshop2' );
+
 				Cart_Session::g()->destroy();
 				wp_send_json_success( array(
 					'namespace'        => 'wpshopFrontend',
@@ -196,6 +198,9 @@ class Checkout extends \eoxia\Singleton_Util {
 				break;
 			case 'payment_in_shop':
 				update_post_meta( $order->data['id'], 'payment_method', 'payment_in_shop' );
+
+				\eoxia\LOG_Util::log( sprintf( "Order: Add payment in shop to the order %s", $order->data['id'] ), 'wpshop2' );
+
 				Cart_Session::g()->destroy();
 				wp_send_json_success( array(
 					'namespace'        => 'wpshopFrontend',
@@ -206,6 +211,8 @@ class Checkout extends \eoxia\Singleton_Util {
 				break;
 			case 'paypal':
 				update_post_meta( $order->data['id'], 'payment_method', 'paypal' );
+
+				\eoxia\LOG_Util::log( sprintf( "Order: Add PayPal payment to the order %s", $order->data['id'] ), 'wpshop2' );
 
 				$result = Paypal::g()->process_payment( $order );
 				Cart_Session::g()->destroy();
@@ -220,6 +227,9 @@ class Checkout extends \eoxia\Singleton_Util {
 				break;
 			case 'stripe':
 				update_post_meta( $order->data['id'], 'payment_method', 'stripe' );
+
+				\eoxia\LOG_Util::log( sprintf( "Order: Add Stripe payment to the order %s", $order->data['id'] ), 'wpshop2' );
+
 				$result = Stripe::g()->process_payment( $order );
 				Cart_Session::g()->destroy();
 

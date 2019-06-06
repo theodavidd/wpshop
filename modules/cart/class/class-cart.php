@@ -53,16 +53,22 @@ class Cart extends \eoxia\Singleton_Util {
 			}
 		}
 
-		if ( -1 === $index ) {
-			Cart_Session::g()->add_product( $data );
-		} else {
-			Cart_Session::g()->update_product( $index, $data );
+		$can_add = apply_filters( 'wps_add_to_cart_product', true, $product );
+
+		if ( $can_add ) {
+			if ( -1 === $index ) {
+				Cart_Session::g()->add_product( $data );
+			} else {
+				Cart_Session::g()->update_product( $index, $data );
+			}
 		}
 
 		do_action( 'wps_add_to_cart' );
 		do_action( 'wps_before_calculate_totals' );
 		do_action( 'wps_calculate_totals' );
 		do_action( 'wps_after_calculate_totals' );
+
+		return $can_add;
 	}
 
 	/**
@@ -110,6 +116,28 @@ class Cart extends \eoxia\Singleton_Util {
 		$shipping_cost_product = Product::g()->get( array( 'id' => $shipping_cost_option['shipping_product_id'] ), true );
 
 		include( Template_Util::get_template_part( 'cart', 'cart-resume' ) );
+	}
+
+	public function check_stock( $order ) {
+		$is_valid = true;
+
+		if ( ! empty( $order->data['lines'] ) ) {
+			foreach ( $order->data['lines'] as $line ) {
+				$manage_stock = get_post_meta( $line['fk_product'], '_manage_stock', true );
+				$stock        = get_post_meta( $line['fk_product'], '_stock', true );
+
+				if ( ! $manage_stock ) {
+					continue;
+				}
+
+				if ( $line['qty'] > $stock ) {
+					$is_valid = false;
+					break;
+				}
+			}
+		}
+
+		return $is_valid;
 	}
 }
 

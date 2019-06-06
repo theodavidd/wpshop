@@ -164,6 +164,24 @@ class Product_Model extends \eoxia\Post_Model {
 			'description' => 'Le poids en Kg (float). Peut être NULL. Valeur par défaut NULL.',
 		);
 
+		$this->schema['manage_stock'] = array(
+			'type'        => 'boolean',
+			'meta_type'   => 'single',
+			'field'       => '_manage_stock',
+			'default'     => false,
+			'since'       => '2.0.0',
+			'description' => 'Gestion du stock (boolean). Valeur par défaut false.',
+		);
+
+		$this->schema['stock'] = array(
+			'type'        => 'integer',
+			'meta_type'   => 'single',
+			'field'       => '_stock',
+			'default'     => 0,
+			'since'       => '2.0.0',
+			'description' => 'Le stock du produit (int). Valeur par défaut 0.',
+		);
+
 		$this->schema['associated_document_id'] = array(
 			'since'     => '6.1.6',
 			'version'   => '6.1.6',

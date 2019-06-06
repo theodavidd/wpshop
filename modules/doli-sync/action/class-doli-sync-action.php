@@ -151,6 +151,7 @@ class Doli_Synchro_Action {
 
 		if ( ! empty( $doli_entries ) ) {
 			foreach ( $doli_entries as $doli_entry ) {
+				\eoxia\LOG_Util::log( sprintf( "Try to sync %s", $doli_entry ), "wpshop2" );
 				$wp_entry = $wp_class::g()->get( array(
 					'meta_key'   => '_external_id',
 					'meta_value' => (int) $doli_entry->id,
@@ -170,6 +171,8 @@ class Doli_Synchro_Action {
 
 					$doli_class::g()->doli_to_wp( $doli_entry, $wp_entry );
 				}
+
+				\eoxia\LOG_Util::log( sprintf( "Sync done for the entry %s", $doli_entry ), "wpshop2" );
 
 				$done_number++;
 				do_action( 'wps_sync_' . $type . '_after', $doli_entry );
@@ -228,7 +231,6 @@ class Doli_Synchro_Action {
 		$wp_type  = ! empty( $_POST['wp_type'] ) ? str_replace( '\\\\', '\\', sanitize_text_field( $_POST['wp_type'] ) ) : '';
 		$from     = ! empty( $_POST['from'] ) ? sanitize_text_field( $_POST['from'] ) : '';
 		$modal    = ( ! empty( $_POST['modal'] ) && '1' == $_POST['modal'] ) ? true : false;
-
 
 		$wp_entry         = $wp_type::g()->get( array( 'id' => $wp_id ), true );
 		$doli_entry       = Request_Util::get( $route . '/' . $entry_id );

@@ -88,7 +88,7 @@ class Cart_Action {
 
 		$product = Product::g()->get( array( 'id' => $id ), true );
 
-		Cart::g()->add_to_cart( $product );
+		$added = Cart::g()->add_to_cart( $product );
 
 		ob_start();
 		include( Template_Util::get_template_part( 'cart', 'link-cart' ) );
@@ -97,6 +97,8 @@ class Cart_Action {
 			'module'           => 'cart',
 			'callback_success' => 'addedToCart',
 			'view'             => ob_get_clean(),
+			'qty'              => Cart_Session::g()->qty,
+			'added'            => $added,
 		) );
 	}
 

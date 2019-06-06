@@ -56,6 +56,7 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 		$wp_contact->data['email']        = $doli_contact->email;
 
 		if ( 0 === $wp_contact->data['id'] && false !== email_exists( $wp_contact->data['email'] ) ) {
+			\eoxia\LOG_Util::log( sprintf( "Contact: doli_to_wp can't create %s email already exist", json_encode( $wp_contact->data ) ), 'wpshop2' );
 			return false;
 		}
 
@@ -71,6 +72,7 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 			$contact_saved = Contact::g()->update( $wp_contact->data );
 
 			if ( is_wp_error( $contact_saved ) ) {
+				\eoxia\LOG_Util::log( sprintf( "Contact: doli_to_wp error when update or create contact: %s", json_encode( $contact_saved ) ), 'wpshop2' );
 				return false;
 			}
 

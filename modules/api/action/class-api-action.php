@@ -56,7 +56,10 @@ class API_Action {
 	 * requête.
 	 */
 	public function callback_wps_gateway_paypal( $request ) {
-		$data   = $request->get_body_params();
+		$data = $request->get_body_params();
+
+		\eoxia\LOG_Util::log( sprintf( "Paypal Gateway data: %s", json_encode( $data ) ), 'wpshop2' );
+
 		$txn_id = get_post_meta( $data['custom'], 'payment_txn_id', true );
 
 		if ( $txn_id !== $data['txn_id'] ) {
@@ -78,6 +81,8 @@ class API_Action {
 	 */
 	public function callback_wps_gateway_stripe( $request ) {
 		$param = json_decode( $request->get_body(), true );
+
+		\eoxia\LOG_Util::log( sprintf( "Stripe Gateway data: %s", json_encode( $param ) ), 'wpshop2' );
 
 		$order = Doli_Order::g()->get( array(
 			'meta_key'     => '_external_data',

@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
 	<figure class="wps-product-thumbnail">
 
 		<?php
+		$post->data = (array) $post;
 		if ( has_post_thumbnail() ) :
 			the_post_thumbnail( 'wps-product-thumbnail', array( 'class' => 'attachment-wps-product-thumbnail', 'itemprop' => 'image' ) );
 		else :
@@ -28,7 +29,8 @@ defined( 'ABSPATH' ) || exit;
 			<a itemprop="url" href="<?php the_permalink(); ?>" class="wpeo-button button-square-40 button-rounded button-light">
 				<i class="button-icon fas fa-eye"></i>
 			</a>
-			<div class="wps-product-buy wpeo-button button-square-40 button-rounded button-light action-attribute"
+			<div class="wps-product-buy wpeo-button button-square-40 button-rounded button-light action-attribute <?php echo apply_filters( 'wps-product-add-to-cart-class', '', $post ); ?>"
+				<?php echo apply_filters( 'wps-product-add-to-cart-attr', '', $post ); ?>
 				data-action="add_to_cart"
 				data-nonce="<?php echo wp_create_nonce( 'add_to_cart' ); ?>"
 				data-id="<?php echo esc_attr( the_ID() ); ?>"><i class="button-icon fas fa-cart-arrow-down"></i></div>

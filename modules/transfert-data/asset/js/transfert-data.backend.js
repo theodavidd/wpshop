@@ -21,12 +21,13 @@ window.eoxiaJS.wpshop.transfertData.init = function() {
 		value = !value;
 		jQuery( this ).closest( '.form-element' ).find( '.' + jQuery( this ).data( 'input' ) ).val(value);
 
-		console.log(value);
 		if (value) {
 			jQuery( this ).removeClass( 'fa-toggle-off' ).addClass( 'fa-toggle-on' );
 		} else {
 			jQuery( this ).removeClass( 'fa-toggle-on' ).addClass( 'fa-toggle-off' );
 		}
+
+		jQuery( this ).trigger( 'wps-change-toggle', value );
 	} );
 };
 

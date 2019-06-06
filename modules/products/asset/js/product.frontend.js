@@ -10,6 +10,4 @@ window.eoxiaJS.wpshopFrontend.product = {};
  *
  * @since 2.0.0
  */
-window.eoxiaJS.wpshopFrontend.product.init = function() {
-
-};
+window.eoxiaJS.wpshopFrontend.product.init = function() {};

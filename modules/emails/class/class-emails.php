@@ -135,10 +135,11 @@ class Emails extends \eoxia\Singleton_Util {
 		include $path_file;
 		$content = ob_get_clean();
 
-		$headers   = array();
-		$headers[] = 'From: ' . $blog_name . ' <' . $shop_options['shop_email'] . '>';
-		$headers[] = 'Content-Type: text/html; charset=UTF-8';
-		wp_mail( $to, $mail['title'], $content, $headers, $attachments );
+		$headers     = array();
+		$headers[]   = 'From: ' . $blog_name . ' <' . $shop_options['shop_email'] . '>';
+		$headers[]   = 'Content-Type: text/html; charset=UTF-8';
+		$mail_statut = wp_mail( $to, $mail['title'], $content, $headers, $attachments );
+		\eoxia\LOG_Util::log( sprintf( "Send mail to %s, subjet %s with result %s", $to, $mail['title'], $mail_statut ), "wpshop2" );
 	}
 }
 

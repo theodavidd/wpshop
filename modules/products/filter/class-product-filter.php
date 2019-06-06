@@ -33,6 +33,9 @@ class Product_Filter {
 		add_filter( 'eo_model_wps-product_wps-product-cat', array( $this, 'callback_taxonomy' ) );
 		add_filter( 'the_content', array( $this, 'display_content_grid_product' ) );
 		add_filter( 'the_content', array( $this, 'display_single_page_product' ) );
+
+		add_filter( 'wps-product-add-to-cart-attr', array( $this, 'button_add_to_cart_tooltip' ), 10, 2 );
+		add_filter( 'wps-product-add-to-cart-class', array( $this, 'disable_button_add_to_cart' ), 10, 2 );
 	}
 
 	/**
@@ -144,7 +147,9 @@ class Product_Filter {
 				$wps_query = new \WP_Query( $args );
 
 				foreach( $wps_query->posts as $key => &$product ) {
-					$product->price_ttc = get_post_meta( $product->ID, '_price_ttc', true );
+					$product->price_ttc    = get_post_meta( $product->ID, '_price_ttc', true );
+					$product->manage_stock = get_post_meta( $product->ID, '_manage_stock', true );
+					$product->stock        = get_post_meta( $product->ID, '_stock', true );
 				}
 
 				ob_start();
@@ -178,6 +183,22 @@ class Product_Filter {
 		}
 
 		return $content;
+	}
+
+	public function button_add_to_cart_tooltip( $attr, $product ) {
+		if ( $product->data['manage_stock'] && 0 >= $product->data['stock'] ) {
+			$attr .= 'aria-label="' . __( 'Rupture de stock', 'wpshop' ) . '"';
+		}
+
+		return $attr;
+	}
+
+	public function disable_button_add_to_cart( $class, $product ) {
+		if ( $product->data['manage_stock'] && 0 >= $product->data['stock'] ) {
+			$class = 'button-disable wpeo-tooltip-event button-event';
+		}
+
+		return $class;
 	}
 
 }

@@ -221,6 +221,8 @@ class Doli_Invoice_Action {
 			'attachments' => array( $path_file ),
 		) );
 
+		\eoxia\LOG_Util::log( sprintf( "Send the invoice %s to the email contact %s", $wp_invoice->data['title'], $contact->data['email'] ), "wpshop2" );
+
 		unlink( $path_file );
 
 		// Création du règlement vers WP.
@@ -260,6 +262,8 @@ class Doli_Invoice_Action {
 		if ( ( isset( $third_party->data ) && $order->data['parent_id'] !== $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
 		}
+
+		\eoxia\LOG_Util::log( sprintf( "Contact %s download the invoice %s", $contact->data['email'], $invoice->data['title'] ), "wpshop2" );
 
 		$invoice_file = Request_Util::get( 'documents/download?module_part=facture&original_file=' . $invoice->data['title'] . '/' . $invoice->data['title'] . '.pdf' );
 

@@ -180,6 +180,8 @@ class Checkout_Action {
 				$track_url = get_option( 'siteurl' ) . '/wp-login.php?action=rp&key=' . $key . '&login=' . $posted_data['contact']['login'];
 
 				Emails::g()->send_mail( $posted_data['contact']['email'], 'wps_email_customer_new_account', array_merge( $posted_data, array( 'url' => $track_url ) ) );
+				\eoxia\LOG_Util::log( sprintf( "Checkout: Create new third party and contact %s", json_encode( $posted_data ) ), 'wpshop2' );
+
 			} else {
 				$current_user = wp_get_current_user();
 
@@ -212,6 +214,8 @@ class Checkout_Action {
 				$contact->data['firstname'] = ! empty( $posted_data['contact']['firstname'] ) ? $posted_data['contact']['firstname'] : $contact->data['firstname'];
 				$contact->data['lastname']  = ! empty( $posted_data['contact']['lastname'] ) ? $posted_data['contact']['lastname'] : $contact->data['lastname'];
 				$contact = Contact::g()->update( $contact->data );
+
+				\eoxia\LOG_Util::log( sprintf( "Checkout: Update third party and contact %s", json_encode( $posted_data ) ), 'wpshop2' );
 			}
 
 			$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : 'proposal';
@@ -249,6 +253,8 @@ class Checkout_Action {
 			$proposal->data['total_ttc'] = $total_ttc;
 
 			$proposal = Proposals::g()->update( $proposal->data );
+			\eoxia\LOG_Util::log( sprintf( "Checkout: Create proposal %s", json_encode( $proposal->data ) ), 'wpshop2' );
+
 			do_action( 'wps_checkout_create_proposal', $proposal );
 
 			Cart_Session::g()->add_external_data( 'proposal_id', $proposal->data['id'] );
@@ -333,19 +339,39 @@ class Checkout_Action {
 		$proposal->data['payment_method'] = $_POST['type_payment'];
 
 		$proposal = Proposals::g()->update( $proposal->data );
+		\eoxia\LOG_Util::log( sprintf( "Checkout: Update proposal %s for add payment method %s", $proposal->data['id'], $proposal->data['payment_method'] ), 'wpshop2' );
 
 		do_action( 'wps_checkout_update_proposal', $proposal );
 
 		if ( 'order' === $_POST['type'] ) {
 			$order = apply_filters( 'wps_checkout_create_order', $proposal );
-			Checkout::g()->process_order_payment( $order );
+
+			$stock_is_valid = Cart::g()->check_stock( $order );
+
+			if ( $stock_is_valid ) {
+				Checkout::g()->process_order_payment( $order );
+			} else {
+				$errors = new \WP_Error();
+
+				ob_start();
+				include( Template_Util::get_template_part( 'checkout', 'notice-error' ) );
+				$template = ob_get_clean();
+
+				wp_send_json_success( array(
+					'namespace'        => 'wpshopFrontend',
+					'module'           => 'checkout',
+					'callback_success' => 'checkoutErrors',
+					'errors'           => $errors,
+					'template'         => $template,
+				) );
+			}
 		} else {
 			Cart_Session::g()->destroy();
 			wp_send_json_success( array(
 				'namespace'        => 'wpshopFrontend',
 				'module'           => 'checkout',
 				'callback_success' => 'redirect',
-				'url'              => Pages::g()->get_valid_page_link() . '/proposal/' . $proposal->data['id'] .'/',
+				'url'              => Pages::g()->get_valid_page_link() . '/proposal/' . $proposal->data['id'] . '/',
 			) );
 		}
 	}

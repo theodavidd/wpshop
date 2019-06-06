@@ -40,20 +40,13 @@ window.eoxiaJS.wpshopFrontend.cart.updateQuantity = function() {
 };
 
 window.eoxiaJS.wpshopFrontend.cart.addedToCart = function ( triggeredElement, response ) {
-	if ( ! triggeredElement.next().hasClass('view-cart') ) {
+	if ( ! triggeredElement.next().hasClass( 'view-cart' ) && response.data.added ) {
 		triggeredElement.closest( '.wps-product-action' ).html( response.data.view );
 	}
 
-	var qty = jQuery( '.cart-button .qty-value' ).text();
-
-	if ( ! qty ) {
-		qty = 1;
-	} else {
-		qty++;
+	if ( response.data.qty ) {
+		jQuery( '.cart-button .qty' ).html( '(<span class="qty-value">' + response.data.qty + '</span>)' );
 	}
-
-	jQuery( '.cart-button .qty' ).html( '(<span class="qty-value">' + qty + '</span>)' );
-
 };
 
 window.eoxiaJS.wpshopFrontend.cart.updatedCart = function ( triggeredElement, response ) {

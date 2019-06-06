@@ -301,6 +301,8 @@ class Doli_Order_Action {
 			'third_party' => $third_party->data,
 		) );
 
+		\eoxia\LOG_Util::log( sprintf( "Create order %s for the third party %s", $doli_order->ref, $third_party->data['title'] ), "wpshop2" );
+
 		$wp_order = Doli_Order::g()->get( array( 'schema' => true ), true );
 		$wp_order = Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
 
@@ -332,6 +334,8 @@ class Doli_Order_Action {
 		) );
 
 		Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
+
+		\eoxia\LOG_Util::log( sprintf( "Update the order %s to billed", $doli_order->ref ), "wpshop2" );
 	}
 
 	/**
@@ -346,6 +350,8 @@ class Doli_Order_Action {
 
 		$wp_order->data['payment_failed'] = true;
 		Doli_Order::g()->update( $wp_order->data );
+
+		\eoxia\LOG_Util::log( sprintf( "Update the order %s to failed", $wp_order->data['title'] ), "wpshop2" );
 	}
 
 	/**
@@ -369,6 +375,8 @@ class Doli_Order_Action {
 		if ( ( isset( $third_party->data ) && $order->data['parent_id'] !== $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
 		}
+
+		\eoxia\LOG_Util::log( sprintf( "Download the order %s", $wp_order->data['title'] ), "wpshop2" );
 
 		$order_file = Request_Util::get( 'documents/download?module_part=order&original_file=' . $order->data['title'] . '/' . $order->data['title'] . '.pdf' );
 
