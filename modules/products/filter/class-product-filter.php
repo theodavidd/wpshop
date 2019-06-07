@@ -36,6 +36,7 @@ class Product_Filter {
 
 		add_filter( 'wps_product_add_to_cart_attr', array( $this, 'button_add_to_cart_tooltip' ), 10, 2 );
 		add_filter( 'wps_product_add_to_cart_class', array( $this, 'disable_button_add_to_cart' ), 10, 2 );
+		add_filter( 'wps_product_single', array( $this, 'display_stock' ), 10, 2 );
 	}
 
 	/**
@@ -215,6 +216,16 @@ class Product_Filter {
 		}
 
 		return $class;
+	}
+
+	public function display_stock( $content, $product ) {
+		if ( $product->data['manage_stock'] ) {
+			ob_start();
+			include( Template_Util::get_template_part( 'products', 'wps-product-stock' ) );
+			$content .= ob_get_clean();
+		}
+
+		return $content;
 	}
 
 }

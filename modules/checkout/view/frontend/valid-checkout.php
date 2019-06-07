@@ -25,8 +25,8 @@ printf( __( 'Thanks, your %s has been received', 'wpshop' ), $title );
 	<ul>
 		<li>
 			<?php
-			// translators: 011111 number :.
-			printf( __( '%s number :', 'wpshop' ), ucfirst( $title ) );
+			// translators: order number: 011111.
+			printf( __( '%s :', 'wpshop' ), ucfirst( $title ) );
 			?>
 			<strong><?php echo esc_html( $object->data['title'] ); ?></strong>
 		</li>
