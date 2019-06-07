@@ -42,6 +42,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="table-cell table-300"><?php Contact::g()->display( $third_party ); ?></div>
 	<div class="table-cell table-350"><?php Third_Party::g()->display_commercial( $third_party->data ); ?></div>
 	<div class="table-cell table-full"></div>
-	<?php do_action( 'wps_listing_table_end', $third_party, 'thirdparties' ); ?>
+	<?php do_action( 'wps_listing_table_end', $third_party, 'thirdparties', 'wpshop/Doli_Third_Parties', '\wpshop\Third_Party' ); ?>
+
 
 </div>

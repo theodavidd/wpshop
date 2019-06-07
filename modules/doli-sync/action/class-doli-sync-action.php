@@ -35,7 +35,7 @@ class Doli_Sync_Action {
 		add_action( 'wp_ajax_sync_entry', array( $this, 'sync_entry' ) );
 
 		add_action( 'wps_listing_table_header_end', array( $this, 'add_sync_header' ) );
-		add_action( 'wps_listing_table_end', array( $this, 'add_sync_item' ), 10, 3 );
+		add_action( 'wps_listing_table_end', array( $this, 'add_sync_item' ), 10, 5 );
 	}
 
 	/**
@@ -301,7 +301,7 @@ class Doli_Sync_Action {
 				'url'    => $url,
 			) );
 		} else {
-			$this->add_sync_item( $wp_entry, $route );
+			$this->add_sync_item( $wp_entry, $route, $type, $wp_type );
 		}
 
 		wp_send_json_success( array(
@@ -333,7 +333,7 @@ class Doli_Sync_Action {
 	 * @param string $route  La route pour l'api dolibarr.
 	 * @param string $mode   Peut être view ou edit.
 	 */
-	public function add_sync_item( $object, $route, $mode = 'view' ) {
+	public function add_sync_item( $object, $route, $doli_class, $wp_class, $mode = 'view' ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
 			$class           = '';
 			$message_tooltip = '';
@@ -359,6 +359,8 @@ class Doli_Sync_Action {
 				'route'           => $route,
 				'message_tooltip' => $message_tooltip,
 				'mode'            => $mode,
+				'doli_class'      => $doli_class,
+				'wp_class'        => $wp_class,
 			) );
 		}
 	}

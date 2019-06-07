@@ -43,6 +43,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="table-cell table-100"><?php echo esc_html( number_format( $product->data['tva_tx'], 2, ',', '' ) ); ?>%</div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ); ?>€</strong></div>
 	<div class="table-cell"><strong><?php echo $product->data['manage_stock'] ? $product->data['stock'] : __( 'No handle stock', 'wpshop' ); ?></strong></div>
-	<?php do_action( 'wps_listing_table_end', $product, 'wpshopapi/product/get/web' ); ?>
+	<?php do_action( 'wps_listing_table_end', $product, 'products', 'wpshop/Doli_Products_Class', '\wpshop\Product' ); ?>
 
 </div>

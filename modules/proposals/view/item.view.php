@@ -45,5 +45,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="table-cell table-100"><?php echo esc_html( Payment::g()->get_payment_title( $proposal->data['payment_method'] ) ); ?></div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</strong></div>
 	<?php apply_filters( 'wps_proposal_table_tr', $proposal ); ?>
-	<?php do_action( 'wps_listing_table_end', $proposal, 'proposals' ); ?>
+	<?php do_action( 'wps_listing_table_end', $proposal, 'proposals', 'wpshop/Doli_Proposals_Class', '\wpshop\proposals' ); ?>
+
 </div>
