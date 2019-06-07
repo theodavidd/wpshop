@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
 "POT-Creation-Date: 2019-06-07 13:20+0200\n"
-"PO-Revision-Date: 2019-06-07 13:28+0200\n"
+"PO-Revision-Date: 2019-06-07 14:13+0200\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -1353,7 +1353,7 @@ msgstr "Afficher"
 
 #: modules/products/view/item.view.php:45
 msgid "No handle stock"
-msgstr "Stock non pris en charge"
+msgstr "Stock non configuré"
 
 #: modules/products/view/list.view.php:22
 msgid "Thumbnail"
