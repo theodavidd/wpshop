@@ -57,14 +57,15 @@ defined( 'ABSPATH' ) || exit; ?>
 				<div class="wps-box-detail wps-list-product">
 					<?php
 					if ( ! empty( $order->data['lines'] ) ) :
-						foreach ( $order->data['lines'] as $product ) :
-							$qty                  = $product['qty'];
+						foreach ( $order->data['lines'] as $line ) :
+							$qty                  = $line['qty'];
 							$product              = Product::g()->get( array(
 								'meta_key'   => '_external_id',
-								'meta_value' => (int) $product['fk_product'],
+								'meta_value' => (int) $line['fk_product'],
 							), true );
 							$product->data['qty'] = $qty;
 							$product              = $product->data;
+							$product['price_ttc'] = ( $line['total_ttc'] / $qty );
 							include( Template_Util::get_template_part( 'products', 'wps-product-list' ) );
 						endforeach;
 					else :
