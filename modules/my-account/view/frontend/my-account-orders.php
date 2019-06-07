@@ -14,9 +14,7 @@
 
 namespace wpshop;
 
-defined( 'ABSPATH' ) || exit;
-
-?>
+defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-list-order wps-list-box">
 	<?php

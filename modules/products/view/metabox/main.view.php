@@ -61,7 +61,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 			<div class="form-element stock-field">
 				<span class="form-label"><?php esc_html_e( 'Manage Stock', 'wpshop' ); ?></span>
-				<input type="hidden" name="product_data[manage_stock]" class="manage_stock" value="<?php echo '1' == $product->data['manage_stock'] ? 'true' : 'false'; ?>" />
+				<input type="hidden" name="product_data[manage_stock]" class="manage_stock" value="<?php echo (int) 1 === $product->data['manage_stock'] ? 'true' : 'false'; ?>" />
 				<i style="font-size: 2em;" class="toggle fas fa-toggle-<?php echo $product->data['manage_stock'] ? 'on' : 'off'; ?>" data-bloc="label-upload" data-input="manage_stock"></i>
 			</div>
 
@@ -74,7 +74,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 			<div class="form-element">
 				<span class="form-label"><?php esc_html_e( 'Product Downloadable', 'wpshop' ); ?></span>
-				<input type="hidden" name="product_data[product_downloadable]" class="product_downloadable" value="<?php echo '1' == $product->data['product_downloadable'] ? 'true' : 'false'; ?>" />
+				<input type="hidden" name="product_data[product_downloadable]" class="product_downloadable" value="<?php echo (int) 1 === $product->data['product_downloadable'] ? 'true' : 'false'; ?>" />
 				<i style="font-size: 2em;" class="toggle fas fa-toggle-<?php echo $product->data['product_downloadable'] ? 'on' : 'off'; ?>" data-bloc="label-upload" data-input="product_downloadable"></i>
 				<label class="label-upload form-field-container" style="<?php echo $product->data['product_downloadable'] ? '' : 'display: none;'; ?>">
 					<?php echo do_shortcode( '[wpeo_upload id="' . $id . '" upload_dir="wpshop_uploads" field_name="downloadable_product_id" single="false" model_name="/wpshop/Product" mime_type="" display_type="list"]' ); ?>

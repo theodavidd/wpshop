@@ -136,7 +136,7 @@ class Settings_Action {
 		update_option( 'wps_dolibarr', $dolibarr_option );
 
 		$response = Request_Util::get( 'status' );
-		if ( false == $response ) {
+		if ( false === $response ) {
 			$dolibarr_option['error'] = __( 'WPshop cannot connect to dolibarr. Please check your settings', 'wpshop' );
 		} else {
 			$dolibarr_option['error'] = '';
