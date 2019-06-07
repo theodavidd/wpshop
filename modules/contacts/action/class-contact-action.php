@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Contact Action Class.
  */
-class Contacts_Action {
+class Contact_Action {
 
 	/**
 	 * Le constructeur
@@ -204,4 +204,4 @@ class Contacts_Action {
 	}
 }
 
-new Contacts_Action();
+new Contact_Action();

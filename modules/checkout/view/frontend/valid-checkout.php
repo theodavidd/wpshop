@@ -16,11 +16,20 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<?php printf( __( 'Thanks, your %s has been received', 'wpshop' ), $title ); ?>
+<?php
+// translators: Thanks, your order has been received.
+printf( __( 'Thanks, your %s has been received', 'wpshop' ), $title );
+?>
 
 <div class="wpeo-gridlayout grid-2">
 	<ul>
-		<li><?php printf( __( '%s number', 'wpshop' ), ucfirst( $title ) ) ?> : <strong><?php echo esc_html( $object->data['title'] ); ?></strong></li>
+		<li>
+			<?php
+			// translators: 011111 number :.
+			printf( __( '%s number :', 'wpshop' ), ucfirst( $title ) );
+			?>
+			<strong><?php echo esc_html( $object->data['title'] ); ?></strong>
+		</li>
 		<li><?php esc_html_e( 'Date', 'wpshop' ); ?> : <strong><?php echo esc_html( $object->data['date']['rendered']['date'] ); ?></strong></li>
 		<li><?php esc_html_e( 'Total', 'wpshop' ); ?> : <strong><?php echo esc_html( number_format( $object->data['total_ttc'], 2 ) ); ?>€</strong></li>
 		<li><?php esc_html_e( 'Method of payment', 'wpshop' ); ?> :

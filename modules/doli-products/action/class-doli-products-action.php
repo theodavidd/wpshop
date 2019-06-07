@@ -87,7 +87,8 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 			update_post_meta( $post_id, '_tva_amount', ( $doli_product->price_ttc - $doli_product->price ) );
 			update_post_meta( $post_id, '_date_last_synchro', date( 'Y-m-d H:i:s', $doli_product->last_sync_date ) );
 
-			\eoxia\LOG_Util::log( sprintf( "Update product %s", json_encode( $doli_product ) ), "wpshop2" );
+			// translators: Update product {json_data}.
+			\eoxia\LOG_Util::log( sprintf( 'Update product %s', json_encode( $doli_product ) ), 'wpshop2' );
 		} else {
 			$data = array(
 				'ref'         => sanitize_title( $product->data['title'] ),
@@ -109,7 +110,8 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 			update_post_meta( $post_id, '_date_last_synchro', date( 'Y-m-d H:i:s', $doli_product->last_sync_date ) );
 			update_post_meta( $post_id, '_external_id', $doli_product->id );
 
-			\eoxia\LOG_Util::log( sprintf( "Create product %s", json_encode( $doli_product ) ), "wpshop2" );
+			// translators: Create product {json_data}.
+			\eoxia\LOG_Util::log( sprintf( 'Create product %s', json_encode( $doli_product ) ), 'wpshop2' );
 		}
 	}
 }

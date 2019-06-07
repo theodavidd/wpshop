@@ -26,6 +26,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<div class="choose <?php echo esc_attr( $key ); ?>">
 				<h2><?php echo $entry['title']; ?>
 
+				<?php // translators: Last update the 06/06/2019 10:10:10. ?>
 				<p><?php printf( __( 'Last update the %s', 'wpshop' ), $entry['data']['date']['rendered']['date_time'] ); ?></p>
 
 				<ul>
@@ -42,11 +43,12 @@ defined( 'ABSPATH' ) || exit; ?>
 					data-nonce="<?php echo esc_attr( wp_create_nonce( 'sync_entry' ) ); ?>"
 					data-type="<?php echo esc_attr( 'wpshop/Doli_Products_Class' ); ?>"
 					data-wp-type="\wpshop\Product"
-					data-entry-id="<?php echo $entries['dolibarr']['id'] ?>"
-					data-wp-id="<?php echo $entries['wordpress']['id']; ?>"
+					data-entry-id="<?php echo esc_attr( $entries['dolibarr']['id'] ); ?>"
+					data-wp-id="<?php echo esc_attr( $entries['wordpress']['id'] ); ?>"
 					data-route="<?php echo esc_attr( $route ); ?>"
 					data-from="<?php echo esc_attr( $key ); ?>"
 					data-modal="1">
+					<?php // translators: Choose WordPress. ?>
 					<span><?php printf( __( 'Choose %s', 'wpshop' ), $entry['title'] ); ?></span>
 				</div>
 			</div>

@@ -96,6 +96,11 @@ class Product_Action {
 		) );
 	}
 
+	/**
+	 * Ajoutes le menu "Options de l'écran" dans la page produit.
+	 *
+	 * @since 2.0.0.
+	 */
 	public function callback_add_screen_option() {
 		add_screen_option(
 			'per_page',
@@ -149,6 +154,11 @@ class Product_Action {
 		update_post_meta( $post_id, '_product_downloadable', $product_data['product_downloadable'] );
 	}
 
+	/**
+	 * Change le mode d'affichage. Soit mode "vue" soit mode "edit."
+	 *
+	 * @since 2.0.0
+	 */
 	public function change_mode() {
 		$id   = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 		$mode = ! empty( $_POST['mode'] ) ? sanitize_text_field( $_POST['mode'] ) : 'edit';
@@ -177,6 +187,11 @@ class Product_Action {
 		) );
 	}
 
+	/**
+	 * Enregistres un produit en mode édition rapide.
+	 *
+	 * @since 2.0.0
+	 */
 	public function save_quick_save() {
 		wp_update_post( array(
 			'ID'         => $_POST['id'],
@@ -197,8 +212,7 @@ class Product_Action {
 			'callback_success' => 'changeMode',
 			'view'             => ob_get_clean(),
 		) );
-	   }
-
+	}
 
 	/**
 	 * Création d'une page spéciale pour afficher les archives
@@ -256,8 +270,8 @@ class Product_Action {
 
 		$post = new \WP_Post( (object) $dummy_post_properties );
 
-		$wp_query->post  = $post;
-		$wp_query->posts = array( $post );
+		$wp_query->post          = $post;
+		$wp_query->posts         = array( $post );
 		$wp_query->post_count    = 1;
 		$wp_query->is_404        = false;
 		$wp_query->is_page       = true;
@@ -325,7 +339,7 @@ class Product_Action {
 
 		$wps_query = new \WP_Query( $wp_query->query_vars );
 
-		foreach( $wps_query->posts as &$product ) {
+		foreach ( $wps_query->posts as &$product ) {
 			$product->price_ttc = get_post_meta( $product->ID, '_price_ttc', true );
 		}
 

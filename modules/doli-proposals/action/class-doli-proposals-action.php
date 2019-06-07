@@ -61,8 +61,9 @@ class Doli_Proposals_Action {
 			update_post_meta( $wp_proposal->data['id'], '_external_id', $doli_proposal_id );
 
 			Doli_Proposals::g()->doli_to_wp( $doli_proposal, $wp_proposal );
-			\eoxia\LOG_Util::log( sprintf( "Create proposal on dolibarr: %s and create PDF", json_encode( $doli_proposal ) ), "wpshop2" );
 
+			// translators: Create proposal on dolibarr: {json_data} and create PDF.
+			\eoxia\LOG_Util::log( sprintf( 'Create proposal on dolibarr: %s and create PDF', json_encode( $doli_proposal ) ), 'wpshop2' );
 		}
 	}
 
@@ -79,8 +80,8 @@ class Doli_Proposals_Action {
 				'mode_reglement_id' => Doli_Payment::g()->convert_to_doli_id( $wp_proposal->data['payment_method'] ),
 			) );
 
-			\eoxia\LOG_Util::log( sprintf( "Update method payment for proposal %s", json_encode( $doli_proposal ) ), "wpshop2" );
-
+			// translators: Update method payment for proposal {json_data}.
+			\eoxia\LOG_Util::log( sprintf( 'Update method payment for proposal %s', json_encode( $doli_proposal ) ), 'wpshop2' );
 		}
 	}
 
@@ -91,7 +92,6 @@ class Doli_Proposals_Action {
 	 */
 	public function download_proposal() {
 		check_admin_referer( 'download_proposal' );
-
 
 		$proposal_id = ! empty( $_GET['proposal_id'] ) ? (int) $_GET['proposal_id'] : 0;
 
@@ -106,8 +106,9 @@ class Doli_Proposals_Action {
 		if ( ( isset( $third_party->data ) && $proposal->data['parent_id'] !== $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
 		}
-		\eoxia\LOG_Util::log( sprintf( "Contact %s download proposal %s", $proposal->data['title'], $contact->data['email'] ), "wpshop2" );
 
+		// tanslators: Contact test download proposal test@eoxia.com.
+		\eoxia\LOG_Util::log( sprintf( 'Contact %s download proposal %s', $proposal->data['title'], $contact->data['email'] ), 'wpshop2' );
 
 		$proposal_file = Request_Util::get( 'documents/download?module_part=propale&original_file=' . $proposal->data['title'] . '/' . $proposal->data['title'] . '.pdf' );
 		$content       = base64_decode( $proposal_file->content );

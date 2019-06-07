@@ -30,6 +30,13 @@ class Checkout_Filter {
 		add_filter( 'query_vars', array( $this, 'add_order_or_quotation_id' ) );
 	}
 
+	/**
+	 * Add parameters to the route /{type}/{id}
+	 *
+	 * @param array $vars Les paramètres de base.
+	 *
+	 * @return array      Les paramètres de base avec {type} et {id}.
+	 */
 	public function add_order_or_quotation_id( $vars ) {
 		$vars[] = 'id';
 		$vars[] = 'type';

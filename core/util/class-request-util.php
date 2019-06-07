@@ -66,7 +66,10 @@ class Request_Util extends \eoxia\Singleton_Util {
 				$response = json_decode( $request['body'] );
 				return $response;
 			} else {
-				echo "<pre>"; print_r( $request['body'] ); echo "</pre>";exit;
+				echo '<pre>';
+				print_r( $request['body'] );
+				echo '</pre>';
+				exit;
 				return false;
 			}
 		}
@@ -107,7 +110,6 @@ class Request_Util extends \eoxia\Singleton_Util {
 		}
 
 		$api_url = $dolibarr_url . '/api/index.php/' . $end_point;
-
 
 		$request = wp_remote_get( $api_url, array(
 			'headers' => array(

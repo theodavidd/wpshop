@@ -36,8 +36,17 @@ class Doli_Products extends \eoxia\Singleton_Util {
 	 * @param  stdClass      $doli_product Les données du produit venant de
 	 * dolibarr.
 	 * @param  Product_Model $wp_product   Les données du produit de WP.
+	 * @param  boolean       $save         Enregistres les données sinon
+	 * renvoies l'objet remplit sans l'enregistrer en base de donnée.
+	 * @param  array         $notices      Gestion des erreurs et
+	 * informations de l'évolution de la méthode.
+	 *
+	 * @return Product_Model Les données du produit.
 	 */
-	public function doli_to_wp( $doli_product, $wp_product, $save = true, &$notices = array( 'errors' => array(), 'messages' => array() ) ) {
+	public function doli_to_wp( $doli_product, $wp_product, $save = true, &$notices = array(
+		'errors'   => array(),
+		'messages' => array(),
+	) ) {
 		if ( is_object( $wp_product ) ) {
 			$wp_product->data['external_id']       = (int) $doli_product->id;
 			$wp_product->data['ref']               = $doli_product->ref;
@@ -59,6 +68,8 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			if ( $save ) {
 				remove_all_actions( 'save_post' );
 				$wp_product = Product::g()->update( $wp_product->data );
+
+				// translators: Erase data for the product <strong>dolibarr</strong> data.
 				$notices['messages'][] = sprintf( __( 'Erase data for the product <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_product->data['title'] );
 
 				update_post_meta( $wp_product->data['id'], '_external_id', (int) $doli_product->id );
@@ -77,10 +88,17 @@ class Doli_Products extends \eoxia\Singleton_Util {
 	 *
 	 * @param  Product_Model $wp_product   Les données du produit sur WordPress.
 	 * @param  Object        $doli_product Les données du produit sur dolibarr.
+	 * @param  boolean       $save         Enregistres les données sinon
+	 * renvoies l'objet remplit sans l'enregistrer en base de donnée.
+	 * @param  array         $notices      Gestion des erreurs et
+	 * informations de l'évolution de la méthode.
 	 *
-	 * @return void
+	 * @return Product_Model Les données du produit.
 	 */
-	public function wp_to_doli( $wp_product, $doli_product, $save = true, &$notices = array( 'errors' => array(), 'messages' => array() ) ) {
+	public function wp_to_doli( $wp_product, $doli_product, $save = true, &$notices = array(
+		'errors'   => array(),
+		'messages' => array(),
+	) ) {
 		$doli_product = Request_Util::put( 'wpshopapi/update/product/' . $wp_product->data['external_id'], array(
 			'label'       => $wp_product->data['title'],
 			'description' => $wp_product->data['content'],
@@ -96,6 +114,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 		update_post_meta( $wp_product->data['id'], '_date_last_synchro', date( 'Y-m-d H:i:s', $doli_product->last_sync_date ) );
 		update_post_meta( $wp_product->data['id'], '_external_id', $wp_product->data['external_id'] );
 
+		// translators: Erase data for the product <strong>Produit A</strong> with the <strong>WordPress</strong> data.
 		$notices['messages'][] = sprintf( __( 'Erase data for the product <strong>%s</strong> with the <strong>WordPress</strong> data', 'wpshop' ), $doli_product->label );
 
 		return $wp_product;

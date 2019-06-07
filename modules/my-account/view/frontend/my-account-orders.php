@@ -59,11 +59,11 @@ defined( 'ABSPATH' ) || exit;
 				<div class="wps-box-detail wps-list-product">
 					<?php
 					if ( ! empty( $order->data['lines'] ) ) :
-						foreach( $order->data['lines'] as $product ) :
+						foreach ( $order->data['lines'] as $product ) :
 							$qty                  = $product['qty'];
 							$product              = Product::g()->get( array(
-								'meta_key'         => '_external_id',
-								'meta_value'       => (int) $product['fk_product'],
+								'meta_key'   => '_external_id',
+								'meta_value' => (int) $product['fk_product'],
 							), true );
 							$product->data['qty'] = $qty;
 							$product              = $product->data;

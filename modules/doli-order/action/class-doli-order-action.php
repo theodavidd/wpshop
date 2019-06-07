@@ -132,7 +132,7 @@ class Doli_Order_Action {
 
 			$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 
-			$count = Doli_Order::g()->search( $s, array(), true );
+			$count        = Doli_Order::g()->search( $s, array(), true );
 			$number_page  = ceil( $count / $per_page );
 			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
 
@@ -163,6 +163,11 @@ class Doli_Order_Action {
 		}
 	}
 
+	/**
+	 * Ajoutes le menu "Options de l'écran".
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_add_screen_option() {
 		add_screen_option(
 			'per_page',
@@ -301,7 +306,8 @@ class Doli_Order_Action {
 			'third_party' => $third_party->data,
 		) );
 
-		\eoxia\LOG_Util::log( sprintf( "Create order %s for the third party %s", $doli_order->ref, $third_party->data['title'] ), "wpshop2" );
+		// translators: Create order 00001 for the third party Eoxia.
+		\eoxia\LOG_Util::log( sprintf( 'Create order %s for the third party %s', $doli_order->ref, $third_party->data['title'] ), 'wpshop2' );
 
 		$wp_order = Doli_Order::g()->get( array( 'schema' => true ), true );
 		$wp_order = Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
@@ -335,7 +341,8 @@ class Doli_Order_Action {
 
 		Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
 
-		\eoxia\LOG_Util::log( sprintf( "Update the order %s to billed", $doli_order->ref ), "wpshop2" );
+		// translators: Update the order 00001 to billed.
+		\eoxia\LOG_Util::log( sprintf( 'Update the order %s to billed', $doli_order->ref ), 'wpshop2' );
 	}
 
 	/**
@@ -351,7 +358,8 @@ class Doli_Order_Action {
 		$wp_order->data['payment_failed'] = true;
 		Doli_Order::g()->update( $wp_order->data );
 
-		\eoxia\LOG_Util::log( sprintf( "Update the order %s to failed", $wp_order->data['title'] ), "wpshop2" );
+		// translators: Update the order 00001 to failed.
+		\eoxia\LOG_Util::log( sprintf( 'Update the order %s to failed', $wp_order->data['title'] ), 'wpshop2' );
 	}
 
 	/**
@@ -376,7 +384,8 @@ class Doli_Order_Action {
 			exit;
 		}
 
-		\eoxia\LOG_Util::log( sprintf( "Download the order %s", $wp_order->data['title'] ), "wpshop2" );
+		// translators: Download the order 00001.
+		\eoxia\LOG_Util::log( sprintf( 'Download the order %s', $wp_order->data['title'] ), 'wpshop2' );
 
 		$order_file = Request_Util::get( 'documents/download?module_part=order&original_file=' . $order->data['title'] . '/' . $order->data['title'] . '.pdf' );
 

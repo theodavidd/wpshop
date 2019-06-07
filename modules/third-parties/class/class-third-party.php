@@ -68,8 +68,22 @@ class Third_Party extends \eoxia\Post_Class {
 	 */
 	protected $attached_taxonomy_type = '';
 
+	/**
+	 * La limite par page.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var integer
+	 */
 	public $limit = 10;
 
+	/**
+	 * Le nom de l'option pour la limite par page.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
 	public $option_per_page = 'third_party_per_page';
 
 	/**
@@ -152,6 +166,19 @@ class Third_Party extends \eoxia\Post_Class {
 		) );
 	}
 
+	/**
+	 * Fonctions de recherche
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string  $s            Le terme de la recherche.
+	 * @param  array   $default_args Les arguments par défaut.
+	 * @param  boolean $count        Si true compte le nombre d'élement, sinon
+	 * renvoies l'ID des éléments trouvés.
+	 *
+	 * @return array|integer         Les ID des éléments trouvés ou le nombre
+	 * d'éléments trouvés.
+	 */
 	public function search( $s = '', $default_args = array(), $count = false ) {
 		$args = array(
 			'post_type'      => 'wps-third-party',
@@ -218,6 +245,15 @@ class Third_Party extends \eoxia\Post_Class {
 		return $result;
 	}
 
+	/**
+	 * Dissocie tous les contact d'un tier.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  Third_Party_Model $third_party Les données du tier.
+	 *
+	 * @return array                          Messages informatifs.
+	 */
 	public function dessociate_contact( $third_party ) {
 		$messages = array();
 
@@ -229,7 +265,9 @@ class Third_Party extends \eoxia\Post_Class {
 					$contact->data['third_party_id'] = 0;
 
 					Contact::g()->update( $contact->data );
-					$messages[] = sprintf( __( 'Dissociate contact <strong>%s</strong> from <strong>%s</strong>', 'wpshop' ), $contact->data['email'], $third_party->data['title'] );
+
+					// translators: Dissociate contact <strong>test@wpshop.fr</strong> from <strong>eoxia</strong>.
+					$messages[] = sprintf( __( 'Dissociate contact <strong>%1$s</strong> from <strong>%2$s</strong>', 'wpshop' ), $contact->data['email'], $third_party->data['title'] );
 				}
 			}
 

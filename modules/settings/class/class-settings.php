@@ -32,6 +32,10 @@ class Settings extends \eoxia\Singleton_Util {
 
 	/**
 	 * TVA
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
 	 */
 	public $tva = array( 0, 2.1, 5.5, 10, 20 );
 

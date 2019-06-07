@@ -171,12 +171,26 @@ class Pages extends \eoxia\Singleton_Util {
 		return get_permalink( $this->page_ids['general_conditions_of_sale'] );
 	}
 
+	/**
+	 * Est-ce la page "checkout" ?
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return boolean True si oui, sinon false.
+	 */
 	public function is_checkout_page() {
 		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
 
 		return ( get_the_ID() === $this->page_ids['checkout_id'] ) ? true : false;
 	}
 
+	/**
+	 * Est-ce la page "valid" ?
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return boolean True si oui, sinon false.
+	 */
 	public function is_valid_page() {
 		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
 

@@ -21,6 +21,13 @@ defined( 'ABSPATH' ) || exit;
  */
 class My_Account extends \eoxia\Singleton_Util {
 
+	/**
+	 * Éléments du menu
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
 	public $menu = array();
 
 	/**

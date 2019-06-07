@@ -91,7 +91,6 @@ class Doli_Order_Model extends \eoxia\Post_Model {
 			'description' => 'Prix total de la commande, toutes taxes comprises (float). Peut être NULL. Valeur par défaut NULL.',
 		);
 
-
 		$this->schema['total_price_no_shipping'] = array(
 			'type'        => 'float',
 			'meta_type'   => 'single',

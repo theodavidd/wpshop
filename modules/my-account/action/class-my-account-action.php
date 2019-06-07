@@ -129,6 +129,13 @@ class My_Account_Action {
 		) );
 	}
 
+	/**
+	 * Ajoutes le lien vers le devis si dolibarr est active.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param Proposal_Model $proposal Les données du devis.
+	 */
 	public function add_proposal_pdf( $proposal ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
 			include( Template_Util::get_template_part( 'my-account', 'my-account-proposals-devis' ) );

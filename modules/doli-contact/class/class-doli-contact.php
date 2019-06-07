@@ -35,6 +35,10 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 	 *
 	 * @param  stdClass      $doli_contact Les données provenant de Dolibarr.
 	 * @param  Contact_Model $wp_contact   Les données de WP.
+	 * @param  boolean       $save         True pour enregister le contact en
+	 * base de donnée. Sinon false pour seulement récupérer un objet remplis.
+	 *
+	 * @return boolean|Contact_Model       Les données du contact.
 	 */
 	public function doli_to_wp( $doli_contact, $wp_contact, $save = true ) {
 		$wp_third_party = null;
@@ -56,7 +60,7 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 		$wp_contact->data['email']        = $doli_contact->email;
 
 		if ( 0 === $wp_contact->data['id'] && false !== email_exists( $wp_contact->data['email'] ) ) {
-			\eoxia\LOG_Util::log( sprintf( "Contact: doli_to_wp can't create %s email already exist", json_encode( $wp_contact->data ) ), 'wpshop2' );
+			\eoxia\LOG_Util::log( sprintf( 'Contact: doli_to_wp can\'t create %s email already exist', json_encode( $wp_contact->data ) ), 'wpshop2' );
 			return false;
 		}
 
@@ -72,7 +76,8 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 			$contact_saved = Contact::g()->update( $wp_contact->data );
 
 			if ( is_wp_error( $contact_saved ) ) {
-				\eoxia\LOG_Util::log( sprintf( "Contact: doli_to_wp error when update or create contact: %s", json_encode( $contact_saved ) ), 'wpshop2' );
+				// translators: Contact: doli_to_wp error when update or create contact {json_data}.
+				\eoxia\LOG_Util::log( sprintf( 'Contact: doli_to_wp error when update or create contact: %s', json_encode( $contact_saved ) ), 'wpshop2' );
 				return false;
 			}
 
@@ -111,7 +116,7 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 		if ( ! empty( $wp_contact->data['external_id'] ) ) {
 			Request_Util::put( 'contacts/' . $wp_contact->data['external_id'], $data );
 		} else {
-			$contact_id                 = Request_Util::post( 'contacts', $data );
+			$contact_id                      = Request_Util::post( 'contacts', $data );
 			$wp_contact->data['external_id'] = $contact_id;
 
 			Contact::g()->update( $wp_contact->data );

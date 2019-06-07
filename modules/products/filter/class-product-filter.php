@@ -34,8 +34,8 @@ class Product_Filter {
 		add_filter( 'the_content', array( $this, 'display_content_grid_product' ) );
 		add_filter( 'the_content', array( $this, 'display_single_page_product' ) );
 
-		add_filter( 'wps-product-add-to-cart-attr', array( $this, 'button_add_to_cart_tooltip' ), 10, 2 );
-		add_filter( 'wps-product-add-to-cart-class', array( $this, 'disable_button_add_to_cart' ), 10, 2 );
+		add_filter( 'wps_product_add_to_cart_attr', array( $this, 'button_add_to_cart_tooltip' ), 10, 2 );
+		add_filter( 'wps_product_add_to_cart_class', array( $this, 'disable_button_add_to_cart' ), 10, 2 );
 	}
 
 	/**
@@ -136,8 +136,8 @@ class Product_Filter {
 
 			if ( $post->ID === $page_ids_options['shop_id'] ) {
 				$args = array(
-					'post_type'      => 'wps-product',
-					'paged'          => get_query_var('paged') ? get_query_var('paged') : 1
+					'post_type' => 'wps-product',
+					'paged'     => get_query_var('paged') ? get_query_var('paged') : 1,
 				);
 
 				if ( ! empty( $shipping_cost_option['shipping_product_id'] ) ) {
@@ -146,7 +146,7 @@ class Product_Filter {
 
 				$wps_query = new \WP_Query( $args );
 
-				foreach( $wps_query->posts as $key => &$product ) {
+				foreach ( $wps_query->posts as $key => &$product ) {
 					$product->price_ttc    = get_post_meta( $product->ID, '_price_ttc', true );
 					$product->manage_stock = get_post_meta( $product->ID, '_manage_stock', true );
 					$product->stock        = get_post_meta( $product->ID, '_stock', true );
@@ -185,14 +185,30 @@ class Product_Filter {
 		return $content;
 	}
 
+	/**
+	 * Ajoutes le message "Rupture de stock" sur le produit.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string        $attr    Attribut du bouton.
+	 * @param Product_Model $product Les données du produit.
+	 */
 	public function button_add_to_cart_tooltip( $attr, $product ) {
 		if ( $product->data['manage_stock'] && 0 >= $product->data['stock'] ) {
-			$attr .= 'aria-label="' . __( 'Rupture de stock', 'wpshop' ) . '"';
+			$attr .= 'aria-label="' . __( 'Sold out', 'wpshop' ) . '"';
 		}
 
 		return $attr;
 	}
 
+	/**
+	 * Rend le bouton "Ajouter au panier" grisé.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string        $class   Les classes du bouton.
+	 * @param Product_Model $product Les données du produit.
+	 */
 	public function disable_button_add_to_cart( $class, $product ) {
 		if ( $product->data['manage_stock'] && 0 >= $product->data['stock'] ) {
 			$class = 'button-disable wpeo-tooltip-event button-event';

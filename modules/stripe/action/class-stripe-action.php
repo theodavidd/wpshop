@@ -36,6 +36,11 @@ class Stripe_Action {
 		add_action( 'wps_gateway_stripe', array( $this, 'callback_wps_gateway_stripe' ), 10, 1 );
 	}
 
+	/**
+	 * Ajoutes la variable stripe_key pour la rendre acessible dans le JS.
+	 *
+	 * @since 2.0.0
+	 */
 	public function define_stripe_option() {
 		$stripe_options = Payment::g()->get_payment_option( 'stripe' );
 

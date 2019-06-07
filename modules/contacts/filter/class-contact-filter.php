@@ -21,16 +21,21 @@ defined( 'ABSPATH' ) || exit;
  */
 class Contact_Filter {
 
+	/**
+	 * Initialise les filtres.
+	 *
+	 * @since 2.0.0
+	 */
 	public function __construct() {
 		add_filter( 'wps_contact_item_contact_title_after', array( $this, 'add_user_switching' ) );
 	}
 
 	/**
-	 * Affiches les tiers
+	 * Affiches le lien pour switcher vers l'utilisateur.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param Third_Party_Model $third_party Les données du tier.
+	 * @param Contact_Model $contact Les données du contact.
 	 */
 	public function add_user_switching( $contact ) {
 		if ( class_exists( '\user_switching' ) ) {
@@ -38,7 +43,9 @@ class Contact_Filter {
 
 			$link = \user_switching::maybe_switch_url( $user );
 
-			?><a href="<?php echo esc_attr( $link ); ?>"><i class="fas fa-random"></i></a><?php
+			?>
+			<a href="<?php echo esc_attr( $link ); ?>"><i class="fas fa-random"></i></a>
+			<?php
 		}
 	}
 }

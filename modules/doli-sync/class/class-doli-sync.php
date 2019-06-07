@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  *  Doli Synchro Class.
  */
-class Doli_Synchro extends \eoxia\Singleton_Util {
+class Doli_Sync extends \eoxia\Singleton_Util {
 
 	/**
 	 * Tableau contenant les synchronisations à effectuer.
@@ -91,6 +91,16 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 		);
 	}
 
+	/**
+	 * Compte le nombre d'entrée.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $sync_info Les informations de synchro.
+	 *
+	 * @return array            Les informations de synchro avec le nombre
+	 * total d'élement en plus.
+	 */
 	public function count_entries( $sync_info ) {
 		if ( ! empty( $sync_info['endpoint'] ) ) {
 			$args = array(
@@ -129,7 +139,7 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 	 * @param  integer $wp_id    L'ID de l'entitée sur WordPress.
 	 * @param  integer $entry_id L'ID de l'entitée sur Dolibarr.
 	 *
-	 * @return void
+	 * @return array             Les informations de la société.
 	 */
 	public function associate_and_synchronize( $from, $wp_id, $entry_id ) {
 		$post_type = get_post_type( $wp_id );
@@ -144,6 +154,8 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 					$wp_third_party   = Third_Party::g()->get( array( 'id' => $wp_id ), true );
 
 					Doli_Third_Parties::g()->doli_to_wp( $doli_third_party, $wp_third_party );
+
+					// translators: Erase date for the third party <strong>Eoxia</strong> with the <strong>dolibarr</strong> data.
 					$messages[] = sprintf( __( 'Erase data for the third party <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_third_party->data['title'] );
 
 					$messages = array_merge( $messages, Third_Party::g()->dessociate_contact( $wp_third_party ) );
@@ -192,7 +204,7 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 						'fk_product' => $entry_id,
 					) );
 
-					// Facture
+					// Facture.
 					if ( ! empty( $doli_order->linkedObjectsIds->facture ) ) {
 						foreach ( $doli_order->linkedObjectsIds->facture as $facture_id ) {
 							$doli_invoice = Request_Util::get( 'invoices/' . $facture_id );
@@ -210,7 +222,7 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 						}
 					}
 
-					// Règlement
+					// Règlement.
 				}
 				break;
 			default:
@@ -231,4 +243,4 @@ class Doli_Synchro extends \eoxia\Singleton_Util {
 	}
 }
 
-Doli_Synchro::g();
+Doli_Sync::g();

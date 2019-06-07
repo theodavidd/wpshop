@@ -67,6 +67,16 @@ class Third_Party_Filter {
 		return $args;
 	}
 
+	/**
+	 * Ajoutes les metaboxes "Commandes" et "Invoices" si dolibarr est active.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $metaboxes La définition des metaboxes.
+	 *
+	 * @return array           La définition des metaboxes avec la définition
+	 * de celle pour les commande et les factures.
+	 */
 	public function add_orders_and_billings_metaboxes( $metaboxes ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
 			$metaboxes['wps-third-party-orders'] = array(

@@ -39,10 +39,10 @@ class Doli_Associate_Action {
 	public function load_associate_modal() {
 		check_ajax_referer( 'load_associate_modal' );
 
-		$wp_id        = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
-		$route        = ! empty( $_POST['route'] ) ? sanitize_text_field( $_POST['route'] ) : '';
-		$type         = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
-		$type         = str_replace( '_Class', '', str_replace( '/', '\\', '/' . $type ) );
+		$wp_id = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
+		$route = ! empty( $_POST['route'] ) ? sanitize_text_field( $_POST['route'] ) : '';
+		$type  = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
+		$type  = str_replace( '_Class', '', str_replace( '/', '\\', '/' . $type ) );
 
 		$post_type        = get_post_type( $wp_id );
 		$post_type_object = get_post_type_object( $post_type );
@@ -82,6 +82,11 @@ class Doli_Associate_Action {
 		) );
 	}
 
+	/**
+	 * Charges la modal pour comparer les données de WordPress et Dolibarr.
+	 *
+	 * @since 2.0.0
+	 */
 	public function load_compare_modal() {
 		check_ajax_referer( 'load_compare_modal' );
 
@@ -108,7 +113,7 @@ class Doli_Associate_Action {
 		$doli_entry       = Request_Util::get( $route . '/' . $entry_id );
 		$doli_to_wp_entry = $type::g()->get( array( 'schema' => true ), true );
 
-		switch( $route ) {
+		switch ( $route ) {
 			case 'thirdparties':
 				$wp_entry->data['contacts'] = array();
 
@@ -137,12 +142,12 @@ class Doli_Associate_Action {
 		}
 
 		$entries = array(
-			'wordpress' => array(
+			'wordpress' => array( // WPCS: spelling ok.
 				'title' => __( 'WordPress', 'wpshop' ),
 				'data'  => $wp_entry->data,
 				'id'    => $wp_entry->data['id'],
 			),
-			'dolibarr' => array(
+			'dolibarr'  => array(
 				'title' => __( 'Dolibarr', 'wpshop' ),
 				'data'  => $doli_to_wp_entry->data,
 				'id'    => $entry_id,

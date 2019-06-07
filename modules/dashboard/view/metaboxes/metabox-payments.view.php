@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				</div>
 				<?php
 			endforeach;
-		else:
+		else :
 			?>
 			<div class="table-row">
 				<div class="table-cell">

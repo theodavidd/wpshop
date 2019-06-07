@@ -70,7 +70,7 @@ class Doli_Statut extends \eoxia\Singleton_Util {
 					'text'  => __( 'Not paid', 'wpshop' ),
 					'class' => 'status-orange',
 				),
-				'wps-canceled'   => array(
+				'wps-canceled'  => array(
 					'text'  => __( 'Canceled', 'wpshop' ),
 					'class' => 'status-red',
 				),
@@ -126,6 +126,15 @@ class Doli_Statut extends \eoxia\Singleton_Util {
 		}
 	}
 
+	/**
+	 * Ajoutes une classe dans la balise du statut.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  mixed $object Les données d'un objet.
+	 *
+	 * @return string        La classe.
+	 */
 	public function display_status_class( $object ) {
 		$status = null;
 

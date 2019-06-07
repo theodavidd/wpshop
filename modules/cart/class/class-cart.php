@@ -29,7 +29,7 @@ class Cart extends \eoxia\Singleton_Util {
 	protected function construct() {}
 
 	/**
-	 * Ajout d'un produit dans le panier
+	 * Ajout d'un produit dans le panier.
 	 *
 	 * @since 2.0.0
 	 *
@@ -110,14 +110,31 @@ class Cart extends \eoxia\Singleton_Util {
 		do_action( 'wps_after_calculate_totals' );
 	}
 
+	/**
+	 * Affiches le résumé du panier.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  integer $total_price_no_shipping Prix total sans frais de livraison.
+	 * @param  integer $tva_amount              Montant de la TVA.
+	 * @param  integer $total_price_ttc         Prix total TTC.
+	 * @param  integer $shipping_cost           Frais de livraison.
+	 */
 	public function display_cart_resume( $total_price_no_shipping, $tva_amount, $total_price_ttc, $shipping_cost ) {
-		$shipping_cost_option  = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
+		$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
 
 		$shipping_cost_product = Product::g()->get( array( 'id' => $shipping_cost_option['shipping_product_id'] ), true );
 
 		include( Template_Util::get_template_part( 'cart', 'cart-resume' ) );
 	}
 
+	/**
+	 * Vérifie le stock au moment du passage de la commande.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return array is_valid à false si le produit n'est plus disponible.
+	 */
 	public function check_stock() {
 		$stock_statut = array(
 			'is_valid' => true,
@@ -132,7 +149,8 @@ class Cart extends \eoxia\Singleton_Util {
 
 				if ( $product['stock'] < $product['qty'] ) {
 					$stock_statut['is_valid'] = false;
-					$stock_statut['errors'][] = __( sprintf( '%s is sold out.', $product['title'] ), 'wpshop' );
+					// translators: Product A is sold out.
+					$stock_statut['errors'][] = sprintf( __( '%s is sold out.', 'wpshop' ), $product['title'] );
 				}
 			}
 		}
@@ -140,6 +158,10 @@ class Cart extends \eoxia\Singleton_Util {
 		return $stock_statut;
 	}
 
+	/**
+	 * Pour chaque produit, décrementes son stock selon la quantity de celui-ci
+	 * dans la commande.
+	 */
 	public function decreate_stock() {
 		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
 			foreach ( Cart_Session::g()->cart_contents as $product ) {

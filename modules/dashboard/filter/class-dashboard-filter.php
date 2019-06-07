@@ -27,9 +27,19 @@ class Dashboard_Filter {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		// add_filter( 'wps_dashboard_metaboxes', array( $this, 'add_sync_metabox' ) );
+		// add_filter( 'wps_dashboard_metaboxes', array( $this, 'add_sync_metabox' ) );.
 	}
 
+	/**
+	 * Metabox pour synchroniser tous les éléments de Dolibarr.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $metaboxes La définition des metaboxes.
+	 *
+	 * @return array           La définition des metaboxes avec la définition
+	 * de la metaboxe de sync.
+	 */
 	public function add_sync_metabox( $metaboxes ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
 			$array = array(

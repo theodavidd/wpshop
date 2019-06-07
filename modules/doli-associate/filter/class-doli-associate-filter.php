@@ -30,6 +30,17 @@ class Doli_Associate_Filter {
 		add_filter( 'wps_associate_entry', array( $this, 'add_email' ), 10, 2 );
 	}
 
+	/**
+	 * Ajoutes l'adresse email dans l'utilisateur venant de dolibarr dans la
+	 * modal d'association.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $output Le nom de l'utilisateur.
+	 * @param Object $entry  Les données de l'utilisateur.
+	 *
+	 * @return string        Le nom de l'utilisateur avec son adresse email.
+	 */
 	public function add_email( $output, $entry ) {
 		if ( '1' === $entry->entity && ! empty( $entry->email ) ) {
 			$output .= ' (' . $entry->email . ')';

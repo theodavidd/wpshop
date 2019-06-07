@@ -91,8 +91,22 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	 */
 	public $order_id;
 
+	/**
+	 * Quantity de produit dans la commande.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var integer
+	 */
 	public $qty;
 
+	/**
+	 * Prix du frais de livaison;
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var integer
+	 */
 	public $shipping_cost;
 
 	/**
@@ -142,7 +156,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 					if ( empty( $shipping_cost_option['shipping_product_id'] ) ||
 						( ! empty( $shipping_cost_option['shipping_product_id'] ) && $shipping_cost_option['shipping_product_id'] !== $product['id'] ) ) {
 						$product['qty'] = (int) $product['qty'];
-						$this->qty += $product['qty'];
+						$this->qty     += $product['qty'];
 					}
 				}
 			}

@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		?>
 		<div class="button-synchro <?php echo ! empty( $object->data['external_id'] ) ? 'action-attribute' : 'wpeo-modal-event'; ?>"
 			data-class="synchro-single"
+			<?php // translators: Associate and synchronize object name. ?>
 			data-title="<?php printf( __( 'Associate and synchronize %s', 'wpshop' ), $object->data['title'] ); ?>"
 			data-action="<?php echo ! empty( $object->data['external_id'] ) ? 'sync_entry' : 'load_associate_modal'; ?>"
 			data-nonce="<?php echo esc_attr( wp_create_nonce( ! empty( $object->data['external_id'] ) ? 'sync_entry' : 'load_associate_modal' ) ); ?>"
@@ -31,7 +32,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			data-route="<?php echo esc_attr( $route ); ?>"
 			data-from="dolibarr"><i class="fas fa-sync"></i></div>
 		<?php
-	else:
+	else :
 		?>
 			<div class="wpeo-button button-synchro button-disable button-event button-radius-1 wpeo-tooltip-event" data-direction="left" aria-label="<?php echo esc_html( $message_tooltip ); ?>"><i class="fas fa-sync"></i></div>
 		<?php

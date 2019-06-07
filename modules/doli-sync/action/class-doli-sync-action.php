@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Doli Synchro Action Class.
  */
-class Doli_Synchro_Action {
+class Doli_Sync_Action {
 
 	/**
 	 * Constructor.
@@ -47,7 +47,7 @@ class Doli_Synchro_Action {
 		check_ajax_referer( 'load_modal_synchro' );
 
 		$sync_action = ! empty( $_POST['sync'] ) ? sanitize_text_field( $_POST['sync'] ) : '';
-		$sync_infos  = Doli_Synchro::g()->sync_infos;
+		$sync_infos  = Doli_Sync::g()->sync_infos;
 
 		if ( empty( $sync_action ) ) {
 			$sync_action = array( 'third-parties', 'contacts', 'products', 'proposals', 'orders', 'invoices', 'payments' );
@@ -65,9 +65,9 @@ class Doli_Synchro_Action {
 				$sync_info['last']         = false;
 				$sync_info['total_number'] = 0;
 				$sync_info['page']         = 0;
-				$sync_info                 = Doli_Synchro::g()->count_entries( $sync_info );
+				$sync_info                 = Doli_Sync::g()->count_entries( $sync_info );
 
-				if ( $key == end( $sync_action ) ) {
+				if ( end( $sync_action ) == $key ) {
 					$sync_info['last'] = true;
 				}
 			}
@@ -147,11 +147,13 @@ class Doli_Synchro_Action {
 				break;
 		}
 
-		$doli_entries = Request_Util::get( $route . '?sortfield=t.rowid&sortorder=ASC&limit=' . Doli_Synchro::g()->limit_entries_by_request . '&page=' . $done_number / Doli_Synchro::g()->limit_entries_by_request );
+		$doli_entries = Request_Util::get( $route . '?sortfield=t.rowid&sortorder=ASC&limit=' . Doli_Sync::g()->limit_entries_by_request . '&page=' . $done_number / Doli_Sync::g()->limit_entries_by_request );
 
 		if ( ! empty( $doli_entries ) ) {
 			foreach ( $doli_entries as $doli_entry ) {
-				\eoxia\LOG_Util::log( sprintf( "Try to sync %s", $doli_entry ), "wpshop2" );
+
+				// translators: Try to sync %s.
+				\eoxia\LOG_Util::log( sprintf( 'Try to sync %s', $doli_entry ), 'wpshop2' );
 				$wp_entry = $wp_class::g()->get( array(
 					'meta_key'   => '_external_id',
 					'meta_value' => (int) $doli_entry->id,
@@ -172,7 +174,8 @@ class Doli_Synchro_Action {
 					$doli_class::g()->doli_to_wp( $doli_entry, $wp_entry );
 				}
 
-				\eoxia\LOG_Util::log( sprintf( "Sync done for the entry %s", $doli_entry ), "wpshop2" );
+				// translators: Sync done for the entry {json_data}.
+				\eoxia\LOG_Util::log( sprintf( 'Sync done for the entry %s', json_encode( $doli_entry ) ), 'wpshop2' );
 
 				$done_number++;
 				do_action( 'wps_sync_' . $type . '_after', $doli_entry );
@@ -200,9 +203,12 @@ class Doli_Synchro_Action {
 	}
 
 	/**
-	 * Synchornise les paiements.
+	 * Synchronise les paiements.
 	 *
 	 * @since 2.0.0
+	 *
+	 * @param Doli_Invoice_Model $doli_invoice Les données de la facture venant de dolibarr.
+	 * @param Doli_Invoice_Model $wp_invoice   Les données de la facture vanant de WP.
 	 */
 	public function sync_payments( $doli_invoice, $wp_invoice ) {
 		$doli_payments = Request_Util::get( 'invoices/' . $wp_invoice->data['external_id'] . '/payments' );
@@ -220,6 +226,11 @@ class Doli_Synchro_Action {
 		}
 	}
 
+	/**
+	 * Synchronise une entrée.
+	 *
+	 * @since 2.0.0
+	 */
 	public function sync_entry() {
 		check_ajax_referer( 'sync_entry' );
 
@@ -239,29 +250,36 @@ class Doli_Synchro_Action {
 		$wp_entry   = $wp_type::g()->get( array( 'id' => $wp_id ), true );
 		$doli_entry = Request_Util::get( $route . '/' . $entry_id );
 
-		switch( $route ) {
+		switch ( $route ) {
 			case 'thirdparties':
 				$url = admin_url( 'admin.php?page=wps-third-party' );
 
 				if ( 'dolibarr' === $from ) {
-					$notices             = array( 'errors' => array(), 'messages' => array() );
+					$notices = array(
+						'errors'   => array(),
+						'messages' => array(),
+					);
+
 					$notices['messages'] = Third_Party::g()->dessociate_contact( $wp_entry );
 					$wp_entry            = Doli_Third_Parties::g()->doli_to_wp( $doli_entry, $wp_entry, true, $notices );
-				} else if ( 'wordpress' === $from ) {
+				} elseif ( 'wordpress' === $from ) {
 					$wp_entry->data['external_id'] = $entry_id;
-					$wp_entry = Doli_Third_Parties::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
+					$wp_entry                      = Doli_Third_Parties::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
 				}
 				break;
 			case 'products':
 				$url = admin_url( 'admin.php?page=wps-product' );
 
-				$notices = array( 'errors' => array(), 'messages' => array() );
+				$notices = array(
+					'errors'   => array(),
+					'messages' => array(),
+				);
 
 				if ( 'dolibarr' === $from ) {
 					$wp_entry = Doli_Products::g()->doli_to_wp( $doli_entry, $wp_entry, true, $notices );
 				} else {
 					$wp_entry->data['external_id'] = $entry_id;
-					$wp_entry = Doli_Products::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
+					$wp_entry                      = Doli_Products::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
 				}
 				break;
 			default:
@@ -313,6 +331,7 @@ class Doli_Synchro_Action {
 	 *
 	 * @param mixed  $object Peut être Order, Product ou Tier.
 	 * @param string $route  La route pour l'api dolibarr.
+	 * @param string $mode   Peut être view ou edit.
 	 */
 	public function add_sync_item( $object, $route, $mode = 'view' ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
@@ -345,4 +364,4 @@ class Doli_Synchro_Action {
 	}
 }
 
-new Doli_Synchro_Action();
+new Doli_Sync_Action();

@@ -32,7 +32,7 @@ class Products_Shortcode {
 	}
 
 	/**
-	 * Gestion du shortcode
+	 * Shortcode permattant d'afficher les produits
 	 *
 	 * @since 2.0.0
 	 *
@@ -78,6 +78,14 @@ class Products_Shortcode {
 		}
 	}
 
+	/**
+	 * Shortcode permattant d'afficher les categories
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $atts Les paramètres du shortcode. (Voir shorcode_atts
+	 * ci dessous pour les paramètres disponibles).
+	 */
 	public function do_shortcode_categories( $atts ) {
 		if ( ! is_admin() ) {
 			$default_atts = shortcode_atts( array(

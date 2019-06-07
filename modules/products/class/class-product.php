@@ -75,12 +75,30 @@ class Product extends \eoxia\Post_Class {
 	 */
 	protected $post_type_name = 'Products';
 
+	/**
+	 * La limite par page.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var integer
+	 */
 	public $limit = 10;
 
+	/**
+	 * Le nom de l'option pour la limite par page.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
 	public $option_per_page = 'product_per_page';
 
 	/**
-	 * Récupères la liste des produits et appel la vue "list" du module "Product".
+	 * Récupères la liste des produits et appel la vue "list" du module
+	 * "Product".
+	 *
+	 * @param string $mode Le mode d'affichage de la vue. Soit en mode "view"
+	 * ou en mode "edit".
 	 *
 	 * @since 2.0.0
 	 */
@@ -156,6 +174,19 @@ class Product extends \eoxia\Post_Class {
 		) );
 	}
 
+	/**
+	 * Fonctions de recherche
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string  $s            Le terme de la recherche.
+	 * @param  array   $default_args Les arguments par défaut.
+	 * @param  boolean $count        Si true compte le nombre d'élement, sinon
+	 * renvoies l'ID des éléments trouvés.
+	 *
+	 * @return array|integer         Les ID des éléments trouvés ou le nombre
+	 * d'éléments trouvés.
+	 */
 	public function search( $s = '', $default_args = array(), $count = false ) {
 		$args = array(
 			'post_type'      => 'wps-product',

@@ -2,7 +2,6 @@
 /**
  * Résultat de l'association
  *
- *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
  *

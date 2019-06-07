@@ -59,7 +59,7 @@ class Settings_Action {
 
 		if ( ! empty( $dolibarr_option['error'] ) ) {
 			\eoxia\View_Util::exec( 'wpshop', 'settings', 'notice-error-erp', array( 'error' => $dolibarr_option['error'] ) );
-		} else if ( empty( $dolibarr_option['dolibarr_url'] ) || empty( $dolibarr_option['dolibarr_secret'] ) ) {
+		} elseif ( empty( $dolibarr_option['dolibarr_url'] ) || empty( $dolibarr_option['dolibarr_secret'] ) ) {
 			\eoxia\View_Util::exec( 'wpshop', 'settings', 'notice-activate-erp' );
 		}
 
@@ -136,7 +136,7 @@ class Settings_Action {
 		update_option( 'wps_dolibarr', $dolibarr_option );
 
 		$response = Request_Util::get( 'status' );
-		if ( $response == false ) {
+		if ( false == $response ) {
 			$dolibarr_option['error'] = __( 'WPshop cannot connect to dolibarr. Please check your settings', 'wpshop' );
 		} else {
 			$dolibarr_option['error'] = '';

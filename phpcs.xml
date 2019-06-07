@@ -11,6 +11,7 @@
 	<exclude-pattern>**/*.css</exclude-pattern>
 	<exclude-pattern>**/index.php</exclude-pattern>
 	<exclude-pattern>**/need-to-confirm-header.view.php</exclude-pattern>
+	<exclude-pattern>**/class-doli-sync-action.php</exclude-pattern>
 
 	<!-- Configs -->
 	<config name="minimum_supported_wp_version" value="4.4" />

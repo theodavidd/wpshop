@@ -14,9 +14,8 @@
 
 namespace wpshop;
 
-defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit; ?>
 
-?>
 <div class="wps-list-quotation wps-list-box">
 	<?php
 	if ( ! empty( $proposals ) ) :
@@ -46,11 +45,11 @@ defined( 'ABSPATH' ) || exit;
 				<div class="wps-box-detail wps-list-product">
 					<?php
 					if ( ! empty( $proposal->data['lines'] ) ) :
-						foreach( $proposal->data['lines'] as $product ) :
+						foreach ( $proposal->data['lines'] as $product ) :
 							$qty                  = $product['qty'];
 							$product              = Product::g()->get( array(
-								'meta_key'         => '_external_id',
-								'meta_value'       => (int) $product['fk_product'],
+								'meta_key'   => '_external_id',
+								'meta_value' => (int) $product['fk_product'],
 							), true );
 							$product->data['qty'] = $qty;
 							$product              = $product->data;

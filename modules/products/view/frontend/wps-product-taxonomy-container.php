@@ -17,7 +17,7 @@ if ( ! empty( $product_taxonomies ) ) :
 	?>
 	<div class="wps-list-taxonomy wpeo-gridlayout grid-3 grid-margin-2">
 		<?php
-		foreach( $product_taxonomies as $product_taxonomy ) :
+		foreach ( $product_taxonomies as $product_taxonomy ) :
 			include( Template_Util::get_template_part( 'products', 'wps-product-taxonomy' ) );
 		endforeach;
 		?>

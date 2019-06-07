@@ -21,6 +21,13 @@ defined( 'ABSPATH' ) || exit;
  */
 class Dashboard extends \eoxia\Singleton_Util {
 
+	/**
+	 * Définition des metaboxes
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
 	private $metaboxes = array();
 
 	/**
@@ -30,22 +37,22 @@ class Dashboard extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {
 		$this->metaboxes = apply_filters( 'wps_dashboard_metaboxes', array(
-			'wps-dashboard-invoices'  => array(
+			'wps-dashboard-invoices'   => array(
 				'callback' => array( $this, 'metabox_invoices' ),
 			),
-			'wps-dashboard-orders'  => array(
+			'wps-dashboard-orders'     => array(
 				'callback' => array( $this, 'metabox_orders' ),
 			),
 			'wps-dashboard-customers'  => array(
 				'callback' => array( $this, 'metabox_customers' ),
 			),
-			'wps-dashboard-quotations'  => array(
+			'wps-dashboard-quotations' => array(
 				'callback' => array( $this, 'metabox_quotations' ),
 			),
-			'wps-dashboard-products'  => array(
+			'wps-dashboard-products'   => array(
 				'callback' => array( $this, 'metabox_products' ),
 			),
-			'wps-dashboard-payments'  => array(
+			'wps-dashboard-payments'   => array(
 				'callback' => array( $this, 'metabox_payments' ),
 			),
 		) );

@@ -27,7 +27,10 @@ defined( 'ABSPATH' ) || exit;
 	<figure class="wps-product-thumbnail">
 		<?php
 		if ( ! empty( $product['thumbnail_id'] ) ) :
-			echo wp_get_attachment_image( $product['thumbnail_id'], 'thumbnail', '', array( 'class' => 'attachment-wps-product-thumbnail', 'itemprop' => 'image' ) );
+			echo wp_get_attachment_image( $product['thumbnail_id'], 'thumbnail', '', array(
+				'class'    => 'attachment-wps-product-thumbnail',
+				'itemprop' => 'image',
+			) );
 		else :
 			echo '<img src="' . PLUGIN_WPSHOP_URL . '/core/asset/image/default-product-thumbnail-min.jpg" class="attachment-wps-product-thumbnail" itemprop="image" /> ';
 		endif;

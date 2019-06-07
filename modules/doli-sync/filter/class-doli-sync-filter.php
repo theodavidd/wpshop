@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Doli Synchro Filter Class.
  */
-class Doli_Synchro_Filter extends \eoxia\Singleton_Util {
+class Doli_Sync_Filter extends \eoxia\Singleton_Util {
 
 	/**
 	 * Constructeur.
@@ -51,7 +51,7 @@ class Doli_Synchro_Filter extends \eoxia\Singleton_Util {
 				foreach ( $countries as $country ) {
 					$country = (array) $country;
 
-					if ( $country['label'] === '-' ) {
+					if ( '-' === $country['label'] ) {
 						$country['label'] = __( 'Country', 'wpshop' );
 					}
 
@@ -74,4 +74,4 @@ class Doli_Synchro_Filter extends \eoxia\Singleton_Util {
 	}
 }
 
-Doli_Synchro_Filter::g();
+Doli_Sync_Filter::g();

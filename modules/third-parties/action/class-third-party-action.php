@@ -138,6 +138,11 @@ class Third_Party_Action {
 		}
 	}
 
+	/**
+	 * Ajoutes le menu "Options de l'écran" pour les tiers.
+	 *
+	 * @since 2.0.0.
+	 */
 	public function callback_add_screen_option() {
 		add_screen_option(
 			'per_page',
@@ -255,27 +260,48 @@ class Third_Party_Action {
 		) );
 	}
 
+	/**
+	 * Ajoutes la metabox "Tâches".
+	 *
+	 * @param Third_Party $third_party Les données du tiers.
+	 *
+	 * @since 2.0.0
+	 */
 	public function metabox_tasks( $third_party ) {
 		$post = get_post( $third_party->data['id'] );
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-task', array(
-			'post' => $post
+			'post' => $post,
 		) );
 	}
 
+	/**
+	 * Ajoutes la metabox "Indicateur".
+	 *
+	 * @param Third_Party $third_party Les données du tiers.
+	 *
+	 * @since 2.0.0
+	 */
 	public function metabox_indicator( $third_party ) {
 		$post = get_post( $third_party->data['id'] );
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-indicator', array(
-			'post' => $post
+			'post' => $post,
 		) );
 	}
 
+	/**
+	 * Ajoutes la metabox "Activité".
+	 *
+	 * @param Third_Party $third_party Les données du tiers.
+	 *
+	 * @since 2.0.0
+	 */
 	public function metabox_activity( $third_party ) {
 		$post = get_post( $third_party->data['id'] );
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-activity', array(
-			'post' => $post
+			'post' => $post,
 		) );
 	}
 

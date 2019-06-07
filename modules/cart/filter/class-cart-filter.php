@@ -50,7 +50,7 @@ class Cart_Filter {
 					$item->original_title = $item->title;
 
 					$item->classes[] = 'cart-button';
-					$qty   = Cart_Session::g()->qty;
+					$qty             = Cart_Session::g()->qty;
 
 					if ( ! empty( $qty ) ) {
 						$item->title .= ' <span class="qty">(<span class="qty-value">' . $qty . '</span>)</span>';
@@ -66,6 +66,16 @@ class Cart_Filter {
 		return $items;
 	}
 
+	/**
+	 * Vérifie si le produit est disponible en stock.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  boolean       $can_add Filter params.
+	 * @param  Product_Model $product Les données du produit.
+	 *
+	 * @return boolean                True si oui, sinon false.
+	 */
 	public function check_stock( $can_add, $product ) {
 		if ( $product->data['manage_stock'] && 0 >= $product->data['stock'] ) {
 			$can_add = false;

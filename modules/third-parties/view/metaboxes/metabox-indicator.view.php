@@ -23,7 +23,12 @@ defined( 'ABSPATH' ) || exit; ?>
 	$currentyear = date( 'Y', strtotime( 'now' ) );
 
 	ob_start();
-	\eoxia\View_Util::exec( 'task-manager', 'task', 'backend/metabox-head-indicator', array( 'parent_id' => $post->ID, 'year' => $currentyear, 'post_id' => $post->ID, 'post_author' => $post->post_author ) );
+	\eoxia\View_Util::exec( 'task-manager', 'task', 'backend/metabox-head-indicator', array(
+		'parent_id'   => $post->ID,
+		'year'        => $currentyear,
+		'post_id'     => $post->ID,
+		'post_author' => $post->post_author,
+	) );
 	$button_indicator = ob_get_clean();
 
 	echo apply_filters( 'tm_posts_metabox_buttons', $button_indicator );

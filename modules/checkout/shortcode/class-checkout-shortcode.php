@@ -72,22 +72,24 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Affichage la validation de la commande
+	 * Affichage la validation de la commande.
+	 *
+	 * @param array $atts Les attributs du shortcode.
 	 *
 	 * @since 2.0.0
 	 */
-	public function callback_valid( $param ) {
+	public function callback_valid( $atts ) {
 		if ( ! is_admin() ) {
 			$object      = null;
 			$text        = '';
 			$button_text = '';
 
-			if ( 'proposal' === $param['type'] ) {
-				$object      = Proposals::g()->get( array( 'id' => $param['id'] ), true );
+			if ( 'proposal' === $atts['type'] ) {
+				$object      = Proposals::g()->get( array( 'id' => $atts['id'] ), true );
 				$title       = __( 'quotation', 'wpshop' );
 				$button_text = __( 'See my quotations', 'wpshop' );
-			} else if ( 'order' === $param['type'] ) {
-				$object = Doli_Order::g()->get( array( 'id' => $param['id'] ), true );
+			} elseif ( 'order' === $atts['type'] ) {
+				$object      = Doli_Order::g()->get( array( 'id' => $atts['id'] ), true );
 				$title       = __( 'order', 'wpshop' );
 				$button_text = __( 'See my orders', 'wpshop' );
 			}

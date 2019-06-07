@@ -44,8 +44,9 @@ class Doli_Third_Parties_Action {
 	public function checkout_create_third_party( $wp_third_party ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
 			Doli_Third_Parties::g()->wp_to_doli( $wp_third_party, null );
-			\eoxia\LOG_Util::log( sprintf( "Checkout create third party to dolibarr %s", json_encode( $wp_third_party->data ) ), "wpshop2" );
 
+			// translators: Checkout create third party to dolibarr {json_data}.
+			\eoxia\LOG_Util::log( sprintf( 'Checkout create third party to dolibarr %s', json_encode( $wp_third_party->data ) ), 'wpshop2' );
 		}
 	}
 
@@ -116,7 +117,8 @@ class Doli_Third_Parties_Action {
 			$doli_third_party = Request_Util::get( 'thirdparties/' . $third_party->data['external_id'] );
 			Doli_Third_Parties::g()->wp_to_doli( $third_party, $doli_third_party );
 
-			\eoxia\LOG_Util::log( sprintf( "Checkout update third party address %s", json_encode( $third_party->data ) ), "wpshop2" );
+			// translators: Checkout update third party adress {json_data}.
+			\eoxia\LOG_Util::log( sprintf( 'Checkout update third party address %s', json_encode( $third_party->data ) ), 'wpshop2' );
 
 		}
 	}

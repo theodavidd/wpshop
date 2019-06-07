@@ -75,6 +75,11 @@ class Proposals_Action {
 		add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
 	}
 
+	/**
+	 * Ajoutes la page "Options de l'écran" pour les devis.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_add_screen_option() {
 		add_screen_option(
 			'per_page',
@@ -152,7 +157,8 @@ class Proposals_Action {
 		$link_invoice = '';
 
 		if ( Settings::g()->dolibarr_is_active() ) {
-			$invoice      = Doli_Invoice::g()->get( array( 'post_parent' => $proposal->data['id'] ), true );
+			$invoice = Doli_Invoice::g()->get( array( 'post_parent' => $proposal->data['id'] ), true );
+
 			if ( ! empty( $invoice ) ) {
 				$invoice->data['payments'] = array();
 				$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );

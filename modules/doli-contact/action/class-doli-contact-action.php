@@ -41,7 +41,8 @@ class Doli_Contact_Action {
 	 */
 	public function checkout_create_contact( $wp_contact ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
-			\eoxia\LOG_Util::log( sprintf( "Checkout create contact from wp to dolibarr %s", json_encode( $wp_contact->data ) ), 'wpshop2' );
+			// translators: Checkout create contact from wp to dolibarr {json_data}.
+			\eoxia\LOG_Util::log( sprintf( 'Checkout create contact from wp to dolibarr %s', json_encode( $wp_contact->data ) ), 'wpshop2' );
 
 			Doli_Contact::g()->wp_to_doli( $wp_contact, null );
 		}

@@ -18,7 +18,8 @@ if ( $wps_query->have_posts() ) :
 	<div class="wps-product-grid wpeo-gridlayout grid-4">
 
 		<?php
-		while ( $wps_query->have_posts() ) : $wps_query->the_post();
+		while ( $wps_query->have_posts() ) :
+			$wps_query->the_post();
 			include( Template_Util::get_template_part( 'products', 'wps-product-grid' ) );
 		endwhile;
 		wp_reset_postdata();
@@ -27,7 +28,7 @@ if ( $wps_query->have_posts() ) :
 	</div>
 	<?php
 	$big = 999999999;
-	 echo paginate_links( array(
+	echo paginate_links( array(
 		'base'      => str_replace( $big, '%#%', get_pagenum_link( $big ) ),
 		'format'    => '?paged=%#%',
 		'current'   => max( 1, get_query_var('paged') ),

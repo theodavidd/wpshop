@@ -45,8 +45,8 @@ defined( 'ABSPATH' ) || exit; ?>
 			if ( ! empty( Settings::g()->tva ) ) :
 				foreach ( Settings::g()->tva as $tva ) :
 					$selected = '';
-					if ( (float) $tva === (float) $product->data['tva_tx'] || ( ! $has_selected && $tva === 20 ) ) :
-						$selected = 'selected="selected"';
+					if ( (float) $tva === (float) $product->data['tva_tx'] || ( ! $has_selected && 20 === $tva ) ) :
+						$selected     = 'selected="selected"';
 						$has_selected = true;
 					endif;
 					?>

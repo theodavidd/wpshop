@@ -49,6 +49,11 @@ class Checkout_Action {
 		add_action( 'wp_ajax_nopriv_wps_place_order', array( $this, 'callback_place_order' ) );
 	}
 
+	/**
+	 * Initialise l'endpoint order.
+	 *
+	 * @since 2.0.0
+	 */
 	public function init_endpoint() {
 		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
@@ -79,6 +84,11 @@ class Checkout_Action {
 		include( Template_Util::get_template_part( 'checkout', 'proceed-to-checkout-button' ) );
 	}
 
+	/**
+	 * Ajoutes le prix de la livraison dans le tableau du résumé.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_before_resume() {
 		if ( Pages::g()->is_checkout_page() || Pages::g()->is_valid_page() ) {
 			$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
@@ -104,6 +114,11 @@ class Checkout_Action {
 	 * Le tableau récapitulatif de la commande
 	 *
 	 * @since 2.0.0
+	 *
+	 * @param integer $total_price_no_shipping Le prix total sans le frais de livraison.
+	 * @param integer $tva_amount              Le total de la TVA.
+	 * @param integer $total_ttc               Le total TTC.
+	 * @param integer $shipping_cost           Le frais de livraison.
 	 */
 	public function callback_checkout_order_review( $total_price_no_shipping, $tva_amount, $total_ttc, $shipping_cost ) {
 		Cart::g()->display_cart_resume( $total_price_no_shipping, $tva_amount, $total_ttc, $shipping_cost );
@@ -123,11 +138,11 @@ class Checkout_Action {
 	/**
 	 * Créer le tier lors du tunnel de vente
 	 *
+	 * @todo: NONCE.
+	 *
 	 * @since 2.0.0
 	 */
 	public function callback_checkout_create_third() {
-		// check_ajax_referer( 'callback_checkout_create_third' );
-
 		$errors      = new \WP_Error();
 		$posted_data = Checkout::g()->get_posted_data();
 
@@ -180,7 +195,9 @@ class Checkout_Action {
 				$track_url = get_option( 'siteurl' ) . '/wp-login.php?action=rp&key=' . $key . '&login=' . $posted_data['contact']['login'];
 
 				Emails::g()->send_mail( $posted_data['contact']['email'], 'wps_email_customer_new_account', array_merge( $posted_data, array( 'url' => $track_url ) ) );
-				\eoxia\LOG_Util::log( sprintf( "Checkout: Create new third party and contact %s", json_encode( $posted_data ) ), 'wpshop2' );
+
+				// translators: Checkout: Create new third party and contact {json_data}.
+				\eoxia\LOG_Util::log( sprintf( 'Checkout: Create new third party and contact %s', json_encode( $posted_data ) ), 'wpshop2' );
 
 			} else {
 				$current_user = wp_get_current_user();
@@ -201,10 +218,9 @@ class Checkout_Action {
 					if ( empty( $contact->data['external_id'] ) ) {
 						do_action( 'wps_checkout_create_contact', $contact );
 					}
-
 				} else {
 					$posted_data['third_party']['contact_ids'][] = $contact->data['id'];
-					$third_party                  = Third_Party::g()->update( $posted_data['third_party'] );
+					$third_party                                 = Third_Party::g()->update( $posted_data['third_party'] );
 					do_action( 'wps_checkout_create_third_party', $third_party );
 					do_action( 'wps_checkout_create_contact', $contact );
 				}
@@ -213,9 +229,10 @@ class Checkout_Action {
 
 				$contact->data['firstname'] = ! empty( $posted_data['contact']['firstname'] ) ? $posted_data['contact']['firstname'] : $contact->data['firstname'];
 				$contact->data['lastname']  = ! empty( $posted_data['contact']['lastname'] ) ? $posted_data['contact']['lastname'] : $contact->data['lastname'];
-				$contact = Contact::g()->update( $contact->data );
+				$contact                    = Contact::g()->update( $contact->data );
 
-				\eoxia\LOG_Util::log( sprintf( "Checkout: Update third party and contact %s", json_encode( $posted_data ) ), 'wpshop2' );
+				// translators: Checkout: Update third party and contact {json_data}.
+				\eoxia\LOG_Util::log( sprintf( 'Checkout: Update third party and contact %s', json_encode( $posted_data ) ), 'wpshop2' );
 			}
 
 			$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : 'proposal';
@@ -253,7 +270,7 @@ class Checkout_Action {
 			$proposal->data['total_ttc'] = $total_ttc;
 
 			$proposal = Proposals::g()->update( $proposal->data );
-			\eoxia\LOG_Util::log( sprintf( "Checkout: Create proposal %s", json_encode( $proposal->data ) ), 'wpshop2' );
+			\eoxia\LOG_Util::log( sprintf( 'Checkout: Create proposal %s', json_encode( $proposal->data ) ), 'wpshop2' );
 
 			do_action( 'wps_checkout_create_proposal', $proposal );
 
@@ -285,16 +302,18 @@ class Checkout_Action {
 		$condition_general_id = ! empty( $page_ids['general_conditions_of_sale'] ) ? (int) $page_ids['general_conditions_of_sale'] : 0;
 
 		if ( ! empty( $privacy_policy_id ) || ! empty( $condition_general_id ) ) {
-			$privacy_policy         = get_post( $privacy_policy_id );
-			$condition_general      = get_post( $condition_general_id );
-			$terms_message = __( 'I accept ', 'wpshop' );
+			$privacy_policy    = get_post( $privacy_policy_id );
+			$condition_general = get_post( $condition_general_id );
+			$terms_message     = __( 'I accept ', 'wpshop' );
 
 			if ( ! empty( $condition_general_id ) && null !== $condition_general ) {
-				$terms_message .= sprintf( __( 'the <a href="%s">%s</a> and ', 'wpshop' ), get_permalink( $condition_general->ID ), $condition_general->post_title );
+				// translators: The <a href="condition_general_link">Condition general name</a> and .
+				$terms_message .= sprintf( __( 'the <a href="%1$s">%2$s</a> and ', 'wpshop' ), get_permalink( $condition_general->ID ), $condition_general->post_title );
 			}
 
 			if ( ! empty( $privacy_policy_id ) && null !== $privacy_policy ) {
-				$terms_message .= sprintf( __( 'the <a href="%s">%s</a>', 'wpshop' ), get_permalink( $privacy_policy->ID ), $privacy_policy->post_title );
+				// translators: the <a href="privacy_policy_link">Privacy policy name</a>.
+				$terms_message .= sprintf( __( 'the <a href="%1$s">%2$s</a>', 'wpshop' ), get_permalink( $privacy_policy->ID ), $privacy_policy->post_title );
 			}
 
 			include( Template_Util::get_template_part( 'checkout', 'terms' ) );
@@ -324,11 +343,11 @@ class Checkout_Action {
 	/**
 	 * Créer la commande et passe au paiement
 	 *
+	 * @todo: NONCE.
+	 *
 	 * @since 2.0.0
 	 */
 	public function callback_place_order() {
-		// check_ajax_referer( 'callback_place_order' );
-
 		do_action( 'checkout_create_third_party' );
 
 		do_action( 'wps_before_checkout_process' );
@@ -339,7 +358,9 @@ class Checkout_Action {
 		$proposal->data['payment_method'] = $_POST['type_payment'];
 
 		$proposal = Proposals::g()->update( $proposal->data );
-		\eoxia\LOG_Util::log( sprintf( "Checkout: Update proposal %s for add payment method %s", $proposal->data['id'], $proposal->data['payment_method'] ), 'wpshop2' );
+
+		// translators: Checkout: Update proposal 000001 for add payment method Stripe.
+		\eoxia\LOG_Util::log( sprintf( 'Checkout: Update proposal %s for add payment method %s', $proposal->data['id'], $proposal->data['payment_method'] ), 'wpshop2' );
 
 		do_action( 'wps_checkout_update_proposal', $proposal );
 
