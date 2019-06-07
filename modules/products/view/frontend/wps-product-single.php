@@ -18,9 +18,12 @@ $product = Product::g()->get( array( 'id' => get_the_ID() ), true ); ?>
 <div class="wps-product-content">
 	<div class="wps-product-price"><?php echo ! empty( $product->data['price'] ) ? esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ) . ' €' : ''; ?></div>
 	<div class="wps-product-description"><?php echo apply_filters( 'wps_product_single', $post->post_content, $product ); ?></div>
-	<div class="wps-product-buy wpeo-button action-attribute <?php echo apply_filters( 'wps_product_add_to_cart_class', '', $product ); ?>"
-		<?php echo apply_filters( 'wps_product_add_to_cart_attr', '', $product ); ?>
-		data-action="add_to_cart"
-		data-nonce="<?php echo wp_create_nonce( 'add_to_cart' ); ?>"
-		data-id="<?php echo esc_attr( the_ID() ); ?>"><?php esc_html_e( 'Add to cart', 'wpshop' ); ?></div>
+
+	<div class="wps-product-action">
+		<div class="wps-product-buy wpeo-button action-attribute <?php echo apply_filters( 'wps_product_add_to_cart_class', '', $product ); ?>"
+			<?php echo apply_filters( 'wps_product_add_to_cart_attr', '', $product ); ?>
+			data-action="add_to_cart"
+			data-nonce="<?php echo wp_create_nonce( 'add_to_cart' ); ?>"
+			data-id="<?php echo esc_attr( the_ID() ); ?>"><?php esc_html_e( 'Add to cart', 'wpshop' ); ?></div>
+	</div>
 </div>

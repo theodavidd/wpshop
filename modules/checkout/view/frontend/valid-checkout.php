@@ -42,6 +42,6 @@ printf( __( 'Thanks, your %s has been received', 'wpshop' ), $title );
 	</div>
 </div>
 
-<a href="<?php echo Pages::g()->get_account_link() . $param['type']; ?>s/" class="wpeo-button button-main">
+<a href="<?php echo Pages::g()->get_account_link() . $atts['type']; ?>s/" class="wpeo-button button-main">
 	<span><?php echo $button_text; ?></span>
 </a>
