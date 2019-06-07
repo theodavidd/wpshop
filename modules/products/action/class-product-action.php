@@ -238,7 +238,7 @@ class Product_Action {
 		} else {
 			$archive_description = '';
 		}
-		$archive_description = apply_filters( 'wps_archive_description', $archive_description );
+		$archive_description = apply_filters( 'wps_archive_description', $archive_description, $queried_object );
 
 		// Création de notre propre page.
 		$dummy_post_properties = array(
