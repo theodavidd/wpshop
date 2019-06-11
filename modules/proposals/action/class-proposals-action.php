@@ -102,7 +102,7 @@ class Proposals_Action {
 
 			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'single', array( 'proposal' => $proposal ) );
 		} else {
-			$per_page = get_user_meta( get_current_user_id(), Third_Party::g()->option_per_page, true );
+			$per_page = get_user_meta( get_current_user_id(), Proposals::g()->option_per_page, true );
 
 			if ( empty( $per_page ) || 1 > $per_page ) {
 				$per_page = Third_Party::g()->limit;

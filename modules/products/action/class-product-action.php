@@ -57,7 +57,7 @@ class Product_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_add_menu_page() {
-		$per_page = get_user_meta( get_current_user_id(), Third_Party::g()->option_per_page, true );
+		$per_page = get_user_meta( get_current_user_id(), Product::g()->option_per_page, true );
 
 		if ( empty( $per_page ) || 1 > $per_page ) {
 			$per_page = Third_Party::g()->limit;
@@ -102,14 +102,13 @@ class Product_Action {
 	 * @since 2.0.0.
 	 */
 	public function callback_add_screen_option() {
-		add_screen_option(
-			'per_page',
-			array(
-				'label'   => _x( 'Products', 'Product per page', 'wpshop' ),
-				'default' => Product::g()->limit,
-				'option'  => Product::g()->option_per_page,
-			)
+		$args = array(
+			'label'   => _x( 'Products', 'Product per page', 'wpshop' ),
+			'default' => Product::g()->limit,
+			'option'  => Product::g()->option_per_page,
 		);
+
+		add_screen_option( 'per_page', $args );
 	}
 
 	/**

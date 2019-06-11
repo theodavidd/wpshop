@@ -41,8 +41,8 @@ class Doli_Associate_Action {
 
 		$wp_id = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
 		$route = ! empty( $_POST['route'] ) ? sanitize_text_field( $_POST['route'] ) : '';
-		$type  = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
-		$type  = str_replace( '_Class', '', str_replace( '/', '\\', '/' . $type ) );
+		$type  = ! empty( $_POST['wp_type'] ) ? sanitize_text_field( $_POST['wp_type'] ) : '';
+		$type  = str_replace( '_Class', '', str_replace( '\\\\', '\\', $type ) );
 
 		$post_type        = get_post_type( $wp_id );
 		$post_type_object = get_post_type_object( $post_type );

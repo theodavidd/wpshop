@@ -75,6 +75,6 @@ defined( 'ABSPATH' ) || exit; ?>
 			</label>
 		</div>
 	</div>
-	<?php do_action( 'wps_listing_table_end', $product, 'wpshopapi/product/get/web', 'edit' ); ?>
+	<?php do_action( 'wps_listing_table_end', $product, 'wpshopapi/product/get/web', 'edit', 'wpshop/Doli_Products_Class', '\wpshop\Product' ); ?>
 
 </div>

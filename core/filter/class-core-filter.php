@@ -31,6 +31,21 @@ class Core_Filter {
 		add_filter( 'menu_order', array( $this, 'order_menu' ), 10, 1 );
 
 		add_filter( 'parent_file', array( $this, 'highlight_menu' ) );
+
+		add_filter( 'set-screen-option', array( $this, 'save_per_page' ), 10, 3 );
+	}
+
+	public function save_per_page( $status, $option, $value ) {
+		if ( in_array( $option, array(
+			Product::g()->option_per_page,
+			Proposals::g()->option_per_page,
+			Third_Party::g()->option_per_page,
+			Doli_Order::g()->option_per_page,
+		) ) ) {
+			return $value;
+		}
+
+		return $status;
 	}
 
 	/**

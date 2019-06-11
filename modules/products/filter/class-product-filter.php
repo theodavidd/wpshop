@@ -16,8 +16,6 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit;
 
-
-
 /**
  * Product Filter Class.
  */
