@@ -76,6 +76,34 @@ class Pages extends \eoxia\Singleton_Util {
 	}
 
 	/**
+	 * Créer et associe les pages par défaut nécessaire pour le fonctionnement
+	 * de WPshop.
+	 *
+	 * @since 2.0.0
+	 */
+	public function create_default_page() {
+		if ( ! empty( $this->page_state_titles ) ) {
+			foreach ( $this->page_state_titles as $key => $page_title ) {
+				$page_id = wp_insert_post( array(
+					'post_title'  => $page_title,
+					'post_type'   => 'page',
+					'post_status' => 'publish',
+				) );
+
+				if ( ! empty( $page_id ) ) {
+					$this->page_ids[ $key ] = $page_id;
+
+					\eoxia\LOG_Util::log( sprintf( "Create the page %s when activate plugin success", $page_title ), "wpshop" );
+				} else {
+					\eoxia\LOG_Util::log( sprintf( "Error for create the page %s when activate plugin", $page_title ), "wpshop" );
+				}
+			}
+
+			update_option( 'wps_page_ids', $this->page_ids );
+		}
+	}
+
+	/**
 	 * Récupères le slug de la page par rapport à son ID.
 	 *
 	 * @since 2.0.0
@@ -196,6 +224,7 @@ class Pages extends \eoxia\Singleton_Util {
 
 		return ( get_the_ID() === $this->page_ids['valid_page_id'] ) ? true : false;
 	}
+
 }
 
 Pages::g();
