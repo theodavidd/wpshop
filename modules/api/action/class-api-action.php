@@ -36,6 +36,11 @@ class API_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_rest_api_init() {
+		register_rest_route( 'wpshop/v2', '/statut', array(
+			'methods'  => array( 'GET' ),
+			'callback' => array( $this, 'check_statut' ),
+		) );
+
 		register_rest_route( 'wpshop/v2', '/wps_gateway_paypal', array(
 			'methods'  => array( 'GET', 'POST' ),
 			'callback' => array( $this, 'callback_wps_gateway_paypal' ),
@@ -45,6 +50,14 @@ class API_Action {
 			'methods'  => array( 'GET', 'POST' ),
 			'callback' => array( $this, 'callback_wps_gateway_stripe' ),
 		) );
+	}
+
+	public function check_statut( $request ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return new \WP_REST_Response( false );
+		}
+
+		return new \WP_REST_Response( true );
 	}
 
 	/**
