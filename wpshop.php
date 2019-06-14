@@ -28,3 +28,5 @@ require_once 'vendor/autoload.php';
 
 // Boot your plugin.
 \eoxia\Init_Util::g()->exec( PLUGIN_WPSHOP_PATH, basename( __FILE__, '.php' ) );
+
+register_activation_hook( __FILE__, array( Core::g(), 'plugin_activated' ) );
