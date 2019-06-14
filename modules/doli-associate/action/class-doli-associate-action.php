@@ -113,6 +113,8 @@ class Doli_Associate_Action {
 		$doli_entry       = Request_Util::get( $route . '/' . $entry_id );
 		$doli_to_wp_entry = $type::g()->get( array( 'schema' => true ), true );
 
+		$route = $route == 'products' ? 'wpshopapi/product/get/web' : 'products';
+
 		switch ( $route ) {
 			case 'thirdparties':
 				$wp_entry->data['contacts'] = array();
