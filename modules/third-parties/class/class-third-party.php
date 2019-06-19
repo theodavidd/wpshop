@@ -112,6 +112,7 @@ class Third_Party extends \eoxia\Post_Class {
 
 		if ( ! empty( $third_parties_ids ) ) {
 			$third_parties = $this->get( array(
+				'orderby'  => 'post__in',
 				'post__in' => $third_parties_ids,
 			) );
 		}

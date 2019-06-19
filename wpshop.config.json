@@ -9,6 +9,7 @@
     "modules/api/api.config.json",
 
     "modules/settings/settings.config.json",
+    "modules/tools/tools.config.json",
 
     "modules/order/order.config.json",
     "modules/products/products.config.json",
