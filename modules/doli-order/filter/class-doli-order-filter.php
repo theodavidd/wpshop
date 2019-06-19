@@ -56,13 +56,14 @@ class Doli_Order_Filter {
 			'not_found_in_trash' => __( 'No products found in Trash.', 'wpshop' ),
 		);
 
-		$args['labels']            = $labels;
-		$args['supports']          = array( 'title' );
-		$args['public']            = true;
-		$args['has_archive']       = true;
-		$args['show_ui']           = true;
-		$args['show_in_nav_menus'] = false;
-		$args['show_in_menu']      = false;
+		$args['labels']              = $labels;
+		$args['supports']            = array( 'title' );
+		$args['public']              = true;
+		$args['has_archive']         = true;
+		$args['show_ui']             = true;
+		$args['show_in_nav_menus']   = false;
+		$args['show_in_menu']        = false;
+		$args['exclude_from_search'] = true;
 
 		return $args;
 	}
