@@ -32,6 +32,7 @@ class Core_Action {
 	public function __construct() {
 		add_action( 'init', array( $this, 'callback_register_session' ), 1 );
 		add_action( 'init', array( $this, 'callback_language' ) );
+		add_action( 'init', array( $this, 'callback_install_default' ) );
 
 		add_action( 'wp_head', array( $this, 'define_ajax_url' ) );
 
@@ -63,6 +64,10 @@ class Core_Action {
 	 */
 	public function callback_language() {
 		load_plugin_textdomain( 'wpshop', false, PLUGIN_WPSHOP_DIR . '/core/asset/language/' );
+	}
+
+	public function callback_install_default() {
+		Core::g()->default_install();
 	}
 
 	/**

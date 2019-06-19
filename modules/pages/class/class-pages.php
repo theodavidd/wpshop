@@ -82,6 +82,8 @@ class Pages extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function create_default_page() {
+		load_plugin_textdomain( 'wpshop', false, PLUGIN_WPSHOP_DIR . '/core/asset/language/' );
+
 		if ( ! empty( $this->page_state_titles ) ) {
 			foreach ( $this->page_state_titles as $key => $page_title ) {
 				$page_id = wp_insert_post( array(

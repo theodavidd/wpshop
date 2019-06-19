@@ -33,7 +33,7 @@ class Core extends \eoxia\Singleton_Util {
 	 *
 	 * @since 2.0.0
 	 */
-	public function plugin_activated() {
+	public function default_install() {
 		$db_version = get_option( 'wpshop2_default_page', false );
 
 		if ( ! $db_version ) {

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
-"POT-Creation-Date: 2019-06-07 13:20+0200\n"
-"PO-Revision-Date: 2019-06-07 14:13+0200\n"
+"POT-Creation-Date: 2019-06-19 14:21+0200\n"
+"PO-Revision-Date: 2019-06-19 14:56+0200\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -314,7 +314,7 @@ msgstr "Aucun client pour le moment"
 
 #: modules/dashboard/view/metaboxes/metabox-invoices.view.php:20
 msgid "Last Invoices"
-msgstr "Dernières Commandes"
+msgstr "Dernières Factures"
 
 #: modules/dashboard/view/metaboxes/metabox-invoices.view.php:46
 msgid "No invoices for now"
@@ -326,7 +326,7 @@ msgstr "Dernières Commandes"
 
 #: modules/dashboard/view/metaboxes/metabox-orders.view.php:46
 msgid "No orders for now"
-msgstr "Aucune commande pour le moemnt"
+msgstr "Aucune commande pour le moment"
 
 #: modules/dashboard/view/metaboxes/metabox-payments.view.php:20
 msgid "Last Payments"
@@ -369,11 +369,11 @@ msgstr "Synchronisation des données"
 msgid "Please select an entry"
 msgstr "Veuillez sélectionner une entrée"
 
-#: modules/doli-associate/action/class-doli-associate-action.php:146
+#: modules/doli-associate/action/class-doli-associate-action.php:148
 msgid "WordPress"
 msgstr "WordPress"
 
-#: modules/doli-associate/action/class-doli-associate-action.php:151
+#: modules/doli-associate/action/class-doli-associate-action.php:153
 msgid "Dolibarr"
 msgstr "Dolibarr"
 
@@ -396,12 +396,12 @@ msgstr "Description"
 
 #: modules/doli-associate/view/compare-products.view.php:35
 #: modules/products/view/list.view.php:24
-#: modules/products/view/metabox/main.view.php:25
+#: modules/products/view/metabox/main.view.php:27
 msgid "Price HT(€)"
 msgstr "Prix HT(€)"
 
 #: modules/doli-associate/view/compare-products.view.php:36
-#: modules/products/view/metabox/main.view.php:32
+#: modules/products/view/metabox/main.view.php:34
 msgid "VAT Rate"
 msgstr "Taux de TVA"
 
@@ -409,7 +409,7 @@ msgstr "Taux de TVA"
 #: modules/doli-invoice/view/list.view.php:27
 #: modules/doli-order/view/list.view.php:25
 #: modules/products/view/list.view.php:26
-#: modules/products/view/metabox/main.view.php:56
+#: modules/products/view/metabox/main.view.php:58
 #: modules/proposals/view/list.view.php:25
 msgid "Price TTC(€)"
 msgstr "Prix TTC(€)"
@@ -478,7 +478,7 @@ msgstr "Factures"
 
 #: modules/doli-invoice/filter/class-doli-invoice-filter.php:46
 #: modules/doli-order/filter/class-doli-order-filter.php:47
-#: modules/products/filter/class-product-filter.php:56
+#: modules/products/filter/class-product-filter.php:54
 #: modules/proposals/filter/class-proposals-filter.php:46
 #: modules/third-parties/filter/class-third-party-filter.php:47
 msgid "Add New"
@@ -699,12 +699,12 @@ msgid "Parent Orders:"
 msgstr "Parent Commandes:"
 
 #: modules/doli-order/filter/class-doli-order-filter.php:55
-#: modules/products/filter/class-product-filter.php:64
+#: modules/products/filter/class-product-filter.php:62
 msgid "No products found."
 msgstr "Aucun produits trouvés."
 
 #: modules/doli-order/filter/class-doli-order-filter.php:56
-#: modules/products/filter/class-product-filter.php:65
+#: modules/products/filter/class-product-filter.php:63
 msgid "No products found in Trash."
 msgstr "Aucun produits trouvés dans la poubelle."
 
@@ -872,9 +872,9 @@ msgstr "Contacts"
 #: modules/order/action/class-order-action.php:41
 #: modules/products/action/class-product-action.php:46
 #: modules/products/action/class-product-action.php:47
-#: modules/products/action/class-product-action.php:108
+#: modules/products/action/class-product-action.php:106
+#: modules/products/filter/class-product-filter.php:50
 #: modules/products/filter/class-product-filter.php:52
-#: modules/products/filter/class-product-filter.php:54
 #: modules/products/view/main.view.php:21
 msgid "Products"
 msgstr "Produits"
@@ -1214,85 +1214,85 @@ msgstr "Ajouter"
 msgid "Products Category"
 msgstr "Catégories de produits"
 
+#: modules/products/filter/class-product-filter.php:51
 #: modules/products/filter/class-product-filter.php:53
-#: modules/products/filter/class-product-filter.php:55
 msgid "Product"
 msgstr "Produit"
 
-#: modules/products/filter/class-product-filter.php:57
+#: modules/products/filter/class-product-filter.php:55
 msgid "Add New Product"
 msgstr "Ajouter nouveau produit"
 
-#: modules/products/filter/class-product-filter.php:58
+#: modules/products/filter/class-product-filter.php:56
 msgid "New Product"
 msgstr "Nouveau produit"
 
-#: modules/products/filter/class-product-filter.php:59
+#: modules/products/filter/class-product-filter.php:57
 msgid "Edit Product"
 msgstr "Editer produit"
 
-#: modules/products/filter/class-product-filter.php:60
+#: modules/products/filter/class-product-filter.php:58
 msgid "View Product"
 msgstr "Voir produit"
 
-#: modules/products/filter/class-product-filter.php:61
+#: modules/products/filter/class-product-filter.php:59
 msgid "All Products"
 msgstr "Tous les produits"
 
-#: modules/products/filter/class-product-filter.php:62
+#: modules/products/filter/class-product-filter.php:60
 msgid "Search Products"
 msgstr "Recherche dans produits"
 
-#: modules/products/filter/class-product-filter.php:63
+#: modules/products/filter/class-product-filter.php:61
 msgid "Parent Products:"
 msgstr "Parent de produits:"
 
-#: modules/products/filter/class-product-filter.php:93
+#: modules/products/filter/class-product-filter.php:91
 msgid "Products category"
 msgstr "Catégorie de produits"
 
-#: modules/products/filter/class-product-filter.php:94
-#: modules/products/filter/class-product-filter.php:103
+#: modules/products/filter/class-product-filter.php:92
+#: modules/products/filter/class-product-filter.php:101
 msgid "Product category"
 msgstr "Catégorie de produit"
 
-#: modules/products/filter/class-product-filter.php:95
+#: modules/products/filter/class-product-filter.php:93
 msgid "Search Products category"
 msgstr "Recherche une catégorie de produits"
 
-#: modules/products/filter/class-product-filter.php:96
+#: modules/products/filter/class-product-filter.php:94
 msgid "All Products category"
 msgstr "Toutes les catégories de produits"
 
-#: modules/products/filter/class-product-filter.php:97
+#: modules/products/filter/class-product-filter.php:95
 msgid "Parent Product category"
 msgstr ""
 
-#: modules/products/filter/class-product-filter.php:98
+#: modules/products/filter/class-product-filter.php:96
 msgid "Parent Product: category"
 msgstr ""
 
-#: modules/products/filter/class-product-filter.php:99
+#: modules/products/filter/class-product-filter.php:97
 msgid "Edit Product category"
 msgstr ""
 
-#: modules/products/filter/class-product-filter.php:100
+#: modules/products/filter/class-product-filter.php:98
 msgid "Update Product category"
 msgstr ""
 
-#: modules/products/filter/class-product-filter.php:101
+#: modules/products/filter/class-product-filter.php:99
 msgid "Add New Product category"
 msgstr ""
 
-#: modules/products/filter/class-product-filter.php:102
+#: modules/products/filter/class-product-filter.php:100
 msgid "New Product  categoryName"
 msgstr ""
 
-#: modules/products/filter/class-product-filter.php:114
+#: modules/products/filter/class-product-filter.php:112
 msgid "category-product"
 msgstr "categorie-produit"
 
-#: modules/products/filter/class-product-filter.php:199
+#: modules/products/filter/class-product-filter.php:197
 msgid "Sold out"
 msgstr "Rupture de stock"
 
@@ -1319,13 +1319,13 @@ msgid "Save"
 msgstr "Sauvegarder"
 
 #: modules/products/view/item-edit.view.php:66
-#: modules/products/view/metabox/main.view.php:63
+#: modules/products/view/metabox/main.view.php:65
 msgid "Manage Stock"
 msgstr "Gérer le stock"
 
 #: modules/products/view/item-edit.view.php:72
 #: modules/products/view/list.view.php:27
-#: modules/products/view/metabox/main.view.php:69
+#: modules/products/view/metabox/main.view.php:71
 msgid "Stock"
 msgstr "Stock"
 
@@ -1339,6 +1339,7 @@ msgid "Quick edit"
 msgstr "Modification rapide"
 
 #: modules/products/view/item.view.php:36
+#: modules/products/view/metabox/main.view.php:20
 #: modules/third-parties/view/item.view.php:38
 msgid "Edit in Dolibarr"
 msgstr "Editer sur Dolibarr"
@@ -1371,7 +1372,7 @@ msgstr "Synchroniser tous les produits"
 msgid "Apply"
 msgstr "Appliquer"
 
-#: modules/products/view/metabox/main.view.php:76
+#: modules/products/view/metabox/main.view.php:78
 msgid "Product Downloadable"
 msgstr "Produit Téléchargeable"
 
@@ -1453,7 +1454,7 @@ msgstr "Aucun produit"
 msgid "E-mail"
 msgstr "Email"
 
-#: modules/settings/view/main.view.php:34
+#: modules/settings/view/main.view.php:34 modules/tools/view/main.view.php:24
 msgid "General"
 msgstr "Général"
 
@@ -1525,7 +1526,7 @@ msgstr ""
 msgid "Third Parties"
 msgstr "Tiers"
 
-#: modules/third-parties/class/class-third-party.php:270
+#: modules/third-parties/class/class-third-party.php:271
 #, php-format
 msgid "Dissociate contact <strong>%1$s</strong> from <strong>%2$s</strong>"
 msgstr ""
@@ -1612,6 +1613,19 @@ msgstr "Tâches"
 #: modules/third-parties/view/single-title-edit.view.php:26
 msgid "New third party"
 msgstr "Nouveau tier"
+
+#: modules/tools/action/class-tools-action.php:49
+#: modules/tools/view/main.view.php:20
+msgid "Tools"
+msgstr "Outils"
+
+#: modules/tools/view/general.view.php:22
+msgid "Import third party CSV"
+msgstr "Importer des clients depuis un CSV"
+
+#: modules/tools/view/general.view.php:32
+msgid "Import"
+msgstr "Importer"
 
 #: modules/transfert-data/action/class-transfert-data-action.php:184
 #, php-format

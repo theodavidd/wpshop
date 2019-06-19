@@ -123,11 +123,11 @@ class Tools_Action {
 					}
 
 					$contact_data = array(
-						'email'          => $line[3],
+						'email'          => $line[1],
 						'firstname'      => ! empty( $line[2] ) ? $line[2] : '',
-						'lastname'       => ! empty( $line[1] ) ? $line[1] : '',
+						'lastname'       => ! empty( $line[3] ) ? $line[3] : '',
 						'phone'          => ! empty( $line[4] ) ? $line[4] : '',
-						'login'          => $line[3],
+						'login'          => $line[1],
 						'password'       => wp_generate_password(),
 						'third_party_id' => $third_party->data['id'],
 					);

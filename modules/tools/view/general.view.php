@@ -24,15 +24,12 @@ defined( 'ABSPATH' ) || exit;  ?>
 		<?php wp_nonce_field( 'import_third_party' ); ?>
 
 		<div>
-			<span class="import-explanation" ><?php esc_attr_e( '', 'wpshop' ); ?></span>
-		</div>
-		<div>
-			<progress value="0" max="100">0%</progress>
+			<progress style="padding: 15px; width: 100%" value="0" max="100">0%</progress>
 		</div>
 
-		<div>
+		<div style="text-align: right;">
 			<input type="file" name="file" id="file" />
-			<label class="wpeo-button button-primary" ><?php esc_html_e( 'Importer', 'wpshop' ); ?></label><br />
+			<label class="wpeo-button button-primary" ><?php esc_html_e( 'Import', 'wpshop' ); ?></label><br />
 			<span class="import-detail"></span>
 		</div>
 	</form>
