@@ -153,7 +153,7 @@ class Doli_Sync_Action {
 			foreach ( $doli_entries as $doli_entry ) {
 
 				// translators: Try to sync %s.
-				\eoxia\LOG_Util::log( sprintf( 'Try to sync %s', $doli_entry ), 'wpshop2' );
+				\eoxia\LOG_Util::log( sprintf( 'Try to sync %s', json_encode( $doli_entry ) ), 'wpshop2' );
 				$wp_entry = $wp_class::g()->get( array(
 					'meta_key'   => '_external_id',
 					'meta_value' => (int) $doli_entry->id,

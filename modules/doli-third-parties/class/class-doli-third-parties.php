@@ -80,7 +80,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 					), true );
 
 					// translators: Try to add contact <strong>Test</strong> to the third party <strong>Eoxia</strong>.
-					$notices['messages'][] = sprintf( __( 'Try to add contact <strong>%1$s</strong> to the third party <strong>%2$s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
+					$notices['messages'][] = sprintf( __( 'Try to add contact <strong>%1$s</strong> to the third party <strong>%2$s</strong>', 'wpshop' ), $doli_contact->email, $wp_third_party->data['title'] );
 
 					if ( ! empty( $wp_contact ) ) {
 						// Est-ce qu'il a une société ?

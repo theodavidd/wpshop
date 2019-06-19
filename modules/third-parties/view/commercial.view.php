@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<span class="commercial-date"><?php echo $propal->data['datec']['rendered']['date']; ?></span>
 			<span class="commercial-title"><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-proposal&id=' . $propal->data['id'] ) ); ?>"><?php echo $propal->data['title']; ?></a></span>
 			<span class="commercial-price"><?php echo ! empty( $propal->data['total_ttc'] ) ? $propal->data['total_ttc'] . '€ TTC' : ''; ?></span>
-			<span class="commercial-status"><?php echo Doli_Statut::g()->display_status( $order ); ?></span>
+			<span class="commercial-status"><?php echo Doli_Statut::g()->display_status( $propal ); ?></span>
 		</li>
 	<?php endif; ?>
 	<?php if ( ! empty( $order->data ) && $doli_active ) : ?>
