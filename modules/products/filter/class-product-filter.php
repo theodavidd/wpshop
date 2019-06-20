@@ -35,22 +35,6 @@ class Product_Filter {
 		add_filter( 'wps_product_add_to_cart_attr', array( $this, 'button_add_to_cart_tooltip' ), 10, 2 );
 		add_filter( 'wps_product_add_to_cart_class', array( $this, 'disable_button_add_to_cart' ), 10, 2 );
 		add_filter( 'wps_product_single', array( $this, 'display_stock' ), 10, 2 );
-
-		add_filter( 'the_content', function( $content ) {
-			global $post;
-			global $wp_query;
-
-			if ( $wp_query->is_search() && Product::g()->get_type() === $post->post_type ) {
-				$product = Product::g()->get( array( 'id' => $post->ID ), true );
-				ob_start();
-				?>
-				<div class="wps-product-price"><?php echo ! empty( $product->data['price'] ) ? esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ) . ' €' : ''; ?></div>
-				<?php
-				$content .= ob_get_clean();
-			}
-
-			return $content;
-		} );
 	}
 
 	/**

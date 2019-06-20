@@ -45,7 +45,11 @@ class Products_Shortcode {
 				'id'         => 0,
 				'ids'        => array(),
 				'categories' => array(),
+				's'          => '',
 			), $atts );
+
+			global $post;
+			global $wp_query;
 
 			$products = array();
 			$args     = array(
@@ -72,9 +76,24 @@ class Products_Shortcode {
 				}
 			}
 
-			$products = Product::g()->get( $args );
+			if ( ! empty( $a['s'] ) ) {
+				$args['s'] = $a['s'];
+			}
 
-			include( Template_Util::get_template_part( 'products', 'wps-product-grid' ) );
+			$args['post_type'] = 'wps-product';
+
+			$wps_query = new \WP_Query( $args );
+
+			foreach ( $wps_query->posts as $key => &$product ) {
+				$product->price_ttc    = get_post_meta( $product->ID, '_price_ttc', true );
+				$product->manage_stock = get_post_meta( $product->ID, '_manage_stock', true );
+				$product->stock        = get_post_meta( $product->ID, '_stock', true );
+			}
+
+			unset( $product );
+			setup_postdata( $post );
+
+			include( Template_Util::get_template_part( 'products', 'wps-product-grid-container' ) );
 		}
 	}
 

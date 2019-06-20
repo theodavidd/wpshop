@@ -35,6 +35,7 @@ class Product_Action {
 		add_action( 'wp_ajax_change_mode', array( $this, 'change_mode' ) );
 		add_action( 'wp_ajax_quick_save', array( $this, 'save_quick_save' ) );
 		add_action( 'template_redirect', array( $this, 'init_product_archive_page' ) );
+		add_action( 'template_redirect', array( $this, 'search_page' ) );
 	}
 
 	/**
@@ -339,7 +340,9 @@ class Product_Action {
 		$wps_query = new \WP_Query( $wp_query->query_vars );
 
 		foreach ( $wps_query->posts as &$product ) {
-			$product->price_ttc = get_post_meta( $product->ID, '_price_ttc', true );
+			$product->price_ttc    = get_post_meta( $product->ID, '_price_ttc', true );
+			$product->manage_stock = get_post_meta( $product->ID, '_manage_stock', true );
+			$product->stock        = get_post_meta( $product->ID, '_stock', true );
 		}
 
 		setup_postdata( $post );
@@ -357,6 +360,87 @@ class Product_Action {
 		$view = ob_get_clean();
 
 		return $view;
+	}
+
+	public function search_page() {
+		global $wp_query;
+		global $post;
+
+		$post_type = ! empty( $_GET['post_type'] ) ? sanitize_text_field( $_GET['post_type'] ) : '';
+
+		if ( ! $wp_query->is_search() && $post_type != Product::g()->get_type() ) {
+			return;
+		}
+
+		$search_query = get_search_query();
+
+		$queried_object = get_queried_object();
+		$shop_page_id   = get_option( 'wps_page_ids', Pages::g()->default_options );
+		$shop_page      = get_post( $shop_page_id['shop_id'] );
+
+		$title = sprintf( __( 'Search result for "%s"', 'wpshop' ), $search_query );
+
+		$wps_query = new \WP_Query( $wp_query->query_vars );
+
+		foreach ( $wps_query->posts as &$product ) {
+			$product->price_ttc    = get_post_meta( $product->ID, '_price_ttc', true );
+			$product->manage_stock = get_post_meta( $product->ID, '_manage_stock', true );
+			$product->stock        = get_post_meta( $product->ID, '_stock', true );
+		}
+
+		setup_postdata( $post );
+
+		ob_start();
+		include( Template_Util::get_template_part( 'products', 'wps-product-grid-container' ) );
+		$content = ob_get_clean();
+
+
+		// Création de notre propre page.
+		$dummy_post_properties = array(
+			'ID'                    => 0,
+			'post_status'           => 'publish',
+			'post_author'           => $shop_page->post_author,
+			'post_parent'           => 0,
+			'post_type'             => 'page',
+			'post_date'             => $shop_page->post_date,
+			'post_date_gmt'         => $shop_page->post_date_gmt,
+			'post_modified'         => $shop_page->post_modified,
+			'post_modified_gmt'     => $shop_page->post_modified_gmt,
+			'post_content'          => $content,
+			'post_title'            => $title,
+			'post_excerpt'          => '',
+			'post_content_filtered' => '',
+			'post_mime_type'        => '',
+			'post_password'         => '',
+			'post_name'             => sanitize_title( $title ),
+			'guid'                  => '',
+			'menu_order'            => 0,
+			'pinged'                => '',
+			'to_ping'               => '',
+			'ping_status'           => '',
+			'comment_status'        => 'closed',
+			'comment_count'         => 0,
+			'filter'                => 'raw',
+		);
+
+		$post = new \WP_Post( (object) $dummy_post_properties );
+
+		$wp_query->post          = $post;
+		$wp_query->posts         = array( $post );
+		$wp_query->post_count    = 1;
+		$wp_query->is_404        = false;
+		$wp_query->is_page       = false;
+		$wp_query->is_single     = true;
+		$wp_query->is_seach      = true;
+		$wp_query->is_archive    = false;
+		$wp_query->is_tax        = false;
+		$wp_query->max_num_pages = 0;
+
+		setup_postdata( $post );
+		remove_all_filters( 'the_content' );
+		remove_all_filters( 'the_excerpt' );
+		add_filter( 'template_include', array( $this, 'force_single_template_filter' ) );
+
 	}
 }
 
