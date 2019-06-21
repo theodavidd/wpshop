@@ -18,6 +18,37 @@ window.eoxiaJS.wpshop.product.event = function() {
 	jQuery( document ).on( 'wps-change-toggle', '.stock-field .toggle', window.eoxiaJS.wpshop.product.displayBlockStock );
 	jQuery( document ).on( 'click', '.wps-list-product .table-header input[type="checkbox"]', window.eoxiaJS.wpshop.product.checkAll );
 	jQuery( document ).on( 'click', '.button-apply', window.eoxiaJS.wpshop.product.apply );
+	jQuery( '.similar-product' ).select2({
+		ajax: {
+			url: 'http://127.0.0.1/sd_shop/wp-json/wpshop/v2/product/search',
+			data: function (params) {
+				var query = {
+					s: params.term,
+				};
+
+				// Query parameters will be ?search=[term]&type=public
+				return query;
+			},
+			processResults: function( data ) {
+				var items = [];
+
+				for ( var key in data ) {
+					var item = {
+						id: data[key].id,
+						text: data[key].title
+					};
+
+					items.push( item );
+				}
+
+				return {
+					results: items
+				};
+			},
+			cache: true
+		},
+		minimumInputLength: 1
+	});
 };
 
 window.eoxiaJS.wpshop.product.displayBlockStock = function( event, toggleState ) {

@@ -182,9 +182,17 @@ class Product_Model extends \eoxia\Post_Model {
 			'description' => 'Le stock du produit (int). Valeur par défaut 0.',
 		);
 
+		$this->schema['similar_products_id'] = array(
+			'since'      => '2.0.0',
+			'version'    => '2.0.0',
+			'type'       => 'array',
+			'meta_type'  => 'integer',
+			'field'      => '_similar_products_id',
+		);
+
 		$this->schema['associated_document_id'] = array(
-			'since'     => '6.1.6',
-			'version'   => '6.1.6',
+			'since'     => '2.0.0',
+			'version'   => '2.0.0',
 			'type'      => 'array',
 			'meta_type' => 'multiple',
 			'child'     => array(),

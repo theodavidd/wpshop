@@ -82,6 +82,23 @@ defined( 'ABSPATH' ) || exit; ?>
 					<?php echo do_shortcode( '[wpeo_upload id="' . $id . '" upload_dir="wpshop_uploads" field_name="downloadable_product_id" single="false" model_name="/wpshop/Product" mime_type="" display_type="list"]' ); ?>
 				</label>
 			</div>
+
+			<div class="form-element">
+				<span class="form-label"><?php esc_html_e( 'Similar products', 'wpshop' ); ?></span>
+				<label class="form-field-container">
+					<select id="monselect" name="similar_products_id[]" class="form-field similar-product" multiple="true">
+						<?php
+						if ( ! empty( $similar_products ) ) :
+							foreach ( $similar_products as $similar_product ) :
+								?>
+								<option selected="selected" value="<?php echo $similar_product->data['id']; ?>"><?php echo $similar_product->data['title']; ?></option>
+								<?php
+							endforeach;
+						endif;
+						?>
+					</select>
+				</label>
+			</div>
 		</div>
 	</div>
 </div>

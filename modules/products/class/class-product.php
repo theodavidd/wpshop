@@ -166,11 +166,18 @@ class Product extends \eoxia\Post_Class {
 			$product = $this->get( array( 'schema' => true ), true );
 		}
 
+		$similar_products = array();
+
+		if ( ! empty( $product->data['similar_products_id'] ) ) {
+			$similar_products = Product::g()->get( array( 'post__in' => $product->data['similar_products_id'] ) );
+		}
+
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 		\eoxia\View_Util::exec( 'wpshop', 'products', 'metabox/main', array(
-			'id'       => ! empty( $product->data['id'] ) ? $product->data['id'] : $post->ID,
-			'product'  => $product,
-			'doli_url' => $dolibarr_option['dolibarr_url'],
+			'id'               => ! empty( $product->data['id'] ) ? $product->data['id'] : $post->ID,
+			'product'          => $product,
+			'doli_url'         => $dolibarr_option['dolibarr_url'],
+			'similar_products' => $similar_products,
 		) );
 	}
 

@@ -50,6 +50,11 @@ class API_Action {
 			'methods'  => array( 'GET', 'POST' ),
 			'callback' => array( $this, 'callback_wps_gateway_stripe' ),
 		) );
+
+		register_rest_route( 'wpshop/v2', '/product/search', array(
+			'methods'  => array( 'GET' ),
+			'callback' => array( $this, 'callback_search' ),
+		) );
 	}
 
 	public function check_statut( $request ) {
@@ -114,6 +119,22 @@ class API_Action {
 
 			do_action( 'wps_gateway_stripe', $param );
 		}
+	}
+
+	public function callback_search( $request ) {
+		$param = $request->get_params();
+		$products = Product::g()->get( array( 's' => $param['s'] ) );
+
+		$response_products = array();
+
+		if ( ! empty( $products ) ) {
+			foreach ( $products as $product ) {
+				$response_products[] = $product->data;
+			}
+		}
+
+		$response = new \WP_REST_Response( $response_products );
+		return $response;
 	}
 }
 
