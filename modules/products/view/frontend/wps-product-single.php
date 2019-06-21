@@ -11,9 +11,7 @@
 
 namespace wpshop;
 
-defined( 'ABSPATH' ) || exit;
-
-$product = Product::g()->get( array( 'id' => get_the_ID() ), true ); ?>
+defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-product-content">
 	<div class="wps-product-price"><?php echo ! empty( $product->data['price'] ) ? esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ) . ' €' : ''; ?></div>
@@ -27,3 +25,12 @@ $product = Product::g()->get( array( 'id' => get_the_ID() ), true ); ?>
 			data-id="<?php echo esc_attr( the_ID() ); ?>"><?php esc_html_e( 'Add to cart', 'wpshop' ); ?></div>
 	</div>
 </div>
+
+<?php
+if ( ! empty( $product->data['similar_products_id'] ) ) :
+	?>
+	<h2><?php esc_html_e( 'Similar products', 'wpshop' ); ?></h2>
+
+	<?php
+	do_shortcode( '[wps_product ids=' . implode( $product->data['similar_products_id'], ',' ) . ']');
+endif;

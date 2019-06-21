@@ -28,6 +28,8 @@ class API_Action {
 	 */
 	public function __construct() {
 		add_action( 'rest_api_init', array( $this, 'callback_rest_api_init' ) );
+		add_action( 'init', array( $this, 'init_endpoint' ) );
+		add_action( 'template_include', array( $this, 'change_template' ) );
 	}
 
 	/**
@@ -55,6 +57,30 @@ class API_Action {
 			'methods'  => array( 'GET' ),
 			'callback' => array( $this, 'callback_search' ),
 		) );
+	}
+
+	/**
+	 * Ajoutes la route si oauth2 n'est pas activé.
+	 *
+	 * @since 2.0.0
+	 */
+	public function init_endpoint() {
+		if ( ! DEFINED( 'WPOAUTH_VERSION' ) ) {
+			add_rewrite_endpoint( 'oauth/authorize', EP_ALL );
+
+			if ( ! get_option( 'plugin_permalinks_flushed' ) ) {
+				flush_rewrite_rules( false );
+				update_option( 'plugin_permalinks_flushed', 1 );
+			}
+		}
+	}
+
+	public function change_template( $template ) {
+		if ( ! DEFINED( 'WPOAUTH_VERSION' ) && get_query_var( 'oauth/authorize', false ) !== false ) {
+			exit( __( 'Please, active WP OAuth Server plugin', 'wpshop' ) );
+		}
+
+		return $template;
 	}
 
 	public function check_statut( $request ) {

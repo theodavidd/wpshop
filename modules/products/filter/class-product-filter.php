@@ -174,6 +174,8 @@ class Product_Filter {
 		global $wp_query;
 
 		if ( is_singular( Product::g()->get_type() ) ) {
+			$product = Product::g()->get( array( 'id' => get_the_ID() ), true );
+
 			ob_start();
 			include( Template_Util::get_template_part( 'products', 'wps-product-single' ) );
 			$view = ob_get_clean();
