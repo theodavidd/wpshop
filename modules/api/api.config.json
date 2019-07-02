@@ -3,8 +3,9 @@
 	"slug": "api",
 	"since": "2.0.0",
 	"description": "Le module gérant l'API",
-	"path": "module/api/",
+	"path": "modules/api/",
 	"dependencies": {
-		"action": {}
+		"action": {},
+    "class": {}
 	}
 }

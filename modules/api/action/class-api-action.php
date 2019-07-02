@@ -27,9 +27,36 @@ class API_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
+		add_filter( 'eo_model_check_cap', array( $this, 'check_cap' ), 1, 2 );
+
 		add_action( 'rest_api_init', array( $this, 'callback_rest_api_init' ) );
 		add_action( 'init', array( $this, 'init_endpoint' ) );
 		add_action( 'template_include', array( $this, 'change_template' ) );
+
+		add_action( 'show_user_profile', array( $this, 'callback_edit_user_profile' ) );
+		add_action( 'edit_user_profile', array( $this, 'callback_edit_user_profile' ) );
+
+		add_action( 'wp_ajax_generate_api_key', array( $this, 'generate_api_key' ) );
+	}
+
+	public function check_cap( $cap, $request ) {
+		$headers = $request->get_headers();
+
+		if ( empty( $headers['wpapikey'] ) ) {
+			return false;
+		}
+
+		$wp_api_key = $headers['wpapikey'];
+
+		$user = API::g()->get_user_by_token( $wp_api_key[0] );
+
+		if ( empty( $user ) ) {
+			return false;
+		}
+
+		wp_set_current_user( $user->ID );
+
+		return true;
 	}
 
 	/**
@@ -41,6 +68,9 @@ class API_Action {
 		register_rest_route( 'wpshop/v2', '/statut', array(
 			'methods'  => array( 'GET' ),
 			'callback' => array( $this, 'check_statut' ),
+			'permission_callback' => function( $request ){
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			}
 		) );
 
 		register_rest_route( 'wpshop/v2', '/wps_gateway_paypal', array(
@@ -85,7 +115,7 @@ class API_Action {
 
 	public function check_statut( $request ) {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return new \WP_REST_Response( false );
+			return new \WP_REST_Response( false);
 		}
 
 		return new \WP_REST_Response( true );
@@ -161,6 +191,46 @@ class API_Action {
 
 		$response = new \WP_REST_Response( $response_products );
 		return $response;
+	}
+
+
+	/**
+	 * Ajoute les champs spécifiques à note de frais dans le compte utilisateur.
+	 *
+	 * @param WP_User $user L'objet contenant la définition complète de l'utilisateur.
+	 */
+	public function callback_edit_user_profile( $user ) {
+		$token = get_user_meta( $user->ID, '_wpshop_api_key', true );
+
+		\eoxia\View_Util::exec( 'wpshop', 'api', 'field-api', array(
+			'id'    => $user->ID,
+			'token' => $token,
+		) );
+	}
+
+	public function generate_api_key() {
+		check_ajax_referer( 'generate_api_key' );
+
+		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+
+		if ( empty( $id ) ) {
+			wp_send_json_error();
+		}
+
+		$token = API::g()->generate_token();
+		update_user_meta( $id, '_wpshop_api_key', $token );
+
+		ob_start();
+		\eoxia\View_Util::exec( 'wpshop', 'api', 'field-api', array(
+			'id'    => $id,
+			'token' => $token,
+		) );
+		wp_send_json_success( array(
+			'namespace'        => 'wpshop',
+			'module'           => 'API',
+			'callback_success' => 'generatedAPIKey',
+			'view'             => ob_get_clean(),
+		) );
 	}
 }
 
