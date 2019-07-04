@@ -12,6 +12,10 @@
 	<exclude-pattern>**/index.php</exclude-pattern>
 	<exclude-pattern>**/need-to-confirm-header.view.php</exclude-pattern>
 	<exclude-pattern>**/class-doli-sync-action.php</exclude-pattern>
+	<exclude-pattern>**/class-checkout.php</exclude-pattern>
+	<exclude-pattern>**/class-doli-associate-action.php</exclude-pattern>
+	<exclude-pattern>**/my-account-*.php</exclude-pattern>
+	<exclude-pattern>**/dashboard/view/metaboxes/*.php</exclude-pattern>
 
 	<!-- Configs -->
 	<config name="minimum_supported_wp_version" value="4.4" />

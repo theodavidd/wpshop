@@ -111,7 +111,7 @@ class Core_Filter {
 			Proposals::g()->option_per_page,
 			Third_Party::g()->option_per_page,
 			Doli_Order::g()->option_per_page,
-		) ) ) {
+		), true ) ) {
 			return $value;
 		}
 
