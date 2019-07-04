@@ -66,6 +66,11 @@ class Core_Action {
 		load_plugin_textdomain( 'wpshop', false, PLUGIN_WPSHOP_DIR . '/core/asset/language/' );
 	}
 
+	/**
+	 * Installes les données par défaut.
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_install_default() {
 		Core::g()->default_install();
 	}

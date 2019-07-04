@@ -17,13 +17,24 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Search Class.
+ * Search Action Class.
  */
 class Search_Action {
+
+	/**
+	 * Déclares l'action.
+	 *
+	 * @since 2.0.0
+	 */
 	public function __construct() {
 		add_action( 'widgets_init', array( $this, 'register_widget' ) );
 	}
 
+	/**
+	 * Enregistre le widget.
+	 *
+	 * @since 2.0.0
+	 */
 	public function register_widget() {
 		register_widget( 'wpshop\Search_Widget' );
 	}

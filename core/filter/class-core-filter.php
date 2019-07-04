@@ -35,19 +35,6 @@ class Core_Filter {
 		add_filter( 'set-screen-option', array( $this, 'save_per_page' ), 10, 3 );
 	}
 
-	public function save_per_page( $status, $option, $value ) {
-		if ( in_array( $option, array(
-			Product::g()->option_per_page,
-			Proposals::g()->option_per_page,
-			Third_Party::g()->option_per_page,
-			Doli_Order::g()->option_per_page,
-		) ) ) {
-			return $value;
-		}
-
-		return $status;
-	}
-
 	/**
 	 * Réorganises le menu du backadmin de WordPress.
 	 *
@@ -105,6 +92,30 @@ class Core_Filter {
 		}
 
 		return $parent_file;
+	}
+
+	/**
+	 * Permet de sauvegarder l'option d'écran "Par page".
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $status Le statut.
+	 * @param  string $option Le nom de l'option.
+	 * @param  string $value  La valeur.
+	 *
+	 * @return string         La valeur.
+	 */
+	public function save_per_page( $status, $option, $value ) {
+		if ( in_array( $option, array(
+			Product::g()->option_per_page,
+			Proposals::g()->option_per_page,
+			Third_Party::g()->option_per_page,
+			Doli_Order::g()->option_per_page,
+		) ) ) {
+			return $value;
+		}
+
+		return $status;
 	}
 }
 

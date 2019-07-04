@@ -31,7 +31,6 @@ class API_Action {
 
 		add_action( 'rest_api_init', array( $this, 'callback_rest_api_init' ) );
 		add_action( 'init', array( $this, 'init_endpoint' ) );
-		add_action( 'template_include', array( $this, 'change_template' ) );
 
 		add_action( 'show_user_profile', array( $this, 'callback_edit_user_profile' ) );
 		add_action( 'edit_user_profile', array( $this, 'callback_edit_user_profile' ) );
@@ -39,6 +38,16 @@ class API_Action {
 		add_action( 'wp_ajax_generate_api_key', array( $this, 'generate_api_key' ) );
 	}
 
+	/**
+	 * Vérifie que l'utilisateur à les droits.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  boolean         $cap     True ou false.
+	 * @param  WP_REST_Request $request Les données de la requête.
+	 *
+	 * @return boolean                  True ou false.
+	 */
 	public function check_cap( $cap, $request ) {
 		$headers = $request->get_headers();
 
@@ -66,11 +75,11 @@ class API_Action {
 	 */
 	public function callback_rest_api_init() {
 		register_rest_route( 'wpshop/v2', '/statut', array(
-			'methods'  => array( 'GET' ),
-			'callback' => array( $this, 'check_statut' ),
-			'permission_callback' => function( $request ){
+			'methods'             => array( 'GET' ),
+			'callback'            => array( $this, 'check_statut' ),
+			'permission_callback' => function( $request ) {
 				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
-			}
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/wps_gateway_paypal', array(
@@ -105,14 +114,15 @@ class API_Action {
 		}
 	}
 
-	public function change_template( $template ) {
-		if ( ! DEFINED( 'WPOAUTH_VERSION' ) && get_query_var( 'oauth/authorize', false ) !== false ) {
-			exit( __( 'Please, active WP OAuth Server plugin', 'wpshop' ) );
-		}
-
-		return $template;
-	}
-
+	/**
+	 * Permet de vérifier que l'application externe soit bien connecté.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_REST_Request $request Les données de la requête.
+	 *
+	 * @return WP_REST_Response          La réponse au format JSON.
+	 */
 	public function check_statut( $request ) {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new \WP_REST_Response( false);
@@ -177,8 +187,17 @@ class API_Action {
 		}
 	}
 
+	/**
+	 * Recherche un produit depuis l'API.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_REST_Request $request Les données de la requête.
+	 *
+	 * @return WP_REST_Response         Les produits trouvés.
+	 */
 	public function callback_search( $request ) {
-		$param = $request->get_params();
+		$param    = $request->get_params();
 		$products = Product::g()->get( array( 's' => $param['s'] ) );
 
 		$response_products = array();
@@ -197,7 +216,10 @@ class API_Action {
 	/**
 	 * Ajoute les champs spécifiques à note de frais dans le compte utilisateur.
 	 *
-	 * @param WP_User $user L'objet contenant la définition complète de l'utilisateur.
+	 * @since 2.0.0
+	 *
+	 * @param WP_User $user L'objet contenant la définition
+	 * complète de l'utilisateur.
 	 */
 	public function callback_edit_user_profile( $user ) {
 		$token = get_user_meta( $user->ID, '_wpshop_api_key', true );
@@ -208,6 +230,11 @@ class API_Action {
 		) );
 	}
 
+	/**
+	 * Génère une clé API pour un utilisateur
+	 *
+	 * @since 2.0.0
+	 */
 	public function generate_api_key() {
 		check_ajax_referer( 'generate_api_key' );
 
@@ -225,6 +252,7 @@ class API_Action {
 			'id'    => $id,
 			'token' => $token,
 		) );
+
 		wp_send_json_success( array(
 			'namespace'        => 'wpshop',
 			'module'           => 'API',

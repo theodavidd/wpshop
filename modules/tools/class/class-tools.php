@@ -27,6 +27,13 @@ class Tools extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {}
 
+	/**
+	 * Appel la vue principal
+	 *
+	 * @since 2.0.
+	 *
+	 * @param  string $section La section actuelle.
+	 */
 	public function display_general( $section ) {
 		\eoxia\View_Util::exec( 'wpshop', 'tools', 'general' );
 	}

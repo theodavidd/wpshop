@@ -20,6 +20,12 @@ defined( 'ABSPATH' ) || exit;
  * Search Widget Class.
  */
 class Search_Widget extends \WP_Widget {
+
+	/**
+	 * Initialise le Widget.
+	 *
+	 * @since 2.0.0
+	 */
 	public function __construct() {
 		$widget_ops = array(
 			'classname'   => 'search',
@@ -32,8 +38,10 @@ class Search_Widget extends \WP_Widget {
 	/**
 	 * Outputs the content of the widget
 	 *
-	 * @param array $args
-	 * @param array $instance
+	 * @since 2.0.0
+	 *
+	 * @param array $args     Les paramètres du widget.
+	 * @param array $instance Les données du widget.
 	 */
 	public function widget( $args, $instance ) {
 		\eoxia\View_Util::exec( 'wpshop', 'search', 'search-field', array(
@@ -42,6 +50,13 @@ class Search_Widget extends \WP_Widget {
 		) );
 	}
 
+	/**
+	 * Le formulaire pour configurer le widget
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $instance Les données du widget.
+	 */
 	public function form( $instance ) {
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'New title', 'wpshop' );
 		?>
@@ -55,13 +70,15 @@ class Search_Widget extends \WP_Widget {
 	/**
 	 * Processing widget options on save
 	 *
-	 * @param array $new_instance The new options
-	 * @param array $old_instance The previous options
+	 * @since 2.0.0
+	 *
+	 * @param array $new_instance The new options.
+	 * @param array $old_instance The previous options.
 	 *
 	 * @return array
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance = array();
+		$instance          = array();
 		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
 
 		return $instance;

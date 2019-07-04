@@ -218,6 +218,16 @@ class Product_Filter {
 		return $class;
 	}
 
+	/**
+	 * Affichage du stock.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string        $content Le contenu.
+	 * @param  Product_Model $product Les données du produit.
+	 *
+	 * @return string                 Le contenu modifié.
+	 */
 	public function display_stock( $content, $product ) {
 		if ( $product->data['manage_stock'] ) {
 			ob_start();

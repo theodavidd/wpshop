@@ -14,5 +14,8 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <p>
-	<?php printf( __( '%s in stock', 'wpshop' ), $product->data['stock'] ); ?>
+	<?php
+	// translators: %s en stock.
+	printf( __( '%s in stock', 'wpshop' ), $product->data['stock'] );
+	?>
 </p>

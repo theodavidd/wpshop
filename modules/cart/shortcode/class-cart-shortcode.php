@@ -36,6 +36,7 @@ class Cart_Shortcode extends \eoxia\Singleton_Util {
 	 */
 	public function callback_init() {
 		add_shortcode( 'wps_cart', array( $this, 'callback_cart' ) );
+		add_shortcode( 'wps_add_cart', array( $this, 'callback_add_to_cart' ) );
 	}
 
 	/**
@@ -57,6 +58,26 @@ class Cart_Shortcode extends \eoxia\Singleton_Util {
 			include( Template_Util::get_template_part( 'cart', 'cart' ) );
 		} else {
 			include( Template_Util::get_template_part( 'cart', 'empty-cart' ) );
+		}
+	}
+
+	/**
+	 * Permet d'afficher le bouton "Ajouter au panier".
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $atts Les attributs du shortcode. Voir ci dessous
+	 * shortcode_atts.
+	 */
+	public function callback_add_to_cart( $atts ) {
+		if ( ! is_admin() ) {
+			$a = shortcode_atts( array(
+				'id'   => 0,
+				'text' => __( 'Add to cart', 'wpshop' ),
+			), $atts );
+
+			$product = Product::g()->get( array( 'id' => $a['id'] ), true );
+			include( Template_Util::get_template_part( 'cart', 'add-to-cart' ) );
 		}
 	}
 }

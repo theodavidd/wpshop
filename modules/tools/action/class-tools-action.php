@@ -21,6 +21,13 @@ defined( 'ABSPATH' ) || exit;
  */
 class Tools_Action {
 
+	/**
+	 * Distanation temporaire pour l'importation des tiers.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
 	private $destination_directory;
 
 	/**
@@ -49,13 +56,18 @@ class Tools_Action {
 		add_submenu_page( 'wpshop', __( 'Tools', 'wpshop' ), __( 'Tools', 'wpshop' ), 'manage_options', 'wps-tools', array( $this, 'callback_add_menu_page' ) );
 	}
 
+	/**
+	 * La vue principale pour la page "Outils".
+	 *
+	 * @since 2.0.0
+	 */
 	public function callback_add_menu_page() {
 		$tab     = ! empty( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'general';
 		$section = ! empty( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : '';
 
 		\eoxia\View_Util::exec( 'wpshop', 'tools', 'main', array(
-			'tab'       => $tab,
-			'section'   => $section,
+			'tab'     => $tab,
+			'section' => $section,
 		) );
 	}
 
@@ -79,6 +91,11 @@ class Tools_Action {
 		wp_redirect( admin_url( $url ) );
 	}
 
+	/**
+	 * Parcours le CSV. Traite chaque ligne afin de créer un tier et son contact
+	 *
+	 * @since 2.0.0
+	 */
 	public function import_third_party() {
 		ini_set( 'memory_limit', -1 );
 
@@ -108,7 +125,7 @@ class Tools_Action {
 
 					if ( ! empty( $line ) ) {
 						foreach ( $line as &$v ) {
-							$v = preg_replace('/^"(.*)"/','$1', $v);
+							$v = preg_replace( '/^"(.*)"/', '$1', $v );
 						}
 					}
 
@@ -143,7 +160,6 @@ class Tools_Action {
 					$index_element++;
 				}
 			}
-
 		}
 
 		if ( $index_element >= $count_element ) {

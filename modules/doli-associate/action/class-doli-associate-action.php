@@ -113,8 +113,8 @@ class Doli_Associate_Action {
 		$doli_entry       = Request_Util::get( $route . '/' . $entry_id );
 		$doli_to_wp_entry = $type::g()->get( array( 'schema' => true ), true );
 
-		if ( $type == 'Product' ) {
-			$route = $route == 'products' ? 'wpshopapi/product/get/web' : 'products';
+		if ( 'Product' == $type ) {
+			$route = 'products' == $route ? 'wpshopapi/product/get/web' : 'products';
 		}
 
 		switch ( $route ) {

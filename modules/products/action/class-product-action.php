@@ -370,13 +370,18 @@ class Product_Action {
 		return $view;
 	}
 
+	/**
+	 * Créer une page temporaire lors du recherche avec WPshop.
+	 *
+	 * @since 2.0.0
+	 */
 	public function search_page() {
 		global $wp_query;
 		global $post;
 
 		$post_type = ! empty( $_GET['post_type'] ) ? sanitize_text_field( $_GET['post_type'] ) : '';
 
-		if ( ! $wp_query->is_search() && $post_type != Product::g()->get_type() ) {
+		if ( ! $wp_query->is_search() && Product::g()->get_type() !== $post_type ) {
 			return;
 		}
 
@@ -386,6 +391,7 @@ class Product_Action {
 		$shop_page_id   = get_option( 'wps_page_ids', Pages::g()->default_options );
 		$shop_page      = get_post( $shop_page_id['shop_id'] );
 
+		// translators: Résultat de la recherche pour "%s".
 		$title = sprintf( __( 'Search result for "%s"', 'wpshop' ), $search_query );
 
 		$wps_query = new \WP_Query( $wp_query->query_vars );
@@ -401,7 +407,6 @@ class Product_Action {
 		ob_start();
 		include( Template_Util::get_template_part( 'products', 'wps-product-grid-container' ) );
 		$content = ob_get_clean();
-
 
 		// Création de notre propre page.
 		$dummy_post_properties = array(

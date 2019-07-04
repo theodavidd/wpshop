@@ -225,7 +225,7 @@ if ( ! window.eoxiaJS.action ) {
 	 * @returns {void}
 	 */
 	window.eoxiaJS.action.execInput = function( event ) {
-		var element = jQuery( this ), loaderElement = element, parentElement = element, loaderElement = element, listInput = undefined, data = {}, i = 0, doAction = true, key = undefined, inputAlreadyIn = [];
+		var element = jQuery( this ), loaderElement = element, parentElement = element, listInput = undefined, data = {}, i = 0, doAction = true, key = undefined, inputAlreadyIn = [];
 		event.preventDefault();
 
 		if ( element.attr( 'data-parent' ) ) {
@@ -293,6 +293,8 @@ if ( ! window.eoxiaJS.action ) {
 		if ( element.attr( 'data-module' ) && element.attr( 'data-before-method' ) ) {
 			doAction = false;
 			doAction = window.eoxiaJS[element.attr( 'data-namespace' )][element.attr( 'data-module' )][element.attr( 'data-before-method' )]( element );
+		} else {
+			doAction = window.eoxiaJS.action.checkBeforeCB(element);
 		}
 
 		if ( element.hasClass( '.grey' ) ) {
@@ -910,7 +912,7 @@ if ( ! window.eoxiaJS.dropdown  ) {
 		jQuery( document ).on( 'keyup', window.eoxiaJS.dropdown.keyup );
 		jQuery( document ).on( 'click', '.wpeo-dropdown:not(.dropdown-active) .dropdown-toggle:not(.disabled)', window.eoxiaJS.dropdown.open );
 		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active .dropdown-content', function(e) { e.stopPropagation() } );
-		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active:not(.dropdown-force-display) .dropdown-content .dropdown-item', window.eoxiaJS.dropdown.close  );
+		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active .dropdown-content .dropdown-item', window.eoxiaJS.dropdown.close  );
 		jQuery( document ).on( 'click', '.wpeo-dropdown.dropdown-active', function ( e ) { window.eoxiaJS.dropdown.close( e ); e.stopPropagation(); } );
 		jQuery( document ).on( 'click', 'body', window.eoxiaJS.dropdown.close );
 	};
@@ -1466,6 +1468,7 @@ if ( ! window.eoxiaJS.modal  ) {
 						jQuery( 'body' ).append( triggeredElement[0].modalElement );
 
 						el[0].innerHTML = el[0].innerHTML.replace( '{{content}}', response.data.view );
+
 						if ( typeof response.data.buttons_view !== 'undefined' ) {
 							el[0].innerHTML = el[0].innerHTML.replace( '{{buttons}}', response.data.buttons_view );
 						} else {
@@ -1540,13 +1543,14 @@ if ( ! window.eoxiaJS.modal  ) {
 	 * @returns {void}       [description]
 	 */
 	window.eoxiaJS.modal.close = function( event ) {
-		jQuery( '.wpeo-modal.modal-active:not(.modal-force-display)' ).each( function() {
+		jQuery( '.wpeo-modal.modal-active:last:not(.modal-force-display)' ).each( function() {
 			var popup = jQuery( this );
 			popup.removeClass( 'modal-active' );
 			if ( popup[0].typeModal && 'default' !== popup[0].typeModal ) {
 				setTimeout( function() {
 					popup.remove();
 				}, 200 );
+
 			}
 
 			popup.trigger( 'modal-closed', popup );
@@ -2155,6 +2159,11 @@ if ( ! window.eoxiaJS.tooltip ) {
 			'top': top,
 			'left': left,
 			'opacity': 1
+		} );
+
+		jQuery( element ).on("remove", function() {
+			jQuery( jQuery( element )[0].tooltipElement ).remove();
+
 		} );
 	};
 
