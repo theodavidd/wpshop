@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
-"POT-Creation-Date: 2019-06-21 11:55+0200\n"
-"PO-Revision-Date: 2019-06-21 16:08+0200\n"
+"POT-Creation-Date: 2019-07-05 15:25+0200\n"
+"PO-Revision-Date: 2019-07-05 15:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -17,6 +17,14 @@ msgstr ""
 "X-Poedit-SearchPath-0: core\n"
 "X-Poedit-SearchPath-1: modules\n"
 "X-Poedit-SearchPathExcluded-0: core/external\n"
+
+#: modules/api/view/field-api.view.php:20
+msgid "WPshop API"
+msgstr "WPshop API"
+
+#: modules/api/view/field-api.view.php:25
+msgid "API Key"
+msgstr ""
 
 #: modules/cart/view/frontend/cart-resume.php:40
 #: modules/checkout/view/frontend/review-order.php:71
@@ -90,7 +98,7 @@ msgstr "Adresse"
 
 #: modules/checkout/view/frontend/form-shipping.php:87
 msgid "Town / City"
-msgstr "Commune"
+msgstr "Ville"
 
 #: modules/checkout/view/frontend/form-shipping.php:93
 msgid "Postcode / ZIP"
@@ -819,11 +827,11 @@ msgstr "Rechercher:"
 msgid "Search products&hellip;"
 msgstr "Rechercher un produit&hellip;"
 
-#: modules/search/widget/class-search-widget.php:46
+#: modules/search/widget/class-search-widget.php:61
 msgid "New title"
 msgstr "Nouveau titre"
 
-#: modules/search/widget/class-search-widget.php:49
+#: modules/search/widget/class-search-widget.php:64
 msgid "Title:"
 msgstr "Titre:"
 
@@ -967,9 +975,6 @@ msgstr "Importer"
 #: modules/tools/view/main.view.php:20
 msgid "Tools"
 msgstr "Outils"
-
-#~ msgid "WPshop"
-#~ msgstr "WPshop"
 
 #~ msgid "%s is sold out."
 #~ msgstr "%s n'est plus disponible."

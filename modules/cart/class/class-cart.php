@@ -34,10 +34,11 @@ class Cart extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 *
 	 * @param Product_Model $product Les données du produit.
+	 * @param integer       $qty     La quantité à ajouter
 	 */
-	public function add_to_cart( $product ) {
+	public function add_to_cart( $product, $qty = 1 ) {
 		$data = array_merge(
-			array( 'qty' => 1 ),
+			array( 'qty' => $qty ),
 			$product->data
 		);
 
@@ -46,7 +47,7 @@ class Cart extends \eoxia\Singleton_Util {
 		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
 			foreach ( Cart_Session::g()->cart_contents as $key => $line ) {
 				if ( $line['id'] === $product->data['id'] ) {
-					$data['qty'] = $line['qty'] + 1;
+					$data['qty'] = $line['qty'] + $qty;
 					$index       = $key;
 					break;
 				}

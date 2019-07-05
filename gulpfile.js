@@ -69,8 +69,8 @@ gulp.task('build_scss_frontend', function() {
 
 
 gulp.task('default', function() {
-	gulp.watch( paths.js_backend[0], gulp.series("build_js_backend") );
-	gulp.watch( paths.js_frontend[0], gulp.series("build_js_frontend") );
+	gulp.watch( paths.js_backend, gulp.series("build_js_backend") );
+	gulp.watch( paths.js_frontend, gulp.series("build_js_frontend") );
 	gulp.watch( paths.scss_backend[0], gulp.series("build_scss_backend") );
 	gulp.watch( paths.scss_frontend[0], gulp.series("build_scss_frontend") );
 });

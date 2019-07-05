@@ -1,6 +1,6 @@
 # wpeo-util
 
-L'équipe [Eoxia](https://eoxia.com) utilises WPEO_Util pour tous les plugins suivants: [DigiRisk](https://), [WPshop](https://) et [Task Manager](https://).
+L'équipe [Eoxia](https://eoxia.com) utilises WPEO_Util pour tous les plugins suivants: [DigiRisk](https://), [WPShop](https://) et [Task Manager](https://).
 
 WPEO_Util gère le "boot" de tous ses plugins ainsi que leurs modules et externals.
 
