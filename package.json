@@ -11,17 +11,15 @@
   "author": "Eoxia team",
   "license": "AGPLv3",
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "latest",
+    "gulp-autoprefixer": "latest",
     "gulp-concat": "latest",
-    "gulp-cssnano": "^2.1.2",
-    "gulp-pleeease": "^2.0.2",
-    "gulp-plumber": "^1.1.0",
-    "gulp-rename": "^1.4.0",
+    "gulp-rename": "latest",
     "gulp-sass": "latest",
     "gulp-uglify": "latest",
-    "gulp-watch": "^4.3.5"
+    "gulp-watch": "latest"
   },
   "dependencies": {
-    "natives": "^1.1.6"
+    "natives": "latest"
   }
 }

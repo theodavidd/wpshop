@@ -77,7 +77,9 @@ class Cart_Shortcode extends \eoxia\Singleton_Util {
 			), $atts );
 
 			$product = Product::g()->get( array( 'id' => $a['id'] ), true );
+			ob_start();
 			include( Template_Util::get_template_part( 'cart', 'add-to-cart' ) );
+			return ob_get_clean();
 		}
 	}
 }
