@@ -34,12 +34,12 @@ class Core extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function default_install() {
-		$db_version = get_option( 'wpshop2_default_page', false );
+		$db_version = get_option( 'wpshop2_database_version', false );
 
 		if ( ! $db_version ) {
 			Pages::g()->create_default_page();
 
-			update_option( 'wpshop2_default_page', true );
+			update_option( 'wpshop2_database_version', '1.0.0' );
 		}
 	}
 }

@@ -658,6 +658,30 @@
   text-align: center;
 }
 
+.wpshop_page_wps-status .wpeo-wrap table {
+  width: 100%;
+}
+
+.wpshop_page_wps-status .wpeo-wrap table tr td {
+  padding: 10px;
+}
+
+.wpshop_page_wps-status .wpeo-wrap table tr td:first-child {
+  width: 30%;
+}
+
+.wpshop_page_wps-status .wpeo-wrap table tr td:last-child {
+  width: 70%;
+}
+
+.wpshop_page_wps-status .wpeo-wrap table tr .fa-check {
+  color: green !important;
+}
+
+.wpshop_page_wps-status .wpeo-wrap table tr .fa-times {
+  color: red !important;
+}
+
 .wpeo-wrap {
   /** Synchro */
   /** Metabox List */

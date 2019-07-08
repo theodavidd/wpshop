@@ -12,6 +12,8 @@
 @import "external/external";
 @import "element-global/element-global";
 
+@import "page/status";
+
 .wpeo-wrap {
 	@import "element/element";
 	@import "page/page";
