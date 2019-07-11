@@ -10,7 +10,7 @@
 
     "modules/settings/settings.config.json",
     "modules/tools/tools.config.json",
-    "modules/status/status.config.json",
+    "modules/health/health.config.json",
 
     "modules/order/order.config.json",
     "modules/products/products.config.json",

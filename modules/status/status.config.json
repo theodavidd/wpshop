@@ -1,9 +1,0 @@
-{
-	"name": "status",
-	"slug": "status",
-	"since": "2.0.0",
-	"path": "modules/status",
-	"dependencies": {
-		"action": {}
-	}
-}

@@ -40,8 +40,9 @@ window.eoxiaJS.wpshopFrontend.cart.updateQuantity = function() {
 };
 
 window.eoxiaJS.wpshopFrontend.cart.addedToCart = function ( triggeredElement, response ) {
-	if ( ! triggeredElement.next().hasClass( 'view-cart' ) && response.data.added ) {
-		triggeredElement.closest( '.wps-product-action' ).html( response.data.view );
+	if ( response.data.added ) {
+		jQuery( '#main .entry-header' ).prepend( response.data.view );
+		// triggeredElement.closest( '.wps-product-action' ).html( response.data.view );
 	}
 
 	if ( response.data.qty ) {
