@@ -23,9 +23,9 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="wpeo-table table-flex table-4">
 		<div class="table-row table-header">
 			<div class="table-cell">#</div>
-			<div class="table-cell">Titre</div>
-			<div class="table-cell">Prix</div>
-			<div class="table-cell">Date</div>
+			<div class="table-cell"><?php esc_html_e( 'Title', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Price TTC', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Date', 'wpshop' ); ?></div>
 		</div>
 
 		<?php

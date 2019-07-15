@@ -40,7 +40,7 @@ class Template_Util extends \eoxia\Singleton_Util {
 	 */
 	public static function get_template_part( $module, $template ) {
 		/** Get theme template if exist */
-		$path_to_theme = locate_template( $template . '.php' );
+		$path_to_theme = locate_template( 'wpshop/' . $template . '.php' );
 		if ( ! empty( $path_to_theme ) ) {
 			$single_template = $path_to_theme;
 		} else {

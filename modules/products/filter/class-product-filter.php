@@ -71,6 +71,9 @@ class Product_Filter {
 		$args['show_in_nav_menus'] = false;
 		$args['show_in_menu']      = false;
 		$args['show_in_admin_bar'] = true;
+		$args['rewrite']           = array(
+			'slug' => __( 'product', 'wpshop' ),
+		);
 
 		$args['register_meta_box_cb'] = array( Product::g(), 'callback_register_meta_box' );
 

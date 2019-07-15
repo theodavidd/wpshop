@@ -48,7 +48,7 @@ defined( 'ABSPATH' ) || exit;
 				<div class="wps-box-detail wps-list-product">
 					<?php
 					if ( ! empty( $invoice->data['lines'] ) ) :
-						foreach ( $invoice->data['lines'] as $product ) :
+						foreach ( $invoice->data['lines'] as $line ) :
 							$qty                  = $line['qty'];
 							$product              = Product::g()->get( array(
 								'meta_key'   => '_external_id',

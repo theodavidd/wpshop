@@ -22,10 +22,10 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="wpeo-table table-flex table-5">
 		<div class="table-row table-header">
 			<div class="table-cell">#</div>
-			<div class="table-cell">Facture</div>
-			<div class="table-cell">Méthode de paiement</div>
-			<div class="table-cell">Prix</div>
-			<div class="table-cell">Date</div>
+			<div class="table-cell"><?php esc_html_e( 'Invoice', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Payment method', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Price TTC', 'wpshop' ); ?></div>
+			<div class="table-cell"><?php esc_html_e( 'Date', 'wpshop' ); ?></div>
 		</div>
 
 		<?php
