@@ -80,7 +80,7 @@ class Cart_Action {
 	public function ajax_add_to_cart() {
 		check_ajax_referer( 'add_to_cart' );
 
-		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$id  = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 		$qty = ! empty( $_POST['qty'] ) ? (int) $_POST['qty'] : 1;
 
 		if ( empty( $id ) ) {

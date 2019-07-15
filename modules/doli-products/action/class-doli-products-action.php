@@ -78,6 +78,7 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 				'fk_product'  => (int) $product->data['external_id'],
 				'wp_product'  => (int) $product->data['id'],
 			);
+
 			$doli_product = Request_Util::put( 'wpshopapi/update/product/' . $product->data['external_id'], $data );
 
 			update_post_meta( $post_id, '_price', $doli_product->price );

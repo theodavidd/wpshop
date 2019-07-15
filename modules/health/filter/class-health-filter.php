@@ -30,12 +30,22 @@ class Health_Filter {
 		add_filter( 'debug_information', array( $this, 'add_wpshop_debug_info' ) );
 	}
 
+	/**
+	 * Ajoutes des informations de déboggage pour WPshop.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $debug_info Le tableau contenant les informations de debug.
+	 *
+	 * @return array           Le tableau contenant les informations de debug
+	 * + celle de WPshop.
+	 */
 	public function add_wpshop_debug_info( $debug_info ) {
 		$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
 
 		$debug_info['wpshop'] = array(
-			'label'    => __( 'WPshop', 'wpshop' ),
-			'fields'   => array(),
+			'label'  => __( 'WPshop', 'wpshop' ),
+			'fields' => array(),
 		);
 
 		if ( ! empty( Pages::g()->page_state_titles ) ) {
@@ -53,15 +63,6 @@ class Health_Filter {
 				);
 			}
 		}
-
-		//echo "<pre>"; print_r( $page_ids_options ); echo "</pre>";exit;
-		// 		'license' => array(
-		// 			'label'    => __( 'License', 'wpshop' ),
-		// 			'value'   => get_option( 'my-plugin-license', __( 'No license found', 'wpshop' ) ),
-		// 			'private' => true,
-		// 		),
-		// 	),
-		// );
 
 		return $debug_info;
 	}

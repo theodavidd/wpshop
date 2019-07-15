@@ -34,7 +34,7 @@ class Cart extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 *
 	 * @param Product_Model $product Les données du produit.
-	 * @param integer       $qty     La quantité à ajouter
+	 * @param integer       $qty     La quantité à ajouter.
 	 */
 	public function add_to_cart( $product, $qty = 1 ) {
 		$data = array_merge(

@@ -29,7 +29,7 @@ class Template_Util extends \eoxia\Singleton_Util {
 	protected function construct() {}
 
 	/**
-	 * Get template for single post type
+	 * Get template can be overwrited in "wpshop" folder in your theme.
 	 *
 	 * @since  2.0.0
 	 *
