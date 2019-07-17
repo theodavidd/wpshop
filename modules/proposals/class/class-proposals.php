@@ -141,6 +141,13 @@ class Proposals extends \eoxia\Post_Class {
 		) );
 	}
 
+	public function display_item( $proposal, $doli_url = '' ) {
+		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'item', array(
+			'proposal' => $proposal,
+			'doli_url' => $doli_url,
+		) );
+	}
+
 	/**
 	 * Récupères la dernière ref des devis.
 	 *

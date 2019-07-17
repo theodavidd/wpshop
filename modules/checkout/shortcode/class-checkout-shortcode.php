@@ -85,9 +85,10 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 			$button_text = '';
 
 			if ( 'proposal' === $atts['type'] ) {
-				$object      = Proposals::g()->get( array( 'id' => $atts['id'] ), true );
-				$title       = __( 'quotation', 'wpshop' );
-				$button_text = __( 'See my quotations', 'wpshop' );
+				$object       = Proposals::g()->get( array( 'id'  => $atts['id'] ), true );
+				$title        = __( 'quotation', 'wpshop' );
+				$button_text  = __( 'See my quotations', 'wpshop' );
+				$atts['type'] = 'quotation';
 			} elseif ( 'order' === $atts['type'] ) {
 				$object      = Doli_Order::g()->get( array( 'id' => $atts['id'] ), true );
 				$title       = __( 'order', 'wpshop' );

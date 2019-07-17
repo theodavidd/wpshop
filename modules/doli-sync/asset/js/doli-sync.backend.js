@@ -108,6 +108,6 @@ window.eoxiaJS.wpshop.doliSync.syncEntrySuccess = function( triggeredElement, re
 		jQuery( '.wpeo-modal.modal-active' ).addClass( 'modal-force-display' );
 		jQuery( '.wpeo-modal.modal-active' ).find( '.modal-content' ).html( response.data.view );
 	} else {
-		jQuery( triggeredElement ).closest( '.wps-sync' ).replaceWith( response.data.view );
+		jQuery( triggeredElement ).closest( '.table-row' ).replaceWith( response.data.view );
 	}
 }

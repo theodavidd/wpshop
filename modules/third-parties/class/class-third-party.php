@@ -125,6 +125,13 @@ class Third_Party extends \eoxia\Post_Class {
 		) );
 	}
 
+	public function display_item( $third_party, $doli_url = '' ) {
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'item', array(
+			'third_party' => $third_party,
+			'doli_url'    => $doli_url,
+		) );
+	}
+
 	/**
 	 * Affiches les trois dernières actions commerciales du tier.
 	 *

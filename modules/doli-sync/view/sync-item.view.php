@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php
 	else :
 		?>
-			<div class="wpeo-button button-synchro button-disable button-event button-radius-1 wpeo-tooltip-event" data-direction="left" aria-label="<?php echo esc_html( $message_tooltip ); ?>"><i class="fas fa-sync"></i></div>
+		<div class="wpeo-button button-synchro button-disable button-event button-radius-1 wpeo-tooltip-event" data-direction="left" aria-label="<?php echo esc_html( $message_tooltip ); ?>"><i class="fas fa-sync"></i></div>
 		<?php
 	endif;
 	?>

@@ -250,6 +250,8 @@ class Doli_Sync_Action {
 		$wp_entry   = $wp_type::g()->get( array( 'id' => $wp_id ), true );
 		$doli_entry = Request_Util::get( $route . '/' . $entry_id );
 
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
 		switch ( $route ) {
 			case 'thirdparties':
 				$url = admin_url( 'admin.php?page=wps-third-party' );
@@ -301,7 +303,7 @@ class Doli_Sync_Action {
 				'url'    => $url,
 			) );
 		} else {
-			$this->add_sync_item( $wp_entry, $route, $type, $wp_type );
+			$wp_type::g()->display_item( $wp_entry, $dolibarr_option['dolibarr_url'] );
 		}
 
 		wp_send_json_success( array(

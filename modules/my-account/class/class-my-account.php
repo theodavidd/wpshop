@@ -96,7 +96,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	 * @param  string $tab Le slug de l'onglet actuel.
 	 */
 	public function display_navigation( $tab ) {
-		$this->menu = apply_filters( 'wps_account_navigation_items', array(
+		$menu_def = array(
 			'quotations' => array(
 				'link'  => Pages::g()->get_account_link() . 'quotations/',
 				'icon'  => 'fas fa-file-signature',
@@ -107,7 +107,23 @@ class My_Account extends \eoxia\Singleton_Util {
 				'icon'  => 'fas fa-sign-out-alt',
 				'title' => __( 'Logout', 'wpshop' ),
 			),
-		) );
+		);
+
+		if ( class_exists( '\user_switching' ) ) {
+			$old_user = \user_switching::get_old_user();
+
+			if ( $old_user ) {
+				$link = \user_switching::switch_back_url( $old_user );
+
+				$menu_def['switch'] = array(
+					'link'  => $link,
+					'icon'  => 'fas fa-random',
+					'title' => __( 'Switch back', 'wpshop' ),
+				);
+			}
+		}
+
+		$this->menu = apply_filters( 'wps_account_navigation_items', $menu_def );
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-navigation' ) );
 	}

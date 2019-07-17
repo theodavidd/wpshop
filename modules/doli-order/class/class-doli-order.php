@@ -139,6 +139,13 @@ class Doli_Order extends \eoxia\Post_Class {
 		) );
 	}
 
+	public function display_item( $order, $doli_url = '' ) {
+		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'item', array(
+			'order'    => $order,
+			'doli_url' => $doli_url,
+		) );
+	}
+
 	/**
 	 * Synchronisation depuis Dolibarr vers WP.
 	 *

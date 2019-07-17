@@ -138,6 +138,13 @@ class Product extends \eoxia\Post_Class {
 		) );
 	}
 
+	public function display_item( $product, $doli_url = '' ) {
+		\eoxia\View_Util::exec( 'wpshop', 'products', 'item', array(
+			'product'  => $product,
+			'doli_url' => $doli_url,
+		) );
+	}
+
 	/**
 	 * Ajoutes une metabox pour configurer le produit.
 	 *

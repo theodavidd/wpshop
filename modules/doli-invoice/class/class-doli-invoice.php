@@ -107,6 +107,12 @@ class Doli_Invoice extends \eoxia\Post_Class {
 		) );
 	}
 
+	public function display_item( $invoice, $doli_url = '' ) {
+		\eoxia\View_Util::exec( 'wpshop', 'doli-invoice', 'item', array(
+			'invoice' => $invoice,
+		) );
+	}
+
 	/**
 	 * Synchronise depuis Dolibarr vers WP.
 	 *
