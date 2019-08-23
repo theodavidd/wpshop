@@ -140,7 +140,6 @@ class Doli_Invoice extends \eoxia\Post_Class {
 		}
 
 		$wp_invoice->data['title']          = $doli_invoice->ref;
-		$wp_invoice->data['lines']          = $doli_invoice->lines;
 		$wp_invoice->data['total_ttc']      = $doli_invoice->total_ttc;
 		$wp_invoice->data['total_ht']       = $doli_invoice->total_ht;
 		$wp_invoice->data['resteapayer']    = $doli_invoice->resteapayer;
@@ -148,6 +147,28 @@ class Doli_Invoice extends \eoxia\Post_Class {
 		$wp_invoice->data['payment_method'] = Doli_Payment::g()->convert_to_wp( $doli_invoice->mode_reglement_code );
 		$wp_invoice->data['paye']           = (int) $doli_invoice->paye;
 		$wp_invoice->data['third_party_id'] = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_invoice->socid );
+
+		$wp_invoice->data['lines'] = null;
+
+		if ( ! empty( $doli_invoice->lines ) ) {
+			$wp_invoice->data['lines'] = array();
+			foreach ( $doli_invoice->lines as $line ) {
+				$line_data = array(
+					'fk_facture' => $doli_invoice->id,
+					'fk_product' => $line->fk_product,
+					'qty'        => $line->qty,
+					'total_tva'  => $line->total_tva,
+					'total_ht'   => $line->total_ht,
+					'total_ttc'  => $line->total_ttc,
+					'libelle'    => ! empty( $line->libelle ) ? $line->libelle : $line->desc,
+					'tva_tx'     => $line->tva_tx,
+					'subprice'   => $line->subprice,
+					'rowid'      => $line->rowid,
+				);
+
+				$wp_invoice->data['lines'][] = $line_data;
+			}
+		}
 
 		$status = '';
 
@@ -178,8 +199,19 @@ class Doli_Invoice extends \eoxia\Post_Class {
 
 		$wp_invoice = Doli_Invoice::g()->update( $wp_invoice->data );
 
-		// Récupères les paiements attachés à cette facture.
-		$doli_payments = Request_Util::get( 'invoices/' . $doli_invoice->id . '/payments' );
+		$doli_payments = Request_Util::get( 'invoices/' . $wp_invoice->data['external_id'] . '/payments' );
+
+		if ( ! empty( $doli_payments ) ) {
+			foreach ( $doli_payments as $doli_payment ) {
+				$wp_payment = Doli_Payment::g()->get( array( 'title' => $doli_payment->ref ), true );
+
+				if ( empty( $wp_payment ) ) {
+					$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
+				}
+
+				Doli_Payment::g()->doli_to_wp( $wp_invoice->data['id'], $doli_payment, $wp_payment );
+			}
+		}
 
 		do_action( 'wps_synchro_invoice', $wp_invoice->data, $doli_invoice );
 
@@ -201,6 +233,56 @@ class Doli_Invoice extends \eoxia\Post_Class {
 		), true );
 
 		return $invoice->data['id'];
+	}
+
+	public function add_line( $order, $line_data ) {
+		$order->data['lines'][] = $line_data;
+
+		$this->update( $order->data );
+	}
+
+	public function update_line( $order, $line_data ) {
+		$founded_line = null;
+		$key_line     = null;
+		// Search line by rowid.
+		if ( ! empty( $order->data['lines'] ) ) {
+			foreach ( $order->data['lines'] as $key => $line ) {
+				if ( $line['rowid'] == $line_data['rowid'] ) {
+					$founded_line = $line;
+					$key_line     = $key;
+					break;
+				}
+			}
+		}
+
+		if ( $founded_line != null ) {
+			array_splice( $order->data['lines'], $key_line, 1 );
+
+			$order->data['lines'][] = $line_data;
+
+			$this->update( $order->data );
+		}
+	}
+
+	public function delete_line( $order, $row_id ) {
+		$founded_line = null;
+		$key_line     = null;
+		// Search line by rowid.
+		if ( ! empty( $order->data['lines'] ) ) {
+			foreach ( $order->data['lines'] as $key => $line ) {
+				if ( $line['rowid'] == $row_id ) {
+					$founded_line = $line;
+					$key_line     = $key;
+					break;
+				}
+			}
+		}
+
+		if ( $founded_line != null ) {
+			array_splice( $order->data['lines'], $key_line, 1 );
+
+			$this->update( $order->data );
+		}
 	}
 }
 

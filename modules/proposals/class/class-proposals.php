@@ -224,6 +224,56 @@ class Proposals extends \eoxia\Post_Class {
 			return get_posts( $args );
 		}
 	}
+
+	public function add_line( $order, $line_data ) {
+		$order->data['lines'][] = $line_data;
+
+		$this->update( $order->data );
+	}
+
+	public function update_line( $order, $line_data ) {
+		$founded_line = null;
+		$key_line     = null;
+		// Search line by rowid.
+		if ( ! empty( $order->data['lines'] ) ) {
+			foreach ( $order->data['lines'] as $key => $line ) {
+				if ( $line['rowid'] == $line_data['rowid'] ) {
+					$founded_line = $line;
+					$key_line     = $key;
+					break;
+				}
+			}
+		}
+
+		if ( $founded_line != null ) {
+			array_splice( $order->data['lines'], $key_line, 1 );
+
+			$order->data['lines'][] = $line_data;
+
+			$this->update( $order->data );
+		}
+	}
+
+	public function delete_line( $order, $row_id ) {
+		$founded_line = null;
+		$key_line     = null;
+		// Search line by rowid.
+		if ( ! empty( $order->data['lines'] ) ) {
+			foreach ( $order->data['lines'] as $key => $line ) {
+				if ( $line['rowid'] == $row_id ) {
+					$founded_line = $line;
+					$key_line     = $key;
+					break;
+				}
+			}
+		}
+
+		if ( $founded_line != null ) {
+			array_splice( $order->data['lines'], $key_line, 1 );
+
+			$this->update( $order->data );
+		}
+	}
 }
 
 Proposals::g();

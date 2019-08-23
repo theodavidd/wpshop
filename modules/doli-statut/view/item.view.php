@@ -16,4 +16,4 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<span class="wps-status <?php echo $class; ?>"><?php echo $text; ?></span>
+<span class="wps-status <?php echo $class; ?>"><?php echo apply_filters( 'wps_doli_status', $text, $object ); ?></span>

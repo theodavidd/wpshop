@@ -83,6 +83,9 @@ class Doli_Order_Filter {
 			case Doli_Order::g()->get_type():
 				$class = 'gridw-3';
 				break;
+			case Doli_Invoice::g()->get_type():
+				$class = 'gridw-4';
+				break;
 			default:
 				break;
 		}

@@ -28,6 +28,24 @@ class Doli_Invoice_Filter {
 	 */
 	public function __construct() {
 		add_filter( 'eo_model_wps-invoice_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
+		add_filter( 'eo_model_wps-doli-invoice_after_get', array( $this, 'add_details' ), 10, 2 );
+
+		add_filter( 'wps_doli_status', array( $this, 'wps_doli_status' ), 10, 2 );
+	}
+
+	public function add_details( $object, $args ) {
+		$object->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $object->data['id'] ) );
+		$object->data['totalpaye'] = 0;
+
+		if ( ! empty( $object->data['payments'] ) ) {
+			foreach ( $object->data['payments'] as $payment ) {
+				$object->data['totalpaye'] += $payment->data['amount'];
+			}
+		}
+
+		$object->data['resteapayer'] = $object->data['total_ttc'] - $object->data['totalpaye'];
+
+		return $object;
 	}
 
 	/**
@@ -65,6 +83,17 @@ class Doli_Invoice_Filter {
 		$args['exclude_from_search'] = true;
 
 		return $args;
+	}
+
+	public function wps_doli_status( $status, $object ) {
+		if ( $object->data['type'] == Doli_Invoice::g()->get_type() ) {
+			if ( $object->data['totalpaye'] != 0 && ! $object->data['paye'] ) {
+				return __( 'Started', 'wpshop' );
+			}
+		}
+
+		return $status;
+
 	}
 }
 

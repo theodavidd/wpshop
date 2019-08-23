@@ -100,6 +100,10 @@ class Doli_Statut extends \eoxia\Singleton_Util {
 					'text'  => __( 'Abandoned', 'wpshop' ),
 					'class' => 'status-red',
 				),
+				'wps-canceled' => array(
+					'text'  => __( 'Canceled', 'wpshop' ),
+					'class' => 'status-red',
+				)
 			),
 		);
 	}
@@ -120,8 +124,9 @@ class Doli_Statut extends \eoxia\Singleton_Util {
 
 		if ( $status ) {
 			\eoxia\View_Util::exec( 'wpshop', 'doli-statut', 'item', array(
-				'text'  => $status['text'],
-				'class' => $status['class'],
+				'object' => $object,
+				'text'   => $status['text'],
+				'class'  => $status['class'],
 			) );
 		}
 	}

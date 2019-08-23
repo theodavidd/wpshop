@@ -187,26 +187,11 @@ class Doli_Order_Action {
 	 * @param Order $order Les données de la commande.
 	 */
 	public function metabox_order_details( $order ) {
-		$invoice = Doli_Invoice::g()->get( array(
-			'post_parent' => $order->data['id'],
-			'meta_key'    => '_avoir',
-			'meta_value'  => 0,
-		), true );
-
 		$third_party  = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
-		$link_invoice = '';
-
-		if ( ! empty( $invoice ) ) {
-			$invoice->data['payments'] = array();
-			$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
-			$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&order_id=' . $order->data['id'] );
-		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-order-details', array(
-			'order'        => $order,
-			'third_party'  => $third_party,
-			'invoice'      => $invoice,
-			'link_invoice' => $link_invoice,
+			'order'       => $order,
+			'third_party' => $third_party,
 		) );
 	}
 
@@ -218,21 +203,35 @@ class Doli_Order_Action {
 	 * @param  Order $order Les données de la commande.
 	 */
 	public function metabox_order_payment( $order ) {
-		$invoice = Doli_Invoice::g()->get( array(
+		$invoices = Doli_Invoice::g()->get( array(
 			'post_parent' => $order->data['id'],
 			'meta_key'    => '_avoir',
 			'meta_value'  => 0,
-		), true );
+			'post_status' => array( 'wps-billed' ),
+		) );
 
-		if ( ! empty( $invoice ) ) {
-			$invoice->data['payments'] = array();
-			$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
-			$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&order_id=' . $order->data['id'] );
+		$already_paid       = 0;
+		$total_ttc_invoices = 0;
+		$remaining_unpaid   = 0;
+
+		if ( ! empty( $invoices ) ) {
+			foreach ( $invoices as &$invoice ) {
+				$invoice->data['payments'] = array();
+				$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
+				$invoice->data['link_pdf'] = admin_url( 'admin-post.php?action=wps_download_invoice_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&order_id=' . $order->data['id'] );
+
+				$already_paid += $invoice->data['totalpaye'];
+				$total_ttc_invoices += $invoice->data['total_ttc'];
+			}
 		}
+		$remaining_unpaid = $total_ttc_invoices - $already_paid;
 
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-order-payment', array(
-			'order'   => $order,
-			'invoice' => $invoice,
+			'order'              => $order,
+			'invoices'           => $invoices,
+			'already_paid'       => $already_paid,
+			'total_ttc_invoices' => $total_ttc_invoices,
+			'remaining_unpaid'   => $remaining_unpaid,
 		) );
 	}
 

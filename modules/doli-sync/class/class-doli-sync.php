@@ -175,11 +175,11 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 					$doli_product = Request_Util::get( 'products/' . $entry_id );
 					$wp_product   = Product::g()->get( array( 'id' => $wp_id ), true );
 
-					Doli_Products::g()->doli_to_wp( $doli_product, $wp_product );
+					$wp_product = Doli_Products::g()->doli_to_wp( $doli_product, $wp_product );
 
-					Request_Util::post( 'wpshopapi/associate/product', array(
-						'wp_product' => $wp_id,
-						'fk_product' => $entry_id,
+					Request_Util::post( 'wpshop/object', array(
+						'wp_id'   => $wp_id,
+						'doli_id' => $entry_id,
 					) );
 				}
 
@@ -191,6 +191,23 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 					$wp_product->data['external_id'] = $entry_id;
 					Doli_Products::g()->wp_to_doli( $wp_product, $doli_product );
 				}
+
+				$wp_object = $wp_product;
+				break;
+			case 'wps-proposal':
+				if ( 'dolibarr' === $from ) {
+					$doli_proposal = Request_Util::get( 'proposals/' . $entry_id );
+					$wp_proposal   = Proposals::g()->get( array( 'id' => $wp_id ), true );
+
+					Doli_Proposals::g()->doli_to_wp( $doli_proposal, $wp_proposal );
+
+					Request_Util::post( 'wpshop/object', array(
+						'wp_id'   => $wp_id,
+						'doli_id' => $entry_id,
+					) );
+				}
+
+				$wp_object = $wp_proposal;
 				break;
 			case 'wps-order':
 				if ( 'dolibarr' === $from ) {
@@ -199,9 +216,9 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 
 					Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
 
-					Request_Util::post( 'wpshopapi/associate/order', array(
-						'wp_product' => $wp_id,
-						'fk_product' => $entry_id,
+					Request_Util::post( 'wpshop/object', array(
+						'wp_id'   => $wp_id,
+						'doli_id' => $entry_id,
 					) );
 
 					// Facture.
@@ -224,6 +241,24 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 
 					// Règlement.
 				}
+
+				$wp_object = $wp_order;
+				break;
+
+			case 'wps-doli-invoice':
+				if ( 'dolibarr' === $from ) {
+					$doli_order = Request_Util::get( 'invoices/' . $entry_id );
+					$wp_order   = Doli_Invoice::g()->get( array( 'id' => $wp_id ), true );
+
+					Doli_Invoice::g()->doli_to_wp( $doli_order, $wp_order );
+
+					Request_Util::post( 'wpshop/object', array(
+						'wp_id'   => $wp_id,
+						'doli_id' => $entry_id,
+					) );
+				}
+
+				$wp_object = $wp_order;
 				break;
 			default:
 				break;
@@ -231,8 +266,6 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 
 		$last_sync = current_time( 'mysql' );
 		update_post_meta( $wp_id, '_last_sync', $last_sync );
-
-		$wp_object->data['date_last_synchro']['rendered'] = \eoxia\Date_Util::g()->fill_date( $wp_object->data['date_last_synchro'] );
 
 		return array(
 			'messages'  => $messages,

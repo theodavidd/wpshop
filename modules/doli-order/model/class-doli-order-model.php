@@ -113,7 +113,7 @@ class Doli_Order_Model extends \eoxia\Post_Model {
 			'type'      => 'array',
 			'meta_type' => 'single',
 			'field'     => '_lines',
-			'default'   => array(),
+			'default'   => null,
 		);
 
 		$this->schema['payment_method'] = array(

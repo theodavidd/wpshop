@@ -96,6 +96,76 @@ class API_Action {
 			'methods'  => array( 'GET' ),
 			'callback' => array( $this, 'callback_search' ),
 		) );
+
+		register_rest_route( 'wpshop/v2', '/order/(?P<id>[\d]+)/line', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_add_line_to_order' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/propal/(?P<id>[\d]+)/line', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_add_line_to_propal' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/invoice/(?P<id>[\d]+)/line', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_add_line_to_invoice' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/order/(?P<id>[\d]+)/update/line', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_update_line_to_order' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/propal/(?P<id>[\d]+)/update/line', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_update_line_to_propal' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/invoice/(?P<id>[\d]+)/update/line', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_update_line_to_invoice' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/order/(?P<id>[\d]+)/delete/line', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_delete_line_to_order' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/propal/(?P<id>[\d]+)/delete/line', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_delete_line_to_propal' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/invoice/(?P<id>[\d]+)/delete/line', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_delete_line_to_invoice' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/create/order', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_create_order' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/create/propal', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_create_propal' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/create/invoice', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_create_invoice' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/create/payment', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_create_payment' ),
+		) );
+
+		register_rest_route( 'wpshop/v2', '/sync', array(
+			'methods' => array( 'POST' ),
+			'callback' => array( $this, 'callback_wps_sync_from_dolibarr' ),
+		) );
 	}
 
 	/**
@@ -125,7 +195,7 @@ class API_Action {
 	 */
 	public function check_statut( $request ) {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return new \WP_REST_Response( false);
+			return new \WP_REST_Response( false );
 		}
 
 		return new \WP_REST_Response( true );
@@ -259,6 +329,311 @@ class API_Action {
 			'callback_success' => 'generatedAPIKey',
 			'view'             => ob_get_clean(),
 		) );
+	}
+
+	 /**
+ 	 * Gestion de la route pour synchroniser un objet depuis dolibarr.
+ 	 *
+ 	 * @since 2.0.0
+ 	 *
+ 	 * @param  WP_Request $request L'objet contenant les informations de la
+ 	 * requête.
+ 	 */
+ 	public function callback_wps_sync_from_dolibarr( $request ) {
+		$response = new \WP_REST_Response();
+ 		$param    = $request->get_params();
+
+		if ( empty( $param['wp_id'] ) || empty( $param['doli_id'] ) ) {
+			$response->set_status( 400 );
+			$response->set_data( array( 'status_code' => 404 ) );
+			return $response;
+		}
+
+		Doli_Sync::g()->associate_and_synchronize( 'dolibarr', $param['wp_id'], $param['doli_id'] );
+
+		return $response;
+	}
+
+	public function callback_add_line_to_order( $request ) {
+		$response = new \WP_REST_Response();
+ 		$param    = $request->get_params();
+
+		$product = Product::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => (int) $param['fk_product'],
+		), true );
+
+		if ( empty( $product ) ) {
+			$product   = Product::g()->create( array( 'title' => 'tmp' ) );
+			$sync_data = Doli_Sync::g()->associate_and_synchronize( 'dolibarr', $product->data['id'], $param['fk_product'] );
+
+			$param['libelle'] = $sync_data['wp_object']->data['title'];
+		}
+
+		$order = Doli_Order::g()->get( array( 'id' => $param['id'] ), true );
+
+		Doli_Order::g()->add_line( $order, $param );
+
+		return $response;
+	}
+
+	public function callback_update_line_to_order( $request ) {
+		$response = new \WP_REST_Response();
+ 		$param    = $request->get_params();
+
+		$product = Product::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => (int) $param['fk_product'],
+		), true );
+
+		if ( empty( $product ) ) {
+			$product   = Product::g()->create( array( 'title' => 'tmp' ) );
+			$sync_data = Doli_Sync::g()->associate_and_synchronize( 'dolibarr', $product->data['id'], $param['fk_product'] );
+
+			$param['libelle'] = $sync_data['wp_object']->data['title'];
+		}
+
+		$order = Doli_Order::g()->get( array( 'id' => $param['id'] ), true );
+
+		Doli_Order::g()->update_line( $order, $param );
+		return $response;
+	}
+
+	public function callback_delete_line_to_order( $request ) {
+		$response = new \WP_REST_Response();
+ 		$param    = $request->get_params();
+
+		$order = Doli_Order::g()->get( array( 'id' => $param['id'] ), true );
+
+		Doli_Order::g()->delete_line( $order, $param['rowid'] );
+		return $response;
+	}
+
+	public function callback_create_order( $request ) {
+		$response = new \WP_REST_Response();
+ 		$param    = $request->get_params();
+
+		$third_party_id = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $param['socid'] );
+
+		if ( empty( $third_party_id ) ) {
+			$wp_entry = Third_Party::g()->get( array( 'schema' => true ), true );
+
+			$doli_entry = Request_Util::get( 'thirdparties/' . $param['socid'] );
+			$third_party = Doli_Third_Parties::g()->doli_to_wp( $doli_entry, $wp_entry );
+			$third_party_id = $third_party->data['id'];
+		}
+
+		$data = array(
+			'external_id'       => $param['external_id'],
+			'title'             => $param['title'],
+			'total_ht'          => $param['total_ht'],
+			'total_ttc'         => $param['total_ttc'],
+			'date_commande'     => date( 'Y-m-d H:i:s', $param['date_commande'] ),
+			'date_creation'     => date( 'Y-m-d H:i:s', $param['date_creation'] ),
+			'parent_id'         => $third_party_id,
+			'status'            => 'draft',
+			'date_last_synchro' => current_time( 'mysql' ),
+		);
+
+		$order = Doli_Order::g()->create( $data );
+		return $order;
+	}
+
+	public function callback_create_propal( $request ) {
+		$response = new \WP_REST_Response();
+ 		$param    = $request->get_params();
+
+		$third_party_id = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $param['socid'] );
+
+		if ( empty( $third_party_id ) ) {
+			$wp_entry = Third_Party::g()->get( array( 'schema' => true ), true );
+
+			$doli_entry = Request_Util::get( 'thirdparties/' . $param['socid'] );
+			$third_party = Doli_Third_Parties::g()->doli_to_wp( $doli_entry, $wp_entry );
+			$third_party_id = $third_party->data['id'];
+		}
+
+		$data = array(
+			'external_id'       => $param['external_id'],
+			'title'             => $param['title'],
+			'total_ht'          => $param['total_ht'],
+			'total_ttc'         => $param['total_ttc'],
+			'datec'             => date( 'Y-m-d H:i:s', $param['datec'] ),
+			'parent_id'         => $third_party_id,
+			'status'            => 'draft',
+			'date_last_synchro' => $param['date_last_synchro'],
+		);
+
+		$propal = Proposals::g()->create( $data );
+		return $propal;
+	}
+
+	public function callback_add_line_to_propal( $request ) {
+		$response = new \WP_REST_Response();
+ 		$param    = $request->get_params();
+
+		$product = Product::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => (int) $param['fk_product'],
+		), true );
+
+		if ( empty( $product ) ) {
+			$product   = Product::g()->create( array( 'title' => 'tmp' ) );
+			$sync_data = Doli_Sync::g()->associate_and_synchronize( 'dolibarr', $product->data['id'], $param['fk_product'] );
+
+			$param['libelle'] = $sync_data['wp_object']->data['title'];
+		}
+
+		$propal = Proposals::g()->get( array( 'id' => $param['id'] ), true );
+
+		Proposals::g()->add_line( $propal, $param );
+
+		return $response;
+	}
+
+	public function callback_update_line_to_propal( $request ) {
+		$response = new \WP_REST_Response();
+ 		$param    = $request->get_params();
+
+		$product = Product::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => (int) $param['fk_product'],
+		), true );
+
+		if ( empty( $product ) ) {
+			$product   = Product::g()->create( array( 'title' => 'tmp' ) );
+			$sync_data = Doli_Sync::g()->associate_and_synchronize( 'dolibarr', $product->data['id'], $param['fk_product'] );
+
+			$param['libelle'] = $sync_data['wp_object']->data['title'];
+		}
+
+		$propal = Proposals::g()->get( array( 'id' => $param['id'] ), true );
+
+		Proposals::g()->update_line( $propal, $param );
+		return $response;
+	}
+
+	public function callback_delete_line_to_propal( $request ) {
+		$response = new \WP_REST_Response();
+ 		$param    = $request->get_params();
+
+		$propal = Proposals::g()->get( array( 'id' => $param['id'] ), true );
+
+		Proposals::g()->delete_line( $propal, $param['rowid'] );
+		return $response;
+	}
+
+	public function callback_create_invoice( $request ) {
+		$response = new \WP_REST_Response();
+ 		$param    = $request->get_params();
+
+		$third_party_id = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $param['socid'] );
+
+		if ( empty( $third_party_id ) ) {
+			$wp_entry = Third_Party::g()->get( array( 'schema' => true ), true );
+
+			$doli_entry = Request_Util::get( 'thirdparties/' . $param['socid'] );
+			$third_party = Doli_Third_Parties::g()->doli_to_wp( $doli_entry, $wp_entry );
+			$third_party_id = $third_party->data['id'];
+		}
+
+		$data = array(
+			'external_id'       => $param['external_id'],
+			'title'             => $param['title'],
+			'total_ht'          => $param['total_ht'],
+			'total_ttc'         => $param['total_ttc'],
+			'third_party_id'    => $third_party_id,
+			'status'            => 'draft',
+			'date_last_synchro' => current_time( 'mysql' ),
+		);
+		if ( ! empty( $param['linked_object']['commande'] ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.
+
+			$order_id            = Doli_Order::g()->get_wp_id_by_doli_id( $param['linked_object']['commande'] );
+			$data['post_parent'] = $order_id;
+
+			$order             = Doli_Order::g()->get( array( 'id' => $order_id ), true );
+			$data['author_id'] = $order->data['author_id'];
+		}
+
+		$propal = Doli_Invoice::g()->create( $data );
+		return $propal;
+	}
+
+	public function callback_add_line_to_invoice( $request ) {
+		$response = new \WP_REST_Response();
+ 		$param    = $request->get_params();
+
+		$product = Product::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => (int) $param['fk_product'],
+		), true );
+
+		if ( empty( $product ) ) {
+			$product   = Product::g()->create( array( 'title' => 'tmp' ) );
+			$sync_data = Doli_Sync::g()->associate_and_synchronize( 'dolibarr', $product->data['id'], $param['fk_product'] );
+
+			$param['libelle'] = $sync_data['wp_object']->data['title'];
+		}
+
+		$propal = Doli_Invoice::g()->get( array( 'id' => $param['id'] ), true );
+
+		Doli_Invoice::g()->add_line( $propal, $param );
+
+		return $response;
+	}
+
+	public function callback_update_line_to_invoice( $request ) {
+		$response = new \WP_REST_Response();
+		$param    = $request->get_params();
+
+		$product = Product::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => (int) $param['fk_product'],
+		), true );
+
+		if ( empty( $product ) ) {
+			$product   = Product::g()->create( array( 'title' => 'tmp' ) );
+			$sync_data = Doli_Sync::g()->associate_and_synchronize( 'dolibarr', $product->data['id'], $param['fk_product'] );
+
+			$param['libelle'] = $sync_data['wp_object']->data['title'];
+		}
+
+		$invoice = Doli_Invoice::g()->get( array( 'id' => $param['id'] ), true );
+
+		Doli_Invoice::g()->update_line( $invoice, $param );
+		return $response;
+	}
+
+	public function callback_delete_line_to_invoice( $request ) {
+		$response = new \WP_REST_Response();
+		$param    = $request->get_params();
+
+		$invoice = Doli_Invoice::g()->get( array( 'id' => $param['id'] ), true );
+
+		Doli_Invoice::g()->delete_line( $invoice, $param['rowid'] );
+		return $response;
+	}
+
+	public function callback_create_payment( $request ) {
+		$response = new \WP_REST_Response();
+		$param    = $request->get_params();
+
+		$invoice_id = Doli_Invoice::g()->get_wp_id_by_doli_id( $param['parent_id'] );
+
+		$data = array(
+			'external_id'  => $param['external_id'],
+			'title'        => $param['title'],
+			'amount'       => $param['amount'],
+			'date'         => $param['date'],
+			'status'       => 'publish',
+			'last_sync'    => $param['last_sync'],
+			'parent_id'    => $invoice_id,
+			'payment_type' => ! empty( $param['paiementcode'] ) ? Doli_Payment::g()->convert_to_wp( $param['paiementcode'] ) : '-',
+		);
+
+		$propal = Doli_Payment::g()->create( $data );
+
+		return $propal;
 	}
 }
 

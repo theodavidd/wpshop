@@ -14,11 +14,11 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-product-content">
-	<div class="wps-product-price"><?php echo ! empty( $product->data['price'] ) ? esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ) . ' €' : ''; ?></div>
+	<div class="wps-product-price"><?php echo ! empty( $product->data['price_ttc'] ) ? esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ) . ' €' : ''; ?></div>
 	<div class="wps-product-description"><?php echo apply_filters( 'wps_product_single', $post->post_content, $product ); ?></div>
 
 	<div class="wps-product-quantity">
-		<input type="hidden" class="base-price" value="<?php echo ! empty( $product->data['price'] ) ? esc_html( number_format( $product->data['price_ttc'], 2, '.', '' ) ) : ''; ?>" />
+		<input type="hidden" class="base-price" value="<?php echo ! empty( $product->data['price_ttc'] ) ? esc_html( number_format( $product->data['price_ttc'], 2, '.', '' ) ) : ''; ?>" />
 		<span class="wps-quantity-minus fas fa-minus-circle"></span>
 		<span class="qty">1</span>
 		<span class="wps-quantity-plus fas fa-plus-circle"></span>

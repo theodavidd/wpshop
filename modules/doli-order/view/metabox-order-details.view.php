@@ -26,7 +26,8 @@ defined( 'ABSPATH' ) || exit; ?>
 				<li><span><?php esc_html_e( 'Date', 'wpshop' ); ?></span> <?php echo esc_html( $order->data['datec']['rendered']['date_time'] ); ?></li>
 				<li><span><?php esc_html_e( 'Customer', 'wpshop' ); ?></span> <a href="<?php echo admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ); ?>" target="_blank"><?php echo esc_html( $third_party->data['title'] ); ?></a></li>
 				<li><span><?php esc_html_e( 'Phone', 'wpshop' ); ?></span> <?php echo esc_html( $third_party->data['phone'] ); ?></li>
-				<li><span><?php esc_html_e( 'Order status', 'wpshop' ); ?></span> <?php echo Payment::g()->make_readable_statut( $order ); ?></li>
+				<li><span><?php esc_html_e( 'Order status', 'wpshop' ); ?></span> <?php echo Doli_Statut::g()->display_status( $order ); ?></li>
+				<li><span><?php esc_html_e( 'Payment status', 'wpshop' ); ?></span> <?php echo Payment::g()->make_readable_statut( $order ); ?></li>
 			</ul>
 		</div>
 

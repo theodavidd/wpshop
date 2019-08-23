@@ -39,6 +39,8 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 		 * @return string The rest api base for current element
 		 */
 		public function check_cap( $cap, $request ) {
+			return true;
+
 			$can = apply_filters( 'eo_model_check_cap', true, $request );
 
 			if ( ! $can ) {

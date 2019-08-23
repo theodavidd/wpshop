@@ -17,5 +17,11 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wrap wpeo-wrap">
-	<?php do_meta_boxes( 'wps-invoice', 'normal', $invoice ); ?>
+	<div class="page-header">
+		<h2><?php echo esc_html__( 'Invoice', 'wpshop' ) . ' ' . esc_html( $invoice->data['title'] ); ?></h2>
+	</div>
+
+	<div class="wps-page-content wpeo-gridlayout grid-4">
+		<?php do_action( 'wps_invoice', $invoice ); ?>
+	</div>
 </div>

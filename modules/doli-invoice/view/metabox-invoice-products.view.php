@@ -16,80 +16,84 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<table class="wpeo-table">
-	<thead>
-		<tr>
-			<th><?php esc_html_e( 'Product name', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'VAT', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'P.U HT', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Quantity', 'wpshop' ); ?></th>
-			<th><?php esc_html_e( 'Total HT', 'wpshop' ); ?></th>
-		</tr>
-	</thead>
+<div class="wps-metabox gridw-1 wps-customer-payment">
+	<h3 class="metabox-title"><?php esc_html_e( 'Payment', 'wpshop' ); ?></h3>
 
-	<tbody>
-		<?php
-		if ( ! empty( $invoice->data['lines'] ) ) :
-			foreach ( $invoice->data['lines'] as $line ) :
-				?>
-				<tr>
-					<td>
-						<?php
-						if ( ! empty( $line['fk_product'] ) ) :
-							echo $line['libelle'];
-						else :
-							echo $line['desc'];
-						endif;
-						?>
-					</td>
-					<td><?php echo number_format( $line['tva_tx'], 2, ',', '' ); ?>%</td>
-					<td>
-						<?php
-						if ( ! empty( $line['fk_product'] ) ) :
-							echo number_format( $line['price'], 2, ',', '' );
-							?>
-							<span>€</span>
+	<table class="wpeo-table">
+		<thead>
+			<tr>
+				<th><?php esc_html_e( 'Product name', 'wpshop' ); ?></th>
+				<th><?php esc_html_e( 'VAT', 'wpshop' ); ?></th>
+				<th><?php esc_html_e( 'P.U HT', 'wpshop' ); ?></th>
+				<th><?php esc_html_e( 'Quantity', 'wpshop' ); ?></th>
+				<th><?php esc_html_e( 'Total HT', 'wpshop' ); ?></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<?php
+			if ( ! empty( $invoice->data['lines'] ) ) :
+				foreach ( $invoice->data['lines'] as $line ) :
+					?>
+					<tr>
+						<td>
 							<?php
-						else :
-							echo number_format( $line['subprice'], 2, ',', '' );
+							if ( ! empty( $line['fk_product'] ) ) :
+								echo $line['libelle'];
+							else :
+								echo $line['desc'];
+							endif;
 							?>
-							<span>€</span>
+						</td>
+						<td><?php echo number_format( $line['tva_tx'], 2, ',', '' ); ?>%</td>
+						<td>
 							<?php
-						endif;
-						?>
-					</td>
-					<td><?php echo $line['qty']; ?></td>
-					<td>
-						<?php echo number_format( $line['total_ht'], 2, ',', '' ); ?>€
-					</td>
-				</tr>
-				<?php
-			endforeach;
-		endif;
-		?>
-	</tbody>
+							if ( ! empty( $line['fk_product'] ) ) :
+								echo number_format( $line['price'], 2, ',', '' );
+								?>
+								<span>€</span>
+								<?php
+							else :
+								echo number_format( $line['subprice'], 2, ',', '' );
+								?>
+								<span>€</span>
+								<?php
+							endif;
+							?>
+						</td>
+						<td><?php echo $line['qty']; ?></td>
+						<td>
+							<?php echo number_format( $line['total_ht'], 2, ',', '' ); ?>€
+						</td>
+					</tr>
+					<?php
+				endforeach;
+			endif;
+			?>
+		</tbody>
 
-	<tfoot>
-		<tr>
-			<td colspan="4"><strong><?php esc_html_e( 'Total HT', 'wpshop' ); ?></strong></td>
-			<td><?php echo number_format( $invoice->data['total_ht'], 2, ',', '' ); ?>€</td>
-		</tr>
-		<?php
-		if ( ! empty( $tva_lines ) ) :
-			foreach ( $tva_lines as $key => $tva_line ) :
-				?>
-				<tr>
-					<td colspan="4"><strong><?php esc_html_e( 'Total VAT', 'wpshop' ); ?> <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
-					<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
-				</tr>
-				<?php
-			endforeach;
-		endif;
-		?>
+		<tfoot>
+			<tr>
+				<td colspan="4"><strong><?php esc_html_e( 'Total HT', 'wpshop' ); ?></strong></td>
+				<td><?php echo number_format( $invoice->data['total_ht'], 2, ',', '' ); ?>€</td>
+			</tr>
+			<?php
+			if ( ! empty( $tva_lines ) ) :
+				foreach ( $tva_lines as $key => $tva_line ) :
+					?>
+					<tr>
+						<td colspan="4"><strong><?php esc_html_e( 'Total VAT', 'wpshop' ); ?> <?php echo number_format( $key, 2, ',', '' ); ?>%</strong></td>
+						<td><?php echo number_format( $tva_line, 2, ',', '' ); ?>€</td>
+					</tr>
+					<?php
+				endforeach;
+			endif;
+			?>
 
-		<tr>
-			<td colspan="4"><strong>Total TTC</strong></td>
-			<td><strong><?php echo number_format( $invoice->data['total_ttc'], 2, ',', '' ); ?>€</strong></td>
-		</tr>
-	</tfoot>
-</table>
+			<tr>
+				<td colspan="4"><strong>Total TTC</strong></td>
+				<td><strong><?php echo number_format( $invoice->data['total_ttc'], 2, ',', '' ); ?>€</strong></td>
+			</tr>
+		</tfoot>
+	</table>
+</div>

@@ -44,11 +44,32 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 		$wp_proposal->data['title']          = $doli_proposal->ref;
 		$wp_proposal->data['total_ht']       = $doli_proposal->total_ht;
 		$wp_proposal->data['total_ttc']      = $doli_proposal->total_ttc;
-		$wp_proposal->data['lines']          = 0 !== count( $doli_proposal->lines ) ? $doli_proposal->lines : null;
 		$wp_proposal->data['billed']         = 0;
 		$wp_proposal->data['datec']          = date( 'Y-m-d H:i:s', $doli_proposal->datec );
 		$wp_proposal->data['parent_id']      = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_proposal->socid );
 		$wp_proposal->data['payment_method'] = ( null === $doli_proposal->mode_reglement_code ) ? $wp_proposal->data['payment_method'] : Doli_Payment::g()->convert_to_wp( $doli_proposal->mode_reglement_code );
+
+		$wp_proposal->data['lines'] = null;
+
+		if ( ! empty( $doli_proposal->lines ) ) {
+			$wp_proposal->data['lines'] = array();
+			foreach ( $doli_proposal->lines as $line ) {
+				$line_data = array(
+					'fk_proposal' => $doli_proposal->id,
+					'fk_product'  => $line->fk_product,
+					'qty'         => $line->qty,
+					'total_tva'   => $line->total_tva,
+					'total_ht'    => $line->total_ht,
+					'total_ttc'   => $line->total_ttc,
+					'libelle'     => ! empty( $line->libelle ) ? $line->libelle : $line->desc,
+					'tva_tx'      => $line->tva_tx,
+					'subprice'    => $line->price,
+					'rowid'       => $line->rowid,
+				);
+
+				$wp_proposal->data['lines'][] = $line_data;
+			}
+		}
 
 		$status = '';
 
@@ -79,7 +100,7 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 
 		$wp_proposal->data['status'] = $status;
 
-		Proposals::g()->update( $wp_proposal->data );
+		return Proposals::g()->update( $wp_proposal->data );
 	}
 
 	/**

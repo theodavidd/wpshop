@@ -77,7 +77,7 @@ class Doli_Invoice_Model extends \eoxia\Post_Model {
 			'type'      => 'array',
 			'meta_type' => 'single',
 			'field'     => '_lines',
-			'default'   => array(),
+			'default'   => null,
 		);
 
 		$this->schema['payment_method'] = array(
@@ -91,7 +91,7 @@ class Doli_Invoice_Model extends \eoxia\Post_Model {
 			'type'      => 'integer',
 			'meta_type' => 'single',
 			'field'     => 'paye',
-			'default'   => '',
+			'default'   => 0,
 		);
 
 		$this->schema['third_party_id'] = array(

@@ -79,7 +79,7 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 				'wp_product'  => (int) $product->data['id'],
 			);
 
-			$doli_product = Request_Util::put( 'wpshopapi/update/product/' . $product->data['external_id'], $data );
+			$doli_product = Request_Util::put( 'wpshop/object/' . $product->data['external_id'], $data );
 
 			update_post_meta( $post_id, '_price', $doli_product->price );
 			update_post_meta( $post_id, '_tva_tx', $doli_product->tva_tx );
@@ -98,10 +98,11 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 				'tva_tx'      => $product_data['tva_tx'],
 				'status'      => 1, // En vente.
 				'status_buy'  => 1, // En achat.
-				'wp_product'  => $product->data['id'],
+				'wp_id'       => $product->data['id'],
+				'type'        => 'product',
 			);
 
-			$doli_product = Request_Util::post( 'wpshopapi/associate/product', $data );
+			$doli_product = Request_Util::post( 'wpshop/object', $data );
 
 			update_post_meta( $post_id, '_price', $doli_product->price );
 			update_post_meta( $post_id, '_tva_tx', $doli_product->tva_tx );

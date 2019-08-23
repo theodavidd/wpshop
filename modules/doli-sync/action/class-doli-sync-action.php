@@ -284,6 +284,51 @@ class Doli_Sync_Action {
 					$wp_entry                      = Doli_Products::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
 				}
 				break;
+			case 'orders':
+				$url = admin_url( 'admin.php?page=wps-order' );
+
+				$notices = array(
+					'errors'   => array(),
+					'messages' => array(),
+				);
+
+				if ( 'dolibarr' === $from ) {
+					$wp_entry = Doli_Order::g()->doli_to_wp( $doli_entry, $wp_entry, true, $notices );
+				} else {
+					$wp_entry->data['external_id'] = $entry_id;
+					$wp_entry                      = Doli_Order::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
+				}
+				break;
+			case 'proposals':
+				$url = admin_url( 'admin.php?page=wps-proposal' );
+
+				$notices = array(
+					'errors'   => array(),
+					'messages' => array(),
+				);
+
+				if ( 'dolibarr' === $from ) {
+					$wp_entry = Doli_Proposals::g()->doli_to_wp( $doli_entry, $wp_entry, true, $notices );
+				} else {
+					$wp_entry->data['external_id'] = $entry_id;
+					$wp_entry                      = Doli_Proposals::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
+				}
+				break;
+			case 'invoices':
+				$url = admin_url( 'admin.php?page=wps-invoice' );
+
+				$notices = array(
+					'errors'   => array(),
+					'messages' => array(),
+				);
+
+				if ( 'dolibarr' === $from ) {
+					$wp_entry = Doli_Invoice::g()->doli_to_wp( $doli_entry, $wp_entry, true, $notices );
+				} else {
+					$wp_entry->data['external_id'] = $entry_id;
+					$wp_entry                      = Doli_Invoice::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
+				}
+				break;
 			default:
 				break;
 		}

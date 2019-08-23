@@ -20,6 +20,10 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="table-cell table-25"><input type="checkbox" class="check"/></div>
 	<div class="table-cell table-full">
 		<ul class="reference-id">
+			<li><i class="fas fa-hashtag"></i>WP : <?php echo esc_html( $invoice->data['id'] ); ?></li>
+			<?php if ( ! empty( $invoice->data['external_id'] ) ) : ?>
+				<li><i class="fas fa-hashtag"></i>Doli : <?php echo esc_html( $invoice->data['external_id'] ); ?></li>
+			<?php endif; ?>
 			<li><i class="fas fa-calendar-alt"></i> <?php echo esc_html( $invoice->data['date']['rendered']['date_time'] ); ?></li>
 		</ul>
 		<div class="reference-title">
@@ -34,7 +38,15 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 	<div class="table-cell table-full">
 		<div class="reference-title">
-			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $invoice->data['order']->data['id'] ) ); ?>"><?php echo esc_html( $invoice->data['order']->data['title'] ); ?></a>
+			<?php
+			if ( ! empty( $invoice->data['order'] ) ) :
+				?>
+				<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $invoice->data['order']->data['id'] ) ); ?>"><?php echo esc_html( $invoice->data['order']->data['title'] ); ?></a>
+				<?php
+			else :
+				?>-<?php
+			endif;
+			?>
 		</div>
 		<ul class="reference-actions">
 			<li><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $invoice->data['order']->data['id'] ) ); ?>"><?php esc_html_e( 'See', 'wpshop' ); ?></a></li>
@@ -55,12 +67,9 @@ defined( 'ABSPATH' ) || exit; ?>
 		endif;
 		?>
 	</div>
-	<div class="table-cell table-150"><?php echo Payment::g()->make_readable_statut( $invoice ); ?></div>
+	<div class="table-cell table-150"><?php echo Doli_Statut::g()->display_status( $invoice ); ?></div>
 	<div class="table-cell table-100"><?php echo esc_html( Payment::g()->get_payment_title( $invoice->data['payment_method'] ) ); ?></div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $invoice->data['total_ttc'], 2, ',', '' ) ); ?>€</strong></div>
 	<?php apply_filters( 'wps_order_table_tr', $invoice ); ?>
-	<div class="table-cell table-100 wps-sync">
-		<!-- <div class="button-synchro"><i class="fas fa-sync"></i></div>
-		<div class="statut statut-green wpeo-tooltip-event" data-direction="left" aria-label="Date de la derniere synchro"></div> -->
-	</div>
+	<?php do_action( 'wps_listing_table_end', $invoice, 'invoices', 'wpshop/Doli_Invoice', '\wpshop\Doli_Invoice' ); ?>
 </div>
