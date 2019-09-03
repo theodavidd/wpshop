@@ -87,6 +87,7 @@ class Stripe_Action {
 		}
 
 		$title              = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
+		$active             = ( ! empty( $_POST['activate'] ) && 'true' == $_POST['activate'] ) ? true : false;
 		$description        = ! empty( $_POST['description'] ) ? sanitize_text_field( $_POST['description'] ) : '';
 		$publish_key        = ! empty( $_POST['publish_key'] ) ? sanitize_text_field( $_POST['publish_key'] ) : '';
 		$secret_key         = ! empty( $_POST['secret_key'] ) ? sanitize_text_field( $_POST['secret_key'] ) : '';
@@ -95,6 +96,7 @@ class Stripe_Action {
 		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
 
 		$payment_methods_option['stripe']['title']              = $title;
+		$payment_methods_option['stripe']['active']             = $active;
 		$payment_methods_option['stripe']['description']        = $description;
 		$payment_methods_option['stripe']['publish_key']        = $publish_key;
 		$payment_methods_option['stripe']['secret_key']         = $secret_key;

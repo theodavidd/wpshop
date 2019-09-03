@@ -54,6 +54,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			$wp_product->data['content']           = $doli_product->description;
 			$wp_product->data['price']             = $doli_product->price;
 			$wp_product->data['price_ttc']         = $doli_product->price_ttc;
+			$wp_product->data['tva_amount']        = $doli_product->price_ttc - $doli_product->price;
 			$wp_product->data['tva_tx']            = $doli_product->tva_tx;
 			$wp_product->data['barcode']           = $doli_product->barcode;
 			$wp_product->data['fk_product_type']   = 0; // Type "Produit" ou "Service".

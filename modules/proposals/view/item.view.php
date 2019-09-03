@@ -16,7 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="table-row">
+<div class="table-row" data-id="<?php echo esc_attr( $proposal->data['id'] ); ?>">
 	<div class="table-cell table-full">
 		<ul class="reference-id">
 			<li><i class="fas fa-hashtag"></i>WP : <?php echo esc_html( $proposal->data['id'] ); ?></li>
@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<ul class="reference-actions">
 			<li><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-proposal&id=' . $proposal->data['id'] ) ); ?>"><?php esc_html_e( 'See', 'wpshop' ); ?></a></li>
 			<?php if ( ! empty( $proposal->data['external_id'] ) ) : ?>
-				<li><a href="<?php echo esc_attr( $doli_url ); ?>/comm/propal/card.php?id=<?php echo $proposal->data['external_id']; ?>" target="_blank"><?php esc_html_e( 'See in Dolibarr', 'wpshop' ); ?></a></li>
+				<li><a href="<?php echo esc_attr( $doli_url ); ?>/comm/propal/card.php?id=<?php echo $proposal->data['external_id']; ?>"><?php esc_html_e( 'See in Dolibarr', 'wpshop' ); ?></a></li>
 			<?php endif; ?>
 		</ul>
 	</div>

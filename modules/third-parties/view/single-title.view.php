@@ -14,13 +14,10 @@
 
 namespace wpshop;
 
-defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit; ?>
 
-echo esc_html( $third_party->data['title'] );
+<div>
+	<?php echo esc_html( $third_party->data['title'] ); ?>
+</div>
 
-?>
-<!-- <div data-action="third_party_load_title_edit"
-	data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_title_edit' ) ); ?>"
-	data-post-id="<?php echo esc_attr( $third_party->data['id'] ); ?>"
-	class="action-attribute wps-edit-title wpeo-button button-square-30 button-rounded">
-	<i class="button-icon fas fa-pen"></i></div> -->
+<?php do_action( 'wps_listing_table_end', $third_party, 'thirdparties', 'wpshop/Doli_Third_Parties', '\wpshop\Third_Party' ); ?>

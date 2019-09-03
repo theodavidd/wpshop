@@ -63,7 +63,6 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 		$product_data           = ! empty( $_POST['product_data'] ) ? (array) $_POST['product_data'] : array();
 		$product_data['price']  = isset( $product_data['price'] ) ? (float) round( str_replace( ',', '.', $product_data['price'] ), 2 ) : $product->data['price'];
 		$product_data['tva_tx'] = ! empty( $product_data['tva_tx'] ) ? (float) round( str_replace( ',', '.', $product_data['tva_tx'] ), 2 ) : $product->data['tva_tx'];
-
 		if ( is_null( $product_data['price'] ) ) {
 			$product_data['price'] = 00.00;
 		}
@@ -75,17 +74,18 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 				'description' => $product->data['content'],
 				'price'       => $product_data['price'],
 				'tva_tx'      => $product_data['tva_tx'],
-				'fk_product'  => (int) $product->data['external_id'],
-				'wp_product'  => (int) $product->data['id'],
+				'doli_id'     => (int) $product->data['external_id'],
+				'wp_id'       => (int) $product->data['id'],
+				'type'        => 'product',
 			);
 
-			$doli_product = Request_Util::put( 'wpshop/object/' . $product->data['external_id'], $data );
+			$doli_product = Request_Util::post( 'wpshop/object/', $data );
 
 			update_post_meta( $post_id, '_price', $doli_product->price );
 			update_post_meta( $post_id, '_tva_tx', $doli_product->tva_tx );
 			update_post_meta( $post_id, '_price_ttc', $doli_product->price_ttc );
 			update_post_meta( $post_id, '_tva_amount', ( $doli_product->price_ttc - $doli_product->price ) );
-			update_post_meta( $post_id, '_date_last_synchro', date( 'Y-m-d H:i:s', $doli_product->last_sync_date ) );
+			update_post_meta( $post_id, '_date_last_synchro', $doli_product->last_sync_date );
 
 			// translators: Update product {json_data}.
 			\eoxia\LOG_Util::log( sprintf( 'Update product %s', json_encode( $doli_product ) ), 'wpshop2' );
@@ -108,7 +108,7 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 			update_post_meta( $post_id, '_tva_tx', $doli_product->tva_tx );
 			update_post_meta( $post_id, '_price_ttc', $doli_product->price_ttc );
 			update_post_meta( $post_id, '_tva_amount', ( $doli_product->price_ttc - $doli_product->price ) );
-			update_post_meta( $post_id, '_date_last_synchro', date( 'Y-m-d H:i:s', $doli_product->last_sync_date ) );
+			update_post_meta( $post_id, '_date_last_synchro', $doli_product->last_sync_date );
 			update_post_meta( $post_id, '_external_id', $doli_product->id );
 
 			// translators: Create product {json_data}.

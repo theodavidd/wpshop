@@ -38,7 +38,7 @@ function get_from_id( $id ) {
 
 	if ( ! empty( $countries ) ) {
 		foreach ( $countries as $country ) {
-			if ( $country['id'] === $id ) {
+			if ( (int) $country['id'] === (int) $id ) {
 				return $country;
 			}
 		}

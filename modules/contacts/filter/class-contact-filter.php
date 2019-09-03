@@ -28,6 +28,7 @@ class Contact_Filter {
 	 */
 	public function __construct() {
 		add_filter( 'wps_contact_item_contact_title_after', array( $this, 'add_user_switching' ) );
+		add_filter( 'wps_tier_single_contact_item_contact_title_after', array( $this, 'add_user_switching' ) );
 	}
 
 	/**

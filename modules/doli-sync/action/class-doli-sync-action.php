@@ -36,6 +36,8 @@ class Doli_Sync_Action {
 
 		add_action( 'wps_listing_table_header_end', array( $this, 'add_sync_header' ) );
 		add_action( 'wps_listing_table_end', array( $this, 'add_sync_item' ), 10, 5 );
+
+		add_action( 'wp_ajax_check_sync_statut', array( $this, 'check_sync_statut' ) );
 	}
 
 	/**
@@ -106,42 +108,50 @@ class Doli_Sync_Action {
 		$route      = '';
 		$wp_class   = '\wpshop\\';
 		$doli_class = '\wpshop\\';
+		$doli_type  = '';
 
 		switch ( $type ) {
 			case 'third-parties':
 				$route       = 'thirdparties';
 				$wp_class   .= 'Third_Party';
 				$doli_class .= 'Doli_Third_Parties';
+				$doli_type   = 'third_party';
 				break;
 			case 'contacts':
 				$route       = 'contacts';
 				$wp_class   .= 'Contact';
 				$doli_class .= 'Doli_Contact';
+				$doli_type   = 'contact';
 				break;
 			case 'products':
-				$route       = 'wpshopapi/product/get/web';
+				$route       = 'wpshop/object/get/web';
 				$wp_class   .= 'Product';
 				$doli_class .= 'Doli_Products';
+				$doli_type   = 'product';
 				break;
 			case 'proposals':
 				$route       = 'proposals';
 				$wp_class   .= 'Proposals';
 				$doli_class .= 'Doli_Proposals';
+				$doli_type   = 'propal';
 				break;
 			case 'orders':
 				$route       = 'orders';
 				$wp_class   .= 'Doli_Order';
 				$doli_class .= 'Doli_Order';
+				$doli_type   = 'order';
 				break;
 			case 'invoices':
 				$route       = 'invoices';
 				$wp_class   .= 'Doli_Invoice';
 				$doli_class .= 'Doli_Invoice';
+				$doli_type   = 'invoice';
 				break;
 			case 'payments':
 				$route       = 'invoices';
 				$wp_class   .= 'Doli_Invoice';
 				$doli_class .= 'Doli_Invoice';
+				$doli_type   = 'payment';
 				break;
 			default:
 				break;
@@ -159,7 +169,19 @@ class Doli_Sync_Action {
 					'meta_value' => (int) $doli_entry->id,
 				), true );
 
-				do_action( 'wps_sync_' . $type . '_before', $doli_entry, $wp_entry );
+				if ( empty( $wp_entry ) ) {
+					$wp_entry = $wp_class::g()->get( array( 'schema' => true ), true );
+				}
+
+				if ( ! is_array( $wp_entry ) ) {
+					$wp_entry = array( $wp_entry );
+				}
+
+				if ( ! empty( $wp_entry ) ) {
+					foreach ( $wp_entry as $entry ) {
+						do_action( 'wps_sync_' . $type . '_before', $doli_entry, $entry );
+					}
+				}
 
 				if ( 'payments' !== $type ) {
 					$wp_entry = $wp_class::g()->get( array(
@@ -171,7 +193,25 @@ class Doli_Sync_Action {
 						$wp_entry = $wp_class::g()->get( array( 'schema' => true ), true );
 					}
 
-					$doli_class::g()->doli_to_wp( $doli_entry, $wp_entry );
+					if ( ! is_array( $wp_entry ) ) {
+						$wp_entry = array( $wp_entry );
+					}
+
+					if ( ! empty( $wp_entry ) ) {
+						foreach ( $wp_entry as $entry ) {
+							$doli_class::g()->doli_to_wp( $doli_entry, $entry );
+
+							$doli_object = Request_Util::post( 'wpshop/object', array(
+								'wp_id'   => $entry->data['id'],
+								'doli_id' => $doli_entry->id,
+								'type'    => $doli_type,
+							) );
+
+							update_post_meta( $entry->data['id'], '_date_last_synchro', $doli_object->last_sync_date );
+						}
+					}
+
+
 				}
 
 				// translators: Sync done for the entry {json_data}.
@@ -221,7 +261,16 @@ class Doli_Sync_Action {
 					$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
 				}
 
-				Doli_Payment::g()->doli_to_wp( $wp_invoice->data['id'], $doli_payment, $wp_payment );
+				if ( ! is_array( $wp_payment ) ) {
+					$wp_payment = array( $wp_payment );
+				}
+
+				if ( ! empty( $wp_payment ) ) {
+					foreach ( $wp_payment as $element ) {
+						Doli_Payment::g()->doli_to_wp( $wp_invoice->data['id'], $doli_payment, $element );
+					}
+				}
+
 			}
 		}
 	}
@@ -247,10 +296,9 @@ class Doli_Sync_Action {
 		$doli_entry       = Request_Util::get( $route . '/' . $entry_id );
 		$doli_to_wp_entry = $wp_type::g()->get( array( 'schema' => true ), true );
 
-		$wp_entry   = $wp_type::g()->get( array( 'id' => $wp_id ), true );
-		$doli_entry = Request_Util::get( $route . '/' . $entry_id );
-
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
+		$to_type = '';
 
 		switch ( $route ) {
 			case 'thirdparties':
@@ -268,6 +316,8 @@ class Doli_Sync_Action {
 					$wp_entry->data['external_id'] = $entry_id;
 					$wp_entry                      = Doli_Third_Parties::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
 				}
+
+				$to_type = 'third_party';
 				break;
 			case 'products':
 				$url = admin_url( 'admin.php?page=wps-product' );
@@ -278,11 +328,14 @@ class Doli_Sync_Action {
 				);
 
 				if ( 'dolibarr' === $from ) {
+
 					$wp_entry = Doli_Products::g()->doli_to_wp( $doli_entry, $wp_entry, true, $notices );
 				} else {
 					$wp_entry->data['external_id'] = $entry_id;
 					$wp_entry                      = Doli_Products::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
 				}
+
+				$to_type = 'product';
 				break;
 			case 'orders':
 				$url = admin_url( 'admin.php?page=wps-order' );
@@ -298,6 +351,8 @@ class Doli_Sync_Action {
 					$wp_entry->data['external_id'] = $entry_id;
 					$wp_entry                      = Doli_Order::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
 				}
+
+				$to_type = 'order';
 				break;
 			case 'proposals':
 				$url = admin_url( 'admin.php?page=wps-proposal' );
@@ -313,6 +368,8 @@ class Doli_Sync_Action {
 					$wp_entry->data['external_id'] = $entry_id;
 					$wp_entry                      = Doli_Proposals::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
 				}
+
+				$to_type = 'propal';
 				break;
 			case 'invoices':
 				$url = admin_url( 'admin.php?page=wps-invoice' );
@@ -328,18 +385,20 @@ class Doli_Sync_Action {
 					$wp_entry->data['external_id'] = $entry_id;
 					$wp_entry                      = Doli_Invoice::g()->wp_to_doli( $wp_entry, $doli_entry, true, $notices );
 				}
+				$to_type = 'invoice';
 				break;
 			default:
 				break;
 		}
 
-		$last_sync = current_time( 'mysql' );
-		update_post_meta( $wp_entry->data['id'], '_last_sync', $last_sync );
-
-		$wp_entry->data['date_last_synchro'] = array(
-			'rendered' => \eoxia\Date_Util::g()->fill_date( $last_sync ),
-			'raw'      => $wp_entry->data['date_last_synchro'],
+		$data = array(
+			'doli_id' => $entry_id,
+			'wp_id'   => $wp_id,
+			'type'    => $to_type,
 		);
+
+		$doli_object = Request_Util::post( 'wpshop/object', $data );
+		update_post_meta( $wp_id, '_date_last_synchro', $doli_object->last_sync_date );
 
 		ob_start();
 		if ( $modal ) {
@@ -352,6 +411,7 @@ class Doli_Sync_Action {
 		}
 
 		wp_send_json_success( array(
+			'id'               => $wp_id,
 			'namespace'        => 'wpshop',
 			'module'           => 'doliSync',
 			'callback_success' => 'syncEntrySuccess',
@@ -410,6 +470,47 @@ class Doli_Sync_Action {
 				'wp_class'        => $wp_class,
 			) );
 		}
+	}
+
+	public function check_sync_statut() {
+		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+
+		if ( empty( $id ) ) {
+			wp_send_json_error();
+		}
+
+		$external_id  = get_post_meta( $id, '_external_id', true );
+		$wp_sync_date = get_post_meta( $id, '_date_last_synchro', true );
+		$to_type      = '';
+
+		switch ( get_post_type( $id ) ) {
+			case Product::g()->get_type():
+				$to_type = 'product';
+				break;
+			case Doli_Order::g()->get_type():
+				$to_type = 'order';
+				break;
+			case Proposals::g()->get_type():
+				$to_type = 'propal';
+				break;
+			case Third_Party::g()->get_type():
+				$to_type = 'third_party';
+				break;
+		}
+
+		$data = array(
+			'wp_id'        => $id,
+			'wp_sync_date' => $wp_sync_date,
+			'doli_id'      => $external_id,
+			'type'         => $to_type,
+		);
+
+		$response = Request_Util::post( 'wpshop/object/statut', $data );
+
+		wp_send_json_success( array(
+			'sync' => $response,
+			'id'   => $id,
+		) );
 	}
 }
 

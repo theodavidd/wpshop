@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wpeo-gridlayout grid-3">
 	<div>
 		<ul>
-			<li><strong><?php esc_html_e( 'Customer', 'wpshop' ); ?></strong> : <a href="<?php echo admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ); ?>" target="_blank"><?php echo $third_party->data['title']; ?></a></li>
+			<li><strong><?php esc_html_e( 'Customer', 'wpshop' ); ?></strong> : <a href="<?php echo admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ); ?>"><?php echo $third_party->data['title']; ?></a></li>
 		<?php
 		if ( ! empty( $invoice->data['payments'] ) ) :
 			?>

@@ -39,6 +39,25 @@ defined( 'ABSPATH' ) || exit; ?>
 					</div>
 					<div class="wps-box-action">
 						<?php do_action( 'wps_my_account_proposals_actions', $proposal ); ?>
+
+						<div class="wps-more-options wpeo-dropdown dropdown-right">
+							<div class="dropdown-toggle wpeo-button button-transparent button-square-40 button-size-large"><i class="button-icon fas fa-ellipsis-v"></i></div>
+							<ul class="dropdown-content">
+								<?php
+								if ( ! $proposal->data['billed'] ) :
+									?>
+									<li>
+										<a href="<?php echo esc_attr( admin_url( 'admin-post.php?action=convert_to_order_and_pay&proposal_id=' . $proposal->data['id'] ) ); ?>"
+											class="dropdown-item">
+											<i class="fas fa-money-bill"></i> <?php esc_html_e( 'Pay Proposal', 'wpshop' );
+											?>
+										</a>
+									</li>
+									<?php
+								endif;
+								?>
+							</ul>
+						</div>
 					</div>
 				</div>
 

@@ -38,7 +38,7 @@ class Doli_Invoice_Action {
 	public function __construct() {
 		add_action( 'init', array( $this, 'create_tmp_invoice_dir' ) );
 
-		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
+		// add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 
 		add_action( 'wps_payment_complete', array( $this, 'create_invoice' ), 20, 1 );
 
@@ -215,15 +215,12 @@ class Doli_Invoice_Action {
 			'langcode'      => 'fr_FR',
 		) );
 
-		$wp_invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
-		$wp_invoice = Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice );
+		$wp_invoice = Doli_Invoice::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => (int) $doli_invoice->id,
+		), true );
 
-		$wp_invoice->data['author_id'] = $order->data['author_id'];
-
-		Doli_Invoice::g()->update( $wp_invoice->data );
-
-		$third_party = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
-		$contact     = Contact::g()->get( array( 'id' => $wp_invoice->data['author_id'] ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $invoice->data['third_party_id'] ), true );
 
 		$invoice_file = Request_Util::get( 'documents/download?module_part=facture&original_file=' . $wp_invoice->data['title'] . '/' . $wp_invoice->data['title'] . '.pdf' );
 		$content      = base64_decode( $invoice_file->content );
@@ -244,18 +241,10 @@ class Doli_Invoice_Action {
 			'attachments' => array( $path_file ),
 		) );
 
-		// translators: Send the invoice 000001 to the email contact text@eoxia.com.
+		// // translators: Send the invoice 000001 to the email contact text@eoxia.com.
 		\eoxia\LOG_Util::log( sprintf( 'Send the invoice %s to the email contact %s', $wp_invoice->data['title'], $contact->data['email'] ), 'wpshop2' );
 
 		unlink( $path_file );
-
-		// Création du règlement vers WP.
-		$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
-
-		$doli_payments = Request_Util::get( 'invoices/' . $doli_invoice->id . '/payments' );
-		$doli_payment  = $doli_payments[0];
-
-		Doli_Payment::g()->doli_to_wp( $doli_invoice->id, $doli_payment, $wp_payment );
 	}
 
 	/**

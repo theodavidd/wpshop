@@ -140,6 +140,9 @@ class Doli_Order extends \eoxia\Post_Class {
 	}
 
 	public function display_item( $order, $doli_url = '' ) {
+		if ( empty( $order->data['tier'] ) ) {
+			$order->data['tier'] = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
+		}
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'item', array(
 			'order'    => $order,
 			'doli_url' => $doli_url,
@@ -157,6 +160,8 @@ class Doli_Order extends \eoxia\Post_Class {
 	 * @return Order_Model             Les données de WP avec ceux de dolibarr.
 	 */
 	public function doli_to_wp( $doli_order, $wp_order ) {
+		global $wpdb;
+
 		if ( is_object( $wp_order ) ) {
 			$wp_order->data['external_id']    = (int) $doli_order->id;
 			$wp_order->data['title']          = $doli_order->ref;
@@ -190,6 +195,35 @@ class Doli_Order extends \eoxia\Post_Class {
 				}
 			}
 
+			$wp_order->data['linked_objects_ids'] = array();
+
+			if ( ! empty( $doli_order->linkedObjectsIds ) ) {
+				foreach ( $doli_order->linkedObjectsIds as $key => $values ) {
+					$type = '';
+					switch ( $key ) {
+						case 'propal':
+							$type = new Proposals();
+							break;
+					}
+
+					if ( ! empty( $type ) ) {
+						$values = (array) $values;
+						$wp_order->data['linked_objects_ids'][ $key ] = array();
+
+						if ( ! empty( $values ) ) {
+							foreach ( $values as $value ) {
+								$object = $type::g()->get( array(
+									'meta_key'   => '_external_id',
+									'meta_value' => (int) $value,
+								), true );
+
+								$wp_order->data['linked_objects_ids'][ $key ][] = (int) $object->data['id'];
+							}
+						}
+					}
+				}
+			}
+
 			$status = '';
 
 			switch ( $doli_order->statut ) {
@@ -205,7 +239,8 @@ class Doli_Order extends \eoxia\Post_Class {
 				case 2:
 					break;
 				case 3:
-					$status = 'wps-delivered';
+					$status                      = 'wps-delivered';
+					$wp_order->data['delivered'] = 1;
 					break;
 				default:
 					$status = 'publish';

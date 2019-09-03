@@ -38,12 +38,28 @@ defined( 'ABSPATH' ) || exit; ?>
 						<div class="wps-box-price"><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
 					</div>
 					<div class="wps-box-action">
-						<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_order&_wpnonce=' . wp_create_nonce( 'download_order' ) . '&order_id=' . $order->data['id'] ) ); ?>" class="wpeo-button button-primary button-square-50 button-rounded">
+						<a target="_blank"
+							href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_order&_wpnonce=' . wp_create_nonce( 'download_order' ) . '&order_id=' . $order->data['id'] ) ); ?>"
+							class="wpeo-button button-primary button-square-50 button-rounded">
 							<i class="button-icon fas fa-file-download"></i>
 						</a>
+
 						<div class="wps-more-options wpeo-dropdown dropdown-right">
 							<div class="dropdown-toggle wpeo-button button-transparent button-square-40 button-size-large"><i class="button-icon fas fa-ellipsis-v"></i></div>
 							<ul class="dropdown-content">
+								<?php
+								if ( ! $order->data['billed'] ) :
+									?>
+									<li>
+										<a href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_pay_order&order_id=' . $order->data['id'] ) ); ?>"
+											class="dropdown-item">
+											<i class="fas fa-money-bill"></i> <?php esc_html_e( 'Pay order', 'wpshop' );
+											?>
+										</a>
+									</li>
+									<?php
+								endif;
+								?>
 								<li class="action-attribute dropdown-item"
 									data-action="reorder"
 									data-nonce="<?php echo esc_attr( wp_create_nonce( 'do_reorder' ) ); ?>"
@@ -63,8 +79,14 @@ defined( 'ABSPATH' ) || exit; ?>
 								'meta_key'   => '_external_id',
 								'meta_value' => (int) $line['fk_product'],
 							), true );
+
+							if ( empty( $product ) ) {
+								$product = Product::g()->get( array( 'schema' => true ), true );
+								$product->data['title'] = ! empty( $line['libelle'] ) ? $line['libelle'] : $line['desc'];
+							}
+
 							$product->data['qty'] = $qty;
-							$product              = $product->data;
+							$product = $product->data;
 							$product['price_ttc'] = ( $line['total_ttc'] / $qty );
 							include( Template_Util::get_template_part( 'products', 'wps-product-list' ) );
 						endforeach;

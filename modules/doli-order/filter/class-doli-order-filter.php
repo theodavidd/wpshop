@@ -29,6 +29,8 @@ class Doli_Order_Filter {
 	public function __construct() {
 		add_filter( 'eo_model_wps-order_register_post_type_args', array( $this, 'callback_register_post_type_args' ) );
 		add_filter( 'wps_review_order_table_class', array( $this, 'add_review_order_table_class' ), 10, 2 );
+
+		add_filter( 'wps_doli_status', array( $this, 'wps_doli_status' ), 10, 2 );
 	}
 
 	/**
@@ -90,6 +92,17 @@ class Doli_Order_Filter {
 				break;
 		}
 		return $class;
+	}
+
+	public function wps_doli_status( $status, $object ) {
+		if ( $object->data['type'] == Doli_Order::g()->get_type() ) {
+			if ( $object->data['delivered'] ) {
+				return $status . ' ' . __( '(Delivery)', 'wpshop' );
+			}
+		}
+
+		return $status;
+
 	}
 }
 

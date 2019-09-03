@@ -80,17 +80,17 @@ class Product_Downloadable extends \eoxia\Post_Class {
 			foreach ( $order->data['lines'] as $line ) {
 				$product = Product::g()->get( array(
 					'meta_key'   => '_external_id',
-					'meta_value' => (int) $line->fk_product,
+					'meta_value' => (int) $line['fk_product'],
 				), true );
 
 				if ( ! empty( $product->data['associated_document_id']['downloadable_product_id'] ) ) {
 					foreach ( $product->data['associated_document_id']['downloadable_product_id'] as $id ) {
 						if ( $product->data['product_downloadable'] ) {
 							$product_downloadable = Product_Downloadable::g()->get( array(
-								'parent_id'  => $order->data['id'],
-								'author_id'  => $order->data['author_id'],
-								'meta_key'   => '_product_id',
-								'meta_value' => $id,
+								'post_parent' => $order->data['id'],
+								'author_id'   => $order->data['author_id'],
+								'meta_key'    => '_product_id',
+								'meta_value'  => $id,
 							), true );
 
 							if ( empty( $product_downloadable ) ) {

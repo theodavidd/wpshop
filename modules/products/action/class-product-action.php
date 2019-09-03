@@ -32,6 +32,8 @@ class Product_Action {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 0 );
 		add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
 
+
+
 		add_action( 'wp_ajax_change_mode', array( $this, 'change_mode' ) );
 		add_action( 'wp_ajax_quick_save', array( $this, 'save_quick_save' ) );
 		add_action( 'template_redirect', array( $this, 'init_product_archive_page' ) );
@@ -48,7 +50,6 @@ class Product_Action {
 		$hook = add_submenu_page( 'wps-product', __( 'Products', 'wpshop' ), __( 'Products', 'wpshop' ), 'manage_options', 'wps-product', array( $this, 'callback_add_menu_page' ) );
 		add_submenu_page( 'wps-product', __( 'Add', 'wpshop' ), __( 'Add', 'wpshop' ), 'manage_options', 'post-new.php?post_type=wps-product' );
 		add_submenu_page( 'wps-product', __( 'Products Category', 'wpshop' ), __( 'Products Category', 'wpshop' ), 'manage_options', 'edit-tags.php?taxonomy=wps-product-cat&post_type=wps-product' );
-
 		add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
 	}
 
@@ -142,7 +143,7 @@ class Product_Action {
 		$product_data                         = ! empty( $_POST['product_data'] ) ? (array) $_POST['product_data'] : array();
 		$product_data['price']                = isset( $product_data['price'] ) ? (float) round( str_replace( ',', '.', $product_data['price'] ), 2 ) : $product->data['price'];
 		$product_data['tva_tx']               = ! empty( $product_data['tva_tx'] ) ? (float) round( str_replace( ',', '.', $product_data['tva_tx'] ), 2 ) : $product->data['tva_tx'];
-		$product_data['manage_stock']         = ( ! empty( $product_data['manage_stock'] ) && 'true' === $product_data['manage_stock'] ) ? true : false;
+		$product_data['manage_stock']         = ( ! empty( $product_data['manage_stock'] ) && 'true' == $product_data['manage_stock'] ) ? true : false;
 		$product_data['stock']                = ! empty( $product_data['stock'] ) ? (int) $product_data['stock'] : $product->data['stock'];
 		$product_data['product_downloadable'] = ( ! empty( $product_data['product_downloadable'] ) && 'true' === $product_data['product_downloadable'] ) ? true : false;
 		$product_data['price_ttc']            = price2num( $product_data['price'] * ( 1 + ( $product_data['tva_tx'] / 100 ) ) );

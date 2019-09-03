@@ -39,17 +39,15 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 		 * @return string The rest api base for current element
 		 */
 		public function check_cap( $cap, $request ) {
-			return true;
-
 			$can = apply_filters( 'eo_model_check_cap', true, $request );
 
 			if ( ! $can ) {
 				return false;
 			}
 
-			if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! current_user_can( $this->capabilities[ 'get' ] ) ) {
-				return false;
-			}
+			// if ( ( ! in_array( $_SERVER['REMOTE_ADDR'], Config_Util::$init['eo-framework']->wpeo_model->allowed_ip_for_unauthentified_access_rest, true ) ) && ! current_user_can( $this->capabilities[ 'get' ] ) ) {
+			// 	return false;
+			// }
 
 			return true;
 		}
@@ -219,9 +217,15 @@ if ( ! class_exists( '\eoxia\Rest_Class' ) ) {
 
 			if ( isset( $params['id'] ) ) {
 				$params['id'] = (int) $params['id'];
-			}
 
-			return $this->update( $params );
+				$object = $this->get( array( 'id' => $params['id'] ), true );
+
+				$object->data = wp_parse_args( $params, $object->data );
+				return $this->update( $object->data );
+
+			} else {
+				return $this->update( $params );
+			}
 		}
 
 	}

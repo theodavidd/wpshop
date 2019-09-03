@@ -16,7 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wrap wpeo-wrap">
+<div class="wrap wpeo-wrap page-single">
 	<div class="page-header">
 		<h2>
 			<?php

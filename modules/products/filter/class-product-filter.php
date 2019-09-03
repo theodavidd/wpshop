@@ -240,7 +240,6 @@ class Product_Filter {
 
 		return $content;
 	}
-
 }
 
 new Product_Filter();

@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				?>
 				<div class="table-row">
 					<div class="table-cell"><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) ); ?>"><?php echo esc_html( $third_party->data['id'] ); ?></a></div>
-					<div class="table-cell"><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) ); ?>"><?php echo esc_html( $third_party->data['title'] ); ?></a></div>
+					<div class="table-cell break-word"><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) ); ?>"><?php echo esc_html( $third_party->data['title'] ); ?></a></div>
 					<div class="table-cell"><?php echo esc_html( $third_party->data['date']['rendered']['date_time'] ); ?></div>
 				</div>
 				<?php

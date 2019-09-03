@@ -102,8 +102,11 @@ class Doli_Invoice extends \eoxia\Post_Class {
 			}
 		}
 
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
 		\eoxia\View_Util::exec( 'wpshop', 'doli-invoice', 'list', array(
 			'invoices' => $invoices,
+			'doli_url' => $dolibarr_option['dolibarr_url'],
 		) );
 	}
 
@@ -142,8 +145,8 @@ class Doli_Invoice extends \eoxia\Post_Class {
 		$wp_invoice->data['title']          = $doli_invoice->ref;
 		$wp_invoice->data['total_ttc']      = $doli_invoice->total_ttc;
 		$wp_invoice->data['total_ht']       = $doli_invoice->total_ht;
-		$wp_invoice->data['resteapayer']    = $doli_invoice->resteapayer;
-		$wp_invoice->data['totalpaye']      = $doli_invoice->totalpaye;
+		$wp_invoice->data['resteapayer']    = $doli_invoice->remaintopay;
+		$wp_invoice->data['totalpaye']      = $doli_invoice->totalpaid;
 		$wp_invoice->data['payment_method'] = Doli_Payment::g()->convert_to_wp( $doli_invoice->mode_reglement_code );
 		$wp_invoice->data['paye']           = (int) $doli_invoice->paye;
 		$wp_invoice->data['third_party_id'] = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_invoice->socid );
@@ -209,7 +212,16 @@ class Doli_Invoice extends \eoxia\Post_Class {
 					$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
 				}
 
-				Doli_Payment::g()->doli_to_wp( $wp_invoice->data['id'], $doli_payment, $wp_payment );
+				if ( ! is_array( $wp_payment ) ) {
+					$wp_payment = array( $wp_payment );
+				}
+
+				if ( ! empty( $wp_payment ) ) {
+					foreach ( $wp_payment as $element ) {
+						Doli_Payment::g()->doli_to_wp( $wp_invoice->data['id'], $doli_payment, $element );
+					}
+				}
+
 			}
 		}
 

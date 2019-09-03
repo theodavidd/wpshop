@@ -32,7 +32,8 @@ defined( 'ABSPATH' ) || exit; ?>
 	if ( ! empty( $invoices ) ) :
 		foreach ( $invoices as $invoice ) :
 			\eoxia\View_Util::exec( 'wpshop', 'doli-invoice', 'item', array(
-				'invoice' => $invoice,
+				'invoice'  => $invoice,
+				'doli_url' => $doli_url,
 			) );
 		endforeach;
 	endif;

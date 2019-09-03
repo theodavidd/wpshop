@@ -31,6 +31,10 @@ class Doli_Proposals_Action {
 		add_action( 'wps_checkout_update_proposal', array( $this, 'checkout_update_proposal' ), 1, 1 );
 
 		add_action( 'admin_post_wps_download_proposal', array( $this, 'download_proposal' ) );
+
+		add_action( 'admin_post_convert_to_order_and_pay', array( $this, 'convert_to_order_and_pay' ) );
+
+		add_action( 'wps_payment_complete', array( $this, 'set_to_billed' ), 40, 1 );
 	}
 
 	/**
@@ -121,6 +125,62 @@ class Doli_Proposals_Action {
 		echo $content;
 
 		exit;
+	}
+
+	/**
+	 * @todo: check right nonce
+	 * @return [type] [description]
+	 */
+	public function convert_to_order_and_pay() {
+		$id = ! empty( $_GET['proposal_id'] ) ? (int) $_GET['proposal_id'] : 0;
+
+		if ( empty( $id ) ) {
+			wp_die();
+		}
+
+		$wp_proposal = Proposals::g()->get( array( 'id' => $id ), true );
+
+		$doli_proposal_id = get_post_meta( $wp_proposal->data['id'], '_external_id', true );
+
+		$doli_order = Request_Util::post( 'orders/createfromproposal/' . $doli_proposal_id );
+		$doli_order = Request_Util::post( 'orders/' . $doli_order->id . '/validate' );
+
+		$wp_order = Doli_Order::g()->get( array( 'schema' => true ), true );
+		$wp_order = Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
+
+		$data = array(
+			'doli_id' => $doli_order->id,
+			'wp_id'   => $wp_order->data['id'],
+			'type'    => 'order',
+		);
+
+		Request_Util::post( 'wpshop/object', $data );
+
+		$current_user = wp_get_current_user();
+		Checkout::g()->reorder( $wp_order->data['id'] );
+		$wp_order->data['total_price_no_shipping'] = Cart_Session::g()->total_price_no_shipping;
+		$wp_order->data['tva_amount']              = Cart_Session::g()->tva_amount;
+		$wp_order->data['shipping_cost']           = Cart_Session::g()->shipping_cost;
+		$wp_order->data['author_id']               = $current_user->ID;
+
+		$order = Doli_Order::g()->update( $wp_order->data );
+
+		Checkout::g()->do_pay( $order->data['id'] );
+
+		wp_redirect( Pages::g()->get_checkout_link() . '/pay/' . $order->data['id'] );
+	}
+
+	public function set_to_billed( $data ) {
+		$wp_order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );
+
+		$proposals = Proposals::g()->get( array( 'post__in' => $wp_order->data['linked_objects_ids']['propal'] ) );
+
+		if ( ! empty( $proposals ) ) {
+			foreach ( $proposals as $proposal ) {
+				$doli_proposal = Request_Util::post( 'proposals/' . $proposal->data['external_id'] . '/setinvoiced' );
+				Doli_Proposals::g()->doli_to_wp( $doli_proposal, $proposal );
+			}
+		}
 	}
 }
 

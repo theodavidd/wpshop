@@ -16,6 +16,6 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wrap wpeo-wrap">
+<div class="wrap wpeo-wrap page-single">
 	<?php do_meta_boxes( 'wps-proposal', 'normal', $proposal ); ?>
 </div>

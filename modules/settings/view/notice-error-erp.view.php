@@ -19,6 +19,6 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="notice notice-warning is-dismissible">
 	<p>
 		<?php echo esc_attr( $error ); ?>
-		<a target="_blank" href="https://github.com/Eoxia/wpshop/tree/2.0.0"><?php _e( 'Follow this guide', 'wpshop' ); ?></a>
+		<a href="https://github.com/Eoxia/wpshop/tree/2.0.0"><?php _e( 'Follow this guide', 'wpshop' ); ?></a>
 	</p>
 </div>

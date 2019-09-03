@@ -39,6 +39,8 @@ class Cart_Action {
 
 		add_action( 'wp_ajax_nopriv_delete_product_from_cart', array( $this, 'ajax_delete_product_from_cart' ) );
 		add_action( 'wp_ajax_delete_product_from_cart', array( $this, 'ajax_delete_product_from_cart' ) );
+
+		add_action( 'wp_logout', array( $this, 'clear_cart' ) );
 	}
 
 	/**
@@ -165,6 +167,10 @@ class Cart_Action {
 			'view'             => ob_get_clean(),
 			'qty'              => null === Cart_Session::g()->qty ? 0 : Cart_Session::g()->qty,
 		) );
+	}
+
+	public function clear_cart() {
+		Cart_Session::g()->destroy();
 	}
 }
 

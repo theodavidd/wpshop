@@ -16,7 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="table-cell table-100 wps-sync">
+<div class="table-cell table-100 wps-sync" data-id="<?php echo $object->data['id']; ?>" data-associate="<?php echo ! empty( $object->data['external_id'] ) ? "true" : "false"; ?>">
 	<?php
 	if ( 'view' === $mode ) :
 		?>
@@ -39,5 +39,5 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php
 	endif;
 	?>
-	<div class="statut statut-<?php echo esc_attr( $class ); ?> wpeo-tooltip-event" data-direction="left" aria-label="<?php echo esc_html( $message_tooltip ); ?>"></div>
+	<div class="statut statut-<?php echo empty( $object->data['external_id'] ) ? 'red' : 'grey'; ?> wpeo-tooltip-event" data-direction="left" aria-label="<?php echo esc_html( $message_tooltip ); ?>"></div>
 </div>

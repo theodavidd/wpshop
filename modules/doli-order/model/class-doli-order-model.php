@@ -130,6 +130,13 @@ class Doli_Order_Model extends \eoxia\Post_Model {
 			'default'   => 0,
 		);
 
+		$this->schema['delivered'] = array(
+			'type'      => 'integer',
+			'meta_type' => 'single',
+			'field'     => 'delivered',
+			'default'   => 0,
+		);
+
 		$this->schema['payment_failed'] = array(
 			'type'      => 'boolean',
 			'meta_type' => 'single',
@@ -151,6 +158,14 @@ class Doli_Order_Model extends \eoxia\Post_Model {
 			'since'       => '2.0.0',
 			'description' => 'La date de la dernière synchronisation.',
 			'context'     => array( 'GET' ),
+		);
+
+		$this->schema['linked_objects_ids'] = array(
+			'type'      => 'array',
+			'meta_type' => 'single',
+			'field'     => '_linked_objects_ids',
+			'since'     => '2.0.0',
+			'default'   => null,
 		);
 
 		parent::__construct( $object, $req_method );

@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
 						</ul>
 					</div>
 					<div class="wps-box-action">
-						<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_product&_wpnonce=' . wp_create_nonce( 'download_product' ) . '&product_id=' . $product_downloadable->data['id'] ) ); ?>" class="wpeo-button button-primary button-square-50 button-rounded">
+						<a href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_product&_wpnonce=' . wp_create_nonce( 'download_product' ) . '&product_id=' . $product_downloadable->data['id'] ) ); ?>" class="wpeo-button button-primary button-square-50 button-rounded">
 							<i class="button-icon fas fa-file-download"></i>
 						</a>
 					</div>

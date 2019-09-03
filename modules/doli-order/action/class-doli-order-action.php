@@ -46,6 +46,8 @@ class Doli_Order_Action {
 
 		add_action( 'admin_post_wps_download_order', array( $this, 'download_order' ) );
 
+		add_action( 'wp_ajax_mark_as_delivery', array( $this, 'mark_as_delivery' ) );
+
 		$this->metaboxes = array(
 			'wps-order-details' => array(
 				'callback' => array( $this, 'metabox_order_details' ),
@@ -55,6 +57,9 @@ class Doli_Order_Action {
 			),
 			'wps-order-review'  => array(
 				'callback' => array( $this, 'metabox_order_review' ),
+			),
+			'wps-order-related-object'  => array(
+				'callback' => array( $this, 'metabox_order_related_object' ),
 			),
 		);
 	}
@@ -99,7 +104,9 @@ class Doli_Order_Action {
 		if ( Settings::g()->dolibarr_is_active() ) {
 			$hook = add_submenu_page( 'wpshop', __( 'Orders', 'wpshop' ), __( 'Orders', 'wpshop' ), 'manage_options', 'wps-order', array( $this, 'callback_add_menu_page' ) );
 
-			add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+			if ( ! isset( $_GET['id'] ) ) {
+				add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+			}
 		}
 	}
 
@@ -277,6 +284,17 @@ class Doli_Order_Action {
 	}
 
 	/**
+	 * Box affichant les produits de la commande
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param Order $order Les données de la commande.
+	 */
+	public function metabox_order_related_object( $order ) {
+		// \eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-order-related-object', array() );
+	}
+
+	/**
 	 * Création d'une commande lors du tunnel de vente.
 	 *
 	 * @since 2.0.0
@@ -310,6 +328,14 @@ class Doli_Order_Action {
 
 		$wp_order = Doli_Order::g()->get( array( 'schema' => true ), true );
 		$wp_order = Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
+
+		$data = array(
+			'doli_id' => $doli_order->id,
+			'wp_id'   => $wp_order->data['id'],
+			'type'    => 'order',
+		);
+
+		Request_Util::post( 'wpshop/object', $data );
 
 		$wp_order->data['total_price_no_shipping'] = Cart_Session::g()->total_price_no_shipping;
 		$wp_order->data['tva_amount']              = Cart_Session::g()->tva_amount;
@@ -384,7 +410,7 @@ class Doli_Order_Action {
 		}
 
 		// translators: Download the order 00001.
-		\eoxia\LOG_Util::log( sprintf( 'Download the order %s', $wp_order->data['title'] ), 'wpshop2' );
+		\eoxia\LOG_Util::log( sprintf( 'Download the order %s', $order->data['title'] ), 'wpshop2' );
 
 		$order_file = Request_Util::get( 'documents/download?module_part=order&original_file=' . $order->data['title'] . '/' . $order->data['title'] . '.pdf' );
 
@@ -398,6 +424,22 @@ class Doli_Order_Action {
 		echo $content;
 
 		exit;
+	}
+
+	public function mark_as_delivery() {
+		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+
+		if ( empty( $id ) ) {
+			wp_send_json_error();
+		}
+
+		$order = Doli_Order::g()->get( array( 'id' => $id ), true );
+
+		$doli_order  = Request_Util::post( 'orders/' . $order->data['external_id'] . '/close', array(
+			'notrigger' => 1,
+		) );
+
+		wp_send_json_success();
 	}
 }
 

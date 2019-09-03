@@ -58,17 +58,16 @@ defined( 'ABSPATH' ) || exit; ?>
 			endif;
 			?>
 		</select>
-		<input type="hidden" name="product_data[manage_stock]" value="<?php echo (int) 1 === (int) $product->data['manage_stock'] ? 'true' : 'false'; ?>">
 	</div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ); ?>€</strong></div>
 	<div class="table-cell">
 		<div class="form-element stock-field">
 			<span class="form-label"><?php esc_html_e( 'Manage Stock', 'wpshop' ); ?></span>
 			<input type="hidden" name="product_data[manage_stock]" class="manage_stock" value="<?php echo (int) 1 === (int) $product->data['manage_stock'] ? 'true' : 'false'; ?>" />
-			<i style="font-size: 2em;" class="toggle fas fa-toggle-<?php echo $product->data['manage_stock'] ? 'on' : 'off'; ?>" data-bloc="label-upload" data-input="manage_stock"></i>
+			<i style="font-size: 2em;" class="toggle fas fa-toggle-<?php echo (int) 1 === (int) $product->data['manage_stock'] ? 'on' : 'off'; ?>" data-bloc="stock-field" data-input="manage_stock"></i>
 		</div>
 
-		<div class="form-element stock-block" style="<?php echo $product->data['manage_stock'] ? '' : 'display: none;'; ?>">
+		<div class="form-element stock-block" style="<?php echo (int) 1 === (int) $product->data['manage_stock'] ? '' : 'display: none;'; ?>">
 			<span class="form-label"><?php esc_html_e( 'Stock', 'wpshop' ); ?></span>
 			<label class="form-field-container">
 				<input type="text" class="form-field" name="product_data[stock]" value="<?php echo esc_attr( $product->data['stock'] ); ?>" />

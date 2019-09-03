@@ -109,5 +109,6 @@ window.eoxiaJS.wpshop.doliSync.syncEntrySuccess = function( triggeredElement, re
 		jQuery( '.wpeo-modal.modal-active' ).find( '.modal-content' ).html( response.data.view );
 	} else {
 		jQuery( triggeredElement ).closest( '.table-row' ).replaceWith( response.data.view );
+		jQuery( '.table-row[data-id="' + response.data.id + '"]' ).find( '.wps-sync .statut' ).addClass( 'statut-green' );
 	}
 }

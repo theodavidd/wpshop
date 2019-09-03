@@ -249,6 +249,57 @@ class Checkout extends \eoxia\Singleton_Util {
 		}
 
 	}
+
+	public function reorder( $id ) {
+		Cart_Session::g()->destroy();
+
+		$shipping_cost_option     = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
+		$shippint_cost_product_id = ! empty( $shipping_cost_option['shipping_product_id'] ) ? $shipping_cost_option['shipping_product_id'] : 0;
+
+		$order = Doli_Order::g()->get( array( 'id' => $id ), true );
+
+		if ( ! empty( $order->data['lines'] ) ) {
+			foreach ( $order->data['lines'] as $element ) {
+				$wp_product = Product::g()->get( array(
+					'meta_key'   => '_external_id',
+					'meta_value' => (int) $element['fk_product'],
+				), true );
+
+				if ( ! empty( $wp_product ) && $wp_product->data['id'] !== $shippint_cost_product_id ) {
+					for ( $i = 0; $i < $element['qty']; ++$i ) {
+						Cart::g()->add_to_cart( $wp_product );
+					}
+				}
+			}
+		}
+	}
+
+	public function do_pay( $id ) {
+		Cart_Session::g()->destroy();
+
+		$shipping_cost_option     = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
+		$shippint_cost_product_id = ! empty( $shipping_cost_option['shipping_product_id'] ) ? $shipping_cost_option['shipping_product_id'] : 0;
+
+		$order = Doli_Order::g()->get( array( 'id' => $id ), true );
+
+		if ( ! empty( $order->data['lines'] ) ) {
+			foreach ( $order->data['lines'] as $element ) {
+				$wp_product = Product::g()->get( array(
+					'meta_key'   => '_external_id',
+					'meta_value' => (int) $element['fk_product'],
+				), true );
+
+				if ( ! empty( $wp_product ) && $wp_product->data['id'] !== $shippint_cost_product_id ) {
+					for ( $i = 0; $i < $element['qty']; ++$i ) {
+						Cart::g()->add_to_cart( $wp_product );
+					}
+				}
+			}
+		}
+
+		Cart_Session::g()->add_external_data( 'order_id', $order->data['id'] );
+		Cart_Session::g()->update_session();
+	}
 }
 
 Checkout::g();

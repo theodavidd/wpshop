@@ -84,12 +84,14 @@ class Payment_Action {
 		}
 
 		$title       = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
+		$active      = ( ! empty( $_POST['activate'] ) && 'true' == $_POST['activate'] ) ? true : false;
 		$description = ! empty( $_POST['description'] ) ? stripslashes( $_POST['description'] ) : '';
 
 		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
 
 		$payment_methods_option['payment_in_shop']['title']       = $title;
 		$payment_methods_option['payment_in_shop']['description'] = $description;
+		$payment_methods_option['payment_in_shop']['active']      = $active;
 
 		update_option( 'wps_payment_methods', $payment_methods_option );
 
@@ -113,12 +115,14 @@ class Payment_Action {
 		}
 
 		$title       = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
+		$active      = ( ! empty( $_POST['activate'] ) && 'true' == $_POST['activate'] ) ? true : false;
 		$description = ! empty( $_POST['description'] ) ? stripslashes( $_POST['description'] ) : '';
 
 		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
 
 		$payment_methods_option['cheque']['title']       = $title;
 		$payment_methods_option['cheque']['description'] = $description;
+		$payment_methods_option['cheque']['active']      = $active;
 
 		update_option( 'wps_payment_methods', $payment_methods_option );
 

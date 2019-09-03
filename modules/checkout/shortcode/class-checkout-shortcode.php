@@ -48,6 +48,8 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 	 */
 	public function callback_checkout( $param ) {
 		if ( ! is_admin() ) {
+			global $wp;
+
 			$current_user = wp_get_current_user();
 
 			$third_party = Third_Party::g()->get( array( 'schema' => true ), true );
@@ -66,8 +68,14 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 			$tva_amount              = Cart_Session::g()->tva_amount;
 			$total_price_ttc         = Cart_Session::g()->total_price_ttc;
 			$shipping_cost           = Cart_Session::g()->shipping_cost;
+			$direct_pay              = false;
 
-			include( Template_Util::get_template_part( 'checkout', 'form-checkout' ) );
+			if ( ! array_key_exists( 'id', $wp->query_vars ) ) {
+				include( Template_Util::get_template_part( 'checkout', 'form-checkout' ) );
+			} else {
+				$direct_pay = true;
+				include( Template_Util::get_template_part( 'checkout', 'form-payment' ) );
+			}
 		}
 	}
 

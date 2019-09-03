@@ -27,6 +27,12 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
+	<div class="form-element bloc-activate">
+		<span class="form-label"><?php esc_html_e( 'Activate', 'wpshop' ); ?></span>
+		<input type="hidden" name="activate" class="activate" value="<?php echo (int) 1 === (int) $stripe_options['active'] ? 'true' : 'false'; ?>" />
+		<i style="font-size: 2em;" class="toggle fas fa-toggle-<?php echo $stripe_options['active'] ? 'on' : 'off'; ?>" data-bloc="bloc-activate" data-input="activate"></i>
+	</div>
+
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Publish key', 'wpshop' ); ?></span>
 		<label class="form-field-container">

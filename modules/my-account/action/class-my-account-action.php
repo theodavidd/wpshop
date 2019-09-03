@@ -44,6 +44,7 @@ class My_Account_Action {
 		add_action( 'wps_account_quotations', array( My_Account::g(), 'display_quotations' ) );
 
 		add_action( 'wp_ajax_reorder', array( $this, 'do_reorder' ) );
+		add_action( 'admin_post_wps_pay_order', array( $this, 'do_pay' ) );
 
 		add_action( 'wps_my_account_proposals_actions', array( $this, 'add_proposal_pdf' ), 10, 1 );
 	}
@@ -99,27 +100,7 @@ class My_Account_Action {
 			wp_send_json_error();
 		}
 
-		Cart_Session::g()->destroy();
-
-		$shipping_cost_option     = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
-		$shippint_cost_product_id = ! empty( $shipping_cost_option['shipping_product_id'] ) ? $shipping_cost_option['shipping_product_id'] : 0;
-
-		$order = Doli_Order::g()->get( array( 'id' => $id ), true );
-
-		if ( ! empty( $order->data['lines'] ) ) {
-			foreach ( $order->data['lines'] as $element ) {
-				$wp_product = Product::g()->get( array(
-					'meta_key'   => '_external_id',
-					'meta_value' => (int) $element['fk_product'],
-				), true );
-
-				if ( ! empty( $wp_product ) && $wp_product->data['id'] !== $shippint_cost_product_id ) {
-					for ( $i = 0; $i < $element['qty']; ++$i ) {
-						Cart::g()->add_to_cart( $wp_product );
-					}
-				}
-			}
-		}
+		Checkout::g()->reorder( $id );
 
 		wp_send_json_success( array(
 			'namespace'        => 'wpshopFrontend',
@@ -127,6 +108,26 @@ class My_Account_Action {
 			'callback_success' => 'reorderSuccess',
 			'redirect_url'     => Pages::g()->get_cart_link(),
 		) );
+	}
+
+	/**
+	 * Repasses la même commande. Remet les mêmes données de la commande dans
+	 * le panier.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @todo: Vérifier nonce et author
+	 */
+	public function do_pay() {
+		$id = ! empty( $_GET['order_id'] ) ? (int) $_GET['order_id'] : 0;
+
+		if ( empty( $id ) ) {
+			wp_send_json_error();
+		}
+
+		Checkout::g()->do_pay( $id );
+
+		wp_redirect( Pages::g()->get_checkout_link() . '/pay/' . $order->data['id'] );
 	}
 
 	/**

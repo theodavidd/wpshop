@@ -59,18 +59,22 @@ class Checkout_Action {
 
 		if ( Settings::g()->dolibarr_is_active() ) {
 			add_rewrite_endpoint( 'order/(.*)', EP_ALL );
+			add_rewrite_endpoint( 'pay/(.*)', EP_ALL );
+			add_rewrite_rule( get_post_field( 'post_name', $page_ids_options['checkout_id'] ) . '/pay/([0-9]+)/?$', 'index.php?page_id=' . $page_ids_options['checkout_id'] . '&id=$matches[1]', 'top' );
+
+			flush_rewrite_rules(false);
+
 		}
 
 		if ( ! empty( $page_ids_options['valid_page_id'] ) ) {
-
 			add_rewrite_rule( get_post_field( 'post_name', $page_ids_options['valid_page_id'] ) . '/(.*)/([0-9]+)/?$', 'index.php?page_id=' . $page_ids_options['valid_page_id'] . '&type=$matches[1]&id=$matches[2]', 'top' );
 		}
 
 		do_action( 'wps_checkout_endpoint' );
 
 		if ( ! get_option( 'plugin_permalinks_flushed' ) ) {
-			flush_rewrite_rules(false);
-			update_option('plugin_permalinks_flushed', 1);
+			flush_rewrite_rules( false );
+			update_option( 'plugin_permalinks_flushed', 1 );
 		}
 	}
 
@@ -343,29 +347,37 @@ class Checkout_Action {
 	/**
 	 * Créer la commande et passe au paiement
 	 *
-	 * @todo: NONCE.
+	 * @todo: NONCE $_POST.
 	 *
 	 * @since 2.0.0
 	 */
 	public function callback_place_order() {
-		do_action( 'checkout_create_third_party' );
+		if ( ! isset( $_POST['fast_pay'] ) ) {
+			do_action( 'checkout_create_third_party' );
+		}
 
 		do_action( 'wps_before_checkout_process' );
 
 		do_action( 'wps_checkout_process' );
 
-		$proposal                         = Proposals::g()->get( array( 'id' => Cart_Session::g()->external_data['proposal_id'] ), true );
-		$proposal->data['payment_method'] = $_POST['type_payment'];
+		if ( empty( Cart_Session::g()->external_data['order_id'] ) ) {
+			$proposal                         = Proposals::g()->get( array( 'id' => Cart_Session::g()->external_data['proposal_id'] ), true );
+			$proposal->data['payment_method'] = $_POST['type_payment'];
 
-		$proposal = Proposals::g()->update( $proposal->data );
+			$proposal = Proposals::g()->update( $proposal->data );
 
-		// translators: Checkout: Update proposal 000001 for add payment method Stripe.
-		\eoxia\LOG_Util::log( sprintf( 'Checkout: Update proposal %s for add payment method %s', $proposal->data['id'], $proposal->data['payment_method'] ), 'wpshop2' );
+			// translators: Checkout: Update proposal 000001 for add payment method Stripe.
+			\eoxia\LOG_Util::log( sprintf( 'Checkout: Update proposal %s for add payment method %s', $proposal->data['id'], $proposal->data['payment_method'] ), 'wpshop2' );
 
-		do_action( 'wps_checkout_update_proposal', $proposal );
+			do_action( 'wps_checkout_update_proposal', $proposal );
+		}
 
 		if ( 'order' === $_POST['type'] ) {
-			$order = apply_filters( 'wps_checkout_create_order', $proposal );
+			if ( empty( Cart_Session::g()->external_data['order_id'] ) ) {
+				$order = apply_filters( 'wps_checkout_create_order', $proposal );
+			} else {
+				$order = Doli_Order::g()->get( array( 'id' => Cart_Session::g()->external_data['order_id'] ), true );
+			}
 
 			$stock_statut = Cart::g()->check_stock();
 

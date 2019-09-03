@@ -62,7 +62,7 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 				'title'    => __( 'Products', 'wpshop' ),
 				'action'   => 'sync_products',
 				'nonce'    => 'sync_products',
-				'endpoint' => 'wpshopapi/product/get/web',
+				'endpoint' => 'wpshop/object/get/web',
 			),
 			'proposals'     => array(
 				'title'    => __( 'Proposals', 'wpshop' ),
@@ -117,8 +117,6 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 			if ( $tmp ) {
 				$count                      = count( $tmp );
 				$sync_info['total_number'] += count( $tmp );
-
-				return $sync_info;
 
 				if ( $count >= $this->limit_entries_by_request ) {
 					$sync_info['page']++;

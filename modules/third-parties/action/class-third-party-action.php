@@ -75,7 +75,9 @@ class Third_Party_Action {
 			array( $this, 'callback_add_menu_page' )
 		);
 
-		add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+		if ( ! isset( $_GET['id'] ) ) {
+			add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+		}
 	}
 
 	/**

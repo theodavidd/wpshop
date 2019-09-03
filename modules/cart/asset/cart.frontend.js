@@ -41,13 +41,12 @@ window.eoxiaJS.wpshopFrontend.cart.updateQuantity = function() {
 
 window.eoxiaJS.wpshopFrontend.cart.addedToCart = function ( triggeredElement, response ) {
 	if ( response.data.added ) {
-		if ( jQuery( '#main .entry-header' ).length ) {
-			jQuery( '#main .entry-header' ).prepend( response.data.view );
-		} else if ( jQuery( '#page .primary-content' ).length ) {
-			jQuery( '#page .primary-content' ).prepend( response.data.view );
-		} else if ( jQuery( '#primary .wps-product' ).length ) {
-			jQuery( '#primary .wps-product' ).prepend( response.data.view );
-		}
+		var tmp = jQuery( response.data.view );
+		jQuery( 'body' ).append( tmp );
+
+		tmp.timeout = setTimeout(function() {
+			tmp.remove();
+		}, 2000);
 	}
 
 	if ( response.data.qty ) {

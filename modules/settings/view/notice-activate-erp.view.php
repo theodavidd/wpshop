@@ -20,6 +20,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	<p>
 		<?php _e( 'WPshop: You have not yet set up your ERP ?', 'wpshop' ); ?>
 		<a href="<?php echo esc_url( admin_url( 'admin.php?page=wps-settings' ) ); ?>"><?php _e( 'Configure', 'wpshop' ); ?></a> -
-		<a target="_blank" href="https://github.com/Eoxia/wpshop/tree/2.0.0"><?php _e( 'Follow this guide', 'wpshop' ); ?></a>
+		<a href="https://github.com/Eoxia/wpshop/tree/2.0.0"><?php _e( 'Follow this guide', 'wpshop' ); ?></a>
 	</p>
 </div>

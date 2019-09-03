@@ -59,6 +59,7 @@ class PayPal_Action {
 		}
 
 		$title              = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
+		$active             = ( ! empty( $_POST['activate'] ) && 'true' == $_POST['activate'] ) ? true : false;
 		$description        = ! empty( $_POST['description'] ) ? sanitize_text_field( $_POST['description'] ) : '';
 		$paypal_email       = ! empty( $_POST['paypal_email'] ) ? sanitize_text_field( $_POST['paypal_email'] ) : '';
 		$use_paypal_sandbox = ( isset( $_POST['use_paypal_sandbox'] ) && 'on' === $_POST['use_paypal_sandbox'] ) ? true : false;
@@ -66,6 +67,7 @@ class PayPal_Action {
 		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
 
 		$payment_methods_option['paypal']['title']              = $title;
+		$payment_methods_option['paypal']['active']             = $active;
 		$payment_methods_option['paypal']['description']        = $description;
 		$payment_methods_option['paypal']['paypal_email']       = $paypal_email;
 		$payment_methods_option['paypal']['use_paypal_sandbox'] = $use_paypal_sandbox;

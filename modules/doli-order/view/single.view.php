@@ -16,9 +16,12 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wrap wpeo-wrap">
+<div class="wrap wpeo-wrap page-single">
 	<div class="page-header">
-		<h2><?php echo esc_html__( 'Order', 'wpshop' ) . ' ' . esc_html( $order->data['title'] ); ?></h2>
+		<h2>
+			<?php echo esc_html__( 'Order', 'wpshop' ) . ' ' . esc_html( $order->data['title'] ); ?>
+			<?php do_action( 'wps_listing_table_end', $order, 'orders', 'wpshop/Doli_Order', '\wpshop\Doli_Order' ); ?>
+		</h2>
 	</div>
 
 	<div class="wps-page-content wpeo-gridlayout grid-3">

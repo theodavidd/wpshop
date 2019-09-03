@@ -72,7 +72,9 @@ class Proposals_Action {
 	public function callback_admin_menu() {
 		$hook = add_submenu_page( 'wpshop', __( 'Proposals', 'wpshop' ), __( 'Proposals', 'wpshop' ), 'manage_options', 'wps-proposal', array( $this, 'callback_add_menu_page' ) );
 
-		add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+		if ( ! isset( $_GET['id'] ) ) {
+			add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+		}
 	}
 
 	/**

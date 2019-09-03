@@ -1029,6 +1029,26 @@
   text-decoration: none;
 }
 
+.notification-add-to-cart {
+  width: 90%;
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  top: 3em;
+  bottom: auto;
+}
+
+.wpshop_page_wps-third-party .wpeo-wrap .page-header h2 {
+  display: -webkit-box;
+  display: flex;
+}
+
+.wpshop_page_wps-order .wpeo-wrap .page-header h2 {
+  display: -webkit-box;
+  display: flex;
+}
+
 /** Temporaire **/
 .wp-admin select {
   height: auto !important;

@@ -16,14 +16,14 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<p>
-	<span>
-		<?php
-		// translators: Product "Product A" x10 added to the card.
-		printf( __( 'Product "%1$s" x%2$d added to the card', 'wpshop' ), $product->data['title'], $qty );
-		?>
-	</span>
-	<a href="<?php echo esc_url( Pages::g()->get_cart_link() ); ?>" class="view-cart wpeo-button button-grey">
-		<?php esc_html_e( 'View cart', 'wpshop' ); ?>
-	</a>
-</p>
+<div class="wpeo-notification notification-active notification-add-to-cart notification-blue">
+	<i class="notification-icon fas fa-info"></i>
+	<div class="notification-title">
+		<?php printf( __( 'Product "%1$s" x%2$d added to the card', 'wpshop' ), $product->data['title'], $qty ); ?>
+
+		<a href="<?php echo esc_url( Pages::g()->get_cart_link() ); ?>" class="view-cart wpeo-button button-grey">
+			<?php esc_html_e( 'View cart', 'wpshop' ); ?>
+		</a>
+	</div>
+	<div class="notification-close"><i class="far fa-times"></i></div>
+</div>
