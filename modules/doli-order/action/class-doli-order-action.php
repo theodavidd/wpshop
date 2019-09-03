@@ -435,11 +435,24 @@ class Doli_Order_Action {
 
 		$order = Doli_Order::g()->get( array( 'id' => $id ), true );
 
-		$doli_order  = Request_Util::post( 'orders/' . $order->data['external_id'] . '/close', array(
+		$doli_order = Request_Util::post( 'orders/' . $order->data['external_id'] . '/close', array(
 			'notrigger' => 1,
 		) );
 
-		wp_send_json_success();
+		$order = Doli_Order::g()->doli_to_wp( $doli_order, $order );
+		$third_party  = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
+
+		ob_start();
+		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-order-details', array(
+			'order'       => $order,
+			'third_party' => $third_party,
+		) );
+		wp_send_json_success( array(
+			'view'             => ob_get_clean(),
+			'namespace'        => 'wpshop',
+			'module'           => 'doliOrder',
+			'callback_success' => 'markedAsDelivery',
+		) );
 	}
 }
 

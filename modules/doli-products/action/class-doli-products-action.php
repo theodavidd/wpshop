@@ -32,6 +32,8 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {
 		add_action( 'save_post', array( $this, 'callback_save_post' ), 20, 2 );
+
+		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 	}
 
 	/**
@@ -104,6 +106,11 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 
 			$doli_product = Request_Util::post( 'wpshop/object', $data );
 
+			if ( isset( $doli_product->error ) ) {
+				set_transient( 'wps_product_already_exist', __( 'Product not created on dolibarr. It already exist on Dolibarr.', 'wpshop' ), 0 );
+				return;
+			}
+
 			update_post_meta( $post_id, '_price', $doli_product->price );
 			update_post_meta( $post_id, '_tva_tx', $doli_product->tva_tx );
 			update_post_meta( $post_id, '_price_ttc', $doli_product->price_ttc );
@@ -113,6 +120,27 @@ class Doli_Products_Action extends \eoxia\Singleton_Util {
 
 			// translators: Create product {json_data}.
 			\eoxia\LOG_Util::log( sprintf( 'Create product %s', json_encode( $doli_product ) ), 'wpshop2' );
+		}
+	}
+
+	public function admin_notices() {
+		if ( ! isset( $_REQUEST['action'] ) ) {
+			return;
+		}
+
+		if ( $_REQUEST['action'] != 'edit' ) {
+			return;
+		}
+
+		$transient = get_transient( 'wps_product_already_exist' );
+		delete_transient( 'wps_product_already_exist' );
+
+		if ( ! empty( $transient ) ) {
+			?>
+			<div class="error">
+				<p><?php echo $transient; ?></p>
+			</div>
+			<?php
 		}
 	}
 }

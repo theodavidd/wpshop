@@ -107,8 +107,10 @@ window.eoxiaJS.wpshop.doliSync.syncEntrySuccess = function( triggeredElement, re
 	if ( jQuery( '.wpeo-modal.modal-active' ).length > 0 ) {
 		jQuery( '.wpeo-modal.modal-active' ).addClass( 'modal-force-display' );
 		jQuery( '.wpeo-modal.modal-active' ).find( '.modal-content' ).html( response.data.view );
-	} else {
+	} else if ( jQuery( triggeredElement ).closest( '.table-row' ).length > 0 ){
 		jQuery( triggeredElement ).closest( '.table-row' ).replaceWith( response.data.view );
 		jQuery( '.table-row[data-id="' + response.data.id + '"]' ).find( '.wps-sync .statut' ).addClass( 'statut-green' );
+	} else {
+		triggeredElement.closest( '.wps-sync' ).find( '.statut' ).removeClass( 'statut-grey').removeClass( 'statut-orange' ).addClass( 'statut-green' );
 	}
 }

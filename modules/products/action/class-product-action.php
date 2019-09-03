@@ -32,8 +32,6 @@ class Product_Action {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 0 );
 		add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
 
-
-
 		add_action( 'wp_ajax_change_mode', array( $this, 'change_mode' ) );
 		add_action( 'wp_ajax_quick_save', array( $this, 'save_quick_save' ) );
 		add_action( 'template_redirect', array( $this, 'init_product_archive_page' ) );

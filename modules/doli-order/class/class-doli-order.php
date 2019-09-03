@@ -253,9 +253,18 @@ class Doli_Order extends \eoxia\Post_Class {
 			}
 
 			$wp_order->data['status']            = $status;
-			$wp_order->data['date_last_synchro'] = current_time( 'mysql');
 
-			return Doli_Order::g()->update( $wp_order->data );
+			$data = array(
+				'doli_id'     => (int) $wp_order->data['external_id'],
+				'wp_id'       => (int) $wp_order->data['id'],
+				'type'        => 'order',
+			);
+
+			$doli_order = Request_Util::post( 'wpshop/object/', $data );
+
+			Doli_Order::g()->update( $wp_order->data );
+			update_post_meta( $wp_order->data['id'], '_date_last_synchro', $doli_order->last_sync_date );
+			return Doli_Order::g()->get( array( 'id' => $wp_order->data['id'] ), true );
 		}
 	}
 
