@@ -48,6 +48,7 @@ class My_Account extends \eoxia\Singleton_Util {
 			add_rewrite_endpoint( 'invoices', EP_PAGES );
 		}
 
+		add_rewrite_endpoint( 'details', EP_PAGES );
 		add_rewrite_endpoint( 'quotations', EP_PAGES );
 		add_rewrite_endpoint( 'download', EP_PAGES );
 
@@ -97,6 +98,11 @@ class My_Account extends \eoxia\Singleton_Util {
 	 */
 	public function display_navigation( $tab ) {
 		$menu_def = array(
+			'details'    => array(
+				'link'  => Pages::g()->get_account_link() . 'details/',
+				'icon'  => 'fas fa-user' ,
+				'title' => __( 'Account details', 'wpshop' ),
+			),
 			'quotations' => array(
 				'link'  => Pages::g()->get_account_link() . 'quotations/',
 				'icon'  => 'fas fa-file-signature',
@@ -126,6 +132,21 @@ class My_Account extends \eoxia\Singleton_Util {
 		$this->menu = apply_filters( 'wps_account_navigation_items', $menu_def );
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-navigation' ) );
+	}
+
+	/**
+	 * Affiches les détails de l'utilisateur.
+	 *
+	 * @since 2.0.0
+	 */
+	public function display_details() {
+		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+
+		$transient = get_transient( 'wps_update_account_details_errors' );
+		delete_transient( 'wps_update_account_details_errors' );
+
+		include( Template_Util::get_template_part( 'my-account', 'my-account-details' ) );
 	}
 
 	/**

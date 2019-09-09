@@ -40,12 +40,12 @@ defined( 'ABSPATH' ) || exit; ?>
 					<div class="wps-box-action">
 						<?php do_action( 'wps_my_account_proposals_actions', $proposal ); ?>
 
-						<div class="wps-more-options wpeo-dropdown dropdown-right">
-							<div class="dropdown-toggle wpeo-button button-transparent button-square-40 button-size-large"><i class="button-icon fas fa-ellipsis-v"></i></div>
-							<ul class="dropdown-content">
-								<?php
-								if ( ! $proposal->data['billed'] ) :
-									?>
+						<?php
+						if ( ! $proposal->data['billed'] && Settings::g()->dolibarr_is_active() ) :
+							?>
+							<div class="wps-more-options wpeo-dropdown dropdown-right">
+								<div class="dropdown-toggle wpeo-button button-transparent button-square-40 button-size-large"><i class="button-icon fas fa-ellipsis-v"></i></div>
+								<ul class="dropdown-content">
 									<li>
 										<a href="<?php echo esc_attr( admin_url( 'admin-post.php?action=convert_to_order_and_pay&proposal_id=' . $proposal->data['id'] ) ); ?>"
 											class="dropdown-item">
@@ -53,11 +53,11 @@ defined( 'ABSPATH' ) || exit; ?>
 											?>
 										</a>
 									</li>
-									<?php
-								endif;
-								?>
-							</ul>
-						</div>
+								</ul>
+							</div>
+							<?php
+						endif;
+						?>
 					</div>
 				</div>
 
@@ -66,10 +66,17 @@ defined( 'ABSPATH' ) || exit; ?>
 					if ( ! empty( $proposal->data['lines'] ) ) :
 						foreach ( $proposal->data['lines'] as $line ) :
 							$qty                  = $line['qty'];
-							$product              = Product::g()->get( array(
-								'meta_key'   => '_external_id',
-								'meta_value' => (int) $line['fk_product'],
-							), true );
+
+							if ( ! empty( $line['fk_product'] ) ) {
+								$data = array(
+									'meta_key'   => '_external_id',
+									'meta_value' => (int) $line['fk_product'],
+								);
+							} else {
+								$data = array( 'id' => $line['id'] );
+							}
+
+							$product              = Product::g()->get( $data, true );
 							$product->data['qty'] = $qty;
 							$product              = $product->data;
 							$product['price_ttc'] = ( $line['total_ttc'] / $qty );

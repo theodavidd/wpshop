@@ -878,13 +878,8 @@
   text-align: right;
 }
 
-.wpeo-wrap .wps-filter-bar {
-  margin: 1em 0;
-}
-
 .wpeo-wrap .wps-filter-bar > * {
   display: inline-block;
-  width: auto !important;
 }
 
 .wpeo-wrap .wps-filter-bar .wpeo-button {

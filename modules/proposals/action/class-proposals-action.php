@@ -20,6 +20,14 @@ defined( 'ABSPATH' ) || exit;
  * Doli Order Action Class.
  */
 class Proposals_Action {
+	/**
+	 * Définition des metabox sur la page.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
+	public $metaboxes = null;
 
 	/**
 	 * Initialise les actions liées aux proposals.
@@ -28,8 +36,19 @@ class Proposals_Action {
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
-		add_action( 'admin_init', array( $this, 'add_meta_box' ) );
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
+
+		$this->metaboxes = array(
+			'wps-proposal-details' => array(
+				'callback' => array( $this, 'metabox_proposal_details' ),
+			),
+			'wps-proposal-address' => array(
+				'callback' => array( $this, 'metabox_proposal_address' ),
+			),
+			'wps-proposal-review'  => array(
+				'callback' => array( $this, 'metabox_proposal_review' ),
+			),
+		);
 	}
 
 	/**
@@ -44,28 +63,7 @@ class Proposals_Action {
 	}
 
 	/**
-	 * Ajoutes la metabox details
-	 *
-	 * @since 2.0.0
-	 */
-	public function add_meta_box() {
-		if ( isset( $_GET['id'] ) && isset( $_GET['page'] ) && 'wps-proposal' === $_GET['page'] ) {
-			$proposal = Proposals::g()->get( array( 'id' => $_GET['id'] ), true );
-
-			$args_metabox = array(
-				'proposal' => $proposal,
-				'id'       => $_GET['id'],
-			);
-
-			/* translators: Order details CO00010 */
-			$box_proposal_detail_title = sprintf( __( 'Proposal details %s', 'wpshop' ), $proposal->data['title'] );
-
-			add_meta_box( 'wps-proposal-customer', $box_proposal_detail_title, array( $this, 'callback_meta_box' ), 'wps-proposal', 'normal', 'default', $args_metabox );
-		}
-	}
-
-	/**
-	 * Initialise la page "Commande".
+	 * Initialise la page "Devis".
 	 *
 	 * @since 2.0.0
 	 */
@@ -100,9 +98,19 @@ class Proposals_Action {
 	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
-			$proposal = Proposals::g()->get( array( 'id' => $_GET['id'] ), true );
+			$proposal    = Proposals::g()->get( array( 'id' => $_GET['id'] ), true );
+			$third_party = Third_Party::g()->get( array( 'id' => $proposal->data['parent_id'] ), true );
 
-			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'single', array( 'proposal' => $proposal ) );
+			if ( ! empty( $this->metaboxes ) ) {
+				foreach ( $this->metaboxes as $key => $metabox ) {
+					add_action( 'wps_proposal', $metabox['callback'], 10, 1 );
+				}
+			}
+
+			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'single', array(
+				'third_party' => $third_party,
+				'proposal'    => $proposal,
+			) );
 		} else {
 			$per_page = get_user_meta( get_current_user_id(), Proposals::g()->option_per_page, true );
 
@@ -152,8 +160,7 @@ class Proposals_Action {
 	 * @param  WP_Post $post          Les données du post.
 	 * @param  array   $callback_args Tableau contenu les données de la commande.
 	 */
-	public function callback_meta_box( $post, $callback_args ) {
-		$proposal     = $callback_args['args']['proposal'];
+	public function metabox_proposal_details( $proposal ) {
 		$third_party  = Third_Party::g()->get( array( 'id' => $proposal->data['parent_id'] ), true );
 		$invoice      = null;
 		$link_invoice = '';
@@ -177,6 +184,37 @@ class Proposals_Action {
 	}
 
 	/**
+	 * La metabox contenant l'adresse du client.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_Post $post          Les données du post.
+	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 */
+	public function metabox_proposal_address( $proposal ) {
+		$third_party  = Third_Party::g()->get( array( 'id' => $proposal->data['parent_id'] ), true );
+		$invoice      = null;
+		$link_invoice = '';
+
+		if ( Settings::g()->dolibarr_is_active() ) {
+			$invoice = Doli_Invoice::g()->get( array( 'post_parent' => $proposal->data['id'] ), true );
+
+			if ( ! empty( $invoice ) ) {
+				$invoice->data['payments'] = array();
+				$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
+				$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&proposal_id=' . $proposal->data['id'] );
+			}
+		}
+
+		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'metabox-proposal-address', array(
+			'proposal'     => $proposal,
+			'third_party'  => $third_party,
+			'invoice'      => $invoice,
+			'link_invoice' => $link_invoice,
+		) );
+	}
+
+	/**
 	 * Box affichant les produits de la commande
 	 *
 	 * @since 2.0.0
@@ -184,24 +222,43 @@ class Proposals_Action {
 	 * @param  WP_Post $post          Les données du post.
 	 * @param  array   $callback_args Tableau contenu les données de la commande.
 	 */
-	public function callback_products( $post, $callback_args ) {
-		$proposal = $callback_args['args']['proposal'];
-
+	public function metabox_proposal_review( $proposal ) {
 		$tva_lines = array();
 		if ( ! empty( $proposal->data['lines'] ) ) {
-			foreach ( $proposal->data['lines'] as $line ) {
+			foreach ( $proposal->data['lines'] as &$line ) {
 				if ( empty( $tva_lines[ $line['tva_tx'] ] ) ) {
 					$tva_lines[ $line['tva_tx'] ] = 0;
 				}
 
-				$tva_lines[ $line['tva_tx'] ] += $line['total_tva'];
+				$tva_lines[ $line['tva_tx'] ] += empty( $line['total_tva'] ) ? $line['tva_amount'] * $line['qty'] : $line['total_tva'];
+
+				if ( empty( $line['libelle'] ) ) {
+					$line['libelle'] = $line['title'];
+				}
+
+				if ( empty( $line['subprice'] ) ) {
+					$line['subprice'] = $line['price'];
+				}
+
+				if ( empty( $line['total_ht'] ) ) {
+					$line['total_ht'] = $line['price'] * $line['qty'];
+				}
 			}
 		}
 
-		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'metabox-proposal-products', array(
-			'proposal'  => $proposal,
-			'tva_lines' => $tva_lines,
-		) );
+		if ( Settings::g()->dolibarr_is_active() ) {
+			\eoxia\View_Util::exec( 'wpshop', 'order', 'review-order', array(
+				'proposal'  => $proposal,
+				'tva_lines' => $tva_lines,
+			) );
+		} else {
+			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'metabox-proposal-products', array(
+				'proposal'  => $proposal,
+				'tva_lines' => $tva_lines,
+			) );
+		}
+
+
 	}
 
 	/**

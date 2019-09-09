@@ -33,4 +33,20 @@ defined( 'ABSPATH' ) || exit;  ?>
 			<span class="import-detail"></span>
 		</div>
 	</form>
+
+	<form action="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" method="POST" class="import-product" >
+		<h3 style="text-align: center;"><?php esc_html_e( 'Import Product CSV', 'wpshop' ); ?></h3>
+		<input type="hidden" name="action" value="import_product" />
+		<?php wp_nonce_field( 'import_product' ); ?>
+
+		<div>
+			<progress style="padding: 15px; width: 100%" value="0" max="100">0%</progress>
+		</div>
+
+		<div style="text-align: right;">
+			<input type="file" name="file" id="file" />
+			<label class="wpeo-button button-primary" ><?php esc_html_e( 'Import', 'wpshop' ); ?></label><br />
+			<span class="import-detail"></span>
+		</div>
+	</form>
 </div>

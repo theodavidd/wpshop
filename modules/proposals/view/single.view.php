@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue principale de la page des produits (wps-third-party)
+ * La vue principale de la page des devis
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
@@ -17,5 +17,14 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wrap wpeo-wrap page-single">
-	<?php do_meta_boxes( 'wps-proposal', 'normal', $proposal ); ?>
+	<div class="page-header">
+		<h2>
+			<?php echo esc_html__( 'Proposal', 'wpshop' ) . ' ' . esc_html( $proposal->data['title'] ); ?>
+			<?php do_action( 'wps_listing_table_end', $proposal, 'proposals', 'wpshop/Doli_Proposals_Class', '\wpshop\proposals' ); ?>
+		</h2>
+	</div>
+
+	<div class="wps-page-content wpeo-gridlayout grid-3">
+		<?php do_action( 'wps_proposal', $proposal ); ?>
+	</div>
 </div>

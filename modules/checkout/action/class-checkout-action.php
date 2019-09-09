@@ -263,6 +263,7 @@ class Checkout_Action {
 
 			if ( ! empty( Cart_Session::g()->cart_contents ) ) {
 				foreach ( Cart_Session::g()->cart_contents as $content ) {
+					$content['total_ttc']      = $content['price_ttc'] * $content['qty'];
 					$proposal->data['lines'][] = $content;
 
 					$total_ht  += $content['price'];

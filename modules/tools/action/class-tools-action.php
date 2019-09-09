@@ -41,6 +41,7 @@ class Tools_Action {
 		add_action( 'admin_post_wps_load_tools_tab', array( $this, 'callback_load_tab' ) );
 
 		add_action( 'wp_ajax_import_third_party', array( $this, 'import_third_party' ) );
+		add_action( 'wp_ajax_import_product', array( $this, 'import_product' ) );
 
 		$wp_upload_dir               = wp_upload_dir();
 		$this->destination_directory = $wp_upload_dir['basedir'] . '/wpshop/tmp/';
@@ -156,6 +157,97 @@ class Tools_Action {
 
 						Third_Party::g()->update( $third_party->data );
 					}
+
+					$index_element++;
+				}
+			}
+		}
+
+		if ( $index_element >= $count_element ) {
+			$end = true;
+		}
+
+		wp_send_json_success( array(
+			'end'           => $end,
+			'index_element' => $index_element,
+			'count_element' => $count_element,
+			'path_to_json'  => $path_to_json,
+		) );
+	}
+
+	/**
+	 * Parcours le CSV. Traite chaque ligne afin de créer les produits.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @todo: curl and save file, warning security can inject backdoor. We have to securize.
+	 */
+	public function import_product() {
+		ini_set( 'memory_limit', -1 );
+
+		$path_to_json  = ! empty( $_POST['path_to_json'] ) ? stripslashes( $_POST['path_to_json'] ) : '';
+		$index_element = ! empty( $_POST['index_element'] ) ? $_POST['index_element'] : 1;
+		$count_element = ! empty( $_POST['count_element'] ) ? $_POST['count_element'] : 0;
+		$end           = false;
+
+		if ( empty( $path_to_json ) ) {
+			if ( empty( $_FILES ) || empty( $_FILES['file'] ) ) {
+				wp_send_json_error();
+			}
+
+			$path_to_json = $this->destination_directory . $_FILES['file']['name'];
+
+			$statut = move_uploaded_file( $_FILES['file']['tmp_name'], $path_to_json );
+
+			$count_element = count( file( $path_to_json ) );
+		} else {
+			$content = file( $path_to_json );
+
+			$content = array_splice( $content, $index_element, 200 );
+
+			if ( ! empty( $content ) ) {
+				foreach ( $content as $line ) {
+					$line = explode( ';', $line );
+
+					if ( ! empty( $line ) ) {
+						foreach ( $line as &$v ) {
+							$v = preg_replace( '/^"(.*)"/', '$1', $v );
+						}
+					}
+
+					$data = array(
+						'title'        => sanitize_text_field( $line[1] ),
+						'content'      => sanitize_text_field( $line[2] ),
+						'price'        => $line[3],
+						'price_ttc'    => price2num( $line[3] * ( 1 + ( $line[4] / 100 ) ) ),
+						'tva_tx'       => $line[4],
+						'status'       => 'publish',
+					);
+
+					if ( ! empty( $line[0] ) ) {
+						$path_info = pathinfo( $line[0] );
+
+						if ( in_array( $path_info['extension'], array( 'jpeg', 'jpg', 'png' ) ) ) {
+							$ch = curl_init( $line[0] );
+							$fp = fopen( $this->destination_directory . $path_info['basename'], 'wb' );
+							curl_setopt( $ch, CURLOPT_FILE, $fp );
+							curl_setopt( $ch, CURLOPT_HEADER, 0 );
+							curl_exec( $ch );
+							curl_close( $ch );
+							fclose( $fp );
+
+							$data['thumbnail_id'] = \eoxia\File_Util::g()->move_file_and_attach( $this->destination_directory . $path_info['basename'], 0 );
+						}
+					}
+
+					if ( ! empty( (int) $line[5] ) ) {
+						$data['manage_stock'] = true;
+						$data['stock'] = (int) $line[5];
+					}
+
+					$data['tva_amount'] = $data['price_ttc'] - $data['price'];
+
+					$test = Product::g()->update( $data );
 
 					$index_element++;
 				}

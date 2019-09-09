@@ -38,10 +38,13 @@ class My_Account_Action {
 		add_action( 'admin_post_nopriv_wps_login', array( $this, 'handle_login' ) );
 
 		add_action( 'wps_account_navigation', array( My_Account::g(), 'display_navigation' ) );
+		add_action( 'wps_account_details', array( My_Account::g(), 'display_details' ) );
 		add_action( 'wps_account_orders', array( My_Account::g(), 'display_orders' ) );
 		add_action( 'wps_account_invoices', array( My_Account::g(), 'display_invoices' ) );
 		add_action( 'wps_account_download', array( My_Account::g(), 'display_downloads' ) );
 		add_action( 'wps_account_quotations', array( My_Account::g(), 'display_quotations' ) );
+
+		add_action( 'admin_post_update_account_details', array( $this, 'update_account_details' ) );
 
 		add_action( 'wp_ajax_reorder', array( $this, 'do_reorder' ) );
 		add_action( 'admin_post_wps_pay_order', array( $this, 'do_pay' ) );
@@ -83,6 +86,72 @@ class My_Account_Action {
 			wp_redirect( $page );
 			exit;
 		}
+	}
+
+	public function update_account_details() {
+		check_admin_referer( 'update_account_details' );
+
+		$errors               = array();
+		$email                = ! empty( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
+		$current_password     = ! empty( $_POST['current_password'] ) ? sanitize_text_field( $_POST['current_password'] ) : '';
+		$new_password         = ! empty( $_POST['new_password'] ) ? sanitize_text_field( $_POST['new_password'] ) : '';
+		$confirm_new_password = ! empty( $_POST['confirm_new_password'] ) ? sanitize_text_field( $_POST['confirm_new_password'] ) : '';
+
+		if ( empty( $email ) ) {
+			$errors['empty_email'] = __( 'Please fill email field', 'wpshop' );
+			set_transient( 'wps_update_account_details_errors', $errors, 0 );
+			wp_redirect( Pages::g()->get_account_link() . 'details/' );
+			die();
+		}
+
+		$user = wp_get_current_user();
+
+		$user_update_status = wp_update_user( array(
+			'ID'         => get_current_user_id(),
+			'user_email' => $email,
+		) );
+
+		if ( is_wp_error( $user_update_status ) ) {
+			$errors['unknow_error'] = __( 'Unknown error', 'wpshop' );
+			set_transient( 'wps_update_account_details_errors', $errors, 0 );
+			wp_redirect( Pages::g()->get_account_link() . 'details/' );
+			die();
+		}
+
+		if ( ! empty( $current_password ) && ! empty( $new_password ) ) {
+			if ( ! wp_check_password( $current_password, $user->data->user_pass, get_current_user_id() ) ) {
+				$errors['unknow_error'] = __( 'Current password is incorrect', 'wpshop' );
+				set_transient( 'wps_update_account_details_errors', $errors, 0 );
+				wp_redirect( Pages::g()->get_account_link() . 'details/' );
+				die();
+			}
+
+			if ( $new_password === $confirm_new_password ) {
+				$user_update_status = wp_update_user( array(
+					'ID'        => get_current_user_id(),
+					'user_pass' => $new_password,
+				) );
+			} else {
+				$errors['new_password_and_confirm'] = __( 'New password and confirm new password are different', 'wpshop' );
+				set_transient( 'wps_update_account_details_errors', $errors, 0 );
+				wp_redirect( Pages::g()->get_account_link() . 'details/' );
+				die();
+			}
+		}
+
+		if ( is_wp_error( $user_update_status ) ) {
+			$errors['unknow_error'] = __( 'Unknown error', 'wpshop' );
+			set_transient( 'wps_update_account_details_errors', $errors, 0 );
+			wp_redirect( Pages::g()->get_account_link() . 'details/' );
+			die();
+		}
+
+		if ( ! empty( $errors ) ) {
+			set_transient( 'wps_update_account_details_errors', $errors, 0 );
+		}
+
+		wp_redirect( Pages::g()->get_account_link() . 'details/' );
+		die();
 	}
 
 	/**

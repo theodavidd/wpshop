@@ -31,6 +31,9 @@ class Doli_Order_Filter {
 		add_filter( 'wps_review_order_table_class', array( $this, 'add_review_order_table_class' ), 10, 2 );
 
 		add_filter( 'wps_doli_status', array( $this, 'wps_doli_status' ), 10, 2 );
+
+		add_filter( "eo_model_wps-order_after_put", array( $this, 'update_after_billed' ), 10, 2 );
+
 	}
 
 	/**
@@ -88,6 +91,9 @@ class Doli_Order_Filter {
 			case Doli_Invoice::g()->get_type():
 				$class = 'gridw-4';
 				break;
+			case Proposals::g()->get_type():
+				$class = 'gridw-3';
+				break;
 			default:
 				break;
 		}
@@ -102,7 +108,14 @@ class Doli_Order_Filter {
 		}
 
 		return $status;
+	}
 
+	public function update_after_billed( $object, $args ) {
+		if ( $object->data['billed'] ) {
+			Product_Downloadable::g()->create_from_order( $object );
+		}
+
+		return $object;
 	}
 }
 

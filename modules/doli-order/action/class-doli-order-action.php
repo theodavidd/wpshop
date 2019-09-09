@@ -335,7 +335,9 @@ class Doli_Order_Action {
 			'type'    => 'order',
 		);
 
-		Request_Util::post( 'wpshop/object', $data );
+		$doli_order = Request_Util::post( 'wpshop/object', $data );
+
+		$wp_order->data['date_last_synchro'] = $doli_order->last_sync_date;
 
 		$wp_order->data['total_price_no_shipping'] = Cart_Session::g()->total_price_no_shipping;
 		$wp_order->data['tva_amount']              = Cart_Session::g()->tva_amount;

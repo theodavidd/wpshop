@@ -164,6 +164,9 @@ class Proposals extends \eoxia\Post_Class {
 
 			WHERE PM.meta_key='_ref'
 				AND P.post_type='wps-proposal'
+
+			ORDER BY PM.meta_id DESC
+			LIMIT 0,1
 		" );
 
 		return $last_ref;

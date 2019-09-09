@@ -100,19 +100,20 @@ class Doli_Products extends \eoxia\Singleton_Util {
 		'errors'   => array(),
 		'messages' => array(),
 	) ) {
-		$doli_product = Request_Util::put( 'wpshopapi/update/product/' . $wp_product->data['external_id'], array(
+		$doli_product = Request_Util::post( 'wpshop/object/', array(
 			'label'       => $wp_product->data['title'],
 			'description' => $wp_product->data['content'],
 			'price'       => ! empty( $wp_product->data['price'] ) ? $wp_product->data['price'] : 0,
 			'tva_tx'      => ! empty( $wp_product->data['tva_tx'] ) ? $wp_product->data['tva_tx'] : 0,
-			'fk_product'  => (int) $wp_product->data['external_id'],
-			'wp_product'  => (int) $wp_product->data['id'],
+			'doli_id'     => (int) $wp_product->data['external_id'],
+			'wp_id'       => (int) $wp_product->data['id'],
+			'type'        => 'product',
 		) );
 
 		update_post_meta( $wp_product->data['id'], '_price', $doli_product->price );
 		update_post_meta( $wp_product->data['id'], '_tva_tx', $doli_product->tva_tx );
 		update_post_meta( $wp_product->data['id'], '_price_ttc', $doli_product->price_ttc );
-		update_post_meta( $wp_product->data['id'], '_date_last_synchro', date( 'Y-m-d H:i:s', $doli_product->last_sync_date ) );
+		update_post_meta( $wp_product->data['id'], '_date_last_synchro', $doli_product->last_sync_date );
 		update_post_meta( $wp_product->data['id'], '_external_id', $wp_product->data['external_id'] );
 
 		// translators: Erase data for the product <strong>Produit A</strong> with the <strong>WordPress</strong> data.

@@ -100,71 +100,113 @@ class API_Action {
 		register_rest_route( 'wpshop/v2', '/order/(?P<id>[\d]+)/line', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_add_line_to_order' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/propal/(?P<id>[\d]+)/line', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_add_line_to_propal' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/invoice/(?P<id>[\d]+)/line', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_add_line_to_invoice' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/order/(?P<id>[\d]+)/update/line', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_update_line_to_order' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/propal/(?P<id>[\d]+)/update/line', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_update_line_to_propal' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/invoice/(?P<id>[\d]+)/update/line', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_update_line_to_invoice' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/order/(?P<id>[\d]+)/delete/line', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_delete_line_to_order' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/propal/(?P<id>[\d]+)/delete/line', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_delete_line_to_propal' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/invoice/(?P<id>[\d]+)/delete/line', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_delete_line_to_invoice' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/create/order', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_create_order' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/create/propal', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_create_propal' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/create/invoice', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_create_invoice' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/create/payment', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_create_payment' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 
 		register_rest_route( 'wpshop/v2', '/sync', array(
 			'methods' => array( 'POST' ),
 			'callback' => array( $this, 'callback_wps_sync_from_dolibarr' ),
+			'permission_callback' => function( $request ) {
+				return \eoxia\Rest_Class::g()->check_cap( 'get', $request );
+			},
 		) );
 	}
 
