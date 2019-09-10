@@ -41,23 +41,33 @@ class My_Account_Filter {
 	 * fonction.
 	 */
 	public function add_items_menu( $items ) {
+		$new_items = array();
+
+		if ( Settings::g()->use_quotation() ) {
+			$new_items['quotations'] = array(
+				'link'  => Pages::g()->get_account_link() . 'quotations/',
+				'icon'  => 'fas fa-file-signature',
+				'title' => __( 'Quotations', 'wpshop' ),
+			);
+		}
+
 		if ( Settings::g()->dolibarr_is_active() ) {
-			$new_items = array(
-				'orders'   => array(
-					'link'  => Pages::g()->get_account_link() . 'orders/',
-					'icon'  => 'fas fa-shopping-cart',
-					'title' => __( 'Orders', 'wpshop' ),
-				),
-				'invoices' => array(
-					'link'  => Pages::g()->get_account_link() . 'invoices/',
-					'icon'  => 'fas fa-file-invoice-dollar',
-					'title' => __( 'Invoices', 'wpshop' ),
-				),
-				'download' => array(
-					'link'  => Pages::g()->get_account_link() . 'download/',
-					'icon'  => 'fas fa-file-download',
-					'title' => __( 'Downloads', 'wpshop' ),
-				),
+			$new_items['orders'] = array(
+				'link'  => Pages::g()->get_account_link() . 'orders/',
+				'icon'  => 'fas fa-shopping-cart',
+				'title' => __( 'Orders', 'wpshop' ),
+			);
+
+			$new_items['invoices'] = array(
+				'link'  => Pages::g()->get_account_link() . 'invoices/',
+				'icon'  => 'fas fa-file-invoice-dollar',
+				'title' => __( 'Invoices', 'wpshop' ),
+			);
+
+			$new_items['download'] = array(
+				'link'  => Pages::g()->get_account_link() . 'download/',
+				'icon'  => 'fas fa-file-download',
+				'title' => __( 'Downloads', 'wpshop' ),
 			);
 
 			$items = $new_items + $items;

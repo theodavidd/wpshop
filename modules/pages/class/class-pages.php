@@ -59,7 +59,6 @@ class Pages extends \eoxia\Singleton_Util {
 			'cart_id'                    => 0,
 			'checkout_id'                => 0,
 			'my_account_id'              => 0,
-			'valid_page_id'              => 0,
 			'general_conditions_of_sale' => 0,
 		);
 
@@ -68,7 +67,6 @@ class Pages extends \eoxia\Singleton_Util {
 			'cart_id'                    => __( 'Cart', 'wpshop' ),
 			'checkout_id'                => __( 'Checkout', 'wpshop' ),
 			'my_account_id'              => __( 'My account', 'wpshop' ),
-			'valid_page_id'              => __( 'Valid page', 'wpshop' ),
 			'general_conditions_of_sale' => __( 'General conditions of sale', 'wpshop' ),
 		);
 
@@ -180,17 +178,6 @@ class Pages extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Récupères le lien vers la page "Validation du paiement".
-	 *
-	 * @since 2.0.0
-	 *
-	 * @return string Le lien vers la page "Validation du paiement".
-	 */
-	public function get_valid_page_link() {
-		return get_permalink( $this->page_ids['valid_page_id'] );
-	}
-
-	/**
 	 * Récupères le lien vers la page "Condition générale de vente".
 	 *
 	 * @since 2.0.0
@@ -213,20 +200,6 @@ class Pages extends \eoxia\Singleton_Util {
 
 		return ( get_the_ID() === $this->page_ids['checkout_id'] ) ? true : false;
 	}
-
-	/**
-	 * Est-ce la page "valid" ?
-	 *
-	 * @since 2.0.0
-	 *
-	 * @return boolean True si oui, sinon false.
-	 */
-	public function is_valid_page() {
-		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
-
-		return ( get_the_ID() === $this->page_ids['valid_page_id'] ) ? true : false;
-	}
-
 }
 
 Pages::g();

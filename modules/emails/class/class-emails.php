@@ -56,6 +56,11 @@ class Emails extends \eoxia\Singleton_Util {
 			'filename_template' => 'customer-completed-order.php',
 		);
 
+		$this->emails['wps_email_customer_shipment_tracking'] = array(
+			'title'             => __( 'Delivered order', 'wpshop' ),
+			'filename_template' => 'customer-delivered-order.php',
+		);
+
 		$this->emails['wps_email_customer_new_account'] = array(
 			'title'             => __( 'New account', 'wpshop' ),
 			'filename_template' => 'customer-new-account.php',

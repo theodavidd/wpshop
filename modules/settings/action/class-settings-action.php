@@ -123,6 +123,7 @@ class Settings_Action {
 		$thumbnail_size           = ! empty( $_POST['thumbnail_size'] ) ? (array) $_POST['thumbnail_size'] : array();
 		$thumbnail_size['width']  = ! empty( $thumbnail_size['width'] ) ? (int) $thumbnail_size['width'] : 0;
 		$thumbnail_size['height'] = ! empty( $thumbnail_size['height'] ) ? (int) $thumbnail_size['height'] : 0;
+		$use_quotation            = isset( $_POST['use_quotation'] ) && 'on' == $_POST['use_quotation'] ? true : false;
 
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
@@ -132,6 +133,8 @@ class Settings_Action {
 
 		$dolibarr_option['thumbnail_size']['width']  = $thumbnail_size['width'];
 		$dolibarr_option['thumbnail_size']['height'] = $thumbnail_size['height'];
+
+		$dolibarr_option['use_quotation'] = $use_quotation;
 
 		update_option( 'wps_dolibarr', $dolibarr_option );
 

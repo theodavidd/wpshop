@@ -60,14 +60,9 @@ class Checkout_Action {
 		if ( Settings::g()->dolibarr_is_active() ) {
 			add_rewrite_endpoint( 'order/(.*)', EP_ALL );
 			add_rewrite_endpoint( 'pay/(.*)', EP_ALL );
+			add_rewrite_endpoint( 'received/(.*)/(.*)', EP_ALL );
 			add_rewrite_rule( get_post_field( 'post_name', $page_ids_options['checkout_id'] ) . '/pay/([0-9]+)/?$', 'index.php?page_id=' . $page_ids_options['checkout_id'] . '&id=$matches[1]', 'top' );
-
-			flush_rewrite_rules(false);
-
-		}
-
-		if ( ! empty( $page_ids_options['valid_page_id'] ) ) {
-			add_rewrite_rule( get_post_field( 'post_name', $page_ids_options['valid_page_id'] ) . '/(.*)/([0-9]+)/?$', 'index.php?page_id=' . $page_ids_options['valid_page_id'] . '&type=$matches[1]&id=$matches[2]', 'top' );
+			add_rewrite_rule( get_post_field( 'post_name', $page_ids_options['checkout_id'] ) . '/received/(order|proposal)/([0-9]+)/?$', 'index.php?page_id=' . $page_ids_options['checkout_id'] . '&type=received&object_type=$matches[1]&id=$matches[2]', 'top' );
 		}
 
 		do_action( 'wps_checkout_endpoint' );
@@ -94,7 +89,7 @@ class Checkout_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_before_resume() {
-		if ( Pages::g()->is_checkout_page() || Pages::g()->is_valid_page() ) {
+		if ( Pages::g()->is_checkout_page() ) {
 			$shipping_cost_option = get_option( 'wps_shipping_cost', Settings::g()->shipping_cost_default_settings );
 
 			include( Template_Util::get_template_part( 'checkout', 'resume-list-product' ) );
@@ -313,12 +308,12 @@ class Checkout_Action {
 
 			if ( ! empty( $condition_general_id ) && null !== $condition_general ) {
 				// translators: The <a href="condition_general_link">Condition general name</a> and .
-				$terms_message .= sprintf( __( 'the <a href="%1$s">%2$s</a> and ', 'wpshop' ), get_permalink( $condition_general->ID ), $condition_general->post_title );
+				$terms_message .= sprintf( __( 'the <a target="_blank" href="%1$s">%2$s</a> and ', 'wpshop' ), get_permalink( $condition_general->ID ), $condition_general->post_title );
 			}
 
 			if ( ! empty( $privacy_policy_id ) && null !== $privacy_policy ) {
 				// translators: the <a href="privacy_policy_link">Privacy policy name</a>.
-				$terms_message .= sprintf( __( 'the <a href="%1$s">%2$s</a>', 'wpshop' ), get_permalink( $privacy_policy->ID ), $privacy_policy->post_title );
+				$terms_message .= sprintf( __( 'the <a target="_blank" href="%1$s">%2$s</a>', 'wpshop' ), get_permalink( $privacy_policy->ID ), $privacy_policy->post_title );
 			}
 
 			include( Template_Util::get_template_part( 'checkout', 'terms' ) );
@@ -364,7 +359,6 @@ class Checkout_Action {
 		if ( empty( Cart_Session::g()->external_data['order_id'] ) ) {
 			$proposal                         = Proposals::g()->get( array( 'id' => Cart_Session::g()->external_data['proposal_id'] ), true );
 			$proposal->data['payment_method'] = $_POST['type_payment'];
-
 			$proposal = Proposals::g()->update( $proposal->data );
 
 			// translators: Checkout: Update proposal 000001 for add payment method Stripe.
@@ -412,7 +406,7 @@ class Checkout_Action {
 				'namespace'        => 'wpshopFrontend',
 				'module'           => 'checkout',
 				'callback_success' => 'redirect',
-				'url'              => Pages::g()->get_valid_page_link() . '/proposal/' . $proposal->data['id'] . '/',
+				'url'              => Pages::g()->get_checkout_link() . '/received/proposal/' . $proposal->data['id'] . '/',
 			) );
 		}
 	}

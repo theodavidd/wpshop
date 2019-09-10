@@ -50,7 +50,11 @@ class My_Account_Shortcode extends \eoxia\Singleton_Util {
 			} else {
 				global $wp;
 
-				$tab = 'details';
+				$tab = Settings::g()->dolibarr_is_active() ? 'orders' : 'quotations';
+
+				if ( $tab == 'quotations' ) {
+					$tab = Settings::g()->use_quotation() ? 'quotations' : 'details';
+				}
 
 				if ( array_key_exists( 'orders', $wp->query_vars ) ) {
 					$tab = 'orders';

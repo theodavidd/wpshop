@@ -220,7 +220,8 @@ class Doli_Invoice_Action {
 			'meta_value' => (int) $doli_invoice->id,
 		), true );
 
-		$third_party = Third_Party::g()->get( array( 'id' => $invoice->data['third_party_id'] ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $wp_invoice->data['third_party_id'] ), true );
+		$contact =     Contact::g()->get( array( 'id' => $order->data['author_id'] ), true );
 
 		$invoice_file = Request_Util::get( 'documents/download?module_part=facture&original_file=' . $wp_invoice->data['title'] . '/' . $wp_invoice->data['title'] . '.pdf' );
 		$content      = base64_decode( $invoice_file->content );

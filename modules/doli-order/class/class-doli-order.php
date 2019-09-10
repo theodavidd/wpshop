@@ -269,7 +269,7 @@ class Doli_Order extends \eoxia\Post_Class {
 			$wp_order = Doli_Order::g()->update( $wp_order->data );
 
 			if ( $wpshop_object != null ) {
-				update_post_meta( $wp_order->data['id'], '_date_last_synchro', $doli_order->last_sync_date );
+				update_post_meta( $wp_order->data['id'], '_date_last_synchro', $wpshop_object->last_sync_date );
 			}
 
 			return Doli_Order::g()->get( array( 'id' => $wp_order->data['id'] ), true );

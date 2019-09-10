@@ -54,6 +54,7 @@ class Settings extends \eoxia\Singleton_Util {
 				'width'  => 360,
 				'height' => 460,
 			),
+			'use_quotation' => true,
 		);
 
 		$this->shipping_cost_default_settings = array(
@@ -192,6 +193,12 @@ class Settings extends \eoxia\Singleton_Util {
 		}
 
 		return false;
+	}
+
+	public function use_quotation() {
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
+		return $dolibarr_option['use_quotation'];
 	}
 }
 

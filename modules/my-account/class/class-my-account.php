@@ -103,11 +103,6 @@ class My_Account extends \eoxia\Singleton_Util {
 				'icon'  => 'fas fa-user' ,
 				'title' => __( 'Account details', 'wpshop' ),
 			),
-			'quotations' => array(
-				'link'  => Pages::g()->get_account_link() . 'quotations/',
-				'icon'  => 'fas fa-file-signature',
-				'title' => __( 'Quotations', 'wpshop' ),
-			),
 			'logout'     => array(
 				'link'  => wp_logout_url( home_url() ),
 				'icon'  => 'fas fa-sign-out-alt',

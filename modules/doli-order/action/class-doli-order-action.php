@@ -52,6 +52,9 @@ class Doli_Order_Action {
 			'wps-order-details' => array(
 				'callback' => array( $this, 'metabox_order_details' ),
 			),
+			'wps-order-shipment-tracking' => array(
+				'callback' => array( $this, 'metabox_shipment_tracking' ),
+			),
 			'wps-order-payment' => array(
 				'callback' => array( $this, 'metabox_order_payment' ),
 			),
@@ -242,6 +245,12 @@ class Doli_Order_Action {
 		) );
 	}
 
+	public function metabox_shipment_tracking( $order ) {
+		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-shipment-tracking', array(
+			'order' => $order,
+		) );
+	}
+
 	/**
 	 * Box affichant les produits de la commande
 	 *
@@ -367,6 +376,7 @@ class Doli_Order_Action {
 		) );
 
 		Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
+		update_post_meta( $wp_order->data['id'], '_traitment_in_progress', false );
 
 		// translators: Update the order 00001 to billed.
 		\eoxia\LOG_Util::log( sprintf( 'Update the order %s to billed', $doli_order->ref ), 'wpshop2' );
@@ -384,6 +394,7 @@ class Doli_Order_Action {
 
 		$wp_order->data['payment_failed'] = true;
 		Doli_Order::g()->update( $wp_order->data );
+		update_post_meta( $wp_order->data['id'], '_traitment_in_progress', false );
 
 		// translators: Update the order 00001 to failed.
 		\eoxia\LOG_Util::log( sprintf( 'Update the order %s to failed', $wp_order->data['title'] ), 'wpshop2' );
@@ -429,7 +440,8 @@ class Doli_Order_Action {
 	}
 
 	public function mark_as_delivery() {
-		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$id           = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$tracking_url = ! empty( $_POST['tracking_url'] ) ? sanitize_text_field( $_POST['tracking_url'] ) : '';
 
 		if ( empty( $id ) ) {
 			wp_send_json_error();
@@ -442,12 +454,23 @@ class Doli_Order_Action {
 		) );
 
 		$order = Doli_Order::g()->doli_to_wp( $doli_order, $order );
-		$third_party  = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
+		$order->data['tracking_link'] = $tracking_url;
+		update_post_meta( $order->data['id'], '_tracking_link', $tracking_url );
 
-		ob_start();
-		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-order-details', array(
+		$third_party = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
+		$contact     = Contact::g()->get( array( 'id' => $order->data['author_id'] ), true );
+		Emails::g()->send_mail( $contact->data['email'], 'wps_email_customer_shipment_tracking', array(
 			'order'       => $order,
 			'third_party' => $third_party,
+			'contact'     => $contact,
+		) );
+
+		// // translators: Send the invoice 000001 to the email contact text@eoxia.com.
+		\eoxia\LOG_Util::log( sprintf( 'Send the invoice %s to the email contact %s', $wp_invoice->data['title'], $contact->data['email'] ), 'wpshop2' );
+
+		ob_start();
+		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'metabox-shipment-tracking', array(
+			'order'       => $order,
 		) );
 		wp_send_json_success( array(
 			'view'             => ob_get_clean(),

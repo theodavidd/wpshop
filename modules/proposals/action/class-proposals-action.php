@@ -68,10 +68,13 @@ class Proposals_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		$hook = add_submenu_page( 'wpshop', __( 'Proposals', 'wpshop' ), __( 'Proposals', 'wpshop' ), 'manage_options', 'wps-proposal', array( $this, 'callback_add_menu_page' ) );
+		if ( Settings::g()->use_quotation() ) {
 
-		if ( ! isset( $_GET['id'] ) ) {
-			add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+			$hook = add_submenu_page( 'wpshop', __( 'Proposals', 'wpshop' ), __( 'Proposals', 'wpshop' ), 'manage_options', 'wps-proposal', array( $this, 'callback_add_menu_page' ) );
+
+			if ( ! isset( $_GET['id'] ) ) {
+				add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+			}
 		}
 	}
 
@@ -232,15 +235,15 @@ class Proposals_Action {
 
 				$tva_lines[ $line['tva_tx'] ] += empty( $line['total_tva'] ) ? $line['tva_amount'] * $line['qty'] : $line['total_tva'];
 
-				if ( empty( $line['libelle'] ) ) {
+				if ( empty( $line['libelle'] ) && ! empty( $line['title'] ) ) {
 					$line['libelle'] = $line['title'];
 				}
 
-				if ( empty( $line['subprice'] ) ) {
+				if ( empty( $line['subprice'] ) && isset( $line['price'] ) ) {
 					$line['subprice'] = $line['price'];
 				}
 
-				if ( empty( $line['total_ht'] ) ) {
+				if ( empty( $line['total_ht'] ) && isset( $line['price'] ) ) {
 					$line['total_ht'] = $line['price'] * $line['qty'];
 				}
 			}
@@ -248,7 +251,7 @@ class Proposals_Action {
 
 		if ( Settings::g()->dolibarr_is_active() ) {
 			\eoxia\View_Util::exec( 'wpshop', 'order', 'review-order', array(
-				'proposal'  => $proposal,
+				'object'    => $proposal,
 				'tva_lines' => $tva_lines,
 			) );
 		} else {
