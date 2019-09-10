@@ -43,7 +43,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<div class="form-element form-align-horizontal">
 		<div class="form-field-inline">
 			<input type="checkbox" id="use-paypal-sandbox" class="form-field" <?php echo $paypal_options['use_paypal_sandbox'] ? 'checked' : ''; ?> name="use_paypal_sandbox" />
-			<label for="use-paypal-sandbox"><?php esc_html_e( 'Paypal Sandbox', 'wpshop' ); ?></label>
+			<label for="use-paypal-sandbox"><?php esc_html_e( 'PayPal Sandbox', 'wpshop' ); ?></label>
 		</div>
 	</div>
 
@@ -54,5 +54,5 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
-	<input type="submit" class="wpeo-button button-main" value="Enregister les modifications" />
+	<input type="submit" class="wpeo-button button-main" value="<?php esc_html_e( 'Save Changes', 'wpshop' ); ?>" />
 </form>

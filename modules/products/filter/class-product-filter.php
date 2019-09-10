@@ -189,6 +189,10 @@ class Product_Filter {
 		return $content;
 	}
 
+	public function change_product_category_title( $title ) {
+		return 'yo';
+	}
+
 	/**
 	 * Ajoutes le message "Rupture de stock" sur le produit.
 	 *

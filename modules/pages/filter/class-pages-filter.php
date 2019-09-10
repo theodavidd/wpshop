@@ -102,11 +102,6 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 							$params['step'] = isset( $_GET['step'] ) ? $_GET['step'] : 1;
 							$shortcode      = 'checkout';
 							break;
-						case 'valid_page_id':
-							$shortcode      = 'valid';
-							$params['id']   = (int) get_query_var( 'id' );
-							$params['type'] = sanitize_text_field( get_query_var( 'type' ) );
-							break;
 						case 'cart_id':
 							$shortcode = 'cart';
 							break;

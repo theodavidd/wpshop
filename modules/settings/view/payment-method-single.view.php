@@ -16,6 +16,6 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<h3><a href="<?php echo admin_url( 'admin.php?page=wps-settings&tab=payment_method' ); ?>">Mode de paiements</a> -> <?php echo $payment['title']; ?></h3>
+<h3><a href="<?php echo admin_url( 'admin.php?page=wps-settings&tab=payment_method' ); ?>"><?php esc_html_e( 'Payment method', 'wpshop' ); ?></a> -> <?php echo $payment['title']; ?></h3>
 
 <?php do_action( 'wps_setting_payment_method_' . $section ); ?>
