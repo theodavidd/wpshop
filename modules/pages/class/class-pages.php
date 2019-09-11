@@ -104,33 +104,9 @@ class Pages extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Récupères le slug de la page par rapport à son ID.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param  integer $page_id ID de la page.
-	 *
-	 * @return string           Le slug de la page.
-	 */
-	public function get_slug_link_shop_page( $page_id ) {
-		if ( ! empty( $this->page_ids ) ) {
-			foreach ( $this->page_ids as $key => $id ) {
-				if ( $id === $page_id ) {
-					$page = get_page( $page_id );
-					return $page->post_name;
-				}
-			}
-		}
-
-		return '';
-	}
-
-	/**
 	 * Récupères le slug de la page shop.
 	 *
 	 * @since 2.0.0
-	 *
-	 * @todo Doublone avec get slug link shop page.
 	 *
 	 * @return string Le slug de la page shop.
 	 */

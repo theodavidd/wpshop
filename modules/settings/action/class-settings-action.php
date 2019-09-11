@@ -35,6 +35,7 @@ class Settings_Action {
 		add_action( 'admin_post_wps_update_general_settings', array( $this, 'callback_update_general_settings' ) );
 		add_action( 'admin_post_wps_update_pages_settings', array( $this, 'callback_update_pages_settings' ) );
 		add_action( 'admin_post_wps_update_email', array( $this, 'callback_update_email' ) );
+		add_action( 'admin_post_wps_update_method_payment', array( $this, 'callback_update_method_payment' ) );
 		add_action( 'admin_post_wps_update_shipping_cost', array( $this, 'callback_update_shipping_cost' ) );
 
 		add_action( 'init', array( $this, 'callback_add_product_thumbnail_size' ) );
@@ -186,6 +187,38 @@ class Settings_Action {
 		set_transient( 'updated_wpshop_option_' . get_current_user_id(), __( 'Your settings have been saved.', 'wpshop' ), 30 );
 
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab ) );
+	}
+
+	/**
+	 * Met à jour les données pour la méthode de paiement "Payer en boutique".
+	 *
+	 * @since 2.0.0
+	 */
+	public function callback_update_method_payment() {
+		check_admin_referer( 'wps_update_method_payment' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die();
+		}
+
+		$title       = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
+		$type        = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
+		$active      = ( ! empty( $_POST['activate'] ) && 'true' == $_POST['activate'] ) ? true : false;
+		$description = ! empty( $_POST['description'] ) ? stripslashes( $_POST['description'] ) : '';
+
+		$payment_methods_option = get_option( 'wps_payment_methods', Payment::g()->default_options );
+
+		$payment_methods_option[ $type ]['title']       = $title;
+		$payment_methods_option[ $type ]['description'] = $description;
+		$payment_methods_option[ $type ]['active']      = $active;
+
+		$payment_methods_option = apply_filters( 'wps_update_payment_method_data', $payment_methods_option, $type );
+
+		update_option( 'wps_payment_methods', $payment_methods_option );
+
+		set_transient( 'updated_wpshop_option_' . get_current_user_id(), __( 'Your settings have been saved.', 'wpshop' ), 30 );
+
+		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab=payment_method&section=' . $type ) );
 	}
 
 	/**

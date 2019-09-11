@@ -33,8 +33,6 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @todo: Gérer les status
-	 *
 	 * @param  stdClass       $doli_proposal Les données de dolibarr.
 	 *
 	 * @param  Proposal_Model $wp_proposal   Les données de WP.

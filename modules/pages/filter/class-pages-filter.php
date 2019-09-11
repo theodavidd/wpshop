@@ -56,8 +56,6 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 	/**
 	 * Affiches le status des pages lié à WPshop.
 	 *
-	 * @todo: A vérifier
-	 *
 	 * @since 2.0.0
 	 *
 	 * @param array   $post_states Les status actuels.

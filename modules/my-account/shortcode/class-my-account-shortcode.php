@@ -46,7 +46,7 @@ class My_Account_Shortcode extends \eoxia\Singleton_Util {
 	public function callback_account() {
 		if ( ! is_admin() ) {
 			if ( ! is_user_logged_in() ) {
-				include( Template_Util::get_template_part( 'my-account', 'form-login' ) );
+				My_Account::g()->display_form_login();
 			} else {
 				global $wp;
 

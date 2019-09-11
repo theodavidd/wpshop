@@ -65,11 +65,6 @@ class Emails extends \eoxia\Singleton_Util {
 			'title'             => __( 'New account', 'wpshop' ),
 			'filename_template' => 'customer-new-account.php',
 		);
-
-		$this->emails['wps_email_customer_reset_password'] = array(
-			'title'             => __( 'Reset password', 'wpshop' ),
-			'filename_template' => 'customer-reset-password.php',
-		);
 	}
 
 	/**

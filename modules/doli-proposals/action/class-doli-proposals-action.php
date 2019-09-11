@@ -136,8 +136,9 @@ class Doli_Proposals_Action {
 	}
 
 	/**
-	 * @todo: check right nonce
-	 * @return [type] [description]
+	 * Create Order from Proposal and go to pay page.
+	 *
+	 * @since 2.0.0
 	 */
 	public function convert_to_order_and_pay() {
 		$id = ! empty( $_GET['proposal_id'] ) ? (int) $_GET['proposal_id'] : 0;

@@ -136,13 +136,13 @@ class Settings extends \eoxia\Singleton_Util {
 	 */
 	public function display_payment_method( $section = '' ) {
 		$payment_methods = get_option( 'wps_payment_methods', Payment::g()->default_options );
+
 		if ( ! empty( $section ) ) {
-			$payment_methods = $payment_methods;
-			$payment         = $payment_methods[ $section ];
+			$payment_data = Payment::g()->get_payment_option( $section );
 
 			\eoxia\View_Util::exec( 'wpshop', 'settings', 'payment-method-single', array(
-				'section' => $section,
-				'payment' => $payment,
+				'section'      => $section,
+				'payment_data' => $payment_data,
 			) );
 		} else {
 			\eoxia\View_Util::exec( 'wpshop', 'settings', 'payment-method', array(

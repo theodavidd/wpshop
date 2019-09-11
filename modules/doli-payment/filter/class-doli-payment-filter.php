@@ -35,8 +35,6 @@ class Doli_Payment_Filter {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @todo: a vérifier.
-	 *
 	 * @param array $payment_methods Les méthodes de paiement de WP.
 	 *
 	 * @return array                 Avec l'entrée doli_type en plus.

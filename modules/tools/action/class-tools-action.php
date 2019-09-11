@@ -100,6 +100,10 @@ class Tools_Action {
 	public function import_third_party() {
 		ini_set( 'memory_limit', -1 );
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error();
+		}
+
 		$path_to_json  = ! empty( $_POST['path_to_json'] ) ? stripslashes( $_POST['path_to_json'] ) : '';
 		$index_element = ! empty( $_POST['index_element'] ) ? $_POST['index_element'] : 0;
 		$count_element = ! empty( $_POST['count_element'] ) ? $_POST['count_element'] : 0;
@@ -179,11 +183,13 @@ class Tools_Action {
 	 * Parcours le CSV. Traite chaque ligne afin de créer les produits.
 	 *
 	 * @since 2.0.0
-	 *
-	 * @todo: curl and save file, warning security can inject backdoor. We have to securize.
 	 */
 	public function import_product() {
 		ini_set( 'memory_limit', -1 );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error();
+		}
 
 		$path_to_json  = ! empty( $_POST['path_to_json'] ) ? stripslashes( $_POST['path_to_json'] ) : '';
 		$index_element = ! empty( $_POST['index_element'] ) ? $_POST['index_element'] : 1;

@@ -61,32 +61,24 @@ class My_Account extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Ajoutes le titre de la page de login.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @todo: Mal placé ? Pas trop compréhensible.
-	 */
-	public function before_login_form() {
-		global $post;
-
-		if ( Pages::g()->get_slug_link_shop_page( $post->ID ) === 'my-account' ) {
-			include( Template_Util::get_template_part( 'my-account', 'login-title' ) );
-		}
-	}
-
-	/**
 	 * Appel la vue pour afficher le formulaire de login dans la page de
 	 * paiement.
 	 *
 	 * @since 2.0.0
-	 *
-	 * @todo: Mal placé ?
 	 */
 	public function checkout_form_login() {
 		if ( ! is_user_logged_in() ) {
 			include( Template_Util::get_template_part( 'my-account', 'checkout-login' ) );
 		}
+	}
+
+	public function display_form_login() {
+		global $post;
+
+		$transient = get_option( 'login_error_' . $_COOKIE['PHPSESSID'] );
+		update_option( 'login_error_' . $_COOKIE['PHPSESSID'], '', false );
+
+		include( Template_Util::get_template_part( 'my-account', 'form-login' ) );
 	}
 
 	/**
