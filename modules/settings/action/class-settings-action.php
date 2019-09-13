@@ -34,7 +34,6 @@ class Settings_Action {
 
 		add_action( 'admin_post_wps_update_general_settings', array( $this, 'callback_update_general_settings' ) );
 		add_action( 'admin_post_wps_update_pages_settings', array( $this, 'callback_update_pages_settings' ) );
-		add_action( 'admin_post_wps_update_email', array( $this, 'callback_update_email' ) );
 		add_action( 'admin_post_wps_update_method_payment', array( $this, 'callback_update_method_payment' ) );
 		add_action( 'admin_post_wps_update_shipping_cost', array( $this, 'callback_update_shipping_cost' ) );
 

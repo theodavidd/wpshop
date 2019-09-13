@@ -97,7 +97,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 				if ( false !== $key ) {
 					switch ( $key ) {
 						case 'checkout_id':
-							$params['step'] = isset( $_GET['step'] ) ? $_GET['step'] : 1;
+							$params['step'] = isset( $_GET['step'] ) ? (int) $_GET['step'] : 1;
 							$shortcode      = 'checkout';
 							break;
 						case 'cart_id':

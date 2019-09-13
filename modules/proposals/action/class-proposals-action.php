@@ -101,7 +101,8 @@ class Proposals_Action {
 	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
-			$proposal    = Proposals::g()->get( array( 'id' => $_GET['id'] ), true );
+			$id = ! empty( $_GET['id'] ) ? (int) $_GET['id'] : 0;
+			$proposal    = Proposals::g()->get( array( 'id' => $id ), true );
 			$third_party = Third_Party::g()->get( array( 'id' => $proposal->data['parent_id'] ), true );
 
 			if ( ! empty( $this->metaboxes ) ) {
@@ -126,7 +127,7 @@ class Proposals_Action {
 			$count = Proposals::g()->search( $s, array(), true );
 
 			$number_page  = ceil( $count / $per_page );
-			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
+			$current_page = isset( $_GET['current_page'] ) ? (int) $_GET['current_page'] : 1;
 
 			$base_url = admin_url( 'admin.php?page=wps-proposal' );
 
@@ -136,11 +137,11 @@ class Proposals_Action {
 			$prev_url = $base_url . '&current_page=' . ( $current_page - 1 );
 			$next_url = $base_url . '&current_page=' . ( $current_page + 1 );
 
-			if ( ! empty( $_GET['s'] ) ) {
-				$begin_url .= '&s=' . $_GET['s'];
-				$end_url   .= '&s=' . $_GET['s'];
-				$prev_url  .= '&s=' . $_GET['s'];
-				$next_url  .= '&s=' . $_GET['s'];
+			if ( ! empty( $s ) ) {
+				$begin_url .= '&s=' . $s;
+				$end_url   .= '&s=' . $s;
+				$prev_url  .= '&s=' . $s;
+				$next_url  .= '&s=' . $s;
 			}
 
 			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'main', array(
@@ -151,6 +152,7 @@ class Proposals_Action {
 				'end_url'      => $end_url,
 				'prev_url'     => $prev_url,
 				'next_url'     => $next_url,
+				's'            => $s,
 			) );
 		}
 	}

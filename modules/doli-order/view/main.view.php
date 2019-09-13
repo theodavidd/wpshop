@@ -42,7 +42,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				<label class="form-field-container">
 					<span class="form-field-icon-prev"><i class="fas fa-search"></i></span>
 					<input type="hidden" name="page" value="wps-order" />
-					<input type="text" name="s" class="form-field" value="<?php echo esc_attr( ! empty( $_GET['s'] ) ? $_GET['s'] : '' ); ?>" />
+					<input type="text" name="s" class="form-field" value="<?php echo esc_attr( $s ); ?>" />
 				</label>
 			</div>
 
@@ -51,9 +51,9 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 
 	<?php
-	if ( ! empty( $_GET['s'] ) ) :
+	if ( ! empty( $s ) ) :
 		?>
-		<p>Résultats de recherche pour « <?php echo $_GET['s']; ?> »</p>
+		<p>Résultats de recherche pour « <?php echo esc_html( $s ); ?> »</p>
 		<?php
 	endif;
 	?>
@@ -79,7 +79,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 				<form method="GET" action="<?php echo admin_url( 'admin.php' ); ?>" />
 					<input type="hidden" name="page" value="wps-order" />
-					<input type="hidden" name="s" value="<?php echo esc_attr( ! empty( $_GET['s'] ) ? $_GET['s'] : '' ); ?>" />
+					<input type="hidden" name="s" value="<?php echo esc_attr( $s ); ?>" />
 					<input style="width: 50px;" type="text" name="current_page" value="<?php echo esc_attr( $current_page ); ?>" />
 				</form>
 

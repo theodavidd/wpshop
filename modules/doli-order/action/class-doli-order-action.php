@@ -120,7 +120,9 @@ class Doli_Order_Action {
 	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
-			$order       = Doli_Order::g()->get( array( 'id' => $_GET['id'] ), true );
+			$id = ! empty( $_GET['id'] ) ? (int) $_GET['id'] : 0;
+
+			$order       = Doli_Order::g()->get( array( 'id' => $id ), true );
 			$third_party = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
 
 			if ( ! empty( $this->metaboxes ) ) {
@@ -144,7 +146,7 @@ class Doli_Order_Action {
 
 			$count        = Doli_Order::g()->search( $s, array(), true );
 			$number_page  = ceil( $count / $per_page );
-			$current_page = isset( $_GET['current_page'] ) ? $_GET['current_page'] : 1;
+			$current_page = isset( $_GET['current_page'] ) ? (int) $_GET['current_page'] : 1;
 
 			$base_url = admin_url( 'admin.php?page=wps-order' );
 
@@ -154,11 +156,11 @@ class Doli_Order_Action {
 			$prev_url = $base_url . '&current_page=' . ( $current_page - 1 );
 			$next_url = $base_url . '&current_page=' . ( $current_page + 1 );
 
-			if ( ! empty( $_GET['s'] ) ) {
-				$begin_url .= '&s=' . $_GET['s'];
-				$end_url   .= '&s=' . $_GET['s'];
-				$prev_url  .= '&s=' . $_GET['s'];
-				$next_url  .= '&s=' . $_GET['s'];
+			if ( ! empty( $s ) ) {
+				$begin_url .= '&s=' . $s;
+				$end_url   .= '&s=' . $s;
+				$prev_url  .= '&s=' . $s;
+				$next_url  .= '&s=' . $s;
 			}
 
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'main', array(
@@ -169,6 +171,7 @@ class Doli_Order_Action {
 				'end_url'      => $end_url,
 				'prev_url'     => $prev_url,
 				'next_url'     => $next_url,
+				's'            => $s,
 			) );
 		}
 	}
@@ -439,6 +442,10 @@ class Doli_Order_Action {
 		exit;
 	}
 
+	/**
+	 * @todo: nonce
+	 * @return [type] [description]
+	 */
 	public function mark_as_delivery() {
 		$id           = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 		$tracking_url = ! empty( $_POST['tracking_url'] ) ? sanitize_text_field( $_POST['tracking_url'] ) : '';

@@ -145,6 +145,11 @@ class Checkout_Action {
 
 		$fast_pay     = isset( $_POST['fast_pay'] ) && 'true' == $_POST['fast_pay'] ? true : false;
 		$type_payment = ! empty( $_POST['type_payment'] ) ? sanitize_text_field( $_POST['type_payment'] ) : '';
+		$type         = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
+
+		if ( ! in_array( $type, array( 'order', 'proposal' ) ) ) {
+			wp_send_json_error();
+		}
 
 		if ( ! $fast_pay ) {
 			do_action( 'checkout_create_third_party' );
@@ -165,7 +170,7 @@ class Checkout_Action {
 			do_action( 'wps_checkout_update_proposal', $proposal );
 		}
 
-		if ( 'order' === $_POST['type'] ) {
+		if ( 'order' === $type ) {
 			if ( empty( Cart_Session::g()->external_data['order_id'] ) ) {
 				$order = apply_filters( 'wps_checkout_create_order', $proposal );
 			} else {

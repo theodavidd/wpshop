@@ -477,6 +477,10 @@ class Doli_Sync_Action {
 		}
 	}
 
+	/**
+	 * @todo: nonce
+	 * @return [type] [description]
+	 */
 	public function check_sync_statut() {
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 

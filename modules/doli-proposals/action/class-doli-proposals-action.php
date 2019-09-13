@@ -139,6 +139,8 @@ class Doli_Proposals_Action {
 	 * Create Order from Proposal and go to pay page.
 	 *
 	 * @since 2.0.0
+	 *
+	 * @todo: nonce
 	 */
 	public function convert_to_order_and_pay() {
 		$id = ! empty( $_GET['proposal_id'] ) ? (int) $_GET['proposal_id'] : 0;
