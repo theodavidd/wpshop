@@ -158,7 +158,7 @@ class Product_Action {
 		update_post_meta( $post_id, '_product_downloadable', $product_data['product_downloadable'] );
 
 		if ( 'quick_save' !== $action ) {
-			update_post_meta( $post_id, '_similar_products_id', json_encode( $product_data['similar_products_id'] ) );
+			update_post_meta( $post_id, '_similar_products_id', ! empty( $product_data['similar_products_id'] ) ? json_encode( $product_data['similar_products_id'] ) : null );
 		}
 	}
 

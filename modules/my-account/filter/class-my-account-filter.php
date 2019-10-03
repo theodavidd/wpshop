@@ -70,9 +70,9 @@ class My_Account_Filter {
 				'title' => __( 'Downloads', 'wpshop' ),
 			);
 
-			$items = $new_items + $items;
 		}
 
+		$items = $new_items + $items;
 		return $items;
 	}
 }

@@ -61,10 +61,11 @@ class Checkout_Action {
 		if ( Settings::g()->dolibarr_is_active() ) {
 			add_rewrite_endpoint( 'order/(.*)', EP_ALL );
 			add_rewrite_endpoint( 'pay/(.*)', EP_ALL );
-			add_rewrite_endpoint( 'received/(.*)/(.*)', EP_ALL );
 			add_rewrite_rule( get_post_field( 'post_name', $page_ids_options['checkout_id'] ) . '/pay/([0-9]+)/?$', 'index.php?page_id=' . $page_ids_options['checkout_id'] . '&id=$matches[1]', 'top' );
-			add_rewrite_rule( get_post_field( 'post_name', $page_ids_options['checkout_id'] ) . '/received/(order|proposal)/([0-9]+)/?$', 'index.php?page_id=' . $page_ids_options['checkout_id'] . '&type=received&object_type=$matches[1]&id=$matches[2]', 'top' );
 		}
+
+		add_rewrite_endpoint( 'received/(.*)/(.*)', EP_ALL );
+		add_rewrite_rule( get_post_field( 'post_name', $page_ids_options['checkout_id'] ) . '/received/(order|proposal)/([0-9]+)/?$', 'index.php?page_id=' . $page_ids_options['checkout_id'] . '&type=received&object_type=$matches[1]&id=$matches[2]', 'top' );
 
 		do_action( 'wps_checkout_endpoint' );
 

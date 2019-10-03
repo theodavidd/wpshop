@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
 "POT-Creation-Date: 2019-09-10 16:09+0200\n"
-"PO-Revision-Date: 2019-09-11 11:06+0200\n"
+"PO-Revision-Date: 2019-10-02 17:36+0200\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -105,14 +105,12 @@ msgid "I accept "
 msgstr "J'accepte "
 
 #: modules/checkout/action/class-checkout-action.php:311
-#, fuzzy, php-format
-#| msgid "the <a href=\"%1$s\">%2$s</a> and "
+#, php-format
 msgid "the <a target=\"_blank\" href=\"%1$s\">%2$s</a> and "
 msgstr "les <a href=\"%1$s\">%2$s</a> et "
 
 #: modules/checkout/action/class-checkout-action.php:316
-#, fuzzy, php-format
-#| msgid "the <a href=\"%1$s\">%2$s</a>"
+#, php-format
 msgid "the <a target=\"_blank\" href=\"%1$s\">%2$s</a>"
 msgstr "la <a href=\"%1$s\">%2$s</a>"
 
@@ -765,8 +763,6 @@ msgid "Traitment in progress"
 msgstr ""
 
 #: modules/doli-order/filter/class-doli-order-filter.php:110
-#, fuzzy
-#| msgid "Delivered"
 msgid "(Delivery)"
 msgstr "Délivrée"
 
@@ -1093,8 +1089,7 @@ msgid "You’ve received the following order from %s:"
 msgstr "Vous avez reçu la commande suivante de %s:"
 
 #: modules/emails/view/admin-new-order.php:33
-#, fuzzy, php-format
-#| msgid "<a href=\"%s\" target=\"_blank\">View order</a>"
+#, php-format
 msgid "<a href=\"%s\">View order</a>"
 msgstr "<a href=\"%s\" target=\"_blank\">Voir la commande</a>"
 
@@ -1122,11 +1117,7 @@ msgid "Your invoice %1$s for your order %2$s"
 msgstr "Votre facture #%1$s pour votre commande #%2$s"
 
 #: modules/emails/view/customer-new-account.php:32
-#, fuzzy, php-format
-#| msgid ""
-#| "Thanks for creating an account on %1$s. Your username is %2$s. You can "
-#| "access your account area to view orders, change your password, and more "
-#| "at: <a target=\"_blank\" href=\"%3$s\">%4$s</a>"
+#, php-format
 msgid ""
 "Thanks for creating an account on %1$s. Your username is %2$s. You can "
 "access your account area to view orders, change your password, and more at: "
@@ -1707,10 +1698,8 @@ msgid "E-mail"
 msgstr "Email"
 
 #: modules/settings/view/general.view.php:66
-#, fuzzy
-#| msgid "quotation"
 msgid "Use quotation"
-msgstr "devis"
+msgstr "Activer les devis"
 
 #: modules/settings/view/main.view.php:34 modules/tools/view/main.view.php:24
 msgid "General"

@@ -123,7 +123,7 @@ class Checkout extends \eoxia\Singleton_Util {
 		foreach ( $this->get_checkout_fields() as $fieldset_key => $fieldset ) {
 			if ( 'terms' === $fieldset_key ) {
 				if ( ! $data[ $fieldset_key ] ) {
-					$errors->add( 'terms-field', apply_filters( 'wps_checkout_terms', __( 'You need to accept <strong>the general conditions of sale</strong> and <strong>the privacy policy</strong>' ) ) );
+					$errors->add( 'terms-field', apply_filters( 'wps_checkout_terms', __( 'You need to accept <strong>the general conditions of sale</strong> and <strong>the privacy policy</strong>', 'wpshop' ) ) );
 
 					$error_field = array(
 						'required'    => true,

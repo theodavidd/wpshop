@@ -55,6 +55,10 @@ class Settings extends \eoxia\Singleton_Util {
 				'height' => 460,
 			),
 			'use_quotation' => true,
+			'notice' => array(
+				'error_erp' => true,
+				'activate_erp' => true,
+			),
 		);
 
 		$this->shipping_cost_default_settings = array(

@@ -107,6 +107,7 @@ class Core_Action {
 
 		$script_params = array(
 				'check_erp_statut_nonce' => wp_create_nonce( 'check_erp_statut' ),
+				'url'                    => get_option( 'siteurl' ),
 		);
 
 		wp_localize_script( 'wpshop-backend-script', 'scriptParams', $script_params );

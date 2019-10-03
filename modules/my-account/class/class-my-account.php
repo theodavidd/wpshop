@@ -117,7 +117,6 @@ class My_Account extends \eoxia\Singleton_Util {
 		}
 
 		$this->menu = apply_filters( 'wps_account_navigation_items', $menu_def );
-
 		include( Template_Util::get_template_part( 'my-account', 'my-account-navigation' ) );
 	}
 

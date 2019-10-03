@@ -37,6 +37,8 @@ class Settings_Action {
 		add_action( 'admin_post_wps_update_method_payment', array( $this, 'callback_update_method_payment' ) );
 		add_action( 'admin_post_wps_update_shipping_cost', array( $this, 'callback_update_shipping_cost' ) );
 
+		add_action( 'wp_ajax_wps_hide_notice_erp', array( $this, 'dismiss_notice_erp' ) );
+
 		add_action( 'init', array( $this, 'callback_add_product_thumbnail_size' ) );
 	}
 
@@ -57,9 +59,10 @@ class Settings_Action {
 	public function notice_activate_erp() {
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
-		if ( ! empty( $dolibarr_option['error'] ) ) {
+		if ( ! empty( $dolibarr_option['error'] ) && $dolibarr_option['notice'] && $dolibarr_option['notice']['error_erp'] ) {
 			\eoxia\View_Util::exec( 'wpshop', 'settings', 'notice-error-erp', array( 'error' => $dolibarr_option['error'] ) );
-		} elseif ( empty( $dolibarr_option['dolibarr_url'] ) || empty( $dolibarr_option['dolibarr_secret'] ) ) {
+		} elseif ( ( empty( $dolibarr_option['dolibarr_url'] ) || empty( $dolibarr_option['dolibarr_secret'] ) ) &&
+			( $dolibarr_option['notice'] && $dolibarr_option['notice']['activate_erp'] ) ) {
 			\eoxia\View_Util::exec( 'wpshop', 'settings', 'notice-activate-erp' );
 		}
 
@@ -259,6 +262,28 @@ class Settings_Action {
 		if ( ! empty( $dolibarr_option['thumbnail_size']['width'] ) && ! empty( $dolibarr_option['thumbnail_size']['height'] ) ) {
 			add_image_size( 'wps-product-thumbnail', $dolibarr_option['thumbnail_size']['width'], $dolibarr_option['thumbnail_size']['height'], true );
 		}
+	}
+
+	public function dismiss_notice_erp() {
+		check_ajax_referer( 'wps_hide_notice_erp' );
+
+		$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
+
+		if ( empty( $type ) ) {
+			wp_send_json_error();
+		}
+
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
+		$dolibarr_option['notice'][ $type ] = false;
+
+		update_option( 'wps_dolibarr', $dolibarr_option );
+
+		wp_send_json_success( array(
+			'namespace'        => 'wpshop',
+			'module'           => 'settings',
+			'callback_success' => 'dismiss',
+		) );
 	}
 }
 
