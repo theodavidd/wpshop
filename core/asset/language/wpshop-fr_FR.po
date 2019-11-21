@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
 "POT-Creation-Date: 2019-09-10 16:09+0200\n"
-"PO-Revision-Date: 2019-10-02 17:36+0200\n"
+"PO-Revision-Date: 2019-11-14 14:21+0100\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -1719,7 +1719,7 @@ msgstr "Frais de livraison"
 
 #: modules/settings/view/notice-activate-erp.view.php:21
 msgid "WPshop: You have not yet set up your ERP ?"
-msgstr "WPshop: Avez vous régler votre ERP ?"
+msgstr "WPshop: Avez vous réglé votre ERP ?"
 
 #: modules/settings/view/notice-activate-erp.view.php:22
 #: modules/settings/view/payment-method.view.php:37
