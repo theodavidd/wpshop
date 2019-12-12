@@ -68,11 +68,13 @@ class My_Account extends \eoxia\Singleton_Util {
 	 */
 	public function checkout_form_login() {
 		if ( ! is_user_logged_in() ) {
+			$transient = get_option( 'login_error_' . $_COOKIE['PHPSESSID'] );
+
 			include( Template_Util::get_template_part( 'my-account', 'checkout-login' ) );
 		}
 	}
 
-	public function display_form_login() {
+	public function display_form_login( $account_page = true) {
 		global $post;
 
 		$transient = get_option( 'login_error_' . $_COOKIE['PHPSESSID'] );

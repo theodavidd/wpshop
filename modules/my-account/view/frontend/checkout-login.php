@@ -16,9 +16,10 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="checkout-login hide">
+
+<div class="checkout-login <?php echo ! empty( $transient ) ? 'hide' : ''; ?>">
 	<div class="checkout-login-toggle"><?php esc_html_e( 'Returning customer ?', 'wpshop' ); ?> <span><?php esc_html_e( 'Click here to login', 'wpshop' ); ?></span></div>
-	<div class="content-login" style="display: none;">
-		<?php My_Account::g()->display_form_login(); ?>
+	<div class="content-login" style="<?php echo empty( $transient ) ? 'display: none;' : ''; ?>">
+		<?php My_Account::g()->display_form_login( false ); ?>
 	</div>
 </div>

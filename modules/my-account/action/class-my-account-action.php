@@ -64,6 +64,7 @@ class My_Account_Action {
 	public function handle_login() {
 		check_admin_referer( 'handle_login' );
 
+
 		$page = ! empty( $_POST['page'] ) ? sanitize_text_field( $_POST['page'] ) : 'my-account';
 
 		if ( empty( $_POST['username'] ) || empty( $_POST['password'] ) ) {
@@ -79,10 +80,10 @@ class My_Account_Action {
 		if ( is_wp_error( $user ) ) {
 			update_option( 'login_error_' . $_COOKIE['PHPSESSID'], __( 'Your username or password is incorrect.', 'wpshop' ) );
 
-			wp_redirect( $page );
+			wp_redirect( site_url( $page ) );
 			exit;
 		} else {
-			wp_redirect( $page );
+			wp_redirect( site_url( $page ) );
 			exit;
 		}
 	}

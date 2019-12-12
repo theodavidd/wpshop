@@ -120,6 +120,26 @@ class Pages extends \eoxia\Singleton_Util {
 		return $page->post_name;
 	}
 
+	public function get_slug_my_account_page() {
+		$page = get_page( $this->page_ids['my_account_id'] );
+
+		if ( ! $page ) {
+			return false;
+		}
+
+		return $page->post_name;
+	}
+
+	public function get_slug_checkout_page() {
+		$page = get_page( $this->page_ids['checkout_id'] );
+
+		if ( ! $page ) {
+			return false;
+		}
+
+		return $page->post_name;
+	}
+
 	/**
 	 * Récupères le lien vers la page mon compte.
 	 *

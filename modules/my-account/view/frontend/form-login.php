@@ -24,14 +24,14 @@ if ( ! empty( $transient ) ) :
 	<div class="notice notice-error ">
 		<p><?php echo $transient; ?></p>
 	</div>
-	<?php
+<?php
 endif;
 ?>
 
 <form class="wpeo-form" action="<?php echo esc_attr( admin_url( 'admin-post.php' ) ); ?>" method="post">
 	<?php wp_nonce_field( 'handle_login' ); ?>
 	<input type="hidden" name="action" value="wps_login" />
-	<input type="hidden" name="page" value="<?php echo Pages::g()->get_slug_shop_page(); ?>" />
+	<input type="hidden" name="page" value="<?php echo $account_page ? Pages::g()->get_slug_my_account_page() : Pages::g()->get_slug_checkout_page(); ?>" />
 	<?php do_action( 'wps_login_form_start' ); ?>
 
 	<div class="wpeo-gridlayout grid-2 grid-margin-1">
