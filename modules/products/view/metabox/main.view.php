@@ -99,6 +99,21 @@ defined( 'ABSPATH' ) || exit; ?>
 					</select>
 				</label>
 			</div>
+
+			<div class="form-element">
+				<span class="form-label"><?php esc_html_e( 'Parent Product', 'wpshop' ); ?></span>
+				<label class="form-field-container">
+					<?php
+					if ( ! empty( $product->data['parent_post'] ) ) :
+						?>
+						<a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $product->data['parent_post']->ID . '&action=edit' ) ); ?>"><?php echo esc_html( $product->data['parent_post']->post_title ); ?></a>
+					<?php
+					else :
+						esc_html_e( 'No product parent', 'wpshop' );
+					endif;
+					?>
+				</label>
+			</div>
 		</div>
 	</div>
 </div>

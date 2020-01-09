@@ -186,7 +186,7 @@ class My_Account_Action {
 	 * @since 2.0.0
 	 */
 	public function do_pay() {
-		check_admin_referer( 'do_pay' );
+		//check_admin_referer( 'do_pay' );
 		$id = ! empty( $_GET['order_id'] ) ? (int) $_GET['order_id'] : 0;
 
 		if ( empty( $id ) ) {

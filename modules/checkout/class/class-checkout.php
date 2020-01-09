@@ -297,6 +297,16 @@ class Checkout extends \eoxia\Singleton_Util {
 					for ( $i = 0; $i < $element['qty']; ++$i ) {
 						Cart::g()->add_to_cart( $wp_product );
 					}
+				} else {
+					/*for ( $i = 0; $i < $element['qty']; ++$i ) {
+						$wp_product = Product::g()->get( array( 'schema' => true ), true );
+						$wp_product = Doli_Products::g()->doli_to_wp( $element, $wp_product, false );
+						echo '<pre>';
+						print_r( $wp_product );
+						echo '</pre>';
+						exit;
+						Cart::g()->add_to_cart( $wp_product );
+					}*/
 				}
 			}
 		}

@@ -38,6 +38,14 @@ class Product_Model extends \eoxia\Post_Model {
 			'description' => 'L\'ID provenant de dolibarr',
 		);
 
+		$this->schema['fk_product_parent'] = array(
+			'type'        => 'integer',
+			'meta_type'   => 'single',
+			'field'       => '_fk_product_parent',
+			'since'       => '2.0.0',
+			'description' => 'L\'ID parent provenant de dolibarr',
+		);
+
 		$this->schema['ref'] = array(
 			'type'        => 'string',
 			'meta_type'   => 'single',

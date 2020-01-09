@@ -49,6 +49,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 	) ) {
 		if ( is_object( $wp_product ) ) {
 			$wp_product->data['external_id']       = (int) $doli_product->id;
+			$wp_product->data['fk_product_parent'] = (int) $doli_product->fk_product_parent;
 			$wp_product->data['ref']               = $doli_product->ref;
 			$wp_product->data['title']             = $doli_product->label;
 			$wp_product->data['content']           = $doli_product->description;
@@ -100,6 +101,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 		'errors'   => array(),
 		'messages' => array(),
 	) ) {
+
 		$doli_product = Request_Util::post( 'wpshop/object/', array(
 			'label'       => $wp_product->data['title'],
 			'description' => $wp_product->data['content'],
@@ -120,6 +122,23 @@ class Doli_Products extends \eoxia\Singleton_Util {
 		$notices['messages'][] = sprintf( __( 'Erase data for the product <strong>%s</strong> with the <strong>WordPress</strong> data', 'wpshop' ), $doli_product->label );
 
 		return $wp_product;
+	}
+
+	/**
+	 * Récupères l'ID WP selon l'ID de dolibarr.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  integer $doli_id L'ID de dolibarr.
+	 * @return integer          L'ID de WP.
+	 */
+	public function get_wp_id_by_doli_id( $doli_id ) {
+		$product = Product::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => $doli_id,
+		), true );
+
+		return $product->data['id'];
 	}
 }
 

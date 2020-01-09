@@ -125,9 +125,12 @@ class Core_Action {
 		wp_enqueue_style( 'wpshop-style-frontend', PLUGIN_WPSHOP_URL . 'core/asset/css/style.frontend.min.css', array(), \eoxia\Config_Util::$init['wpshop']->version );
 		wp_enqueue_script( 'wpshop-frontend-script', PLUGIN_WPSHOP_URL . 'core/asset/js/frontend.min.js', array(), \eoxia\Config_Util::$init['wpshop']->version );
 
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
 		$script_params = array(
 			'check_erp_statut_nonce' => wp_create_nonce( 'check_erp_statut' ),
 			'url'                    => get_option( 'siteurl' ),
+			'dolibarr_url'           => $dolibarr_option['dolibarr_url'],
 		);
 
 		wp_localize_script( 'wpshop-frontend-script', 'scriptParams', $script_params );

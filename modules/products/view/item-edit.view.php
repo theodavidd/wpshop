@@ -60,6 +60,15 @@ defined( 'ABSPATH' ) || exit; ?>
 		</select>
 	</div>
 	<div class="table-cell table-100"><strong><?php echo esc_html( number_format( $product->data['price_ttc'], 2, ',', '' ) ); ?>€</strong></div>
+	<div class="table-cell table-100">
+		<?php
+		if ( ! empty( $product->data['parent_post'] ) ) :
+			echo esc_html( $product->data['parent_post']->post_title );
+		else :
+			esc_html_e( 'No product parent', 'wpshop' );
+		endif;
+		?>
+	</div>
 	<div class="table-cell">
 		<div class="form-element stock-field">
 			<span class="form-label"><?php esc_html_e( 'Manage Stock', 'wpshop' ); ?></span>

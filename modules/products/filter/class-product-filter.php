@@ -138,8 +138,9 @@ class Product_Filter {
 
 			if ( is_object( $post ) && $post->ID === $page_ids_options['shop_id'] ) {
 				$args = array(
-					'post_type' => 'wps-product',
-					'paged'     => get_query_var('paged') ? get_query_var('paged') : 1,
+					'post_type'   => 'wps-product',
+					'paged'       => get_query_var('paged') ? get_query_var('paged') : 1,
+					'post_parent' => 0,
 				);
 
 				if ( ! empty( $shipping_cost_option['shipping_product_id'] ) ) {

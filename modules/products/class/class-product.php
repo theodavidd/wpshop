@@ -125,6 +125,20 @@ class Product extends \eoxia\Post_Class {
 			$products = $this->get( array(
 				'post__in' => $product_ids,
 			) );
+
+			if ( ! empty( $products ) ) {
+				foreach ( $products as &$product ) {
+					$product->data['parent_post'] = null;
+
+					if ( ! empty( $product->data['fk_product_parent'] ) ) {
+						$parent_post = get_post( Doli_Products::g()->get_wp_id_by_doli_id( $product->data['fk_product_parent'] ) );
+
+						$product->data['parent_post'] = $parent_post;
+					}
+				}
+
+				unset ( $product );
+			}
 		}
 
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
@@ -171,6 +185,12 @@ class Product extends \eoxia\Post_Class {
 
 		if ( empty( $product ) ) {
 			$product = $this->get( array( 'schema' => true ), true );
+		}
+
+		if ( ! empty( $product->data['fk_product_parent'] ) ) {
+			$parent_post = get_post( Doli_Products::g()->get_wp_id_by_doli_id( $product->data['fk_product_parent'] ) );
+
+			$product->data['parent_post'] = $parent_post;
 		}
 
 		$similar_products = array();

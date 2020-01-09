@@ -36,6 +36,9 @@ class Product_Action {
 		add_action( 'wp_ajax_quick_save', array( $this, 'save_quick_save' ) );
 		add_action( 'template_redirect', array( $this, 'init_product_archive_page' ) );
 		add_action( 'template_redirect', array( $this, 'search_page' ) );
+
+		add_action( 'wp_ajax_nopriv_get_product_by_external_id', array( $this, 'get_product_by_external_id' ) );
+		add_action( 'wp_ajax_get_product_by_external_id', array( $this, 'get_product_by_external_id' ) );
 	}
 
 	/**
@@ -174,6 +177,12 @@ class Product_Action {
 		$mode = ! empty( $_POST['mode'] ) ? sanitize_text_field( $_POST['mode'] ) : 'edit';
 
 		$product         = Product::g()->get( array( 'id' => $id ), true );
+		if ( ! empty( $product->data['fk_product_parent'] ) ) {
+			$parent_post = get_post( Doli_Products::g()->get_wp_id_by_doli_id( $product->data['fk_product_parent'] ) );
+
+			$product->data['parent_post'] = $parent_post;
+		}
+
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
 		$view = '';
@@ -401,7 +410,7 @@ class Product_Action {
 		// translators: Résultat de la recherche pour "%s".
 		$title = sprintf( __( 'Search result for "%s"', 'wpshop' ), $search_query );
 
-		$wps_query = new \WP_Query( $wp_query->query_vars );
+		$wps_query = new \WP_Query( array_merge( $wp_query->query_vars, array( 'post_parent' => 0 ) ) );
 
 		foreach ( $wps_query->posts as &$product ) {
 			$product->price_ttc    = get_post_meta( $product->ID, '_price_ttc', true );
@@ -461,6 +470,21 @@ class Product_Action {
 		remove_all_filters( 'the_excerpt' );
 		add_filter( 'template_include', array( $this, 'force_single_template_filter' ) );
 
+	}
+
+	public function get_product_by_external_id() {
+		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+
+		if ( empty( $id ) ) {
+			wp_send_json_error();
+		}
+
+		$product = Product::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => (int) $id,
+		), true );
+
+		wp_send_json_success( array( 'product' => $product, ) );
 	}
 }
 
