@@ -292,11 +292,17 @@ class Doli_Sync_Action {
 		$from     = ! empty( $_POST['from'] ) ? sanitize_text_field( $_POST['from'] ) : '';
 		$modal    = ( ! empty( $_POST['modal'] ) && '1' == $_POST['modal'] ) ? true : false;
 
-		$wp_entry         = $wp_type::g()->get( array( 'id' => $wp_id ), true );
-		$doli_entry       = Request_Util::get( $route . '/' . $entry_id );
-		$doli_to_wp_entry = $wp_type::g()->get( array( 'schema' => true ), true );
-
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$dolibarr_url    = $dolibarr_option['dolibarr_url'];
+
+		if ( $type == '\wpshop\Doli_Products' ) {
+			$doli_entry = Request_Util::get( 'wpshop/products?id=' . $entry_id );
+		} else {
+			$doli_entry = Request_Util::get( $route . '/' . $entry_id );
+		}
+
+		$wp_entry         = $wp_type::g()->get( array( 'id' => $wp_id ), true );
+		$doli_to_wp_entry = $wp_type::g()->get( array( 'schema' => true ), true );
 
 		$to_type = '';
 
