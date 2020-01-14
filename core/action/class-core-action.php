@@ -131,6 +131,7 @@ class Core_Action {
 			'check_erp_statut_nonce' => wp_create_nonce( 'check_erp_statut' ),
 			'url'                    => get_option( 'siteurl' ),
 			'dolibarr_url'           => $dolibarr_option['dolibarr_url'],
+			'dolibarr_public_key'    => ! empty( $dolibarr_option['dolibarr_public_key'] ) ? $dolibarr_option['dolibarr_public_key'] : null,
 		);
 
 		wp_localize_script( 'wpshop-frontend-script', 'scriptParams', $script_params );

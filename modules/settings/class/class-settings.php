@@ -46,17 +46,18 @@ class Settings extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {
 		$this->default_settings = array(
-			'dolibarr_url'    => '',
-			'dolibarr_secret' => '',
-			'shop_email'      => '',
-			'error'           => '',
-			'thumbnail_size'  => array(
+			'dolibarr_url'        => '',
+			'dolibarr_secret'     => '',
+			'dolibarr_public_key' => '',
+			'shop_email'          => '',
+			'error'               => '',
+			'thumbnail_size'      => array(
 				'width'  => 360,
 				'height' => 460,
 			),
 			'use_quotation' => true,
 			'notice' => array(
-				'error_erp' => true,
+				'error_erp'    => true,
 				'activate_erp' => true,
 			),
 		);

@@ -196,7 +196,6 @@ class Cart_Session extends \eoxia\Singleton_Util {
 		unset( $_SESSION['wps_external_data'] );
 
 		$this->cart_contents = array();
-		$this->update_session();
 	}
 
 	/**

@@ -38,6 +38,7 @@ class Cart extends \eoxia\Singleton_Util {
 	 */
 	public function add_to_cart( $product, $qty = 1 ) {
 		do_action( 'wps_before_add_to_cart' );
+
 		$data = array_merge(
 			array( 'qty' => $qty ),
 			$product->data

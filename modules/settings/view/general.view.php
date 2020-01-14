@@ -29,9 +29,16 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 
 	<div class="form-element">
-		<span class="form-label"><?php esc_html_e( 'Dolibarr Secret', 'wpshop' ); ?></span>
+		<span class="form-label"><?php esc_html_e( 'Dolibarr Secret Key', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="dolibarr_secret" value="<?php echo esc_attr( $dolibarr_option['dolibarr_secret'] ); ?>" />
+		</label>
+	</div>
+
+	<div class="form-element">
+		<span class="form-label"><?php esc_html_e( 'Dolibarr Public Key', 'wpshop' ); ?></span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="dolibarr_public_key" value="<?php echo esc_attr( $dolibarr_option['dolibarr_public_key'] ); ?>" />
 		</label>
 	</div>
 
