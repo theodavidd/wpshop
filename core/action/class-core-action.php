@@ -33,6 +33,7 @@ class Core_Action {
 		add_action( 'init', array( $this, 'callback_register_session' ), 1 );
 		add_action( 'init', array( $this, 'callback_language' ) );
 		add_action( 'init', array( $this, 'callback_install_default' ) );
+		add_action( 'init', array( $this, 'callback_init_block' ) );
 
 		add_action( 'wp_head', array( $this, 'define_ajax_url' ) );
 
@@ -75,6 +76,32 @@ class Core_Action {
 	 */
 	public function callback_install_default() {
 		Core::g()->default_install();
+	}
+
+	/**
+	 * Enregistres les blocks gutenberg.
+	 *
+	 * @since 2.0.0
+	 */
+	public function callback_init_block() {
+		$asset_file = include( PLUGIN_WPSHOP_PATH . 'build/block.asset.php');
+
+		wp_register_script(
+			'wpshop-products',
+			PLUGIN_WPSHOP_URL . '/build/block.js',
+			$asset_file['dependencies'],
+			$asset_file['version']
+		);
+
+		wp_localize_script( 'wpshop-products', 'wpshop', array(
+				'homeUrl'        => home_url(),
+				'addToCartNonce' => wp_create_nonce( 'add_to_cart' ),
+			)
+		);
+
+		register_block_type( 'wpshop/products', array(
+			'editor_script' => 'wpshop-products',
+		) );
 	}
 
 	/**

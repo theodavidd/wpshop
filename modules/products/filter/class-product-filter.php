@@ -35,6 +35,19 @@ class Product_Filter {
 		add_filter( 'wps_product_add_to_cart_attr', array( $this, 'button_add_to_cart_tooltip' ), 10, 2 );
 		add_filter( 'wps_product_add_to_cart_class', array( $this, 'disable_button_add_to_cart' ), 10, 2 );
 		add_filter( 'wps_product_single', array( $this, 'display_stock' ), 10, 2 );
+
+		add_filter( 'eo_model_wps-product_after_get', function( $object, $args ) {
+			$object->data['thumbnail'] = wp_get_attachment_image_src( $object->data['thumbnail_id'], 'wps-product-thumbnail' );
+
+			if ( empty( $object->data['thumbnail'] ) ) {
+				$object->data['thumbnail'] = array();
+				$object->data['thumbnail'][] = home_url( 'wp-content/plugins/wpshop/core/asset/image/default-product-thumbnail.jpg' );
+			}
+
+			$object->data['thumbnail_url'] = $object->data['thumbnail'][0];
+
+			return $object;
+		}, 10, 2 );
 	}
 
 	/**

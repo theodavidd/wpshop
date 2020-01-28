@@ -36,6 +36,7 @@ class Product_Model extends \eoxia\Post_Model {
 			'field'       => '_external_id',
 			'since'       => '2.0.0',
 			'description' => 'L\'ID provenant de dolibarr',
+			'default'     => 0,
 		);
 
 		$this->schema['fk_product_parent'] = array(
@@ -94,7 +95,7 @@ class Product_Model extends \eoxia\Post_Model {
 			'type'        => 'float',
 			'meta_type'   => 'single',
 			'field'       => '_tva_tx',
-			'default'     => null,
+			'default'     => 0.00000000,
 			'since'       => '2.0.0',
 			'description' => 'Le taux de TVA du produit (double(6,3)). Peut être NULL. Valeur par défaut NULL.',
 		);
