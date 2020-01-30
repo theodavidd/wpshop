@@ -410,6 +410,7 @@ class API_Action {
 			'status'            => 'draft',
 			'date_last_synchro' => current_time( 'mysql' ),
 		);
+
 		if ( ! empty( $param['linked_object']['commande'] ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.
 
 			$order_id            = Doli_Order::g()->get_wp_id_by_doli_id( $param['linked_object']['commande'] );
@@ -419,8 +420,9 @@ class API_Action {
 			$data['author_id'] = $order->data['author_id'];
 		}
 
-		$propal = Doli_Invoice::g()->create( $data );
-		return $propal;
+		\eoxia\LOG_Util::log( sprintf( 'POST /create/invoice with data %s', json_encode( $data ) ), 'wpshop2' );
+		$invoice = Doli_Invoice::g()->create( $data );
+		return $invoice;
 	}
 
 	/**

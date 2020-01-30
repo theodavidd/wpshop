@@ -83,6 +83,21 @@ class My_Account_Action {
 			wp_redirect( site_url( $page ) );
 			exit;
 		} else {
+			// If dolibarr is activated, check if the contact is sync with dolibarr.
+			if ( Settings::g()->dolibarr_is_active() && ! in_array( 'aministrator', $user->roles ) ) {
+				$external_id = get_user_meta( $user->ID, '_external_id', true );
+
+				if ( empty( $external_id ) ) {
+					$message = sprintf( __( 'Error synchronizing your account. Please contact %s.', 'wpshop' ), get_bloginfo( 'admin_email' ) );
+					update_option( 'login_error_' . $_COOKIE['PHPSESSID'], $message );
+
+					wp_logout();
+
+					wp_redirect( site_url( $page ) );
+					exit;
+				}
+			}
+
 			wp_redirect( site_url( $page ) );
 			exit;
 		}

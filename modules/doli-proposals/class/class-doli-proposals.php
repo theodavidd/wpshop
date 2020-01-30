@@ -122,12 +122,17 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 			$proposal_data = array(
 				'socid'             => $third_party_doli_id,
 				'date'              => current_time( 'timestamp' ),
-				'mode_reglement_id' => ! empty( $wp_proposal->data['payment_method'] ) ? Doli_Payment::g()->convert_to_doli_id( $wp_proposal->data['payment_method'] ) : '',
 				'type'              => 'propal',
 				'wp_id'             => $wp_proposal->data['id'],
 			);
 
-			$doli_proposal    = Request_Util::post( 'wpshop/object', $proposal_data );
+			if ( ! empty( $wp_proposal->data['payment_method'] ) ) {
+				$proposal_data['mode_reglement_id'] = Doli_Payment::g()->convert_to_doli_id( $wp_proposal->data['payment_method'] );
+			}
+
+			\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /wpshop/object with data %s', json_encode( $proposal_data ) ), 'wpshop2' );
+			$doli_proposal = Request_Util::post( 'wpshop/object', $proposal_data );
+			\eoxia\LOG_Util::log( sprintf( 'Checkout: Create proposal on dolibarr. Return response %s', json_encode( $doli_proposal ) ), 'wpshop2' );
 			$doli_proposal_id = $doli_proposal->id;
 
 			if ( ! empty( $wp_proposal->data['lines'] ) ) {

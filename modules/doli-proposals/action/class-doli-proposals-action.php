@@ -47,6 +47,7 @@ class Doli_Proposals_Action {
 	public function checkout_create_proposal( $wp_proposal ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
 			$doli_proposal_id = Doli_Proposals::g()->wp_to_doli( $wp_proposal );
+			\eoxia\LOG_Util::log( sprintf( 'Checkout: Create proposal on dolibarr. Return ID %d', $doli_proposal_id ), 'wpshop2' );
 
 			$doli_proposal = Request_Util::post( 'proposals/' . (int) $doli_proposal_id . '/validate', array(
 				'notrigger' => 1,

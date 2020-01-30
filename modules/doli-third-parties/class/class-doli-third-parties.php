@@ -128,14 +128,16 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 		'messages' => array(),
 	) ) {
 		$data = array(
-			'name'       => $wp_third_party->data['title'],
-			'country'    => $wp_third_party->data['country'],
-			'country_id' => $wp_third_party->data['country_id'],
-			'address'    => $wp_third_party->data['address'],
-			'zip'        => $wp_third_party->data['zip'],
-			'state'      => $wp_third_party->data['state'],
-			'phone'      => $wp_third_party->data['phone'],
-			'town'       => $wp_third_party->data['town'],
+			'name'        => $wp_third_party->data['title'],
+			'country'     => $wp_third_party->data['country'],
+			'country_id'  => $wp_third_party->data['country_id'],
+			'address'     => $wp_third_party->data['address'],
+			'zip'         => $wp_third_party->data['zip'],
+			'state'       => $wp_third_party->data['state'],
+			'phone'       => $wp_third_party->data['phone'],
+			'town'        => $wp_third_party->data['town'],
+			'client'      => 1,
+			'code_client' => 'auto'
 		);
 
 		if ( ! empty( $wp_third_party->data['external_id'] ) ) {

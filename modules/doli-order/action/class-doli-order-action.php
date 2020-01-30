@@ -318,8 +318,15 @@ class Doli_Order_Action {
 		$third_party      = Third_Party::g()->get( array( 'id' => $wp_proposal->data['parent_id'] ), true );
 		$doli_proposal_id = get_post_meta( $wp_proposal->data['id'], '_external_id', true );
 
+		\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /orders/createfromproposal/ with data %s', $doli_proposal_id ), 'wpshop2' );
 		$doli_order = Request_Util::post( 'orders/createfromproposal/' . $doli_proposal_id );
-		$doli_order = Request_Util::post( 'orders/' . $doli_order->id . '/validate' );
+		\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /orders/createfromproposal/ response %s', json_encode( $doli_order ) ), 'wpshop2' );
+
+
+		\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /orders/%s/validate', $doli_order->id ), 'wpshop2' );
+		Request_Util::post( 'orders/' . $doli_order->id . '/validate' );
+
+		$doli_order = Request_Util::get( 'orders/' . $doli_order->id );
 
 		Request_Util::put( 'documents/builddoc', array(
 			'module_part'   => 'order',

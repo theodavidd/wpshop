@@ -195,15 +195,24 @@ class Doli_Invoice_Action {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  array $data Les données venant de PayPal.
+	 * @param  array $data Data from PayPal.
 	 */
 	public function create_invoice( $data ) {
 		$order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
 		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . $order->data['external_id'] );
-		$doli_invoice = Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
+		Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
 			'notrigger' => 0,
 		) );
+
+		$doli_invoice = Request_Util::get( 'invoices/' . $doli_invoice->id );
+
+		$wp_invoice = Doli_Invoice::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => (int) $doli_invoice->id,
+		), true );
+
+		$wp_invoice = Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice );
 
 		$doli_payment = Request_Util::post( 'invoices/' . $doli_invoice->id . '/payments', array(
 			'datepaye'          => current_time( 'timestamp' ),
@@ -218,11 +227,6 @@ class Doli_Invoice_Action {
 			'doc_template'  => 'crabe',
 			'langcode'      => 'fr_FR',
 		) );
-
-		$wp_invoice = Doli_Invoice::g()->get( array(
-			'meta_key'   => '_external_id',
-			'meta_value' => (int) $doli_invoice->id,
-		), true );
 
 		$third_party = Third_Party::g()->get( array( 'id' => $wp_invoice->data['third_party_id'] ), true );
 		$contact =     Contact::g()->get( array( 'id' => $order->data['author_id'] ), true );

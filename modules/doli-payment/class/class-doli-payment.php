@@ -112,7 +112,7 @@ class Doli_Payment extends \eoxia\Post_Class {
 
 		if ( ! empty( $payment_types ) ) {
 			foreach ( $payment_types as $element ) {
-				if ( $element->code === $method['doli_type'] ) {
+				if ( $element->code == $method['doli_type'] ) {
 					return $element->id;
 				}
 			}
