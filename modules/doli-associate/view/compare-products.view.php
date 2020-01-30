@@ -35,20 +35,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					<li><strong><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></strong>: <?php echo ! empty( $entry['data']['price_ttc'] ) ? esc_html( $entry['data']['price_ttc'] ) : '0,00'; ?>€</li>
 				</ul>
 
-				<div class="action-attribute wpeo-button button-main"
-					style="text-align: center;display: block;margin: auto;width: 50%;"
-					data-action="sync_entry"
-					data-nonce="<?php echo esc_attr( wp_create_nonce( 'sync_entry' ) ); ?>"
-					data-type="<?php echo esc_attr( 'wpshop/Doli_Products_Class' ); ?>"
-					data-wp-type="\wpshop\Product"
-					data-entry-id="<?php echo esc_attr( $entries['dolibarr']['id'] ); ?>"
-					data-wp-id="<?php echo esc_attr( $entries['wordpress']['id'] ); ?>"
-					data-route="<?php echo esc_attr( $route ); ?>"
-					data-from="<?php echo esc_attr( $key ); ?>"
-					data-modal="1">
-					<?php // translators: Choose WordPress. ?>
-					<span><?php printf( __( 'Choose %s', 'wpshop' ), $entry['title'] ); ?></span>
-				</div>
+
 			</div>
 			<?php
 		endforeach;

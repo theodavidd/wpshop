@@ -95,6 +95,8 @@ class Doli_Associate_Action {
 		$route    = ! empty( $_POST['route'] ) ? sanitize_text_field( $_POST['route'] ) : '';
 		$type     = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
 
+		$doli_type = '';
+
 		if ( empty( $entry_id ) ) {
 			wp_send_json_success( array(
 				'namespace'        => 'wpshop',
@@ -119,6 +121,7 @@ class Doli_Associate_Action {
 
 		switch ( $route ) {
 			case 'thirdparties':
+
 				$wp_entry->data['contacts'] = array();
 
 				if ( ! empty( $wp_entry->data['contact_ids'] ) ) {
@@ -126,6 +129,7 @@ class Doli_Associate_Action {
 				}
 
 				$doli_to_wp_entry = Doli_Third_Parties::g()->doli_to_wp( $doli_entry, $doli_to_wp_entry, false );
+				$doli_type        = "\wpshop\Doli_Third_Parties";
 
 				$doli_to_wp_entry->data['contacts'] = Request_Util::get( 'contacts?sortfield=t.rowid&sortorder=ASC&limit=-1&thirdparty_ids=' . $doli_to_wp_entry->data['external_id'] );
 				if ( ! empty( $doli_to_wp_entry->data['contacts'] ) ) {
@@ -139,6 +143,8 @@ class Doli_Associate_Action {
 				$route            = 'products';
 				$doli_entry       = Request_Util::get( $route . '/' . $entry_id );
 				$doli_to_wp_entry = Doli_Products::g()->doli_to_wp( $doli_entry, $doli_to_wp_entry, false );
+				$doli_type        = "\wpshop\Doli_products";
+
 				break;
 			default:
 				break;
@@ -166,7 +172,14 @@ class Doli_Associate_Action {
 		$view = ob_get_clean();
 
 		ob_start();
-		\eoxia\View_Util::exec( 'wpshop', 'doli-associate', 'compare-footer' );
+		\eoxia\View_Util::exec( 'wpshop', 'doli-associate', 'compare-footer', array(
+			'route'     => $route,
+			'wp_type'   => $type,
+			'doli_type' => $doli_type,
+			'wp_id'     => $wp_id,
+			'entry_id'  => $entry_id,
+
+		) );
 		$footer_view = ob_get_clean();
 
 		wp_send_json_success( array(
