@@ -183,6 +183,7 @@ class Doli_Sync_Action {
 					}
 				}
 
+				// @todo: >> passsage en do_action.
 				if ( 'payments' !== $type ) {
 					$wp_entry = $wp_class::g()->get( array(
 						'meta_key'   => '_external_id',
