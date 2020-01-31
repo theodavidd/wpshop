@@ -45,6 +45,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 		'errors'   => array(),
 		'messages' => array(),
 	) ) {
+		// On the left third party object wpshop. On the right third party of dolibarr.
 		$wp_third_party->data['external_id'] = (int) $doli_third_party->id;
 		$wp_third_party->data['title']       = $doli_third_party->name;
 		$wp_third_party->data['address']     = $doli_third_party->address;
@@ -57,11 +58,13 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 		$wp_third_party->data['status']      = 'publish';
 
 		if ( $save ) {
+			// @todo: à commenter ? SHA?
 			if ( ! empty( $doli_third_party->date_modification ) ) {
 				$wp_third_party->data['date_modified'] = date( 'Y-m-d H:i:s', $doli_third_party->date_modification );
 			}
 
 			$wp_third_party->data['date_last_synchro'] = current_time( 'mysql');
+			// @todo: Poser les choix de gestion de date et les provenances, passer sur de comparaisons par SHA.
 			Third_Party::g()->update( $wp_third_party->data );
 
 			// translators: Erase data for the third party <strong>Eoxia</strong> with the <strong>dolibarr</strong> data.
