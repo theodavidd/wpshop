@@ -31,7 +31,6 @@ defined( 'ABSPATH' ) || exit; ?>
 		</div>
 		<ul class="reference-actions">
 			<li><a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $product->data['id'] . '&action=edit' ) ); ?>"><?php esc_html_e( 'Edit', 'wpshop' ); ?></a></li>
-			<li><a href="#" class="action-attribute" data-action="change_mode" data-id="<?php echo esc_attr( $product->data['id'] ); ?>" data-mode="edit"><?php esc_html_e( 'Quick edit', 'wpshop' ); ?></a></li>
 			<?php if ( ! empty( $product->data['external_id'] ) ) : ?>
 				<li><a href="<?php echo esc_attr( $doli_url ); ?>/product/card.php?id=<?php echo $product->data['external_id']; ?>"><?php esc_html_e( 'Edit in Dolibarr', 'wpshop' ); ?></a></li>
 			<?php endif; ?>

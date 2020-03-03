@@ -76,8 +76,18 @@ class Product_Filter {
 			'not_found_in_trash' => __( 'No products found in Trash.', 'wpshop' ),
 		);
 
+		$supports = array(
+			'thumbnail'
+		);
+
+		if ( ! Settings::g()->dolibarr_is_active() ) {
+			// If dolibarr is active, it will controle the data of the product.
+			$supports[] = 'title';
+			$supports[] = 'editor';
+		}
+
 		$args['labels']            = $labels;
-		$args['supports']          = array( 'title', 'editor', 'thumbnail' );
+		$args['supports']          = $supports;
 		$args['public']            = true;
 		$args['has_archive']       = false;
 		$args['show_ui']           = true;
@@ -87,6 +97,11 @@ class Product_Filter {
 		$args['rewrite']           = array(
 			'slug' => __( 'product', 'wpshop' ),
 		);
+		$args['capabilities'] = array(
+			'create_posts' => 'do_not_allow',
+		);
+
+		$args['map_meta_cap'] = true;
 
 		$args['register_meta_box_cb'] = array( Product::g(), 'callback_register_meta_box' );
 

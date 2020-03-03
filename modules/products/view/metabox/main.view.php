@@ -17,55 +17,67 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wpeo-wrap">
+	<h2 style="font-size: 1.6em; font-weight: bold;">Modification du produit <?php echo $product->data['title']; ?></h2>
 	<?php
 	if ( ! empty( $product->data['external_id'] ) ) :
 		?>
-		<a href="<?php echo esc_attr( $doli_url ); ?>/product/card.php?id=<?php echo $product->data['external_id']; ?>"><?php esc_html_e( 'Edit in Dolibarr', 'wpshop' ); ?></a>
+		<p style="font-size: 1.2em; font-weight: 700">
+			<span>La modification du titre, de la description et du prix est contrôlée par dolibarr</span>
+			<a class="wpeo-button button-blue" href="<?php echo esc_attr( $doli_url ); ?>/product/card.php?id=<?php echo $product->data['external_id']; ?>"><?php esc_html_e( 'Edit in Dolibarr', 'wpshop' ); ?></a>
+		</p>
 		<?php
 	endif;
 	?>
+
+	<h2 style="font-size: 1.6em;">Autres informations du produit</h2>
 
 	<div class="wpeo-form">
 		<?php wp_nonce_field( basename( __FILE__ ), 'wpshop_data_fields' ); ?>
 
 		<div class="wpeo-gridlayout grid-3">
-			<div class="form-element">
-				<span class="form-label"><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></span>
-				<label class="form-field-container">
-					<input type="text" class="form-field" name="product_data[price]" value="<?php echo esc_attr( $product->data['price'] ); ?>" />
-				</label>
-			</div>
+			<?php
+			if ( ! Settings::g()->dolibarr_is_active() ) :
+				?>
+				<div class="form-element">
+					<span class="form-label"><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></span>
+					<label class="form-field-container">
+						<input type="text" class="form-field" name="product_data[price]" value="<?php echo esc_attr( $product->data['price'] ); ?>" />
+					</label>
+				</div>
 
-			<div class="form-element">
-				<span class="form-label"><?php esc_html_e( 'VAT Rate', 'wpshop' ); ?></span>
+				<div class="form-element">
+					<span class="form-label"><?php esc_html_e( 'VAT Rate', 'wpshop' ); ?></span>
 
-				<label class="form-field-container">
-					<select name="product_data[tva_tx]">
-						<?php
-						$has_selected = false;
-						if ( ! empty( Settings::g()->tva ) ) :
-							foreach ( Settings::g()->tva as $tva ) :
-								$selected = '';
-								if ( (float) $tva === (float) $product->data['tva_tx'] || ( ! $has_selected && 20 === $tva ) ) :
-									$selected     = 'selected="selected"';
-									$has_selected = true;
-								endif;
-								?>
-								<option <?php echo esc_attr( $selected ); ?> value="<?php echo esc_attr( $tva ); ?>"><?php echo esc_html( $tva ); ?>%</option>
-								<?php
-							endforeach;
-						endif;
-						?>
-					</select>
-				</label>
-			</div>
+					<label class="form-field-container">
+						<select name="product_data[tva_tx]">
+							<?php
+							$has_selected = false;
+							if ( ! empty( Settings::g()->tva ) ) :
+								foreach ( Settings::g()->tva as $tva ) :
+									$selected = '';
+									if ( (float) $tva === (float) $product->data['tva_tx'] || ( ! $has_selected && 20 === $tva ) ) :
+										$selected     = 'selected="selected"';
+										$has_selected = true;
+									endif;
+									?>
+									<option <?php echo esc_attr( $selected ); ?> value="<?php echo esc_attr( $tva ); ?>"><?php echo esc_html( $tva ); ?>%</option>
+									<?php
+								endforeach;
+							endif;
+							?>
+						</select>
+					</label>
+				</div>
 
-			<div class="form-element">
-				<span class="form-label"><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></span>
-				<label class="form-field-container">
-					<span><?php echo esc_attr( $product->data['price_ttc'] ); ?>€</span>
-				</label>
-			</div>
+				<div class="form-element">
+					<span class="form-label"><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></span>
+					<label class="form-field-container">
+						<span><?php echo esc_attr( $product->data['price_ttc'] ); ?>€</span>
+					</label>
+				</div>
+				<?php
+			endif;
+			?>
 
 			<div class="form-element stock-field">
 				<span class="form-label"><?php esc_html_e( 'Manage Stock', 'wpshop' ); ?></span>

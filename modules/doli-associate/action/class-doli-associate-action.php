@@ -115,7 +115,7 @@ class Doli_Associate_Action {
 		$doli_entry       = Request_Util::get( $route . '/' . $entry_id );
 		$doli_to_wp_entry = $type::g()->get( array( 'schema' => true ), true );
 
-		if ( 'Product' == $type ) {
+		if ( '\wpshop\Product' == $type ) {
 			$route = 'products' == $route ? 'wpshopapi/product/get/web' : 'products';
 		}
 
@@ -178,7 +178,6 @@ class Doli_Associate_Action {
 			'doli_type' => $doli_type,
 			'wp_id'     => $wp_id,
 			'entry_id'  => $entry_id,
-
 		) );
 		$footer_view = ob_get_clean();
 

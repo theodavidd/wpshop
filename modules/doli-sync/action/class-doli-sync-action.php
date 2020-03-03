@@ -322,6 +322,16 @@ class Doli_Sync_Action {
 				$url      = admin_url( 'admin.php?page=wps-product' );
 				$wp_entry = Doli_Products::g()->doli_to_wp( $doli_entry, $wp_entry, true, $notices );
 				$to_type  = 'product';
+
+				$data_sha = array();
+
+				$data_sha['doli_id']   = $doli_entry->id;
+				$data_sha['wp_id']     = $wp_entry->data['id'];
+				$data_sha['label']     = $wp_entry->data['title'];
+				$data_sha['price']     = $wp_entry->data['price'];
+				$data_sha['price_ttc'] = $wp_entry->data['price_ttc'];
+				$data_sha['tva_tx']    = $wp_entry->data['tva_tx'];
+
 				break;
 			case 'orders':
 				$url = admin_url( 'admin.php?page=wps-order' );
@@ -363,7 +373,8 @@ class Doli_Sync_Action {
 		);
 
 		$doli_object = Request_Util::post( 'wpshop/object', $data );
-		update_post_meta( $wp_id, '_date_last_synchro', $doli_object->last_sync_date );
+
+		update_post_meta( $wp_id, '_sync_sha_256', hash( 'sha256', implode( ',', $data_sha ) ) );
 
 		ob_start();
 		if ( $modal ) {
@@ -416,8 +427,8 @@ class Doli_Sync_Action {
 					$message_tooltip = __( 'No associated to an ERP Entity', 'wpshop' );
 				} else {
 					$class = 'green';
-					// translators: Last synchronisation on 03/04/2019 12:00.
-					$message_tooltip = sprintf( __( 'Last synchronisation on %s', 'wpshop'), $object->data['date_last_synchro']['rendered']['date_time'] );
+					// translators: Synchronisation OK.
+					$message_tooltip = __( 'Synchronisation OK', 'wpshop' );
 				}
 			} else {
 				$class = 'grey';
@@ -448,9 +459,9 @@ class Doli_Sync_Action {
 			wp_send_json_error();
 		}
 
-		$external_id  = get_post_meta( $id, '_external_id', true );
-		$wp_sync_date = get_post_meta( $id, '_date_last_synchro', true );
-		$to_type      = '';
+		$external_id = get_post_meta( $id, '_external_id', true );
+		$sha_256     = get_post_meta( $id, '_sync_sha_256', true );
+		$to_type     = '';
 
 		switch ( get_post_type( $id ) ) {
 			case Product::g()->get_type():
@@ -469,7 +480,7 @@ class Doli_Sync_Action {
 
 		$data = array(
 			'wp_id'        => $id,
-			'wp_sync_date' => $wp_sync_date,
+			'sha_256'      => $sha_256,
 			'doli_id'      => $external_id,
 			'type'         => $to_type,
 		);

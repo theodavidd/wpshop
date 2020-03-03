@@ -38,17 +38,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	</h2>
 
 	<div class="wpeo-gridlayout wpeo-form form-light grid-4 alignleft" style="margin-bottom: 20px; margin-top: 15px;">
-		<div style="display: flex;">
-			<div class="form-element">
-				<label class="form-field-container">
-					<select class="form-field select-apply">
-						<option value="quick-edit"><?php echo esc_html_e( 'Quick edit', 'wpshop' ); ?></option>
-					</select>
-				</label>
-			</div>
-			<input type="submit" class="wpeo-button button-grey button-apply" value="<?php esc_html_e( 'Apply', 'wpshop' ); ?>" />
-		</div>
-
 		<form method="GET" action="<?php echo admin_url( 'admin.php' ); ?>" class="wps-filter-bar" style="display: flex">
 			<div class="form-element">
 				<label class="form-field-container">
