@@ -156,8 +156,10 @@ class Checkout_Action {
 			do_action( 'checkout_create_third_party' );
 		}
 
+		// Nothing attached in wpshop.
 		do_action( 'wps_before_checkout_process' );
 
+		// Nothing attached in wpshop.
 		do_action( 'wps_checkout_process' );
 
 		if ( empty( Cart_Session::g()->external_data['order_id'] ) ) {
@@ -168,6 +170,7 @@ class Checkout_Action {
 			// translators: Checkout: Update proposal 000001 for add payment method Stripe.
 			\eoxia\LOG_Util::log( sprintf( 'Checkout: Update proposal %s for add payment method %s', $proposal->data['id'], $proposal->data['payment_method'] ), 'wpshop2' );
 
+			// Call wpshop to update attached ERP.
 			do_action( 'wps_checkout_update_proposal', $proposal );
 		}
 
@@ -178,10 +181,11 @@ class Checkout_Action {
 				$order = Doli_Order::g()->get( array( 'id' => Cart_Session::g()->external_data['order_id'] ), true );
 			}
 
+			// @todo: Check stock need to be an action.
 			$stock_statut = Cart::g()->check_stock();
 
 			if ( $stock_statut['is_valid'] ) {
-				$stock_statut = Cart::g()->decreate_stock();
+				Cart::g()->decrease_stock();
 				Checkout::g()->process_order_payment( $order );
 			} else {
 				$errors = new \WP_Error();
@@ -248,6 +252,7 @@ class Checkout_Action {
 
 			if ( ! is_user_logged_in() ) {
 				$third_party = Third_Party::g()->update( $posted_data['third_party'] );
+				// Call wpshop to update attached ERP.
 				do_action( 'wps_checkout_create_third_party', $third_party );
 
 				$posted_data['contact']['login']          = sanitize_user( current( explode( '@', $posted_data['contact']['email'] ) ), true );
@@ -259,6 +264,7 @@ class Checkout_Action {
 				$third_party->data['contact_ids'][] = $contact->data['id'];
 				$thid_party                         = Third_Party::g()->update( $third_party->data );
 
+				// Call wpshop to update attached ERP.
 				do_action( 'wps_checkout_create_contact', $contact );
 
 				$signon_data = array(
@@ -279,6 +285,7 @@ class Checkout_Action {
 				\eoxia\LOG_Util::log( sprintf( 'Checkout: Create new third party and contact %s', json_encode( $posted_data ) ), 'wpshop2' );
 
 			} else {
+				// If user is connected, check the link with his third party and his contact.
 				$current_user = wp_get_current_user();
 
 				$contact = Contact::g()->get( array(
@@ -289,18 +296,23 @@ class Checkout_Action {
 				$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
 				$posted_data['third_party']['id'] = $third_party->data['id'];
+
 				if ( ! empty( $third_party->data['id'] ) ) {
 					$third_party = Third_Party::g()->update( $posted_data['third_party'] );
 
+					// Call wpshop to update attached ERP.
 					do_action( 'wps_checkout_create_third_party', $third_party );
 
 					if ( empty( $contact->data['external_id'] ) ) {
+						// Call wpshop to update attached ERP.
 						do_action( 'wps_checkout_create_contact', $contact );
 					}
 				} else {
 					$posted_data['third_party']['contact_ids'][] = $contact->data['id'];
 					$third_party                                 = Third_Party::g()->update( $posted_data['third_party'] );
+					// Call wpshop to update attached ERP.
 					do_action( 'wps_checkout_create_third_party', $third_party );
+					// Call wpshop to update attached ERP.
 					do_action( 'wps_checkout_create_contact', $contact );
 				}
 
@@ -335,6 +347,7 @@ class Checkout_Action {
 
 		$proposal = Proposals::g()->get( array( 'schema' => true ), true );
 
+		// Real WPshop Ref if not ERP to control it.
 		$last_ref = Proposals::g()->get_last_ref();
 		$last_ref = empty( $last_ref ) ? 1 : $last_ref;
 		$last_ref++;
@@ -369,6 +382,7 @@ class Checkout_Action {
 		$proposal = Proposals::g()->update( $proposal->data );
 		\eoxia\LOG_Util::log( sprintf( 'Checkout: Create proposal %s', json_encode( $proposal->data ) ), 'wpshop2' );
 
+		// Call wpshop to update attached ERP.
 		do_action( 'wps_checkout_create_proposal', $proposal );
 
 		Cart_Session::g()->add_external_data( 'proposal_id', $proposal->data['id'] );

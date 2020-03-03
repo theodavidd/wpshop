@@ -76,6 +76,10 @@ class My_Account_Shortcode extends \eoxia\Singleton_Util {
 					$tab = 'quotations';
 				}
 
+				if ( array_key_exists( 'support', $wp->query_vars ) ) {
+					$tab = 'support';
+				}
+
 				$tab = apply_filters( 'wps_navigation_shortcode', $tab, $wp->query_vars );
 
 				include( Template_Util::get_template_part( 'my-account', 'my-account' ) );

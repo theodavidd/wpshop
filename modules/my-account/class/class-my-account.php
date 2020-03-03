@@ -51,6 +51,7 @@ class My_Account extends \eoxia\Singleton_Util {
 		add_rewrite_endpoint( 'details', EP_PAGES );
 		add_rewrite_endpoint( 'quotations', EP_PAGES );
 		add_rewrite_endpoint( 'download', EP_PAGES );
+		add_rewrite_endpoint( 'support', EP_PAGES );
 
 		do_action( 'wps_account_navigation_endpoint' );
 

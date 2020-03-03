@@ -17,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit;
 
 ?>
-<div class="wps-account-page wpeo-gridlayout grid-6">
+<div class="wps-account-page wpeo-gridlayout grid-6 alignwide">
 	<?php do_action( 'wps_account_navigation', $tab ); ?>
 
 	<div class="wps-account gridw-4">

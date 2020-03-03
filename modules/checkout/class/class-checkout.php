@@ -172,7 +172,6 @@ class Checkout extends \eoxia\Singleton_Util {
 	public function validate_checkout( &$data, &$errors ) {
 		$this->validate_posted_data( $data, $errors );
 	}
-
 	/**
 	 * Procèdes au paiement
 	 *
