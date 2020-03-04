@@ -323,15 +323,6 @@ class Doli_Sync_Action {
 				$wp_entry = Doli_Products::g()->doli_to_wp( $doli_entry, $wp_entry, true, $notices );
 				$to_type  = 'product';
 
-				$data_sha = array();
-
-				$data_sha['doli_id']   = $doli_entry->id;
-				$data_sha['wp_id']     = $wp_entry->data['id'];
-				$data_sha['label']     = $wp_entry->data['title'];
-				$data_sha['price']     = $wp_entry->data['price'];
-				$data_sha['price_ttc'] = $wp_entry->data['price_ttc'];
-				$data_sha['tva_tx']    = $wp_entry->data['tva_tx'];
-
 				break;
 			case 'orders':
 				$url = admin_url( 'admin.php?page=wps-order' );
@@ -372,9 +363,7 @@ class Doli_Sync_Action {
 			'type'    => $to_type,
 		);
 
-		$doli_object = Request_Util::post( 'wpshop/object', $data );
-
-		update_post_meta( $wp_id, '_sync_sha_256', hash( 'sha256', implode( ',', $data_sha ) ) );
+		Request_Util::post( 'wpshop/object', $data );
 
 		ob_start();
 		if ( $modal ) {
@@ -388,6 +377,7 @@ class Doli_Sync_Action {
 
 		wp_send_json_success( array(
 			'id'               => $wp_id,
+			'sync_status'      => Doli_Sync::g()->check_status( $wp_id ),
 			'namespace'        => 'wpshop',
 			'module'           => 'doliSync',
 			'callback_success' => 'syncEntrySuccess',
@@ -418,21 +408,21 @@ class Doli_Sync_Action {
 	 */
 	public function add_sync_item( $object, $route, $doli_class, $wp_class, $mode = 'view' ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
-			$class           = '';
-			$message_tooltip = '';
+			$class = '';
 
 			if ( 'view' === $mode ) {
+				$message_tooltip = __( 'Looking for sync status', 'wpshop' );
 				if ( empty( $object->data['external_id'] ) ) {
 					$class           = 'red';
 					$message_tooltip = __( 'No associated to an ERP Entity', 'wpshop' );
-				} else {
-					$class = 'green';
-					// translators: Synchronisation OK.
-					$message_tooltip = __( 'Synchronisation OK', 'wpshop' );
+				}
+
+				if ( empty( $object->data['sync_sha_256'] ) ) {
+					$class           = 'red';
+					$message_tooltip = __( 'Unable to verify data consistency, SHA256 is empty', 'wpshop' );
 				}
 			} else {
-				$class = 'grey';
-
+				$class           = 'grey';
 				$message_tooltip = __( 'Not available in quick release', 'wpshop' );
 			}
 
@@ -459,33 +449,7 @@ class Doli_Sync_Action {
 			wp_send_json_error();
 		}
 
-		$external_id = get_post_meta( $id, '_external_id', true );
-		$sha_256     = get_post_meta( $id, '_sync_sha_256', true );
-		$to_type     = '';
-
-		switch ( get_post_type( $id ) ) {
-			case Product::g()->get_type():
-				$to_type = 'product';
-				break;
-			case Doli_Order::g()->get_type():
-				$to_type = 'order';
-				break;
-			case Proposals::g()->get_type():
-				$to_type = 'propal';
-				break;
-			case Third_Party::g()->get_type():
-				$to_type = 'third_party';
-				break;
-		}
-
-		$data = array(
-			'wp_id'        => $id,
-			'sha_256'      => $sha_256,
-			'doli_id'      => $external_id,
-			'type'         => $to_type,
-		);
-
-		$response = Request_Util::post( 'wpshop/object/statut', $data );
+		$response = Doli_Sync::g()->check_status( $id );
 
 		wp_send_json_success( array(
 			'sync' => $response,

@@ -59,13 +59,17 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			$wp_product->data['tva_tx']            = $doli_product->tva_tx;
 			$wp_product->data['barcode']           = $doli_product->barcode;
 			$wp_product->data['fk_product_type']   = 0; // Type "Produit" ou "Service".
+
+			// @todo: Disable we don't want to synchronize volume, length, width, height and weight for now.
 			/*$wp_product->data['volume']            = $doli_product->volume;
 			$wp_product->data['length']            = $doli_product->length;
 			$wp_product->data['width']             = $doli_product->width;
 			$wp_product->data['height']            = $doli_product->height;
 			$wp_product->data['weight']            = $doli_product->weight;*/
 			$wp_product->data['status']            = 'publish';
-			$wp_product->data['date_last_synchro'] = ! empty( $doli_product->last_sync_date ) ? $doli_product->last_sync_date : current_time( 'mysql' );
+
+			// @todo: Deprecated, use _sync_sha_256 below for check consistency of data now.
+			//$wp_product->data['date_last_synchro'] = ! empty( $doli_product->last_sync_date ) ? $doli_product->last_sync_date : current_time( 'mysql' );
 
 			if ( $save ) {
 				remove_all_actions( 'save_post' );
@@ -86,7 +90,6 @@ class Doli_Products extends \eoxia\Singleton_Util {
 
 				// translators: Erase data for the product <strong>dolibarr</strong> data.
 				$notices['messages'][] = sprintf( __( 'Erase data for the product <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_product->data['title'] );
-
 
 				// @todo: For what ?
 				add_action( 'save_post', array( Doli_Products_Action::g(), 'callback_save_post' ), 20, 2 );

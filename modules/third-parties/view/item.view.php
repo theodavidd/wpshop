@@ -16,7 +16,7 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="table-row">
+<div class="table-row" data-id="<?php echo esc_attr( $third_party->data['id'] ); ?>">
 	<div class="table-cell table-200">
 		<ul class="reference-id">
 			<li><i class="fas fa-hashtag"></i>WP : <?php echo esc_html( $third_party->data['id'] ); ?></li>

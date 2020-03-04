@@ -104,13 +104,18 @@ window.eoxiaJS.wpshop.doliSync.safeExit = function( event ) {
 };
 
 window.eoxiaJS.wpshop.doliSync.syncEntrySuccess = function( triggeredElement, response ) {
+	// If it is associate action.
 	if ( jQuery( '.wpeo-modal.modal-active' ).length > 0 ) {
 		jQuery( '.wpeo-modal.modal-active' ).addClass( 'modal-force-display' );
 		jQuery( '.wpeo-modal.modal-active' ).find( '.modal-content' ).html( response.data.view );
-	} else if ( jQuery( triggeredElement ).closest( '.table-row' ).length > 0 ){
+	} else if ( jQuery( triggeredElement ).closest( '.table-row' ).length > 0 ) {
+		// If it is sync action per entry.
 		jQuery( triggeredElement ).closest( '.table-row' ).replaceWith( response.data.view );
-		jQuery( '.table-row[data-id="' + response.data.id + '"]' ).find( '.wps-sync .statut' ).addClass( 'statut-green' );
-	} else {
-		triggeredElement.closest( '.wps-sync' ).find( '.statut' ).removeClass( 'statut-grey').removeClass( 'statut-orange' ).addClass( 'statut-green' );
+
+		if ( response.data.sync_status ) {
+			jQuery( '.table-row[data-id="' + response.data.id + '"]' ).find( '.wps-sync .statut' ).addClass( 'statut-green' );
+		} else {
+			jQuery( '.table-row[data-id="' + response.data.id + '"]' ).find( '.wps-sync .statut' ).addClass( 'statut-orange' );
+		}
 	}
-}
+};

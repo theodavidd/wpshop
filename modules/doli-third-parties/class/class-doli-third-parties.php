@@ -106,6 +106,14 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 						// translators: Erase data for the contact <strong>test</strong> with the <strong>dolibarr</strong> data and affect to <strong>Eoxia</strong>.
 						$notices['messages'][] = sprintf( __( 'Erase data for the contact <strong>%1$s</strong> with the <strong>dolibarr</strong>data and affect to <strong>%2$s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
 					}
+				} else {
+					// No address email from dolibarr, but WP required email address. So we generate email address.
+					// @todo: A vérifier avec Laurent pour l'extension voir https://docs.google.com/document/d/1kVFNZnuOy_OuEVIaxHI_8u8wWSPiF8tNbFZE34EZPQE
+					$doli_contact->email = $doli_contact->lastname . '@' . str_replace( ' ', '', strtolower( $doli_contact->socname ) ) . '.com';
+
+					$wp_contact = Contact::g()->get( array( 'schema' => true ), true );
+					// On le créer et on l'affecte à la société.
+					Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
 				}
 			}
 		}

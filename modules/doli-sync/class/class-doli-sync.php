@@ -265,6 +265,52 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 			'wp_object' => $wp_object,
 		);
 	}
+
+	/**
+	 * Vérifie la SHA256 entre une entité WPShop et une entité Dolibarr.
+	 *
+	 * @todo: Expliquer to_type
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param integer $id L'ID de l'entité WP.
+	 */
+	public function check_status( $id ) {
+		$external_id = get_post_meta( $id, '_external_id', true );
+		$sha_256     = get_post_meta( $id, '_sync_sha_256', true );
+		$to_type     = '';
+
+		// If not linked to Dolibarr entity or if has not sha_256 stop the func and return false.
+		if ( empty( $external_id ) || empty( $sha_256 ) ) {
+			return false;
+		}
+
+		switch ( get_post_type( $id ) ) {
+			case Product::g()->get_type():
+				$to_type = 'product';
+				break;
+			case Doli_Order::g()->get_type():
+				$to_type = 'order';
+				break;
+			case Proposals::g()->get_type():
+				$to_type = 'propal';
+				break;
+			case Third_Party::g()->get_type():
+				$to_type = 'third_party';
+				break;
+		}
+
+		$data = array(
+			'wp_id'        => $id,
+			'sha_256'      => $sha_256,
+			'doli_id'      => $external_id,
+			'type'         => $to_type,
+		);
+
+		$response = Request_Util::post( 'wpshop/object/statut', $data );
+
+		return $response;
+	}
 }
 
 Doli_Sync::g();
