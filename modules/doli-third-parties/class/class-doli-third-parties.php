@@ -58,12 +58,11 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 		$wp_third_party->data['status']      = 'publish';
 
 		if ( $save ) {
-			// @todo: à commenter ? SHA?
-			if ( ! empty( $doli_third_party->date_modification ) ) {
+			// Not used, useless.
+			/*if ( ! empty( $doli_third_party->date_modification ) ) {
 				$wp_third_party->data['date_modified'] = date( 'Y-m-d H:i:s', $doli_third_party->date_modification );
-			}
+			}*/
 
-			$wp_third_party->data['date_last_synchro'] = current_time( 'mysql');
 			// @todo: Poser les choix de gestion de date et les provenances, passer sur de comparaisons par SHA.
 			Third_Party::g()->update( $wp_third_party->data );
 
@@ -71,6 +70,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 			$notices['messages'][] = sprintf( __( 'Erase data for the third party <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_third_party->data['title'] );
 		}
 
+		// @todo: Move this code L76 to L113 in class-doli-contact.php and call it here.
 		$doli_third_party->contacts = Request_Util::get( 'contacts?sortfield=t.rowid&sortorder=ASC&limit=-1&thirdparty_ids=' . $doli_third_party->id );
 
 		if ( ! empty( $doli_third_party->contacts ) ) {
@@ -110,7 +110,29 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 			}
 		}
 
-		return $wp_third_party;
+		// Generate SHA256
+		if ( $save ) {
+			$data_sha = array();
+
+			$data_sha['doli_id'] = (int) $doli_third_party->id;
+			$data_sha['wp_id']   = (int) $wp_third_party->data['id'];
+			$data_sha['title']   = $wp_third_party->data['title'];
+			$data_sha['address'] = $wp_third_party->data['address'];
+			$data_sha['town']    = $wp_third_party->data['town'];
+			$data_sha['zip']     = $wp_third_party->data['zip'];
+			$data_sha['state']   = $wp_third_party->data['state'];
+			$data_sha['country'] = $wp_third_party->data['country'];
+			$data_sha['town']    = $wp_third_party->data['town'];
+			$data_sha['phone']   = $wp_third_party->data['phone'];
+			$data_sha['email']   = $wp_third_party->data['email'];
+
+			// @todo: Add Contact/Address Data To $data_sha for add more consistency.
+
+			update_post_meta( $wp_third_party->data['id'], '_sync_sha_256', hash( 'sha256', implode( ',', $data_sha ) ) );
+		}
+
+		// Get before return for get the new contact_ids array.
+		return Third_Party::g()->get( array( 'id' => $wp_third_party->data['id'] ), true );
 	}
 
 	/**
