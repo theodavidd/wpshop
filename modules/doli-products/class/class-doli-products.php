@@ -59,11 +59,11 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			$wp_product->data['tva_tx']            = $doli_product->tva_tx;
 			$wp_product->data['barcode']           = $doli_product->barcode;
 			$wp_product->data['fk_product_type']   = 0; // Type "Produit" ou "Service".
-			$wp_product->data['volume']            = $doli_product->volume;
+			/*$wp_product->data['volume']            = $doli_product->volume;
 			$wp_product->data['length']            = $doli_product->length;
 			$wp_product->data['width']             = $doli_product->width;
 			$wp_product->data['height']            = $doli_product->height;
-			$wp_product->data['weight']            = $doli_product->weight;
+			$wp_product->data['weight']            = $doli_product->weight;*/
 			$wp_product->data['status']            = 'publish';
 			$wp_product->data['date_last_synchro'] = ! empty( $doli_product->last_sync_date ) ? $doli_product->last_sync_date : current_time( 'mysql' );
 
@@ -71,10 +71,24 @@ class Doli_Products extends \eoxia\Singleton_Util {
 				remove_all_actions( 'save_post' );
 				$wp_product = Product::g()->update( $wp_product->data );
 
+				// Generate SHA
+				$data_sha = array();
+
+				$data_sha['doli_id']   = $doli_product->id;
+				$data_sha['wp_id']     = $wp_product->data['id'];
+				$data_sha['label']     = $wp_product->data['title'];
+				$data_sha['price']     = $wp_product->data['price'];
+				$data_sha['price_ttc'] = $wp_product->data['price_ttc'];
+				$data_sha['tva_tx']    = $wp_product->data['tva_tx'];
+
+				update_post_meta( $wp_product->data['id'], '_external_id', (int) $doli_product->id );
+				update_post_meta( $wp_product->data['id'], '_sync_sha_256', hash( 'sha256', implode( ',', $data_sha ) ) );
+
 				// translators: Erase data for the product <strong>dolibarr</strong> data.
 				$notices['messages'][] = sprintf( __( 'Erase data for the product <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_product->data['title'] );
 
-				update_post_meta( $wp_product->data['id'], '_external_id', (int) $doli_product->id );
+
+				// @todo: For what ?
 				add_action( 'save_post', array( Doli_Products_Action::g(), 'callback_save_post' ), 20, 2 );
 				Product::g()->update( $wp_product->data );
 			}
