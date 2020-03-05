@@ -79,6 +79,7 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_add_menu_page() {
+		// If it is a single page.
 		if ( isset( $_GET['id'] ) ) {
 			$id = ! empty( $_GET['id'] ) ? (int) $_GET['id'] : 0;
 			$third_party  = Third_Party::g()->get( array( 'id' => $id ), true );
@@ -95,6 +96,7 @@ class Third_Party_Action {
 
 			\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'single', array( 'third_party' => $third_party ) );
 		} else {
+			// Or it is the listing.
 			$per_page = get_user_meta( get_current_user_id(), Third_Party::g()->option_per_page, true );
 
 			if ( empty( $per_page ) || 1 > $per_page ) {
