@@ -390,8 +390,8 @@ class Doli_Sync_Action {
 	 *
 	 * @since 2.0.0
 	 */
-	public function add_sync_header() {
-		if ( Settings::g()->dolibarr_is_active() ) {
+	public function add_sync_header( $type ) {
+		if ( in_array( $type, array( 'products', 'thirdparties', 'proposals' ) ) && Settings::g()->dolibarr_is_active() ) {
 			\eoxia\View_Util::exec( 'wpshop', 'doli-sync', 'sync-header' );
 		}
 	}
@@ -407,7 +407,7 @@ class Doli_Sync_Action {
 	 * @param string $mode   Peut être view ou edit.
 	 */
 	public function add_sync_item( $object, $route, $doli_class, $wp_class, $mode = 'view' ) {
-		if ( Settings::g()->dolibarr_is_active() ) {
+		if ( Settings::g()->dolibarr_is_active() && in_array( $route, array( 'products', 'thirdparties', 'proposals' ) ) ) {
 			$class = '';
 
 			if ( 'view' === $mode ) {
@@ -452,8 +452,9 @@ class Doli_Sync_Action {
 		$response = Doli_Sync::g()->check_status( $id );
 
 		wp_send_json_success( array(
-			'sync' => $response,
-			'id'   => $id,
+			'sync'         => $response,
+			'sync_message' => $response ? __( 'Synchronization OK', 'wpshop' ) : __( 'Synchronization failed', 'wpshop' ),
+			'id'           => $id,
 		) );
 	}
 }
