@@ -44,6 +44,9 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 			$wp_proposal->data['total_ht']       = $doli_proposal->total_ht;
 			$wp_proposal->data['total_ttc']      = $doli_proposal->total_ttc;
 			$wp_proposal->data['billed']         = 0;
+
+			// @todo: Les trois valeurs ci-dessous ne corresponde pas au valeur de Dolibarr elle sont adapté pour répondre au besoin de WPshop.
+			// @todo: Détailler les besoins de WPshop et enlever ce fonctionnement pour le coup.
 			$wp_proposal->data['datec']          = date( 'Y-m-d H:i:s', $doli_proposal->datec );
 			$wp_proposal->data['parent_id']      = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_proposal->socid );
 			$wp_proposal->data['payment_method'] = ( null === $doli_proposal->mode_reglement_code ) ? $wp_proposal->data['payment_method'] : Doli_Payment::g()->convert_to_wp( $doli_proposal->mode_reglement_code );
@@ -70,8 +73,7 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 				}
 			}
 
-			$status = '';
-
+			// @todo: Ajouter une ENUMERATION pour mieux comprendre les chiffres dans ce switch.
 			switch ( $doli_proposal->statut ) {
 				case -1:
 					$status = 'wps-canceled';
@@ -98,8 +100,21 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 			}
 
 			$wp_proposal->data['status'] = $status;
+			$wp_proposal                 = Proposals::g()->update( $wp_proposal->data );
 
-			return Proposals::g()->update( $wp_proposal->data );
+			// Generate SHA
+			$data_sha = array();
+
+			$data_sha['doli_id']   = (int) $doli_proposal->id;
+			$data_sha['wp_id']     = $wp_proposal->data['id'];
+			$data_sha['ref']       = $wp_proposal->data['title'];
+			$data_sha['total_ht']  = $wp_proposal->data['total_ht'];
+			$data_sha['total_ttc'] = $wp_proposal->data['total_ttc'];
+
+			// @todo: Ajouter les lignes pour le SHA256.
+			update_post_meta( $wp_proposal->data['id'], '_sync_sha_256', hash( 'sha256', implode( ',', $data_sha ) ) );
+
+			return $wp_proposal;
 		}
 	}
 
