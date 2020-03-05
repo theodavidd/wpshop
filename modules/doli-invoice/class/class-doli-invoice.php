@@ -117,6 +117,28 @@ class Doli_Invoice extends \eoxia\Post_Class {
 	}
 
 	/**
+	 * Convertis un tableau Invoice Object provenant de Dolibarr vers un format Invoice Object WPShop afin de normisé pour l'affichage.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $doli_invoices Tableau Invoice Object provenant de Dolibarr.
+	 *
+	 * @return array $wp_invoices Tableau Invoice Object de WPshop convertis depuis le format de Dolibarr.
+	 */
+	public function convert_to_wp_invoice_format( $doli_invoices ) {
+		$wp_invoices = array();
+
+		if ( ! empty( $doli_invoices ) ) {
+			foreach ( $doli_invoices as $doli_invoice ) {
+				$wp_invoice    = $this->get( array( 'schema' => true ), true );
+				$wp_invoices[] = $this->doli_to_wp( $doli_invoice, $wp_invoice, true );
+			}
+		}
+
+		return $wp_invoices;
+	}
+
+	/**
 	 * Synchronise depuis Dolibarr vers WP.
 	 *
 	 * @since 2.0.0
@@ -124,32 +146,36 @@ class Doli_Invoice extends \eoxia\Post_Class {
 	 * @param stdClass      $doli_invoice Les données de la facture venant de
 	 * Dolibarr.
 	 * @param Invoice_Model $wp_invoice   Les données de la facture WP.
+	 * @param Boolean       $only_convert Only Convert Dolibarr Object to WP. Don't save the WP Object on the database.
 	 *
 	 * @return Invoice_Model              Les données de la facture WP avec les
 	 * données de Dolibarr.
 	 */
-	public function doli_to_wp( $doli_invoice, $wp_invoice ) {
+	public function doli_to_wp( $doli_invoice, $wp_invoice, $only_convert = false ) {
 		$order = null;
 
 		$doli_invoice                    = Request_Util::get( 'invoices/' . $doli_invoice->id ); // Charges par la route single des factures pour avoir accès à linkedObjectsIds->commande.
 		$wp_invoice->data['external_id'] = (int) $doli_invoice->id;
 
-		if ( ! empty( $doli_invoice->linkedObjectsIds->commande ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.
-			$order_id                        = Doli_Order::g()->get_wp_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
-			$wp_invoice->data['post_parent'] = $order_id;
-
-			$order                         = Doli_Order::g()->get( array( 'id' => $order_id ), true );
-			$wp_invoice->data['author_id'] = $order->data['author_id'];
-		}
+		// @todo: Vérifier les conséquences
+//		if ( ! empty( $doli_invoice->linkedObjectsIds->commande ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.
+//			$order_id                        = Doli_Order::g()->get_wp_id_by_doli_id( end( $doli_invoice->linkedObjectsIds->commande ) );
+//			$wp_invoice->data['post_parent'] = $order_id;
+//
+//			$order                         = Doli_Order::g()->get( array( 'id' => $order_id ), true );
+//			$wp_invoice->data['author_id'] = $order->data['author_id'];
+//		}
 
 		$wp_invoice->data['title']          = $doli_invoice->ref;
 		$wp_invoice->data['total_ttc']      = $doli_invoice->total_ttc;
 		$wp_invoice->data['total_ht']       = $doli_invoice->total_ht;
 		$wp_invoice->data['resteapayer']    = $doli_invoice->remaintopay;
 		$wp_invoice->data['totalpaye']      = $doli_invoice->totalpaid;
+		// @todo: Faut-il réelement convertir le méthode de paiement ?
 		$wp_invoice->data['payment_method'] = Doli_Payment::g()->convert_to_wp( $doli_invoice->mode_reglement_code );
 		$wp_invoice->data['paye']           = (int) $doli_invoice->paye;
 		$wp_invoice->data['third_party_id'] = Doli_Third_Parties::g()->get_wp_id_by_doli_id( $doli_invoice->socid );
+		$wp_invoice->data['payments']       = array();
 
 		$wp_invoice->data['lines'] = null;
 
@@ -200,31 +226,20 @@ class Doli_Invoice extends \eoxia\Post_Class {
 
 		$wp_invoice->data['avoir'] = ( 2 === (int) $doli_invoice->type ) ? 1 : 0;
 
-		$wp_invoice = Doli_Invoice::g()->update( $wp_invoice->data );
+		if ( ! $only_convert ) {
+			$wp_invoice = Doli_Invoice::g()->update( $wp_invoice->data );
+		}
 
 		$doli_payments = Request_Util::get( 'invoices/' . $wp_invoice->data['external_id'] . '/payments' );
 
 		if ( ! empty( $doli_payments ) ) {
 			foreach ( $doli_payments as $doli_payment ) {
-				$wp_payment = Doli_Payment::g()->get( array( 'title' => $doli_payment->ref ), true );
-
-				if ( empty( $wp_payment ) ) {
-					$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
-				}
-
-				if ( ! is_array( $wp_payment ) ) {
-					$wp_payment = array( $wp_payment );
-				}
-
-				if ( ! empty( $wp_payment ) ) {
-					foreach ( $wp_payment as $element ) {
-						Doli_Payment::g()->doli_to_wp( $wp_invoice->data['id'], $doli_payment, $element );
-					}
-				}
-
+				$wp_payment                     = Doli_Payment::g()->get( array( 'schema' => true ), true );
+				$wp_invoice->data['payments'][] = Doli_Payment::g()->doli_to_wp( $wp_invoice->data['id'], $doli_payment, $wp_payment, $only_convert );
 			}
 		}
 
+		// @todo: Vérifier si cette action est connecté, et que fait-il ?
 		do_action( 'wps_synchro_invoice', $wp_invoice->data, $doli_invoice );
 
 		return $wp_invoice;
