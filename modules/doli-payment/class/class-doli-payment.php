@@ -83,8 +83,11 @@ class Doli_Payment extends \eoxia\Post_Class {
 	 * @param integer  $wp_invoice_id L'ID de la facture.
 	 * @param stdClass $doli_payment  Les données de dolibarr.
 	 * @param Payment  $wp_payment    Les données de WP.
+	 * @param  Boolean $only_convert  Only Convert Dolibarr Object to WP. Don't save the WP Object on the database.
+	 *
+	 * @return Doli_Payment_Model     Les données du paiement WP avec les données de Dolibarr.
 	 */
-	public function doli_to_wp( $wp_invoice_id, $doli_payment, $wp_payment ) {
+	public function doli_to_wp( $wp_invoice_id, $doli_payment, $wp_payment, $only_convert = false ) {
 		$wp_payment->data['title']        = $doli_payment->ref;
 		$wp_payment->data['amount']       = $doli_payment->amount;
 		$wp_payment->data['date']         = $doli_payment->date;
@@ -92,7 +95,11 @@ class Doli_Payment extends \eoxia\Post_Class {
 		$wp_payment->data['payment_type'] = $doli_payment->type;
 		$wp_payment->data['status']       = 'publish';
 
-		Doli_Payment::g()->update( $wp_payment->data );
+		if ( ! $only_convert ) {
+			$wp_payment = Doli_Payment::g()->update( $wp_payment->data );
+		}
+
+		return $wp_payment;
 	}
 
 	/**
