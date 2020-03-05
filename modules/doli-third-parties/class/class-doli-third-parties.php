@@ -118,29 +118,46 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 			}
 		}
 
+		$wp_third_party = Third_Party::g()->get( array( 'id' => $wp_third_party->data['id'] ), true );
+
 		// Generate SHA256
 		if ( $save ) {
 			$data_sha = array();
 
-			$data_sha['doli_id'] = (int) $doli_third_party->id;
-			$data_sha['wp_id']   = (int) $wp_third_party->data['id'];
-			$data_sha['title']   = $wp_third_party->data['title'];
-			$data_sha['address'] = $wp_third_party->data['address'];
-			$data_sha['town']    = $wp_third_party->data['town'];
-			$data_sha['zip']     = $wp_third_party->data['zip'];
-			$data_sha['state']   = $wp_third_party->data['state'];
-			$data_sha['country'] = $wp_third_party->data['country'];
-			$data_sha['town']    = $wp_third_party->data['town'];
-			$data_sha['phone']   = $wp_third_party->data['phone'];
-			$data_sha['email']   = $wp_third_party->data['email'];
+			$data_sha['doli_id']  = (int) $doli_third_party->id;
+			$data_sha['wp_id']    = (int) $wp_third_party->data['id'];
+			$data_sha['title']    = $wp_third_party->data['title'];
+			$data_sha['address']  = $wp_third_party->data['address'];
+			$data_sha['town']     = $wp_third_party->data['town'];
+			$data_sha['zip']      = $wp_third_party->data['zip'];
+			$data_sha['state']    = $wp_third_party->data['state'];
+			$data_sha['country']  = $wp_third_party->data['country'];
+			$data_sha['town']     = $wp_third_party->data['town'];
+			$data_sha['phone']    = $wp_third_party->data['phone'];
+			$data_sha['email']    = $wp_third_party->data['email'];
 
-			// @todo: Add Contact/Address Data To $data_sha for add more consistency.
+			$contacts = Contact::g()->get( array(
+				'include' => $wp_third_party->data['contact_ids'],
+			) );
+
+			if ( ! empty( $contacts ) ) {
+				foreach ( $contacts as $key => $contact ) {
+					// @todo: L'email est que du coté de WPShop quand elle est généré par WPShop car inexistante dans dolibarr.
+					$data_sha['contacts_' . $key . '_doli_id'] = $contact->data['external_id'];
+					$data_sha['contacts_' . $key . '_doli_third_party_id'] = $wp_third_party->data['external_id'];
+					$data_sha['contacts_' . $key . '_wp_third_party_id'] = $wp_third_party->data['id'];
+					$data_sha['contacts_' . $key . '_lastname'] = $contact->data['lastname'];
+					$data_sha['contacts_' . $key . '_firstname'] = $contact->data['firstname'];
+					$data_sha['contacts_' . $key . '_phone_pro'] = $contact->data['phone'];
+					$data_sha['contacts_' . $key . '_phone_mobile'] = $contact->data['phone_mobile'];
+				}
+			}
 
 			update_post_meta( $wp_third_party->data['id'], '_sync_sha_256', hash( 'sha256', implode( ',', $data_sha ) ) );
 		}
 
 		// Get before return for get the new contact_ids array.
-		return Third_Party::g()->get( array( 'id' => $wp_third_party->data['id'] ), true );
+		return $wp_third_party;
 	}
 
 	/**
