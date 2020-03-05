@@ -117,5 +117,7 @@ window.eoxiaJS.wpshop.doliSync.syncEntrySuccess = function( triggeredElement, re
 		} else {
 			jQuery( '.table-row[data-id="' + response.data.id + '"]' ).find( '.wps-sync .statut' ).addClass( 'statut-orange' );
 		}
+
+		jQuery( '.table-row[data-id="' + response.data.id + '"]' ).find( '.wps-sync .statut' ).attr( 'aria-label', response.data.sync_message );
 	}
 };
