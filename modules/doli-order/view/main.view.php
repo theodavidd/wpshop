@@ -17,24 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wrap wpeo-wrap">
-	<h2>
-		<?php esc_html_e( 'Orders', 'wpshop' ); ?>
-
-		<?php
-		if ( \eoxia\Config_Util::$init['wpshop']->use_global_sync ) :
-			?>
-			<div class="wpeo-button button-main wpeo-modal-event"
-				data-action="load_modal_synchro"
-				data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_modal_synchro' ) ); ?>"
-				data-class="modal-sync modal-force-display"
-				data-sync="third-parties,contacts,products,proposals,orders,invoices,payments"
-				data-title="<?php echo esc_attr_e( 'Data synchronization', 'wpshop' ); ?>">
-				<span><?php esc_html_e( 'All Orders Sync', 'wpshop' ); ?></span>
-			</div>
-			<?php
-		endif;
-		?>
-	</h2>
+	<h2><?php esc_html_e( 'Orders', 'wpshop' ); ?></h2>
 
 	<div class="wpeo-gridlayout wpeo-form form-light grid-4 alignleft" style="margin-bottom: 20px; margin-top: 15px;">
 		<form method="GET" action="<?php echo admin_url( 'admin.php' ); ?>" class="wps-filter-bar wpeo-form form-light" style="display: flex;">
@@ -52,6 +35,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<?php
 	if ( ! empty( $s ) ) :
+		// @todo: Need to be translated.
 		?>
 		<p>Résultats de recherche pour « <?php echo esc_html( $s ); ?> »</p>
 		<?php
@@ -83,6 +67,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					<input style="width: 50px;" type="text" name="current_page" value="<?php echo esc_attr( $current_page ); ?>" />
 				</form>
 
+				<?php // @todo: Need to be translated ?>
 				sur <?php echo $number_page; ?>
 
 				<?php

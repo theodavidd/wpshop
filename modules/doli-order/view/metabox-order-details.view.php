@@ -17,13 +17,13 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-metabox gridw-2 wps-customer-address">
-	<h3 class="metabox-title"><?php esc_html_e( 'Customer address', 'wpshop' ); ?></h3>
+	<h3 class="metabox-title"><?php esc_html_e( 'Order details', 'wpshop' ); ?></h3>
 
 	<div class="wpeo-gridlayout grid-3">
 		<div>
 			<h4 class="metabox-list-title"><i class="fas fa-building"></i> <?php esc_html_e( 'Informations', 'wpshop' ); ?></h4>
 			<ul class="metabox-list">
-				<li><span><?php esc_html_e( 'Date', 'wpshop' ); ?></span> <?php echo esc_html( $order->data['datec']['rendered']['date_time'] ); ?></li>
+				<li><span><?php esc_html_e( 'Date', 'wpshop' ); ?></span> <?php echo esc_html( $order->data['datec']['date_time'] ); ?></li>
 				<li><span><?php esc_html_e( 'Customer', 'wpshop' ); ?></span> <a href="<?php echo admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ); ?>"><?php echo esc_html( $third_party->data['title'] ); ?></a></li>
 				<li><span><?php esc_html_e( 'Phone', 'wpshop' ); ?></span> <?php echo esc_html( $third_party->data['phone'] ); ?></li>
 				<li><span><?php esc_html_e( 'Order status', 'wpshop' ); ?></span> <?php echo Doli_Statut::g()->display_status( $order ); ?></li>

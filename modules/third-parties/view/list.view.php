@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div class="table-cell table-300"><?php esc_html_e( 'Contacts', 'wpshop' ); ?></div>
 		<div class="table-cell table-350"><?php esc_html_e( 'Commercial', 'wpshop' ); ?></div>
 		<div class="table-cell table-full"><?php esc_html_e( 'Actions', 'wpshop' ); ?></div>
-		<?php do_action( 'wps_listing_table_header_end' ); ?>
+		<?php do_action( 'wps_listing_table_header_end', 'thirdparties' ); ?>
 	</div>
 
 	<?php

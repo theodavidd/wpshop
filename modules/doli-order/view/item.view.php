@@ -19,17 +19,17 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="table-row" data-id="<?php echo esc_attr( $order->data['id'] ); ?>">
 	<div class="table-cell table-full">
 		<ul class="reference-id">
-			<li><i class="fas fa-hashtag"></i>WP : <?php echo esc_html( $order->data['id'] ); ?></li>
 			<?php if ( ! empty( $order->data['external_id'] ) ) : ?>
 				<li><i class="fas fa-hashtag"></i>Doli : <?php echo esc_html( $order->data['external_id'] ); ?></li>
 			<?php endif; ?>
-			<li><i class="fas fa-calendar-alt"></i> <?php echo esc_html( $order->data['datec']['rendered']['date_time'] ); ?></li>
+
+			<li><i class="fas fa-calendar-alt"></i> <?php echo esc_html( $order->data['datec']['date_time'] ); ?></li>
 		</ul>
 		<div class="reference-title">
-			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ) ); ?>"><?php echo esc_html( $order->data['title'] ); ?></a>
+			<a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $order->data['external_id'] ) ); ?>"><?php echo esc_html( $order->data['title'] ); ?></a>
 		</div>
 		<ul class="reference-actions">
-			<li><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ) ); ?>"><?php esc_html_e( 'See', 'wpshop' ); ?></a></li>
+			<li><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $order->data['external_id'] ) ); ?>"><?php esc_html_e( 'See', 'wpshop' ); ?></a></li>
 			<?php if ( ! empty( $order->data['external_id'] ) ) : ?>
 				<li><a href="<?php echo esc_attr( $doli_url ); ?>/commande/card.php?id=<?php echo $order->data['external_id']; ?>"><?php esc_html_e( 'See in Dolibarr', 'wpshop' ); ?></a></li>
 			<?php endif; ?>
