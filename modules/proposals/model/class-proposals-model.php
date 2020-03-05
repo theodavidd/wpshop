@@ -133,13 +133,12 @@ class Proposals_Model extends \eoxia\Post_Model {
 			'default'   => 0,
 		);
 
-		$this->schema['date_last_synchro'] = array(
-			'type'        => 'wpeo_date',
+		$this->schema['sync_sha_256'] = array(
+			'type'        => 'string',
 			'meta_type'   => 'single',
-			'field'       => '_date_last_synchro',
+			'field'       => '_sync_sha_256',
 			'since'       => '2.0.0',
-			'description' => 'La date de la dernière synchronisation.',
-			'context'     => array( 'GET' ),
+			'description' => 'La cohérence de la synchronisation avec un ERP',
 		);
 
 		parent::__construct( $object, $req_method );
