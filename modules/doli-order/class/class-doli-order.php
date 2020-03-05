@@ -99,7 +99,8 @@ class Doli_Order extends \eoxia\Post_Class {
 	 * @since 2.0.0
 	 */
 	public function display() {
-		$per_page = get_user_meta( get_current_user_id(), Doli_Order::g()->option_per_page, true );
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$per_page        = get_user_meta( get_current_user_id(), Doli_Order::g()->option_per_page, true );
 
 		if ( empty( $per_page ) || 1 > $per_page ) {
 			$per_page = Doli_Order::g()->limit;
@@ -109,29 +110,22 @@ class Doli_Order extends \eoxia\Post_Class {
 
 		$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 
-		$order_ids = Doli_Order::g()->search( $s, array(
-			'orderby'        => 'meta_value',
-			'meta_key'       => 'datec',
-			'offset'         => ( $current_page - 1 ) * $per_page,
-			'posts_per_page' => $per_page,
-			'post_status'    => 'any',
-		) );
+		$route = 'orders?sortfield=t.rowid&sortorder=ASC&limit=' . $per_page . '&page=' . ( $current_page - 1 );
 
-		$orders = array();
-
-		if ( ! empty( $order_ids ) ) {
-			$orders = $this->get( array(
-				'post__in' => $order_ids,
-			) );
+		if ( ! empty( $s ) ) {
+			// La route de dolibarr ne fonctionne pas avec des caractères en base10
+			$route .= '&sqlfilters=(t.ref%3Alike%3A\'%25' . $s . '%25\')';
 		}
+
+		$doli_orders = Request_Util::get( $route );
+		$orders      = $this->convert_to_wp_order_format( $doli_orders );
 
 		if ( ! empty( $orders ) ) {
 			foreach ( $orders as &$element ) {
-				$element->data['tier'] = Third_Party::g()->get( array( 'id' => $element->data['parent_id'] ), true );
+				$element->data['tier']  = Third_Party::g()->get( array( 'id' => $element->data['parent_id'] ), true );
+				$element->data['datec'] = \eoxia\Date_Util::g()->fill_date( $element->data['datec'] );
 			}
 		}
-
-		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
 		\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'list', array(
 			'orders'   => $orders,
@@ -150,18 +144,39 @@ class Doli_Order extends \eoxia\Post_Class {
 	}
 
 	/**
+	 * Convertis un tableau Order Object provenant de dolibarr vers un format Order Object WPShop afin de normisé pour l'affichage.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $doli_orders Tableau Order Object provenant de Dolibarr.
+	 *
+	 * @return array $wp_orders Tableau Order Object de WPshop convertis depuis le format de Dolibarr.
+	 */
+	public function convert_to_wp_order_format( $doli_orders ) {
+		$wp_orders = array();
+
+		if ( ! empty( $doli_orders ) ) {
+			foreach ( $doli_orders as $doli_order ) {
+				$wp_order    = $this->get( array( 'schema' => true ), true );
+				$wp_orders[] = $this->doli_to_wp( $doli_order, $wp_order, true );
+			}
+		}
+
+		return $wp_orders;
+	}
+
+	/**
 	 * Synchronisation depuis Dolibarr vers WP.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  stdClass    $doli_order Les données venant de dolibarr.
-	 * @param  Order_Model $wp_order   Les données de WP.
+	 * @param  stdClass    $doli_order   Les données venant de dolibarr.
+	 * @param  Order_Model $wp_order     Les données de WP.
+	 * @param  Boolean     $only_convert Only Convert Dolibarr Object to WP. Don't save the WP Object on the database.
 	 *
 	 * @return Order_Model             Les données de WP avec ceux de dolibarr.
 	 */
-	public function doli_to_wp( $doli_order, $wp_order ) {
-		global $wpdb;
-
+	public function doli_to_wp( $doli_order, $wp_order, $only_convert = false ) {
 		if ( is_object( $wp_order ) ) {
 			$wp_order->data['external_id']    = (int) $doli_order->id;
 			$wp_order->data['title']          = $doli_order->ref;
@@ -203,22 +218,25 @@ class Doli_Order extends \eoxia\Post_Class {
 					switch ( $key ) {
 						case 'propal':
 							$type = new Proposals();
+							$wp_order->data['linked_objects_ids'][ 'wp_' . $key ] = array();
 							break;
 					}
 
-					if ( ! empty( $type ) ) {
-						$values = (array) $values;
-						$wp_order->data['linked_objects_ids'][ $key ] = array();
+					$values = (array) $values;
+					$wp_order->data['linked_objects_ids'][ $key ] = array();
 
-						if ( ! empty( $values ) ) {
-							foreach ( $values as $value ) {
+					if ( ! empty( $values ) ) {
+						foreach ( $values as $value ) {
+							if ( ! empty( $type ) ) {
 								$object = $type::g()->get( array(
 									'meta_key'   => '_external_id',
 									'meta_value' => (int) $value,
 								), true );
 
-								$wp_order->data['linked_objects_ids'][ $key ][] = (int) $object->data['id'];
+								$wp_order->data['linked_objects_ids'][ 'wp_' . $key ][] = (int) $object->data['id'];
 							}
+
+							$wp_order->data['linked_objects_ids'][ $key ][] = (int) $value;
 						}
 					}
 				}
@@ -249,30 +267,19 @@ class Doli_Order extends \eoxia\Post_Class {
 
 			if ( $wp_order->data['billed'] ) {
 				$status = 'wps-billed';
-				Product_Downloadable::g()->create_from_order( $wp_order );
+
+				if ( ! $only_convert ) {
+					Product_Downloadable::g()->create_from_order( $wp_order );
+				}
 			}
 
-			$wp_order->data['status']            = $status;
+			$wp_order->data['status'] = $status;
 
-			$wpshop_object = null;
-
-			if ( ! empty( $wp_order->data['external_id'] ) && ! empty( $wp_order->data['id'] ) ) {
-				$data = array(
-					'doli_id'     => (int) $wp_order->data['external_id'],
-					'wp_id'       => (int) $wp_order->data['id'],
-					'type'        => 'order',
-				);
-
-				$wpshop_object = Request_Util::post( 'wpshop/object/', $data );
+			if ( ! $only_convert ) {
+				$wp_order = Doli_Order::g()->update( $wp_order->data );
 			}
 
-			$wp_order = Doli_Order::g()->update( $wp_order->data );
-
-			if ( $wpshop_object != null ) {
-				update_post_meta( $wp_order->data['id'], '_date_last_synchro', $wpshop_object->last_sync_date );
-			}
-
-			return Doli_Order::g()->get( array( 'id' => $wp_order->data['id'] ), true );
+			return $wp_order;
 		}
 	}
 
