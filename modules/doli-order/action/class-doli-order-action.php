@@ -120,10 +120,16 @@ class Doli_Order_Action {
 	 */
 	public function callback_add_menu_page() {
 		if ( isset( $_GET['id'] ) ) {
+			// Single page.
 			$id = ! empty( $_GET['id'] ) ? (int) $_GET['id'] : 0;
 
-			$order       = Doli_Order::g()->get( array( 'id' => $id ), true );
-			$third_party = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
+			$doli_order = Request_Util::get( 'orders/' . $id );
+			$wp_order   = Doli_Order::g()->get( array( 'schema' => true ), true );
+			$wp_order   = Doli_Order::g()->doli_to_wp( $doli_order, $wp_order, true );
+
+			$wp_order->data['datec'] = \eoxia\Date_Util::g()->fill_date( $wp_order->data['datec'] );
+
+			$third_party = Third_Party::g()->get( array( 'id' => $wp_order->data['parent_id'] ), true );
 
 			if ( ! empty( $this->metaboxes ) ) {
 				foreach ( $this->metaboxes as $key => $metabox ) {
@@ -133,9 +139,11 @@ class Doli_Order_Action {
 
 			\eoxia\View_Util::exec( 'wpshop', 'doli-order', 'single', array(
 				'third_party' => $third_party,
-				'order'       => $order,
+				'order'       => $wp_order,
 			) );
 		} else {
+			// Listing page.
+			// @todo: Doublon avec Class Doli Order display() ?
 			$per_page = get_user_meta( get_current_user_id(), Doli_Order::g()->option_per_page, true );
 
 			if ( empty( $per_page ) || 1 > $per_page ) {
@@ -216,12 +224,28 @@ class Doli_Order_Action {
 	 * @param  Order $order Les données de la commande.
 	 */
 	public function metabox_order_payment( $order ) {
-		$invoices = Doli_Invoice::g()->get( array(
-			'post_parent' => $order->data['id'],
-			'meta_key'    => '_avoir',
-			'meta_value'  => 0,
-			'post_status' => array( 'wps-billed' ),
-		) );
+		$doli_invoices = array();
+		$wp_invoices   = array();
+
+		// Facture is the key getted from Dolibarr. Facture is french name for say "Invoice".
+		if ( ! empty( $order->data['linked_objects_ids']['facture'] ) ) {
+			$route = 'invoices?sortfield=t.rowid&sortorder=ASC&limit=100&sqlfilters=';
+			foreach ( $order->data['linked_objects_ids']['facture'] as $doli_invoice_id ) {
+				$route .= '(t.rowid:=:' . $doli_invoice_id . ') or';
+			}
+
+			$route = substr( $route, 0, strlen( $route ) - 3 );
+			$doli_invoices = Request_Util::get( $route );
+		}
+
+		$invoices = Doli_Invoice::g()->convert_to_wp_invoice_format( $doli_invoices );
+
+//		$invoices = Doli_Invoice::g()->get( array(
+//			'post_parent' => $order->data['id'],
+//			'meta_key'    => '_avoir',
+//			'meta_value'  => 0,
+//			'post_status' => array( 'wps-billed' ),
+//		) );
 
 		$already_paid       = 0;
 		$total_ttc_invoices = 0;
