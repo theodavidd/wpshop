@@ -212,6 +212,7 @@ class Doli_Order extends \eoxia\Post_Class {
 
 			$wp_order->data['linked_objects_ids'] = array();
 
+			// @todo: Répéter dans toutes les méthode doli_to_wp. Mettre dans CommonObject.
 			if ( ! empty( $doli_order->linkedObjectsIds ) ) {
 				foreach ( $doli_order->linkedObjectsIds as $key => $values ) {
 					$type = '';

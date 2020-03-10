@@ -211,20 +211,25 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function metabox_orders( $third_party ) {
+		// @todo: Charger dolibarr_option qu'une seule fois.
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
 		$orders = array();
 
 		if ( Settings::g()->dolibarr_is_active() ) {
-			$orders = Doli_Order::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
+			$doli_orders = Request_Util::get( 'orders?sortfield=t.rowid&sortorder=DESC&limit=10&thirdparty_ids=' . $third_party->data['external_id'] );
 
-			if ( ! empty( $orders ) ) {
-				foreach ( $orders as &$order ) {
-					$order->data['invoice'] = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
+			if ( ! empty( $doli_orders ) ) {
+				foreach ( $doli_orders as $doli_order ) {
+					$wp_order = Doli_Order::g()->get( array( 'schema' => true ), true );
+					$orders[] = Doli_Order::g()->doli_to_wp( $doli_order, $wp_order, true );
 				}
 			}
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-orders', array(
-			'orders' => $orders,
+			'orders'   => $orders,
+			'doli_url' => $dolibarr_option['dolibarr_url'],
 		) );
 	}
 
@@ -241,14 +246,26 @@ class Third_Party_Action {
 		$invoices = array();
 
 		if ( Settings::g()->dolibarr_is_active() ) {
-			$invoices = Doli_Invoice::g()->get( array(
-				'meta_key'   => '_third_party_id',
-				'meta_value' => $third_party->data['id'],
-			) );
+
+			$doli_invoices = Request_Util::get( 'invoices?sortfield=t.rowid&sortorder=ASC&limit=0&thirdparty_ids=' . $third_party->data['external_id'] );
+
+			if ( ! empty( $doli_invoices ) ) {
+				foreach ( $doli_invoices as $doli_invoice ) {
+					$wp_invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
+					$invoices[] = Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice, true );
+				}
+			}
 
 			if ( ! empty( $invoices ) ) {
 				foreach ( $invoices as &$invoice ) {
-					$invoice->data['order'] = Doli_Order::g()->get( array( 'id' => $invoice->data['parent_id'] ), true );
+					if ( isset( $invoice->data['linked_objects_ids']['commande'][0] ) ) {
+
+						// Load Order.
+						// @todo: Invoice should have one or more orders ? Check IT on Dolibarr.
+						$doli_order = Request_Util::get( 'orders/' . $invoice->data['linked_objects_ids']['commande'][0] );
+						$wp_order   = Doli_Order::g()->get( array( 'schema' => true ), true );
+						$invoice->data['order'] = Doli_Order::g()->doli_to_wp( $doli_order, $wp_order, true );
+					}
 				}
 			}
 		}

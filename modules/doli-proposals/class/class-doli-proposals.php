@@ -147,6 +147,7 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 
 			\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /wpshop/object with data %s', json_encode( $proposal_data ) ), 'wpshop2' );
 			$doli_proposal = Request_Util::post( 'wpshop/object', $proposal_data );
+
 			\eoxia\LOG_Util::log( sprintf( 'Checkout: Create proposal on dolibarr. Return response %s', json_encode( $doli_proposal ) ), 'wpshop2' );
 			$doli_proposal_id = $doli_proposal->id;
 

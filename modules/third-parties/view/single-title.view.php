@@ -16,8 +16,4 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div>
-	<?php echo esc_html( $third_party->data['title'] ); ?>
-</div>
-
-<?php do_action( 'wps_listing_table_end', $third_party, 'thirdparties', 'wpshop/Doli_Third_Parties', '\wpshop\Third_Party' ); ?>
+<div><?php printf( __( 'Tier name <span style="font-weight: 700;">%s</span>', 'wpshop' ), esc_html( $third_party->data['title'] ) ); ?></div>

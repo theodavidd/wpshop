@@ -33,11 +33,11 @@ defined( 'ABSPATH' ) || exit; ?>
 				?>
 				<div class="table-row">
 					<div class="table-cell">
-						<a href="<?php echo admin_url( 'admin.php?page=wps-order&id=' . $order->data['id'] ); ?>">
+						<a href="<?php echo esc_attr( $doli_url . '/commande/card.php?id=' . $order->data['external_id'] ); ?>">
 							<?php echo esc_html( $order->data['title'] ); ?>
 						</a>
 					</div>
-					<div class="table-cell"><?php echo esc_html( $order->data['datec']['rendered']['date'] ); ?></div>
+					<div class="table-cell"><?php echo esc_html( Date_util::readable_date( $order->data['datec'], 'date' ) ); ?></div>
 					<div class="table-cell"><?php echo esc_html( number_format( $order->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
 					<div class="table-cell"><strong><?php echo Doli_Statut::g()->display_status( $order ); ?></strong></div>
 				</div>

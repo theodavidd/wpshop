@@ -64,11 +64,11 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 		}
 
 		if ( $save ) {
+			// @todo: Vérifier cette condition.
 			if ( 0 === $wp_contact->data['id'] && false !== email_exists( $wp_contact->data['email'] ) ) {
 				\eoxia\LOG_Util::log( sprintf( 'Contact: doli_to_wp can\'t create %s email already exist', json_encode( $wp_contact->data ) ), 'wpshop2' );
 				return false;
 			}
-
 
 			if ( empty( $wp_contact->data['id'] ) ) {
 				$wp_contact->data['password'] = wp_generate_password();

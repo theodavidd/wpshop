@@ -73,7 +73,8 @@ class Doli_Proposals_Action {
 				'type'    => 'propal',
 			) );
 
-			update_post_meta( $wp_proposal->data['id'], '_date_last_synchro', $wpshop_object->last_sync_date );
+			// @todo: Sha256
+//			update_post_meta( $wp_proposal->data['id'], '_date_last_synchro', $wpshop_object->last_sync_date );
 
 			// translators: Create proposal on dolibarr: {json_data} and create PDF.
 			\eoxia\LOG_Util::log( sprintf( 'Create proposal on dolibarr: %s and create PDF', json_encode( $doli_proposal ) ), 'wpshop2' );

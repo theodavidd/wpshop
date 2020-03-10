@@ -79,7 +79,11 @@ class Dashboard extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function metabox_invoices() {
-		$invoices = Doli_Invoice::g()->get( array( 'posts_per_page' => 3 ) );
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$dolibarr_url    = $dolibarr_option['dolibarr_url'];
+
+		$doli_invoices = Request_Util::get( 'invoices?sortfield=t.rowid&sortorder=DESC&limit=3' );
+		$invoices      = Doli_Invoice::g()->convert_to_wp_invoice_format( $doli_invoices );
 
 		if ( ! empty( $invoices ) ) {
 			foreach ( $invoices as &$invoice ) {
@@ -87,10 +91,9 @@ class Dashboard extends \eoxia\Singleton_Util {
 			}
 		}
 
-		unset( $invoice );
-
 		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'metaboxes/metabox-invoices', array(
-			'invoices' => $invoices,
+			'invoices'     => $invoices,
+			'dolibarr_url' => $dolibarr_url,
 		) );
 	}
 
@@ -100,7 +103,13 @@ class Dashboard extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function metabox_orders() {
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$dolibarr_url    = $dolibarr_option['dolibarr_url'];
+
 		$orders = Doli_Order::g()->get( array( 'posts_per_page' => 3 ) );
+
+		$doli_orders = Request_Util::get( 'orders?sortfield=t.rowid&sortorder=DESC&limit=3' );
+		$orders      = Doli_Order::g()->convert_to_wp_order_format( $doli_orders );
 
 		if ( ! empty( $orders ) ) {
 			foreach ( $orders as &$order ) {
@@ -108,10 +117,9 @@ class Dashboard extends \eoxia\Singleton_Util {
 			}
 		}
 
-		unset( $order );
-
 		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'metaboxes/metabox-orders', array(
-			'orders' => $orders,
+			'orders'       => $orders,
+			'dolibarr_url' => $dolibarr_url,
 		) );
 	}
 
@@ -168,15 +176,36 @@ class Dashboard extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function metabox_payments() {
-		$payments = Doli_Payment::g()->get( array( 'posts_per_page' => 3 ) );
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$dolibarr_url    = $dolibarr_option['dolibarr_url'];
 
-		if ( ! empty( $payments ) ) {
-			foreach ( $payments as &$payment ) {
-				$payment->data['invoice'] = Doli_Invoice::g()->get( array( 'id' => $payment->data['parent_id'] ), true );
+		$doli_invoices = Request_Util::get( 'invoices?sortfield=t.rowid&sortorder=DESC&limit=3' );
+		$invoices      = Doli_Invoice::g()->convert_to_wp_invoice_format( $doli_invoices );
+
+		$payments = array();
+
+		$number_payment = 0;
+
+		if ( ! empty( $invoices ) ) {
+			foreach ( $invoices as &$invoice ) {
+				$invoice->data['third_party'] = Third_Party::g()->get( array( 'id' => $invoice->data['third_party_id'] ), true );
+
+				if ( ! empty( $invoice->data['payments'] ) ) {
+					foreach ( $invoice->data['payments'] as $payment ) {
+						$payment->data['invoice'] = $invoice;
+						$payments[] = $payment;
+						$number_payment++;
+
+						if ( $number_payment > 3 ) {
+							break;
+						}
+					}
+				}
 			}
 		}
 
-		unset( $payment );
+
+
 
 		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'metaboxes/metabox-payments', array(
 			'payments' => $payments,

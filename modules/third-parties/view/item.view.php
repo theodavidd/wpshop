@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			</div>
 		<?php endif; ?>
 		<ul class="reference-actions">
-			<li><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) ); ?>"><?php esc_html_e( 'Edit', 'wpshop' ); ?></a></li>
+			<li><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-third-party&id=' . $third_party->data['id'] ) ); ?>"><?php esc_html_e( 'See', 'wpshop' ); ?></a></li>
 			<?php if ( ! empty( $third_party->data['external_id'] ) ) : ?>
 				<li><a href="<?php echo esc_attr( $doli_url ); ?>/societe/card.php?id=<?php echo $third_party->data['external_id']; ?>"><?php esc_html_e( 'Edit in Dolibarr', 'wpshop' ); ?></a></li>
 			<?php endif; ?>

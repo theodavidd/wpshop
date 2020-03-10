@@ -40,9 +40,9 @@ defined( 'ABSPATH' ) || exit; ?>
 					</div>
 					<div class="table-cell">
 						<?php
-						if ( ! empty( $invoice->data['order']->data['id'] ) ) :
+						if ( ! empty( $invoice->data['order']->data['external_id'] ) ) :
 							?>
-							<a href="<?php echo admin_url( 'admin.php?page=wps-order&id=' . $invoice->data['order']->data['id'] ); ?>">
+							<a href="<?php echo esc_attr( $doli_url . '/commande/card.php?id=' . $invoice->data['order']->data['external_id'] ); ?>">
 								<?php echo esc_html( $invoice->data['order']->data['title'] ); ?>
 							</a>
 							<?php

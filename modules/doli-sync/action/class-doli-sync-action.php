@@ -208,7 +208,7 @@ class Doli_Sync_Action {
 								'type'    => $doli_type,
 							) );
 
-							update_post_meta( $entry->data['id'], '_date_last_synchro', $doli_object->last_sync_date );
+//							update_post_meta( $entry->data['id'], '_date_last_synchro', $doli_object->last_sync_date );
 						}
 					}
 

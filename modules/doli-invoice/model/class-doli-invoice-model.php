@@ -116,6 +116,14 @@ class Doli_Invoice_Model extends \eoxia\Post_Model {
 			'context'     => array( 'GET' ),
 		);
 
+		$this->schema['linked_objects_ids'] = array(
+			'type'      => 'array',
+			'meta_type' => 'single',
+			'field'     => '_linked_objects_ids',
+			'since'     => '2.0.0',
+			'default'   => null,
+		);
+
 		parent::__construct( $object, $req_method );
 	}
 }

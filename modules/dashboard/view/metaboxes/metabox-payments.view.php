@@ -37,7 +37,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					<div class="table-cell"><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-invoice&id=' . $payment->data['invoice']->data['id'] ) ); ?>"><?php echo esc_html( $payment->data['invoice']->data['title'] ); ?></a></div>
 					<div class="table-cell"><?php echo esc_html( $payment->data['payment_type'] ); ?></div>
 					<div class="table-cell"><?php echo esc_html( number_format( $payment->data['amount'], 2, ',', '' ) ); ?>€</div>
-					<div class="table-cell"><?php echo esc_html( $payment->data['date']['rendered']['date_time'] ); ?></div>
+					<div class="table-cell"><?php echo esc_html( Date_util::readable_date( $payment->data['date'], 'date_time' ) ); ?></div>
 				</div>
 				<?php
 			endforeach;

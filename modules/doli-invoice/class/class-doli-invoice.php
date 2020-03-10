@@ -239,6 +239,36 @@ class Doli_Invoice extends \eoxia\Post_Class {
 			}
 		}
 
+		if ( ! empty( $doli_invoice->linkedObjectsIds ) ) {
+			foreach ( $doli_invoice->linkedObjectsIds as $key => $values ) {
+				$type = '';
+				switch ( $key ) {
+					case 'propal':
+						$type = new Proposals();
+						$wp_order->data['linked_objects_ids'][ 'wp_' . $key ] = array();
+						break;
+				}
+
+				$values = (array) $values;
+				$wp_invoice->data['linked_objects_ids'][ $key ] = array();
+
+				if ( ! empty( $values ) ) {
+					foreach ( $values as $value ) {
+						if ( ! empty( $type ) ) {
+							$object = $type::g()->get( array(
+								'meta_key'   => '_external_id',
+								'meta_value' => (int) $value,
+							), true );
+
+							$wp_invoice->data['linked_objects_ids'][ 'wp_' . $key ][] = (int) $object->data['id'];
+						}
+
+						$wp_invoice->data['linked_objects_ids'][ $key ][] = (int) $value;
+					}
+				}
+			}
+		}
+
 		// @todo: Vérifier si cette action est connecté, et que fait-il ?
 		do_action( 'wps_synchro_invoice', $wp_invoice->data, $doli_invoice );
 

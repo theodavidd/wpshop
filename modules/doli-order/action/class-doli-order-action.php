@@ -240,13 +240,6 @@ class Doli_Order_Action {
 
 		$invoices = Doli_Invoice::g()->convert_to_wp_invoice_format( $doli_invoices );
 
-//		$invoices = Doli_Invoice::g()->get( array(
-//			'post_parent' => $order->data['id'],
-//			'meta_key'    => '_avoir',
-//			'meta_value'  => 0,
-//			'post_status' => array( 'wps-billed' ),
-//		) );
-
 		$already_paid       = 0;
 		$total_ttc_invoices = 0;
 		$remaining_unpaid   = 0;
@@ -380,7 +373,9 @@ class Doli_Order_Action {
 
 		$doli_order = Request_Util::post( 'wpshop/object', $data );
 
-		$wp_order->data['date_last_synchro'] = $doli_order->last_sync_date;
+		// @todo: Sha256
+
+//		$wp_order->data['date_last_synchro'] = $doli_order->last_sync_date;
 
 		$wp_order->data['total_price_no_shipping'] = Cart_Session::g()->total_price_no_shipping;
 		$wp_order->data['tva_amount']              = Cart_Session::g()->tva_amount;

@@ -16,6 +16,8 @@
 
 namespace wpshop;
 
+use Stripe\ApiOperations\Request;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -153,16 +155,19 @@ class Third_Party extends \eoxia\Post_Class {
 		), true );
 
 		if ( $dolibarr_active ) {
-			$order = Doli_Order::g()->get( array(
-				'post_parent'    => $third_party['id'],
-				'posts_per_page' => 1,
-			), true );
+			$doli_order = Request_Util::get( 'orders?sortfield=t.rowid&sortorder=DESC&limit=1&thirdparty_ids=' . $third_party['external_id'] );
 
-			$invoice = Doli_Invoice::g()->get( array(
-				'meta_key'       => '_third_party_id',
-				'meta_value'     => $third_party['id'],
-				'posts_per_page' => 1,
-			), true );
+			if ( isset( $doli_order[0] ) ) {
+				$wp_order = Doli_Order::g()->get( array( 'schema' => true ), true );
+				$order    = Doli_Order::g()->doli_to_wp( $doli_order[0], $wp_order, true );
+			}
+
+			$doli_invoice = Request_Util::get( 'invoices?sortfield=t.rowid&sortorder=ASC&limit=100&thirdparty_ids=' . $third_party['external_id'] );
+
+			if ( isset( $doli_invoice[0] ) ) {
+				$wp_invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
+				$invoice    = Doli_Invoice::g()->doli_to_wp( $doli_invoice[0], $wp_invoice, true );
+			}
 		}
 
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'commercial', array(

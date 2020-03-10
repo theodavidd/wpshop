@@ -18,10 +18,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wrap wpeo-wrap page-single">
 	<div class="page-header">
-		<h2>
-			<?php echo esc_html__( 'Proposal', 'wpshop' ) . ' ' . esc_html( $proposal->data['title'] ); ?>
-			<?php do_action( 'wps_listing_table_end', $proposal, 'proposals', 'wpshop/Doli_Proposals_Class', '\wpshop\proposals' ); ?>
-		</h2>
+		<h2><?php echo esc_html__( 'Proposal', 'wpshop' ) . ' ' . esc_html( $proposal->data['title'] ); ?></h2>
 	</div>
 
 	<div class="wps-page-content wpeo-gridlayout grid-3">

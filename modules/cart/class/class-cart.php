@@ -165,7 +165,7 @@ class Cart extends \eoxia\Singleton_Util {
 	 * Pour chaque produit, décrementes son stock selon la quantity de celui-ci
 	 * dans la commande.
 	 */
-	public function decreate_stock() {
+	public function decrease_stock() {
 		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
 			foreach ( Cart_Session::g()->cart_contents as $product ) {
 				if ( ! $product['manage_stock'] ) {

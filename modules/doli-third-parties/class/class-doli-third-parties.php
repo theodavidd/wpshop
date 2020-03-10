@@ -111,7 +111,14 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 					// @todo: A vérifier avec Laurent pour l'extension voir https://docs.google.com/document/d/1kVFNZnuOy_OuEVIaxHI_8u8wWSPiF8tNbFZE34EZPQE
 					$doli_contact->email = $doli_contact->lastname . '@' . str_replace( ' ', '', strtolower( $doli_contact->socname ) ) . '.com';
 
-					$wp_contact = Contact::g()->get( array( 'schema' => true ), true );
+					$wp_contact = Contact::g()->get( array(
+						'search' => $doli_contact->email,
+					), true );
+
+					if ( empty( $wp_contact ) ) {
+						$wp_contact = Contact::g()->get( array( 'schema' => true ), true );
+					}
+
 					// On le créer et on l'affecte à la société.
 					Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
 				}
