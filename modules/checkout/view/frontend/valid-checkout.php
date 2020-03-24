@@ -16,32 +16,34 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<?php
-// translators: Thanks, your order has been received.
-printf( __( 'Thanks, your %s has been received', 'wpshop' ), $title );
-?>
+<div class="content">
+	<?php
+	// translators: Thanks, your order has been received.
+	printf( __( 'Thanks, your %s has been received', 'wpshop' ), $title );
+	?>
 
-<div class="wpeo-gridlayout grid-2">
-	<ul>
-		<li>
-			<?php
-			// translators: order number: 011111.
-			printf( __( '%s :', 'wpshop' ), ucfirst( $title ) );
-			?>
-			<strong><?php echo esc_html( $object->data['title'] ); ?></strong>
-		</li>
-		<li><?php esc_html_e( 'Date', 'wpshop' ); ?> : <strong><?php echo esc_html( $object->data['date']['rendered']['date'] ); ?></strong></li>
-		<li><?php esc_html_e( 'Total', 'wpshop' ); ?> : <strong><?php echo esc_html( number_format( $object->data['total_ttc'], 2 ) ); ?>€</strong></li>
-		<li><?php esc_html_e( 'Method of payment', 'wpshop' ); ?> :
-			<strong><?php echo esc_html( Payment::g()->get_payment_title( $object->data['payment_method'] ) ); ?></strong>
-		</li>
-	</ul>
+	<div class="wpeo-gridlayout grid-2">
+		<ul>
+			<li>
+				<?php
+				// translators: order number: 011111.
+				printf( __( '%s :', 'wpshop' ), ucfirst( $title ) );
+				?>
+				<strong><?php echo esc_html( $object->data['title'] ); ?></strong>
+			</li>
+			<li><?php esc_html_e( 'Date', 'wpshop' ); ?> : <strong><?php echo esc_html( $object->data['date']['rendered']['date'] ); ?></strong></li>
+			<li><?php esc_html_e( 'Total', 'wpshop' ); ?> : <strong><?php echo esc_html( number_format( $object->data['total_ttc'], 2 ) ); ?>€</strong></li>
+			<li><?php esc_html_e( 'Method of payment', 'wpshop' ); ?> :
+				<strong><?php echo esc_html( Payment::g()->get_payment_title( $object->data['payment_method'] ) ); ?></strong>
+			</li>
+		</ul>
 
-	<div id="order_review" class="wps-checkout-review-order">
-		<?php do_action( 'wps_checkout_order_review', $total_price_no_shipping, $tva_amount, $total_price_ttc, $shipping_cost ); ?>
+		<div id="order_review" class="wps-checkout-review-order">
+			<?php do_action( 'wps_checkout_order_review', $total_price_no_shipping, $tva_amount, $total_price_ttc, $shipping_cost ); ?>
+		</div>
 	</div>
-</div>
 
-<a href="<?php echo Pages::g()->get_account_link() . $atts['type']; ?>s/" class="wpeo-button button-main">
-	<span><?php echo $button_text; ?></span>
-</a>
+	<a href="<?php echo Pages::g()->get_account_link() . $atts['type']; ?>s/" class="wpeo-button button-main">
+		<span><?php echo $button_text; ?></span>
+	</a>
+</div>

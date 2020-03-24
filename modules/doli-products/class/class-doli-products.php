@@ -92,8 +92,8 @@ class Doli_Products extends \eoxia\Singleton_Util {
 				$notices['messages'][] = sprintf( __( 'Erase data for the product <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_product->data['title'] );
 
 				// @todo: For what ?
-				add_action( 'save_post', array( Doli_Products_Action::g(), 'callback_save_post' ), 20, 2 );
-				Product::g()->update( $wp_product->data );
+				/*add_action( 'save_post', array( Doli_Products_Action::g(), 'callback_save_post' ), 20, 2 );
+				Product::g()->update( $wp_product->data );*/
 			}
 
 			return $wp_product;

@@ -221,6 +221,7 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 	 * @return integer          L'ID WP du tier.
 	 */
 	public function get_wp_id_by_doli_id( $doli_id ) {
+		// @todo: Que se passe-t-il si une commande ou une entité peu importe possède la même ID.
 		$third_party = Third_Party::g()->get( array(
 			'meta_key'   => '_external_id',
 			'meta_value' => (int) $doli_id,

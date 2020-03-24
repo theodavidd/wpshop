@@ -101,7 +101,7 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 	 *
 	 * @return integer                     L'ID de dolibarr.
 	 */
-	public function wp_to_doli( $wp_contact, $doli_contact ) {
+	public function wp_to_doli( $wp_contact ) {
 		$third_party = Third_Party::g()->get( array(
 			'id' => $wp_contact->data['third_party_id'],
 		), true );
@@ -115,15 +115,40 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 		);
 
 		if ( ! empty( $wp_contact->data['external_id'] ) ) {
-			Request_Util::put( 'contacts/' . $wp_contact->data['external_id'], $data );
+			$contact = Request_Util::put( 'contacts/' . $wp_contact->data['external_id'], $data );
 		} else {
 			$contact_id                      = Request_Util::post( 'contacts', $data );
-			$wp_contact->data['external_id'] = $contact_id;
+			$wp_contact->data['external_id'] = (int) $contact_id;
 
 			Contact::g()->update( $wp_contact->data );
+
 		}
 
-		return $contact_id;
+		return $wp_contact->data['external_id'];
+	}
+
+	/**
+	 * Récupères l'ID de WP depuis l'ID de dolibarr
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  integer $doli_id L'ID du contact venant de dolibarr.
+	 *
+	 * @return integer          L'ID WP du contact.
+	 */
+	public function get_wp_id_by_doli_id( $doli_id ) {
+		$users = get_users( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => (int) $doli_id,
+		) );
+
+		$user = isset ( $users[0] ) ? $users[0] : null;
+
+		if ( ! $user ) {
+			return null;
+		}
+
+		return $user->ID;
 	}
 }
 

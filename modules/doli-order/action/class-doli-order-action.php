@@ -363,26 +363,9 @@ class Doli_Order_Action {
 		\eoxia\LOG_Util::log( sprintf( 'Create order %s for the third party %s', $doli_order->ref, $third_party->data['title'] ), 'wpshop2' );
 
 		$wp_order = Doli_Order::g()->get( array( 'schema' => true ), true );
-		$wp_order = Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
+		$wp_order = Doli_Order::g()->doli_to_wp( $doli_order, $wp_order, true );
 
-		$data = array(
-			'doli_id' => $doli_order->id,
-			'wp_id'   => $wp_order->data['id'],
-			'type'    => 'order',
-		);
-
-		$doli_order = Request_Util::post( 'wpshop/object', $data );
-
-		// @todo: Sha256
-
-//		$wp_order->data['date_last_synchro'] = $doli_order->last_sync_date;
-
-		$wp_order->data['total_price_no_shipping'] = Cart_Session::g()->total_price_no_shipping;
-		$wp_order->data['tva_amount']              = Cart_Session::g()->tva_amount;
-		$wp_order->data['shipping_cost']           = Cart_Session::g()->shipping_cost;
-		$wp_order->data['author_id']               = $wp_proposal->data['author_id'];
-
-		return Doli_Order::g()->update( $wp_order->data );
+		return $wp_order;
 	}
 
 	/**

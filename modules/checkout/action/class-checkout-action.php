@@ -298,25 +298,23 @@ class Checkout_Action {
 				$posted_data['third_party']['id'] = $third_party->data['id'];
 
 				if ( ! empty( $third_party->data['id'] ) ) {
-					$third_party = Third_Party::g()->update( $posted_data['third_party'] );
+					$third_party                     = Third_Party::g()->update( $posted_data['third_party'] );
+					$contact->data['third_party_id'] = $third_party->data['id'];
+
 
 					// Call wpshop to update attached ERP.
 					do_action( 'wps_checkout_create_third_party', $third_party );
-
-					if ( empty( $contact->data['external_id'] ) ) {
-						// Call wpshop to update attached ERP.
-						do_action( 'wps_checkout_create_contact', $contact );
-					}
 				} else {
 					$posted_data['third_party']['contact_ids'][] = $contact->data['id'];
 					$third_party                                 = Third_Party::g()->update( $posted_data['third_party'] );
+					$contact->data['third_party_id']             = $third_party->data['id'];
+
+
 					// Call wpshop to update attached ERP.
 					do_action( 'wps_checkout_create_third_party', $third_party );
-					// Call wpshop to update attached ERP.
-					do_action( 'wps_checkout_create_contact', $contact );
 				}
 
-				$contact->data['third_party_id'] = $third_party->data['id'];
+				do_action( 'wps_checkout_create_contact', $contact );
 
 				$contact->data['firstname'] = ! empty( $posted_data['contact']['firstname'] ) ? $posted_data['contact']['firstname'] : $contact->data['firstname'];
 				$contact->data['lastname']  = ! empty( $posted_data['contact']['lastname'] ) ? $posted_data['contact']['lastname'] : $contact->data['lastname'];
@@ -388,7 +386,6 @@ class Checkout_Action {
 		Cart_Session::g()->add_external_data( 'proposal_id', $proposal->data['id'] );
 		Cart_Session::g()->update_session();
 	}
-
 
 	/**
 	 * Ajoutes la case à cocher pour confirmer les termes.

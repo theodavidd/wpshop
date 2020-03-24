@@ -102,11 +102,18 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 				$button_text  = __( 'See my quotations', 'wpshop' );
 				$atts['type'] = 'quotation';
 			} elseif ( 'order' === $atts['type'] ) {
-				$object      = Doli_Order::g()->get( array( 'id' => $atts['id'] ), true );
+				$doli_order  = Request_Util::g()->get( 'orders/' . $atts['id'] );
+				$object      = Doli_Order::g()->get( array( 'schema' => true ), true );
+				$object      = Doli_Order::g()->doli_to_wp( $doli_order, $object, true );
+				echo '<pre>';
+				print_r( $object->data );
+				echo '</pre>';
+				exit;
 				$title       = __( 'order', 'wpshop' );
 				$button_text = __( 'See my orders', 'wpshop' );
 			}
 
+			// @todo: Check this security.
 			if ( ! is_object( $object ) || $object->data['author_id'] != get_current_user_id() ) {
 				wp_die( __( 'You can not see this page. Go back to <a href="' . home_url() . '">home!</a>', 'wpshop' ) );
 			}

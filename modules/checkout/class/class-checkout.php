@@ -193,7 +193,7 @@ class Checkout extends \eoxia\Singleton_Util {
 					'namespace'        => 'wpshopFrontend',
 					'module'           => 'checkout',
 					'callback_success' => 'redirect',
-					'url'              => Pages::g()->get_checkout_link() . '/received/order/' . $order->data['id'] . '/',
+					'url'              => Pages::g()->get_checkout_link() . '/received/order/' . $order->data['external_id'] . '/',
 				) );
 				break;
 			case 'payment_in_shop':
@@ -207,7 +207,7 @@ class Checkout extends \eoxia\Singleton_Util {
 					'namespace'        => 'wpshopFrontend',
 					'module'           => 'checkout',
 					'callback_success' => 'redirect',
-					'url'              => Pages::g()->get_checkout_link() . '/received/order/' . $order->data['id'] . '/',
+					'url'              => Pages::g()->get_checkout_link() . '/received/order/' . $order->data['external_id'] . '/',
 				) );
 				break;
 			case 'paypal':
