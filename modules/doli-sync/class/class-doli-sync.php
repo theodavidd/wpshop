@@ -40,55 +40,62 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 	public $limit_entries_by_request = 50;
 
 	/**
-	 * Constructeur.
+	 * Constructor.
 	 *
 	 * @since 2.0.0
 	 */
 	protected function construct() {
 		$this->sync_infos = array(
 			'third-parties' => array(
-				'title'    => __( 'Third parties', 'wpshop' ),
-				'action'   => 'sync_third_parties',
-				'nonce'    => 'sync_third_parties',
-				'endpoint' => 'thirdparties',
+				'title'      => __( 'Third parties', 'wpshop' ),
+				'action'     => 'sync_third_parties',
+				'nonce'      => 'sync_third_parties',
+				'endpoint'   => 'thirdparties',
+				'wp_class'   => '\wpshop\\Third_Parties',
+				'doli_class' => '\wpshop\\Doli_Third_Parties',
+				'doli_type'  => 'third_party',
 			),
 			'contacts'      => array(
-				'title'    => __( 'Contacts', 'wpshop' ),
-				'action'   => 'sync_contacts',
-				'nonce'    => 'sync_contacts',
-				'endpoint' => 'contacts',
+				'title'      => __( 'Contacts', 'wpshop' ),
+				'action'     => 'sync_contacts',
+				'nonce'      => 'sync_contacts',
+				'endpoint'   => 'contacts',
+				'wp_class'   => '\wpshop\\Contact',
+				'doli_class' => '\wpshop\\Doli_Contact',
+				'doli_type'  => 'contact',
 			),
 			'products'      => array(
-				'title'    => __( 'Products', 'wpshop' ),
-				'action'   => 'sync_products',
-				'nonce'    => 'sync_products',
-				'endpoint' => 'wpshop/object/get/web',
+				'title'      => __( 'Products', 'wpshop' ),
+				'action'     => 'sync_products',
+				'nonce'      => 'sync_products',
+				'endpoint'   => 'wpshop/productsonweb',
+				'wp_class'   => '\wpshop\\Product',
+				'doli_class' => '\wpshop\\Doli_Products',
+				'doli_type'  => 'product',
 			),
 			'proposals'     => array(
-				'title'    => __( 'Proposals', 'wpshop' ),
-				'action'   => 'sync_proposals',
-				'nonce'    => 'sync_proposals',
-				'endpoint' => 'proposals',
-			),
-			'orders'        => array(
-				'title'    => __( 'Orders', 'wpshop' ),
-				'action'   => 'sync_orders',
-				'nonce'    => 'sync_orders',
-				'endpoint' => 'orders',
-			),
-			'invoices'      => array(
-				'title'    => __( 'Invoices', 'wpshop' ),
-				'action'   => 'sync_invoices',
-				'nonce'    => 'sync_invoices',
-				'endpoint' => 'invoices',
-			),
-			'payments'      => array(
-				'title'    => __( 'Payments', 'wpshop' ),
-				'action'   => 'sync_payments',
-				'nonce'    => 'sync_payments',
-				'endpoint' => 'invoices', // Total is invoice too.
+				'title'      => __( 'Proposals', 'wpshop' ),
+				'action'     => 'sync_proposals',
+				'nonce'      => 'sync_proposals',
+				'endpoint'   => 'proposals',
+				'wp_class'   => '\wpshop\\Proposals',
+				'doli_class' => '\wpshop\\Doli_Proposals',
+				'doli_type'  => 'propal',
 			),
 		);
+	}
+
+	/**
+	 * Get sync info by type.
+	 *
+	 * @param $type
+	 *
+	 * @todo: Mal nommé
+	 *
+	 * @return array
+	 */
+	public function get_sync_infos( $type ) {
+		return $this->sync_infos[ $type ];
 	}
 
 	/**
@@ -159,13 +166,6 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 					$messages = array_merge( $messages, Third_Party::g()->dessociate_contact( $wp_third_party ) );
 				}
 
-				if ( 'wp' === $from ) {
-					$wp_third_party   = Third_Party::g()->get( array( 'id' => $wp_id ), true );
-					$doli_third_party = Request_Util::get( 'thirdparties/' . $entry_id );
-
-					Doli_Third_Parties::g()->wp_to_doli( $wp_third_party, $doli_third_party );
-				}
-
 				$wp_object = $wp_third_party;
 				break;
 			case 'wps-product':
@@ -181,15 +181,6 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 					) );
 				}
 
-				if ( 'wp' === $from ) {
-					$wp_product   = Product::g()->get( array( 'id' => $wp_id ), true );
-					$doli_product = Request_Util::get( 'products/' . $entry_id );
-
-					update_post_meta( $wp_id, '_external_id', $entry_id );
-					$wp_product->data['external_id'] = $entry_id;
-					Doli_Products::g()->wp_to_doli( $wp_product, $doli_product );
-				}
-
 				$wp_object = $wp_product;
 				break;
 			case 'wps-proposal':
@@ -202,66 +193,13 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 
 				$wp_object = $wp_proposal;
 				break;
-			case 'wps-order':
-				if ( 'dolibarr' === $from ) {
-					$doli_order = Request_Util::get( 'orders/' . $entry_id );
-					$wp_order   = Doli_Order::g()->get( array( 'id' => $wp_id ), true );
-
-					Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
-
-					Request_Util::post( 'wpshop/object', array(
-						'wp_id'   => $wp_id,
-						'doli_id' => $entry_id,
-					) );
-
-					// Facture.
-					if ( ! empty( $doli_order->linkedObjectsIds->facture ) ) {
-						foreach ( $doli_order->linkedObjectsIds->facture as $facture_id ) {
-							$doli_invoice = Request_Util::get( 'invoices/' . $facture_id );
-
-							$wp_invoice = Doli_Invoice::g()->get( array(
-								'meta_key'   => '_external_id',
-								'meta_value' => (int) $facture_id,
-							), true );
-
-							if ( empty( $wp_invoice ) ) {
-								$wp_invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
-							}
-
-							Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice );
-						}
-					}
-				}
-
-				$wp_object = $wp_order;
-				break;
-
-			case 'wps-doli-invoice':
-				if ( 'dolibarr' === $from ) {
-					$doli_order = Request_Util::get( 'invoices/' . $entry_id );
-					$wp_order   = Doli_Invoice::g()->get( array( 'id' => $wp_id ), true );
-
-					Doli_Invoice::g()->doli_to_wp( $doli_order, $wp_order );
-
-					Request_Util::post( 'wpshop/object', array(
-						'wp_id'   => $wp_id,
-						'doli_id' => $entry_id,
-					) );
-				}
-
-				$wp_object = $wp_order;
-				break;
 			default:
 				break;
 		}
 
-		$last_sync = current_time( 'mysql' );
-		update_post_meta( $wp_id, '_last_sync', $last_sync );
-
 		return array(
 			'messages'  => $messages,
 			'wp_error'  => $wp_error,
-			'last_sync' => $last_sync,
 			'wp_object' => $wp_object,
 		);
 	}
@@ -280,11 +218,6 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 		$sha_256     = get_post_meta( $id, '_sync_sha_256', true );
 		$to_type     = '';
 
-		// If not linked to Dolibarr entity or if has not sha_256 stop the func and return false.
-		if ( empty( $external_id ) || empty( $sha_256 ) ) {
-			return false;
-		}
-
 		switch ( get_post_type( $id ) ) {
 			case Product::g()->get_type():
 				$to_type = 'product';
@@ -301,16 +234,63 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 		}
 
 		$data = array(
-			'wp_id'        => $id,
-			'sha_256'      => $sha_256,
-			'doli_id'      => $external_id,
-			'type'         => $to_type,
+			'doli_id' => $external_id,
+			'wp_id'   => $id,
+			'type'    => $to_type,
+			'sha256'  => $sha_256,
 		);
 
-		$response = Request_Util::post( 'wpshop/object/statut', $data );
+		$url      = 'wpshop/object/status?' . http_build_query( $data );
+		$response = Request_Util::get( $url );
 
 		return $response;
 	}
+
+	public function display_sync_status( $object, $type, $load_erp_status = true ) {
+		$status_color    = 'grey';
+		$can_sync        = false;
+		$message_tooltip = __( 'Looking for sync status', 'wpshop' );
+
+		if ( $load_erp_status ) {
+			if ( empty( $object->data['external_id'] ) ) {
+				$status_color           = 'red';
+				$message_tooltip = __( 'No associated to an ERP Entity', 'wpshop' );
+			} else {
+				$response = Doli_Sync::g()->check_status( $object->data['id'] );
+
+				if ( ! $response->status ) {
+					$status_color = 'red';
+				} else {
+					// @todo: Do Const for status_code.
+					switch ( $response->status_code ) {
+						case '0x0':
+							$status_color = 'green';
+							$can_sync = true;
+							break;
+						case '0x1':
+							$status_color = 'red';
+							break;
+						case '0x2':
+							$status_color = 'orange';
+							$can_sync = true;
+							break;
+					}
+				}
+
+				$message_tooltip = $response->status_message;
+			}
+		}
+
+		\eoxia\View_Util::exec( 'wpshop', 'doli-sync', 'sync-item', array(
+			'object'          => $object,
+			'type'            => $type,
+			'status_color'    => $status_color,
+			'message_tooltip' => $message_tooltip,
+			'can_sync'        => $can_sync,
+		) );
+	}
+
+//	public function
 }
 
 Doli_Sync::g();
