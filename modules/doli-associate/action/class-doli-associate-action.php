@@ -39,25 +39,29 @@ class Doli_Associate_Action {
 	public function load_associate_modal() {
 		check_ajax_referer( 'load_associate_modal' );
 
-		$wp_id = ! empty( $_POST['wp_id'] ) ? (int) $_POST['wp_id'] : 0;
-		$route = ! empty( $_POST['route'] ) ? sanitize_text_field( $_POST['route'] ) : '';
-		$type  = ! empty( $_POST['wp_type'] ) ? sanitize_text_field( $_POST['wp_type'] ) : '';
-		$type  = str_replace( '_Class', '', str_replace( '\\\\', '\\', $type ) );
+		$id   = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
 
-		$post_type        = get_post_type( $wp_id );
+		$post_type        = get_post_type( $id );
 		$post_type_object = get_post_type_object( $post_type );
 
-		$entries = Request_Util::get( $route . '?limit=-1' );
+		$sync_info = Doli_Sync::g()->get_sync_infos( $type );
+
+		$entries = Request_Util::get( $sync_info['endpoint'] . '?limit=-1' );
 
 		if ( ! empty( $entries ) ) {
 			foreach ( $entries as $key => $entry ) {
-				$wp_entry = $type::g()->get( array(
+				$wp_entry = $sync_info['wp_class']::g()->get( array(
 					'meta_key'   => '_external_id',
 					'meta_value' => (int) $entry->id,
 				), true );
 
 				if ( ! empty( $wp_entry ) ) {
-					unset( $entries[ $key ] );
+					$status = Doli_Sync::g()->check_status( $wp_entry->data['id'] );
+
+					if ( $status->status_code != '0x1' ) {
+						unset( $entries[ $key ] );
+					}
 				}
 			}
 		}
@@ -65,9 +69,9 @@ class Doli_Associate_Action {
 		ob_start();
 		\eoxia\View_Util::exec( 'wpshop', 'doli-associate', 'main', array(
 			'entries' => $entries,
-			'wp_id'   => $wp_id,
-			'route'   => $route,
-			'type'    => $type,
+			'wp_id'   => $id,
+			'route'   => $sync_info['endpoint'],
+			'type'    => $sync_info['wp_class'],
 			'label'   => $post_type_object->labels->singular_name,
 		) );
 		$view = ob_get_clean();
