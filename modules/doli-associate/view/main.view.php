@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <p>
 	<?php
-	printf( __( '%s avaibles in your ERP', 'wpshop' ), ucfirst( esc_html( $label ) ) );
+	printf( __( '%s availables in your ERP', 'wpshop' ), ucfirst( esc_html( $label ) ) );
 	?>
 </p>
 
