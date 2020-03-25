@@ -7,23 +7,22 @@ window.eoxiaJS.wpshop = {};
 window.eoxiaJS.wpshopFrontend = {};
 
 window.eoxiaJS.wpshop.init = function() {
-	if ( jQuery( '.wps-sync[data-associate=true]' ).length ) {
-		jQuery( '.wps-sync[data-associate=true]' ).each( function() {
+	if ( jQuery( '.wps-sync' ).length ) {
+		jQuery( '.wps-sync' ).each( function() {
 			var data = {
-				action: 'check_sync_statut',
-				id: jQuery( this ).data( 'id' )
+				action: 'check_sync_status',
+				id: jQuery( this ).find( '.button-synchro' ).data( 'id' ),
+				type: jQuery( this ).find( '.button-synchro' ).data( 'type' ),
 			};
 
-			window.eoxiaJS.loader.display(jQuery( this ));
+			window.eoxiaJS.loader.display( jQuery( this ) );
+
 			var _this = jQuery( this );
 
+			// @todo: Handle fatal error or no response.
 			jQuery.post( ajaxurl, data, function( response ) {
 				window.eoxiaJS.loader.remove(_this);
-				if ( ! response.data.sync ) {
-					_this.find( '.statut' ).addClass( 'statut-orange' );
-				} else {
-					_this.find( '.statut' ).addClass( 'statut-green' );
-				}
+				_this.replaceWith( response.data.view );
 			} );
 		} );
 	}
