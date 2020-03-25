@@ -35,9 +35,9 @@ class Doli_Sync_Action {
 		add_action( 'wp_ajax_sync_entry', array( $this, 'sync_entry' ) );
 
 		add_action( 'wps_listing_table_header_end', array( $this, 'add_sync_header' ) );
-		add_action( 'wps_listing_table_end', array( $this, 'add_sync_item' ), 10, 5 );
+		add_action( 'wps_listing_table_end', array( $this, 'add_sync_item' ), 10, 2 );
 
-		add_action( 'wp_ajax_check_sync_statut', array( $this, 'check_sync_statut' ) );
+		add_action( 'wp_ajax_check_sync_status', array( $this, 'check_sync_status' ) );
 	}
 
 	/**
@@ -93,6 +93,8 @@ class Doli_Sync_Action {
 	/**
 	 * Synchornise.
 	 *
+	 * @todo: Use Doli_Sync::g()->get_sync_infos
+	 *
 	 * @since 2.0.0
 	 */
 	public function sync() {
@@ -124,7 +126,7 @@ class Doli_Sync_Action {
 				$doli_type   = 'contact';
 				break;
 			case 'products':
-				$route       = 'wpshop/object/get/web';
+				$route       = 'wpshop/productsonweb';
 				$wp_class   .= 'Product';
 				$doli_class .= 'Doli_Products';
 				$doli_type   = 'product';
@@ -134,24 +136,6 @@ class Doli_Sync_Action {
 				$wp_class   .= 'Proposals';
 				$doli_class .= 'Doli_Proposals';
 				$doli_type   = 'propal';
-				break;
-			case 'orders':
-				$route       = 'orders';
-				$wp_class   .= 'Doli_Order';
-				$doli_class .= 'Doli_Order';
-				$doli_type   = 'order';
-				break;
-			case 'invoices':
-				$route       = 'invoices';
-				$wp_class   .= 'Doli_Invoice';
-				$doli_class .= 'Doli_Invoice';
-				$doli_type   = 'invoice';
-				break;
-			case 'payments':
-				$route       = 'invoices';
-				$wp_class   .= 'Doli_Invoice';
-				$doli_class .= 'Doli_Invoice';
-				$doli_type   = 'payment';
 				break;
 			default:
 				break;
@@ -184,35 +168,31 @@ class Doli_Sync_Action {
 				}
 
 				// @todo: >> passsage en do_action.
-				if ( 'payments' !== $type ) {
-					$wp_entry = $wp_class::g()->get( array(
-						'meta_key'   => '_external_id',
-						'meta_value' => (int) $doli_entry->id,
-					), true );
+				$wp_entry = $wp_class::g()->get( array(
+					'meta_key'   => '_external_id',
+					'meta_value' => (int) $doli_entry->id,
+				), true );
 
-					if ( empty( $wp_entry ) ) {
-						$wp_entry = $wp_class::g()->get( array( 'schema' => true ), true );
-					}
+				if ( empty( $wp_entry ) ) {
+					$wp_entry = $wp_class::g()->get( array( 'schema' => true ), true );
+				}
 
-					if ( ! is_array( $wp_entry ) ) {
-						$wp_entry = array( $wp_entry );
-					}
+				if ( ! is_array( $wp_entry ) ) {
+					$wp_entry = array( $wp_entry );
+				}
 
-					if ( ! empty( $wp_entry ) ) {
-						foreach ( $wp_entry as $entry ) {
-							$doli_class::g()->doli_to_wp( $doli_entry, $entry );
+				if ( ! empty( $wp_entry ) ) {
+					foreach ( $wp_entry as $entry ) {
+						$doli_class::g()->doli_to_wp( $doli_entry, $entry );
 
-							$doli_object = Request_Util::post( 'wpshop/object', array(
-								'wp_id'   => $entry->data['id'],
-								'doli_id' => $doli_entry->id,
-								'type'    => $doli_type,
-							) );
+						$doli_object = Request_Util::post( 'wpshop/object', array(
+							'wp_id'   => $entry->data['id'],
+							'doli_id' => $doli_entry->id,
+							'type'    => $doli_type,
+						) );
 
 //							update_post_meta( $entry->data['id'], '_date_last_synchro', $doli_object->last_sync_date );
-						}
 					}
-
-
 				}
 
 				// translators: Sync done for the entry {json_data}.
@@ -241,39 +221,6 @@ class Doli_Sync_Action {
 			'doneElementNumber'  => $done_number,
 			'errors'             => null,
 		) );
-	}
-
-	/**
-	 * Synchronise les paiements.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param Doli_Invoice_Model $doli_invoice Les données de la facture venant de dolibarr.
-	 * @param Doli_Invoice_Model $wp_invoice   Les données de la facture vanant de WP.
-	 */
-	public function sync_payments( $doli_invoice, $wp_invoice ) {
-		$doli_payments = Request_Util::get( 'invoices/' . $wp_invoice->data['external_id'] . '/payments' );
-
-		if ( ! empty( $doli_payments ) ) {
-			foreach ( $doli_payments as $doli_payment ) {
-				$wp_payment = Doli_Payment::g()->get( array( 'title' => $doli_payment->ref ), true );
-
-				if ( empty( $wp_payment ) ) {
-					$wp_payment = Doli_Payment::g()->get( array( 'schema' => true ), true );
-				}
-
-				if ( ! is_array( $wp_payment ) ) {
-					$wp_payment = array( $wp_payment );
-				}
-
-				if ( ! empty( $wp_payment ) ) {
-					foreach ( $wp_payment as $element ) {
-						Doli_Payment::g()->doli_to_wp( $wp_invoice->data['id'], $doli_payment, $element );
-					}
-				}
-
-			}
-		}
 	}
 
 	/**
@@ -400,41 +347,18 @@ class Doli_Sync_Action {
 	 * Prépares les données pour l'état de synchronisation de l'entité.
 	 * et appel la vue sync-item.
 	 *
+	 * @param   mixed   $object  Peut être Order, Product ou Tier.
+	 * @param   string  $route   La route pour l'api dolibarr.
+	 * @param           $doli_class
+	 * @param           $wp_class
+	 * @param   string  $mode    Peut être view ou edit.
+	 *
 	 * @since 2.0.0
 	 *
-	 * @param mixed  $object Peut être Order, Product ou Tier.
-	 * @param string $route  La route pour l'api dolibarr.
-	 * @param string $mode   Peut être view ou edit.
 	 */
-	public function add_sync_item( $object, $route, $doli_class, $wp_class, $mode = 'view' ) {
-		if ( Settings::g()->dolibarr_is_active() && in_array( $route, array( 'products', 'thirdparties', 'proposals' ) ) ) {
-			$class = '';
-
-			if ( 'view' === $mode ) {
-				$message_tooltip = __( 'Looking for sync status', 'wpshop' );
-				if ( empty( $object->data['external_id'] ) ) {
-					$class           = 'red';
-					$message_tooltip = __( 'No associated to an ERP Entity', 'wpshop' );
-				}
-
-				if ( empty( $object->data['sync_sha_256'] ) ) {
-					$class           = 'red';
-					$message_tooltip = __( 'Unable to verify data consistency, SHA256 is empty', 'wpshop' );
-				}
-			} else {
-				$class           = 'grey';
-				$message_tooltip = __( 'Not available in quick release', 'wpshop' );
-			}
-
-			\eoxia\View_Util::exec( 'wpshop', 'doli-sync', 'sync-item', array(
-				'object'          => $object,
-				'class'           => $class,
-				'route'           => $route,
-				'message_tooltip' => $message_tooltip,
-				'mode'            => $mode,
-				'doli_class'      => $doli_class,
-				'wp_class'        => $wp_class,
-			) );
+	public function add_sync_item( $object, $type ) {
+		if ( Settings::g()->dolibarr_is_active() && in_array( $type, array( 'products', 'thirdparties', 'proposals' ) ) ) {
+			Doli_Sync::g()->display_sync_status( $object, $type, false );
 		}
 	}
 
@@ -442,19 +366,21 @@ class Doli_Sync_Action {
 	 * @todo: nonce
 	 * @return [type] [description]
 	 */
-	public function check_sync_statut() {
+	public function check_sync_status() {
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$type = ! empty( $_POST['type'] ) ? sanitize_text_field ( $_POST['type'] ) : '';
 
-		if ( empty( $id ) ) {
+		if ( empty( $id ) && ! in_array( $type, array( 'products', 'thirdparties', 'proposals' ) ) ) {
 			wp_send_json_error();
 		}
 
-		$response = Doli_Sync::g()->check_status( $id );
+		$sync_info = Doli_Sync::g()->get_sync_infos( $type );
 
+		$object = $sync_info['wp_class']::g()->get( array( 'id' => $id ), true );
+		Doli_Sync::g()->display_sync_status( $object, $type );
 		wp_send_json_success( array(
-			'sync'         => $response,
-			'sync_message' => $response ? __( 'Synchronization OK', 'wpshop' ) : __( 'Synchronization failed', 'wpshop' ),
-			'id'           => $id,
+			'view' => ob_get_clean(),
+			'id'   => $id,
 		) );
 	}
 }
