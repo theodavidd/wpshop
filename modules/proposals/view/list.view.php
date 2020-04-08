@@ -30,8 +30,9 @@ defined( 'ABSPATH' ) || exit; ?>
 	if ( ! empty( $proposals ) ) :
 		foreach ( $proposals as $proposal ) :
 			\eoxia\View_Util::exec( 'wpshop', 'proposals', 'item', array(
-				'proposal' => $proposal,
-				'doli_url' => $doli_url,
+				'proposal'    => $proposal,
+				'sync_status' => false,
+				'doli_url'    => $doli_url,
 			) );
 		endforeach;
 	endif;

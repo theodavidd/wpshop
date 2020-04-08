@@ -53,6 +53,6 @@ defined( 'ABSPATH' ) || exit; ?>
 		?>
 	</div>
 	<div class="table-cell"><strong><?php echo $product->data['manage_stock'] ? $product->data['stock'] : __( 'No handle stock', 'wpshop' ); ?></strong></div>
-	<?php do_action( 'wps_listing_table_end', $product, 'products' ); ?>
+	<?php do_action( 'wps_listing_table_end', $product, $sync_status ); ?>
 
 </div>

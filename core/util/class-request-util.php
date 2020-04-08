@@ -37,7 +37,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 	 * @param  array  $data      Les données du formulaire.
 	 * @param  string $method    le type de la méthode.
 	 *
-	 * @return array|boolean   Retournes les données de la requête ou false.
+	 * @return mixed            Retournes les données de la requête ou false.
 	 */
 	public static function post( $end_point, $data = array(), $method = 'POST' ) {
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
@@ -57,18 +57,13 @@ class Request_Util extends \eoxia\Singleton_Util {
 				'Content-type' => 'application/json',
 				'DOLAPIKEY'    => $dolibarr_option['dolibarr_secret'],
 			),
+			//@todo: Grave selon moi.
 			'sslverify' => false,
 			'body'      => json_encode( $data ),
 		) );
 
 		if ( ! is_wp_error( $request ) ) {
-			if ( 200 === $request['response']['code'] ) {
-				$response = json_decode( $request['body'] );
-				return $response;
-			} else {
-				$response = json_decode( $request['body'] );
-				return $response;
-			}
+			return json_decode( $request['body'] );
 		}
 
 		return false;
@@ -117,8 +112,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 
 		if ( ! is_wp_error( $request ) ) {
 			if ( 200 === $request['response']['code'] ) {
-				$response = json_decode( $request['body'] );
-				return $response;
+				return json_decode( $request['body'] );
 			}
 		}
 

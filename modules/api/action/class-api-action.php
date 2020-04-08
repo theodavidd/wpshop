@@ -302,14 +302,17 @@ class API_Action {
 		$response = new \WP_REST_Response();
  		$param    = $request->get_params();
 
-		if ( empty( $param['wp_id'] ) || empty( $param['doli_id'] ) ) {
+		if ( empty( $param['type'] ) || empty( $param['doli_id'] ) ) {
 			$response->set_status( 400 );
 			$response->set_data( array( 'status_code' => 404 ) );
 			return $response;
 		}
 
-		Doli_Sync::g()->associate_and_synchronize( 'dolibarr', $param['wp_id'], $param['doli_id'] );
+		$sync_status = Doli_Sync::g()->sync( 0, $param['doli_id'], $param['type'] );
 
+		update_post_meta( $sync_status['wp_object']->data['id'], '_external_id', $param['doli_id'] );
+
+		$response = new \WP_REST_Response( $sync_status );
 		return $response;
 	}
 

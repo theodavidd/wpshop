@@ -152,10 +152,11 @@ class Product extends \eoxia\Post_Class {
 		) );
 	}
 
-	public function display_item( $product, $doli_url = '' ) {
+	public function display_item( $product, $sync_status, $doli_url = '' ) {
 		\eoxia\View_Util::exec( 'wpshop', 'products', 'item', array(
-			'product'  => $product,
-			'doli_url' => $doli_url,
+			'product'     => $product,
+			'sync_status' => $sync_status,
+			'doli_url'    => $doli_url,
 		) );
 	}
 

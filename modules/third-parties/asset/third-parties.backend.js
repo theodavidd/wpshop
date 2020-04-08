@@ -6,12 +6,12 @@ window.eoxiaJS.wpshop.thirdParties.init = function () {
 };
 
 window.eoxiaJS.wpshop.thirdParties.event = function () {
-	jQuery( document ).on( 'click', '#wps-third-party-contacts .add-contact', window.eoxiaJS.wpshop.thirdParties.toggleContactFormNew );
+	jQuery( document ).on( 'click', '#wps-third-party-contact .add-contact', window.eoxiaJS.wpshop.thirdParties.toggleContactFormNew );
 	jQuery( document ).on( 'click', '.wpeo-autocomplete.search-contact .autocomplete-search-list .autocomplete-result', window.eoxiaJS.wpshop.thirdParties.putContactID );
 };
 
 window.eoxiaJS.wpshop.thirdParties.toggleContactFormNew = function() {
-	jQuery( '#wps-third-party-contacts .row.new' ).toggle();
+	jQuery( '#wps-third-party-contact .row.new' ).toggle();
 }
 
 

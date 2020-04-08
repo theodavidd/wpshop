@@ -28,7 +28,7 @@ window.eoxiaJS.wpshopFrontend.checkout.makeActive = function( event ) {
 };
 
 window.eoxiaJS.wpshopFrontend.checkout.loadedEditBillingAddress = function( triggeredElement, response ) {
-	jQuery( '.shipping-address' ).html( response.data.view );
+	jQuery( '.shipping-contact' ).html( response.data.view );
 };
 
 window.eoxiaJS.wpshopFrontend.checkout.checkoutErrors = function( triggeredElement, response ) {

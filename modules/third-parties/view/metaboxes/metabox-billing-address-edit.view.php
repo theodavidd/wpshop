@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<ul class="wpeo-gridlayout grid-2">
 		<li><span><?php esc_html_e( 'Name', 'wpshop' ); ?></span> <input type="text" name="third_party[title]" value="<?php echo esc_attr( $third_party->data['title'] ); ?>" /></li>
-		<li><span><?php esc_html_e( 'Address', 'wpshop' ); ?></span> <input type="text" name="third_party[address]" value="<?php echo esc_attr( $third_party->data['address'] ); ?>" /></li>
+		<li><span><?php esc_html_e( 'Address', 'wpshop' ); ?></span> <input type="text" name="third_party[address]" value="<?php echo esc_attr( $third_party->data['contact'] ); ?>" /></li>
 		<li><span><?php esc_html_e( 'ZIP Code', 'wpshop' ); ?></span> <input type="text" name="third_party[zip]" value="<?php echo esc_attr( $third_party->data['zip'] ); ?>" /></li>
 		<li><span><?php esc_html_e( 'City', 'wpshop' ); ?></span> <input type="text" name="third_party[town]" value="<?php echo esc_attr( $third_party->data['town'] ); ?>" /></li>
 		<li><span><?php esc_html_e( 'Phone', 'wpshop' ); ?></span> <input type="text" name="third_party[phone]" value="<?php echo esc_attr( $third_party->data['phone'] ); ?>" /></li>

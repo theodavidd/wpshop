@@ -111,8 +111,8 @@ class Transfert_Data_Action {
 					$address      = $results->posts[0];
 					$address_meta = get_post_meta( $address->ID, '_wpshop_address_metadata', true );
 
-					if ( ! empty( $address_meta['address'] ) ) {
-						update_post_meta( $post_id, '_address', $address_meta['address'] );
+					if ( ! empty( $address_meta['contact'] ) ) {
+						update_post_meta( $post_id, '_address', $address_meta['contact'] );
 						$messages[] = '#' . $customer->ID . ' ' . $customer->post_title . ': Add meta _address';
 					}
 					if ( ! empty( $address_meta['postcode'] ) ) {

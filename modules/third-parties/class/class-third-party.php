@@ -127,9 +127,10 @@ class Third_Party extends \eoxia\Post_Class {
 		) );
 	}
 
-	public function display_item( $third_party, $doli_url = '' ) {
+	public function display_item( $third_party, $sync_status, $doli_url = '' ) {
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'item', array(
 			'third_party' => $third_party,
+			'sync_status' => $sync_status,
 			'doli_url'    => $doli_url,
 		) );
 	}

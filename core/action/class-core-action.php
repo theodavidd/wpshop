@@ -72,6 +72,8 @@ class Core_Action {
 	/**
 	 * Installes les données par défaut.
 	 *
+	 * @todo: Documenter les données par défaut.
+	 *
 	 * @since 2.0.0
 	 */
 	public function callback_install_default() {
@@ -133,8 +135,8 @@ class Core_Action {
 		wp_enqueue_script( 'wpshop-backend-script', PLUGIN_WPSHOP_URL . 'core/asset/js/backend.min.js', array( 'jquery', 'jquery-form' ), \eoxia\Config_Util::$init['wpshop']->version );
 
 		$script_params = array(
-				'check_erp_statut_nonce' => wp_create_nonce( 'check_erp_statut' ),
-				'url'                    => get_option( 'siteurl' ),
+			'check_erp_statut_nonce' => wp_create_nonce( 'check_erp_statut' ),
+			'url'                    => get_option( 'siteurl' ),
 		);
 
 		wp_localize_script( 'wpshop-backend-script', 'scriptParams', $script_params );

@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<div class="wps-order wps-box">
 				<div class="wps-box-resume">
 					<div class="wps-box-primary">
-						<div class="wps-box-title"><?php echo esc_html( $order->data['datec']['rendered']['date'] ); ?></div>
+						<div class="wps-box-title"><?php echo esc_html( $order->data['date']['rendered']['date'] ); ?></div>
 						<ul class="wps-box-attributes">
 							<li class="wps-box-subtitle-item"><i class="wps-box-subtitle-icon fas fa-shopping-cart"></i> <?php echo esc_attr( $order->data['title'] ); ?></li>
 						</ul>
@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					</div>
 					<div class="wps-box-action">
 						<a target="_blank"
-							href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_order&_wpnonce=' . wp_create_nonce( 'download_order' ) . '&order_id=' . $order->data['id'] ) ); ?>"
+							href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_order&_wpnonce=' . wp_create_nonce( 'download_order' ) . '&order_id=' . $order->data['external_id'] ) ); ?>"
 							class="wpeo-button button-primary button-square-50 button-rounded">
 							<i class="button-icon fas fa-file-download"></i>
 						</a>
@@ -51,7 +51,7 @@ defined( 'ABSPATH' ) || exit; ?>
 								if ( ! $order->data['billed'] ) :
 									?>
 									<li>
-										<a href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_pay_order&order_id=' . $order->data['id'] ) . '&_wpnonce=' . wp_create_nonce( 'do_pay' ) ); ?>"
+										<a href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_pay_order&order_id=' . $order->data['external_id'] ) . '&_wpnonce=' . wp_create_nonce( 'do_pay' ) ); ?>"
 											class="dropdown-item">
 											<i class="fas fa-money-bill"></i> <?php esc_html_e( 'Pay order', 'wpshop' );
 											?>
@@ -63,7 +63,7 @@ defined( 'ABSPATH' ) || exit; ?>
 								<li class="action-attribute dropdown-item"
 									data-action="reorder"
 									data-nonce="<?php echo esc_attr( wp_create_nonce( 'do_reorder' ) ); ?>"
-									data-id="<?php echo esc_attr( $order->data['id'] ); ?>">
+									data-id="<?php echo esc_attr( $order->data['external_id'] ); ?>">
 									<i class="fas fa-shopping-cart"></i> <?php esc_html_e( 'Reorder', 'wpshop' ); ?></li>
 							</ul>
 						</div>

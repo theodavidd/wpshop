@@ -32,8 +32,6 @@ class Product_Action {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 0 );
 		add_action( 'save_post', array( $this, 'callback_save_post' ), 10, 2 );
 
-		add_action( 'wp_ajax_change_mode', array( $this, 'change_mode' ) );
-		add_action( 'wp_ajax_quick_save', array( $this, 'save_quick_save' ) );
 		add_action( 'template_redirect', array( $this, 'init_product_archive_page' ) );
 		add_action( 'template_redirect', array( $this, 'search_page' ) );
 
@@ -163,79 +161,6 @@ class Product_Action {
 		if ( 'quick_save' !== $action ) {
 			update_post_meta( $post_id, '_similar_products_id', ! empty( $product_data['similar_products_id'] ) ? json_encode( $product_data['similar_products_id'] ) : null );
 		}
-	}
-
-	/**
-	 * Change le mode d'affichage. Soit mode "vue" soit mode "edit."
-	 *
-	 * @todo: nonce
-	 *
-	 * @since 2.0.0
-	 */
-	public function change_mode() {
-		$id   = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-		$mode = ! empty( $_POST['mode'] ) ? sanitize_text_field( $_POST['mode'] ) : 'edit';
-
-		$product         = Product::g()->get( array( 'id' => $id ), true );
-		if ( ! empty( $product->data['fk_product_parent'] ) ) {
-			$parent_post = get_post( Doli_Products::g()->get_wp_id_by_doli_id( $product->data['fk_product_parent'] ) );
-
-			$product->data['parent_post'] = $parent_post;
-		}
-
-		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
-
-		$view = '';
-		if ( 'view' === $mode ) {
-			$view = '';
-		} else {
-			$view = '-edit';
-		}
-
-		ob_start();
-		\eoxia\View_Util::exec( 'wpshop', 'products', 'item' . $view, array(
-			'product'  => $product,
-			'doli_url' => $dolibarr_option['dolibarr_url'],
-
-		) );
-		wp_send_json_success( array(
-			'namespace'        => 'wpshop',
-			'module'           => 'product',
-			'callback_success' => 'changeMode',
-			'view'             => ob_get_clean(),
-		) );
-	}
-
-	/**
-	 * Enregistres un produit en mode édition rapide.
-	 *
-	 * @todo: nonce
-	 *
-	 * @since 2.0.0
-	 */
-	public function save_quick_save() {
-		$id    = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-		$title = ! empty( $_POST['title'] ) ? sanitize_text_field( $_POST['title'] ) : '';
-
-		wp_update_post( array(
-			'ID'         => $id,
-			'post_title' => $title,
-		) );
-
-		$product         = Product::g()->get( array( 'id' => $id ), true );
-		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
-
-		ob_start();
-		\eoxia\View_Util::exec( 'wpshop', 'products', 'item', array(
-			'product'  => $product,
-			'doli_url' => $dolibarr_option['dolibarr_url'],
-		) );
-		wp_send_json_success( array(
-			'namespace'        => 'wpshop',
-			'module'           => 'product',
-			'callback_success' => 'changeMode',
-			'view'             => ob_get_clean(),
-		) );
 	}
 
 	/**

@@ -25,7 +25,6 @@ if ( ! PLUGIN_WPSHOP_DEV_MODE ) {
 	require_once 'core/external/eo-framework/eo-framework.php';
 }
 
-
 // Include composer component.
 require_once 'vendor/autoload.php';
 

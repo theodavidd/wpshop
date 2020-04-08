@@ -44,7 +44,7 @@ class Third_Party_Action {
 			'wps-third-party-billing'  => array(
 				'callback' => 'metabox_billing_address',
 			),
-			'wps-third-party-contacts' => array(
+			'wps-third-party-contact' => array(
 				'callback' => 'metabox_contacts',
 			),
 			'wps-third-party-propal'   => array(
@@ -161,13 +161,13 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function metabox_billing_address( $third_party ) {
-		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-billing-address', array(
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-billing-contact', array(
 			'third_party' => $third_party,
 		) );
 	}
 
 	/**
-	 * Appel la vue de la metabox des contacts.
+	 * Appel la vue de la metabox des contact.
 	 *
 	 * @param Third_Party $third_party Les données du tiers.
 	 *
@@ -179,9 +179,9 @@ class Third_Party_Action {
 		if ( ! empty( $third_party->data['contact_ids'] ) ) {
 			$contacts = Contact::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
 		}
-		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts', array(
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contact', array(
 			'third_party' => $third_party,
-			'contacts'    => $contacts,
+			'contact'    => $contacts,
 		) );
 	}
 

@@ -104,7 +104,7 @@ class Third_Party_Model extends \eoxia\Post_Model {
 			'meta_type'   => 'single',
 			'field'       => '_contact_ids',
 			'since'       => '2.0.0',
-			'description' => 'Association des contacts. Attends un tableau d\'ids des contacts. Aucune valeur par défaut.',
+			'description' => 'Association des contact. Attends un tableau d\'ids des contact. Aucune valeur par défaut.',
 		);
 
 		$this->schema['siret'] = array(

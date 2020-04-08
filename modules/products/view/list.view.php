@@ -33,8 +33,9 @@ defined( 'ABSPATH' ) || exit; ?>
 	if ( ! empty( $products ) ) :
 		foreach ( $products as $product ) :
 			\eoxia\View_Util::exec( 'wpshop', 'products', 'item' . $view, array(
-				'product'  => $product,
-				'doli_url' => $doli_url,
+				'product'     => $product,
+				'sync_status' => false,
+				'doli_url'    => $doli_url,
 			) );
 		endforeach;
 	endif;

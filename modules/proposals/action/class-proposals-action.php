@@ -42,7 +42,7 @@ class Proposals_Action {
 			'wps-proposal-details' => array(
 				'callback' => array( $this, 'metabox_proposal_details' ),
 			),
-			'wps-proposal-address' => array(
+			'wps-proposal-contact' => array(
 				'callback' => array( $this, 'metabox_proposal_address' ),
 			),
 			'wps-proposal-review'  => array(
@@ -211,7 +211,7 @@ class Proposals_Action {
 			}
 		}
 
-		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'metabox-proposal-address', array(
+		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'metabox-proposal-contact', array(
 			'proposal'     => $proposal,
 			'third_party'  => $third_party,
 			'invoice'      => $invoice,

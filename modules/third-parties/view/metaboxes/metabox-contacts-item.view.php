@@ -1,6 +1,6 @@
 <?php
 /**
- * La box contenant les contacts du tier. (wps-third-party)
+ * La box contenant les contact du tier. (wps-third-party)
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.

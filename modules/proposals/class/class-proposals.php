@@ -141,10 +141,11 @@ class Proposals extends \eoxia\Post_Class {
 		) );
 	}
 
-	public function display_item( $proposal, $doli_url = '' ) {
+	public function display_item( $proposal, $sync_status, $doli_url = '' ) {
 		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'item', array(
-			'proposal' => $proposal,
-			'doli_url' => $doli_url,
+			'proposal'    => $proposal,
+			'sync_status' => $sync_status,
+			'doli_url'    => $doli_url,
 		) );
 	}
 

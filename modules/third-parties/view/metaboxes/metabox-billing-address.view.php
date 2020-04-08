@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<ul class="metabox-list wpeo-gridlayout grid-2">
 		<li><span><?php esc_html_e( 'Name', 'wpshop' ); ?></span> <?php echo esc_html( $third_party->data['title'] ); ?></li>
-		<li><span><?php esc_html_e( 'Address', 'wpshop' ); ?></span> <?php echo $third_party->data['address']; ?></li>
+		<li><span><?php esc_html_e( 'Address', 'wpshop' ); ?></span> <?php echo $third_party->data['contact']; ?></li>
 		<li><span><?php esc_html_e( 'ZIP Code', 'wpshop' ); ?></span> <?php echo $third_party->data['zip']; ?></li>
 		<li><span><?php esc_html_e( 'City', 'wpshop' ); ?></span> <?php echo $third_party->data['town']; ?></li>
 		<li><span><?php esc_html_e( 'Country', 'wpshop' ); ?></span> <?php echo $third_party->data['country']; ?></li>

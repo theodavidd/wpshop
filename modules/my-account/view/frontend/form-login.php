@@ -37,7 +37,7 @@ endif;
 	<div class="wpeo-gridlayout grid-2 grid-margin-1">
 		<div class="form-element">
 			<label class="form-field-container">
-				<input type="text" class="form-field" placeholder="<?php esc_html_e( 'Username or email address', 'wpshop' ); ?>" name="username" />
+				<input type="text" class="form-field" placeholder="<?php esc_html_e( 'Username or email contact', 'wpshop' ); ?>" name="username" />
 			</label>
 		</div>
 

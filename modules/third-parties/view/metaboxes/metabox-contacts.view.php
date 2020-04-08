@@ -1,6 +1,6 @@
 <?php
 /**
- * La vue affichant les contacts d'un tier dans la page single d'un tier.
+ * La vue affichant les contact d'un tier dans la page single d'un tier.
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php
 		if ( ! empty( $contacts ) ) :
 			foreach ( $contacts as $contact ) :
-				\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts-item', array(
+				\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contact-item', array(
 					'third_party_id' => $third_party->data['id'],
 					'contact'        => $contact,
 				) );

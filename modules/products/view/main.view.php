@@ -19,19 +19,22 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wrap wpeo-wrap">
 	<h2>
 		<?php esc_html_e( 'Products', 'wpshop' ); ?>
-		<a href="<?php echo esc_attr( admin_url( 'post-new.php?post_type=wps-product' ) ); ?>" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
 
 		<?php
 		if ( Settings::g()->dolibarr_is_active() ) :
 			?>
 			<div class="wpeo-button button-main wpeo-modal-event"
-				data-action="load_modal_synchro"
-				data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_modal_synchro' ) ); ?>"
+				data-action="load_modal_sync"
+				data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_modal_sync' ) ); ?>"
 				data-class="modal-sync modal-force-display"
-				data-sync="products"
+				data-sync="wps-product"
 				data-title="<?php echo esc_attr_e( 'Data synchronization', 'wpshop' ); ?>">
 				<span><?php esc_html_e( 'All Product Sync', 'wpshop' ); ?></span>
 			</div>
+			<?php
+		else :
+			?>
+			<a href="<?php echo esc_attr( admin_url( 'post-new.php?post_type=wps-product' ) ); ?>" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
 			<?php
 		endif;
 		?>

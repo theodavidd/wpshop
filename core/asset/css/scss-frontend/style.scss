@@ -5,3 +5,14 @@
 @import "external/external";
 
 @import "element/element";
+
+.wps-modal-alert .modal-container {
+	max-height: 200px;
+}
+
+.wps-modal-alert .modal-container .modal-content {
+	padding-top: 50px;
+	height: 100%;
+	overflow-y: hidden;
+}
+

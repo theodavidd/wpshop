@@ -17,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-metabox gridw-2 wps-customer-address">
-	<h3 class="metabox-title"><?php esc_html_e( 'Customer address', 'wpshop' ); ?></h3>
+	<h3 class="metabox-title"><?php esc_html_e( 'Customer contact', 'wpshop' ); ?></h3>
 	<div class="wpeo-gridlayout grid-3">
 		<div>
 			<ul>
@@ -47,7 +47,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<strong><?php esc_html_e( 'Billing', 'wpshop' ); ?></strong>
 
 			<ul>
-				<li><?php esc_html_e( 'No billing address', 'wpshop' ); ?></li>
+				<li><?php esc_html_e( 'No billing contact', 'wpshop' ); ?></li>
 			</ul>
 		</div>
 		<div>
@@ -55,7 +55,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 			<ul>
 				<li><?php echo ! empty( $third_party->data['title'] ) ? $third_party->data['title'] : 'N/D'; ?></li>
-				<li><?php echo ! empty( $third_party->data['address'] ) ? $third_party->data['address'] : 'N/D'; ?></li>
+				<li><?php echo ! empty( $third_party->data['contact'] ) ? $third_party->data['contact'] : 'N/D'; ?></li>
 				<li>
 					<?php echo ! empty( $third_party->data['zip'] ) ? $third_party->data['zip'] : 'N/D'; ?>
 					<?php echo ! empty( $third_party->data['town'] ) ? $third_party->data['town'] : 'N/D'; ?>

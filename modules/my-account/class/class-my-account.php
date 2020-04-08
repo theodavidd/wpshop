@@ -141,6 +141,8 @@ class My_Account extends \eoxia\Singleton_Util {
 	/**
 	 * Affiches les commandes liées au tier.
 	 *
+	 * @todo: Doli My Account
+	 *
 	 * @since 2.0.0
 	 */
 	public function display_orders() {
@@ -150,15 +152,16 @@ class My_Account extends \eoxia\Singleton_Util {
 		$orders = array();
 
 		if ( ! empty( $third_party->data['id'] ) ) {
-			$orders = Doli_Order::g()->get( array( 'post_parent' => $third_party->data['id'] ) );
+			// @todo: Rest API
+			$data = array(
+				'sortfield'       => 't.rowid',
+				'sortorder'       => 'ASC',
+				'limit'           => 100,
+				'third_party_ids' => $third_party->data['external_id'],
+			);
 
-			if ( ! empty( $orders ) ) {
-				foreach ( $orders as &$order ) {
-					$order->data['invoice'] = Doli_Invoice::g()->get( array( 'post_parent' => $order->data['id'] ), true );
-				}
-			}
-
-			unset( $order );
+			$doli_orders = Request_Util::g()->get( 'orders?' . http_build_query( $data ) );
+			$orders      = Doli_Order::g()->convert_to_wp_order_format( $doli_orders );
 		}
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-orders' ) );

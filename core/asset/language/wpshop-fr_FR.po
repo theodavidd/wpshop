@@ -137,7 +137,7 @@ msgid "Phone"
 msgstr "Numéro de téléphone"
 
 #: modules/checkout/class/class-checkout.php:85
-msgid "Email address"
+msgid "Email contact"
 msgstr "Adresse email"
 
 #: modules/checkout/class/class-checkout.php:89
@@ -228,7 +228,7 @@ msgid "Phone number"
 msgstr "Numéro de téléphone"
 
 #: modules/checkout/view/frontend/form-shipping.php:58
-msgid "Street address"
+msgid "Street contact"
 msgstr "Adresse"
 
 #: modules/checkout/view/frontend/form-shipping.php:93
@@ -665,7 +665,7 @@ msgstr "Statut du paiement"
 #: modules/doli-invoice/view/metabox-invoice-details.view.php:28
 #: modules/doli-order/view/metabox-order-details.view.php:20
 #: modules/proposals/view/metabox-proposal-address.view.php:20
-msgid "Customer address"
+msgid "Customer contact"
 msgstr "Adresse du client"
 
 #: modules/doli-invoice/view/metabox-invoice-details.view.php:43
@@ -688,7 +688,7 @@ msgstr "Montant"
 
 #: modules/doli-invoice/view/metabox-invoice-details.view.php:59
 #: modules/proposals/view/metabox-proposal-address.view.php:50
-msgid "No billing address"
+msgid "No billing contact"
 msgstr "Pas d'adresse de facturation"
 
 #: modules/doli-invoice/view/metabox-invoice-details.view.php:63
@@ -768,7 +768,7 @@ msgstr "Délivrée"
 
 #: modules/doli-order/view/list.view.php:22
 #: modules/doli-order/view/metabox-order-details.view.php:35
-msgid "Billing address"
+msgid "Billing contact"
 msgstr "Adresse de facturation"
 
 #: modules/doli-order/view/list.view.php:23
@@ -831,7 +831,7 @@ msgid "City"
 msgstr "Ville"
 
 #: modules/doli-order/view/metabox-order-details.view.php:46
-msgid "Shipment address"
+msgid "Shipment contact"
 msgstr "Adresse de livraison"
 
 #: modules/doli-order/view/metabox-order-payment.view.php:20
@@ -1215,7 +1215,7 @@ msgid "Click here to login"
 msgstr "Cliquez ici pour vous connecter"
 
 #: modules/my-account/view/frontend/form-login.php:47
-msgid "Username or email address"
+msgid "Username or email contact"
 msgstr "Identifiant ou adresse email"
 
 #: modules/my-account/view/frontend/form-login.php:60
@@ -1900,7 +1900,7 @@ msgstr ""
 #~ msgid "Shipping details"
 #~ msgstr "Détails de livraison"
 
-#~ msgid "Edit billing address"
+#~ msgid "Edit billing contact"
 #~ msgstr "Modifier mon adresse de livraison"
 
 #~ msgid "Order number"

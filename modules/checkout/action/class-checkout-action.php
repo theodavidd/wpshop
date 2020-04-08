@@ -144,6 +144,7 @@ class Checkout_Action {
 	public function callback_place_order() {
 		check_ajax_referer( 'callback_place_order' );
 
+		// @todo: Explain fast_pay.
 		$fast_pay     = isset( $_POST['fast_pay'] ) && 'true' == $_POST['fast_pay'] ? true : false;
 		$type_payment = ! empty( $_POST['type_payment'] ) ? sanitize_text_field( $_POST['type_payment'] ) : '';
 		$type         = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
@@ -152,6 +153,7 @@ class Checkout_Action {
 			wp_send_json_error();
 		}
 
+		// @todo: Explain fast_pay.
 		if ( ! $fast_pay ) {
 			do_action( 'checkout_create_third_party' );
 		}
