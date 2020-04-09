@@ -1,0 +1,11 @@
+{
+	"name": "Contact avec dolibarr",
+	"slug": "doli-contact",
+	"since": "2.0.0",
+	"path": "modules/dolibarr/doli-contact",
+	"dependencies": {
+		"class": {},
+		"action": {},
+        "filter": {}
+	}
+}
