@@ -89,9 +89,9 @@ class Doli_Sync_Filter extends \eoxia\Singleton_Util {
 		$data_sha['doli_id']   = $response->id;
 		$data_sha['wp_id']     = $wp_id;
 		$data_sha['label']     = $response->label;
-		$data_sha['price']     = (float) $response->price;
-		$data_sha['price_ttc'] = (float) $response->price_ttc;
-		$data_sha['tva_tx']    = (float) $response->tva_tx;
+		$data_sha['price']     = $response->price;
+		$data_sha['price_ttc'] = $response->price_ttc;
+		$data_sha['tva_tx']    = $response->tva_tx;
 
 		$response->sha = hash( 'sha256', implode( ',', $data_sha ) );
 

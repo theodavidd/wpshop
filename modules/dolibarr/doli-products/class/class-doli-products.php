@@ -64,10 +64,6 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			//$wp_product->data['web']               = $web;
 
 			if ( $save ) {
-				remove_all_actions( 'save_post' );
-				$wp_product = Product::g()->update( $wp_product->data );
-
-				// Generate SHA
 				$data_sha = array();
 
 				$data_sha['doli_id']   = $doli_product->id;
@@ -76,10 +72,13 @@ class Doli_Products extends \eoxia\Singleton_Util {
 				$data_sha['price']     = $wp_product->data['price'];
 				$data_sha['price_ttc'] = $wp_product->data['price_ttc'];
 				$data_sha['tva_tx']    = $wp_product->data['tva_tx'];
-				//$data_sha['web']       = $wp_product->data['web'];
+
+				$wp_product->data['sync_sha_256'] = hash( 'sha256', implode( ',', $data_sha ) );
+
+				remove_all_actions( 'save_post' );
+				$wp_product = Product::g()->update( $wp_product->data );
 
 				update_post_meta( $wp_product->data['id'], '_external_id', (int) $doli_product->id );
-				update_post_meta( $wp_product->data['id'], '_sync_sha_256', hash( 'sha256', implode( ',', $data_sha ) ) );
 
 				// translators: Erase data for the product <strong>dolibarr</strong> data.
 				$notices['messages'][] = sprintf( __( 'Erase data for the product <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_product->data['title'] );
