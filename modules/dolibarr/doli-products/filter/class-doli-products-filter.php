@@ -43,10 +43,6 @@ class Doli_Product_Filter {
 
 		$doli_product = Request_Util::get( 'products/' . $object->data['external_id'] );
 		$object       = Doli_Products::g()->doli_to_wp( $doli_product, $object );
-		echo '<pre>';
-		print_r($doli_product);
-		echo '</pre>';
-		exit;
 
 		return $object;
 	}

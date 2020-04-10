@@ -190,6 +190,15 @@ class Product_Model extends \eoxia\Post_Model {
 			'description' => 'Le stock du produit (int). Valeur par défaut 0.',
 		);
 
+		$this->schema['web'] = array(
+			'type'        => 'string', // @todo: Dolibarr type is horrible.
+			'meta_type'   => 'single',
+			'field'       => '_web',
+			'default'     => 0,
+			'since'       => '2.0.0',
+			'description' => 'Option web on dolibarr.',
+		);
+
 		$this->schema['similar_products_id'] = array(
 			'since'     => '2.0.0',
 			'version'   => '2.0.0',
