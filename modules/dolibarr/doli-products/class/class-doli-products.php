@@ -60,7 +60,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			$wp_product->data['barcode']           = $doli_product->barcode;
 			$wp_product->data['fk_product_type']   = 0; // Type "Produit" ou "Service" @todo: Handle type.
 			$wp_product->data['status']            = $doli_product->array_options->options_web == NULL ? 'draft' : 'publish'; // @todo: Status can be variable. Draft or publish.
-			$wp_product->data['web']               = $doli_product->array_options->options_web;
+			$wp_product->data['web']               = (string) $doli_product->array_options->options_web;
 
 			if ( $save ) {
 				$data_sha = array();
