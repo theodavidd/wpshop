@@ -27,7 +27,9 @@ class Doli_Product_Filter {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_filter( 'eo_model_wps-product_after_get', array( $this, 'auto_sync' ), 10, 2 );
+		if ( Settings::g()->dolibarr_is_active() ) {
+			add_filter('eo_model_wps-product_after_get', array($this, 'auto_sync'), 10, 2);
+		}
 	}
 
 	public function auto_sync( $object, $args_cb ) {

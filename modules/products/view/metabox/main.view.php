@@ -35,21 +35,25 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php wp_nonce_field( basename( __FILE__ ), 'wpshop_data_fields' ); ?>
 
 		<div class="wpeo-gridlayout grid-3">
-			<?php
-			if ( ! Settings::g()->dolibarr_is_active() ) :
-				?>
-				<div class="form-element">
-					<span class="form-label"><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></span>
-					<label class="form-field-container">
-						<input type="text" class="form-field" name="product_data[price]" value="<?php echo esc_attr( $product->data['price'] ); ?>" />
-					</label>
-				</div>
+			<div class="form-element">
+				<span class="form-label"><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></span>
+				<label class="form-field-container">
+					<input type="text" <?php echo Settings::g()->dolibarr_is_active() ? 'readonly': 'class="form-field"'; ?>  name="product_data[price]" value="<?php echo esc_attr( $product->data['price'] ); ?>" />
+				</label>
+			</div>
 
-				<div class="form-element">
-					<span class="form-label"><?php esc_html_e( 'VAT Rate', 'wpshop' ); ?></span>
+			<div class="form-element">
+				<span class="form-label"><?php esc_html_e( 'VAT Rate', 'wpshop' ); ?></span>
 
-					<label class="form-field-container">
-						<select name="product_data[tva_tx]">
+				<label class="form-field-container">
+					<?php
+					if ( Settings::g()->dolibarr_is_active() ) :
+						?>
+						<input type="text" readonly value="<?php echo $product->data['tva_tx']; ?>%" />
+						<?php
+					else:
+						?>
+						<select name="product_data[tva_tx]" class="form-field">
 							<?php
 							$has_selected = false;
 							if ( ! empty( Settings::g()->tva ) ) :
@@ -66,18 +70,18 @@ defined( 'ABSPATH' ) || exit; ?>
 							endif;
 							?>
 						</select>
-					</label>
-				</div>
+						<?php
+					endif;
+					?>
+				</label>
+			</div>
 
-				<div class="form-element">
-					<span class="form-label"><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></span>
-					<label class="form-field-container">
-						<span><?php echo esc_attr( $product->data['price_ttc'] ); ?>€</span>
-					</label>
-				</div>
-				<?php
-			endif;
-			?>
+			<div class="form-element">
+				<span class="form-label"><?php esc_html_e( 'Price TTC(€)', 'wpshop' ); ?></span>
+				<label class="form-field-container">
+					<input type="text" readonly value="<?php echo $product->data['price_ttc']; ?>€" />
+				</label>
+			</div>
 
 			<div class="form-element stock-field">
 				<span class="form-label"><?php esc_html_e( 'Manage Stock', 'wpshop' ); ?></span>

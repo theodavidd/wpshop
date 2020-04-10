@@ -97,11 +97,14 @@ class Product_Filter {
 		$args['rewrite']           = array(
 			'slug' => __( 'product', 'wpshop' ),
 		);
-		$args['capabilities'] = array(
-			'create_posts' => 'do_not_allow',
-		);
 
-		$args['map_meta_cap'] = true;
+		if ( Settings::g()->dolibarr_is_active() ) {
+			$args['capabilities'] = array(
+				'create_posts' => 'do_not_allow',
+			);
+
+			$args['map_meta_cap'] = true;
+		}
 
 		$args['register_meta_box_cb'] = array( Product::g(), 'callback_register_meta_box' );
 
