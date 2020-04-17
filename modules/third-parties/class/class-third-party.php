@@ -155,12 +155,12 @@ class Third_Party extends \eoxia\Post_Class {
 			'posts_per_page' => 1,
 		), true );
 
-		if ( $dolibarr_active ) {
-			$doli_order = Request_Util::get( 'orders?sortfield=t.rowid&sortorder=DESC&limit=1&thirdparty_ids=' . $third_party['external_id'] );
+		if ( $dolibarr_active && ! empty( $third_party['external_id'] ) ) {
+			$doli_order = Request_Util::get('orders?sortfield=t.rowid&sortorder=DESC&limit=1&thirdparty_ids=' . $third_party['external_id']);
 
-			if ( isset( $doli_order[0] ) ) {
-				$wp_order = Doli_Order::g()->get( array( 'schema' => true ), true );
-				$order    = Doli_Order::g()->doli_to_wp( $doli_order[0], $wp_order, true );
+			if (isset($doli_order[0])) {
+				$wp_order = Doli_Order::g()->get(array('schema' => true), true);
+				$order = Doli_Order::g()->doli_to_wp($doli_order[0], $wp_order, true);
 			}
 
 			$doli_invoice = Request_Util::get( 'invoices?sortfield=t.rowid&sortorder=ASC&limit=100&thirdparty_ids=' . $third_party['external_id'] );

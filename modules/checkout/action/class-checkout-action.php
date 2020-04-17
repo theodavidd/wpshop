@@ -177,23 +177,19 @@ class Checkout_Action {
 		}
 
 		if ( 'order' === $type ) {
-			if ( empty( Cart_Session::g()->external_data['order_id'] ) ) {
-				$order = apply_filters( 'wps_checkout_create_order', $proposal );
-			} else {
-				$order = Doli_Order::g()->get( array( 'id' => Cart_Session::g()->external_data['order_id'] ), true );
-			}
+			$order = apply_filters( 'wps_checkout_create_order', $proposal );
 
 			// @todo: Check stock need to be an action.
-			$stock_statut = Cart::g()->check_stock();
+			$stock_status = Cart::g()->check_stock();
 
-			if ( $stock_statut['is_valid'] ) {
+			if ( $stock_status['is_valid'] ) {
 				Cart::g()->decrease_stock();
 				Checkout::g()->process_order_payment( $order );
 			} else {
 				$errors = new \WP_Error();
 
-				if ( ! empty( $stock_statut['errors'] ) ) {
-					foreach ( $stock_statut['errors'] as $message ) {
+				if ( ! empty( $stock_status['errors'] ) ) {
+					foreach ( $stock_status['errors'] as $message ) {
 						$errors->add( 'no-stock', apply_filters( 'wps_product_no_stock', $message ) );
 					}
 				}
@@ -234,16 +230,9 @@ class Checkout_Action {
 		Checkout::g()->validate_checkout( $posted_data, $errors );
 
 		if ( 0 === count( $errors->error_data ) ) {
-			if ( empty( $posted_data['third_party']['title'] ) || empty( $posted_data['contact']['lastname'] ) ) {
+			if ( empty( $posted_data['third_party']['title'] ) ) {
 				$exploded_email = explode( '@', $posted_data['contact']['email'] );
-
-				if ( empty( $posted_data['third_party']['title'] ) ) {
-					$posted_data['third_party']['title'] = $exploded_email[0];
-				}
-
-				if ( empty( $posted_data['contact']['lastname'] ) ) {
-					$posted_data['contact']['lastname'] = $exploded_email[0];
-				}
+				$posted_data['third_party']['title'] = $exploded_email[0];
 			}
 
 			$country = get_from_id( $posted_data['third_party']['country_id'] );
@@ -260,8 +249,9 @@ class Checkout_Action {
 				$posted_data['contact']['login']          = sanitize_user( current( explode( '@', $posted_data['contact']['email'] ) ), true );
 				$posted_data['contact']['password']       = wp_generate_password();
 				$posted_data['contact']['third_party_id'] = $third_party->data['id'];
+				$posted_data['contact']['lastname']       = $posted_data['third_party']['title'];
 
-				$contact = Contact::g()->update( $posted_data['contact'] );
+				$contact = User::g()->update( $posted_data['contact'] );
 
 				$third_party->data['contact_ids'][] = $contact->data['id'];
 				$thid_party                         = Third_Party::g()->update( $third_party->data );
@@ -290,7 +280,7 @@ class Checkout_Action {
 				// If user is connected, check the link with his third party and his contact.
 				$current_user = wp_get_current_user();
 
-				$contact = Contact::g()->get( array(
+				$contact = User::g()->get( array(
 					'search' => $current_user->user_email,
 					'number' => 1,
 				), true );
@@ -316,11 +306,12 @@ class Checkout_Action {
 					do_action( 'wps_checkout_create_third_party', $third_party );
 				}
 
+				// Connect what u want.
 				do_action( 'wps_checkout_create_contact', $contact );
 
 				$contact->data['firstname'] = ! empty( $posted_data['contact']['firstname'] ) ? $posted_data['contact']['firstname'] : $contact->data['firstname'];
-				$contact->data['lastname']  = ! empty( $posted_data['contact']['lastname'] ) ? $posted_data['contact']['lastname'] : $contact->data['lastname'];
-				$contact                    = Contact::g()->update( $contact->data );
+				$contact->data['lastname']  = ! empty( $posted_data['third_party']['title'] ) ? $posted_data['third_party']['title'] : $contact->data['lastname'];
+				$contact                    = User::g()->update( $contact->data );
 
 				// translators: Checkout: Update third party and contact {json_data}.
 				\eoxia\LOG_Util::log( sprintf( 'Checkout: Update third party and contact %s', json_encode( $posted_data ) ), 'wpshop2' );

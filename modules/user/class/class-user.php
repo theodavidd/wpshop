@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Contact class.
  */
-class Contact extends \eoxia\User_Class {
+class User extends \eoxia\User_Class {
 
 	/**
 	 * Model name @see ../model/*.model.php.
@@ -28,7 +28,7 @@ class Contact extends \eoxia\User_Class {
 	 *
 	 * @var string
 	 */
-	protected $model_name = '\wpshop\Contact_Model';
+	protected $model_name = '\wpshop\User_Model';
 
 	/**
 	 * Post type
@@ -37,7 +37,7 @@ class Contact extends \eoxia\User_Class {
 	 *
 	 * @var string
 	 */
-	protected $type = 'wps-contact';
+	protected $type = 'wps-user';
 
 	/**
 	 * La clé principale du modèle
@@ -46,7 +46,7 @@ class Contact extends \eoxia\User_Class {
 	 *
 	 * @var string
 	 */
-	protected $meta_key = 'contact';
+	protected $meta_key = 'user';
 
 	/**
 	 * La route pour accéder à l'objet dans la rest API
@@ -55,7 +55,7 @@ class Contact extends \eoxia\User_Class {
 	 *
 	 * @var string
 	 */
-	protected $base = 'contact';
+	protected $base = 'user';
 
 	/**
 	 * La taxonomy lié à ce post type.
@@ -82,10 +82,10 @@ class Contact extends \eoxia\User_Class {
 			) );
 		}
 
-		\eoxia\View_Util::exec( 'wpshop', 'contact', 'list', array(
-			'contact' => $contacts,
+		\eoxia\View_Util::exec( 'wpshop', 'user', 'list', array(
+			'contacts' => $contacts,
 		) );
 	}
 }
 
-Contact::g();
+User::g();

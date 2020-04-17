@@ -29,13 +29,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element contact-lastname gridw-3">
 		<label class="form-field-container">
-			<input type="text" class="form-field" name="contact[lastname]" placeholder="<?php esc_html_e( 'Last name', 'wpshop' ); ?>"  value="<?php echo ! empty( $contact->data['lastname'] ) ? $contact->data['lastname'] : ''; ?>" />
-		</label>
-	</div>
-
-	<div class="form-element third_party-title gridw-6">
-		<label class="form-field-container">
-			<input type="text" class="form-field" name="third_party[title]" placeholder="<?php esc_html_e( 'Company name', 'wpshop' ); ?>" value="<?php echo ! empty( $third_party->data['title'] ) ? $third_party->data['title'] : ''; ?>" />
+			<input type="text" class="form-field" name="third_party[title]" placeholder="<?php esc_html_e( 'Last name/Company Name', 'wpshop' ); ?>"  value="<?php echo ! empty( $third_party->data['title'] ) ? $third_party->data['title'] : ''; ?>" />
 		</label>
 	</div>
 

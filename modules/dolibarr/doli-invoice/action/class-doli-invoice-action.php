@@ -200,19 +200,15 @@ class Doli_Invoice_Action {
 	public function create_invoice( $data ) {
 		$order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
-		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . $order->data['external_id'] );
+		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . (int) $data['custom'] );
 		Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
 			'notrigger' => 0,
 		) );
 
 		$doli_invoice = Request_Util::get( 'invoices/' . $doli_invoice->id );
 
-		$wp_invoice = Doli_Invoice::g()->get( array(
-			'meta_key'   => '_external_id',
-			'meta_value' => (int) $doli_invoice->id,
-		), true );
-
-		$wp_invoice = Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice );
+		$wp_invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
+		$wp_invoice = Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice, true );
 
 		$doli_payment = Request_Util::post( 'invoices/' . $doli_invoice->id . '/payments', array(
 			'datepaye'          => current_time( 'timestamp' ),
@@ -229,7 +225,7 @@ class Doli_Invoice_Action {
 		) );
 
 		$third_party = Third_Party::g()->get( array( 'id' => $wp_invoice->data['third_party_id'] ), true );
-		$contact =     Contact::g()->get( array( 'id' => $order->data['author_id'] ), true );
+		$contact =     User::g()->get( array( 'id' => $order->data['author_id'] ), true );
 
 		$invoice_file = Request_Util::get( 'documents/download?module_part=facture&original_file=' . $wp_invoice->data['title'] . '/' . $wp_invoice->data['title'] . '.pdf' );
 		$content      = base64_decode( $invoice_file->content );

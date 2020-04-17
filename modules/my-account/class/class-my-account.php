@@ -129,7 +129,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function display_details() {
-		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
 		$transient = get_transient( 'wps_update_account_details_errors' );
@@ -146,7 +146,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function display_orders() {
-		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
 		$orders = array();
@@ -173,7 +173,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function display_invoices() {
-		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
 		$invoices = array();
@@ -194,7 +194,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function display_downloads() {
-		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
 		$products_downloadable = array();
@@ -214,7 +214,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function display_quotations() {
-		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
 		$proposals = array();

@@ -45,10 +45,9 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 		'errors'   => array(),
 		'messages' => array(),
 	) ) {
-		// On the left third party object wpshop. On the right third party of dolibarr.
 		$wp_third_party->data['external_id'] = (int) $doli_third_party->id;
 		$wp_third_party->data['title']       = $doli_third_party->name;
-		$wp_third_party->data['contact']     = $doli_third_party->address;
+		$wp_third_party->data['address']     = $doli_third_party->address;
 		$wp_third_party->data['town']        = $doli_third_party->town;
 		$wp_third_party->data['zip']         = $doli_third_party->zip;
 		$wp_third_party->data['state']       = $doli_third_party->state;
@@ -58,109 +57,40 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 		$wp_third_party->data['status']      = 'publish';
 
 		if ( $save ) {
-			// Not used, useless.
-			/*if ( ! empty( $doli_third_party->date_modification ) ) {
-				$wp_third_party->data['date_modified'] = date( 'Y-m-d H:i:s', $doli_third_party->date_modification );
-			}*/
-
-			// @todo: Poser les choix de gestion de date et les provenances, passer sur de comparaisons par SHA.
-			Third_Party::g()->update( $wp_third_party->data );
+			$wp_third_party = Third_Party::g()->update($wp_third_party->data);
 
 			// translators: Erase data for the third party <strong>Eoxia</strong> with the <strong>dolibarr</strong> data.
-			$notices['messages'][] = sprintf( __( 'Erase data for the third party <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_third_party->data['title'] );
-		}
+			$notices['messages'][] = sprintf(__('Erase data for the third party <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop'), $wp_third_party->data['title']);
 
-		// @todo: Move this code L76 to L113 in class-doli-contact.php and call it here.
-		/*$doli_third_party->contacts = Request_Util::get( 'contact?sortfield=t.rowid&sortorder=ASC&limit=-1&thirdparty_ids=' . $doli_third_party->id );
-
-		if ( ! empty( $doli_third_party->contacts ) ) {
-			foreach ( $doli_third_party->contacts as $doli_contact ) {
-				if ( ! empty( $doli_contact->email ) ) {
-
-					// Gestion contact déjà existant.
-					$wp_contact = Contact::g()->get( array(
-						'search' => $doli_contact->email,
-					), true );
-
-					// translators: Try to add contact <strong>Test</strong> to the third party <strong>Eoxia</strong>.
-					$notices['messages'][] = sprintf( __( 'Try to add contact <strong>%1$s</strong> to the third party <strong>%2$s</strong>', 'wpshop' ), $doli_contact->email, $wp_third_party->data['title'] );
-
-					if ( ! empty( $wp_contact ) ) {
-						// Est-ce qu'il a une société ?
-						if ( ! empty( $wp_contact->data['third_party_id'] ) && $wp_contact->data['third_party_id'] !== $wp_third_party->data['id'] ) {
-
-							// translators: The contact <strong>test</strong> is already associated to another third party.
-							$notices['errors'][] = sprintf( __( 'The contact <strong>%s</strong> is already associated to another third party', 'wpshop' ), $wp_contact->data['email'] );
-						} else {
-							// On le met à jour et on l'affecte à la société.
-							Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
-
-							// translators: Erase data for the contact <strong>test</strong> with the <strong>dolibarr</strong> data and affect to <strong>Eoxia</strong>.
-							$notices['messages'][] = sprintf( __( 'Erase data for the contact <strong>%1$s</strong> with the <strong>dolibarr</strong> data and affect to <strong>%2$s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
-						}
-					} else {
-						$wp_contact = Contact::g()->get( array( 'schema' => true ), true );
-						// On le créer et on l'affecte à la société.
-						Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
-
-						// translators: Erase data for the contact <strong>test</strong> with the <strong>dolibarr</strong> data and affect to <strong>Eoxia</strong>.
-						$notices['messages'][] = sprintf( __( 'Erase data for the contact <strong>%1$s</strong> with the <strong>dolibarr</strong>data and affect to <strong>%2$s</strong>', 'wpshop' ), $wp_contact->data['email'], $wp_third_party->data['title'] );
-					}
-				} else {
-					// No contact email from dolibarr, but WP required email contact. So we generate email contact.
-					// @todo: A vérifier avec Laurent pour l'extension voir https://docs.google.com/document/d/1kVFNZnuOy_OuEVIaxHI_8u8wWSPiF8tNbFZE34EZPQE
-					$doli_contact->email = $doli_contact->lastname . '@' . str_replace( ' ', '', strtolower( $doli_contact->socname ) ) . '.com';
-
-					$wp_contact = Contact::g()->get( array(
-						'search' => $doli_contact->email,
-					), true );
-
-					if ( empty( $wp_contact ) ) {
-						$wp_contact = Contact::g()->get( array( 'schema' => true ), true );
-					}
-
-					// On le créer et on l'affecte à la société.
-					Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
-				}
-			}
-		}
-
-		$wp_third_party = Third_Party::g()->get( array( 'id' => $wp_third_party->data['id'] ), true );*/
-
-		// Generate SHA256
-		if ( $save ) {
 			$data_sha = array();
 
-			$data_sha['doli_id']  = (int) $doli_third_party->id;
-			$data_sha['wp_id']    = (int) $wp_third_party->data['id'];
-			$data_sha['title']    = $wp_third_party->data['title'];
-			$data_sha['contact']  = $wp_third_party->data['contact'];
-			$data_sha['town']     = $wp_third_party->data['town'];
-			$data_sha['zip']      = $wp_third_party->data['zip'];
-			$data_sha['state']    = $wp_third_party->data['state'];
-			$data_sha['country']  = $wp_third_party->data['country'];
-			$data_sha['town']     = $wp_third_party->data['town'];
-			$data_sha['phone']    = $wp_third_party->data['phone'];
-			$data_sha['email']    = $wp_third_party->data['email'];
+			$data_sha['doli_id'] = (int)$doli_third_party->id;
+			$data_sha['wp_id'] = (int)$wp_third_party->data['id'];
+			$data_sha['title'] = $wp_third_party->data['title'];
+			$data_sha['town'] = $wp_third_party->data['town'];
+			$data_sha['zip'] = $wp_third_party->data['zip'];
+			$data_sha['state'] = $wp_third_party->data['state'];
+			$data_sha['country'] = $wp_third_party->data['country'];
+			$data_sha['town'] = $wp_third_party->data['town'];
+			$data_sha['address'] = $wp_third_party->data['address'];
+			$data_sha['phone'] = $wp_third_party->data['phone'];
+			$data_sha['email'] = $wp_third_party->data['email'];
 
-			/*$contacts = Contact::g()->get( array(
-				'include' => $wp_third_party->data['contact_ids'],
-			) );
+			update_post_meta($wp_third_party->data['id'], '_sync_sha_256', hash('sha256', implode(',', $data_sha)));
 
-			if ( ! empty( $contacts ) ) {
-				foreach ( $contacts as $key => $contact ) {
-					// @todo: L'email est que du coté de WPShop quand elle est généré par WPShop car inexistante dans dolibarr.
-					$data_sha['contacts_' . $key . '_doli_id'] = $contact->data['external_id'];
-					$data_sha['contacts_' . $key . '_doli_third_party_id'] = $wp_third_party->data['external_id'];
-					$data_sha['contacts_' . $key . '_wp_third_party_id'] = $wp_third_party->data['id'];
-					$data_sha['contacts_' . $key . '_lastname'] = $contact->data['lastname'];
-					$data_sha['contacts_' . $key . '_firstname'] = $contact->data['firstname'];
-					$data_sha['contacts_' . $key . '_phone_pro'] = $contact->data['phone'];
-					$data_sha['contacts_' . $key . '_phone_mobile'] = $contact->data['phone_mobile'];
-				}
-			}*/
+			$user = User::g()->get(array('search' => $wp_third_party->data['email'], 'search_columns' => array('user_email')), true);
 
-			update_post_meta( $wp_third_party->data['id'], '_sync_sha_256', hash( 'sha256', implode( ',', $data_sha ) ) );
+			if ( empty( $user ) ) {
+				$user = Doli_User::g()->create_user( $wp_third_party, $doli_third_party );
+			} else {
+				$user = Doli_User::g()->update_user( $user, $wp_third_party, $doli_third_party );
+			}
+
+			if (!in_array( $user->data['id'], $wp_third_party->data['contact_ids'] ) ) {
+				$wp_third_party->data['contact_ids'][] = $user->data['id'];
+				$wp_third_party = Third_Party::g()->update($wp_third_party->data);
+			}
+
 		}
 
 		// Get before return for get the new contact_ids array.

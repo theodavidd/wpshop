@@ -177,7 +177,7 @@ class Third_Party_Action {
 		$contacts = array();
 
 		if ( ! empty( $third_party->data['contact_ids'] ) ) {
-			$contacts = Contact::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
+			$contacts = User::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
 		}
 		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contact', array(
 			'third_party' => $third_party,

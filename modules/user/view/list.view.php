@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<?php
 	if ( ! empty( $contacts ) ) :
 		foreach ( $contacts as $contact ) :
-			\eoxia\View_Util::exec( 'wpshop', 'contact', 'item', array(
+			\eoxia\View_Util::exec( 'wpshop', 'user', 'item', array(
 				'contact' => $contact,
 			) );
 		endforeach;

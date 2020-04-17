@@ -14,6 +14,8 @@
 
 namespace wpshop;
 
+use digi\Setting_Class;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -173,6 +175,12 @@ class Product_Filter {
 					'paged'       => get_query_var('paged') ? get_query_var('paged') : 1,
 					'post_parent' => 0,
 				);
+
+				if ( Settings::g()->dolibarr_is_active() ) {
+					$args['meta_key']     = '_external_id';
+					$args['meta_compare'] = '!=';
+					$args['meta_value']   = '';
+				}
 
 				if ( ! empty( $shipping_cost_option['shipping_product_id'] ) ) {
 					$args['post__not_in'] = array( $shipping_cost_option['shipping_product_id'] );

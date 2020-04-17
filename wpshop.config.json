@@ -16,7 +16,7 @@
         "modules/products/products.config.json",
         "modules/products-downloadable/products-downloadable.config.json",
         "modules/third-parties/third-parties.config.json",
-        "modules/contact/contact.config.json",
+        "modules/user/user.config.json",
         "modules/proposals/proposals.config.json",
     
         "modules/cart/cart.config.json",
@@ -39,7 +39,7 @@
         "modules/dolibarr/doli-proposals/doli-proposals.config.json",
         "modules/dolibarr/doli-order/doli-order.config.json",
         "modules/dolibarr/doli-third-parties/doli-third-parties.config.json",
-        "modules/dolibarr/doli-contact/doli-contact.config.json",
+        "modules/dolibarr/doli-user/doli-user.config.json",
         "modules/dolibarr/doli-invoice/doli-invoice.config.json",
         "modules/dolibarr/doli-payment/doli-payment.config.json",
         "modules/dolibarr/doli-products/doli-products.config.json",

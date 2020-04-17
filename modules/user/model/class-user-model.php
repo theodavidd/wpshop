@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class Contact model.
  */
-class Contact_Model extends \eoxia\User_Model {
+class User_Model extends \eoxia\User_Model {
 
 	/**
 	 * Constructor.

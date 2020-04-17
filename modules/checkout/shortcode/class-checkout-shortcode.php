@@ -52,10 +52,10 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 			$current_user = wp_get_current_user();
 
 			$third_party = Third_Party::g()->get( array( 'schema' => true ), true );
-			$contact     = Contact::g()->get( array( 'schema' => true ), true );
+			$contact     = User::g()->get( array( 'schema' => true ), true );
 
 			if ( 0 !== $current_user->ID ) {
-				$contact = Contact::g()->get( array(
+				$contact = User::g()->get( array(
 					'search' => $current_user->user_email,
 					'number' => 1,
 				), true );
@@ -92,7 +92,7 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 	 */
 	public function display_valid_checkout( $atts ) {
 		if ( ! is_admin() && is_user_logged_in() ) {
-			$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+			$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
 			$object      = null;
 			$text        = '';
 			$button_text = '';

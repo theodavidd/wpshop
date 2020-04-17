@@ -180,29 +180,13 @@ class Checkout extends \eoxia\Singleton_Util {
 	 * @param Order_Model $order Les données de la commande.
 	 */
 	public function process_order_payment( $order ) {
-		$type = ! empty( $_POST['type_payment'] ) ? $_POST['type_payment'] : '';
+		$type = ! empty( $_POST['type_payment'] ) ? sanitize_text_field( $_POST['type_payment'] ) : '';
 
 		switch ( $type ) {
 			case 'cheque':
-				update_post_meta( $order->data['id'], 'payment_method', 'cheque' );
-				// translators: Order: Add cheque payment to the order 0000001.
-				\eoxia\LOG_Util::log( sprintf( 'Order: Add cheque payment to the order %s', $order->data['id'] ), 'wpshop2' );
-
-				Cart_Session::g()->destroy();
-				wp_send_json_success( array(
-					'namespace'        => 'wpshopFrontend',
-					'module'           => 'checkout',
-					'callback_success' => 'redirect',
-					'url'              => Pages::g()->get_checkout_link() . '/received/order/' . $order->data['external_id'] . '/',
-				) );
-				break;
 			case 'payment_in_shop':
-				update_post_meta( $order->data['id'], 'payment_method', 'payment_in_shop' );
-
-				// translators: Order: Add payment in shop to the order 000001.
-				\eoxia\LOG_Util::log( sprintf( 'Order: Add payment in shop to the order %s', $order->data['id'] ), 'wpshop2' );
-
 				Cart_Session::g()->destroy();
+
 				wp_send_json_success( array(
 					'namespace'        => 'wpshopFrontend',
 					'module'           => 'checkout',
@@ -211,14 +195,6 @@ class Checkout extends \eoxia\Singleton_Util {
 				) );
 				break;
 			case 'paypal':
-				$order->data['payment_method']        = 'paypal';
-				$order->data['traitment_in_progress'] = true;
-
-				$order = Doli_Order::g()->update( $order->data );
-
-				// translators: Order: Add Stripe payment to the order 000001.
-				\eoxia\LOG_Util::log( sprintf( 'Order: Add Stripe payment to the order %s', $order->data['id'] ), 'wpshop2' );
-
 				$result = Paypal::g()->process_payment( $order );
 				Cart_Session::g()->destroy();
 				if ( ! empty( $result['url'] ) ) {
@@ -231,12 +207,6 @@ class Checkout extends \eoxia\Singleton_Util {
 				}
 				break;
 			case 'stripe':
-				$order->data['payment_method']        = 'stripe';
-				$order->data['traitment_in_progress'] = true;
-
-				// translators: Order: Add Stripe payment to the order 000001.
-				\eoxia\LOG_Util::log( sprintf( 'Order: Add Stripe payment to the order %s', $order->data['id'] ), 'wpshop2' );
-
 				$result = Stripe::g()->process_payment( $order );
 				Cart_Session::g()->destroy();
 

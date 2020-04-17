@@ -430,7 +430,7 @@ class Doli_Order_Action {
 			exit;
 		}
 
-		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 		$doli_order  = Request_Util::get( 'orders/' . $order_id );
 		$order       = Doli_Order::g()->get( array( 'schema' => true ), true );

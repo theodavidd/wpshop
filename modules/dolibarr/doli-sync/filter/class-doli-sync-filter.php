@@ -30,6 +30,7 @@ class Doli_Sync_Filter extends \eoxia\Singleton_Util {
 		add_filter( 'wps_countries', array( $this, 'doli_countries' ) );
 
 		add_filter( 'doli_build_sha_wps-product', array( $this, 'build_sha_product' ), 10, 2 );
+		add_filter( 'doli_build_sha_wps-third-party', array( $this, 'build_sha_third_party' ), 10, 2 );
 	}
 
 	/**
@@ -82,10 +83,6 @@ class Doli_Sync_Filter extends \eoxia\Singleton_Util {
 	public function build_sha_product( $response, $wp_id ) {
 		$data_sha = array();
 
-		// API Dolibarr send price, price_ttc and tva_tx as string. So the value is different as your default value.
-		// For ex: WP Get product at 500$ from the API, dolibarr send the value 500.000000 as string.
-		// So we force as float for build correct SHA.
-
 		$data_sha['doli_id']   = $response->id;
 		$data_sha['wp_id']     = $wp_id;
 		$data_sha['label']     = $response->label;
@@ -93,6 +90,32 @@ class Doli_Sync_Filter extends \eoxia\Singleton_Util {
 		$data_sha['price_ttc'] = $response->price_ttc;
 		$data_sha['tva_tx']    = $response->tva_tx;
 		$data_sha['web']       = $response->array_options->options_web;
+
+		$response->sha = hash( 'sha256', implode( ',', $data_sha ) );
+
+		return $response;
+	}
+
+	/**
+	 * @todo: comments
+	 *
+	 * @param $response
+	 * @return
+	 */
+	public function build_sha_third_party( $response, $wp_id ) {
+		$data_sha = array();
+
+		$data_sha['doli_id']  = $response->id;
+		$data_sha['wp_id']    = $wp_id;
+		$data_sha['title']    = $response->name;
+		$data_sha['town']     = $response->town;
+		$data_sha['zip']      = $response->zip;
+		$data_sha['state']    = $response->state;
+		$data_sha['country']  = $response->country;
+		$data_sha['town']     = $response->town;
+		$data_sha['address']  = $response->address;
+		$data_sha['phone']    = $response->phone;
+		$data_sha['email']    = $response->email;
 
 		$response->sha = hash( 'sha256', implode( ',', $data_sha ) );
 

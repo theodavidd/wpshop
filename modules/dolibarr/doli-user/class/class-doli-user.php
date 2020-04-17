@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Doli Contact Class.
  */
-class Doli_Contact extends \eoxia\Singleton_Util {
+class Doli_User extends \eoxia\Singleton_Util {
 
 	/**
 	 * Constructeur
@@ -113,7 +113,7 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 	 * @return integer                     L'ID de dolibarr.
 	 */
 	public function wp_to_doli( $wp_contact ) {
-		$third_party = Third_Party::g()->get( array(
+		/*$third_party = Third_Party::g()->get( array(
 			'id' => $wp_contact->data['third_party_id'],
 		), true );
 
@@ -126,14 +126,14 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 		);
 
 		if ( ! empty( $wp_contact->data['external_id'] ) ) {
-			$contact = Request_Util::put( 'contact/' . $wp_contact->data['external_id'], $data );
+			//$contact = Request_Util::put( 'contact/' . $wp_contact->data['external_id'], $data );
 		} else {
-			$contact_id                      = Request_Util::post( 'contact', $data );
+			//$contact_id                      = Request_Util::post( 'contact', $data );
 			$wp_contact->data['external_id'] = (int) $contact_id;
 
-			Contact::g()->update( $wp_contact->data );
+			User::g()->update( $wp_contact->data );
 
-		}
+		}*/
 
 		return $wp_contact->data['external_id'];
 	}
@@ -286,6 +286,38 @@ class Doli_Contact extends \eoxia\Singleton_Util {
 			);
 		}*/
 	}
+
+	public function create_user( $third_party, $doli_third_party ) {
+		$contact = array();
+
+		$contact['login']          = sanitize_title( $third_party->data['email'] );
+		$contact['firstname']      = $doli_third_party->array_options->options_firstname;
+		$contact['lastname']       = $third_party->data['title'];
+		$contact['email']          = $third_party->data['email'];
+		$contact['third_party_id'] = $third_party->data['id'];
+		$contact['password']       = wp_generate_password();
+
+//
+//			if ( 0 === $wp_contact->data['id'] && false !== email_exists( $wp_contact->data['email'] ) ) {
+//				\eoxia\LOG_Util::log( sprintf( 'Contact: doli_to_wp can\'t create %s email already exist', json_encode( $wp_contact->data ) ), 'wpshop2' );
+//				return false;
+//			}
+
+
+		$contact_saved = User::g()->update( $contact );
+
+		if ( is_wp_error( $contact_saved ) ) {
+			// translators: Contact: doli_to_wp error when update or create contact {json_data}.
+			\eoxia\LOG_Util::log( sprintf( 'Contact: doli_to_wp error when update or create contact: %s', json_encode( $contact_saved ) ), 'wpshop2' );
+			return false;
+		}
+
+		return $contact_saved;
+	}
+
+	public function update_user( $user, $third_party ) {
+		return $user;
+	}
 }
 
-Doli_Contact::g();
+Doli_User::g();

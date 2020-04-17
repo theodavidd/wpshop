@@ -89,7 +89,7 @@ class PayPal extends \eoxia\Singleton_Util {
 		) );
 
 		$third_party = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
-		$contact     = Contact::g()->get( array( 'id' => end( $third_party->data['contact_ids'] ) ), true );
+		$contact     = User::g()->get( array( 'id' => end( $third_party->data['contact_ids'] ) ), true );
 
 		return array(
 			'cmd'           => '_cart',
@@ -101,11 +101,11 @@ class PayPal extends \eoxia\Singleton_Util {
 			'currency_code' => 'EUR',
 			'charset'       => 'utf-8',
 			'upload'        => 1,
-			'return'        => Pages::g()->get_checkout_link() . 'received/order/' . $order->data['id'],
+			'return'        => Pages::g()->get_checkout_link() . 'received/order/' . $order->data['external_id'],
 			'notify_url'    => site_url( 'wp-json/wpshop/v2/wps_gateway_paypal' ),
 			'cancel_return' => '',
 			'email'         => $contact->data['email'],
-			'custom'        => $order->data['id'],
+			'custom'        => $order->data['external_id'],
 		);
 	}
 

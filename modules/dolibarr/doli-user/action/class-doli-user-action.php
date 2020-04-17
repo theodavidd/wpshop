@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Doli Contact Action Class.
  */
-class Doli_Contact_Action {
+class Doli_User_Action {
 
 	/**
 	 * Constructor.
@@ -27,7 +27,7 @@ class Doli_Contact_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'wps_checkout_create_contact', array( $this, 'checkout_create_contact' ) );
+		// add_action( 'wps_checkout_create_contact', array( $this, 'checkout_create_contact' ) );
 
 		add_action( 'wps_deleted_contact', array( $this, 'delete_contact' ), 10, 2 );
 	}
@@ -44,7 +44,7 @@ class Doli_Contact_Action {
 			// translators: Checkout create contact from wp to dolibarr {json_data}.
 			\eoxia\LOG_Util::log( sprintf( 'Checkout create contact from wp to dolibarr %s', json_encode( $wp_contact->data ) ), 'wpshop2' );
 
-			$external_id = Doli_Contact::g()->wp_to_doli( $wp_contact );
+			$external_id = Doli_User::g()->wp_to_doli( $wp_contact );
 
 			$third_party = Third_Party::g()->get( array( 'id' => $wp_contact->data['third_party_id'] ), true );
 
@@ -71,4 +71,4 @@ class Doli_Contact_Action {
 	}
 }
 
-new Doli_Contact_Action();
+new Doli_User_Action();

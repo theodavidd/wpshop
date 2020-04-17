@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Contact Filter class.
  */
-class Contact_Filter {
+class User_Filter {
 
 	/**
 	 * Initialise les filtres.
@@ -51,4 +51,4 @@ class Contact_Filter {
 	}
 }
 
-new Contact_Filter();
+new User_Filter();

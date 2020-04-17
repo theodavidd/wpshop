@@ -19,21 +19,6 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wrap wpeo-wrap">
 	<h2>
 		<?php esc_html_e( 'Third Parties', 'wpshop' ); ?>
-
-		<?php
-		if ( Settings::g()->dolibarr_is_active() && \eoxia\Config_Util::$init['wpshop']->use_global_sync ) :
-			?>
-			<div class="wpeo-button button-main wpeo-modal-event"
-				data-action="load_modal_sync"
-				data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_modal_sync' ) ); ?>"
-				data-class="modal-sync modal-force-display"
-				data-sync="wps-third-party"
-				data-title="<?php echo esc_attr_e( 'Data synchronization', 'wpshop' ); ?>">
-				<span><?php esc_html_e( 'All Third Parties Sync', 'wpshop' ); ?></span>
-			</div>
-			<?php
-		endif;
-		?>
 	</h2>
 
 	<div class="wpeo-gridlayout wpeo-form form-light grid-4 alignleft" style="margin-bottom: 20px; margin-top: 15px;">

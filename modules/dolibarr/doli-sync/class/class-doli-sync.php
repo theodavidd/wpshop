@@ -59,16 +59,6 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 				'doli_class'         => '\wpshop\\Doli_Third_Parties',
 				'doli_type'          => 'third_party',
 			),
-			'wps-user'      => array(
-				'title'              => __( 'Contacts', 'wpshop' ),
-				'action'             => 'sync_contacts',
-				'nonce'              => 'sync_contacts',
-				'endpoint'           => 'contacts',
-				'associate_endpoint' => 'Contact',
-				'wp_class'           => '\wpshop\\Contact',
-				'doli_class'         => '\wpshop\\Doli_Contact',
-				'doli_type'          => 'contact',
-			),
 			'wps-product'      => array(
 				'title'              => __( 'Products', 'wpshop' ),
 				'action'             => 'sync_products',
@@ -166,27 +156,12 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 				$doli_third_party = Request_Util::get( 'thirdparties/' . $entry_id );
 				$wp_third_party   = Third_Party::g()->get( array( 'id' => $wp_id ), true );
 
-				Doli_Third_Parties::g()->doli_to_wp( $doli_third_party, $wp_third_party );
+				$wp_third_party = Doli_Third_Parties::g()->doli_to_wp( $doli_third_party, $wp_third_party );
 
 				// translators: Erase date for the third party <strong>Eoxia</strong> with the <strong>dolibarr</strong> data.
 				$messages[] = sprintf( __( 'Erase data for the third party <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_third_party->data['title'] );
 
-				//$messages = array_merge( $messages, Third_Party::g()->dessociate_contact( $wp_third_party ) );
-
 				$wp_object = $wp_third_party;
-				break;
-			case 'wps-user':
-				$doli_contact = Request_Util::get( 'contacts/' . $entry_id );
-				$wp_contact   = Contact::g()->get( array( 'id' => $wp_id ), true );
-
-				Doli_Contact::g()->doli_to_wp( $doli_contact, $wp_contact );
-
-				// translators: Erase date for the third party <strong>Eoxia</strong> with the <strong>dolibarr</strong> data.
-				$messages[] = sprintf( __( 'Erase data for the contact <strong>%s</strong> with the <strong>dolibarr</strong> data', 'wpshop' ), $wp_contact->data['displayname'] );
-
-				//$messages = array_merge( $messages, Third_Party::g()->dessociate_contact( $wp_third_party ) );
-
-				$wp_object = $wp_contact;
 				break;
 			case 'wps-product':
 				$doli_product = Request_Util::get( 'products/' . $entry_id );

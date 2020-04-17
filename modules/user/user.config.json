@@ -1,8 +1,8 @@
 {
-  "name": "Contact",
-  "slug": "contact",
+  "name": "User",
+  "slug": "user",
   "since": "2.0.0",
-  "path": "modules/contact",
+  "path": "modules/user",
   "dependencies": {
     "filter": {},
     "class": {},
