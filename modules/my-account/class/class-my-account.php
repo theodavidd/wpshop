@@ -148,16 +148,15 @@ class My_Account extends \eoxia\Singleton_Util {
 	public function display_orders() {
 		$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-
 		$orders = array();
 
-		if ( ! empty( $third_party->data['id'] ) ) {
+		if ( ! empty( $third_party->data['id'] ) && ! empty( $third_party->data['external_id']) ) {
 			// @todo: Rest API
 			$data = array(
-				'sortfield'       => 't.rowid',
-				'sortorder'       => 'ASC',
-				'limit'           => 100,
-				'third_party_ids' => $third_party->data['external_id'],
+				'sortfield'      => 't.rowid',
+				'sortorder'      => 'ASC',
+				'limit'          => 100,
+				'thirdparty_ids' => $third_party->data['external_id'],
 			);
 
 			$doli_orders = Request_Util::g()->get( 'orders?' . http_build_query( $data ) );

@@ -240,6 +240,7 @@ class Checkout_Action {
 			$posted_data['third_party']['country_id'] = (int) $posted_data['third_party']['country_id'];
 			$posted_data['third_party']['country']    = $country['label'];
 			$posted_data['third_party']['phone']      = $posted_data['contact']['phone'];
+			$posted_data['third_party']['email']      = $posted_data['contact']['email'];
 
 			if ( ! is_user_logged_in() ) {
 				$third_party = Third_Party::g()->update( $posted_data['third_party'] );
@@ -254,7 +255,7 @@ class Checkout_Action {
 				$contact = User::g()->update( $posted_data['contact'] );
 
 				$third_party->data['contact_ids'][] = $contact->data['id'];
-				$thid_party                         = Third_Party::g()->update( $third_party->data );
+				$third_party                        = Third_Party::g()->update( $third_party->data );
 
 				// Call wpshop to update attached ERP.
 				do_action( 'wps_checkout_create_contact', $contact );
@@ -275,7 +276,6 @@ class Checkout_Action {
 
 				// translators: Checkout: Create new third party and contact {json_data}.
 				\eoxia\LOG_Util::log( sprintf( 'Checkout: Create new third party and contact %s', json_encode( $posted_data ) ), 'wpshop2' );
-
 			} else {
 				// If user is connected, check the link with his third party and his contact.
 				$current_user = wp_get_current_user();

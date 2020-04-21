@@ -115,16 +115,20 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 		'messages' => array(),
 	) ) {
 		$data = array(
-			'name'        => $wp_third_party->data['title'],
-			'country'     => $wp_third_party->data['country'],
-			'country_id'  => $wp_third_party->data['country_id'],
-			'address'     => $wp_third_party->data['address'],
-			'zip'         => $wp_third_party->data['zip'],
-			'state'       => $wp_third_party->data['state'],
-			'phone'       => $wp_third_party->data['phone'],
-			'town'        => $wp_third_party->data['town'],
-			'client'      => 1,
-			'code_client' => 'auto'
+			'name'          => $wp_third_party->data['title'],
+			'country'       => $wp_third_party->data['country'],
+			'country_id'    => $wp_third_party->data['country_id'],
+			'address'       => $wp_third_party->data['address'],
+			'zip'           => $wp_third_party->data['zip'],
+			'state'         => $wp_third_party->data['state'],
+			'phone'         => $wp_third_party->data['phone'],
+			'town'          => $wp_third_party->data['town'],
+			'email'         => $wp_third_party->data['email'],
+			'client'        => 1,
+			'code_client'   => 'auto',
+			'array_options' => array(
+				'options__wps_id' => $wp_third_party->data['id'],
+			),
 		);
 
 		if ( ! empty( $wp_third_party->data['external_id'] ) ) {
@@ -135,10 +139,12 @@ class Doli_Third_Parties extends \eoxia\Singleton_Util {
 		} else {
 			$doli_third_party_id                 = Request_Util::post( 'thirdparties', $data );
 			$wp_third_party->data['external_id'] = $doli_third_party_id;
+
+			$doli_third_party = Request_Util::get( 'thirdparties/' . $doli_third_party_id );
 		}
 
 		$wp_third_party = Third_Party::g()->update( $wp_third_party->data );
-		return $wp_third_party;
+		return $doli_third_party;
 	}
 
 	/**

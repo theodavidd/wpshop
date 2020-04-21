@@ -178,29 +178,13 @@ class Doli_User extends \eoxia\Singleton_Util {
 			);
 		}
 
-		$contact = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$contact = User::g()->get( array( 'id' => get_current_user_id() ), true );
 
 		if ( ! $contact ) {
 			return array(
 				'status' => false,
 				'status_code' => '0x5',
 				'status_message' => 'User not found',
-			);
-		}
-
-		if ( empty( $contact->data['external_id'] ) ) {
-			return array(
-				'status' => false,
-				'status_code' => '0x6',
-				'status_message' => 'User not external_id',
-			);
-		}
-
-		if ( empty( $contact->data['sync_sha_256'] ) ) {
-			return array(
-				'status' => false,
-				'status_code' => '0x7',
-				'status_message' => 'Contact SHA256 cannot be empty',
 			);
 		}
 
@@ -240,51 +224,11 @@ class Doli_User extends \eoxia\Singleton_Util {
 			);
 		}
 
-		$data = array(
-			'wp_contact_id'       => $contact->data['id'],
-			'doli_contact_id'     => $contact->data['external_id'],
-			'sha_contact'         => $contact->data['sync_sha_256'],
-			'wp_third_party_id'   => $third_party->data['id'],
-			'doli_third_party_id' => $third_party->data['external_id'],
-			'sha_third_party'     => $third_party->data['sync_sha_256'],
+
+		return array(
+			'status' => true,
+			'status_code' => '0x0',
 		);
-
-		$api_url = 'wpshop/getUserStatus?' . http_build_query( $data );
-
-		$response_user = Request_Util::g()->get( $api_url );
-
-		if ( ! $response_user || ! isset( $response_user->status_code ) ) {
-			return array(
-				'status' => false,
-				'status_code' => '0x11',
-				'status_message' => 'Check User Status: No response from Dolibarr.',
-			);
-		}
-
-		if ( $response_user->status_code != '0x0' ) {
-			return array(
-				'status' => false,
-				'status_code' => $response_user->status_code,
-				'status_message' => $response_user->status_message,
-			);
-		} else {
-			return array(
-				'status' => true,
-				'status_code' => '0x0',
-			);
-		}
-
-
-		//  test data consistence
-		/*$response_user = Doli_Sync::g()->check_status( $contact->data['id'], 'wps-user' );
-
-		if ( ! $response_user->status ) {
-			return array(
-				'status' => false,
-				'status_code' => '0x8',
-				'status_message' => 'User no connector on Dolibarr',
-			);
-		}*/
 	}
 
 	public function create_user( $third_party, $doli_third_party ) {
