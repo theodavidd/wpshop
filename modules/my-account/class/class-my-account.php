@@ -151,7 +151,6 @@ class My_Account extends \eoxia\Singleton_Util {
 		$orders = array();
 
 		if ( ! empty( $third_party->data['id'] ) && ! empty( $third_party->data['external_id']) ) {
-			// @todo: Rest API
 			$data = array(
 				'sortfield'      => 't.rowid',
 				'sortorder'      => 'ASC',
@@ -177,11 +176,20 @@ class My_Account extends \eoxia\Singleton_Util {
 
 		$invoices = array();
 
-		if ( ! empty( $third_party->data['id'] ) ) {
-			$invoices = Doli_Invoice::g()->get( array(
-				'meta_key'   => '_third_party_id',
-				'meta_value' => $third_party->data['id'],
-			) );
+		if ( ! empty( $third_party->data['id'] ) && ! empty( $third_party->data['external_id'] ) ) {
+			$data = array(
+				'sortfield'      => 't.rowid',
+				'sortorder'      => 'ASC',
+				'limit'          => 100,
+				'thirdparty_ids' => $third_party->data['external_id'],
+			);
+
+			$doli_invoices = Request_Util::g()->get( 'invoices?' . http_build_query( $data ) );
+			echo '<pre>';
+			print_r($doli_invoices);
+			echo '</pre>';
+			exit;
+			$invoices      = Doli_Invoice::g()->convert_to_wp_invoice_format( $doli_invoices );
 		}
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-invoices' ) );
