@@ -54,11 +54,8 @@ class Stripe extends \eoxia\Singleton_Util {
 			'cancel_url'           => site_url(),
 			'payment_method_types' => array( 'card' ),
 			'line_items'           => array( $lines ),
+			'metadata'             => array( 'order_id' => $order->data['external_id'] ),
 		) );
-
-		$order->data['external_data']['stripe_session_id'] = $session->id;
-
-		Doli_Order::g()->update( $order->data );
 
 		return array(
 			'id' => $session->id,

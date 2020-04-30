@@ -28,6 +28,14 @@ class Cart extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {}
 
+	public function can_add_product() {
+		if ( ! Settings::g()->use_quotation() && ! Settings::g()->dolibarr_is_active() ) {
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * Ajout d'un produit dans le panier.
 	 *
@@ -37,6 +45,10 @@ class Cart extends \eoxia\Singleton_Util {
 	 * @param integer       $qty     La quantité à ajouter.
 	 */
 	public function add_to_cart( $product, $qty = 1 ) {
+		if ( ! $this->can_add_product() ) {
+			return;
+		}
+
 		do_action( 'wps_before_add_to_cart' );
 
 		$data = array_merge(

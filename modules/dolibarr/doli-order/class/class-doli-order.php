@@ -110,7 +110,7 @@ class Doli_Order extends \eoxia\Post_Class {
 
 		$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 
-		$route = 'orders?sortfield=t.rowid&sortorder=ASC&limit=' . $per_page . '&page=' . ( $current_page - 1 );
+		$route = 'orders?sortfield=t.rowid&sortorder=DESC&limit=' . $per_page . '&page=' . ( $current_page - 1 );
 
 		if ( ! empty( $s ) ) {
 			// La route de dolibarr ne fonctionne pas avec des caractères en base10
@@ -182,6 +182,7 @@ class Doli_Order extends \eoxia\Post_Class {
 			$wp_order->data['title']          = $doli_order->ref;
 			$wp_order->data['total_ht']       = $doli_order->total_ht;
 			$wp_order->data['total_ttc']      = $doli_order->total_ttc;
+			$wp_order->data['total_tva']      = $doli_order->total_tva;
 			$wp_order->data['billed']         = (int) $doli_order->billed;
 			$wp_order->data['date_commande']  = date( 'Y-m-d H:i:s', $doli_order->date_commande );
 			$wp_order->data['datec']          = date( 'Y-m-d H:i:s', $doli_order->date_creation );
@@ -216,28 +217,11 @@ class Doli_Order extends \eoxia\Post_Class {
 			// @todo: Répéter dans toutes les méthode doli_to_wp. Mettre dans CommonObject.
 			if ( ! empty( $doli_order->linkedObjectsIds ) ) {
 				foreach ( $doli_order->linkedObjectsIds as $key => $values ) {
-					$type = '';
-					switch ( $key ) {
-						case 'propal':
-							$type = new Proposals();
-							$wp_order->data['linked_objects_ids'][ 'wp_' . $key ] = array();
-							break;
-					}
-
 					$values = (array) $values;
 					$wp_order->data['linked_objects_ids'][ $key ] = array();
 
 					if ( ! empty( $values ) ) {
 						foreach ( $values as $value ) {
-							if ( ! empty( $type ) ) {
-								$object = $type::g()->get( array(
-									'meta_key'   => '_external_id',
-									'meta_value' => (int) $value,
-								), true );
-
-								$wp_order->data['linked_objects_ids'][ 'wp_' . $key ][] = (int) $object->data['id'];
-							}
-
 							$wp_order->data['linked_objects_ids'][ $key ][] = (int) $value;
 						}
 					}
@@ -299,45 +283,18 @@ class Doli_Order extends \eoxia\Post_Class {
 	 * d'éléments trouvés.
 	 */
 	public function search( $s = '', $default_args = array(), $count = false ) {
-		$args = array(
-			'post_type'      => 'wps-order',
-			'posts_per_page' => -1,
-			'fields'         => 'ids',
-			'post_status'    => 'any',
-		);
-
-		$args = wp_parse_args( $default_args, $args );
+		$route = 'orders?sortfield=t.rowid&sortorder=DESC';
 
 		if ( ! empty( $s ) ) {
-			$orders_id = get_posts( array(
-				's'              => $s,
-				'fields'         => 'ids',
-				'post_type'      => 'wps-order',
-				'posts_per_page' => -1,
-				'post_status'    => 'any',
-			) );
-
-			if ( empty( $orders_id ) ) {
-				if ( $count ) {
-					return 0;
-				} else {
-					return array();
-				}
-			} else {
-				$args['post__in'] = $orders_id;
-
-				if ( $count ) {
-					return count( get_posts( $args ) );
-				} else {
-					return $orders_id;
-				}
-			}
+			$route .= '&sqlfilters=(t.ref%3Alike%3A\'%25' . $s . '%25\')';
 		}
 
+		$doli_orders = Request_Util::get( $route );
+
 		if ( $count ) {
-			return count( get_posts( $args ) );
+			return count( $doli_orders );
 		} else {
-			return get_posts( $args );
+			return $doli_orders;
 		}
 	}
 

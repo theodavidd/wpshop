@@ -28,6 +28,8 @@ class Checkout_Filter {
 	 */
 	public function __construct() {
 		add_filter( 'query_vars', array( $this, 'add_order_or_quotation_id' ) );
+
+		add_filter( 'wps_cart_to_checkout_link_title', array( $this, 'wps_cart_to_checkout_link_title' ), 10, 1 );
 	}
 
 	/**
@@ -43,6 +45,14 @@ class Checkout_Filter {
 		$vars[] = 'object_type';
 
 		return $vars;
+	}
+
+	public function wps_cart_to_checkout_link_title( $title ) {
+		if ( Settings::g()->dolibarr_is_active() ) {
+			return $title;
+		}
+
+		return __( 'Ask for a Quotation', 'wpshop' );
 	}
 
 }

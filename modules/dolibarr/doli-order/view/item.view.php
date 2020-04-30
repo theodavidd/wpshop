@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				<strong><?php echo esc_html( $order->data['tier']->data['title'] ); ?></strong>
 			</a>
 		</div>
-		<div><?php echo esc_html( $order->data['tier']->data['contact'] ); ?></div>
+		<div><?php echo esc_html( $order->data['tier']->data['address'] ); ?></div>
 		<div><?php echo esc_html( $order->data['tier']->data['zip'] ) . ' ' . esc_html( $order->data['tier']->data['country'] ); ?></div>
 		<div><?php echo esc_html( $order->data['tier']->data['phone'] ); ?></div>
 	</div>

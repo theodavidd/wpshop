@@ -46,11 +46,16 @@ class My_Account_Shortcode extends \eoxia\Singleton_Util {
 	public function callback_account() {
 		if ( ! is_admin() ) {
 			if ( ! is_user_logged_in() ) {
-				My_Account::g()->display_form_login();
+				global $wp;
+				if ( ! array_key_exists( 'lost-password', $wp->query_vars ) ) {
+					My_Account::g()->display_form_login();
+				} else {
+					My_Account::g()->display_lost_password();
+				}
 			} else {
 				global $wp;
 
-				$tab = Settings::g()->dolibarr_is_active() ? 'orders' : 'quotations';
+				$tab = Settings::g()->dolibarr_is_active() ? 'orders' : 'details';
 
 				if ( $tab == 'quotations' ) {
 					$tab = Settings::g()->use_quotation() ? 'quotations' : 'details';
@@ -74,6 +79,10 @@ class My_Account_Shortcode extends \eoxia\Singleton_Util {
 
 				if ( array_key_exists( 'quotations', $wp->query_vars ) ) {
 					$tab = 'quotations';
+				}
+
+				if ( array_key_exists( 'dolibarr-quotations', $wp->query_vars ) ) {
+					$tab = 'dolibarr_quotations';
 				}
 
 				if ( array_key_exists( 'support', $wp->query_vars ) ) {

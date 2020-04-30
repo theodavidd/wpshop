@@ -22,83 +22,239 @@ defined( 'ABSPATH' ) || exit;
 class Doli_Proposals_Action {
 
 	/**
+	 * Définition des metabox sur la page.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
+	public $metaboxes = null;
+
+	/**
 	 * Constructeur.
 	 *
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'wps_checkout_create_proposal', array( $this, 'checkout_create_proposal' ), 1, 1 );
-		add_action( 'wps_checkout_update_proposal', array( $this, 'checkout_update_proposal' ), 1, 1 );
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 
 		add_action( 'admin_post_wps_download_proposal', array( $this, 'download_proposal' ) );
 
 		add_action( 'admin_post_convert_to_order_and_pay', array( $this, 'convert_to_order_and_pay' ) );
 
 		add_action( 'wps_payment_complete', array( $this, 'set_to_billed' ), 40, 1 );
+
+		$this->metaboxes = array(
+			'wps-proposal-details' => array(
+				'callback' => array( $this, 'metabox_proposal_details' ),
+			),
+			'wps-proposal-address' => array(
+				'callback' => array( $this, 'metabox_proposal_address' ),
+			),
+			'wps-proposal-review'  => array(
+				'callback' => array( $this, 'metabox_proposal_review' ),
+			),
+		);
 	}
 
 	/**
-	 * Créer le devis vers dolibarr.
-	 *
-	 * @todo: Translate in English.
+	 * Initialise la page "Devis pour Dolibarr".
 	 *
 	 * @since 2.0.0
-	 *
-	 * @param  Proposal_Model $wp_proposal Les données du devis.
 	 */
-	public function checkout_create_proposal( $wp_proposal ) {
+	public function callback_admin_menu() {
 		if ( Settings::g()->dolibarr_is_active() ) {
-			$doli_proposal_id = Doli_Proposals::g()->wp_to_doli( $wp_proposal );
 
-			\eoxia\LOG_Util::log( sprintf( 'Checkout: Create proposal on dolibarr. Return ID %d', $doli_proposal_id ), 'wpshop2' );
+			$hook = add_submenu_page( 'wpshop', __( 'Dolibarr Proposals', 'wpshop' ), __( 'Dolibarr Proposals', 'wpshop' ), 'manage_options', 'wps-proposal-doli', array( $this, 'callback_add_menu_page' ) );
 
-			$doli_proposal = Request_Util::post( 'proposals/' . (int) $doli_proposal_id . '/validate', array(
-				'notrigger' => 1,
-			) );
-
-			$doli_proposal = Request_Util::post( 'proposals/' . (int) $doli_proposal_id . '/close', array(
-				'status'    => 2,
-				'notrigger' => 1,
-			) );
-
-			Request_Util::put( 'documents/builddoc', array(
-				'module_part'   => 'propal',
-				'original_file' => $doli_proposal->ref . '/' . $doli_proposal->ref . '.pdf',
-			) );
-
-			update_post_meta( $wp_proposal->data['id'], '_external_id', $doli_proposal_id );
-
-			Doli_Proposals::g()->doli_to_wp( $doli_proposal, $wp_proposal );
-
-			Request_Util::post( 'wpshop/object', array(
-				'wpid'   => $wp_proposal->data['id'],
-				'doliid' => $doli_proposal_id,
-				'type'   => 'wps-proposal',
-			) );
-
-			// @todo: Sha256
-//			update_post_meta( $wp_proposal->data['id'], '_date_last_synchro', $wpshop_object->last_sync_date );
-
-			// translators: Create proposal on dolibarr: {json_data} and create PDF.
-			\eoxia\LOG_Util::log( sprintf( 'Create proposal on dolibarr: %s and create PDF', json_encode( $doli_proposal ) ), 'wpshop2' );
+			if ( ! isset( $_GET['id'] ) ) {
+				add_action( 'load-' . $hook, array( $this, 'callback_add_screen_option' ) );
+			}
 		}
 	}
 
 	/**
-	 * Met à jour le devis avec le mode de règlement.
+	 * Ajoutes la page "Options de l'écran" pour les devis.
+	 *
+	 * @since 2.0.0
+	 */
+	public function callback_add_screen_option() {
+		add_screen_option(
+			'per_page',
+			array(
+				'label'   => _x( 'Proposals Dolibarr', 'Proposal Dolibarr per page', 'wpshop' ),
+				'default' => Doli_Proposals::g()->limit,
+				'option'  => Doli_Proposals::g()->option_per_page,
+			)
+		);
+	}
+
+	/**
+	 * Affichage de la vue du menu
+	 *
+	 * @since 2.0.0
+	 */
+	public function callback_add_menu_page() {
+		if ( isset( $_GET['id'] ) ) {
+			$id = ! empty( $_GET['id'] ) ? (int) $_GET['id'] : 0;
+			$proposal    = Proposals::g()->get( array( 'id' => $id ), true );
+			$third_party = Third_Party::g()->get( array( 'id' => $proposal->data['parent_id'] ), true );
+
+			if ( ! empty( $this->metaboxes ) ) {
+				foreach ( $this->metaboxes as $key => $metabox ) {
+					add_action( 'wps_doli_proposal', $metabox['callback'], 10, 1 );
+				}
+			}
+
+			\eoxia\View_Util::exec( 'wpshop', 'doli-proposals', 'single', array(
+				'third_party' => $third_party,
+				'proposal'    => $proposal,
+			) );
+		} else {
+			$per_page = get_user_meta( get_current_user_id(), Doli_Proposals::g()->option_per_page, true );
+
+			if ( empty( $per_page ) || 1 > $per_page ) {
+				$per_page = Third_Party::g()->limit;
+			}
+
+			$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
+
+			$count        = Doli_Proposals::g()->search( $s, array(), true );
+			$number_page  = ceil( $count / $per_page );
+			$current_page = isset( $_GET['current_page'] ) ? (int) $_GET['current_page'] : 1;
+
+			$base_url = admin_url( 'admin.php?page=wps-proposal-doli' );
+
+			$begin_url = $base_url . '&current_page=1';
+			$end_url   = $base_url . '&current_page=' . $number_page;
+
+			$prev_url = $base_url . '&current_page=' . ( $current_page - 1 );
+			$next_url = $base_url . '&current_page=' . ( $current_page + 1 );
+
+			if ( ! empty( $s ) ) {
+				$begin_url .= '&s=' . $s;
+				$end_url   .= '&s=' . $s;
+				$prev_url  .= '&s=' . $s;
+				$next_url  .= '&s=' . $s;
+			}
+
+			\eoxia\View_Util::exec( 'wpshop', 'doli-proposals', 'main', array(
+				'number_page'  => $number_page,
+				'current_page' => $current_page,
+				'count'        => $count,
+				'begin_url'    => $begin_url,
+				'end_url'      => $end_url,
+				'prev_url'     => $prev_url,
+				'next_url'     => $next_url,
+				's'            => $s,
+			) );
+		}
+	}
+
+	/**
+	 * La metabox des détails de la commande
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  Proposal_Model $wp_proposal Les données du devis.
+	 * @param  WP_Post $post          Les données du post.
+	 * @param  array   $callback_args Tableau contenu les données de la commande.
 	 */
-	public function checkout_update_proposal( $wp_proposal ) {
-		if ( Settings::g()->dolibarr_is_active() ) {
-			$doli_proposal = Request_Util::put( 'proposals/' . $wp_proposal->data['external_id'], array(
-				'mode_reglement_id' => Doli_Payment::g()->convert_to_doli_id( $wp_proposal->data['payment_method'] ),
-			) );
+	public function metabox_proposal_details( $proposal ) {
+		$third_party  = Third_Party::g()->get( array( 'id' => $proposal->data['parent_id'] ), true );
+		$invoice      = null;
+		$link_invoice = '';
 
-			// translators: Update method payment for proposal {json_data}.
-			\eoxia\LOG_Util::log( sprintf( 'Update method payment for proposal %s', json_encode( $doli_proposal ) ), 'wpshop2' );
+		if ( Settings::g()->dolibarr_is_active() ) {
+			$invoice = Doli_Invoice::g()->get( array( 'post_parent' => $proposal->data['id'] ), true );
+
+			if ( ! empty( $invoice ) ) {
+				$invoice->data['payments'] = array();
+				$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
+				$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&proposal_id=' . $proposal->data['id'] );
+			}
+		}
+
+		\eoxia\View_Util::exec( 'wpshop', 'doli-proposals', 'metabox-proposal-details', array(
+			'proposal'     => $proposal,
+			'third_party'  => $third_party,
+			'invoice'      => $invoice,
+			'link_invoice' => $link_invoice,
+		) );
+	}
+
+	/**
+	 * La metabox contenant l'adresse du client.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_Post $post          Les données du post.
+	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 */
+	public function metabox_proposal_address( $proposal ) {
+		$third_party  = Third_Party::g()->get( array( 'id' => $proposal->data['parent_id'] ), true );
+		$invoice      = null;
+		$link_invoice = '';
+
+		if ( Settings::g()->dolibarr_is_active() ) {
+			$invoice = Doli_Invoice::g()->get( array( 'post_parent' => $proposal->data['id'] ), true );
+
+			if ( ! empty( $invoice ) ) {
+				$invoice->data['payments'] = array();
+				$invoice->data['payments'] = Doli_Payment::g()->get( array( 'post_parent' => $invoice->data['id'] ) );
+				$link_invoice              = admin_url( 'admin-post.php?action=wps_download_invoice_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&proposal_id=' . $proposal->data['id'] );
+			}
+		}
+
+		\eoxia\View_Util::exec( 'wpshop', 'doli-proposals', 'metabox-proposal-address', array(
+			'proposal'     => $proposal,
+			'third_party'  => $third_party,
+			'invoice'      => $invoice,
+			'link_invoice' => $link_invoice,
+		) );
+	}
+
+	/**
+	 * Box affichant les produits de la commande
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  WP_Post $post          Les données du post.
+	 * @param  array   $callback_args Tableau contenu les données de la commande.
+	 */
+	public function metabox_proposal_review( $proposal ) {
+		$tva_lines = array();
+		if ( ! empty( $proposal->data['lines'] ) ) {
+			foreach ( $proposal->data['lines'] as &$line ) {
+				if ( empty( $tva_lines[ $line['tva_tx'] ] ) ) {
+					$tva_lines[ $line['tva_tx'] ] = 0;
+				}
+
+				$tva_lines[ $line['tva_tx'] ] += empty( $line['total_tva'] ) ? $line['tva_amount'] * $line['qty'] : $line['total_tva'];
+
+				if ( empty( $line['libelle'] ) && ! empty( $line['title'] ) ) {
+					$line['libelle'] = $line['title'];
+				}
+
+				if ( empty( $line['subprice'] ) && isset( $line['price'] ) ) {
+					$line['subprice'] = $line['price'];
+				}
+
+				if ( empty( $line['total_ht'] ) && isset( $line['price'] ) ) {
+					$line['total_ht'] = $line['price'] * $line['qty'];
+				}
+			}
+		}
+
+		if ( Settings::g()->dolibarr_is_active() ) {
+			\eoxia\View_Util::exec( 'wpshop', 'order', 'review-order', array(
+				'object'    => $proposal,
+				'tva_lines' => $tva_lines,
+			) );
+		} else {
+			\eoxia\View_Util::exec( 'wpshop', 'doli-proposals', 'metabox-proposal-products', array(
+				'proposal'  => $proposal,
+				'tva_lines' => $tva_lines,
+			) );
 		}
 	}
 
@@ -116,25 +272,23 @@ class Doli_Proposals_Action {
 			exit;
 		}
 
-		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
-		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-		$proposal    = Proposals::g()->get( array( 'id' => $proposal_id ), true );
-		$doli_proposal  = Request_Util::get( 'proposals/' . $proposal->data['external_id'] );
-		$proposal    = Doli_Proposals::g()->doli_to_wp( $doli_proposal, $proposal, true );
+		$contact       = User::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party   = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		$doli_proposal = Request_Util::get( 'proposals/' . $proposal_id );
 
-		if ( ( isset( $third_party->data ) && $proposal->data['parent_id'] !== $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
+		if ( $doli_proposal->socid != $third_party->data['external_id'] && ! current_user_can( 'administrator' ) ) {
 			exit;
 		}
 
 		// tanslators: Contact test download proposal test@eoxia.com.
-		\eoxia\LOG_Util::log( sprintf( 'Contact %s download proposal %s', $proposal->data['title'], $contact->data['email'] ), 'wpshop2' );
+		\eoxia\LOG_Util::log( sprintf( 'Contact %s download proposal %s', $doli_proposal->ref, $contact->data['email'] ), 'wpshop2' );
 
-		$proposal_file = Request_Util::get( 'documents/download?modulepart=propale&original_file=' . $proposal->data['title'] . '/' . $proposal->data['title'] . '.pdf' );
+		$proposal_file = Request_Util::get( 'documents/download?modulepart=propale&original_file=' . $doli_proposal->ref . '/' . $doli_proposal->ref . '.pdf' );
 		$content       = base64_decode( $proposal_file->content );
 
 		header( 'Cache-Control: no-cache' );
 		header( 'Content-Type: application/pdf' );
-		header( 'Content-Disposition: inline; filename="' . $proposal->data['title'] . '.pdf"' );
+		header( 'Content-Disposition: inline; filename="' . $doli_proposal->ref . '.pdf"' );
 		header( 'Content-Length: ' . strlen( $content ) );
 
 		echo $content;
@@ -180,6 +334,7 @@ class Doli_Proposals_Action {
 		wp_redirect( Pages::g()->get_checkout_link() . '/pay/' . $order->data['id'] );
 	}
 
+	// @todo: Old Data Database
 	public function set_to_billed( $data ) {
 		$wp_order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );
 
@@ -189,14 +344,6 @@ class Doli_Proposals_Action {
 			foreach ( $proposals as $proposal ) {
 				$doli_proposal = Request_Util::post( 'proposals/' . $proposal->data['external_id'] . '/setinvoiced' );
 				Doli_Proposals::g()->doli_to_wp( $doli_proposal, $proposal );
-
-				$wpshop_object = Request_Util::post( 'wpshop/object', array(
-					'wp_id'   => $proposal->data['id'],
-					'doli_id' => $doli_proposal->id,
-					'type'    => 'wps-proposal',
-				) );
-
-				update_post_meta( $proposal->data['id'], '_date_last_synchro', $wpshop_object->last_sync_date );
 			}
 		}
 	}

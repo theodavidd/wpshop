@@ -47,7 +47,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element third_party-address form-element-required gridw-6">
 		<label class="form-field-container">
-			<input type="text" class="form-field" name="third_party[address]" placeholder="<?php esc_html_e( 'Street contact', 'wpshop' ); ?>" value="<?php echo ! empty( $third_party->data['contact'] ) ? $third_party->data['contact'] : ''; ?>"  />
+			<input type="text" class="form-field" name="third_party[address]" placeholder="<?php esc_html_e( 'Street address', 'wpshop' ); ?>" value="<?php echo ! empty( $third_party->data['contact'] ) ? $third_party->data['contact'] : ''; ?>"  />
 		</label>
 	</div>
 

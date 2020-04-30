@@ -28,7 +28,8 @@ class Doli_Product_Filter {
 	 */
 	public function __construct() {
 		if ( Settings::g()->dolibarr_is_active() ) {
-			add_filter('eo_model_wps-product_after_get', array($this, 'auto_sync'), 10, 2);
+			add_filter( 'eo_model_wps-product_after_get', array( $this, 'auto_sync' ), 10, 2 );
+			add_filter( 'wps_product_filter_sync', array( $this, 'product_sync' ), 10, 1 );
 		}
 	}
 
@@ -48,6 +49,23 @@ class Doli_Product_Filter {
 
 		return $object;
 	}
+
+	public function product_sync( $product ) {
+		$external_id = get_post_meta( $product->ID, '_external_id', true );
+		$status = Doli_Sync::g()->check_status( $product->ID, $product->post_type );
+
+		if ($status['status_code'] != '0x3') {
+			return $product;
+		}
+
+		$doli_product = Request_Util::get( 'products/' . $external_id );
+		$object       = Product::g()->get( array( 'id' => $product->ID ), true );
+		$object       = Doli_Products::g()->doli_to_wp( $doli_product, $object );
+
+		$product = get_post( $product->ID );
+
+		return $product;
+}
 
 }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Affichage des commandes dans la page "Mon compte"
+ * Affichage des devis dans la page "Mon compte".
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
@@ -16,7 +16,6 @@ namespace wpshop;
 
 defined( 'ABSPATH' ) || exit;
 
-
 if ( ! Settings::g()->dolibarr_is_active() ):
 	?>
 
@@ -25,21 +24,20 @@ if ( ! Settings::g()->dolibarr_is_active() ):
 			<div class="notice-title"><?php _e( 'Please contact commercial', 'wpshop' ) ; ?></div>
 		</div>
 	</div>
-<?php
+	<?php
 else:
-
 	?>
-	<div class="wps-list-invoice wps-list-box">
+	<div class="wps-list-quotation wps-list-box">
 		<?php
-		if ( ! empty( $invoices ) ) :
-			foreach ( $invoices as $invoice ) :
+		if ( ! empty( $proposals ) ) :
+			foreach ( $proposals as $proposal ) :
 				?>
 				<div class="wps-order wps-box">
 					<div class="wps-box-resume">
 						<div class="wps-box-primary">
-							<div class="wps-box-title"><?php echo esc_html( $invoice->data['date']['rendered']['date'] ); ?></div>
+							<div class="wps-box-title"><?php echo esc_html( $proposal->data['date']['rendered']['date'] ); ?></div>
 							<ul class="wps-box-attributes">
-								<li class="wps-box-subtitle-item"><i class="wps-box-subtitle-icon fas fa-shopping-cart"></i> <?php echo esc_attr( $invoice->data['title'] ); ?></li>
+								<li class="wps-box-subtitle-item"><i class="wps-box-subtitle-icon fas fa-shopping-cart"></i> <?php echo esc_attr( $proposal->data['title'] ); ?></li>
 							</ul>
 							<div class="wps-box-display-more">
 								<i class="wps-box-display-more-icon fas fa-angle-right"></i>
@@ -47,28 +45,33 @@ else:
 							</div>
 						</div>
 						<div class="wps-box-secondary">
-							<div class="wps-box-status"><span class="wps-box-status-dot"></span> <?php echo Payment::g()->make_readable_statut( $invoice ); ?></div>
-							<div class="wps-box-price"><?php echo esc_html( number_format( $invoice->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
+							<div class="wps-box-price"><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
 						</div>
 						<div class="wps-box-action">
-							<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_invoice&_wpnonce=' . wp_create_nonce( 'download_invoice' ) . '&avoir=' . $invoice->data['avoir'] . '&invoice_id=' . $invoice->data['external_id'] ) ); ?>" class="wpeo-button button-primary button-square-50 button-rounded">
-								<i class="button-icon fas fa-file-download"></i>
-							</a>
+							<?php do_action( 'wps_my_account_dolibarr_proposals_actions', $proposal ); ?>
 						</div>
 					</div>
 
 					<div class="wps-box-detail wps-list-product">
 						<?php
-						if ( ! empty( $invoice->data['lines'] ) ) :
-							foreach ( $invoice->data['lines'] as $line ) :
+						if ( ! empty( $proposal->data['lines'] ) ) :
+							foreach ( $proposal->data['lines'] as $line ) :
 								$qty                  = $line['qty'];
-								$product              = Product::g()->get( array(
-									'meta_key'   => '_external_id',
-									'meta_value' => (int) $line['fk_product'],
-								), true );
+
+								if ( ! empty( $line['fk_product'] ) ) {
+									$data = array(
+										'meta_key'   => '_external_id',
+										'meta_value' => (int) $line['fk_product'],
+									);
+								} else {
+									$data = array( 'id' => $line['id'] );
+								}
+
+								$product              = Product::g()->get( $data, true );
 								$product->data['qty'] = $qty;
 								$product              = $product->data;
 								$product['price_ttc'] = ( $line['total_ttc'] / $qty );
+
 								include( Template_Util::get_template_part( 'products', 'wps-product-list' ) );
 							endforeach;
 						else :
@@ -83,7 +86,7 @@ else:
 			?>
 			<div class="wpeo-notice notice-info">
 				<div class="notice-content">
-					<div class="notice-title"><?php esc_html_e( 'No invoice', 'wpshop' ); ?></div>
+					<div class="notice-title"><?php esc_html_e( 'No quotations', 'wpshop' ); ?></div>
 				</div>
 			</div>
 			<?php

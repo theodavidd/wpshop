@@ -332,15 +332,14 @@ class Doli_Order_Action {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  stdClass $wp_proposal Les données du devis.
+	 * @param  stdClass $proposal Les données du devis.
 	 * @return Order_Model           Les données de la commande WP.
 	 */
-	public function create_order( $wp_proposal ) {
-		$third_party      = Third_Party::g()->get( array( 'id' => $wp_proposal->data['parent_id'] ), true );
-		$doli_proposal_id = get_post_meta( $wp_proposal->data['id'], '_external_id', true );
+	public function create_order( $proposal ) {
+		$third_party      = Third_Party::g()->get( array( 'external_id' => $proposal->socid ), true );
 
-		\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /orders/createfromproposal/ with data %s', $doli_proposal_id ), 'wpshop2' );
-		$doli_order = Request_Util::post( 'orders/createfromproposal/' . $doli_proposal_id );
+		\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /orders/createfromproposal/ with data %s', $proposal->id ), 'wpshop2' );
+		$doli_order = Request_Util::post( 'orders/createfromproposal/' . $proposal->id );
 		\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /orders/createfromproposal/ response %s', json_encode( $doli_order ) ), 'wpshop2' );
 
 
@@ -350,10 +349,8 @@ class Doli_Order_Action {
 		$doli_order = Request_Util::get( 'orders/' . $doli_order->id );
 
 		Request_Util::put( 'documents/builddoc', array(
-			'module_part'   => 'order',
+			'modulepart'    => 'order',
 			'original_file' => $doli_order->ref . '/' . $doli_order->ref . '.pdf',
-			'doc_template'  => 'crabe',
-			'langcode'      => 'fr_FR',
 		) );
 
 		$current_user = wp_get_current_user();
@@ -380,19 +377,18 @@ class Doli_Order_Action {
 	 * @param array $data Les données IPN de PayPal.
 	 */
 	public function set_to_billed( $data ) {
-		$wp_order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );
+		$doli_order  = Request_Util::post( 'orders/' . (int) $data['custom'] . '/setinvoiced' );
 
-		$doli_order  = Request_Util::post( 'orders/' . $wp_order->data['external_id'] . '/setinvoiced' );
-		$third_party = Third_Party::g()->get( array( 'id' => $wp_order->data['parent_id'] ), true );
+		$third_party = Third_Party::g()->get( array(
+			'meta_key'   => '_external_id',
+			'meta_value' => (int) $doli_order->socid,
+		), true );
 
 		Emails::g()->send_mail( null, 'wps_email_new_order', array(
-			'order_id'    => $wp_order->data['id'],
+			'order_id'    => $doli_order->id,
 			'order'       => $doli_order,
 			'third_party' => $third_party->data,
 		) );
-
-		Doli_Order::g()->doli_to_wp( $doli_order, $wp_order );
-		update_post_meta( $wp_order->data['id'], '_traitment_in_progress', false );
 
 		// translators: Update the order 00001 to billed.
 		\eoxia\LOG_Util::log( sprintf( 'Update the order %s to billed', $doli_order->ref ), 'wpshop2' );
@@ -404,6 +400,8 @@ class Doli_Order_Action {
 	 * @since 2.0.0
 	 *
 	 * @param array $data Les données IPN de PayPal.
+	 *
+	 * @todo: Fix
 	 */
 	public function set_to_failed( $data ) {
 		$wp_order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );

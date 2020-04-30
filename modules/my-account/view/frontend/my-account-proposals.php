@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<div class="wps-order wps-box">
 				<div class="wps-box-resume">
 					<div class="wps-box-primary">
-						<div class="wps-box-title"><?php echo esc_html( $proposal->data['datec']['rendered']['date'] ); ?></div>
+						<div class="wps-box-title"><?php echo esc_html( $proposal->data['date']['rendered']['date'] ); ?></div>
 						<ul class="wps-box-attributes">
 							<li class="wps-box-subtitle-item"><i class="wps-box-subtitle-icon fas fa-shopping-cart"></i> <?php echo esc_attr( $proposal->data['title'] ); ?></li>
 						</ul>
@@ -34,30 +34,10 @@ defined( 'ABSPATH' ) || exit; ?>
 						</div>
 					</div>
 					<div class="wps-box-secondary">
-						<div class="wps-box-status"><span class="wps-box-status-dot"></span> <?php echo Payment::g()->make_readable_statut( $proposal ); ?></div>
 						<div class="wps-box-price"><?php echo esc_html( number_format( $proposal->data['total_ttc'], 2, ',', '' ) ); ?>€</div>
 					</div>
 					<div class="wps-box-action">
 						<?php do_action( 'wps_my_account_proposals_actions', $proposal ); ?>
-
-						<?php
-						if ( ! $proposal->data['billed'] && Settings::g()->dolibarr_is_active() ) :
-							?>
-							<div class="wps-more-options wpeo-dropdown dropdown-right">
-								<div class="dropdown-toggle wpeo-button button-transparent button-square-40 button-size-large"><i class="button-icon fas fa-ellipsis-v"></i></div>
-								<ul class="dropdown-content">
-									<li>
-										<a href="<?php echo esc_attr( admin_url( 'admin-post.php?action=convert_to_order_and_pay&proposal_id=' . $proposal->data['id'] ) ); ?>"
-											class="dropdown-item">
-											<i class="fas fa-money-bill"></i> <?php esc_html_e( 'Pay Proposal', 'wpshop' );
-											?>
-										</a>
-									</li>
-								</ul>
-							</div>
-							<?php
-						endif;
-						?>
 					</div>
 				</div>
 

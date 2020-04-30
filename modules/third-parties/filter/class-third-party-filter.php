@@ -80,6 +80,10 @@ class Third_Party_Filter {
 	 */
 	public function add_orders_and_billings_metaboxes( $metaboxes ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
+			$metaboxes['wps-third-party-dolibarr-propal'] = array(
+				'callback' => 'metabox_dolibarr_propal',
+			);
+
 			$metaboxes['wps-third-party-orders'] = array(
 				'callback' => 'metabox_orders',
 			);

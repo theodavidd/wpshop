@@ -161,7 +161,7 @@ class Third_Party_Action {
 	 * @since 2.0.0
 	 */
 	public function metabox_billing_address( $third_party ) {
-		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-billing-contact', array(
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-billing-address', array(
 			'third_party' => $third_party,
 		) );
 	}
@@ -179,9 +179,10 @@ class Third_Party_Action {
 		if ( ! empty( $third_party->data['contact_ids'] ) ) {
 			$contacts = User::g()->get( array( 'include' => $third_party->data['contact_ids'] ) );
 		}
-		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contact', array(
+
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-contacts', array(
 			'third_party' => $third_party,
-			'contact'    => $contacts,
+			'contacts'    => $contacts,
 		) );
 	}
 
@@ -202,6 +203,37 @@ class Third_Party_Action {
 			'proposals' => $proposals,
 		) );
 	}
+
+	/**
+	 * Appel la vue de la metabox des dolibarr propal.
+	 *
+	 * @param Third_Party $third_party Les données du tiers.
+	 *
+	 * @since 2.0.0
+	 */
+	public function metabox_dolibarr_propal( $third_party ) {
+		// @todo: Charger dolibarr_option qu'une seule fois.
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
+		$proposals = array();
+
+		if ( Settings::g()->dolibarr_is_active() ) {
+			$doli_proposals = Request_Util::get( 'proposals?sortfield=t.rowid&sortorder=DESC&limit=10&thirdparty_ids=' . $third_party->data['external_id'] );
+
+			if ( ! empty( $doli_proposals ) ) {
+				foreach ( $doli_proposals as $doli_proposal ) {
+					$wp_proposal = Proposals::g()->get( array( 'schema' => true ), true );
+					$proposals[] = Doli_Proposals::g()->doli_to_wp( $doli_proposal, $wp_proposal, true );
+				}
+			}
+		}
+
+		\eoxia\View_Util::exec( 'wpshop', 'third-parties', 'metaboxes/metabox-dolibarr-proposals', array(
+			'proposals' => $proposals,
+			'doli_url'  => $dolibarr_option['dolibarr_url'],
+		) );
+	}
+
 
 	/**
 	 * Appel la vue de la metabox des commandes.

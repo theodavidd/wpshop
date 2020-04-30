@@ -14,6 +14,8 @@
 
 namespace wpshop;
 
+use digi\Setting_Class;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -40,7 +42,12 @@ class Checkout_Action {
 		add_action( 'wps_checkout_payment', array( $this, 'callback_checkout_payment' ) );
 
 		add_action( 'checkout_create_third_party', array( $this, 'callback_checkout_create_third' ) );
-		add_action( 'checkout_create_proposal', array( $this, 'callback_checkout_proposal' ), 10, 2 );
+
+		if ( ! Settings::g()->dolibarr_is_active() ) {
+			add_action('checkout_create_proposal', array($this, 'callback_checkout_proposal'), 10, 2);
+		} else {
+			add_action('checkout_create_proposal', array($this, 'callback_checkout_doli_proposal'), 10, 2);
+		}
 
 		add_action( 'wps_review_order_after_submit', array( $this, 'add_terms' ), 10 );
 		add_action( 'wps_review_order_after_submit', array( $this, 'add_place_order_button' ), 20 );
@@ -65,7 +72,7 @@ class Checkout_Action {
 		}
 
 		add_rewrite_endpoint( 'received/(.*)/(.*)', EP_ALL );
-		add_rewrite_rule( get_post_field( 'post_name', $page_ids_options['checkout_id'] ) . '/received/(order|proposal)/([0-9]+)/?$', 'index.php?page_id=' . $page_ids_options['checkout_id'] . '&type=received&object_type=$matches[1]&id=$matches[2]', 'top' );
+		add_rewrite_rule( get_post_field( 'post_name', $page_ids_options['checkout_id'] ) . '/received/(order|proposal|doli-proposal)/([0-9]+)/?$', 'index.php?page_id=' . $page_ids_options['checkout_id'] . '&type=received&object_type=$matches[1]&id=$matches[2]', 'top' );
 
 		do_action( 'wps_checkout_endpoint' );
 
@@ -164,19 +171,8 @@ class Checkout_Action {
 		// Nothing attached in wpshop.
 		do_action( 'wps_checkout_process' );
 
-		if ( empty( Cart_Session::g()->external_data['order_id'] ) ) {
-			$proposal                         = Proposals::g()->get( array( 'id' => Cart_Session::g()->external_data['proposal_id'] ), true );
-			$proposal->data['payment_method'] = $type_payment;
-			$proposal = Proposals::g()->update( $proposal->data );
-
-			// translators: Checkout: Update proposal 000001 for add payment method Stripe.
-			\eoxia\LOG_Util::log( sprintf( 'Checkout: Update proposal %s for add payment method %s', $proposal->data['id'], $proposal->data['payment_method'] ), 'wpshop2' );
-
-			// Call wpshop to update attached ERP.
-			do_action( 'wps_checkout_update_proposal', $proposal );
-		}
-
 		if ( 'order' === $type ) {
+			$proposal = Request_Util::g()->get( 'proposals/' . Cart_Session::g()->external_data['doli_proposal_id'] );
 			$order = apply_filters( 'wps_checkout_create_order', $proposal );
 
 			// @todo: Check stock need to be an action.
@@ -207,12 +203,17 @@ class Checkout_Action {
 				) );
 			}
 		} else {
+			if ( isset( Cart_Session::g()->external_data['doli_proposal_id'] ) ) {
+				$url = Pages::g()->get_checkout_link() . '/received/doli-proposal/' . Cart_Session::g()->external_data['doli_proposal_id'] . '/';
+			} else {
+				$url = Pages::g()->get_checkout_link() . '/received/proposal/' . Cart_Session::g()->external_data['proposal_id'] . '/';
+			}
 			Cart_Session::g()->destroy();
 			wp_send_json_success( array(
 				'namespace'        => 'wpshopFrontend',
 				'module'           => 'checkout',
 				'callback_success' => 'redirect',
-				'url'              => Pages::g()->get_checkout_link() . '/received/proposal/' . $proposal->data['id'] . '/',
+				'url'              => $url,
 			) );
 		}
 	}
@@ -334,7 +335,8 @@ class Checkout_Action {
 	}
 
 	public function callback_checkout_proposal( $third_party, $contact ) {
-		$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : 'proposal';
+		$type         = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : 'proposal';
+		$type_payment = ! empty( $_POST['type_payment'] ) ? sanitize_text_field( $_POST['type_payment'] ) : '';
 
 		$proposal = Proposals::g()->get( array( 'schema' => true ), true );
 
@@ -343,8 +345,8 @@ class Checkout_Action {
 		$last_ref = empty( $last_ref ) ? 1 : $last_ref;
 		$last_ref++;
 
-		$proposal->data['title']                   = 'PR' . sprintf( '%06d', $last_ref );
-		$proposal->data['ref']                     = sprintf( '%06d', $last_ref );
+		$proposal->data['title']                   = sprintf( 'DE%06d', $last_ref );
+		$proposal->data['ref']                     = sprintf( 'DE%06d', $last_ref );
 		$proposal->data['datec']                   = current_time( 'mysql' );
 		$proposal->data['parent_id']               = $third_party->data['id'];
 		$proposal->data['author_id']               = $contact->data['id'];
@@ -353,6 +355,7 @@ class Checkout_Action {
 		$proposal->data['total_price_no_shipping'] = Cart_Session::g()->total_price_no_shipping;
 		$proposal->data['tva_amount']              = Cart_Session::g()->tva_amount;
 		$proposal->data['shipping_cost']           = Cart_Session::g()->shipping_cost;
+		$proposal->data['payment_method']          = $type_payment;
 
 		$total_ht  = 0;
 		$total_ttc = 0;
@@ -373,10 +376,62 @@ class Checkout_Action {
 		$proposal = Proposals::g()->update( $proposal->data );
 		\eoxia\LOG_Util::log( sprintf( 'Checkout: Create proposal %s', json_encode( $proposal->data ) ), 'wpshop2' );
 
-		// Call wpshop to update attached ERP.
-		do_action( 'wps_checkout_create_proposal', $proposal );
-
 		Cart_Session::g()->add_external_data( 'proposal_id', $proposal->data['id'] );
+		Cart_Session::g()->update_session();
+	}
+
+	// @todo: A déplacer dans doli-proposals-action quand on a le temps.
+	public function callback_checkout_doli_proposal( $third_party, $contact ) {
+ 		$type_payment = ! empty( $_POST['type_payment'] ) ? sanitize_text_field( $_POST['type_payment'] ) : '';
+
+		$proposal_data = array(
+			'socid'             => $third_party->data['external_id'],
+			'date'              => current_time( 'timestamp' ),
+			'mode_reglement_id' => Doli_Payment::g()->convert_to_doli_id( $type_payment ),
+		);
+
+		\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST proposals with data %s', json_encode( $proposal_data ) ), 'wpshop2' );
+		$doli_proposal_id = Request_Util::post( 'proposals', $proposal_data );
+
+		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
+			foreach (Cart_Session::g()->cart_contents as $content) {
+				Request_Util::post( 'proposals/' . $doli_proposal_id . '/lines', array(
+					'desc'                    => $content['content'],
+					'fk_product'              => $content['external_id'],
+					'product_type'            => 1,
+					'qty'                     => $content['qty'],
+					'tva_tx'                  => $content['tva_tx'],
+					'subprice'                => $content['price'],
+					'remice_percent'          => 0,
+					'rang'                    => 1,
+					'total_ht'                => $content['price'],
+					'total_tva'               => 0,
+					'total_ttc'               => $content['price_ttc'],
+					'product_label'           => $content['title'],
+					'multicurrency_code'      => 'EUR',
+					'multicurrency_subprice'  => $content['price'],
+					'multicurrency_total_ht'  => $content['price'],
+					'multicurrency_total_tva' => 0,
+					'multicurrency_total_ttc' => $content['price_ttc'],
+				) );
+			}
+		}
+
+		$doli_proposal = Request_Util::post( 'proposals/' . (int) $doli_proposal_id . '/validate', array(
+			'notrigger' => 1,
+		) );
+
+		$doli_proposal = Request_Util::post( 'proposals/' . (int) $doli_proposal_id . '/close', array(
+			'status'    => 2,
+			'notrigger' => 1,
+		) );
+
+		Request_Util::put( 'documents/builddoc', array(
+			'modulepart'   => 'propal',
+			'original_file' => $doli_proposal->ref . '/' . $doli_proposal->ref . '.pdf',
+		) );
+
+		Cart_Session::g()->add_external_data( 'doli_proposal_id', $doli_proposal_id );
 		Cart_Session::g()->update_session();
 	}
 

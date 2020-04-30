@@ -57,15 +57,18 @@ class Settings_Action {
 	 * @since 2.0.0
 	 */
 	public function notice_activate_erp() {
-		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$user = wp_get_current_user();
 
-		if ( ! empty( $dolibarr_option['error'] ) && $dolibarr_option['notice'] && $dolibarr_option['notice']['error_erp'] ) {
-			\eoxia\View_Util::exec( 'wpshop', 'settings', 'notice-error-erp', array( 'error' => $dolibarr_option['error'] ) );
-		} elseif ( ( empty( $dolibarr_option['dolibarr_url'] ) || empty( $dolibarr_option['dolibarr_secret'] ) ) &&
-			( $dolibarr_option['notice'] && $dolibarr_option['notice']['activate_erp'] ) ) {
-			\eoxia\View_Util::exec( 'wpshop', 'settings', 'notice-activate-erp' );
+		if ( in_array( 'administrator', (array) $user->roles ) ) {
+			$dolibarr_option = get_option('wps_dolibarr', Settings::g()->default_settings);
+
+			if (!empty($dolibarr_option['error']) && $dolibarr_option['notice'] && $dolibarr_option['notice']['error_erp']) {
+				\eoxia\View_Util::exec('wpshop', 'settings', 'notice-error-erp', array('error' => $dolibarr_option['error']));
+			} elseif ((empty($dolibarr_option['dolibarr_url']) || empty($dolibarr_option['dolibarr_secret'])) &&
+				($dolibarr_option['notice'] && $dolibarr_option['notice']['activate_erp'])) {
+				\eoxia\View_Util::exec('wpshop', 'settings', 'notice-activate-erp');
+			}
 		}
-
 	}
 
 	/**

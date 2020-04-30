@@ -30,7 +30,7 @@ class Doli_Third_Parties_Action {
 		add_action( 'wps_checkout_create_third_party', array( $this, 'checkout_create_third_party' ) );
 		add_action( 'checkout_create_proposal', array( $this, 'checkout_sync_third' ), 10, 2 );
 
-		add_action( 'wps_payment_complete', array( $this, 'update_address' ), 10, 1 );
+		// add_action( 'wps_payment_complete', array( $this, 'update_address' ), 10, 1 );
 	}
 
 	/**

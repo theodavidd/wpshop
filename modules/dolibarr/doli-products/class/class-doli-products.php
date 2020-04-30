@@ -58,9 +58,8 @@ class Doli_Products extends \eoxia\Singleton_Util {
 			$wp_product->data['tva_amount']        = $doli_product->price_ttc - $doli_product->price;
 			$wp_product->data['tva_tx']            = $doli_product->tva_tx;
 			$wp_product->data['barcode']           = $doli_product->barcode;
-			$wp_product->data['fk_product_type']   = 0; // Type "Produit" ou "Service" @todo: Handle type.
-			$wp_product->data['status']            = $doli_product->array_options->options_web == NULL ? 'draft' : 'publish'; // @todo: Status can be variable. Draft or publish.
-			$wp_product->data['web']               = (string) $doli_product->array_options->options_web;
+			$wp_product->data['fk_product_type']   = (int) $doli_product->type; // Product 0 or Service 1.
+			$wp_product->data['status']            = $doli_product->array_options->options__wps_status;
 
 			if ( $save ) {
 				$data_sha = array();
@@ -71,7 +70,7 @@ class Doli_Products extends \eoxia\Singleton_Util {
 				$data_sha['price']     = $wp_product->data['price'];
 				$data_sha['price_ttc'] = $wp_product->data['price_ttc'];
 				$data_sha['tva_tx']    = $wp_product->data['tva_tx'];
-				$data_sha['web']       = $wp_product->data['web'];
+				$data_sha['status']    = $wp_product->data['status'];
 
 				$wp_product->data['sync_sha_256'] = hash( 'sha256', implode( ',', $data_sha ) );
 

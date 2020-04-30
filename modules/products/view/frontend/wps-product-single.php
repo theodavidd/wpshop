@@ -11,6 +11,8 @@
 
 namespace wpshop;
 
+use Stripe\Card;
+
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-product-content">
@@ -25,12 +27,18 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 
 	<div class="wps-product-action">
+	<?php
+	if ( Cart::g()->can_add_product() ) :
+		?>
 		<div class="wps-product-buy wpeo-button action-attribute <?php echo apply_filters( 'wps_product_add_to_cart_class', '', $product ); ?>"
 			<?php echo apply_filters( 'wps_product_add_to_cart_attr', '', $product ); ?>
 			data-action="add_to_cart"
 			data-qty="1"
 			data-nonce="<?php echo wp_create_nonce( 'add_to_cart' ); ?>"
 			data-id="<?php echo esc_attr( the_ID() ); ?>"><?php esc_html_e( 'Add to cart', 'wpshop' ); ?></div>
+		<?php
+		endif;
+		?>
 	</div>
 </div>
 

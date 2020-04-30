@@ -21,7 +21,11 @@ do_action( 'wps_before_checkout_form' ); ?>
 <div class="wps-checkout wpeo-gridlayout grid-5">
 	<div class="gridw-3">
 		<?php include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-1' ) ); ?>
-		<?php include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-2' ) ); ?>
+		<?php
+		if ( Settings::g()->dolibarr_is_active() ) :
+			include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-2' ) );
+		endif;
+		?>
 	</div>
 	<div class="gridw-2 wpeo-form">
 		<?php include( Template_Util::get_template_part( 'checkout', 'form-checkout-step-3' ) ); ?>

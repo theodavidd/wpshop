@@ -22,6 +22,30 @@ defined( 'ABSPATH' ) || exit;
 class Doli_Proposals extends \eoxia\Singleton_Util {
 
 	/**
+	 * La limite par page.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var integer
+	 */
+	public $limit = 10;
+
+	/**
+	 * Le nom de l'option pour la limite par page.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
+	public $option_per_page = 'proposal_doli_per_page';
+
+	/**
+	 * Récupères la liste des devis et appel la vue "list" du module "order".
+	 *
+	 * @since 2.0.0
+	 */
+
+	/**
 	 * Constructeur.
 	 *
 	 * @since 2.0.0
@@ -37,11 +61,12 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 	 *
 	 * @param  Proposal_Model $wp_proposal   Les données de WP.
 	 */
-	public function doli_to_wp( $doli_proposal, $wp_proposal, $save = true ) {
+	public function doli_to_wp( $doli_proposal, $wp_proposal ) {
 		if ( is_object( $wp_proposal ) ) {
 			$wp_proposal->data['external_id']    = (int) $doli_proposal->id;
 			$wp_proposal->data['title']          = $doli_proposal->ref;
 			$wp_proposal->data['total_ht']       = $doli_proposal->total_ht;
+			$wp_proposal->data['total_tva']      = $doli_proposal->total_tva;
 			$wp_proposal->data['total_ttc']      = $doli_proposal->total_ttc;
 			$wp_proposal->data['billed']         = 0;
 
@@ -101,84 +126,107 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 
 			$wp_proposal->data['status'] = $status;
 
-			if ( $save ) {
-				$wp_proposal = Proposals::g()->update( $wp_proposal->data );
-
-				// Generate SHA
-				$data_sha = array();
-
-				$data_sha['doli_id']   = (int) $doli_proposal->id;
-				$data_sha['wp_id']     = $wp_proposal->data['id'];
-				$data_sha['ref']       = $wp_proposal->data['title'];
-				$data_sha['total_ht']  = $wp_proposal->data['total_ht'];
-				$data_sha['total_ttc'] = $wp_proposal->data['total_ttc'];
-
-				// @todo: Ajouter les lignes pour le SHA256.
-				update_post_meta( $wp_proposal->data['id'], '_sync_sha_256', hash( 'sha256', implode( ',', $data_sha ) ) );
-			}
-
 			return $wp_proposal;
 		}
 	}
 
 	/**
-	 * Synchronise WPshop vers Dolibarr.
+	 * Récupères la liste des devis et appel la vue "list" du module "order".
 	 *
 	 * @since 2.0.0
-	 *
-	 * @param  Proposal_Model $wp_proposal Les données venant de WP.
-	 *
-	 * @return integer                     L'ID du devis venant de Dolibarr.
 	 */
-	public function wp_to_doli( $wp_proposal ) {
-		$third_party_doli_id = get_post_meta( $wp_proposal->data['parent_id'], '_external_id', true );
-		$doli_proposal_id    = 0;
+	public function display() {
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$per_page        = get_user_meta( get_current_user_id(), Doli_Order::g()->option_per_page, true );
 
-		if ( ! empty( $wp_proposal->data['external_id'] ) ) {
-			$doli_proposal_id = $wp_proposal->data['external_id'];
-		} else {
-			$proposal_data = array(
-				'socid' => $third_party_doli_id,
-				'date'  => current_time( 'timestamp' ),
-				'type'  => 'wps-proposal',
-				'wpid'  => $wp_proposal->data['id'],
-			);
+		if ( empty( $per_page ) || 1 > $per_page ) {
+			$per_page = Doli_Proposals::g()->limit;
+		}
 
-			if ( ! empty( $wp_proposal->data['payment_method'] ) ) {
-				$proposal_data['mode_reglement_id'] = Doli_Payment::g()->convert_to_doli_id( $wp_proposal->data['payment_method'] );
-			}
+		$current_page = isset( $_GET['current_page'] ) ? (int) $_GET['current_page'] : 1;
 
-			\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /wpshop/object with data %s', json_encode( $proposal_data ) ), 'wpshop2' );
-			$doli_proposal_id = Request_Util::post( 'proposals', $proposal_data );
+		$s = ! empty( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 
-			if ( ! empty( $wp_proposal->data['lines'] ) ) {
-				foreach ( $wp_proposal->data['lines'] as $content ) {
-					$proposal = Request_Util::post( 'proposals/' . $doli_proposal_id . '/lines', array(
-						'desc'                    => $content['content'],
-						'fk_product'              => $content['external_id'],
-						'product_type'            => 1,
-						'qty'                     => $content['qty'],
-						'tva_tx'                  => $content['tva_tx'],
-						'subprice'                => $content['price'],
-						'remice_percent'          => 0,
-						'rang'                    => 1,
-						'total_ht'                => $content['price'],
-						'total_tva'               => 0,
-						'total_ttc'               => $content['price_ttc'],
-						'product_label'           => $content['title'],
-						'multicurrency_code'      => 'EUR',
-						'multicurrency_subprice'  => $content['price'],
-						'multicurrency_total_ht'  => $content['price'],
-						'multicurrency_total_tva' => 0,
-						'multicurrency_total_ttc' => $content['price_ttc'],
-					) );
-				}
+		$route = 'proposals?sortfield=t.rowid&sortorder=DESC&limit=' . $per_page . '&page=' . ( $current_page - 1 );
+
+		if ( ! empty( $s ) ) {
+			// La route de dolibarr ne fonctionne pas avec des caractères en base10
+			$route .= '&sqlfilters=(t.ref%3Alike%3A\'%25' . $s . '%25\')';
+		}
+
+		$doli_proposals = Request_Util::get( $route );
+		$proposals      = $this->convert_to_wp_proposal_format( $doli_proposals );
+
+		if ( ! empty( $proposals ) ) {
+			foreach ( $proposals as &$element ) {
+				$element->data['tier']  = Third_Party::g()->get( array( 'id' => $element->data['parent_id'] ), true );
+				$element->data['datec'] = \eoxia\Date_Util::g()->fill_date( $element->data['datec'] );
 			}
 		}
 
-		update_post_meta( $wp_proposal->data['id'], '_external_id', $doli_proposal_id );
+		\eoxia\View_Util::exec( 'wpshop', 'doli-proposals', 'list', array(
+			'proposals' => $proposals,
+			'doli_url'  => $dolibarr_option['dolibarr_url'],
+		) );
+	}
 
-		return $doli_proposal_id;
+	public function display_item( $proposal, $sync_status, $doli_url = '' ) {
+		\eoxia\View_Util::exec( 'wpshop', 'doli-proposals', 'item', array(
+			'proposal'    => $proposal,
+			'sync_status' => $sync_status,
+			'doli_url'    => $doli_url,
+		) );
+	}
+
+	/**
+	 * Fonctions de recherche
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string  $s            Le terme de la recherche.
+	 * @param  array   $default_args Les arguments par défaut.
+	 * @param  boolean $count        Si true compte le nombre d'élement, sinon
+	 * renvoies l'ID des éléments trouvés.
+	 *
+	 * @return array|integer         Les ID des éléments trouvés ou le nombre
+	 * d'éléments trouvés.
+	 */
+	public function search( $s = '', $default_args = array(), $count = false ) {
+		$route = 'proposals?sortfield=t.rowid&sortorder=DESC';
+
+		if ( ! empty( $s ) ) {
+			$route .= '&sqlfilters=(t.ref%3Alike%3A\'%25' . $s . '%25\')';
+		}
+
+		$doli_proposals = Request_Util::get( $route );
+
+		if ( $count ) {
+			return count( $doli_proposals );
+		} else {
+			return $doli_proposals;
+		}
+	}
+
+	/**
+	 * Convertis un tableau Proposal Object provenant de dolibarr vers un format Porposal Object WPShop afin de normisé pour l'affichage.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $doli_proposals Tableau Order Object provenant de Dolibarr.
+	 *
+	 * @return array $wp_proposals Tableau Order Object de WPshop convertis depuis le format de Dolibarr.
+	 */
+	public function convert_to_wp_proposal_format( $doli_proposals ) {
+		$wp_proposals = array();
+
+		if ( ! empty( $doli_proposals ) ) {
+			foreach ( $doli_proposals as $doli_proposal ) {
+				$wp_proposal    = Proposals::g()->get( array( 'schema' => true ), true );
+				$wp_proposals[] = $this->doli_to_wp( $doli_proposal, $wp_proposal );
+			}
+		}
+
+		return $wp_proposals;
 	}
 }
 

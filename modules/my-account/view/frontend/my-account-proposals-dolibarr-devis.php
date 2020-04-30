@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 
 ?>
 
-<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_proposal&_wpnonce=' . wp_create_nonce( 'download_proposal' ) . '&proposal_id=' . $proposal->data['id'] ) ); ?>"
+<a target="_blank" href="<?php echo esc_attr( admin_url( 'admin-post.php?action=wps_download_proposal&_wpnonce=' . wp_create_nonce( 'download_proposal' ) . '&proposal_id=' . $proposal->data['external_id'] ) ); ?>"
 	class="wpeo-button button-primary button-square-50 button-rounded">
 	<i class="button-icon fas fa-file-download"></i>
 </a>

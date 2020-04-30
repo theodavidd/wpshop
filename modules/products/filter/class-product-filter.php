@@ -174,12 +174,13 @@ class Product_Filter {
 					'post_type'   => 'wps-product',
 					'paged'       => get_query_var('paged') ? get_query_var('paged') : 1,
 					'post_parent' => 0,
+					'post_status' => 'any',
 				);
 
 				if ( Settings::g()->dolibarr_is_active() ) {
 					$args['meta_key']     = '_external_id';
 					$args['meta_compare'] = '!=';
-					$args['meta_value']   = '';
+					$args['meta_value']   = 0;
 				}
 
 				if ( ! empty( $shipping_cost_option['shipping_product_id'] ) ) {
@@ -189,9 +190,18 @@ class Product_Filter {
 				$wps_query = new \WP_Query( $args );
 
 				foreach ( $wps_query->posts as $key => &$product ) {
-					$product->price_ttc    = get_post_meta( $product->ID, '_price_ttc', true );
-					$product->manage_stock = get_post_meta( $product->ID, '_manage_stock', true );
-					$product->stock        = get_post_meta( $product->ID, '_stock', true );
+					// Sync product
+					$product = apply_filters('wps_product_filter_sync', $product);
+				}
+
+				$args['post_status'] = 'publish';
+
+				$wps_query = new \WP_Query( $args );
+
+				foreach ( $wps_query->posts as $key => &$product ) {
+					$product->price_ttc = get_post_meta($product->ID, '_price_ttc', true);
+					$product->manage_stock = get_post_meta($product->ID, '_manage_stock', true);
+					$product->stock = get_post_meta($product->ID, '_stock', true);
 				}
 
 				ob_start();

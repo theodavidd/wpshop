@@ -28,6 +28,16 @@ if ( ! empty( $transient ) ) :
 endif;
 ?>
 
+<?php
+if ( ! empty( $transient_lost_password ) ) :
+	?>
+	<div class="notice notice-success">
+		<p><?php echo $transient_lost_password; ?></p>
+	</div>
+<?php
+endif;
+?>
+
 <form class="wpeo-form" action="<?php echo esc_attr( admin_url( 'admin-post.php' ) ); ?>" method="post">
 	<?php wp_nonce_field( 'handle_login' ); ?>
 	<input type="hidden" name="action" value="wps_login" />
@@ -37,7 +47,7 @@ endif;
 	<div class="wpeo-gridlayout grid-2 grid-margin-1">
 		<div class="form-element">
 			<label class="form-field-container">
-				<input type="text" class="form-field" placeholder="<?php esc_html_e( 'Username or email contact', 'wpshop' ); ?>" name="username" />
+				<input type="text" class="form-field" placeholder="<?php esc_html_e( 'Username or email address', 'wpshop' ); ?>" name="username" />
 			</label>
 		</div>
 
@@ -51,7 +61,7 @@ endif;
 	<?php do_action( 'wps_login_form' ); ?>
 
 	<input class="wpeo-button button-main" type="submit" value="<?php esc_attr_e( 'Log in', 'wphsop' ); ?>" />
-	<a href="<?php echo wp_lostpassword_url(); ?>" title="Lost Password"><?php esc_html_e( 'Lost Password', 'wpshop' ); ?></a>
+	<a href="<?php echo Pages::g()->get_account_link() . 'lost-password'; ?>" title="Lost Password"><?php esc_html_e( 'Lost Password', 'wpshop' ); ?></a>
 
 	<?php do_action( 'wps_login_form_end' ); ?>
 </form>

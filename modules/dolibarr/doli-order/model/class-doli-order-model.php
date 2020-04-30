@@ -100,6 +100,15 @@ class Doli_Order_Model extends \eoxia\Post_Model {
 			'description' => 'Prix total de la commande, toutes taxes comprises (float). Peut être NULL. Valeur par défaut NULL.',
 		);
 
+		$this->schema['total_tva'] = array(
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => 'total_tva',
+			'default'     => 0.00000000,
+			'since'       => '2.0.0',
+			'description' => 'Prix total de la commande, toutes taxes comprises (float). Peut être NULL. Valeur par défaut NULL.',
+		);
+
 		$this->schema['total_ttc'] = array(
 			'type'        => 'float',
 			'meta_type'   => 'single',

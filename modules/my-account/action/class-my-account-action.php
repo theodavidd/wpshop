@@ -35,19 +35,22 @@ class My_Account_Action {
 		add_action( 'admin_post_wps_login', array( $this, 'handle_login' ) );
 		add_action( 'admin_post_nopriv_wps_login', array( $this, 'handle_login' ) );
 
+		add_action( 'admin_post_nopriv_wps_lost_password', array( $this, 'handle_lost_password' ) );
+
 		add_action( 'wps_account_navigation', array( My_Account::g(), 'display_navigation' ) );
 		add_action( 'wps_account_details', array( My_Account::g(), 'display_details' ) );
 		add_action( 'wps_account_orders', array( My_Account::g(), 'display_orders' ) );
 		add_action( 'wps_account_invoices', array( My_Account::g(), 'display_invoices' ) );
 		add_action( 'wps_account_download', array( My_Account::g(), 'display_downloads' ) );
 		add_action( 'wps_account_quotations', array( My_Account::g(), 'display_quotations' ) );
+		add_action( 'wps_account_dolibarr_quotations', array( My_Account::g(), 'display_dolibarr_quotations' ) );
 
 		add_action( 'admin_post_update_account_details', array( $this, 'update_account_details' ) );
 
 		add_action( 'wp_ajax_reorder', array( $this, 'do_reorder' ) );
 		add_action( 'admin_post_wps_pay_order', array( $this, 'do_pay' ) );
 
-		add_action( 'wps_my_account_proposals_actions', array( $this, 'add_proposal_pdf' ), 10, 1 );
+		add_action( 'wps_my_account_dolibarr_proposals_actions', array( $this, 'add_proposal_pdf' ), 10, 1 );
 	}
 
 	/**
@@ -85,6 +88,18 @@ class My_Account_Action {
 			wp_redirect( site_url( $page ) );
 			exit;
 		}
+	}
+
+	public function handle_lost_password() {
+		check_admin_referer( 'wps_lost_password' );
+
+		$page = ! empty( $_POST['page'] ) ? sanitize_text_field( $_POST['page'] ) : 'my-account';
+
+		do_action( 'retrieve_password', $_POST['user_login'] );
+
+		update_option( 'lost_password_notice_' . $_COOKIE['PHPSESSID'], __( 'An email for reset password', 'wpshop' ) );
+
+		wp_redirect( site_url( $page ) );
 	}
 
 	public function update_account_details() {
@@ -212,7 +227,7 @@ class My_Account_Action {
 	 */
 	public function add_proposal_pdf( $proposal ) {
 		if ( Settings::g()->dolibarr_is_active() ) {
-			include( Template_Util::get_template_part( 'my-account', 'my-account-proposals-devis' ) );
+			include( Template_Util::get_template_part( 'my-account', 'my-account-proposals-dolibarr-devis' ) );
 		}
 	}
 }

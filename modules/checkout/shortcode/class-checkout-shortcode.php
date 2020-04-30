@@ -102,6 +102,13 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 				$title        = __( 'quotation', 'wpshop' );
 				$button_text  = __( 'See my quotations', 'wpshop' );
 				$atts['type'] = 'quotation';
+			} elseif ( 'doli-proposal' === $atts['type'] ) {
+				$doli_proposal = Request_Util::get( 'proposals/' . $atts['id'] );
+				$object        = Proposals::g()->get( array( 'schema' => true ), true );
+				$object        = Doli_Proposals::g()->doli_to_wp( $doli_proposal, $object );
+				$title         = __( 'quotation', 'wpshop' );
+				$button_text   = __( 'See my quotations', 'wpshop' );
+				$atts['type']  = 'quotation';
 			} elseif ( 'order' === $atts['type'] ) {
 				$doli_order  = Request_Util::g()->get( 'orders/' . $atts['id'] );
 				$object      = Doli_Order::g()->get( array( 'schema' => true ), true );
@@ -117,8 +124,8 @@ class Checkout_Shortcode extends \eoxia\Singleton_Util {
 			}
 
 			if ( null !== $object ) {
-				$total_price_no_shipping = $object->data['total_price_no_shipping'];
-				$tva_amount              = $object->data['tva_amount'];
+				$total_price_no_shipping = $object->data['total_ht'];
+				$tva_amount              = $object->data['total_tva'];
 				$total_price_ttc         = $object->data['total_ttc'];
 				$shipping_cost           = $object->data['shipping_cost'];
 

@@ -69,6 +69,15 @@ class Proposals_Model extends \eoxia\Post_Model {
 			'description' => '',
 		);
 
+		$this->schema['total_tva'] = array(
+			'type'        => 'float',
+			'meta_type'   => 'single',
+			'field'       => 'total_tva',
+			'since'       => '2.0.0',
+			'description' => '',
+		);
+
+
 		$this->schema['tva_amount'] = array(
 			'type'        => 'float',
 			'meta_type'   => 'single',

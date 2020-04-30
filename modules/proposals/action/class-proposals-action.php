@@ -35,31 +35,19 @@ class Proposals_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 
 		$this->metaboxes = array(
 			'wps-proposal-details' => array(
 				'callback' => array( $this, 'metabox_proposal_details' ),
 			),
-			'wps-proposal-contact' => array(
+			'wps-proposal-address' => array(
 				'callback' => array( $this, 'metabox_proposal_address' ),
 			),
 			'wps-proposal-review'  => array(
 				'callback' => array( $this, 'metabox_proposal_review' ),
 			),
 		);
-	}
-
-	/**
-	 * Ajoutes des status dans la commande.
-	 *
-	 * @since 2.0.0
-	 */
-	public function callback_admin_init() {
-		remove_post_type_support( 'wps-proposal', 'title' );
-		remove_post_type_support( 'wps-proposal', 'editor' );
-		remove_post_type_support( 'wps-proposal', 'excerpt' );
 	}
 
 	/**
@@ -211,7 +199,7 @@ class Proposals_Action {
 			}
 		}
 
-		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'metabox-proposal-contact', array(
+		\eoxia\View_Util::exec( 'wpshop', 'proposals', 'metabox-proposal-address', array(
 			'proposal'     => $proposal,
 			'third_party'  => $third_party,
 			'invoice'      => $invoice,
@@ -262,8 +250,6 @@ class Proposals_Action {
 				'tva_lines' => $tva_lines,
 			) );
 		}
-
-
 	}
 
 	/**

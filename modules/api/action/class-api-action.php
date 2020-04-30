@@ -220,6 +220,7 @@ class API_Action {
 		$txn_id = get_post_meta( $data['custom'], 'payment_txn_id', true );
 
 		if ( $txn_id !== $data['txn_id'] ) {
+			// @todo: Pensé différement, envoyé vers dolibarr ?
 			update_post_meta( $data['custom'], 'payment_data', $data );
 			update_post_meta( $data['custom'], 'payment_txn_id', $data['txn_id'] );
 			update_post_meta( $data['custom'], 'payment_method', 'paypal' );
@@ -243,22 +244,11 @@ class API_Action {
 
 		// translators: Stripe Gateway data: {json_data}.
 		\eoxia\LOG_Util::log( sprintf( 'Stripe Gateway data: %s', json_encode( $param ) ), 'wpshop2' );
+		\eoxia\LOG_Util::log( sprintf( 'Stripe Gateway found dolibarr order id: %s', $param['data']['object']['metadata']['order_id'] ), 'wpshop2' );
 
-		$order = Doli_Order::g()->get( array(
-			'meta_key'     => '_external_data',
-			'meta_compare' => 'LIKE',
-			'meta_value'   => $param['data']['object']['id'],
-		), true );
+		$param['custom'] = $param['data']['object']['metadata']['order_id'];
 
-		if ( ! empty( $order ) ) {
-			update_post_meta( $order->data['id'], 'payment_data', $param );
-			update_post_meta( $order->data['id'], 'payment_txn_id', $param['data']['object']['id'] );
-			update_post_meta( $order->data['id'], 'payment_method', 'stripe' );
-
-			$param['custom'] = $order->data['id'];
-
-			do_action( 'wps_gateway_stripe', $param );
-		}
+		do_action( 'wps_gateway_stripe', $param );
 	}
 
 	/**

@@ -43,13 +43,12 @@ class My_Account extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	public function init_endpoint() {
-		if ( Settings::g()->dolibarr_is_active() ) {
-			add_rewrite_endpoint( 'orders', EP_PAGES );
-			add_rewrite_endpoint( 'invoices', EP_PAGES );
-		}
-
+		add_rewrite_endpoint( 'lost-password', EP_PAGES );
 		add_rewrite_endpoint( 'details', EP_PAGES );
 		add_rewrite_endpoint( 'quotations', EP_PAGES );
+		add_rewrite_endpoint( 'dolibarr-quotations', EP_PAGES );
+		add_rewrite_endpoint( 'orders', EP_PAGES );
+		add_rewrite_endpoint( 'invoices', EP_PAGES );
 		add_rewrite_endpoint( 'download', EP_PAGES );
 		add_rewrite_endpoint( 'support', EP_PAGES );
 
@@ -78,10 +77,22 @@ class My_Account extends \eoxia\Singleton_Util {
 	public function display_form_login( $account_page = true) {
 		global $post;
 
+		$transient_lost_password = get_option( 'lost_password_notice_' . $_COOKIE['PHPSESSID'] );
+		update_option( 'lost_password_notice_' . $_COOKIE['PHPSESSID'], '', false );
+
 		$transient = get_option( 'login_error_' . $_COOKIE['PHPSESSID'] );
 		update_option( 'login_error_' . $_COOKIE['PHPSESSID'], '', false );
 
 		include( Template_Util::get_template_part( 'my-account', 'form-login' ) );
+	}
+
+	public function display_lost_password() {
+		global $post;
+
+		$transient = get_option( 'lost_password_error_' . $_COOKIE['PHPSESSID'] );
+		update_option( 'lost_password_error_' . $_COOKIE['PHPSESSID'], '', false );
+
+		include( Template_Util::get_template_part( 'my-account', 'lost-password' ) );
 	}
 
 	/**
@@ -97,6 +108,31 @@ class My_Account extends \eoxia\Singleton_Util {
 				'link'  => Pages::g()->get_account_link() . 'details/',
 				'icon'  => 'fas fa-user' ,
 				'title' => __( 'Account details', 'wpshop' ),
+			),
+			'quotations' => array(
+				'link'  => Pages::g()->get_account_link() . 'quotations/',
+				'icon'  => 'fas fa-file-signature',
+				'title' => __( 'Quotations', 'wpshop' ),
+			),
+			'dolibarr-quotations' => array(
+				'link'  => Pages::g()->get_account_link() . 'dolibarr-quotations/',
+				'icon'  => 'fas fa-file-signature',
+				'title' => __( 'Dolibarr Quotation', 'wpshop' ),
+			),
+			'orders' => array(
+				'link'  => Pages::g()->get_account_link() . 'orders/',
+				'icon'  => 'fas fa-shopping-cart',
+				'title' => __( 'Orders', 'wpshop' ),
+			),
+			'invoices' => array(
+				'link'  => Pages::g()->get_account_link() . 'invoices/',
+				'icon'  => 'fas fa-file-invoice-dollar',
+				'title' => __( 'Invoices', 'wpshop' ),
+			),
+			'download' => array(
+				'link'  => Pages::g()->get_account_link() . 'download/',
+				'icon'  => 'fas fa-file-download',
+				'title' => __( 'Downloads', 'wpshop' ),
 			),
 			'logout'     => array(
 				'link'  => wp_logout_url( home_url() ),
@@ -120,6 +156,7 @@ class My_Account extends \eoxia\Singleton_Util {
 		}
 
 		$this->menu = apply_filters( 'wps_account_navigation_items', $menu_def );
+
 		include( Template_Util::get_template_part( 'my-account', 'my-account-navigation' ) );
 	}
 
@@ -153,7 +190,7 @@ class My_Account extends \eoxia\Singleton_Util {
 		if ( ! empty( $third_party->data['id'] ) && ! empty( $third_party->data['external_id']) ) {
 			$data = array(
 				'sortfield'      => 't.rowid',
-				'sortorder'      => 'ASC',
+				'sortorder'      => 'DESC',
 				'limit'          => 100,
 				'thirdparty_ids' => $third_party->data['external_id'],
 			);
@@ -179,16 +216,12 @@ class My_Account extends \eoxia\Singleton_Util {
 		if ( ! empty( $third_party->data['id'] ) && ! empty( $third_party->data['external_id'] ) ) {
 			$data = array(
 				'sortfield'      => 't.rowid',
-				'sortorder'      => 'ASC',
+				'sortorder'      => 'DESC',
 				'limit'          => 100,
 				'thirdparty_ids' => $third_party->data['external_id'],
 			);
 
 			$doli_invoices = Request_Util::g()->get( 'invoices?' . http_build_query( $data ) );
-			echo '<pre>';
-			print_r($doli_invoices);
-			echo '</pre>';
-			exit;
 			$invoices      = Doli_Invoice::g()->convert_to_wp_invoice_format( $doli_invoices );
 		}
 
@@ -231,6 +264,32 @@ class My_Account extends \eoxia\Singleton_Util {
 		}
 
 		include( Template_Util::get_template_part( 'my-account', 'my-account-proposals' ) );
+	}
+
+	/**
+	 * Affiches les devis liés au tiers.
+	 *
+	 * @since 2.0.0
+	 */
+	public function display_dolibarr_quotations() {
+		$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+
+		$proposals = array();
+
+		if ( ! empty( $third_party->data['id'] ) ) {
+			$data = array(
+				'sortfield'      => 't.rowid',
+				'sortorder'      => 'DESC',
+				'limit'          => 100,
+				'thirdparty_ids' => $third_party->data['external_id'],
+			);
+
+			$doli_proposals = Request_Util::g()->get( 'proposals?' . http_build_query( $data ) );
+			$proposals      = Doli_Proposals::g()->convert_to_wp_proposal_format( $doli_proposals );
+		}
+
+		include( Template_Util::get_template_part( 'my-account', 'my-account-dolibarr-proposals' ) );
 	}
 }
 

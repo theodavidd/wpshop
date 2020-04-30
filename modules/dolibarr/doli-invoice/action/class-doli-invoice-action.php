@@ -198,43 +198,43 @@ class Doli_Invoice_Action {
 	 * @param  array $data Data from PayPal.
 	 */
 	public function create_invoice( $data ) {
-		$order = Doli_Order::g()->get( array( 'id' => (int) $data['custom'] ), true );
-
+		$doli_order   = Request_Util::get( 'orders/' . (int) $data['custom'] );
 		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . (int) $data['custom'] );
 		Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
 			'notrigger' => 0,
 		) );
 
-		$doli_invoice = Request_Util::get( 'invoices/' . $doli_invoice->id );
+		$order = Doli_Order::g()->get( array( 'schema' => true ), true );
+		$order = Doli_Order::g()->doli_to_wp( $doli_order, $order, true );
 
-		$wp_invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
-		$wp_invoice = Doli_Invoice::g()->doli_to_wp( $doli_invoice, $wp_invoice, true );
+		$invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
+		$doli_invoice = Request_Util::get( 'invoices/' . $doli_invoice->id );
+		$wp_invoice = Doli_Invoice::g()->doli_to_wp( $doli_invoice, $invoice, true );
 
 		$doli_payment = Request_Util::post( 'invoices/' . $doli_invoice->id . '/payments', array(
 			'datepaye'          => current_time( 'timestamp' ),
 			'paiementid'        => (int) $doli_invoice->mode_reglement_id,
 			'closepaidinvoices' => 'yes',
-			'accountid'         => 1,
+			'accountid'         => 1, // @todo: Handle account id. PayPal can be 1, Stripe can be 2, Crédit agricole can be 3.
 		) );
 
 		Request_Util::put( 'documents/builddoc', array(
-			'module_part'   => 'invoice',
+			'modulepart'   => 'invoice',
 			'original_file' => $doli_invoice->ref . '/' . $doli_invoice->ref . '.pdf',
-			'doc_template'  => 'crabe',
-			'langcode'      => 'fr_FR',
 		) );
 
-		$third_party = Third_Party::g()->get( array( 'id' => $wp_invoice->data['third_party_id'] ), true );
-		$contact =     User::g()->get( array( 'id' => $order->data['author_id'] ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => (int) $doli_invoice->socid ), true );
+		$contact     = User::g()->get( array( 'id' => $order->data['author_id'] ), true );
 
-		$invoice_file = Request_Util::get( 'documents/download?module_part=facture&original_file=' . $wp_invoice->data['title'] . '/' . $wp_invoice->data['title'] . '.pdf' );
+		$invoice_file = Request_Util::get( 'documents/download?modulepart=facture&original_file=' . $doli_invoice->ref . '/' . $doli_invoice->ref . '.pdf' );
 		$content      = base64_decode( $invoice_file->content );
 
+		// @todo: Pourquoi déjà ?
 		$dir       = wp_upload_dir();
 		$path      = $dir['basedir'] . '/invoices';
-		$path_file = $path . '/' . $wp_invoice->data['title'] . '.pdf';
+		$path_file = $path . '/' . $doli_invoice->ref . '.pdf';
 
-		$f = fopen( $path . '/' . $wp_invoice->data['title'] . '.pdf', 'a+' );
+		$f = fopen( $path . '/' . $doli_invoice->ref . '.pdf', 'a+' );
 		fwrite( $f, $content );
 		fclose( $f );
 
@@ -260,31 +260,29 @@ class Doli_Invoice_Action {
 	public function download_invoice() {
 		check_admin_referer( 'download_invoice' );
 
-		$order_id = ! empty( $_GET['order_id'] ) ? (int) $_GET['order_id'] : 0;
-		$avoir    = ! empty( $_GET['avoir'] ) ? (int) $_GET['avoir'] : 0;
+		$invoice_id = ! empty( $_GET['invoice_id'] ) ? (int) $_GET['invoice_id'] : 0;
+		$avoir      = ! empty( $_GET['avoir'] ) ? (int) $_GET['avoir'] : 0;
 
-		if ( ! $order_id ) {
+		if ( ! $invoice_id ) {
 			exit;
 		}
 
-		$contact     = Contact::g()->get( array( 'id' => get_current_user_id() ), true );
+		$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
 		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
-		$order       = Doli_Order::g()->get( array( 'id' => $order_id ), true );
-		$invoice     = Doli_Invoice::g()->get( array(
-			'post_parent'    => $order_id,
-			'meta_key'       => '_avoir',
-			'meta_value'     => $avoir,
-			'posts_per_page' => 1,
-		), true );
+		$invoice     =  Request_Util::get( 'invoices/' . $invoice_id );
 
-		if ( ( isset( $third_party->data ) && $order->data['parent_id'] !== $third_party->data['id'] ) && ! current_user_can( 'administrator' ) ) {
+		if ( ( isset( $third_party->data ) && (int) $invoice->socid !== $third_party->data['external_id'] ) && ! current_user_can( 'administrator' ) ) {
 			exit;
 		}
 
 		// translators: Contact test@eoxia.com download the invoice 00001.
-		\eoxia\LOG_Util::log( sprintf( 'Contact %s download the invoice %s', $contact->data['email'], $invoice->data['title'] ), 'wpshop2' );
+		\eoxia\LOG_Util::log( sprintf( 'Contact %s download the invoice %s', $contact->data['email'], $invoice->ref ), 'wpshop2' );
 
-		$invoice_file = Request_Util::get( 'documents/download?module_part=facture&original_file=' . $invoice->data['title'] . '/' . $invoice->data['title'] . '.pdf' );
+		$invoice_file = Request_Util::get( 'documents/download?modulepart=facture&original_file=' . $invoice->ref . '/' . $invoice->ref . '.pdf' );
+
+		if (! $invoice_file ) {
+			exit( __( 'Invoice not found', 'wpshop' ) );
+		}
 
 		$content = base64_decode( $invoice_file->content );
 

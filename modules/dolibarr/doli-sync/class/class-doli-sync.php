@@ -235,8 +235,6 @@ class Doli_Sync extends \eoxia\Singleton_Util {
 			);
 		}
 
-
-
 		// Dolibarr Object is not linked to this WP Object.
 		if ( $response->array_options->options__wps_id != $id ) {
 			// @todo: Doublon
