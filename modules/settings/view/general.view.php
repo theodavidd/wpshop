@@ -84,12 +84,12 @@ defined( 'ABSPATH' ) || exit; ?>
 		</div>
 	</div>
 
-	<div class="form-element form-align-horizontal">
-		<div class="form-field-inline">
-			<input type="checkbox" id="use_quotation" class="form-field" name="use_quotation" <?php echo $dolibarr_option['use_quotation'] ? 'checked="checked"' : ''; ?>>
-			<label for="use_quotation"><?php esc_html_e( 'Use quotation', 'wpshop' ); ?></label>
-		</div>
-	</div>
+<!--	<div class="form-element form-align-horizontal">-->
+<!--		<div class="form-field-inline">-->
+<!--			<input type="checkbox" id="use_quotation" class="form-field" name="use_quotation" --><?php //echo $dolibarr_option['use_quotation'] ? 'checked="checked"' : ''; ?>
+<!--			<label for="use_quotation">--><?php //esc_html_e( 'Use quotation', 'wpshop' ); ?><!--</label>-->
+<!--		</div>-->
+<!--	</div>-->
 
 	<div>
 		<input type="submit" class="wpeo-button button-main" value="<?php esc_html_e( 'Save Changes', 'wpshop' ); ?>" />
