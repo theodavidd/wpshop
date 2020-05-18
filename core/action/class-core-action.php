@@ -43,6 +43,8 @@ class Core_Action {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 
 		add_action( 'wp_ajax_check_erp_statut', array( $this, 'check_erp_statut' ) );
+
+		add_action( 'admin_init', array( $this, 'redirect_to' ) );
 	}
 
 	/**
@@ -201,6 +203,26 @@ class Core_Action {
 			'statut'    => $statut,
 			'view'      => ob_get_clean(),
 		) );
+	}
+
+	/**
+	 * Permet de rediriger l'utilisateur Client/Abonné vers la page de gestion de compte.
+	 *
+	 * @since 2.0.0
+	 */
+	public function redirect_to() {
+
+		$current_user = current_user_can( 'subscriber' );
+
+		if ( $current_user ) {
+
+			if ( ( strpos($_SERVER['REQUEST_URI'], '/wp-admin/') !== false ) ) {
+
+				wp_redirect( home_url( '/mon-compte' ) );
+
+				die();
+			}
+		}
 	}
 }
 
