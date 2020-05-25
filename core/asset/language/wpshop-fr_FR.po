@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
-"POT-Creation-Date: 2019-09-10 16:09+0200\n"
-"PO-Revision-Date: 2019-11-14 14:21+0100\n"
+"POT-Creation-Date: 2020-05-19 09:57+0200\n"
+"PO-Revision-Date: 2020-05-25 09:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 "X-Poedit-Basepath: ../../..\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -18,18 +18,36 @@ msgstr ""
 "X-Poedit-SearchPath-1: modules\n"
 "X-Poedit-SearchPathExcluded-0: core/external\n"
 
-#: core/action/class-core-action.php:126
+#: core/action/class-core-action.php:177
 #: modules/health/filter/class-health-filter.php:47
 msgid "WPshop"
 msgstr "WPshop"
 
-#: core/action/class-core-action.php:127
+#: core/action/class-core-action.php:178
 #: modules/dashboard/view/main.view.php:20
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
+#: core/asset/js/blocks/block.js:21
+#: modules/dolibarr/doli-sync/class/class-doli-sync.php:63
+#: modules/order/action/class-order-action.php:39
+#: modules/order/action/class-order-action.php:40
+#: modules/products/action/class-product-action.php:48
+#: modules/products/action/class-product-action.php:49
+#: modules/products/action/class-product-action.php:108
+#: modules/products/filter/class-product-filter.php:65
+#: modules/products/filter/class-product-filter.php:67
+#: modules/products/view/main.view.php:21
+msgid "Products"
+msgstr "Produits"
+
+#: core/asset/js/blocks/block.js:25
+#: modules/products/filter/class-product-filter.php:100
+msgid "product"
+msgstr "produit"
+
 #: core/filter/class-core-filter.php:126
-#: modules/settings/action/class-settings-action.php:49
+#: modules/settings/action/class-settings-action.php:51
 #: modules/settings/view/main.view.php:20
 #: modules/settings/view/payment-method.view.php:24
 msgid "Settings"
@@ -43,12 +61,29 @@ msgstr "Outils"
 
 #: core/util/class-countries-util.php:63
 #: modules/checkout/class/class-checkout.php:95
-#: modules/doli-order/view/metabox-order-details.view.php:41
-#: modules/doli-order/view/metabox-order-details.view.php:52
-#: modules/doli-sync/filter/class-doli-sync-filter.php:55
+#: modules/dolibarr/doli-associate/view/compare-wps-third-party.view.php:36
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:41
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:52
+#: modules/dolibarr/doli-sync/filter/class-doli-sync-filter.php:56
 #: modules/third-parties/view/metaboxes/metabox-billing-address.view.php:34
 msgid "Country"
 msgstr "Pays"
+
+#: core/view/erp-connexion-error.view.php:22
+msgid "Connection failed with your ERP"
+msgstr ""
+
+#: core/view/erp-connexion-error.view.php:25
+msgid ""
+"Your ERP is not connected. Maybe your ERP is not connected or your "
+"configuration is not correct"
+msgstr ""
+
+#: core/view/erp-connexion-error.view.php:26
+#, fuzzy
+#| msgid "Follow this guide"
+msgid "Need help ? Follow this guide"
+msgstr "Suivre ce guide"
 
 #: modules/api/view/field-api.view.php:20
 msgid "WPshop API"
@@ -58,18 +93,19 @@ msgstr "WPshop API"
 msgid "API Key"
 msgstr ""
 
-#: modules/cart/class/class-cart.php:154
+#: modules/cart/class/class-cart.php:168
 #, php-format
 msgid "%s is sold out."
 msgstr "%s n'est plus disponible."
 
 #: modules/cart/shortcode/class-cart-shortcode.php:76
-#: modules/products/view/frontend/wps-product-single.php:33
+#: modules/products/view/frontend/wps-product-single.php:38
 msgid "Add to cart"
 msgstr "Ajouter au panier"
 
 #: modules/cart/view/frontend/cart-resume.php:40
 #: modules/checkout/view/frontend/review-order.php:71
+#: modules/dolibarr/doli-associate/view/compare-wps-proposal.view.php:34
 #: modules/emails/view/frontend/order-details.php:76
 msgid "Total TTC"
 msgstr "Total TTC"
@@ -79,7 +115,7 @@ msgid "Cart totals"
 msgstr "Total du panier"
 
 #: modules/cart/view/frontend/cart-totals.php:31
-#: modules/checkout/view/frontend/valid-checkout.php:34
+#: modules/checkout/view/frontend/valid-checkout.php:35
 msgid "Total"
 msgstr "Total"
 
@@ -100,16 +136,16 @@ msgstr "Produit \"%1$s\" x%2$d ajouté au panier"
 msgid "View cart"
 msgstr "Voir le panier"
 
-#: modules/checkout/action/class-checkout-action.php:307
+#: modules/checkout/action/class-checkout-action.php:451
 msgid "I accept "
 msgstr "J'accepte "
 
-#: modules/checkout/action/class-checkout-action.php:311
+#: modules/checkout/action/class-checkout-action.php:455
 #, php-format
 msgid "the <a target=\"_blank\" href=\"%1$s\">%2$s</a> and "
 msgstr "les <a href=\"%1$s\">%2$s</a> et "
 
-#: modules/checkout/action/class-checkout-action.php:316
+#: modules/checkout/action/class-checkout-action.php:460
 #, php-format
 msgid "the <a target=\"_blank\" href=\"%1$s\">%2$s</a>"
 msgstr "la <a href=\"%1$s\">%2$s</a>"
@@ -119,17 +155,16 @@ msgid "Terms"
 msgstr "Termes"
 
 #: modules/checkout/class/class-checkout.php:73
-#: modules/checkout/view/frontend/form-shipping.php:28
+#: modules/checkout/view/frontend/form-shipping.php:26
 msgid "First name"
 msgstr "Prénom"
 
 #: modules/checkout/class/class-checkout.php:77
-#: modules/checkout/view/frontend/form-shipping.php:34
 msgid "Last name"
 msgstr "Nom de famille"
 
 #: modules/checkout/class/class-checkout.php:81
-#: modules/doli-order/view/metabox-order-details.view.php:28
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:28
 #: modules/third-parties/view/metaboxes/metabox-billing-address-edit.view.php:34
 #: modules/third-parties/view/metaboxes/metabox-billing-address.view.php:35
 #: modules/third-parties/view/metaboxes/metabox-contacts-edit.view.php:23
@@ -141,7 +176,7 @@ msgid "Email contact"
 msgstr "Adresse email"
 
 #: modules/checkout/class/class-checkout.php:89
-#: modules/my-account/view/frontend/form-login.php:53
+#: modules/my-account/view/frontend/form-login.php:56
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -154,7 +189,7 @@ msgid "Postcode / Zip"
 msgstr "Code postal"
 
 #: modules/checkout/class/class-checkout.php:107
-#: modules/checkout/view/frontend/form-shipping.php:87
+#: modules/checkout/view/frontend/form-shipping.php:79
 msgid "Town / City"
 msgstr "Ville"
 
@@ -176,29 +211,32 @@ msgstr "%s est un champs requis."
 msgid "%s is already used."
 msgstr "%s est déjà utilisé."
 
-#: modules/checkout/shortcode/class-checkout-shortcode.php:101
-msgid "quotation"
-msgstr "devis"
-
-#: modules/checkout/shortcode/class-checkout-shortcode.php:102
-msgid "See my quotations"
-msgstr "Voir mes devis"
-
-#: modules/checkout/shortcode/class-checkout-shortcode.php:106
-msgid "order"
-msgstr "commande"
-
-#: modules/checkout/shortcode/class-checkout-shortcode.php:107
-msgid "See my orders"
-msgstr "Voir mes commandes"
-
-#: modules/checkout/shortcode/class-checkout-shortcode.php:111
-msgid "You can not see this page. Go back to <a href=\""
-msgstr ""
-
+#: modules/checkout/filter/class-checkout-filter.php:55
 #: modules/checkout/view/frontend/devis-button.php:22
 msgid "Ask for a Quotation"
 msgstr "Demander un devis"
+
+#: modules/checkout/shortcode/class-checkout-shortcode.php:102
+#: modules/checkout/shortcode/class-checkout-shortcode.php:109
+msgid "quotation"
+msgstr "devis"
+
+#: modules/checkout/shortcode/class-checkout-shortcode.php:103
+#: modules/checkout/shortcode/class-checkout-shortcode.php:110
+msgid "See my quotations"
+msgstr "Voir mes devis"
+
+#: modules/checkout/shortcode/class-checkout-shortcode.php:117
+msgid "order"
+msgstr "commande"
+
+#: modules/checkout/shortcode/class-checkout-shortcode.php:118
+msgid "See my orders"
+msgstr "Voir mes commandes"
+
+#: modules/checkout/shortcode/class-checkout-shortcode.php:123
+msgid "You can not see this page. Go back to <a href=\""
+msgstr ""
 
 #: modules/checkout/view/frontend/form-checkout-step-3.php:20
 msgid "Your order"
@@ -212,38 +250,47 @@ msgstr "Editer la commande"
 msgid "Personnal and shipping informations"
 msgstr "Informations personnelles et d'expédition"
 
-#: modules/checkout/view/frontend/form-shipping.php:40
-msgid "Company name"
+#: modules/checkout/view/frontend/form-shipping.php:32
+#, fuzzy
+#| msgid "Company name"
+msgid "Last name/Company Name"
 msgstr "Nom de la société"
 
-#: modules/checkout/view/frontend/form-shipping.php:46
+#: modules/checkout/view/frontend/form-shipping.php:38
+#: modules/dolibarr/doli-associate/view/compare-wps-third-party.view.php:31
+#: modules/dolibarr/doli-associate/view/compare-wps-user.view.php:33
+#: modules/my-account/view/frontend/my-account-details.php:39
 #: modules/third-parties/view/metaboxes/metabox-contacts-edit.view.php:22
 msgid "Email"
 msgstr "Email"
 
-#: modules/checkout/view/frontend/form-shipping.php:52
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:74
+#: modules/checkout/view/frontend/form-shipping.php:44
+#: modules/dolibarr/doli-associate/view/compare-wps-third-party.view.php:37
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:74
 #: modules/proposals/view/metabox-proposal-address.view.php:64
 msgid "Phone number"
 msgstr "Numéro de téléphone"
 
-#: modules/checkout/view/frontend/form-shipping.php:58
-msgid "Street contact"
+#: modules/checkout/view/frontend/form-shipping.php:50
+#, fuzzy
+#| msgid "Street Address"
+msgid "Street address"
 msgstr "Adresse"
 
-#: modules/checkout/view/frontend/form-shipping.php:93
+#: modules/checkout/view/frontend/form-shipping.php:85
+#: modules/dolibarr/doli-associate/view/compare-wps-third-party.view.php:34
 msgid "Postcode / ZIP"
 msgstr "Code postal"
 
 #: modules/checkout/view/frontend/payment.php:21
 #: modules/dashboard/view/metaboxes/metabox-payments.view.php:26
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:23
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:42
-#: modules/doli-order/view/metabox-order-details.view.php:30
-#: modules/doli-proposals/view/order-details.view.php:19
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:23
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:42
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:30
 #: modules/proposals/view/metabox-proposal-address.view.php:33
 #: modules/proposals/view/metabox-proposal-details.view.php:22
 #: modules/settings/view/main.view.php:37
+#: modules/settings/view/payment-method-single.view.php:19
 msgid "Payment method"
 msgstr "Moyen de paiement"
 
@@ -256,8 +303,8 @@ msgid "Proceed to checkout"
 msgstr "Procéder au paiement"
 
 #: modules/checkout/view/frontend/review-order.php:23
-#: modules/doli-associate/view/compare-products.view.php:33
-#: modules/doli-invoice/view/metabox-invoice-products.view.php:25
+#: modules/dolibarr/doli-associate/view/compare-wps-product.view.php:31
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-products.view.php:25
 #: modules/emails/view/frontend/order-details.php:33
 #: modules/order/view/review-order.view.php:22
 #: modules/proposals/view/metabox-proposal-products.view.php:22
@@ -265,7 +312,7 @@ msgid "Product name"
 msgstr "Nom du produit"
 
 #: modules/checkout/view/frontend/review-order.php:24
-#: modules/doli-invoice/view/metabox-invoice-products.view.php:26
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-products.view.php:26
 #: modules/emails/view/frontend/order-details.php:34
 #: modules/order/view/review-order.view.php:23
 #: modules/proposals/view/metabox-proposal-products.view.php:23
@@ -278,7 +325,7 @@ msgid "P.U. HT"
 msgstr "P.U. HT"
 
 #: modules/checkout/view/frontend/review-order.php:25
-#: modules/doli-invoice/view/metabox-invoice-products.view.php:27
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-products.view.php:27
 #: modules/emails/view/frontend/order-details.php:35
 #: modules/order/view/review-order.view.php:24
 #: modules/proposals/view/metabox-proposal-products.view.php:24
@@ -286,7 +333,7 @@ msgid "P.U HT"
 msgstr "P.U HT"
 
 #: modules/checkout/view/frontend/review-order.php:26
-#: modules/doli-invoice/view/metabox-invoice-products.view.php:28
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-products.view.php:28
 #: modules/emails/view/frontend/order-details.php:36
 #: modules/order/view/review-order.view.php:25
 #: modules/proposals/view/metabox-proposal-products.view.php:25
@@ -295,8 +342,9 @@ msgstr "Quantité"
 
 #: modules/checkout/view/frontend/review-order.php:27
 #: modules/checkout/view/frontend/review-order.php:54
-#: modules/doli-invoice/view/metabox-invoice-products.view.php:29
-#: modules/doli-invoice/view/metabox-invoice-products.view.php:77
+#: modules/dolibarr/doli-associate/view/compare-wps-proposal.view.php:32
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-products.view.php:29
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-products.view.php:77
 #: modules/emails/view/frontend/order-details.php:37
 #: modules/emails/view/frontend/order-details.php:59
 #: modules/order/view/review-order.view.php:26
@@ -307,41 +355,43 @@ msgid "Total HT"
 msgstr "Total HT"
 
 #: modules/checkout/view/frontend/review-order.php:62
-#: modules/doli-invoice/view/metabox-invoice-products.view.php:85
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-products.view.php:85
 #: modules/emails/view/frontend/order-details.php:67
 #: modules/order/view/review-order.view.php:58
 #: modules/proposals/view/metabox-proposal-products.view.php:58
 msgid "Total VAT"
 msgstr "Total TVA"
 
-#: modules/checkout/view/frontend/valid-checkout.php:21
+#: modules/checkout/view/frontend/valid-checkout.php:22
 #, php-format
 msgid "Thanks, your %s has been received"
 msgstr "Merci, nous avons bien reçu votre %s"
 
-#: modules/checkout/view/frontend/valid-checkout.php:29
+#: modules/checkout/view/frontend/valid-checkout.php:30
 #, php-format
 msgid "%s :"
 msgstr "%s :"
 
-#: modules/checkout/view/frontend/valid-checkout.php:33
+#: modules/checkout/view/frontend/valid-checkout.php:34
 #: modules/dashboard/view/metaboxes/metabox-invoices.view.php:27
 #: modules/dashboard/view/metaboxes/metabox-orders.view.php:27
 #: modules/dashboard/view/metaboxes/metabox-payments.view.php:28
 #: modules/dashboard/view/metaboxes/metabox-products.view.php:28
 #: modules/dashboard/view/metaboxes/metabox-quotations.view.php:27
-#: modules/doli-order/view/metabox-order-details.view.php:26
-#: modules/doli-order/view/metabox-order-payment.view.php:26
-#: modules/doli-order/view/metabox-order-related-object.view.php:27
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:26
+#: modules/dolibarr/doli-order/view/metabox-order-payment.view.php:26
+#: modules/dolibarr/doli-order/view/metabox-order-related-object.view.php:27
+#: modules/third-parties/view/metaboxes/metabox-dolibarr-proposals.view.php:25
 #: modules/third-parties/view/metaboxes/metabox-invoices.view.php:26
 #: modules/third-parties/view/metaboxes/metabox-orders.view.php:25
 #: modules/third-parties/view/metaboxes/metabox-proposals.view.php:25
 msgid "Date"
 msgstr "Date"
 
-#: modules/checkout/view/frontend/valid-checkout.php:35
-#: modules/doli-invoice/view/list.view.php:26
-#: modules/doli-order/view/list.view.php:24
+#: modules/checkout/view/frontend/valid-checkout.php:40
+#: modules/dolibarr/doli-invoice/view/list.view.php:26
+#: modules/dolibarr/doli-order/view/list.view.php:24
+#: modules/dolibarr/doli-proposals/view/list.view.php:24
 #: modules/proposals/view/list.view.php:24
 msgid "Method of payment"
 msgstr "Moyen de paiement"
@@ -361,8 +411,8 @@ msgstr "Dernières Factures"
 #: modules/dashboard/view/metaboxes/metabox-invoices.view.php:25
 #: modules/dashboard/view/metaboxes/metabox-orders.view.php:25
 #: modules/dashboard/view/metaboxes/metabox-quotations.view.php:25
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:33
-#: modules/doli-order/view/metabox-order-details.view.php:27
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:33
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:27
 #: modules/proposals/view/metabox-proposal-address.view.php:24
 msgid "Customer"
 msgstr "Client"
@@ -392,9 +442,9 @@ msgid "Last Payments"
 msgstr "Derniers Paiements"
 
 #: modules/dashboard/view/metaboxes/metabox-payments.view.php:25
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:61
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:63
-#: modules/doli-invoice/view/single.view.php:21
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:61
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:63
+#: modules/dolibarr/doli-invoice/view/single.view.php:21
 msgid "Invoice"
 msgstr "Factures"
 
@@ -407,10 +457,8 @@ msgid "Last Products"
 msgstr "Derniers Produits"
 
 #: modules/dashboard/view/metaboxes/metabox-products.view.php:26
-#: modules/paypal/view/form-setting.view.php:24
 #: modules/products/view/list.view.php:23
-#: modules/settings/view/payment-method-single-form.view.php:26
-#: modules/stripe/view/form-setting.view.php:24
+#: modules/settings/view/payment-method-single.view.php:32
 msgid "Title"
 msgstr "Titre"
 
@@ -432,193 +480,241 @@ msgid "Synchronization"
 msgstr "Synchronisation"
 
 #: modules/dashboard/view/metaboxes/metabox-sync.view.php:26
-#: modules/doli-invoice/view/main.view.php:31
-#: modules/doli-order/view/main.view.php:31
-#: modules/products/view/main.view.php:32
+#: modules/dolibarr/doli-invoice/view/main.view.php:31
 #: modules/proposals/view/main.view.php:31
-#: modules/third-parties/view/main.view.php:31
 msgid "Data synchronization"
 msgstr "Synchronisation des données"
 
-#: modules/doli-associate/action/class-doli-associate-action.php:105
+#: modules/dolibarr/doli-associate/action/class-doli-associate-action.php:108
 msgid "Please select an entry"
 msgstr "Veuillez sélectionner une entrée"
 
-#: modules/doli-associate/action/class-doli-associate-action.php:150
+#: modules/dolibarr/doli-associate/action/class-doli-associate-action.php:121
 msgid "WordPress"
 msgstr "WordPress"
 
-#: modules/doli-associate/action/class-doli-associate-action.php:155
+#: modules/dolibarr/doli-associate/action/class-doli-associate-action.php:126
 msgid "Dolibarr"
 msgstr "Dolibarr"
 
-#: modules/doli-associate/view/compare-footer.view.php:21
+#: modules/dolibarr/doli-associate/view/compare-footer.view.php:33
+#, fuzzy
+#| msgid "Associate and synchronize %s"
+msgid "Associate and Sync"
+msgstr "Associer et synchroniser %s"
+
+#: modules/dolibarr/doli-associate/view/compare-footer.view.php:37
 msgid "Back"
 msgstr "Retour"
 
-#: modules/doli-associate/view/compare-products.view.php:30
-#: modules/doli-associate/view/compare-thirdparties.view.php:30
+#: modules/dolibarr/doli-associate/view/compare-wps-product.view.php:28
+#: modules/dolibarr/doli-associate/view/compare-wps-proposal.view.php:28
+#: modules/dolibarr/doli-associate/view/compare-wps-third-party.view.php:28
 #, php-format
 msgid "Last update the %s"
 msgstr "Dernière mise à jour le %s"
 
-#: modules/doli-associate/view/compare-products.view.php:34
-#: modules/paypal/view/form-setting.view.php:51
-#: modules/settings/view/payment-method-single-form.view.php:39
-#: modules/stripe/view/form-setting.view.php:58
+#: modules/dolibarr/doli-associate/view/compare-wps-product.view.php:32
+#: modules/settings/view/payment-method-single.view.php:45
 msgid "Description"
 msgstr "Description"
 
-#: modules/doli-associate/view/compare-products.view.php:35
+#: modules/dolibarr/doli-associate/view/compare-wps-product.view.php:33
 #: modules/products/view/list.view.php:24
-#: modules/products/view/metabox/main.view.php:27
+#: modules/products/view/metabox/main.view.php:39
 msgid "Price HT(€)"
 msgstr "Prix HT(€)"
 
-#: modules/doli-associate/view/compare-products.view.php:36
-#: modules/products/view/metabox/main.view.php:34
+#: modules/dolibarr/doli-associate/view/compare-wps-product.view.php:34
+#: modules/products/view/metabox/main.view.php:46
 msgid "VAT Rate"
 msgstr "Taux de TVA"
 
-#: modules/doli-associate/view/compare-products.view.php:37
-#: modules/doli-invoice/view/list.view.php:27
-#: modules/doli-order/view/list.view.php:25
+#: modules/dolibarr/doli-associate/view/compare-wps-product.view.php:35
+#: modules/dolibarr/doli-invoice/view/list.view.php:27
+#: modules/dolibarr/doli-order/view/list.view.php:25
+#: modules/dolibarr/doli-proposals/view/list.view.php:25
 #: modules/products/view/list.view.php:26
-#: modules/products/view/metabox/main.view.php:58
+#: modules/products/view/metabox/main.view.php:80
 #: modules/proposals/view/list.view.php:25
 msgid "Price TTC(€)"
 msgstr "Prix TTC(€)"
 
-#: modules/doli-associate/view/compare-products.view.php:52
-#: modules/doli-associate/view/compare-thirdparties.view.php:80
-#, php-format
-msgid "Choose %s"
-msgstr "Choisir %s"
+#: modules/dolibarr/doli-associate/view/compare-wps-proposal.view.php:31
+#: modules/dolibarr/doli-order/view/metabox-order-related-object.view.php:26
+msgid "Ref"
+msgstr "Réf"
 
-#: modules/doli-associate/view/compare-thirdparties.view.php:33
+#: modules/dolibarr/doli-associate/view/compare-wps-proposal.view.php:33
+#, fuzzy
+#| msgid "Amount"
+msgid "Tva Amount"
+msgstr "Montant"
+
+#: modules/dolibarr/doli-associate/view/compare-wps-third-party.view.php:32
 msgid "Tier name"
 msgstr "Nom de la société"
 
-#: modules/doli-associate/view/compare-thirdparties.view.php:46
-#: modules/doli-order/view/metabox-order-details.view.php:37
-#: modules/doli-order/view/metabox-order-details.view.php:48
-#: modules/third-parties/view/metaboxes/metabox-billing-address-edit.view.php:30
-#: modules/third-parties/view/metaboxes/metabox-billing-address.view.php:30
-#: modules/third-parties/view/metaboxes/metabox-contacts-edit.view.php:20
-#: modules/third-parties/view/metaboxes/metabox-contacts.view.php:24
-msgid "Name"
-msgstr "Nom"
+#: modules/dolibarr/doli-associate/view/compare-wps-third-party.view.php:33
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:38
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:49
+#: modules/third-parties/view/metaboxes/metabox-billing-address-edit.view.php:31
+#: modules/third-parties/view/metaboxes/metabox-billing-address.view.php:20
+#: modules/third-parties/view/metaboxes/metabox-billing-address.view.php:31
+msgid "Address"
+msgstr "Adresse"
 
-#: modules/doli-associate/view/compare-thirdparties.view.php:47
+#: modules/dolibarr/doli-associate/view/compare-wps-third-party.view.php:35
+msgid "Town"
+msgstr "Ville"
+
+#: modules/dolibarr/doli-associate/view/compare-wps-user.view.php:30
+#, fuzzy
+#| msgid "Company name"
+msgid "Display name"
+msgstr "Nom de la société"
+
+#: modules/dolibarr/doli-associate/view/compare-wps-user.view.php:31
+#, fuzzy
+#| msgid "Last name"
+msgid "Lastname"
+msgstr "Nom de famille"
+
+#: modules/dolibarr/doli-associate/view/compare-wps-user.view.php:32
 #: modules/third-parties/view/metaboxes/metabox-contacts-edit.view.php:21
 #: modules/third-parties/view/metaboxes/metabox-contacts.view.php:25
 msgid "Firstname"
 msgstr "Prénom"
 
-#: modules/doli-associate/view/main.view.php:30
+#: modules/dolibarr/doli-associate/view/main.view.php:31
+#, php-format
+msgid "This %s is not associated to a %s in Dolibarr"
+msgstr ""
+
+#: modules/dolibarr/doli-associate/view/main.view.php:37
+#, php-format
+msgid "Please select a %s to associate in the next elements:"
+msgstr ""
+
+#: modules/dolibarr/doli-associate/view/main.view.php:43
+#, php-format
+msgid "%s available in your ERP"
+msgstr ""
+
+#: modules/dolibarr/doli-associate/view/main.view.php:56
 msgid "Search..."
 msgstr "Chercher..."
 
-#: modules/doli-associate/view/modal-associate-result.view.php:54
-msgid "Refresh page"
-msgstr "Actualiser la page"
+#: modules/dolibarr/doli-associate/view/modal-associate-footer.view.php:26
+#: modules/dolibarr/doli-sync/view/modal-sync-button.view.php:20
+msgid "Close"
+msgstr "Fermer"
 
-#: modules/doli-associate/view/single-footer.view.php:21
+#: modules/dolibarr/doli-associate/view/single-footer.view.php:22
 #: modules/products/view/item-edit.view.php:38
 msgid "Cancel"
 msgstr "Annuler"
 
-#: modules/doli-associate/view/single-footer.view.php:28
+#: modules/dolibarr/doli-associate/view/single-footer.view.php:29
 msgid "Compare elements"
 msgstr "Comparer les éléments"
 
-#: modules/doli-invoice/action/class-doli-invoice-action.php:89
+#: modules/dolibarr/doli-invoice/action/class-doli-invoice-action.php:91
 #, php-format
 msgid "Invoice details %s"
 msgstr "Facture détails %s"
 
-#: modules/doli-invoice/action/class-doli-invoice-action.php:101
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:60
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:62
-#: modules/doli-invoice/view/main.view.php:21
-#: modules/doli-sync/class/class-doli-sync.php:80
-#: modules/my-account/filter/class-my-account-filter.php:64
+#: modules/dolibarr/doli-invoice/action/class-doli-invoice-action.php:103
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:60
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:62
+#: modules/dolibarr/doli-invoice/view/main.view.php:21
+#: modules/my-account/class/class-my-account.php:130
 msgid "Invoices"
 msgstr "Factures"
 
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:64
-#: modules/doli-order/filter/class-doli-order-filter.php:52
-#: modules/products/filter/class-product-filter.php:54
+#: modules/dolibarr/doli-invoice/action/class-doli-invoice-action.php:284
+#, fuzzy
+#| msgid "No invoices found."
+msgid "Invoice not found"
+msgstr "Aucune factures trouvées."
+
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:64
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:52
+#: modules/products/filter/class-product-filter.php:69
 #: modules/proposals/filter/class-proposals-filter.php:46
 #: modules/third-parties/filter/class-third-party-filter.php:47
 msgid "Add New"
 msgstr "Nouveau"
 
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:65
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:65
 msgid "Add New Invoice"
 msgstr "Ajouter Nouvelle Facture"
 
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:66
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:66
 msgid "New Invoice"
 msgstr "Nouvelle Facture"
 
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:67
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:67
 msgid "Edit Invoice"
 msgstr "Modifier Facture"
 
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:68
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:68
 msgid "View Invoice"
 msgstr "Voir Facture"
 
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:69
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:69
 msgid "All Invoices"
 msgstr "Toutes les factures"
 
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:70
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:70
 msgid "Search Invoices"
 msgstr "Rechercher Facture"
 
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:71
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:71
 msgid "Parent Invoices:"
 msgstr "Parent Factures:"
 
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:72
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:72
 msgid "No invoices found."
 msgstr "Aucune factures trouvées."
 
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:73
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:73
 msgid "No invoices found in Trash."
 msgstr "Aucune factures trouvées dans la Corbeille."
 
-#: modules/doli-invoice/filter/class-doli-invoice-filter.php:91
+#: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:91
 msgid "Started"
 msgstr ""
 
-#: modules/doli-invoice/view/item.view.php:33
-#: modules/doli-invoice/view/item.view.php:52
-#: modules/doli-order/view/item.view.php:32
+#: modules/dolibarr/doli-invoice/view/item.view.php:33
+#: modules/dolibarr/doli-invoice/view/item.view.php:52
+#: modules/dolibarr/doli-order/view/item.view.php:32
+#: modules/dolibarr/doli-proposals/view/item.view.php:31
 #: modules/proposals/view/item.view.php:32
+#: modules/third-parties/view/item.view.php:36
 msgid "See"
 msgstr "Voir"
 
-#: modules/doli-invoice/view/item.view.php:35
-#: modules/doli-invoice/view/item.view.php:54
-#: modules/doli-order/view/item.view.php:34
+#: modules/dolibarr/doli-invoice/view/item.view.php:35
+#: modules/dolibarr/doli-invoice/view/item.view.php:54
+#: modules/dolibarr/doli-order/view/item.view.php:34
+#: modules/dolibarr/doli-proposals/view/item.view.php:33
 #: modules/proposals/view/item.view.php:34
 msgid "See in Dolibarr"
 msgstr "Voir dans Dolibarr"
 
-#: modules/doli-invoice/view/list.view.php:22
+#: modules/dolibarr/doli-invoice/view/list.view.php:22
 msgid "Invoice reference"
 msgstr "Référence de la facture"
 
-#: modules/doli-invoice/view/list.view.php:23
-#: modules/doli-order/view/list.view.php:21
+#: modules/dolibarr/doli-invoice/view/list.view.php:23
+#: modules/dolibarr/doli-order/view/list.view.php:21
 msgid "Order reference"
 msgstr "Référence de la commande"
 
-#: modules/doli-invoice/view/list.view.php:24
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:56
+#: modules/dolibarr/doli-invoice/view/list.view.php:24
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:56
+#: modules/dolibarr/doli-proposals/view/list.view.php:22
 #: modules/proposals/view/list.view.php:22
 #: modules/proposals/view/metabox-proposal-address.view.php:47
 #: modules/third-parties/view/metaboxes/metabox-invoices.view.php:20
@@ -626,432 +722,379 @@ msgstr "Référence de la commande"
 msgid "Billing"
 msgstr "Facture"
 
-#: modules/doli-invoice/view/list.view.php:25
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:22
+#: modules/dolibarr/doli-invoice/view/list.view.php:25
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:22
 msgid "Statut"
 msgstr "Statut"
 
-#: modules/doli-invoice/view/list.view.php:28
-#: modules/doli-sync/view/sync-header.view.php:19
+#: modules/dolibarr/doli-invoice/view/list.view.php:28
+#: modules/dolibarr/doli-sync/view/sync-header.view.php:19
 msgid "Synchro"
 msgstr "Synchroniser"
 
-#: modules/doli-invoice/view/main.view.php:32
+#: modules/dolibarr/doli-invoice/view/main.view.php:32
 #, fuzzy
 #| msgid "All Invoices"
 msgid "All Invoices Sync"
 msgstr "Toutes les factures"
 
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:20
-#: modules/doli-invoice/view/metabox-invoice-products.view.php:20
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:20
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-products.view.php:20
 #: modules/proposals/view/metabox-proposal-details.view.php:21
 msgid "Payment"
 msgstr "Paiement"
 
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:21
-#: modules/doli-order/filter/class-doli-order-filter.php:49
-#: modules/doli-order/filter/class-doli-order-filter.php:51
-#: modules/doli-order/view/single.view.php:22
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:21
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:49
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:51
+#: modules/dolibarr/doli-order/view/single.view.php:21
 #: modules/third-parties/view/metaboxes/metabox-invoices.view.php:25
 #: modules/third-parties/view/metaboxes/metabox-orders.view.php:24
 msgid "Order"
 msgstr "Commande"
 
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:24
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:24
 #: modules/proposals/view/metabox-proposal-details.view.php:23
 msgid "Payment status"
 msgstr "Statut du paiement"
 
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:28
-#: modules/doli-order/view/metabox-order-details.view.php:20
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:28
 #: modules/proposals/view/metabox-proposal-address.view.php:20
 msgid "Customer contact"
 msgstr "Adresse du client"
 
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:43
-#: modules/doli-proposals/view/order-details.view.php:20
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:43
 #: modules/proposals/view/metabox-proposal-address.view.php:34
 msgid "Payment date"
 msgstr "Date du paiement"
 
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:44
-#: modules/doli-proposals/view/order-details.view.php:21
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:44
 #: modules/proposals/view/metabox-proposal-address.view.php:35
 msgid "Payment reference"
 msgstr "Référence du paiement"
 
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:45
-#: modules/doli-proposals/view/order-details.view.php:22
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:45
 #: modules/proposals/view/metabox-proposal-address.view.php:36
 msgid "Amount"
 msgstr "Montant"
 
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:59
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:59
 #: modules/proposals/view/metabox-proposal-address.view.php:50
 msgid "No billing contact"
 msgstr "Pas d'adresse de facturation"
 
-#: modules/doli-invoice/view/metabox-invoice-details.view.php:63
+#: modules/dolibarr/doli-invoice/view/metabox-invoice-details.view.php:63
 #: modules/proposals/view/metabox-proposal-address.view.php:54
 msgid "Shipment"
 msgstr "Livraison"
 
-#: modules/doli-order/action/class-doli-order-action.php:81
-#: modules/doli-statut/class/class-doli-statut.php:60
-#: modules/doli-statut/class/class-doli-statut.php:82
+#: modules/dolibarr/doli-order/action/class-doli-order-action.php:85
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:60
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:82
 msgid "Delivered"
 msgstr "Délivrée"
 
-#: modules/doli-order/action/class-doli-order-action.php:91
-#: modules/doli-statut/class/class-doli-statut.php:74
-#: modules/doli-statut/class/class-doli-statut.php:104
+#: modules/dolibarr/doli-order/action/class-doli-order-action.php:95
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:74
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:104
 msgid "Canceled"
 msgstr "Anulée"
 
-#: modules/doli-order/action/class-doli-order-action.php:108
-#: modules/doli-order/action/class-doli-order-action.php:185
-#: modules/doli-order/filter/class-doli-order-filter.php:48
-#: modules/doli-order/filter/class-doli-order-filter.php:50
-#: modules/doli-order/view/main.view.php:21
-#: modules/doli-proposals/view/main.view.php:20
-#: modules/doli-sync/class/class-doli-sync.php:74
-#: modules/my-account/filter/class-my-account-filter.php:58
+#: modules/dolibarr/doli-order/action/class-doli-order-action.php:112
+#: modules/dolibarr/doli-order/action/class-doli-order-action.php:200
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:48
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:50
+#: modules/dolibarr/doli-order/view/main.view.php:20
+#: modules/my-account/class/class-my-account.php:125
 #: modules/third-parties/view/metaboxes/metabox-orders.view.php:20
 msgid "Orders"
 msgstr "Commandes"
 
-#: modules/doli-order/filter/class-doli-order-filter.php:53
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:53
 msgid "Add New Order"
 msgstr "Ajouter nouvelle commande"
 
-#: modules/doli-order/filter/class-doli-order-filter.php:54
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:54
 msgid "New Order"
 msgstr "Nouvelle commande"
 
-#: modules/doli-order/filter/class-doli-order-filter.php:55
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:55
 msgid "Edit Order"
 msgstr "Editer commande"
 
-#: modules/doli-order/filter/class-doli-order-filter.php:56
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:56
 msgid "View Order"
 msgstr "Voir commande"
 
-#: modules/doli-order/filter/class-doli-order-filter.php:57
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:57
 msgid "All Orders"
 msgstr "Toutes les commandes"
 
-#: modules/doli-order/filter/class-doli-order-filter.php:58
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:58
 msgid "Search Orders"
 msgstr "Chercher dans les commandes"
 
-#: modules/doli-order/filter/class-doli-order-filter.php:59
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:59
 msgid "Parent Orders:"
 msgstr "Parent Commandes:"
 
-#: modules/doli-order/filter/class-doli-order-filter.php:60
-#: modules/products/filter/class-product-filter.php:62
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:60
+#: modules/products/filter/class-product-filter.php:77
 msgid "No products found."
 msgstr "Aucun produits trouvés."
 
-#: modules/doli-order/filter/class-doli-order-filter.php:61
-#: modules/products/filter/class-product-filter.php:63
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:61
+#: modules/products/filter/class-product-filter.php:78
 msgid "No products found in Trash."
 msgstr "Aucun produits trouvés dans la poubelle."
 
-#: modules/doli-order/filter/class-doli-order-filter.php:106
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:106
 msgid "Traitment in progress"
 msgstr ""
 
-#: modules/doli-order/filter/class-doli-order-filter.php:110
+#: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:110
 msgid "(Delivery)"
 msgstr "Délivrée"
 
-#: modules/doli-order/view/list.view.php:22
-#: modules/doli-order/view/metabox-order-details.view.php:35
+#: modules/dolibarr/doli-order/view/list.view.php:22
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:35
 msgid "Billing contact"
 msgstr "Adresse de facturation"
 
-#: modules/doli-order/view/list.view.php:23
+#: modules/dolibarr/doli-order/view/list.view.php:23
+#: modules/dolibarr/doli-proposals/view/list.view.php:23
+#: modules/products/view/list.view.php:27
 #: modules/proposals/view/list.view.php:23
+#: modules/third-parties/view/metaboxes/metabox-dolibarr-proposals.view.php:27
 #: modules/third-parties/view/metaboxes/metabox-invoices.view.php:28
 #: modules/third-parties/view/metaboxes/metabox-orders.view.php:27
 #: modules/third-parties/view/metaboxes/metabox-proposals.view.php:27
 msgid "Status"
 msgstr "Statut"
 
-#: modules/doli-order/view/main.view.php:32
-msgid "All Orders Sync"
-msgstr "Synchroniser toutes les commandes"
-
-#: modules/doli-order/view/main.view.php:49
-#: modules/products/view/main.view.php:60
+#: modules/dolibarr/doli-order/view/main.view.php:32
+#: modules/dolibarr/doli-proposals/view/main.view.php:32
+#: modules/products/view/main.view.php:41
 #: modules/proposals/view/main.view.php:49
 #: modules/search/view/search-field.view.php:22
-#: modules/third-parties/view/main.view.php:49
+#: modules/third-parties/view/main.view.php:34
 msgid "Search"
 msgstr "Rechercher"
 
-#: modules/doli-order/view/main.view.php:62
-#: modules/products/view/main.view.php:73
+#: modules/dolibarr/doli-order/view/main.view.php:46
+#: modules/dolibarr/doli-proposals/view/main.view.php:47
+#: modules/products/view/main.view.php:54
 #: modules/proposals/view/main.view.php:63
-#: modules/third-parties/view/main.view.php:62
+#: modules/third-parties/view/main.view.php:47
 #, fuzzy
 #| msgid "Compare elements"
 msgid "element(s)"
 msgstr "Comparer les éléments"
 
-#: modules/doli-order/view/metabox-order-details.view.php:24
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:20
+#, fuzzy
+#| msgid "Order detail"
+msgid "Order details"
+msgstr "Détail de la commande"
+
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:24
 msgid "Informations"
 msgstr "Informations"
 
-#: modules/doli-order/view/metabox-order-details.view.php:29
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:29
 msgid "Order status"
 msgstr "Statut de la commande"
 
-#: modules/doli-order/view/metabox-order-details.view.php:38
-#: modules/doli-order/view/metabox-order-details.view.php:49
-#: modules/third-parties/view/metaboxes/metabox-billing-address-edit.view.php:31
-#: modules/third-parties/view/metaboxes/metabox-billing-address.view.php:20
-#: modules/third-parties/view/metaboxes/metabox-billing-address.view.php:31
-msgid "Address"
-msgstr "Adresse"
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:37
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:48
+#: modules/third-parties/view/metaboxes/metabox-billing-address-edit.view.php:30
+#: modules/third-parties/view/metaboxes/metabox-billing-address.view.php:30
+#: modules/third-parties/view/metaboxes/metabox-contacts-edit.view.php:20
+#: modules/third-parties/view/metaboxes/metabox-contacts.view.php:24
+msgid "Name"
+msgstr "Nom"
 
-#: modules/doli-order/view/metabox-order-details.view.php:39
-#: modules/doli-order/view/metabox-order-details.view.php:50
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:39
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:50
 #: modules/third-parties/view/metaboxes/metabox-billing-address-edit.view.php:32
 #: modules/third-parties/view/metaboxes/metabox-billing-address.view.php:32
 msgid "ZIP Code"
 msgstr "Code postal"
 
-#: modules/doli-order/view/metabox-order-details.view.php:40
-#: modules/doli-order/view/metabox-order-details.view.php:51
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:40
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:51
 #: modules/third-parties/view/metaboxes/metabox-billing-address-edit.view.php:33
 #: modules/third-parties/view/metaboxes/metabox-billing-address.view.php:33
 msgid "City"
 msgstr "Ville"
 
-#: modules/doli-order/view/metabox-order-details.view.php:46
+#: modules/dolibarr/doli-order/view/metabox-order-details.view.php:46
 msgid "Shipment contact"
 msgstr "Adresse de livraison"
 
-#: modules/doli-order/view/metabox-order-payment.view.php:20
-#: modules/doli-order/view/metabox-order-payment.view.php:25
-#: modules/doli-sync/class/class-doli-sync.php:86
+#: modules/dolibarr/doli-order/view/metabox-order-payment.view.php:20
+#: modules/dolibarr/doli-order/view/metabox-order-payment.view.php:25
 msgid "Payments"
 msgstr "Paiements"
 
-#: modules/doli-order/view/metabox-order-payment.view.php:27
-#: modules/doli-order/view/metabox-order-related-object.view.php:25
+#: modules/dolibarr/doli-order/view/metabox-order-payment.view.php:27
+#: modules/dolibarr/doli-order/view/metabox-order-related-object.view.php:25
 msgid "Type"
 msgstr "Type"
 
-#: modules/doli-order/view/metabox-order-payment.view.php:28
+#: modules/dolibarr/doli-order/view/metabox-order-payment.view.php:28
 msgid "Amount TTC"
 msgstr "Montant TTC"
 
-#: modules/doli-order/view/metabox-order-payment.view.php:55
+#: modules/dolibarr/doli-order/view/metabox-order-payment.view.php:55
 msgid "Already paid"
 msgstr "Déjà payé"
 
-#: modules/doli-order/view/metabox-order-payment.view.php:59
-#: modules/doli-statut/class/class-doli-statut.php:56
-#: modules/doli-statut/class/class-doli-statut.php:78
-#: modules/doli-statut/class/class-doli-statut.php:96
+#: modules/dolibarr/doli-order/view/metabox-order-payment.view.php:59
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:56
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:78
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:96
 msgid "Billed"
 msgstr "Payé"
 
-#: modules/doli-order/view/metabox-order-payment.view.php:63
+#: modules/dolibarr/doli-order/view/metabox-order-payment.view.php:63
 msgid "Remaining unpaid"
 msgstr "Reste à payer"
 
-#: modules/doli-order/view/metabox-order-related-object.view.php:20
+#: modules/dolibarr/doli-order/view/metabox-order-related-object.view.php:20
 msgid "Related object"
 msgstr ""
 
-#: modules/doli-order/view/metabox-order-related-object.view.php:26
-#: modules/doli-proposals/view/list.view.php:24
-msgid "Ref"
-msgstr "Réf"
-
-#: modules/doli-order/view/metabox-order-related-object.view.php:28
+#: modules/dolibarr/doli-order/view/metabox-order-related-object.view.php:28
 #, fuzzy
 #| msgid "Stats"
 msgid "State"
 msgstr "Statistiques"
 
-#: modules/doli-order/view/metabox-shipment-tracking.view.php:20
+#: modules/dolibarr/doli-order/view/metabox-shipment-tracking.view.php:20
 #, fuzzy
 #| msgid "Shipment"
 msgid "Shipment Tracking"
 msgstr "Livraison"
 
-#: modules/doli-order/view/metabox-shipment-tracking.view.php:24
+#: modules/dolibarr/doli-order/view/metabox-shipment-tracking.view.php:24
 msgid "Tracking URL"
 msgstr ""
 
-#: modules/doli-order/view/metabox-shipment-tracking.view.php:38
+#: modules/dolibarr/doli-order/view/metabox-shipment-tracking.view.php:38
 msgid "Update tracking link"
 msgstr ""
 
-#: modules/doli-order/view/metabox-shipment-tracking.view.php:40
+#: modules/dolibarr/doli-order/view/metabox-shipment-tracking.view.php:40
 msgid "Mark as delivery"
 msgstr ""
 
-#: modules/doli-products/action/class-doli-products-action.php:110
-msgid "Product not created on dolibarr. It already exist on Dolibarr."
-msgstr ""
-
-#: modules/doli-products/class/class-doli-products.php:74
+#: modules/dolibarr/doli-products/class/class-doli-products.php:83
+#: modules/dolibarr/doli-sync/class/class-doli-sync.php:171
 #, php-format
 msgid ""
 "Erase data for the product <strong>%s</strong> with the <strong>dolibarr</"
 "strong> data"
 msgstr ""
 
-#: modules/doli-products/class/class-doli-products.php:120
-#, php-format
-msgid ""
-"Erase data for the product <strong>%s</strong> with the <strong>WordPress</"
-"strong> data"
-msgstr ""
+#: modules/dolibarr/doli-proposals/action/class-doli-proposals-action.php:68
+#: modules/dolibarr/doli-proposals/view/main.view.php:20
+#, fuzzy
+#| msgid "All Proposals Sync"
+msgid "Dolibarr Proposals"
+msgstr "Synchroniser tous les devis"
 
-#: modules/doli-proposals/view/list.view.php:23
-msgid "WP ID"
-msgstr "WP ID"
+#: modules/dolibarr/doli-proposals/action/class-doli-proposals-action.php:85
+#, fuzzy
+#| msgid "Proposals"
+msgid "Proposals Dolibarr"
+msgstr "Propositions commerciales"
 
-#: modules/doli-proposals/view/list.view.php:25
-msgid "Price"
-msgstr "Prix"
+#: modules/dolibarr/doli-proposals/view/list.view.php:21
+#: modules/proposals/view/list.view.php:21
+msgid "Proposal reference"
+msgstr "Référence du devis"
 
-#: modules/doli-proposals/view/main.view.php:24
-msgid "Sync"
-msgstr "Synchroniser"
-
-#: modules/doli-statut/class/class-doli-statut.php:40
-#: modules/doli-statut/class/class-doli-statut.php:66
-#: modules/doli-statut/class/class-doli-statut.php:88
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:40
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:66
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:88
 msgid "Draft"
 msgstr "Brouillon"
 
-#: modules/doli-statut/class/class-doli-statut.php:44
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:44
 msgid "Waiting for a signature"
 msgstr "En attente de la signature"
 
-#: modules/doli-statut/class/class-doli-statut.php:48
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:48
 msgid "Signed"
 msgstr "Signé"
 
-#: modules/doli-statut/class/class-doli-statut.php:52
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:52
 msgid "Not signed"
 msgstr "Non signé"
 
-#: modules/doli-statut/class/class-doli-statut.php:70
-#: modules/doli-statut/class/class-doli-statut.php:92
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:70
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:92
 msgid "Not paid"
 msgstr "Non payée"
 
-#: modules/doli-statut/class/class-doli-statut.php:100
+#: modules/dolibarr/doli-statut/class/class-doli-statut.php:100
 msgid "Abandoned"
 msgstr "Abondonée"
 
-#: modules/doli-sync/action/class-doli-sync-action.php:456
-msgid "No associated to an ERP Entity"
-msgstr "Cette entitée n'est pas associé à votre ERP"
-
-#: modules/doli-sync/action/class-doli-sync-action.php:460
-#, php-format
-msgid "Last synchronisation on %s"
-msgstr "Dernière synchronisation le %s"
-
-#: modules/doli-sync/action/class-doli-sync-action.php:465
-msgid "Not available in quick release"
-msgstr "Indisponible en modification rapide"
-
-#: modules/doli-sync/class/class-doli-sync.php:50
-#: modules/third-parties/action/class-third-party-action.php:152
+#: modules/dolibarr/doli-sync/class/class-doli-sync.php:53
+#: modules/third-parties/action/class-third-party-action.php:149
 #: modules/third-parties/filter/class-third-party-filter.php:43
 #: modules/third-parties/filter/class-third-party-filter.php:45
 msgid "Third parties"
 msgstr "Tiers"
 
-#: modules/doli-sync/class/class-doli-sync.php:56
-#: modules/third-parties/view/list.view.php:23
-#: modules/third-parties/view/metaboxes/metabox-contacts.view.php:20
-msgid "Contacts"
-msgstr "Contacts"
-
-#: modules/doli-sync/class/class-doli-sync.php:62
-#: modules/order/action/class-order-action.php:39
-#: modules/order/action/class-order-action.php:40
-#: modules/products/action/class-product-action.php:47
-#: modules/products/action/class-product-action.php:48
-#: modules/products/action/class-product-action.php:106
-#: modules/products/filter/class-product-filter.php:50
-#: modules/products/filter/class-product-filter.php:52
-#: modules/products/view/main.view.php:21
-msgid "Products"
-msgstr "Produits"
-
-#: modules/doli-sync/class/class-doli-sync.php:68
-#: modules/proposals/action/class-proposals-action.php:73
-#: modules/proposals/action/class-proposals-action.php:90
+#: modules/dolibarr/doli-sync/class/class-doli-sync.php:73
+#: modules/proposals/action/class-proposals-action.php:61
+#: modules/proposals/action/class-proposals-action.php:78
 #: modules/proposals/filter/class-proposals-filter.php:42
 #: modules/proposals/filter/class-proposals-filter.php:44
 #: modules/proposals/view/main.view.php:21
+#: modules/third-parties/view/metaboxes/metabox-dolibarr-proposals.view.php:20
 #: modules/third-parties/view/metaboxes/metabox-proposals.view.php:20
 msgid "Proposals"
 msgstr "Propositions commerciales"
 
-#: modules/doli-sync/class/class-doli-sync.php:157
-#: modules/doli-third-parties/class/class-doli-third-parties.php:68
+#: modules/dolibarr/doli-sync/class/class-doli-sync.php:162
+#: modules/dolibarr/doli-third-parties/class/class-doli-third-parties.php:63
 #, php-format
 msgid ""
 "Erase data for the third party <strong>%s</strong> with the "
 "<strong>dolibarr</strong> data"
 msgstr ""
 
-#: modules/doli-sync/view/modal-sync-button.view.php:20
-msgid "Close"
-msgstr "Fermer"
+#: modules/dolibarr/doli-sync/class/class-doli-sync.php:281
+msgid "Looking for sync status"
+msgstr ""
 
-#: modules/doli-sync/view/sync-item.view.php:26
+#: modules/dolibarr/doli-sync/class/class-doli-sync.php:292
+msgid "No associated to an ERP Entity"
+msgstr "Cette entitée n'est pas associé à votre ERP"
+
+#: modules/dolibarr/doli-sync/class/class-doli-sync.php:323
+msgid "Error not defined"
+msgstr ""
+
+#: modules/dolibarr/doli-sync/view/sync-item.view.php:27
 #, php-format
 msgid "Associate and synchronize %s"
 msgstr "Associer et synchroniser %s"
 
-#: modules/doli-third-parties/class/class-doli-third-parties.php:83
-#, php-format
-msgid ""
-"Try to add contact <strong>%1$s</strong> to the third party <strong>%2$s</"
-"strong>"
-msgstr ""
-
-#: modules/doli-third-parties/class/class-doli-third-parties.php:90
-#, php-format
-msgid ""
-"The contact <strong>%s</strong> is already associated to another third party"
-msgstr ""
-
-#: modules/doli-third-parties/class/class-doli-third-parties.php:96
-#, php-format
-msgid ""
-"Erase data for the contact <strong>%1$s</strong> with the <strong>dolibarr</"
-"strong> data and affect to <strong>%2$s</strong>"
-msgstr ""
-
-#: modules/doli-third-parties/class/class-doli-third-parties.php:104
-#, php-format
-msgid ""
-"Erase data for the contact <strong>%1$s</strong> with the <strong>dolibarr</"
-"strong>data and affect to <strong>%2$s</strong>"
-msgstr ""
-
-#: modules/doli-third-parties/class/class-doli-third-parties.php:145
+#: modules/dolibarr/doli-third-parties/class/class-doli-third-parties.php:138
 #, php-format
 msgid ""
 "Erase data for the third party <strong>%s</strong> with the "
 "<strong>WordPress</strong> data"
 msgstr ""
+
+#: modules/dolibarr/doli-user/view/frontend/user-alert.php:6
+msgid "There is a problem connecting your account to our ERP"
+msgstr "IL Y A UN PROBLÈME DE CONNEXION DE VOTRE COMPTE À NOTRE ERP"
 
 #: modules/emails/class/class-emails.php:40
 msgid "New order"
@@ -1078,10 +1121,6 @@ msgstr "Délivrée"
 #: modules/emails/class/class-emails.php:65
 msgid "New account"
 msgstr "Nouveau compte"
-
-#: modules/emails/class/class-emails.php:70
-msgid "Reset password"
-msgstr "Mot de passe réinitialisé"
 
 #: modules/emails/view/admin-new-order.php:30
 #, php-format
@@ -1163,66 +1202,79 @@ msgstr "Voir mes commandes ou mes produits téléchargeables"
 msgid "Page not set"
 msgstr "Page non utilisé"
 
-#: modules/my-account/action/class-my-account-action.php:82
+#: modules/my-account/action/class-my-account-action.php:83
 msgid "Your username or password is incorrect."
 msgstr "Votre identifiant ou votre mot de passe est incorrect."
 
-#: modules/my-account/action/class-my-account-action.php:101
+#: modules/my-account/action/class-my-account-action.php:100
+msgid "An email for reset password"
+msgstr "Un courriel pour réinitialiser le mot de passe"
+
+#: modules/my-account/action/class-my-account-action.php:115
 msgid "Please fill email field"
 msgstr ""
 
-#: modules/my-account/action/class-my-account-action.php:115
-#: modules/my-account/action/class-my-account-action.php:143
+#: modules/my-account/action/class-my-account-action.php:129
+#: modules/my-account/action/class-my-account-action.php:157
 msgid "Unknown error"
 msgstr ""
 
-#: modules/my-account/action/class-my-account-action.php:123
+#: modules/my-account/action/class-my-account-action.php:137
 #, fuzzy
 #| msgid "Your username or password is incorrect."
 msgid "Current password is incorrect"
 msgstr "Votre identifiant ou votre mot de passe est incorrect."
 
-#: modules/my-account/action/class-my-account-action.php:135
+#: modules/my-account/action/class-my-account-action.php:149
 msgid "New password and confirm new password are different"
 msgstr ""
 
-#: modules/my-account/class/class-my-account.php:104
-msgid "Account details"
+#: modules/my-account/action/class-my-account-action.php:213
+msgid "What do you try to do ?"
 msgstr ""
 
-#: modules/my-account/class/class-my-account.php:109
-msgid "Logout"
-msgstr "Deconnexion"
+#: modules/my-account/class/class-my-account.php:110
+msgid "Account details"
+msgstr "Détails du compte"
 
-#: modules/my-account/class/class-my-account.php:122
-msgid "Switch back"
-msgstr "Retour"
-
-#: modules/my-account/filter/class-my-account-filter.php:50
+#: modules/my-account/class/class-my-account.php:115
 msgid "Quotations"
 msgstr "Devis"
 
-#: modules/my-account/filter/class-my-account-filter.php:70
+#: modules/my-account/class/class-my-account.php:120
+msgid "Dolibarr Quotation"
+msgstr "Proposition"
+
+#: modules/my-account/class/class-my-account.php:135
 msgid "Downloads"
 msgstr "Téléchargements"
 
-#: modules/my-account/view/frontend/checkout-login.php:22
-msgid "Returning customer ?"
-msgstr "Déjà client ? Cliquez ici pour vous connecter"
+#: modules/my-account/class/class-my-account.php:140
+msgid "Logout"
+msgstr "Deconnexion"
 
-#: modules/my-account/view/frontend/checkout-login.php:22
+#: modules/my-account/class/class-my-account.php:153
+msgid "Switch back"
+msgstr "Retour"
+
+#: modules/my-account/view/frontend/checkout-login.php:21
+msgid "Returning customer ?"
+msgstr "Déjà client ? Cliquez ici pour vous connecter ?"
+
+#: modules/my-account/view/frontend/checkout-login.php:21
 msgid "Click here to login"
 msgstr "Cliquez ici pour vous connecter"
 
-#: modules/my-account/view/frontend/form-login.php:47
-msgid "Username or email contact"
-msgstr "Identifiant ou adresse email"
+#: modules/my-account/view/frontend/form-login.php:50
+#: modules/my-account/view/frontend/lost-password.php:33
+msgid "Username or email address"
+msgstr "Nom d'utilisateur ou adresse électronique"
 
-#: modules/my-account/view/frontend/form-login.php:60
+#: modules/my-account/view/frontend/form-login.php:63
 msgid "Log in"
 msgstr "Connexion"
 
-#: modules/my-account/view/frontend/form-login.php:61
+#: modules/my-account/view/frontend/form-login.php:64
 msgid "Lost Password"
 msgstr "Mot de passe perdu"
 
@@ -1230,58 +1282,80 @@ msgstr "Mot de passe perdu"
 msgid "Login"
 msgstr "Connexion"
 
-#: modules/my-account/view/frontend/my-account-details.php:51
-#: modules/my-account/view/frontend/my-account-details.php:59
-msgid "Leave blank to leave unchanged"
-msgstr ""
+#: modules/my-account/view/frontend/lost-password.php:20
+msgid "Lost password ?"
+msgstr "Mot de passe perdu ?"
 
-#: modules/my-account/view/frontend/my-account-details.php:69
-msgid "Save changes"
+#: modules/my-account/view/frontend/lost-password.php:22
+msgid ""
+"Lost your password? Please enter your username or email address. You will "
+"receive a link to create a new password via email."
 msgstr ""
+"Vous avez perdu votre mot de passe ? Veuillez entrer votre nom d'utilisateur "
+"ou votre adresse électronique. Vous recevrez un lien pour créer un nouveau "
+"mot de passe par courrier électronique."
+
+#: modules/my-account/view/frontend/lost-password.php:40
+msgid "Reset password"
+msgstr "Réinitialisation du mot de passe"
+
+#: modules/my-account/view/frontend/my-account-details.php:46
+msgid "Current password"
+msgstr "Mot de passe actuel"
+
+#: modules/my-account/view/frontend/my-account-details.php:50
+#: modules/my-account/view/frontend/my-account-details.php:58
+msgid "Leave blank to leave unchanged"
+msgstr "Laisser en blanc pour ne pas modifier"
+
+#: modules/my-account/view/frontend/my-account-details.php:54
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+#: modules/my-account/view/frontend/my-account-details.php:62
+msgid "Confirm new password"
+msgstr "Confirmer le nouveau mot de passe"
+
+#: modules/my-account/view/frontend/my-account-details.php:68
+msgid "Save changes"
+msgstr "Enregistrer les modifications"
+
+#: modules/my-account/view/frontend/my-account-dolibarr-proposals.php:24
+#: modules/my-account/view/frontend/my-account-invoices.php:25
+#: modules/my-account/view/frontend/my-account-orders.php:24
+msgid "Please contact commercial"
+msgstr "Veuillez contacter le service commercial"
+
+#: modules/my-account/view/frontend/my-account-dolibarr-proposals.php:44
+#: modules/my-account/view/frontend/my-account-invoices.php:46
+#: modules/my-account/view/frontend/my-account-orders.php:44
+#: modules/my-account/view/frontend/my-account-proposals.php:33
+msgid "View details"
+msgstr "Voir les détails"
+
+#: modules/my-account/view/frontend/my-account-dolibarr-proposals.php:78
+#: modules/my-account/view/frontend/my-account-invoices.php:75
+#: modules/my-account/view/frontend/my-account-orders.php:81
+#: modules/my-account/view/frontend/my-account-proposals.php:67
+msgid "No products to display"
+msgstr "Aucun produits à afficher"
+
+#: modules/my-account/view/frontend/my-account-dolibarr-proposals.php:89
+#: modules/my-account/view/frontend/my-account-proposals.php:78
+msgid "No quotations"
+msgstr "Aucun devis"
 
 #: modules/my-account/view/frontend/my-account-downloads.php:47
 msgid "No downloadable product"
 msgstr "Aucun produit téléchargeable"
 
-#: modules/my-account/view/frontend/my-account-invoices.php:34
-#: modules/my-account/view/frontend/my-account-orders.php:33
-#: modules/my-account/view/frontend/my-account-proposals.php:33
-msgid "View details"
-msgstr "Voir les détails"
-
-#: modules/my-account/view/frontend/my-account-invoices.php:63
-#: modules/my-account/view/frontend/my-account-orders.php:94
-#: modules/my-account/view/frontend/my-account-proposals.php:87
-msgid "No products to display"
-msgstr "Aucun produits à afficher"
-
-#: modules/my-account/view/frontend/my-account-invoices.php:74
+#: modules/my-account/view/frontend/my-account-invoices.php:86
 msgid "No invoice"
 msgstr "Aucune facture"
 
-#: modules/my-account/view/frontend/my-account-orders.php:56
-#, fuzzy
-#| msgid "Place order"
-msgid "Pay order"
-msgstr "Passer commande"
-
-#: modules/my-account/view/frontend/my-account-orders.php:67
-msgid "Reorder"
-msgstr "Refaire cette commande"
-
-#: modules/my-account/view/frontend/my-account-orders.php:105
+#: modules/my-account/view/frontend/my-account-orders.php:92
 msgid "No orders"
 msgstr "Aucune commande"
-
-#: modules/my-account/view/frontend/my-account-proposals.php:52
-#, fuzzy
-#| msgid "Proposal"
-msgid "Pay Proposal"
-msgstr "Proposition commerciale"
-
-#: modules/my-account/view/frontend/my-account-proposals.php:98
-msgid "No quotations"
-msgstr "Aucun devis"
 
 #: modules/pages/class/class-pages.php:66
 msgid "Shop"
@@ -1302,16 +1376,6 @@ msgstr "Mon compte"
 #: modules/pages/class/class-pages.php:70
 msgid "General conditions of sale"
 msgstr "Condition générales de vente"
-
-#: modules/payment/action/class-payment-action.php:98
-#: modules/payment/action/class-payment-action.php:129
-#: modules/paypal/action/class-paypal-action.php:77
-#: modules/settings/action/class-settings-action.php:150
-#: modules/settings/action/class-settings-action.php:186
-#: modules/settings/action/class-settings-action.php:214
-#: modules/stripe/action/class-stripe-action.php:107
-msgid "Your settings have been saved."
-msgstr "Vos réglages ont été enregistrés."
 
 #: modules/payment/class/class-payment.php:52
 msgid "Cheque"
@@ -1375,130 +1439,121 @@ msgid ""
 "Sandbox Testing Guide</a> for more details."
 msgstr ""
 
-#: modules/paypal/view/form-setting.view.php:31
-#: modules/settings/view/payment-method-single-form.view.php:33
-#: modules/settings/view/payment-method.view.php:34
-#: modules/stripe/view/form-setting.view.php:31
-msgid "Activate"
-msgstr "Activer"
-
-#: modules/paypal/view/form-setting.view.php:37
+#: modules/paypal/view/form-setting.view.php:20
 msgid "Paypal email"
 msgstr "Email Paypal"
 
-#: modules/paypal/view/form-setting.view.php:46
-msgid "Paypal Sandbox"
-msgstr ""
+#: modules/paypal/view/form-setting.view.php:29
+#, fuzzy
+#| msgid "PayPal"
+msgid "PayPal Sandbox"
+msgstr "PayPal"
 
-#: modules/products/action/class-product-action.php:49
-#: modules/products/view/main.view.php:22
+#: modules/products/action/class-product-action.php:50
+#: modules/products/view/main.view.php:26
 msgid "Add"
 msgstr "Ajouter"
 
-#: modules/products/action/class-product-action.php:50
+#: modules/products/action/class-product-action.php:51
 msgid "Products Category"
 msgstr "Catégories de produits"
 
-#: modules/products/action/class-product-action.php:394
+#: modules/products/action/class-product-action.php:336
 #, php-format
 msgid "Search result for \"%s\""
 msgstr "Résultats de la recherche pour \"%s\""
 
-#: modules/products/filter/class-product-filter.php:51
-#: modules/products/filter/class-product-filter.php:53
+#: modules/products/filter/class-product-filter.php:66
+#: modules/products/filter/class-product-filter.php:68
 msgid "Product"
 msgstr "Produit"
 
-#: modules/products/filter/class-product-filter.php:55
+#: modules/products/filter/class-product-filter.php:70
 msgid "Add New Product"
 msgstr "Ajouter nouveau produit"
 
-#: modules/products/filter/class-product-filter.php:56
+#: modules/products/filter/class-product-filter.php:71
 msgid "New Product"
 msgstr "Nouveau produit"
 
-#: modules/products/filter/class-product-filter.php:57
+#: modules/products/filter/class-product-filter.php:72
 msgid "Edit Product"
 msgstr "Editer produit"
 
-#: modules/products/filter/class-product-filter.php:58
+#: modules/products/filter/class-product-filter.php:73
 msgid "View Product"
 msgstr "Voir produit"
 
-#: modules/products/filter/class-product-filter.php:59
+#: modules/products/filter/class-product-filter.php:74
 msgid "All Products"
 msgstr "Tous les produits"
 
-#: modules/products/filter/class-product-filter.php:60
+#: modules/products/filter/class-product-filter.php:75
 msgid "Search Products"
 msgstr "Rechercher Produits"
 
-#: modules/products/filter/class-product-filter.php:61
+#: modules/products/filter/class-product-filter.php:76
 msgid "Parent Products:"
 msgstr "Parent de produits:"
 
-#: modules/products/filter/class-product-filter.php:75
-msgid "product"
-msgstr "produit"
-
-#: modules/products/filter/class-product-filter.php:94
+#: modules/products/filter/class-product-filter.php:127
 msgid "Products category"
 msgstr "Catégorie de produits"
 
-#: modules/products/filter/class-product-filter.php:95
-#: modules/products/filter/class-product-filter.php:104
+#: modules/products/filter/class-product-filter.php:128
+#: modules/products/filter/class-product-filter.php:137
 msgid "Product category"
 msgstr "Catégorie de produit"
 
-#: modules/products/filter/class-product-filter.php:96
+#: modules/products/filter/class-product-filter.php:129
 msgid "Search Products category"
 msgstr "Recherche une catégorie de produits"
 
-#: modules/products/filter/class-product-filter.php:97
+#: modules/products/filter/class-product-filter.php:130
 msgid "All Products category"
 msgstr "Toutes les catégories de produits"
 
-#: modules/products/filter/class-product-filter.php:98
+#: modules/products/filter/class-product-filter.php:131
 #, fuzzy
 #| msgid "Product category"
 msgid "Parent Product category"
 msgstr "Catégorie de produit"
 
-#: modules/products/filter/class-product-filter.php:99
+#: modules/products/filter/class-product-filter.php:132
 #, fuzzy
 #| msgid "Product category"
 msgid "Parent Product: category"
 msgstr "Catégorie de produit"
 
-#: modules/products/filter/class-product-filter.php:100
+#: modules/products/filter/class-product-filter.php:133
 #, fuzzy
 #| msgid "Product category"
 msgid "Edit Product category"
 msgstr "Catégorie de produit"
 
-#: modules/products/filter/class-product-filter.php:101
+#: modules/products/filter/class-product-filter.php:134
 #, fuzzy
 #| msgid "Product category"
 msgid "Update Product category"
 msgstr "Catégorie de produit"
 
-#: modules/products/filter/class-product-filter.php:102
+#: modules/products/filter/class-product-filter.php:135
 #, fuzzy
 #| msgid "Product category"
 msgid "Add New Product category"
 msgstr "Catégorie de produit"
 
-#: modules/products/filter/class-product-filter.php:103
+#: modules/products/filter/class-product-filter.php:136
 #, fuzzy
 #| msgid "Product category"
 msgid "New Product  categoryName"
 msgstr "Catégorie de produit"
 
-#: modules/products/filter/class-product-filter.php:115
+#: modules/products/filter/class-product-filter.php:148
 msgid "category-product"
 msgstr "categorie-produit"
 
-#: modules/products/filter/class-product-filter.php:206
+#: modules/products/filter/class-product-filter.php:256
 msgid "Sold out"
 msgstr "Rupture de stock"
 
@@ -1507,8 +1562,8 @@ msgstr "Rupture de stock"
 msgid "Unit price:"
 msgstr "Prix unitaire:"
 
-#: modules/products/view/frontend/wps-product-single.php:40
-#: modules/products/view/metabox/main.view.php:87
+#: modules/products/view/frontend/wps-product-single.php:48
+#: modules/products/view/metabox/main.view.php:109
 msgid "Similar products"
 msgstr "Produits similaires"
 
@@ -1525,38 +1580,39 @@ msgstr "Détails"
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: modules/products/view/item-edit.view.php:65
-#: modules/products/view/metabox/main.view.php:65
+#: modules/products/view/item-edit.view.php:68
+#: modules/products/view/metabox/main.view.php:134
+#, fuzzy
+#| msgid "No product"
+msgid "No product parent"
+msgstr "Aucun produit"
+
+#: modules/products/view/item-edit.view.php:74
+#: modules/products/view/metabox/main.view.php:87
 msgid "Manage Stock"
 msgstr "Gérer le stock"
 
-#: modules/products/view/item-edit.view.php:71
-#: modules/products/view/list.view.php:27
-#: modules/products/view/metabox/main.view.php:71
+#: modules/products/view/item-edit.view.php:80
+#: modules/products/view/list.view.php:28
+#: modules/products/view/metabox/main.view.php:93
 msgid "Stock"
 msgstr "Stock"
 
 #: modules/products/view/item.view.php:33
-#: modules/third-parties/view/item.view.php:36
 msgid "Edit"
 msgstr "Modifier"
 
-#: modules/products/view/item.view.php:34
-#: modules/products/view/main.view.php:45
-msgid "Quick edit"
-msgstr "Modification rapide"
-
-#: modules/products/view/item.view.php:36
-#: modules/products/view/metabox/main.view.php:20
+#: modules/products/view/item.view.php:35
+#: modules/products/view/metabox/main.view.php:26
 #: modules/third-parties/view/item.view.php:38
 msgid "Edit in Dolibarr"
 msgstr "Editer sur Dolibarr"
 
-#: modules/products/view/item.view.php:38
+#: modules/products/view/item.view.php:37
 msgid "Delete"
 msgstr "Supprimer"
 
-#: modules/products/view/item.view.php:39
+#: modules/products/view/item.view.php:38
 msgid "Preview"
 msgstr "Afficher"
 
@@ -1572,21 +1628,20 @@ msgstr "Vignette"
 msgid "Tax Rate"
 msgstr "Taux de TVA"
 
-#: modules/products/view/main.view.php:33
-msgid "All Product Sync"
-msgstr "Synchroniser tous les produits"
-
-#: modules/products/view/main.view.php:49
-msgid "Apply"
-msgstr "Appliquer"
-
-#: modules/products/view/metabox/main.view.php:78
+#: modules/products/view/metabox/main.view.php:100
 msgid "Product Downloadable"
 msgstr "Produit Téléchargeable"
 
+#: modules/products/view/metabox/main.view.php:126
+#, fuzzy
+#| msgid "Parent Products:"
+msgid "Parent Product"
+msgstr "Parent de produits:"
+
 #: modules/proposals/filter/class-proposals-filter.php:43
 #: modules/proposals/filter/class-proposals-filter.php:45
-#: modules/proposals/view/single.view.php:22
+#: modules/proposals/view/single.view.php:21
+#: modules/third-parties/view/metaboxes/metabox-dolibarr-proposals.view.php:24
 #: modules/third-parties/view/metaboxes/metabox-proposals.view.php:24
 msgid "Proposal"
 msgstr "Proposition commerciale"
@@ -1645,10 +1700,6 @@ msgstr "Aucun produits trouvés."
 msgid "No proposals found in Trash."
 msgstr "Aucun produits trouvés dans la poubelle."
 
-#: modules/proposals/view/list.view.php:21
-msgid "Proposal reference"
-msgstr "Référence du devis"
-
 #: modules/proposals/view/main.view.php:32
 msgid "All Proposals Sync"
 msgstr "Synchroniser tous les devis"
@@ -1680,26 +1731,91 @@ msgstr "Nouveau titre"
 msgid "Title:"
 msgstr "Titre:"
 
-#: modules/settings/action/class-settings-action.php:143
+#: modules/settings/action/class-settings-action.php:151
 msgid "WPshop cannot connect to dolibarr. Please check your settings"
 msgstr ""
 "WPshop n'est pas connecté à Dolibarr. Veuillez vérifier vos configurations"
 
-#: modules/settings/class/class-settings.php:93
+#: modules/settings/action/class-settings-action.php:158
+#: modules/settings/action/class-settings-action.php:194
+#: modules/settings/action/class-settings-action.php:226
+#: modules/settings/action/class-settings-action.php:254
+msgid "Your settings have been saved."
+msgstr "Vos réglages ont été enregistrés."
+
+#: modules/settings/class/class-settings.php:98
 msgid "No page"
 msgstr "Pas de page"
 
-#: modules/settings/class/class-settings.php:169
+#: modules/settings/class/class-settings.php:174
 msgid "No product"
 msgstr "Aucun produit"
+
+#: modules/settings/view/email-single.view.php:48
+#: modules/settings/view/general.view.php:95
+#: modules/settings/view/pages.view.php:56
+#: modules/settings/view/payment-method-single.view.php:53
+#: modules/settings/view/shipping-cost.view.php:54
+msgid "Save Changes"
+msgstr ""
 
 #: modules/settings/view/emails.view.php:22
 msgid "E-mail"
 msgstr "Email"
 
-#: modules/settings/view/general.view.php:66
-msgid "Use quotation"
-msgstr "Activer les devis"
+#: modules/settings/view/emails.view.php:35
+#: modules/settings/view/notice-activate-erp.view.php:22
+#: modules/settings/view/payment-method.view.php:37
+msgid "Configure"
+msgstr "Configurer"
+
+#: modules/settings/view/general.view.php:25
+#, fuzzy
+#| msgid "Dolibarr"
+msgid "Dolibarr URL"
+msgstr "Dolibarr"
+
+#: modules/settings/view/general.view.php:33
+#, fuzzy
+#| msgid "Secret key"
+msgid "Dolibarr Secret Key"
+msgstr "Clé secrète"
+
+#: modules/settings/view/general.view.php:34
+msgid "Secret key used for sell with Dolibarr"
+msgstr ""
+
+#: modules/settings/view/general.view.php:38
+#, fuzzy
+#| msgid "See in Dolibarr"
+msgid "Connected to Dolibarr"
+msgstr "Voir dans Dolibarr"
+
+#: modules/settings/view/general.view.php:42
+msgid "Connection to dolibarr failed"
+msgstr ""
+
+#: modules/settings/view/general.view.php:54
+msgid "Dolibarr Public Key (Optional)"
+msgstr ""
+
+#: modules/settings/view/general.view.php:55
+msgid "Public key used for your theme"
+msgstr ""
+
+#: modules/settings/view/general.view.php:63
+#, fuzzy
+#| msgid "Email"
+msgid "Shop Email"
+msgstr "Email"
+
+#: modules/settings/view/general.view.php:71
+msgid "WPshop width size"
+msgstr ""
+
+#: modules/settings/view/general.view.php:80
+msgid "WPshop height size"
+msgstr ""
 
 #: modules/settings/view/main.view.php:34 modules/tools/view/main.view.php:24
 msgid "General"
@@ -1713,23 +1829,27 @@ msgstr "Pages"
 msgid "Emails"
 msgstr "Emails"
 
-#: modules/settings/view/main.view.php:38
-msgid "Shipping cost"
-msgstr "Frais de livraison"
-
 #: modules/settings/view/notice-activate-erp.view.php:21
 msgid "WPshop: You have not yet set up your ERP ?"
 msgstr "WPshop: Avez vous réglé votre ERP ?"
-
-#: modules/settings/view/notice-activate-erp.view.php:22
-#: modules/settings/view/payment-method.view.php:37
-msgid "Configure"
-msgstr "Configurer"
 
 #: modules/settings/view/notice-activate-erp.view.php:23
 #: modules/settings/view/notice-error-erp.view.php:22
 msgid "Follow this guide"
 msgstr "Suivre ce guide"
+
+#: modules/settings/view/notice-activate-erp.view.php:27
+msgid "Do not show this message again."
+msgstr "Ne montrez plus ce message."
+
+#: modules/settings/view/notice-error-erp.view.php:27
+msgid "Do not show this message again"
+msgstr ""
+
+#: modules/settings/view/payment-method-single.view.php:39
+#: modules/settings/view/payment-method.view.php:34
+msgid "Activate"
+msgstr "Activer"
 
 #: modules/settings/view/payment-method.view.php:22
 msgid "Method"
@@ -1751,25 +1871,29 @@ msgstr "Sélectionner votre produit \"Frais de livraison\""
 msgid "Free delivery starting from (€) HT"
 msgstr "Livraison gratuite à partir de (€) HT"
 
-#: modules/stripe/view/form-setting.view.php:37
+#: modules/stripe/filter/class-stripe-filter.php:46
+msgid " SANDBOX ENABLED"
+msgstr ""
+
+#: modules/stripe/view/form-setting.view.php:20
 msgid "Publish key"
 msgstr "Clé publique"
 
-#: modules/stripe/view/form-setting.view.php:44
+#: modules/stripe/view/form-setting.view.php:27
 msgid "Secret key"
 msgstr "Clé secrète"
 
-#: modules/stripe/view/form-setting.view.php:53
+#: modules/stripe/view/form-setting.view.php:36
 msgid "Stripe Sandbox"
 msgstr ""
 
-#: modules/third-parties/action/class-third-party-action.php:71
-#: modules/third-parties/action/class-third-party-action.php:72
+#: modules/third-parties/action/class-third-party-action.php:64
+#: modules/third-parties/action/class-third-party-action.php:65
 #: modules/third-parties/view/main.view.php:21
 msgid "Third Parties"
 msgstr "Tiers"
 
-#: modules/third-parties/class/class-third-party.php:278
+#: modules/third-parties/class/class-third-party.php:284
 #, php-format
 msgid "Dissociate contact <strong>%1$s</strong> from <strong>%2$s</strong>"
 msgstr "Dissocier contact <strong>%1$s</strong> depuis <strong>%2$s</strong>"
@@ -1819,6 +1943,12 @@ msgstr "Aucun Tier trouvé dans la Corbeille."
 msgid "Society name"
 msgstr "Nom de la société"
 
+#: modules/third-parties/view/list.view.php:23
+#, fuzzy
+#| msgid "Username"
+msgid "User"
+msgstr "Identifiant"
+
 #: modules/third-parties/view/list.view.php:24
 msgid "Commercial"
 msgstr "Commercial"
@@ -1826,10 +1956,6 @@ msgstr "Commercial"
 #: modules/third-parties/view/list.view.php:25
 msgid "Actions"
 msgstr "Actions"
-
-#: modules/third-parties/view/main.view.php:32
-msgid "All Third Parties Sync"
-msgstr "Synchroniser tous les tiers"
 
 #: modules/third-parties/view/metaboxes/metabox-activity.view.php:20
 msgid "Activity"
@@ -1839,15 +1965,22 @@ msgstr "Activité"
 msgid "Billing Address"
 msgstr "Adresse de facturation"
 
-#: modules/third-parties/view/metaboxes/metabox-indicator.view.php:20
-msgid "Indicator"
-msgstr "Indicateur"
+#: modules/third-parties/view/metaboxes/metabox-contacts.view.php:20
+#, fuzzy
+#| msgid "Username"
+msgid "Users"
+msgstr "Identifiant"
 
+#: modules/third-parties/view/metaboxes/metabox-dolibarr-proposals.view.php:26
 #: modules/third-parties/view/metaboxes/metabox-invoices.view.php:27
 #: modules/third-parties/view/metaboxes/metabox-orders.view.php:26
 #: modules/third-parties/view/metaboxes/metabox-proposals.view.php:26
 msgid "€ TTC"
 msgstr "€ TTC"
+
+#: modules/third-parties/view/metaboxes/metabox-indicator.view.php:20
+msgid "Indicator"
+msgstr "Indicateur"
 
 #: modules/third-parties/view/metaboxes/metabox-task.view.php:20
 msgid "Tasks"
@@ -1856,6 +1989,11 @@ msgstr "Tâches"
 #: modules/third-parties/view/single-title-edit.view.php:26
 msgid "New third party"
 msgstr "Nouveau tier"
+
+#: modules/third-parties/view/single-title.view.php:19
+#, php-format
+msgid "Tier name <span style=\"font-weight: 700;\">%s</span>"
+msgstr ""
 
 #: modules/tools/view/general.view.php:22
 msgid "Import third party CSV"
@@ -1878,6 +2016,69 @@ msgid ""
 "<li><strong>%1$d</strong> Contact #%2$d %4$s is already affected to another "
 "third party #%3$d %4$s</li>"
 msgstr ""
+
+#~ msgid "Street contact"
+#~ msgstr "Adresse"
+
+#, php-format
+#~ msgid "Choose %s"
+#~ msgstr "Choisir %s"
+
+#~ msgid "Refresh page"
+#~ msgstr "Actualiser la page"
+
+#~ msgid "All Orders Sync"
+#~ msgstr "Synchroniser toutes les commandes"
+
+#~ msgid "WP ID"
+#~ msgstr "WP ID"
+
+#~ msgid "Price"
+#~ msgstr "Prix"
+
+#~ msgid "Sync"
+#~ msgstr "Synchroniser"
+
+#, php-format
+#~ msgid "Last synchronisation on %s"
+#~ msgstr "Dernière synchronisation le %s"
+
+#~ msgid "Not available in quick release"
+#~ msgstr "Indisponible en modification rapide"
+
+#~ msgid "Contacts"
+#~ msgstr "Contacts"
+
+#, fuzzy
+#~| msgid "Place order"
+#~ msgid "Pay order"
+#~ msgstr "Passer commande"
+
+#~ msgid "Reorder"
+#~ msgstr "Refaire cette commande"
+
+#, fuzzy
+#~| msgid "Proposal"
+#~ msgid "Pay Proposal"
+#~ msgstr "Proposition commerciale"
+
+#~ msgid "Quick edit"
+#~ msgstr "Modification rapide"
+
+#~ msgid "All Product Sync"
+#~ msgstr "Synchroniser tous les produits"
+
+#~ msgid "Apply"
+#~ msgstr "Appliquer"
+
+#~ msgid "Use quotation"
+#~ msgstr "Activer les devis"
+
+#~ msgid "Shipping cost"
+#~ msgstr "Frais de livraison"
+
+#~ msgid "All Third Parties Sync"
+#~ msgstr "Synchroniser tous les tiers"
 
 #~ msgid "Filter"
 #~ msgstr "Filtrer"
@@ -1905,9 +2106,6 @@ msgstr ""
 
 #~ msgid "Order number"
 #~ msgstr "Numéro de commande"
-
-#~ msgid "Order detail"
-#~ msgstr "Détail de la commande"
 
 #, fuzzy
 #~| msgid "Last name"
@@ -1953,14 +2151,8 @@ msgstr ""
 #~ msgid "Proposal actions"
 #~ msgstr "Actions de la proposition commerciale"
 
-#~ msgid "Town"
-#~ msgstr "Ville"
-
 #~ msgid "Contact #"
 #~ msgstr "Contact #"
-
-#~ msgid "Username"
-#~ msgstr "Identifiant"
 
 #~ msgid ""
 #~ "Click here to create your password: <a href=\"%s\">Create my password</a>"

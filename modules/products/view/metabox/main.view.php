@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	endif;
 	?>
 
-	<h2 style="font-size: 1.6em;">Autres informations du produit</h2>
+	<h2 style="font-size: 1.6em;"><?php echo esc_html_e( 'Autres informations du produit', 'wpshop' ); ?></h2>
 
 	<div class="wpeo-form">
 		<?php wp_nonce_field( basename( __FILE__ ), 'wpshop_data_fields' ); ?>
@@ -38,7 +38,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<div class="form-element">
 				<span class="form-label"><?php esc_html_e( 'Price HT(€)', 'wpshop' ); ?></span>
 				<label class="form-field-container">
-					<input type="text" <?php echo Settings::g()->dolibarr_is_active() ? 'readonly': 'class="form-field"'; ?>  name="product_data[price]" value="<?php echo esc_attr( $product->data['price'] ); ?>" />
+					<input type="text" <?php echo Settings::g()->dolibarr_is_active() ? 'readonly': 'class="form-field"'; ?>  name="product_data[price]" placeholder="0" value="<?php echo esc_attr( $product->data['price'] ) != 0 ? esc_attr( $product->data['price'] ) : ''; ?>" />
 				</label>
 			</div>
 
@@ -122,20 +122,20 @@ defined( 'ABSPATH' ) || exit; ?>
 				</label>
 			</div>
 
-			<div class="form-element">
-				<span class="form-label"><?php esc_html_e( 'Parent Product', 'wpshop' ); ?></span>
-				<label class="form-field-container">
-					<?php
-					if ( ! empty( $product->data['parent_post'] ) ) :
-						?>
-						<a href="<?php echo esc_attr( admin_url( 'post.php?post=' . $product->data['parent_post']->ID . '&action=edit' ) ); ?>"><?php echo esc_html( $product->data['parent_post']->post_title ); ?></a>
-					<?php
-					else :
-						esc_html_e( 'No product parent', 'wpshop' );
-					endif;
-					?>
-				</label>
-			</div>
+<!--			<div class="form-element">-->
+<!--				<span class="form-label">--><?php //esc_html_e( 'Parent Product', 'wpshop' ); ?><!--</span>-->
+<!--				<label class="form-field-container">-->
+<!--					--><?php
+//					if ( ! empty( $product->data['parent_post'] ) ) :
+//						?>
+<!--						<a href="--><?php //echo esc_attr( admin_url( 'post.php?post=' . $product->data['parent_post']->ID . '&action=edit' ) ); ?><!--">--><?php //echo esc_html( $product->data['parent_post']->post_title ); ?><!--</a>-->
+<!--					--><?php
+//					else :
+//						esc_html_e( 'No product parent', 'wpshop' );
+//					endif;
+//					?>
+<!--				</label>-->
+<!--			</div>-->
 		</div>
 	</div>
 </div>
