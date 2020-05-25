@@ -291,10 +291,10 @@ class Doli_Order extends \eoxia\Post_Class {
 
 		$doli_orders = Request_Util::get( $route );
 
-		if ( $count ) {
+		if ( $count && ! empty( $doli_orders ) ) {
 			return count( $doli_orders );
 		} else {
-			return $doli_orders;
+			return 0;
 		}
 	}
 
