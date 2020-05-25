@@ -36,23 +36,22 @@ endif;
 	<?php wp_nonce_field( 'update_account_details' ); ?>
 
 	<div class="form-element form-element-required">
-		<span class="form-label">Email</span>
+		<span class="form-label"><?php echo esc_html_e( 'Email', '' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="email" value="<?php echo esc_attr( $contact->data['email'] ); ?>" />
 		</label>
 	</div>
 
 	<div class="form-element">
-		<span class="form-label">Current password</span>
+		<span class="form-label"><?php echo esc_html_e( 'Current password', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="current_password" />
 		</label>
-
 		<span class="form-sublabel"><?php echo esc_html_e( 'Leave blank to leave unchanged', 'wpshop' ); ?></span>
 	</div>
 
 	<div class="form-element">
-		<span class="form-label">New password</span>
+		<span class="form-label"><?php echo esc_html_e('New password', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="new_password" />
 		</label>
@@ -60,7 +59,7 @@ endif;
 	</div>
 
 	<div class="form-element">
-		<span class="form-label">Confirm new password</span>
+		<span class="form-label"><?php echo esc_html_e( 'Confirm new password', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="confirm_new_password" />
 		</label>
