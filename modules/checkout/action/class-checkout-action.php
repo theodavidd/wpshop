@@ -342,11 +342,18 @@ class Checkout_Action {
 
 		// Real WPshop Ref if not ERP to control it.
 		$last_ref = Proposals::g()->get_last_ref();
-		$last_ref = empty( $last_ref ) ? 1 : $last_ref;
-		$last_ref++;
 
+		if ( ! is_int( $last_ref ) ) {
+			\eoxia\LOG_Util::log( sprintf('Numérotation impossible' ), 'wpshop2' );
+			return;
+		} else {
+			$last_ref++;
+		}
+
+		$proposal->data['prefix']                  = 'DE';
 		$proposal->data['title']                   = sprintf( 'DE%06d', $last_ref );
-		$proposal->data['ref']                     = sprintf( 'DE%06d', $last_ref );
+		//$proposal->data['ref']                   = sprintf( 'DE%06d', $last_ref );
+		$proposal->data['number']                  = $last_ref;
 		$proposal->data['datec']                   = current_time( 'mysql' );
 		$proposal->data['parent_id']               = $third_party->data['id'];
 		$proposal->data['author_id']               = $contact->data['id'];
@@ -362,11 +369,12 @@ class Checkout_Action {
 
 		if ( ! empty( Cart_Session::g()->cart_contents ) ) {
 			foreach ( Cart_Session::g()->cart_contents as $content ) {
+				$content['total_ht']       = $content['price'] * $content['qty'];
 				$content['total_ttc']      = $content['price_ttc'] * $content['qty'];
 				$proposal->data['lines'][] = $content;
 
-				$total_ht  += $content['price'];
-				$total_ttc += $content['price_ttc'];
+				$total_ht  += $content['total_ht'];
+				$total_ttc += $content['total_ttc'];
 			}
 		}
 

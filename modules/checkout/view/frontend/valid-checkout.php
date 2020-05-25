@@ -1,6 +1,6 @@
 <?php
 /**
- * Le formulaire pour créer son adresse de livraison
+ * La page de validation du tunnel de vente
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
