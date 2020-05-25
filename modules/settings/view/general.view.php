@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<?php
 			if (Settings::g()->dolibarr_is_active()):
 				?>
-				<span class="wpeo-button button-light button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Connected to Dolibarr', 'wpshop' ); ?>">🥦</span>
+				<span class="wpeo-button button-light button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Connected to Dolibarr', 'wpshop' ); ?>">✔</span>
 				<?php
 			else:
 				?>
