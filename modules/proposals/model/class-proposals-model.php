@@ -46,10 +46,21 @@ class Proposals_Model extends \eoxia\Post_Model {
 			'description' => 'Le status de la proposition commerciale dans dolibarr. Relation avec dolibarr.',
 		);
 
-		$this->schema['ref'] = array(
-			'type'      => 'string',
-			'meta_type' => 'single',
-			'field'     => '_ref',
+		$this->schema['prefix'] = array(
+			'type'        => 'string',
+			'meta_type'   => 'single',
+			'field'       => 'prefix',
+			'since'       => '2.0.0',
+			'description' => 'Le prefix du devis',
+		);
+
+		$this->schema['number'] = array(
+			'type'        => 'integer',
+			'meta_type'   => 'single',
+			'field'       => 'number',
+			'since'       => '2.0.0',
+			'default'     => 1,
+			'description' => 'La numérotation du devis',
 		);
 
 		$this->schema['datec'] = array(

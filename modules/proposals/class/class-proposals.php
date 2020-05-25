@@ -157,20 +157,26 @@ class Proposals extends \eoxia\Post_Class {
 	 * @return string La référence.
 	 */
 	public function get_last_ref() {
+
+		//$number = get_post_meta( 'number' );
 		global $wpdb;
 
 		$last_ref = $wpdb->get_var( "
 			SELECT meta_value FROM $wpdb->postmeta AS PM
 				JOIN $wpdb->posts AS P ON PM.post_id=P.ID
 
-			WHERE PM.meta_key='_ref'
+			WHERE PM.meta_key='number'
 				AND P.post_type='wps-proposal'
 
 			ORDER BY PM.meta_id DESC
 			LIMIT 0,1
 		" );
+		if ( empty( $last_ref ) ) {
+			$proposal = Proposals::g()->get( array( 'schema' => true ), true );
+			$last_ref = $proposal->data['number'];
+		}
 
-		return $last_ref;
+		return (int) $last_ref;
 	}
 
 	/**
