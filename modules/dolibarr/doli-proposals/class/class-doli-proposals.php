@@ -200,10 +200,10 @@ class Doli_Proposals extends \eoxia\Singleton_Util {
 
 		$doli_proposals = Request_Util::get( $route );
 
-		if ( $count ) {
+		if ( $count && ! empty( $doli_proposals ) ) {
 			return count( $doli_proposals );
 		} else {
-			return $doli_proposals;
+			return 0;
 		}
 	}
 
