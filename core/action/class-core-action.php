@@ -215,8 +215,10 @@ class Core_Action {
 		$current_user = current_user_can( 'subscriber' );
 
 		if ( $current_user ) {
+			$_pos  = strlen($_SERVER['REQUEST_URI']) - strlen('/wp-admin/');
+			$_pos2 = strlen($_SERVER['REQUEST_URI']) - strlen('/wp-admin/profile.php');
 
-			if ( ( strpos($_SERVER['REQUEST_URI'], '/wp-admin/') !== false ) ) {
+			if ( ( strpos($_SERVER['REQUEST_URI'], '/wp-admin/') !== false && ( ( strpos( $_SERVER['REQUEST_URI'], '/wp-admin/' ) == $_pos ) || ( strpos( $_SERVER['REQUEST_URI'], '/wp-admin/' ) == $_pos2 ) ) ) ) {
 
 				wp_redirect( home_url( '/mon-compte' ) );
 
