@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-metabox view gridw-3">
 	<h3 class="metabox-title"><?php esc_html_e( 'Last Products', 'wpshop' ); ?></h3>
+	<a href="<?php echo esc_attr( $dolibarr_products_lists ); ?>" target="_blank"><?php esc_html_e( 'See in Dolibarr', 'wpshop' ); ?></a>
 
 	<div class="wpeo-table table-flex table-4">
 		<div class="table-row table-header">

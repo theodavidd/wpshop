@@ -36,6 +36,7 @@ class Settings_Action {
 		add_action( 'admin_post_wps_update_pages_settings', array( $this, 'callback_update_pages_settings' ) );
 		add_action( 'admin_post_wps_update_method_payment', array( $this, 'callback_update_method_payment' ) );
 		add_action( 'admin_post_wps_update_shipping_cost', array( $this, 'callback_update_shipping_cost' ) );
+		add_action( 'admin_post_wps_update_erp_settings', array( $this, 'callback_update_erp_settings' ) );
 
 		add_action( 'wp_ajax_wps_hide_notice_erp', array( $this, 'dismiss_notice_erp' ) );
 
@@ -256,6 +257,68 @@ class Settings_Action {
 		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab ) );
 	}
 
+	/**
+	 * Met à jour les options erp.
+	 *
+	 * @since 2.0.0
+	 */
+	public function callback_update_erp_settings() {
+		check_admin_referer( 'callback_update_erp_settings' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die();
+		}
+
+		$tab                 = ! empty( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'general';
+		$dolibarr_url        = ! empty( $_POST['dolibarr_url'] ) ? sanitize_text_field( $_POST['dolibarr_url'] ) : '';
+		$dolibarr_secret     = ! empty( $_POST['dolibarr_secret'] ) ? sanitize_text_field( $_POST['dolibarr_secret'] ) : '';
+		$dolibarr_public_key = ! empty( $_POST['dolibarr_public_key'] ) ? sanitize_text_field( $_POST['dolibarr_public_key'] ) : '';
+
+		$dolibarr_products_lists  = ! empty( $_POST['dolibarr_products_lists'] ) ? sanitize_text_field( $_POST['dolibarr_products_lists'] ) : '';
+		$dolibarr_tiers_lists     = ! empty( $_POST['dolibarr_tiers_lists'] ) ? sanitize_text_field( $_POST['dolibarr_tiers_lists'] ) : '';
+		$dolibarr_orders_lists    = ! empty( $_POST['dolibarr_orders_lists'] ) ? sanitize_text_field( $_POST['dolibarr_orders_lists'] ) : '';
+		$dolibarr_proposals_lists = ! empty( $_POST['dolibarr_proposals_lists'] ) ? sanitize_text_field( $_POST['dolibarr_proposals_lists'] ) : '';
+		$dolibarr_payments_lists  = ! empty( $_POST['dolibarr_payments_lists'] ) ? sanitize_text_field( $_POST['dolibarr_payments_lists'] ) : '';
+		$dolibarr_invoices_lists  = ! empty( $_POST['dolibarr_invoices_lists'] ) ? sanitize_text_field( $_POST['dolibarr_invoices_lists'] ) : '';
+
+		$dolibarr_create_product  = ! empty( $_POST['dolibarr_create_product'] ) ? sanitize_text_field( $_POST['dolibarr_create_product'] ) : '';
+		$dolibarr_create_tier     = ! empty( $_POST['dolibarr_create_tier'] ) ? sanitize_text_field( $_POST['dolibarr_create_tier'] ) : '';
+		$dolibarr_create_order    = ! empty( $_POST['dolibarr_create_order'] ) ? sanitize_text_field( $_POST['dolibarr_create_order'] ) : '';
+		$dolibarr_create_proposal = ! empty( $_POST['dolibarr_create_proposal'] ) ? sanitize_text_field( $_POST['dolibarr_create_proposal'] ) : '';
+
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+
+		$dolibarr_option['dolibarr_url']        = $dolibarr_url;
+		$dolibarr_option['dolibarr_secret']     = $dolibarr_secret;
+		$dolibarr_option['dolibarr_public_key'] = $dolibarr_public_key;
+
+		$dolibarr_option['dolibarr_products_lists']  = $dolibarr_products_lists;
+		$dolibarr_option['dolibarr_tiers_lists']     = $dolibarr_tiers_lists;
+		$dolibarr_option['dolibarr_orders_lists']    = $dolibarr_orders_lists;
+		$dolibarr_option['dolibarr_proposals_lists'] = $dolibarr_proposals_lists;
+		$dolibarr_option['dolibarr_payments_lists']  = $dolibarr_payments_lists;
+		$dolibarr_option['dolibarr_invoices_lists']  = $dolibarr_invoices_lists;
+
+		$dolibarr_option['dolibarr_create_product']  = $dolibarr_create_product;
+		$dolibarr_option['dolibarr_create_tier']     = $dolibarr_create_tier;
+		$dolibarr_option['dolibarr_create_order']    = $dolibarr_create_order;
+		$dolibarr_option['dolibarr_create_proposal'] = $dolibarr_create_proposal;
+
+		update_option( 'wps_dolibarr', $dolibarr_option );
+
+		$response = Request_Util::get( 'status' );
+		if ( false === $response ) {
+			$dolibarr_option['error'] = __( 'WPshop cannot connect to dolibarr. Please check your settings', 'wpshop' );
+		} else {
+			$dolibarr_option['error'] = '';
+		}
+
+		update_option( 'wps_dolibarr', $dolibarr_option );
+
+		set_transient( 'updated_wpshop_option_' . get_current_user_id(), __( 'Your settings have been saved.', 'wpshop' ), 30 );
+
+		wp_redirect( admin_url( 'admin.php?page=wps-settings&tab= ' . $tab ) );
+	}
 	/**
 	 * Ajoute la taille des images des produits
 	 *

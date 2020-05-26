@@ -60,6 +60,16 @@ class Settings extends \eoxia\Singleton_Util {
 				'error_erp'    => true,
 				'activate_erp' => true,
 			),
+			'dolibarr_products_lists'   => '',
+			'dolibarr_tiers_lists'      => '',
+			'dolibarr_orders_lists'     => '',
+			'dolibarr_proposals_lists'  => '',
+			'dolibarr_payments_lists'   => '',
+			'dolibarr_invoices_lists'   => '',
+			'dolibarr_create_product'   => '',
+			'dolibarr_create_tier'      => '',
+			'dolibarr_create_order'     => '',
+			'dolibarr_create_proposal'  => '',
 		);
 
 		$this->shipping_cost_default_settings = array(
@@ -180,6 +190,21 @@ class Settings extends \eoxia\Singleton_Util {
 		\eoxia\View_Util::exec( 'wpshop', 'settings', 'shipping-cost', array(
 			'shipping_cost_option' => $shipping_cost_option,
 			'products'             => $products,
+		) );
+	}
+
+	/**
+	 * Affiches l'onglet "ERP" de la page options.
+	 *
+	 * @param  string $section La section.
+	 *
+	 * @since 2.0.0
+	 */
+	public function display_erp( $section = '' ) {
+		$dolibarr_option = get_option( 'wps_dolibarr', $this->default_settings );
+
+		\eoxia\View_Util::exec( 'wpshop', 'settings', 'erp', array(
+			'dolibarr_option' => $dolibarr_option,
 		) );
 	}
 
