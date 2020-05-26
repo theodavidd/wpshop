@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<ul class="reference-actions">
 			<li><a href="<?php echo esc_attr( admin_url( 'admin.php?page=wps-order&id=' . $order->data['external_id'] ) ); ?>"><?php esc_html_e( 'See', 'wpshop' ); ?></a></li>
 			<?php if ( ! empty( $order->data['external_id'] ) ) : ?>
-				<li><a href="<?php echo esc_attr( $doli_url ); ?>/commande/card.php?id=<?php echo $order->data['external_id']; ?>"><?php esc_html_e( 'See in Dolibarr', 'wpshop' ); ?></a></li>
+				<li><a href="<?php echo esc_attr( $doli_url ); ?>/commande/card.php?id=<?php echo $order->data['external_id']; ?>" target="_blank"><?php esc_html_e( 'See in Dolibarr', 'wpshop' ); ?></a></li>
 			<?php endif; ?>
 		</ul>
 	</div>
