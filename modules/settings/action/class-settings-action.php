@@ -124,9 +124,6 @@ class Settings_Action {
 		}
 
 		$tab                      = ! empty( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'general';
-		$dolibarr_url             = ! empty( $_POST['dolibarr_url'] ) ? sanitize_text_field( $_POST['dolibarr_url'] ) : '';
-		$dolibarr_secret          = ! empty( $_POST['dolibarr_secret'] ) ? sanitize_text_field( $_POST['dolibarr_secret'] ) : '';
-		$dolibarr_public_key      = ! empty( $_POST['dolibarr_public_key'] ) ? sanitize_text_field( $_POST['dolibarr_public_key'] ) : '';
 		$shop_email               = ! empty( $_POST['shop_email'] ) ? sanitize_text_field( $_POST['shop_email'] ) : '';
 		$thumbnail_size           = ! empty( $_POST['thumbnail_size'] ) ? (array) $_POST['thumbnail_size'] : array();
 		$thumbnail_size['width']  = ! empty( $thumbnail_size['width'] ) ? (int) $thumbnail_size['width'] : 0;
@@ -135,9 +132,6 @@ class Settings_Action {
 
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
 
-		$dolibarr_option['dolibarr_url']        = $dolibarr_url;
-		$dolibarr_option['dolibarr_secret']     = $dolibarr_secret;
-		$dolibarr_option['dolibarr_public_key'] = $dolibarr_public_key;
 		$dolibarr_option['shop_email']          = $shop_email;
 
 		$dolibarr_option['thumbnail_size']['width']  = $thumbnail_size['width'];

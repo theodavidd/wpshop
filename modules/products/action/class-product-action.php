@@ -61,6 +61,8 @@ class Product_Action {
 	 */
 	public function callback_add_menu_page() {
 		$per_page = get_user_meta( get_current_user_id(), Product::g()->option_per_page, true );
+		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$dolibarr_create_product    = $dolibarr_option['dolibarr_create_product'];
 
 		if ( empty( $per_page ) || 1 > $per_page ) {
 			$per_page = Third_Party::g()->limit;
@@ -97,6 +99,8 @@ class Product_Action {
 			'prev_url'     => $prev_url,
 			'next_url'     => $next_url,
 			's'            => $s,
+
+			'dolibarr_create_product' => $dolibarr_create_product,
 		) );
 	}
 

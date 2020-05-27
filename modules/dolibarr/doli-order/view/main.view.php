@@ -17,7 +17,9 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wrap wpeo-wrap">
-	<h2><?php esc_html_e( 'Orders', 'wpshop' ); ?></h2>
+	<h2><?php esc_html_e( 'Orders', 'wpshop' ); ?>
+		<a href="<?php echo esc_attr( $dolibarr_create_order ); ?>" target="_blank" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
+	</h2>
 
 	<div class="wpeo-gridlayout wpeo-form form-light grid-4 alignleft" style="margin-bottom: 20px; margin-top: 15px;">
 		<form method="GET" action="<?php echo admin_url( 'admin.php' ); ?>" class="wps-filter-bar wpeo-form form-light" style="display: flex;">

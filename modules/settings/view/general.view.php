@@ -22,44 +22,6 @@ defined( 'ABSPATH' ) || exit; ?>
 	<?php wp_nonce_field( 'callback_update_general_settings' ); ?>
 
 	<div class="form-element">
-		<span class="form-label"><?php esc_html_e( 'Dolibarr URL', 'wpshop' ); ?></span>
-		<label class="form-field-container">
-			<input type="text" class="form-field" name="dolibarr_url" value="<?php echo esc_attr( $dolibarr_option['dolibarr_url'] ); ?>" />
-		</label>
-	</div>
-
-	<div class="form-element">
-		<span class="form-label">
-			<span><?php esc_html_e( 'Dolibarr Secret Key', 'wpshop' ); ?></span>
-			<span class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Secret key used for sell with Dolibarr', 'wpshop' ); ?>">?</span>
-			<?php
-			if (Settings::g()->dolibarr_is_active()):
-				?>
-				<span class="wpeo-button button-light button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Connected to Dolibarr', 'wpshop' ); ?>">✔</span>
-				<?php
-			else:
-				?>
-				<span class="wpeo-button button-light button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Connection to dolibarr failed', 'wpshop' ); ?>">❌</span>
-				<?php
-			endif;
-			?>
-		</span>
-		<label class="form-field-container">
-			<input type="text" class="form-field" name="dolibarr_secret" value="<?php echo esc_attr( $dolibarr_option['dolibarr_secret'] ); ?>" />
-		</label>
-	</div>
-
-	<div class="form-element">
-		<span class="form-label">
-			<span><?php esc_html_e( 'Dolibarr Public Key (Optional)', 'wpshop' ); ?></span>
-			<span class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Public key used for your theme', 'wpshop' ); ?>">?</span>
-		</span>
-		<label class="form-field-container">
-			<input type="text" class="form-field" name="dolibarr_public_key" value="<?php echo esc_attr( $dolibarr_option['dolibarr_public_key'] ); ?>" />
-		</label>
-	</div>
-
-	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Shop Email', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="shop_email" value="<?php echo esc_attr( $dolibarr_option['shop_email'] ); ?>" />

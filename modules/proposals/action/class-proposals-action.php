@@ -106,6 +106,7 @@ class Proposals_Action {
 		} else {
 			$per_page = get_user_meta( get_current_user_id(), Proposals::g()->option_per_page, true );
 
+
 			if ( empty( $per_page ) || 1 > $per_page ) {
 				$per_page = Third_Party::g()->limit;
 			}

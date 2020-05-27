@@ -20,13 +20,11 @@ defined( 'ABSPATH' ) || exit; ?>
 	<h2>
 		<?php esc_html_e( 'Products', 'wpshop' ); ?>
 
-		<?php
-		if ( ! Settings::g()->dolibarr_is_active() ) :
-			?>
+		<?php if ( ! Settings::g()->dolibarr_is_active() ) : ?>
 			<a href="<?php echo esc_attr( admin_url( 'post-new.php?post_type=wps-product' ) ); ?>" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
-			<?php
-		endif;
-		?>
+		<?php else: ?>
+			<a href="<?php echo esc_attr( $dolibarr_create_product ); ?>" target="_blank" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
+		<?php endif; ?>
 	</h2>
 
 	<div class="wpeo-gridlayout wpeo-form form-light grid-4 alignleft" style="margin-bottom: 20px; margin-top: 15px;">
