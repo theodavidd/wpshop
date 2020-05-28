@@ -60,17 +60,19 @@ class Settings extends \eoxia\Singleton_Util {
 				'error_erp'    => true,
 				'activate_erp' => true,
 			),
+			//liens Tiers-Contacts/adresses
 			'dolibarr_create_tier'      => '',
 			'dolibarr_tiers_lists'      => '',
-			//@todo 'dolibarr_contacts_lists'      => '/contact/card.php?leftmenu=contacts&action=create',
-			//@todo 'dolibarr_contacts_lists'      => '/contact/list.php?leftmenu=contacts',
+			//@todo 'dolibarr_contacts_create'      => '/contact/card.php?leftmenu=contacts&action=create',
+			//@todo 'dolibarr_contacts_lists'      	=> '/contact/list.php?leftmenu=contacts',
+			//Liens Produits-Service-Entrepots
+			'dolibarr_create_product'   => 'product/card.php?leftmenu=product&action=create&type=0',
+			//@todo 'dolibarr_create_service'   => '',
 			'dolibarr_products_lists'   => '/product/list.php?leftmenu=product&type=0',
 			'dolibarr_orders_lists'     => '',
 			'dolibarr_proposals_lists'  => '',
 			'dolibarr_payments_lists'   => '',
 			'dolibarr_invoices_lists'   => '',
-			'dolibarr_create_product'   => '',
-			
 			'dolibarr_create_order'     => '',
 			'dolibarr_create_proposal'  => '',
 		);
