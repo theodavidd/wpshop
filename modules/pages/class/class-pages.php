@@ -30,6 +30,15 @@ class Pages extends \eoxia\Singleton_Util {
 	public $default_options;
 
 	/**
+	 * Tableau contenant toutes les pages personnalisables par défaut.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
+	public $mail_page;
+
+	/**
 	 * Les titres des pages lisible.
 	 *
 	 * @since 2.0.0
@@ -37,6 +46,15 @@ class Pages extends \eoxia\Singleton_Util {
 	 * @var array
 	 */
 	public $page_state_titles;
+
+	/**
+	 * Les titres des pages non visible.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var array
+	 */
+	public $page_state_titles_private;
 
 	/**
 	 * Tableau contenant toutes les pages personnalisables dans la base de
@@ -62,12 +80,30 @@ class Pages extends \eoxia\Singleton_Util {
 			'general_conditions_of_sale' => 0,
 		);
 
+		$this->mail_page = array(
+			'customer_paid_order'      => 0,
+			'customer_current_order'   => 0,
+			'customer_completed_order' => 0,
+			'customer_delivered_order' => 0,
+			'customer_invoice'         => 0,
+			'customer_new_account'     => 0,
+		);
+
 		$this->page_state_titles = array(
 			'shop_id'                    => __( 'Shop', 'wpshop' ),
 			'cart_id'                    => __( 'Cart', 'wpshop' ),
 			'checkout_id'                => __( 'Checkout', 'wpshop' ),
 			'my_account_id'              => __( 'My account', 'wpshop' ),
 			'general_conditions_of_sale' => __( 'General conditions of sale', 'wpshop' ),
+		);
+
+		$this->page_state_titles_private = array(
+			'customer_paid_order'      => __( 'Paid order', 'wpshop' ),
+			'customer_current_order'   => __( 'Current order', 'wpshop' ),
+			'customer_completed_order' => __( 'Completed order', 'wpshop' ),
+			'customer_delivered_order' => __( 'Delivered order', 'wpshop' ),
+			'customer_invoice'         => __( 'Invoice', 'wpshop' ),
+			'customer_new_account'     => __( 'New account', 'wpshop' ),
 		);
 
 		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
@@ -88,6 +124,27 @@ class Pages extends \eoxia\Singleton_Util {
 					'post_title'  => $page_title,
 					'post_type'   => 'page',
 					'post_status' => 'publish',
+				) );
+
+				if ( ! empty( $page_id ) ) {
+					$this->page_ids[ $key ] = $page_id;
+
+					\eoxia\LOG_Util::log( sprintf( 'Create the page %s when activate plugin success', $page_title ), 'wpshop' );
+				} else {
+					\eoxia\LOG_Util::log( sprintf( 'Error for create the page %s when activate plugin', $page_title ), 'wpshop' );
+				}
+			}
+
+			update_option( 'wps_page_ids', $this->page_ids );
+		}
+
+		if ( ! empty( $this->page_state_titles_private ) ) {
+			foreach ( $this->page_state_titles_private as $key => $page_title ) {
+				$page_id = wp_insert_post( array(
+					'post_title'  => $page_title,
+					'post_type'   => 'page',
+					'post_name'   => $key,
+					'post_status' => 'private',
 				) );
 
 				if ( ! empty( $page_id ) ) {
@@ -182,6 +239,72 @@ class Pages extends \eoxia\Singleton_Util {
 	 */
 	public function get_general_conditions_of_sale_link() {
 		return get_permalink( $this->page_ids['general_conditions_of_sale'] );
+	}
+
+	/**
+	 * Récupères le lien vers la page "Commande payée".
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return string Le lien vers la page "Commande payée".
+	 */
+	public function get_customer_paid_order_link() {
+		return get_permalink( $this->page_ids['customer_paid_order'] );
+	}
+
+	/**
+	 * Récupères le lien vers la page "Commande en cours".
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return string Le lien vers la page "Commande en cours".
+	 */
+	public function get_customer_current_order_link() {
+		return get_permalink( $this->page_ids['customer_current_order'] );
+	}
+
+	/**
+	 * Récupères le lien vers la page "Commande complétée".
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return string Le lien vers la page "Commande complétée".
+	 */
+	public function get_customer_completed_order_link() {
+		return get_permalink( $this->page_ids['customer_completed_order'] );
+	}
+
+	/**
+	 * Récupères le lien vers la page "Commande livrée".
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return string Le lien vers la page "Commande livrée".
+	 */
+	public function get_customer_delivered_order_link() {
+		return get_permalink( $this->page_ids['customer_delivered_order'] );
+	}
+
+	/**
+	 * Récupères le lien vers la page "Facture".
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return string Le lien vers la page "Facture".
+	 */
+	public function get_customer_invoice_link() {
+		return get_permalink( $this->page_ids['customer_invoice'] );
+	}
+
+	/**
+	 * Récupères le lien vers la page "Nouveau compte".
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return string Le lien vers la page "Nouveau compte".
+	 */
+	public function get_customer_new_account_link() {
+		return get_permalink( $this->page_ids['customer_new_account'] );
 	}
 
 	/**

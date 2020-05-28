@@ -359,7 +359,7 @@ class Doli_Order_Action {
 
 		$current_user = wp_get_current_user();
 
-		Emails::g()->send_mail( $current_user->user_email, 'wps_email_customer_processing_order', array(
+		Emails::g()->send_mail( $current_user->user_email, 'customer_current_order', array(
 			'order'       => $doli_order,
 			'third_party' => $third_party->data,
 		) );
@@ -388,7 +388,7 @@ class Doli_Order_Action {
 			'meta_value' => (int) $doli_order->socid,
 		), true );
 
-		Emails::g()->send_mail( null, 'wps_email_new_order', array(
+		Emails::g()->send_mail( null, 'customer_paid_order', array(
 			'order_id'    => $doli_order->id,
 			'order'       => $doli_order,
 			'third_party' => $third_party->data,
@@ -480,7 +480,7 @@ class Doli_Order_Action {
 
 		$third_party = Third_Party::g()->get( array( 'id' => $order->data['parent_id'] ), true );
 		$contact     = Contact::g()->get( array( 'id' => $order->data['author_id'] ), true );
-		Emails::g()->send_mail( $contact->data['email'], 'wps_email_customer_shipment_tracking', array(
+		Emails::g()->send_mail( $contact->data['email'], 'customer_delivered_order', array(
 			'order'       => $order,
 			'third_party' => $third_party,
 			'contact'     => $contact,

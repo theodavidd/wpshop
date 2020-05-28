@@ -273,7 +273,7 @@ class Checkout_Action {
 				$trackcode = get_user_meta( $contact->data['id'], 'p_user_registration_code', true );
 				$track_url = get_option( 'siteurl' ) . '/wp-login.php?action=rp&key=' . $key . '&login=' . $posted_data['contact']['login'];
 
-				Emails::g()->send_mail( $posted_data['contact']['email'], 'wps_email_customer_new_account', array_merge( $posted_data, array( 'url' => $track_url ) ) );
+				Emails::g()->send_mail( $posted_data['contact']['email'], 'customer_new_account', array_merge( $posted_data, array( 'url' => $track_url ) ) );
 
 				// translators: Checkout: Create new third party and contact {json_data}.
 				\eoxia\LOG_Util::log( sprintf( 'Checkout: Create new third party and contact %s', json_encode( $posted_data ) ), 'wpshop2' );

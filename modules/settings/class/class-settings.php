@@ -136,8 +136,18 @@ class Settings extends \eoxia\Singleton_Util {
 				'is_override' => Emails::g()->is_override( $email['filename_template'] ),
 			) );
 		} else {
+			$page_ids_options = get_option( 'wps_page_ids', Pages::g()->default_options );
+			$emails = Emails::g()->emails;
+
+			if ( ! empty( $emails ) ) {
+				foreach ( $emails as $key => $email ) {
+					$email[$key] = $page_ids_options[$key];
+					$emails[$key] = $email;
+				}
+			}
+
 			\eoxia\View_Util::exec( 'wpshop', 'settings', 'emails', array(
-				'emails' => Emails::g()->emails,
+				'emails' => $emails,
 			) );
 		}
 	}

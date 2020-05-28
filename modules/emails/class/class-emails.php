@@ -36,32 +36,32 @@ class Emails extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	protected function construct() {
-		$this->emails['wps_email_new_order'] = array(
+		$this->emails['customer_paid_order'] = array(
 			'title'             => __( 'New order', 'wpshop' ),
 			'filename_template' => 'admin-new-order.php',
 		);
 
-		$this->emails['wps_email_customer_processing_order'] = array(
+		$this->emails['customer_current_order'] = array(
 			'title'             => __( 'Pending order', 'wpshop' ),
 			'filename_template' => 'customer-processing-order.php',
 		);
 
-		$this->emails['wps_email_customer_invoice'] = array(
-			'title'             => __( 'Send invoice', 'wpshop' ),
-			'filename_template' => 'customer-invoice.php',
-		);
-
-		$this->emails['wps_email_customer_completed_order'] = array(
+		$this->emails['customer_completed_order'] = array(
 			'title'             => __( 'Completed order', 'wpshop' ),
 			'filename_template' => 'customer-completed-order.php',
 		);
 
-		$this->emails['wps_email_customer_shipment_tracking'] = array(
+		$this->emails['customer_delivered_order'] = array(
 			'title'             => __( 'Delivered order', 'wpshop' ),
 			'filename_template' => 'customer-delivered-order.php',
 		);
 
-		$this->emails['wps_email_customer_new_account'] = array(
+		$this->emails['customer_invoice'] = array(
+			'title'             => __( 'Send invoice', 'wpshop' ),
+			'filename_template' => 'customer-invoice.php',
+		);
+
+		$this->emails['customer_new_account'] = array(
 			'title'             => __( 'New account', 'wpshop' ),
 			'filename_template' => 'customer-new-account.php',
 		);
@@ -130,15 +130,21 @@ class Emails extends \eoxia\Singleton_Util {
 		if ( ! empty( $data['attachments'] ) ) {
 			$attachments = $data['attachments'];
 		}
-
-		ob_start();
+		echo '<pre>';
+		print_r($mail);
+		echo '</pre>';
+		exit;
+		/*ob_start();
 		include $path_file;
-		$content = ob_get_clean();
+		$content = ob_get_clean();*/
+
+		$content = 'test';
 
 		$headers     = array();
 		$headers[]   = 'From: ' . $blog_name . ' <' . $shop_options['shop_email'] . '>';
 		$headers[]   = 'Content-Type: text/html; charset=UTF-8';
 		$mail_statut = wp_mail( $to, $mail['title'], $content, $headers, $attachments );
+
 
 		// translators: Send mail to test@eoxia.com, subject "sujet mail" with result true.
 		\eoxia\LOG_Util::log( sprintf( 'Send mail to %s, subject %s with result %s', $to, $mail['title'], $mail_statut ), 'wpshop2' );
