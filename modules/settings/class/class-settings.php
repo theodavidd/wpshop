@@ -46,7 +46,7 @@ class Settings extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {
 		$this->default_settings = array(
-			'dolibarr_url'        => '',
+			'dolibarr_url'        => 'http://www.votredolibarr.ext',
 			'dolibarr_secret'     => '',
 			'dolibarr_public_key' => '',
 			'shop_email'          => '',
@@ -60,7 +60,7 @@ class Settings extends \eoxia\Singleton_Util {
 				'error_erp'    => true,
 				'activate_erp' => true,
 			),
-			'dolibarr_products_lists'   => 'http://www.votredolibarr.ext/product/list.php?leftmenu=product&type=0',
+			'dolibarr_products_lists'   => '/product/list.php?leftmenu=product&type=0',
 			'dolibarr_tiers_lists'      => '',
 			'dolibarr_orders_lists'     => '',
 			'dolibarr_proposals_lists'  => '',
