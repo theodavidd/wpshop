@@ -60,7 +60,7 @@ class Settings extends \eoxia\Singleton_Util {
 				'error_erp'    => true,
 				'activate_erp' => true,
 			),
-			'dolibarr_products_lists'   => '',
+			'dolibarr_products_lists'   => 'http://www.votredolibarr.ext/product/list.php?leftmenu=product&type=0',
 			'dolibarr_tiers_lists'      => '',
 			'dolibarr_orders_lists'     => '',
 			'dolibarr_proposals_lists'  => '',
