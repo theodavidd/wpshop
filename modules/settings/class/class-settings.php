@@ -60,21 +60,42 @@ class Settings extends \eoxia\Singleton_Util {
 				'error_erp'    => true,
 				'activate_erp' => true,
 			),
-			//liens Tiers-Contacts/adresses
-			'dolibarr_create_tier'      => '',
-			'dolibarr_tiers_lists'      => '',
+			//liens Tiers
+			'dolibarr_create_tier'      => '/societe/card.php?action=create&leftmenu',
+			'dolibarr_tiers_lists'      => '/societe/list.php?leftmenu=thirdparties',
 			//@todo 'dolibarr_contacts_create'      => '/contact/card.php?leftmenu=contacts&action=create',
 			//@todo 'dolibarr_contacts_lists'      	=> '/contact/list.php?leftmenu=contacts',
-			//Liens Produits-Service-Entrepots
-			'dolibarr_create_product'   => 'product/card.php?leftmenu=product&action=create&type=0',
-			//@todo 'dolibarr_create_service'   => '',
+			//Liens Produits | Services
+			//-Liens Produits
+			'dolibarr_create_product'   => '/product/card.php?leftmenu=product&action=create&type=0',
 			'dolibarr_products_lists'   => '/product/list.php?leftmenu=product&type=0',
-			'dolibarr_orders_lists'     => '',
-			'dolibarr_proposals_lists'  => '',
-			'dolibarr_payments_lists'   => '',
-			'dolibarr_invoices_lists'   => '',
-			'dolibarr_create_order'     => '',
-			'dolibarr_create_proposal'  => '',
+			/**-Liens Services
+			//@todo 'dolibarr_create_service'   => '/product/card.php?leftmenu=service&action=create&type=1',
+			//@todo 'dolibarr_services_lists'   => '/product/list.php?leftmenu=service&type=1',
+			*/
+			/**-Liens Entrepôts @todo faire les liens et les mettre en place
+			//'dolibarr_create_entrepot'   => '/product/stock/card.php?action=create&leftmenu=',
+			//'dolibarr_entrepots_lists'   => '/product/stock/list.php?leftmenu=',
+			 */
+			/**-Liens Projet @todo faire les liens et les mettre en place
+			//'dolibarr_create_projet'   => '/projet/card.php?leftmenu=projects&action=create',
+			//'dolibarr_projets_lists'   => '/projet/list.php?leftmenu=projets&search_status=99',
+			 */
+			//liens Commerce
+			//-liens Propositions commerciales
+			'dolibarr_create_proposal'  => '/comm/propal/card.php?action=create&leftmenu=propals',
+			'dolibarr_proposals_lists'  => '/comm/propal/list.php?leftmenu=propals',
+			//-liens Commandes
+			'dolibarr_create_order'     => '/commande/card.php?action=create&leftmenu=orders',
+			'dolibarr_orders_lists'     => '/commande/list.php?leftmenu=orders',
+
+			//Liens Facturation | Paiement
+			//-Liens Factures clients
+			'dolibarr_create_invoices'  => '/compta/facture/card.php?action=create&leftmenu=',
+			'dolibarr_invoices_lists'   => '/compta/facture/list.php?leftmenu=customers_bills',
+			'dolibarr_payments_lists'   => '/compta/paiement/list.php?leftmenu=customers_bills_payment',
+			//-Liens Commandes facturables @todo
+			
 		);
 
 		$this->shipping_cost_default_settings = array(
