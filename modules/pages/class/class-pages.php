@@ -79,16 +79,7 @@ class Pages extends \eoxia\Singleton_Util {
 			'my_account_id'              => 0,
 			'general_conditions_of_sale' => 0,
 		);
-
-		$this->mail_page = array(
-			'customer_paid_order'      => 0,
-			'customer_current_order'   => 0,
-			'customer_completed_order' => 0,
-			'customer_delivered_order' => 0,
-			'customer_invoice'         => 0,
-			'customer_new_account'     => 0,
-		);
-
+		
 		$this->page_state_titles = array(
 			'shop_id'                    => __( 'Shop', 'wpshop' ),
 			'cart_id'                    => __( 'Cart', 'wpshop' ),
@@ -97,12 +88,28 @@ class Pages extends \eoxia\Singleton_Util {
 			'general_conditions_of_sale' => __( 'General conditions of sale', 'wpshop' ),
 		);
 
+		$this->mail_page = array(
+			'customer_new_account'     => 0,
+			'customer_current_order'   => 0,
+			'customer_completed_order' => 0,
+			'customer_paid_order'      => 0,
+			'customer_invoice'         => 0,
+			'customer_delivered_order' => 0,
+			
+		);
+
 		$this->page_state_titles_private = array(
+			// Mail envoyé au client lors de création du compte client.
 			'customer_new_account'     => __( 'New account', 'wpshop' ),
+			// Création de la commande.
 			'customer_current_order'   => __( 'Current order', 'wpshop' ),
+			// Départ vers la solution de paiement
 			'customer_completed_order' => __( 'Completed order', 'wpshop' ),
+			// Retour validé du paiement.
 			'customer_paid_order'      => __( 'Paid order', 'wpshop' ),
+			// Réalisation de la facture.
 			'customer_invoice'         => __( 'Invoice', 'wpshop' ),
+			// Commande livrée.
 			'customer_delivered_order' => __( 'Delivered order', 'wpshop' ),
 			
 		);
