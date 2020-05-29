@@ -98,12 +98,13 @@ class Pages extends \eoxia\Singleton_Util {
 		);
 
 		$this->page_state_titles_private = array(
-			'customer_paid_order'      => __( 'Paid order', 'wpshop' ),
+			'customer_new_account'     => __( 'New account', 'wpshop' ),
 			'customer_current_order'   => __( 'Current order', 'wpshop' ),
 			'customer_completed_order' => __( 'Completed order', 'wpshop' ),
-			'customer_delivered_order' => __( 'Delivered order', 'wpshop' ),
+			'customer_paid_order'      => __( 'Paid order', 'wpshop' ),
 			'customer_invoice'         => __( 'Invoice', 'wpshop' ),
-			'customer_new_account'     => __( 'New account', 'wpshop' ),
+			'customer_delivered_order' => __( 'Delivered order', 'wpshop' ),
+			
 		);
 
 		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
