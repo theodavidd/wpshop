@@ -56,9 +56,9 @@ class Doli_Order_Action {
 			'wps-order-details' => array(
 				'callback' => array( $this, 'metabox_order_details' ),
 			),
-			'wps-order-shipment-tracking' => array(
-				'callback' => array( $this, 'metabox_shipment_tracking' ),
-			),
+//			'wps-order-shipment-tracking' => array(
+//				'callback' => array( $this, 'metabox_shipment_tracking' ),
+//			),
 			'wps-order-payment' => array(
 				'callback' => array( $this, 'metabox_order_payment' ),
 			),
@@ -340,8 +340,6 @@ class Doli_Order_Action {
 	 * @return Order_Model           Les données de la commande WP.
 	 */
 	public function create_order( $proposal ) {
-		$third_party      = Third_Party::g()->get( array( 'external_id' => $proposal->socid ), true );
-
 		\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /orders/createfromproposal/ with data %s', $proposal->id ), 'wpshop2' );
 		$doli_order = Request_Util::post( 'orders/createfromproposal/' . $proposal->id );
 		\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /orders/createfromproposal/ response %s', json_encode( $doli_order ) ), 'wpshop2' );
@@ -350,7 +348,8 @@ class Doli_Order_Action {
 		\eoxia\LOG_Util::log( sprintf( 'Dolibarr call POST /orders/%s/validate', $doli_order->id ), 'wpshop2' );
 		Request_Util::post( 'orders/' . $doli_order->id . '/validate' );
 
-		$doli_order = Request_Util::get( 'orders/' . $doli_order->id );
+		$doli_order  = Request_Util::get( 'orders/' . $doli_order->id );
+		$third_party = Third_Party::g()->get( array( 'external_id' => $doli_order->socid ), true );
 
 		Request_Util::put( 'documents/builddoc', array(
 			'modulepart'    => 'order',
@@ -359,9 +358,9 @@ class Doli_Order_Action {
 
 		$current_user = wp_get_current_user();
 
-		Emails::g()->send_mail( $current_user->user_email, 'customer_current_order', array(
+		Emails::g()->send_mail( $third_party[0]->data['email'], 'customer_current_order', array(
 			'order'       => $doli_order,
-			'third_party' => $third_party->data,
+			'third_party' => $third_party[0]->data,
 		) );
 
 		// translators: Create order 00001 for the third party Eoxia.
@@ -388,7 +387,9 @@ class Doli_Order_Action {
 			'meta_value' => (int) $doli_order->socid,
 		), true );
 
-		Emails::g()->send_mail( null, 'customer_paid_order', array(
+		$user = wp_get_current_user();
+
+		Emails::g()->send_mail( $user->data->user_email, 'customer_paid_order', array(
 			'order_id'    => $doli_order->id,
 			'order'       => $doli_order,
 			'third_party' => $third_party->data,

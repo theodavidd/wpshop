@@ -31,6 +31,13 @@ class Emails extends \eoxia\Singleton_Util {
 	public $emails;
 
 	/**
+	 * Le chemin vers le répertoire uploads/wpshop/logs
+	 *
+	 * @var string
+	 */
+	public $log_emails_directory;
+
+	/**
 	 * Constructeur.
 	 *
 	 * @since 2.0.0
@@ -65,6 +72,12 @@ class Emails extends \eoxia\Singleton_Util {
 			'title'             => __( 'New account', 'wpshop' ),
 			'filename_template' => 'customer-new-account.php',
 		);
+
+		$wp_upload_dir              = wp_upload_dir();
+		$this->log_emails_directory = $wp_upload_dir['basedir'] . '/wpshop/logs/';
+
+		wp_mkdir_p( $this->log_emails_directory );
+
 	}
 
 	/**
@@ -130,24 +143,58 @@ class Emails extends \eoxia\Singleton_Util {
 		if ( ! empty( $data['attachments'] ) ) {
 			$attachments = $data['attachments'];
 		}
-		echo '<pre>';
-		print_r($mail);
-		echo '</pre>';
-		exit;
+
 		/*ob_start();
 		include $path_file;
 		$content = ob_get_clean();*/
 
 		$content = 'test';
 
+		$user = wp_get_current_user();
+
+		$data_email = array(
+			'title' => $mail['title'],
+			'user_id' => $user->data->ID,
+			'user_email' => $user->data->user_email,
+		);
+
+
+		if ( $user->ID == 0 ) {
+			$data_email['user_email'] = $to;
+			$user = get_user_by('email', $to );
+			$data_email['user_id'] = $user->data->ID;
+		}
+
 		$headers     = array();
 		$headers[]   = 'From: ' . $blog_name . ' <' . $shop_options['shop_email'] . '>';
 		$headers[]   = 'Content-Type: text/html; charset=UTF-8';
 		$mail_statut = wp_mail( $to, $mail['title'], $content, $headers, $attachments );
 
+		$this->log_emails( $data_email );
 
 		// translators: Send mail to test@eoxia.com, subject "sujet mail" with result true.
 		\eoxia\LOG_Util::log( sprintf( 'Send mail to %s, subject %s with result %s', $to, $mail['title'], $mail_statut ), 'wpshop2' );
+	}
+
+	/**
+	 * Récupères le chemin ABS vers le template du mail dans le thème.
+	 * Si introuvable récupère le template du mail dans le plugin WPshop.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  string $filename Le nom du template.
+	 * @return string           Le chemin vers le template.
+	 */
+	public function log_emails( $data_email ) {
+
+		$filename = 'log_emails.txt';
+		$filepath = $this->log_emails_directory . $filename;
+		$current_time = current_time( 'Y-m-d|H:i:s' );
+
+		$log_email_file = fopen( $filepath,'a' );
+		$data = $data_email['user_id']. '|' . $data_email['user_email'] . '|' . $data_email['title'] . '|' . $current_time . "\n";
+		fwrite( $log_email_file, $data );
+		fclose( $log_email_file );
 	}
 }
 
