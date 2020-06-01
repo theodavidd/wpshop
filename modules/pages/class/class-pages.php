@@ -79,7 +79,7 @@ class Pages extends \eoxia\Singleton_Util {
 			'my_account_id'              => 0,
 			'general_conditions_of_sale' => 0,
 		);
-		
+
 		$this->page_state_titles = array(
 			'shop_id'                    => __( 'Shop', 'wpshop' ),
 			'cart_id'                    => __( 'Cart', 'wpshop' ),
@@ -95,7 +95,7 @@ class Pages extends \eoxia\Singleton_Util {
 			'customer_paid_order'      => 0,
 			'customer_invoice'         => 0,
 			'customer_delivered_order' => 0,
-			
+
 		);
 
 		$this->page_state_titles_private = array(
@@ -111,15 +111,15 @@ class Pages extends \eoxia\Singleton_Util {
 			'customer_invoice'         => __( 'Invoice', 'wpshop' ),
 			// Commande livrée.
 			'customer_delivered_order' => __( 'Delivered order', 'wpshop' ),
-			
+
 		);
 
 		$this->page_ids = get_option( 'wps_page_ids', $this->default_options );
 	}
 
 	/**
-	 * Créer et associe les pages par défaut nécessaire pour le fonctionnement
-	 * de WPshop.
+	 * Créer et associer les pages par défaut nécessaire pour le fonctionnement
+	 * de WPShop.
 	 *
 	 * @since 2.0.0
 	 */
@@ -243,7 +243,7 @@ class Pages extends \eoxia\Singleton_Util {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return string Le lien vers la page "Condition général de vente".
+	 * @return string Le lien vers la page "Condition générale de vente".
 	 */
 	public function get_general_conditions_of_sale_link() {
 		return get_permalink( $this->page_ids['general_conditions_of_sale'] );
