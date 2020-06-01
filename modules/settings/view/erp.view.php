@@ -60,9 +60,9 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
-/** Toutes les box de réglage des liens vers l'ERP
+	<! -- Toutes les box de réglage des liens vers l'ERP
 	liens vers les Tiers
-*/
+	-->
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Create Tier', 'wpshop' ); ?>
