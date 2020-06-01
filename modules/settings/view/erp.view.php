@@ -3,6 +3,7 @@
  * La vue principale de la page de réglages
  *
  * @author    Eoxia <dev@eoxia.com>
+ *
  * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
@@ -59,8 +60,9 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
-	// Toutes les box de réglage des liens vers l'ERP
-	//liens vers les Tiers
+/** Toutes les box de réglage des liens vers l'ERP
+	liens vers les Tiers
+*/
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Create Tier', 'wpshop' ); ?>
