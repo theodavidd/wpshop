@@ -60,9 +60,9 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
-	<! -- Toutes les box de réglage des liens vers l'ERP
-	liens vers les Tiers
-	-->
+	<!-- Toutes les box de réglage des liens vers l'ERP -->
+	<!-- liens vers les Tiers -->
+
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Create Tier', 'wpshop' ); ?>
@@ -81,8 +81,8 @@ defined( 'ABSPATH' ) || exit; ?>
 			<input type="text" class="form-field" name="dolibarr_tiers_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_tiers_lists'] ); ?>" />
 		</label>
 	</div>
-	//Liens Produits | Services
-	//-Liens Produits
+	<!-- Produits | Services -->
+	<!-- -Liens Produits -->
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Create Product', 'wpshop' ); ?>
@@ -103,14 +103,27 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
+	<!-- -Liens Service -->
+	<!-- -Liens Service @todo -->
+
+	<!-- -Liens Entrepôts -->
+	<!-- -Liens Entrepôts @todo -->
+
+	<!-- -Liens Projet -->
+	<!-- -Liens Projet @todo -->
+
+	<!-- -Liens Commerce -->
+	<!-- -Liens Propositions commerciales -->
+
 	<div class="form-element">
-		<span class="form-label"><?php esc_html_e( 'Dolibarr Orders Lists', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_orders_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+		<span class="form-label"><?php esc_html_e( 'Dolibarr Create Proposal', 'wpshop' ); ?>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_create_proposal'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
-			<input type="text" class="form-field" name="dolibarr_orders_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_orders_lists'] ); ?>" />
+			<input type="text" class="form-field" name="dolibarr_create_proposal" value="<?php echo esc_attr( $dolibarr_option['dolibarr_create_proposal'] ); ?>" />
 		</label>
 	</div>
+
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Proposals Lists', 'wpshop' ); ?>
@@ -121,27 +134,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
-	<div class="form-element">
-		<span class="form-label"><?php esc_html_e( 'Dolibarr Payments Lists', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_payments_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-		</span>
-		<label class="form-field-container">
-			<input type="text" class="form-field" name="dolibarr_payments_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_payments_lists'] ); ?>" />
-		</label>
-	</div>
-
-	<div class="form-element">
-		<span class="form-label"><?php esc_html_e( 'Dolibarr Invoices Lists', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_invoices_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-		</span>
-		<label class="form-field-container">
-			<input type="text" class="form-field" name="dolibarr_invoices_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_invoices_lists'] ); ?>" />
-		</label>
-	</div>
-
-
-
-
+	<!-- -Liens Commandes -->
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Create Order', 'wpshop' ); ?>
@@ -153,13 +146,43 @@ defined( 'ABSPATH' ) || exit; ?>
 	</div>
 
 	<div class="form-element">
-		<span class="form-label"><?php esc_html_e( 'Dolibarr Create Proposal', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_create_proposal'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+		<span class="form-label"><?php esc_html_e( 'Dolibarr Orders Lists', 'wpshop' ); ?>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_orders_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
-			<input type="text" class="form-field" name="dolibarr_create_proposal" value="<?php echo esc_attr( $dolibarr_option['dolibarr_create_proposal'] ); ?>" />
+			<input type="text" class="form-field" name="dolibarr_orders_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_orders_lists'] ); ?>" />
 		</label>
 	</div>
+
+	<!-- -Liens Facturation | Paiement -->
+	<!-- -Liens Factures clients -->
+	<!-- -Liens dolibarr_create_invoices @todo -->
+
+	<div class="form-element">
+		<span class="form-label"><?php esc_html_e( 'Dolibarr Invoices Lists', 'wpshop' ); ?>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_invoices_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+		</span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="dolibarr_invoices_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_invoices_lists'] ); ?>" />
+		</label>
+	</div>
+
+
+	<div class="form-element">
+		<span class="form-label"><?php esc_html_e( 'Dolibarr Payments Lists', 'wpshop' ); ?>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_payments_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+		</span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="dolibarr_payments_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_payments_lists'] ); ?>" />
+		</label>
+	</div>
+
+
+
+
+
+
+
 
 	<div>
 		<input type="submit" class="wpeo-button button-main" value="<?php esc_html_e( 'Save Changes', 'wpshop' ); ?>" />
