@@ -177,13 +177,6 @@ defined( 'ABSPATH' ) || exit; ?>
 		</label>
 	</div>
 
-
-
-
-
-
-
-
 	<div>
 		<input type="submit" class="wpeo-button button-main" value="<?php esc_html_e( 'Save Changes', 'wpshop' ); ?>" />
 	</div>
