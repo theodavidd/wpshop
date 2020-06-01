@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wpshop\n"
-"POT-Creation-Date: 2020-05-26 17:05+0200\n"
-"PO-Revision-Date: 2020-05-26 17:15+0200\n"
+"POT-Creation-Date: 2020-06-01 15:46+0200\n"
+"PO-Revision-Date: 2020-06-01 15:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: Eoxia\n"
 "Language: fr_FR\n"
@@ -34,7 +34,7 @@ msgstr "Tableau de bord"
 #: modules/order/action/class-order-action.php:40
 #: modules/products/action/class-product-action.php:48
 #: modules/products/action/class-product-action.php:49
-#: modules/products/action/class-product-action.php:110
+#: modules/products/action/class-product-action.php:114
 #: modules/products/filter/class-product-filter.php:65
 #: modules/products/filter/class-product-filter.php:67
 #: modules/products/view/main.view.php:21
@@ -457,6 +457,7 @@ msgstr "Derniers Paiements"
 #: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:61
 #: modules/dolibarr/doli-invoice/filter/class-doli-invoice-filter.php:63
 #: modules/dolibarr/doli-invoice/view/single.view.php:21
+#: modules/pages/class/class-pages.php:111
 msgid "Invoice"
 msgstr "Factures"
 
@@ -805,7 +806,7 @@ msgid "Canceled"
 msgstr "Anulée"
 
 #: modules/dolibarr/doli-order/action/class-doli-order-action.php:112
-#: modules/dolibarr/doli-order/action/class-doli-order-action.php:200
+#: modules/dolibarr/doli-order/action/class-doli-order-action.php:204
 #: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:48
 #: modules/dolibarr/doli-order/filter/class-doli-order-filter.php:50
 #: modules/dolibarr/doli-order/view/main.view.php:20
@@ -876,20 +877,29 @@ msgstr "Adresse de facturation"
 msgid "Status"
 msgstr "Statut"
 
-#: modules/dolibarr/doli-order/view/main.view.php:32
-#: modules/dolibarr/doli-proposals/view/main.view.php:32
-#: modules/products/view/main.view.php:41
+#: modules/dolibarr/doli-order/view/main.view.php:21
+#: modules/dolibarr/doli-proposals/view/main.view.php:21
+#: modules/products/action/class-product-action.php:51
+#: modules/products/view/main.view.php:24
+#: modules/products/view/main.view.php:26
+#: modules/third-parties/view/main.view.php:23
+msgid "Add"
+msgstr "Ajouter"
+
+#: modules/dolibarr/doli-order/view/main.view.php:34
+#: modules/dolibarr/doli-proposals/view/main.view.php:34
+#: modules/products/view/main.view.php:39
 #: modules/proposals/view/main.view.php:49
 #: modules/search/view/search-field.view.php:22
-#: modules/third-parties/view/main.view.php:34
+#: modules/third-parties/view/main.view.php:37
 msgid "Search"
 msgstr "Rechercher"
 
-#: modules/dolibarr/doli-order/view/main.view.php:46
-#: modules/dolibarr/doli-proposals/view/main.view.php:47
-#: modules/products/view/main.view.php:54
+#: modules/dolibarr/doli-order/view/main.view.php:48
+#: modules/dolibarr/doli-proposals/view/main.view.php:49
+#: modules/products/view/main.view.php:52
 #: modules/proposals/view/main.view.php:63
-#: modules/third-parties/view/main.view.php:47
+#: modules/third-parties/view/main.view.php:50
 #, fuzzy
 #| msgid "Compare elements"
 msgid "element(s)"
@@ -1047,7 +1057,7 @@ msgid "Abandoned"
 msgstr "Abondonée"
 
 #: modules/dolibarr/doli-sync/class/class-doli-sync.php:53
-#: modules/third-parties/action/class-third-party-action.php:149
+#: modules/third-parties/action/class-third-party-action.php:153
 #: modules/third-parties/filter/class-third-party-filter.php:43
 #: modules/third-parties/filter/class-third-party-filter.php:45
 msgid "Third parties"
@@ -1109,29 +1119,30 @@ msgstr "IL Y A UN PROBLÈME DE CONNEXION DE VOTRE COMPTE À NOTRE ERP"
 msgid "Logout"
 msgstr "Deconnexion"
 
-#: modules/emails/class/class-emails.php:40
+#: modules/emails/class/class-emails.php:47
 msgid "New order"
 msgstr "Nouvelle commande payée"
 
-#: modules/emails/class/class-emails.php:45
+#: modules/emails/class/class-emails.php:52
 msgid "Pending order"
 msgstr "Commande en cours"
 
-#: modules/emails/class/class-emails.php:50
-msgid "Send invoice"
-msgstr "Votre facture"
-
-#: modules/emails/class/class-emails.php:55
+#: modules/emails/class/class-emails.php:57
+#: modules/pages/class/class-pages.php:107
 msgid "Completed order"
 msgstr "Commande complétée"
 
-#: modules/emails/class/class-emails.php:60
-#, fuzzy
-#| msgid "Delivered"
+#: modules/emails/class/class-emails.php:62
+#: modules/pages/class/class-pages.php:113
 msgid "Delivered order"
-msgstr "Délivrée"
+msgstr "Commande livrée"
 
-#: modules/emails/class/class-emails.php:65
+#: modules/emails/class/class-emails.php:67
+msgid "Send invoice"
+msgstr "Votre facture"
+
+#: modules/emails/class/class-emails.php:72
+#: modules/pages/class/class-pages.php:103
 msgid "New account"
 msgstr "Nouveau compte"
 
@@ -1364,25 +1375,33 @@ msgstr "Aucune facture"
 msgid "No orders"
 msgstr "Aucune commande"
 
-#: modules/pages/class/class-pages.php:66
+#: modules/pages/class/class-pages.php:84
 msgid "Shop"
 msgstr "Boutique"
 
-#: modules/pages/class/class-pages.php:67
+#: modules/pages/class/class-pages.php:85
 msgid "Cart"
 msgstr "Panier"
 
-#: modules/pages/class/class-pages.php:68
+#: modules/pages/class/class-pages.php:86
 msgid "Checkout"
 msgstr "Tunnel de vente"
 
-#: modules/pages/class/class-pages.php:69
+#: modules/pages/class/class-pages.php:87
 msgid "My account"
 msgstr "Mon compte"
 
-#: modules/pages/class/class-pages.php:70
+#: modules/pages/class/class-pages.php:88
 msgid "General conditions of sale"
 msgstr "Condition générales de vente"
+
+#: modules/pages/class/class-pages.php:105
+msgid "Current order"
+msgstr "Commande en cours"
+
+#: modules/pages/class/class-pages.php:109
+msgid "Paid order"
+msgstr "Commande payée"
 
 #: modules/payment/class/class-payment.php:52
 msgid "Cheque"
@@ -1456,16 +1475,11 @@ msgstr "Email Paypal"
 msgid "PayPal Sandbox"
 msgstr "PayPal"
 
-#: modules/products/action/class-product-action.php:51
-#: modules/products/view/main.view.php:26
-msgid "Add"
-msgstr "Ajouter"
-
 #: modules/products/action/class-product-action.php:53
 msgid "Products Category"
 msgstr "Catégories de produits"
 
-#: modules/products/action/class-product-action.php:338
+#: modules/products/action/class-product-action.php:342
 #, php-format
 msgid "Search result for \"%s\""
 msgstr "Résultats de la recherche pour \"%s\""
@@ -1731,31 +1745,31 @@ msgstr "Nouveau titre"
 msgid "Title:"
 msgstr "Titre:"
 
-#: modules/settings/action/class-settings-action.php:152
-#: modules/settings/action/class-settings-action.php:311
+#: modules/settings/action/class-settings-action.php:146
+#: modules/settings/action/class-settings-action.php:305
 msgid "WPshop cannot connect to dolibarr. Please check your settings"
 msgstr ""
 "WPshop n'est pas connecté à Dolibarr. Veuillez vérifier vos configurations"
 
-#: modules/settings/action/class-settings-action.php:159
-#: modules/settings/action/class-settings-action.php:195
-#: modules/settings/action/class-settings-action.php:227
-#: modules/settings/action/class-settings-action.php:255
-#: modules/settings/action/class-settings-action.php:318
+#: modules/settings/action/class-settings-action.php:153
+#: modules/settings/action/class-settings-action.php:189
+#: modules/settings/action/class-settings-action.php:221
+#: modules/settings/action/class-settings-action.php:249
+#: modules/settings/action/class-settings-action.php:312
 msgid "Your settings have been saved."
 msgstr "Vos réglages ont été enregistrés."
 
-#: modules/settings/class/class-settings.php:108
+#: modules/settings/class/class-settings.php:134
 msgid "No page"
 msgstr "Pas de page"
 
-#: modules/settings/class/class-settings.php:184
+#: modules/settings/class/class-settings.php:220
 msgid "No product"
 msgstr "Aucun produit"
 
 #: modules/settings/view/email-single.view.php:48
-#: modules/settings/view/erp.view.php:133
-#: modules/settings/view/general.view.php:95
+#: modules/settings/view/erp.view.php:181
+#: modules/settings/view/general.view.php:57
 #: modules/settings/view/pages.view.php:56
 #: modules/settings/view/payment-method-single.view.php:53
 #: modules/settings/view/shipping-cost.view.php:54
@@ -1766,96 +1780,100 @@ msgstr ""
 msgid "E-mail"
 msgstr "Email"
 
-#: modules/settings/view/emails.view.php:35
+#: modules/settings/view/emails.view.php:38
 #: modules/settings/view/notice-activate-erp.view.php:22
 #: modules/settings/view/payment-method.view.php:37
 msgid "Configure"
 msgstr "Configurer"
 
-#: modules/settings/view/erp.view.php:25
-#: modules/settings/view/general.view.php:25
+#: modules/settings/view/erp.view.php:26
 msgid "Dolibarr URL"
 msgstr "URL de Dolibarr"
 
-#: modules/settings/view/erp.view.php:33
-#: modules/settings/view/general.view.php:33
+#: modules/settings/view/erp.view.php:34
 msgid "Dolibarr Secret Key"
 msgstr "Clé API de Dolibarr"
 
-#: modules/settings/view/erp.view.php:34
-#: modules/settings/view/general.view.php:34
+#: modules/settings/view/erp.view.php:35
 msgid "Secret key used for sell with Dolibarr"
 msgstr "Clé API utilisée pour la connexion avec Dolibarr"
 
-#: modules/settings/view/erp.view.php:38
-#: modules/settings/view/general.view.php:38
+#: modules/settings/view/erp.view.php:39
 msgid "Connected to Dolibarr"
 msgstr "Connecter à Dolibarr"
 
-#: modules/settings/view/erp.view.php:42
-#: modules/settings/view/general.view.php:42
+#: modules/settings/view/erp.view.php:43
 msgid "Connection to dolibarr failed"
 msgstr "La connexion à Dolibarr a échoué"
 
-#: modules/settings/view/erp.view.php:54
-#: modules/settings/view/general.view.php:54
+#: modules/settings/view/erp.view.php:55
 msgid "Dolibarr Public Key (Optional)"
 msgstr "Clé publique Dolibarr (facultatif)"
 
-#: modules/settings/view/erp.view.php:55
-#: modules/settings/view/general.view.php:55
+#: modules/settings/view/erp.view.php:56
 msgid "Public key used for your theme"
 msgstr "Clé publique utilisée pour votre thème"
 
-#: modules/settings/view/erp.view.php:63
-msgid "Dolibarr Products Lists"
-msgstr "Listes des Produits Dolibarr"
-
-#: modules/settings/view/erp.view.php:70
-msgid "Dolibarr Tiers Lists"
-msgstr "Listes des Tiers Dolibarr"
-
-#: modules/settings/view/erp.view.php:77
-msgid "Dolibarr Orders Lists"
-msgstr "Listes des Commandes Dolibarr"
-
-#: modules/settings/view/erp.view.php:84
-msgid "Dolibarr Proposals Lists"
-msgstr "Listes des Propositions Commerciales Dolibarr"
-
-#: modules/settings/view/erp.view.php:91
-msgid "Dolibarr Payments Lists"
-msgstr "Listes des Paiements Dolibarr"
-
-#: modules/settings/view/erp.view.php:98
-msgid "Dolibarr Invoices Lists"
-msgstr "Listes des Factures Dolibarr"
-
-#: modules/settings/view/erp.view.php:105
-msgid "Dolibarr Create Product"
-msgstr "Créer un Produit Dolibarr"
-
-#: modules/settings/view/erp.view.php:112
+#: modules/settings/view/erp.view.php:68
 msgid "Dolibarr Create Tier"
 msgstr "Crée un Tier Dolibarr"
 
-#: modules/settings/view/erp.view.php:119
-msgid "Dolibarr Create Order"
-msgstr "Créer une Commande Dolibarr"
+#: modules/settings/view/erp.view.php:69 modules/settings/view/erp.view.php:78
+#: modules/settings/view/erp.view.php:89 modules/settings/view/erp.view.php:99
+#: modules/settings/view/erp.view.php:120
+#: modules/settings/view/erp.view.php:130
+#: modules/settings/view/erp.view.php:141
+#: modules/settings/view/erp.view.php:150
+#: modules/settings/view/erp.view.php:163
+#: modules/settings/view/erp.view.php:173
+msgid "Test the link"
+msgstr ""
 
-#: modules/settings/view/erp.view.php:126
+#: modules/settings/view/erp.view.php:77
+msgid "Dolibarr Tiers Lists"
+msgstr "Listes des Tiers Dolibarr"
+
+#: modules/settings/view/erp.view.php:88
+msgid "Dolibarr Create Product"
+msgstr "Créer un Produit Dolibarr"
+
+#: modules/settings/view/erp.view.php:98
+msgid "Dolibarr Products Lists"
+msgstr "Listes des Produits Dolibarr"
+
+#: modules/settings/view/erp.view.php:119
 msgid "Dolibarr Create Proposal"
 msgstr "Créer une Proposition Commerciale Dolibarr"
 
-#: modules/settings/view/general.view.php:63
+#: modules/settings/view/erp.view.php:129
+msgid "Dolibarr Proposals Lists"
+msgstr "Listes des Propositions Commerciales Dolibarr"
+
+#: modules/settings/view/erp.view.php:140
+msgid "Dolibarr Create Order"
+msgstr "Créer une Commande Dolibarr"
+
+#: modules/settings/view/erp.view.php:149
+msgid "Dolibarr Orders Lists"
+msgstr "Listes des Commandes Dolibarr"
+
+#: modules/settings/view/erp.view.php:162
+msgid "Dolibarr Invoices Lists"
+msgstr "Listes des Factures Dolibarr"
+
+#: modules/settings/view/erp.view.php:172
+msgid "Dolibarr Payments Lists"
+msgstr "Listes des Paiements Dolibarr"
+
+#: modules/settings/view/general.view.php:25
 msgid "Shop Email"
 msgstr "Email de la boutique WPshop"
 
-#: modules/settings/view/general.view.php:71
+#: modules/settings/view/general.view.php:33
 msgid "WPshop width size"
 msgstr "Largeur de la fenêtre de WPshop"
 
-#: modules/settings/view/general.view.php:80
+#: modules/settings/view/general.view.php:42
 msgid "WPshop height size"
 msgstr "Hauteur de la fenêtre de WPshop"
 
@@ -2090,11 +2108,6 @@ msgstr ""
 
 #~ msgid "Contacts"
 #~ msgstr "Contacts"
-
-#, fuzzy
-#~| msgid "Place order"
-#~ msgid "Pay order"
-#~ msgstr "Passer commande"
 
 #~ msgid "Reorder"
 #~ msgstr "Refaire cette commande"

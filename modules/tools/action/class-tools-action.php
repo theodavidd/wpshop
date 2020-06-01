@@ -54,7 +54,7 @@ class Tools_Action {
 	 * @since 2.0.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page( 'wpshop', __( 'Tools', 'wpshop' ), __( 'Tools', 'wpshop' ), 'manage_options', 'wps-tools', array( $this, 'callback_add_menu_page' ) );
+		//add_submenu_page( 'wpshop', __( 'Tools', 'wpshop' ), __( 'Tools', 'wpshop' ), 'manage_options', 'wps-tools', array( $this, 'callback_add_menu_page' ) );
 	}
 
 	/**
