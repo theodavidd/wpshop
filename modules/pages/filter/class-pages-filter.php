@@ -69,7 +69,7 @@ class Pages_Filter extends \eoxia\Singleton_Util {
 		$key = array_search( $post->ID, $page_ids_options, true );
 
 		if ( false !== $key ) {
-			$post_states[] = Pages::g()->page_state_titles[ $key ];
+			//$post_states[] = Pages::g()->page_state_titles[ $key ];
 		}
 
 		return $post_states;
