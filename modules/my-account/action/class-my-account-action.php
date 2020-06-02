@@ -112,7 +112,10 @@ class My_Account_Action {
 
 		if ( empty( $email ) ) {
 			$errors['empty_email'] = __( 'Please fill email field', 'wpshop' );
+			//@todo ligne à controler
 			set_transient( 'wps_update_account_details_errors', $errors, 0 );
+			//@todo fin de ligne à controler à priori a supprimer
+
 			wp_redirect( Pages::g()->get_account_link() . 'details/' );
 			die();
 		}
