@@ -199,10 +199,6 @@ class Doli_Invoice_Action {
 	 */
 	public function create_invoice( $data ) {
 
-		echo '<pre>';
-		print_r($data);
-		echo '</pre>';
-
 		$doli_order   = Request_Util::get( 'orders/' . (int) $data['custom'] );
 		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . (int) $data['custom'] );
 		Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
@@ -228,7 +224,8 @@ class Doli_Invoice_Action {
 			'original_file' => $doli_invoice->ref . '/' . $doli_invoice->ref . '.pdf',
 		) );
 
-		$third_party = Third_Party::g()->get( array( 'id' => (int) $doli_invoice->socid ), true );
+		//$third_party = Third_Party::g()->get( array( 'id' => (int) $doli_invoice->socid ), true );
+		$third_party = Third_Party::g()->get( array( 'external_id' => $doli_order->socid ), true );
 		$contact     = User::g()->get( array( 'id' => $order->data['author_id'] ), true );
 
 		$invoice_file = Request_Util::get( 'documents/download?modulepart=facture&original_file=' . $doli_invoice->ref . '/' . $doli_invoice->ref . '.pdf' );
@@ -243,13 +240,9 @@ class Doli_Invoice_Action {
 		fwrite( $f, $content );
 		fclose( $f );
 
-		echo '<pre>';
-		print_r($third_party);
-		echo '</pre>';
-
 		$user = wp_get_current_user();
 
-		Emails::g()->send_mail( $user->data->user_email, 'customer_invoice', array(
+		Emails::g()->send_mail( $third_party[0]->data['email'], 'customer_invoice', array(
 			'order'       => $order,
 			'invoice'     => $wp_invoice,
 			'third_party' => $third_party[0]->data,

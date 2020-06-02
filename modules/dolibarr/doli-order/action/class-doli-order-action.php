@@ -382,10 +382,12 @@ class Doli_Order_Action {
 	public function set_to_billed( $data ) {
 		$doli_order  = Request_Util::post( 'orders/' . (int) $data['custom'] . '/setinvoiced' );
 
-		$third_party = Third_Party::g()->get( array(
+		/*$third_party = Third_Party::g()->get( array(
 			'meta_key'   => '_external_id',
 			'meta_value' => (int) $doli_order->socid,
-		), true );
+		), true );*/
+
+		$third_party = Third_Party::g()->get( array( 'external_id' => $doli_order->socid ), true );
 
 		$user = wp_get_current_user();
 
