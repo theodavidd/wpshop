@@ -151,6 +151,9 @@ class Emails extends \eoxia\Singleton_Util {
 		$content = 'test';
 
 		$user = wp_get_current_user();
+		echo '<pre>';
+		print_r($user);
+		echo '</pre>';
 
 		$data_email = array(
 			'title' => $mail['title'],
@@ -158,7 +161,9 @@ class Emails extends \eoxia\Singleton_Util {
 			'user_email' => $user->data->user_email,
 		);
 
-
+		echo '<pre>';
+		print_r($to);
+		echo '</pre>';
 		if ( $user->ID == 0 ) {
 			$data_email['user_email'] = $to;
 			$user = get_user_by('email', $to );
