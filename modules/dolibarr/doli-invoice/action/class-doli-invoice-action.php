@@ -240,8 +240,6 @@ class Doli_Invoice_Action {
 		fwrite( $f, $content );
 		fclose( $f );
 
-		$user = wp_get_current_user();
-
 		Emails::g()->send_mail( $third_party[0]->data['email'], 'customer_invoice', array(
 			'order'       => $order,
 			'invoice'     => $wp_invoice,

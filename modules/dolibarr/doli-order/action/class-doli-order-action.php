@@ -382,23 +382,30 @@ class Doli_Order_Action {
 	public function set_to_billed( $data ) {
 		$doli_order  = Request_Util::post( 'orders/' . (int) $data['custom'] . '/setinvoiced' );
 
-		/*$third_party = Third_Party::g()->get( array(
-			'meta_key'   => '_external_id',
-			'meta_value' => (int) $doli_order->socid,
-		), true );*/
-
 		$third_party = Third_Party::g()->get( array( 'external_id' => $doli_order->socid ), true );
 
-		$user = wp_get_current_user();
+		$order_file = Request_Util::get( 'documents/download?modulepart=order&original_file=' . $doli_order->data['title'] . '/' . $doli_order->data['title'] . '.pdf' );
+		$content = base64_decode( $order_file->content );
+
+		$dir       = wp_upload_dir();
+		$path      = $dir['basedir'] . '/orders';
+		$path_file = $path . '/' . $doli_order->data['title'] . '.pdf';
+
+		$f = fopen( $path . '/' . $doli_order->data['title'] . '.pdf', 'a+' );
+		fwrite( $f, $content );
+		fclose( $f );
 
 		Emails::g()->send_mail( $third_party[0]->data['email'], 'customer_paid_order', array(
 			'order_id'    => $doli_order->id,
 			'order'       => $doli_order,
 			'third_party' => $third_party[0]->data,
+			'attachments' => array( $path_file ),
 		) );
 
 		// translators: Update the order 00001 to billed.
 		\eoxia\LOG_Util::log( sprintf( 'Update the order %s to billed', $doli_order->ref ), 'wpshop2' );
+
+		unlink( $path_file );
 	}
 
 	/**
