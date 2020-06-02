@@ -202,8 +202,7 @@ class Doli_Invoice_Action {
 		echo '<pre>';
 		print_r($data);
 		echo '</pre>';
-		exit;
-		
+
 		$doli_order   = Request_Util::get( 'orders/' . (int) $data['custom'] );
 		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . (int) $data['custom'] );
 		Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
@@ -248,7 +247,9 @@ class Doli_Invoice_Action {
 		print_r($third_party);
 		echo '</pre>';
 
-		Emails::g()->send_mail( $third_party[0]->data['email'], 'customer_invoice', array(
+		$user = wp_get_current_user();
+
+		Emails::g()->send_mail( $user->data->user_email, 'customer_invoice', array(
 			'order'       => $order,
 			'invoice'     => $wp_invoice,
 			'third_party' => $third_party[0]->data,
