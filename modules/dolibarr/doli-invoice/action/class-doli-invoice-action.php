@@ -238,10 +238,10 @@ class Doli_Invoice_Action {
 		fwrite( $f, $content );
 		fclose( $f );
 
-		Emails::g()->send_mail( $contact->data['email'], 'customer_invoice', array(
+		Emails::g()->send_mail( $third_party[0]->data['email'], 'customer_invoice', array(
 			'order'       => $order,
 			'invoice'     => $wp_invoice,
-			'third_party' => $third_party,
+			'third_party' => $third_party[0]->data,
 			'contact'     => $contact,
 			'attachments' => array( $path_file ),
 		) );

@@ -389,10 +389,10 @@ class Doli_Order_Action {
 
 		$user = wp_get_current_user();
 
-		Emails::g()->send_mail( $user->data->user_email, 'customer_paid_order', array(
+		Emails::g()->send_mail( $third_party[0]->data['email'], 'customer_paid_order', array(
 			'order_id'    => $doli_order->id,
 			'order'       => $doli_order,
-			'third_party' => $third_party->data,
+			'third_party' => $third_party[0]->data,
 		) );
 
 		// translators: Update the order 00001 to billed.
