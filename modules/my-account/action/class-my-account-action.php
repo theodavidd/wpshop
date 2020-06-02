@@ -124,7 +124,7 @@ class My_Account_Action {
 			wp_redirect( Pages::g()->get_account_link() . 'details/' );
 			die();
 		}
-*/
+
 		$user = wp_get_current_user();
 
 		$user_update_status = wp_update_user( array(
@@ -166,7 +166,7 @@ class My_Account_Action {
 
 		wp_redirect( Pages::g()->get_account_link() . 'details/' );
 		die();
-	}
+	}*/
 
 	/**
 	 * Repasses la même commande. Remet les mêmes données de la commande dans
