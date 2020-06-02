@@ -197,7 +197,9 @@ class Core_Action {
 		}
 
 		ob_start();
-		require_once( PLUGIN_WPSHOP_PATH . '/core/view/erp-connexion-error.view.php' );
+		if ( current_user_can( 'administrator') ) {
+			require_once( PLUGIN_WPSHOP_PATH . '/core/view/erp-connexion-error.view.php' );
+		}
 		wp_send_json_success( array(
 			'connected' => true,
 			'statut'    => $statut,
