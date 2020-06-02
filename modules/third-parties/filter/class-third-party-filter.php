@@ -58,11 +58,13 @@ class Third_Party_Filter {
 
 		$args['labels']              = $labels;
 		$args['supports']            = array( 'title', 'thumbnail' );
-		$args['public']              = true;
-		$args['has_archive']         = true;
-		$args['show_ui']             = true;
+		$args['public']              = false;
+		$args['has_archive']         = false;
+		$args['show_ui']             = false;
 		$args['show_in_nav_menus']   = false;
 		$args['show_in_menu']        = false;
+		$args['query_var']           = false;
+		$args['publicly_queryable']  = false;
 		$args['exclude_from_search'] = true;
 
 		return $args;
