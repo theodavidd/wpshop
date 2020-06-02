@@ -90,6 +90,9 @@ class My_Account_Action {
 		}
 	}
 
+
+	/* Passer par WordPress
+
 	public function handle_lost_password() {
 		check_admin_referer( 'wps_lost_password' );
 
@@ -102,6 +105,8 @@ class My_Account_Action {
 		wp_redirect( admin_url( 'wp-login.php?action=lostpassword') );
 	}
 
+	*/
+/* Fonction de changement de mot de pass à supprimer à terme
 	public function update_account_details() {
 		check_admin_referer( 'update_account_details' );
 
@@ -119,7 +124,7 @@ class My_Account_Action {
 			wp_redirect( Pages::g()->get_account_link() . 'details/' );
 			die();
 		}
-
+*/
 		$user = wp_get_current_user();
 
 		$user_update_status = wp_update_user( array(
