@@ -198,6 +198,12 @@ class Doli_Invoice_Action {
 	 * @param  array $data Data from PayPal.
 	 */
 	public function create_invoice( $data ) {
+
+		echo '<pre>';
+		print_r($data);
+		echo '</pre>';
+		exit;
+		
 		$doli_order   = Request_Util::get( 'orders/' . (int) $data['custom'] );
 		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . (int) $data['custom'] );
 		Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
