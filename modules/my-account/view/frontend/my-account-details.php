@@ -43,14 +43,6 @@ endif;
 	</div>
 
 	<div class="form-element">
-		<span class="form-label"><?php echo esc_html_e( 'Current password', 'wpshop' ); ?></span>
-		<label class="form-field-container">
-			<input type="text" class="form-field" name="current_password" />
-		</label>
-		<span class="form-sublabel"><?php echo esc_html_e( 'Leave blank to leave unchanged', 'wpshop' ); ?></span>
-	</div>
-
-	<div class="form-element">
 		<span class="form-label"><?php echo esc_html_e('New password', 'wpshop' ); ?></span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="new_password" />

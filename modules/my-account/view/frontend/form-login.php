@@ -61,7 +61,7 @@ endif;
 	<?php do_action( 'wps_login_form' ); ?>
 
 	<input class="wpeo-button button-main" type="submit" value="<?php esc_attr_e( 'Log in', 'wphsop' ); ?>" />
-	<a href="<?php echo Pages::g()->get_account_link() . 'lost-password'; ?>" title="Lost Password"><?php esc_html_e( 'Lost Password', 'wpshop' ); ?></a>
+	<a href="<?php echo site_url( 'wp-login.php?action=lostpassword' ); ?>" title="Lost Password"><?php esc_html_e( 'Lost Password', 'wpshop' ); ?></a>
 
 	<?php do_action( 'wps_login_form_end' ); ?>
 </form>

@@ -95,11 +95,11 @@ class My_Account_Action {
 
 		$page = ! empty( $_POST['page'] ) ? sanitize_text_field( $_POST['page'] ) : 'my-account';
 
-		do_action( 'retrieve_password', $_POST['user_login'] );
+		//do_action( 'retrieve_password', $_POST['user_login'] );
 
-		update_option( 'lost_password_notice_' . $_COOKIE['PHPSESSID'], __( 'An email for reset password', 'wpshop' ) );
+		//update_option( 'lost_password_notice_' . $_COOKIE['PHPSESSID'], __( 'An email for reset password', 'wpshop' ) );
 
-		wp_redirect( site_url( $page ) );
+		wp_redirect( admin_url( 'wp-login.php?action=lostpassword') );
 	}
 
 	public function update_account_details() {
@@ -107,7 +107,6 @@ class My_Account_Action {
 
 		$errors               = array();
 		$email                = ! empty( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
-		$current_password     = ! empty( $_POST['current_password'] ) ? sanitize_text_field( $_POST['current_password'] ) : '';
 		$new_password         = ! empty( $_POST['new_password'] ) ? sanitize_text_field( $_POST['new_password'] ) : '';
 		$confirm_new_password = ! empty( $_POST['confirm_new_password'] ) ? sanitize_text_field( $_POST['confirm_new_password'] ) : '';
 
@@ -132,14 +131,7 @@ class My_Account_Action {
 			die();
 		}
 
-		if ( ! empty( $current_password ) && ! empty( $new_password ) ) {
-			if ( ! wp_check_password( $current_password, $user->data->user_pass, get_current_user_id() ) ) {
-				$errors['unknow_error'] = __( 'Current password is incorrect', 'wpshop' );
-				set_transient( 'wps_update_account_details_errors', $errors, 0 );
-				wp_redirect( Pages::g()->get_account_link() . 'details/' );
-				die();
-			}
-
+		if ( ! empty( $new_password ) ) {
 			if ( $new_password === $confirm_new_password ) {
 				$user_update_status = wp_update_user( array(
 					'ID'        => get_current_user_id(),
