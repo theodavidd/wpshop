@@ -40,6 +40,8 @@ class Doli_Order_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
+		add_action( 'init', array( $this, 'create_tmp_invoice_dir' ) );
+z1
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
 
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 12 );
@@ -100,6 +102,23 @@ class Doli_Order_Action {
 			/* translators: %s: number of orders */
 			'label_count'               => _n_noop( 'Canceled <span class="count">(%s)</span>', 'Canceled <span class="count">(%s)</span>', 'wpshop' ),
 		) );
+	}
+
+	/**
+	 * Créer un répertoire temporaire pour les factures.
+	 *
+	 * @since 2.0.0
+	 */
+	public function create_tmp_invoice_dir() {
+		$dir = wp_upload_dir();
+
+		$path = $dir['basedir'] . '/invoices';
+
+		if ( wp_mkdir_p( $path ) && ! file_exists( $path . '/.htaccess' ) ) {
+			$f = fopen( $path . '/.htaccess', 'a+' );
+			fwrite( $f, "Options -Indexes\r\ndeny from all" );
+			fclose( $f );
+		}
 	}
 
 	/**
