@@ -41,7 +41,7 @@ class Doli_Order_Action {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'create_tmp_invoice_dir' ) );
-z1
+
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
 
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ), 12 );
