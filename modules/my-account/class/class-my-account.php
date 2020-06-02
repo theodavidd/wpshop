@@ -38,7 +38,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	protected function construct() {}
 
 	/**
-	 * Ajoutes la route orders.
+	 * Ajoute la route orders.
 	 *
 	 * @since 2.0.0
 	 */
@@ -96,7 +96,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Affiches le menu de navigation
+	 * Affiche le menu de navigation
 	 *
 	 * @since 2.0.0
 	 *
@@ -161,7 +161,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Affiches les détails de l'utilisateur.
+	 * Affiche les détails de l'utilisateur.
 	 *
 	 * @since 2.0.0
 	 */
@@ -176,7 +176,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Affiches les commandes liées au tier.
+	 * Affiche les commandes liées au tier.
 	 *
 	 * @todo: Doli My Account
 	 *
@@ -203,7 +203,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Affiches les factures liées au tier.
+	 * Affiche les factures liées au tier.
 	 *
 	 * @since 2.0.0
 	 */
@@ -229,7 +229,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Affiches les téléchargements liées au tier.
+	 * Affiche les téléchargements liées au tier.
 	 *
 	 * @since 2.0.0
 	 */
@@ -249,7 +249,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Affiches les devis liés au tiers.
+	 * Affiche les devis liés au tiers sans l'ERP.
 	 *
 	 * @since 2.0.0
 	 */
@@ -267,7 +267,7 @@ class My_Account extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Affiches les devis liés au tiers.
+	 * Affiche les propositions commerciales liés au tiers.
 	 *
 	 * @since 2.0.0
 	 */

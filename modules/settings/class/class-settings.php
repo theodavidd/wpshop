@@ -95,7 +95,7 @@ class Settings extends \eoxia\Singleton_Util {
 			'dolibarr_invoices_lists'   => '/compta/facture/list.php?leftmenu=customers_bills',
 			'dolibarr_payments_lists'   => '/compta/paiement/list.php?leftmenu=customers_bills_payment',
 			//-Liens Commandes facturables @todo
-			
+
 		);
 
 		$this->shipping_cost_default_settings = array(
