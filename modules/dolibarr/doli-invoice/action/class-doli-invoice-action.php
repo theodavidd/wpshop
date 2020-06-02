@@ -225,7 +225,7 @@ class Doli_Invoice_Action {
 		) );
 
 		//$third_party = Third_Party::g()->get( array( 'id' => (int) $doli_invoice->socid ), true );
-		$third_party = Third_Party::g()->get( array( 'external_id' => $doli_order->socid ), true );
+		$third_party = Third_Party::g()->get( array( 'external_id' => $doli_invoice->socid ), true );
 		$contact     = User::g()->get( array( 'id' => $order->data['author_id'] ), true );
 
 		$invoice_file = Request_Util::get( 'documents/download?modulepart=facture&original_file=' . $doli_invoice->ref . '/' . $doli_invoice->ref . '.pdf' );
