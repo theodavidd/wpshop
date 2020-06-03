@@ -219,14 +219,15 @@ class Doli_Invoice_Action {
 			'accountid'         => 1, // @todo: Handle account id. PayPal can be 1, Stripe can be 2, Crédit agricole can be 3.
 		) );
 
+
+		//$third_party = Third_Party::g()->get( array( 'id' => (int) $doli_invoice->socid ), true );
+		//$third_party = Third_Party::g()->get( array( 'external_id' => $doli_invoice->socid ), true );
+		$contact     = User::g()->get( array( 'third_party_id' => $doli_invoice->socid ), true );
+
 		Request_Util::put( 'documents/builddoc', array(
 			'modulepart'   => 'invoice',
 			'original_file' => $doli_invoice->ref . '/' . $doli_invoice->ref . '.pdf',
 		) );
-
-		//$third_party = Third_Party::g()->get( array( 'id' => (int) $doli_invoice->socid ), true );
-		$third_party = Third_Party::g()->get( array( 'external_id' => $wp_invoice->data['third_party_id'] ), true );
-		$contact     = User::g()->get( array( 'id' => $order->data['author_id'] ), true );
 
 		$invoice_file = Request_Util::get( 'documents/download?modulepart=facture&original_file=' . $doli_invoice->ref . '/' . $doli_invoice->ref . '.pdf' );
 		$content      = base64_decode( $invoice_file->content );
@@ -240,11 +241,11 @@ class Doli_Invoice_Action {
 		fwrite( $f, $content );
 		fclose( $f );
 
-		Emails::g()->send_mail( $third_party[0]->data['email'], 'customer_invoice', array(
+		Emails::g()->send_mail( $contact->data['email'], 'customer_invoice', array(
 			'order'       => $order,
 			'invoice'     => $wp_invoice,
 			'third_party' => $third_party[0]->data,
-			'contact'     => $contact,
+			//'contact'     => $contact,
 			'attachments' => array( $path_file ),
 		) );
 
