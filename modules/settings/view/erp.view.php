@@ -66,7 +66,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Create Tier', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_create_tier'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_url'] . $dolibarr_option['dolibarr_create_tier'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="dolibarr_create_tier" value="<?php echo esc_attr( $dolibarr_option['dolibarr_create_tier'] ); ?>" />
@@ -75,7 +75,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Tiers Lists', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_tiers_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_url'] . $dolibarr_option['dolibarr_tiers_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="dolibarr_tiers_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_tiers_lists'] ); ?>" />
@@ -86,7 +86,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Create Product', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_create_product'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_url'] . $dolibarr_option['dolibarr_create_product'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="dolibarr_create_product" value="<?php echo esc_attr( $dolibarr_option['dolibarr_create_product'] ); ?>" />
@@ -96,7 +96,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Products Lists', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_products_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_url'] . $dolibarr_option['dolibarr_products_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="dolibarr_products_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_products_lists'] ); ?>" />
@@ -117,7 +117,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Create Proposal', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_create_proposal'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_url'] . $dolibarr_option['dolibarr_create_proposal'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="dolibarr_create_proposal" value="<?php echo esc_attr( $dolibarr_option['dolibarr_create_proposal'] ); ?>" />
@@ -127,7 +127,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Proposals Lists', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_proposals_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_url'] . $dolibarr_option['dolibarr_proposals_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="dolibarr_proposals_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_proposals_lists'] ); ?>" />
@@ -138,7 +138,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Create Order', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_create_order'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_url'] . $dolibarr_option['dolibarr_create_order'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="dolibarr_create_order" value="<?php echo esc_attr( $dolibarr_option['dolibarr_create_order'] ); ?>" />
@@ -147,7 +147,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Orders Lists', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_orders_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_url'] . $dolibarr_option['dolibarr_orders_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="dolibarr_orders_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_orders_lists'] ); ?>" />
@@ -160,7 +160,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Invoices Lists', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_invoices_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_url'] . $dolibarr_option['dolibarr_invoices_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="dolibarr_invoices_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_invoices_lists'] ); ?>" />
@@ -170,7 +170,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="form-element">
 		<span class="form-label"><?php esc_html_e( 'Dolibarr Payments Lists', 'wpshop' ); ?>
-			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_payments_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+			<a class="wpeo-button button-square-40 button-rounded wpeo-tooltip-event" aria-label="<?php esc_attr_e( 'Test the link', 'wpshop' ); ?>" href="<?php echo esc_attr( $dolibarr_option['dolibarr_url'] . $dolibarr_option['dolibarr_payments_lists'] ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i></a>
 		</span>
 		<label class="form-field-container">
 			<input type="text" class="form-field" name="dolibarr_payments_lists" value="<?php echo esc_attr( $dolibarr_option['dolibarr_payments_lists'] ); ?>" />

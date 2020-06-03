@@ -113,6 +113,7 @@ class Doli_Proposals_Action {
 		} else {
 			$per_page = get_user_meta( get_current_user_id(), Doli_Proposals::g()->option_per_page, true );
 			$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+			$dolibarr_url = $dolibarr_option['dolibarr_url'];
 			$dolibarr_create_proposal    = $dolibarr_option['dolibarr_create_proposal'];
 
 			if ( empty( $per_page ) || 1 > $per_page ) {
@@ -151,6 +152,7 @@ class Doli_Proposals_Action {
 				's'            => $s,
 
 				'dolibarr_create_proposal' => $dolibarr_create_proposal,
+				'dolibarr_url' => $dolibarr_url,
 			) );
 		}
 	}

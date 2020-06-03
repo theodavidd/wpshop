@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit; ?>
 	<h2>
 		<?php esc_html_e( 'Third Parties', 'wpshop' ); ?>
 		<?php if ( Settings::g()->dolibarr_is_active() ) : ?>
-			<a href="<?php echo esc_attr( $dolibarr_create_tier ); ?>" target="_blank" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
+			<a href="<?php echo esc_attr( $dolibarr_url . $dolibarr_create_tier ); ?>" target="_blank" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
 		<?php endif; ?>
 	</h2>
 

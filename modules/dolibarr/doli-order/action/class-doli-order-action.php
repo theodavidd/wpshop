@@ -169,6 +169,7 @@ class Doli_Order_Action {
 			// @todo: Doublon avec Class Doli Order display() ?
 			$per_page = get_user_meta( get_current_user_id(), Doli_Order::g()->option_per_page, true );
 			$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+			$dolibarr_url    = $dolibarr_option['dolibarr_url'];
 			$dolibarr_create_order    = $dolibarr_option['dolibarr_create_order'];
 
 			if ( empty( $per_page ) || 1 > $per_page ) {
@@ -207,6 +208,7 @@ class Doli_Order_Action {
 				's'            => $s,
 
 				'dolibarr_create_order' => $dolibarr_create_order,
+				'dolibarr_url'    => $dolibarr_url,
 			) );
 		}
 	}

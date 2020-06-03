@@ -135,11 +135,13 @@ class Dashboard extends \eoxia\Singleton_Util {
 	public function metabox_customers() {
 		$third_parties = Third_Party::g()->get( array( 'posts_per_page' => 3 ) );
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$dolibarr_url    = $dolibarr_option['dolibarr_url'];
 		$dolibarr_tiers_lists    = $dolibarr_option['dolibarr_tiers_lists'];
 
 		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'metaboxes/metabox-customers', array(
 			'third_parties' => $third_parties,
 			'dolibarr_tiers_lists' => $dolibarr_tiers_lists,
+			'dolibarr_url' => $dolibarr_url,
 		) );
 	}
 
@@ -151,6 +153,7 @@ class Dashboard extends \eoxia\Singleton_Util {
 	public function metabox_quotations() {
 		$proposals = Proposals::g()->get( array( 'posts_per_page' => 3 ) );
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$dolibarr_url    = $dolibarr_option['dolibarr_url'];
 		$dolibarr_proposals_lists    = $dolibarr_option['dolibarr_proposals_lists'];
 
 		if ( ! empty( $proposals ) ) {
@@ -164,6 +167,7 @@ class Dashboard extends \eoxia\Singleton_Util {
 		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'metaboxes/metabox-quotations', array(
 			'proposals' => $proposals,
 			'dolibarr_proposals_lists' => $dolibarr_proposals_lists,
+			'dolibarr_url' => $dolibarr_url,
 		) );
 	}
 
@@ -175,11 +179,13 @@ class Dashboard extends \eoxia\Singleton_Util {
 	public function metabox_products() {
 		$products = Product::g()->get( array( 'posts_per_page' => 3 ) );
 		$dolibarr_option = get_option( 'wps_dolibarr', Settings::g()->default_settings );
+		$dolibarr_url    = $dolibarr_option['dolibarr_url'];
 		$dolibarr_products_lists    = $dolibarr_option['dolibarr_products_lists'];
 
 		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'metaboxes/metabox-products', array(
 			'products' => $products,
 			'dolibarr_products_lists' => $dolibarr_products_lists,
+			'dolibarr_url' => $dolibarr_url,
 		) );
 	}
 
@@ -224,6 +230,7 @@ class Dashboard extends \eoxia\Singleton_Util {
 		\eoxia\View_Util::exec( 'wpshop', 'dashboard', 'metaboxes/metabox-payments', array(
 			'payments' => $payments,
 			'dolibarr_payments_lists' => $dolibarr_payments_lists,
+			'dolibarr_url' => $dolibarr_url,
 
 		) );
 	}

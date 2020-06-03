@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-metabox wps-billing-address view gridw-3">
 	<h3 class="metabox-title"><?php esc_html_e( 'Last Customers', 'wpshop' ); ?></h3>
-	<a href="<?php echo esc_attr( $dolibarr_tiers_lists ); ?>" target="_blank"><?php esc_html_e( 'See in Dolibarr', 'wpshop' ); ?></a>
+	<a href="<?php echo esc_attr( $dolibarr_url . $dolibarr_tiers_lists ); ?>" target="_blank"><?php esc_html_e( 'See in Dolibarr', 'wpshop' ); ?></a>
 
 	<div class="wpeo-table table-flex table-3">
 		<div class="table-row table-header">

@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wrap wpeo-wrap">
 	<h2><?php esc_html_e( 'Dolibarr Proposals', 'wpshop' ); ?>
-		<a href="<?php echo esc_attr( $dolibarr_create_proposal ); ?>" target="_blank" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
+		<a href="<?php echo esc_attr( $dolibarr_url . $dolibarr_create_proposal ); ?>" target="_blank" class="wpeo-button button-main"><?php esc_html_e( 'Add', 'wpshop' ); ?></a>
 	</h2>
 
 	<div class="wpeo-gridlayout wpeo-form form-light grid-4 alignleft" style="margin-bottom: 20px; margin-top: 15px;">

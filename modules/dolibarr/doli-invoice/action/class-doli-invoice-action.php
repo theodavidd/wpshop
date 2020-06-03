@@ -204,7 +204,7 @@ class Doli_Invoice_Action {
 		Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
 			'notrigger' => 0,
 		) );
-
+ 
 		$order = Doli_Order::g()->get( array( 'schema' => true ), true );
 		$order = Doli_Order::g()->doli_to_wp( $doli_order, $order, true );
 
