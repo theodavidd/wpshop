@@ -209,6 +209,7 @@ class Doli_Invoice_Action {
 
 		$invoice = Doli_Invoice::g()->get( array( 'schema' => true ), true );
 		$doli_invoice = Request_Util::get( 'invoices/' . $doli_invoice->id );
+		\eoxia\LOG_Util::log( sprintf( $doli_invoice->id . '|' . $doli_invoice->socid ), 'wpshop2' );
 		$wp_invoice = Doli_Invoice::g()->doli_to_wp( $doli_invoice, $invoice, true );
 
 		$doli_payment = Request_Util::post( 'invoices/' . $doli_invoice->id . '/payments', array(
