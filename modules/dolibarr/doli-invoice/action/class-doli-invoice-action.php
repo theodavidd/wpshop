@@ -198,8 +198,6 @@ class Doli_Invoice_Action {
 	 * @param  array $data Data from PayPal.
 	 */
 	public function create_invoice( $data ) {
-		session_start();
-
 		$doli_order   = Request_Util::get( 'orders/' . (int) $data['custom'] );
 		$doli_invoice = Request_Util::post( 'invoices/createfromorder/' . (int) $data['custom'] );
 		Request_Util::post( 'invoices/' . $doli_invoice->id . '/validate', array(
@@ -226,10 +224,8 @@ class Doli_Invoice_Action {
 		) );
 
 		//$third_party = Third_Party::g()->get( array( 'id' => (int) $doli_invoice->socid ), true );
-		$third_party = Third_Party::g()->get( array( 'external_id' => $doli_invoice->socid ), true );
+		$third_party = Third_Party::g()->get( array( 'external_id' => $wp_invoice->data['third_party_id'] ), true );
 		$contact     = User::g()->get( array( 'id' => $order->data['author_id'] ), true );
-
-		$_SESSION['email'] = $third_party[0]->data['email'];
 
 		$invoice_file = Request_Util::get( 'documents/download?modulepart=facture&original_file=' . $doli_invoice->ref . '/' . $doli_invoice->ref . '.pdf' );
 		$content      = base64_decode( $invoice_file->content );
@@ -243,7 +239,7 @@ class Doli_Invoice_Action {
 		fwrite( $f, $content );
 		fclose( $f );
 
-		Emails::g()->send_mail( $_SESSION['email'], 'customer_invoice', array(
+		Emails::g()->send_mail( $third_party[0]->data['email'], 'customer_invoice', array(
 			'order'       => $order,
 			'invoice'     => $wp_invoice,
 			'third_party' => $third_party[0]->data,
@@ -255,7 +251,6 @@ class Doli_Invoice_Action {
 		\eoxia\LOG_Util::log( sprintf( 'Send the invoice %s to the email contact %s', $wp_invoice->data['title'], $contact->data['email'] ), 'wpshop2' );
 
 		unlink( $path_file );
-		session_destroy();
 	}
 
 	/**
