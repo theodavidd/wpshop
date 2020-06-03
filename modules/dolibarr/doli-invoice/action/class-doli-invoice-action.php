@@ -222,7 +222,10 @@ class Doli_Invoice_Action {
 
 		//$third_party = Third_Party::g()->get( array( 'id' => (int) $doli_invoice->socid ), true );
 		//$third_party = Third_Party::g()->get( array( 'external_id' => $doli_invoice->socid ), true );
-		$contact     = User::g()->get( array( 'third_party_id' => $doli_invoice->socid ), true );
+		//$contact     = User::g()->get( array( 'third_party_id' => $doli_invoice->socid ), true );
+
+		$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
+		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
 
 		Request_Util::put( 'documents/builddoc', array(
 			'modulepart'   => 'invoice',
