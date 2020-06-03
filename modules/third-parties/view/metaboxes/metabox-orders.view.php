@@ -17,7 +17,7 @@ namespace wpshop;
 defined( 'ABSPATH' ) || exit; ?>
 
 <div class="wps-metabox wps-billing-address view gridw-2">
-	<h3 class="metabox-title"><?php esc_html_e( 'Orders' ); ?></h3>
+	<h3 class="metabox-title"><?php esc_html_e( 'Orders', 'wpshop' ); ?></h3>
 
 	<div class="wpeo-table table-flex table-4">
 		<div class="table-row table-header">

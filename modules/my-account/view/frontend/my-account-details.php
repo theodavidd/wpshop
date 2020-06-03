@@ -35,17 +35,73 @@ endif;
 	<input type="hidden" name="action" value="update_account_details" />
 	<?php wp_nonce_field( 'update_account_details' ); ?>
 
-	<div class="form-element form-element-required">
-		<span class="form-label"><?php echo esc_html_e( 'Email', '' ); ?></span>
+	<div class="form-element">
+		<span class="form-label"><?php echo esc_html_e( 'Email', 'wpshop' ); ?></span>
 		<label class="form-field-container">
-			<input type="text" class="form-field" name="email" value="<?php echo esc_attr( $contact->data['email'] ); ?>" />
+			<input type="text" class="form-field" name="email" value="<?php echo esc_attr( $contact->data['email'] ); ?>"/>
+		</label>
+	</div>
+
+	<div class="form-element">
+		<span class="form-label"><?php echo esc_html_e( 'Phone', 'wpshop' ); ?></span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="email" value="<?php echo esc_attr( $contact->data['phone'] ); ?>" />
+		</label>
+	</div>
+
+	<div class="form-element">
+		<span class="form-label"><?php echo esc_html_e( 'Login', 'wpshop' ); ?></span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="email" value="<?php echo esc_attr( $contact->data['login'] ); ?>" />
+		</label>
+	</div>
+
+	<div class="form-element">
+		<span class="form-label"><?php echo esc_html_e( 'Firstname', 'wpshop' ); ?></span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="email" value="<?php echo esc_attr( $contact->data['firstname'] ); ?>" />
+		</label>
+	</div>
+
+	<div class="form-element">
+		<span class="form-label"><?php echo esc_html_e( 'Lastname', 'wpshop' ); ?></span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="email" value="<?php echo esc_attr( $contact->data['lastname'] ); ?>" />
+		</label>
+	</div>
+
+	<div class="form-element">
+		<span class="form-label"><?php echo esc_html_e( 'Address', 'wpshop' ); ?></span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="email" value="<?php echo esc_attr( $third_party->data['address'] ); ?>" />
+		</label>
+	</div>
+
+	<div class="form-element">
+		<span class="form-label"><?php echo esc_html_e( 'Zip', 'wpshop' ); ?></span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="email" value="<?php echo esc_attr( $third_party->data['zip'] ); ?>" />
+		</label>
+	</div>
+
+	<div class="form-element">
+		<span class="form-label"><?php echo esc_html_e( 'Town', 'wpshop' ); ?></span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="email" value="<?php echo esc_attr( $third_party->data['town'] ); ?>" />
+		</label>
+	</div>
+
+	<div class="form-element">
+		<span class="form-label"><?php echo esc_html_e( 'Country', 'wpshop' ); ?></span>
+		<label class="form-field-container">
+			<input type="text" class="form-field" name="email" value="<?php echo esc_attr( $third_party->data['country'] ); ?>" />
 		</label>
 	</div>
 
 	<div class="form-element">
 		<span class="form-label"><?php echo esc_html_e('New password', 'wpshop' ); ?></span>
 		<label class="form-field-container">
-			<input type="text" class="form-field" name="new_password" />
+			<input type="password" class="form-field" name="new_password" />
 		</label>
 		<span class="form-sublabel"><?php echo esc_html_e( 'Leave blank to leave unchanged', 'wpshop' ); ?></span>
 	</div>
@@ -53,9 +109,9 @@ endif;
 	<div class="form-element">
 		<span class="form-label"><?php echo esc_html_e( 'Confirm new password', 'wpshop' ); ?></span>
 		<label class="form-field-container">
-			<input type="text" class="form-field" name="confirm_new_password" />
+			<input type="password" class="form-field" name="confirm_new_password" />
 		</label>
 	</div>
 
-	<input type="submit" class="wpeo-button" value="<?php esc_html_e( 'Save changes', 'wpshop' ); ?>" />
+<!--	<input type="submit" class="wpeo-button" value="--><?php //esc_html_e( 'Save changes', 'wpshop' ); ?><!--" />-->
 </form>
