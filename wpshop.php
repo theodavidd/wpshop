@@ -4,8 +4,8 @@
  * Plugin URI:
  * Description:
  * Version: 2.0.0
- * Author:
- * Author URI:
+ * Author: Eoxia <dev@eoxia.com>
+ * Author URI: http://www.eoxia.com/
  * License:
  * License URI:
  *

@@ -151,11 +151,14 @@ class Emails extends \eoxia\Singleton_Util {
 		$content = 'test';
 
 		$user = wp_get_current_user();
+		echo '<pre>';
+		print_r($user);
+		echo '</pre>';
 
 		$data_email = array(
 			'title' => $mail['title'],
-			'user_id' => $user->data->ID,
-			'user_email' => $user->data->user_email,
+			'user_id' => $user->ID,
+			'user_email' => $user->user_email,
 		);
 
 		if ( $user->ID == 0 ) {

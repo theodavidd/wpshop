@@ -124,7 +124,7 @@ class Core_Filter {
 
 	public function add_link_plugin_page( $links ) {
 		$links[] = '<a href="' . admin_url( 'admin.php?page=wps-settings' ) . '">' .  __( 'Settings', 'wpshop' ) . '</a>';
-		$links[] = '<a href="' . admin_url( 'admin.php?page=wps-tools' ) . '">' .  __( 'Tools', 'wpshop' ) . '</a>';
+		//$links[] = '<a href="' . admin_url( 'admin.php?page=wps-tools' ) . '">' .  __( 'Tools', 'wpshop' ) . '</a>';
 
 		return $links;
 	}
