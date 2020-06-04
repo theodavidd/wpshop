@@ -38,6 +38,24 @@ class Doli_Invoice_Model extends \eoxia\Post_Model {
 			'description' => 'L\'ID provenant de dolibarr',
 		);
 
+		$this->schema['datec'] = array(
+			'type'        => 'wpeo_date',
+			'meta_type'   => 'single',
+			'field'       => 'datec',
+			'since'       => '2.0.0',
+			'description' => 'Date de création de la fature. Relation avec dolibarr',
+			'context'     => array( 'GET' ),
+		);
+
+		$this->schema['date_invoice'] = array(
+			'type'        => 'wpeo_date',
+			'meta_type'   => 'single',
+			'field'       => 'date_invoice',
+			'since'       => '2.0.0',
+			'description' => 'Date de la fature. Relation avec dolibarr',
+			'context'     => array( 'GET' ),
+		);
+
 		$this->schema['total_ht'] = array(
 			'type'        => 'float',
 			'meta_type'   => 'single',
