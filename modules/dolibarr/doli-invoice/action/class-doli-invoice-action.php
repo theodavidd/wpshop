@@ -224,8 +224,20 @@ class Doli_Invoice_Action {
 		//$third_party = Third_Party::g()->get( array( 'external_id' => $doli_invoice->socid ), true );
 		//$contact     = User::g()->get( array( 'third_party_id' => $doli_invoice->socid ), true );
 
-		$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
-		$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+		//$contact     = User::g()->get( array( 'id' => get_current_user_id() ), true );
+		//$third_party = Third_Party::g()->get( array( 'id' => $contact->data['third_party_id'] ), true );
+
+		global $wpdb;
+
+		$query = $wpdb->prepare( "
+			SELECT post_id FROM $wpdb->postmeta
+			WHERE meta_key = '_external_id'
+			AND meta_value = %d
+		", $doli_order->socid );
+
+		$post_id = $wpdb->get_var($query);
+
+		$third_party_email = get_post_meta( $post_id, 'email', true );
 
 		Request_Util::put( 'documents/builddoc', array(
 			'modulepart'   => 'invoice',
@@ -244,16 +256,16 @@ class Doli_Invoice_Action {
 		fwrite( $f, $content );
 		fclose( $f );
 
-		Emails::g()->send_mail( $contact->data['email'], 'customer_invoice', array(
+		Emails::g()->send_mail( $third_party_email, 'customer_invoice', array(
 			'order'       => $order,
 			'invoice'     => $wp_invoice,
-			'third_party' => $third_party[0]->data,
+			//'third_party' => $third_party[0]->data,
 			//'contact'     => $contact,
 			'attachments' => array( $path_file ),
 		) );
 
 		// // translators: Send the invoice 000001 to the email contact text@eoxia.com.
-		\eoxia\LOG_Util::log( sprintf( 'Send the invoice %s to the email contact %s', $wp_invoice->data['title'], $contact->data['email'] ), 'wpshop2' );
+		\eoxia\LOG_Util::log( sprintf( 'Send the invoice %s to the email contact %s', $wp_invoice->data['title'], $third_party_email ), 'wpshop2' );
 
 		unlink( $path_file );
 	}

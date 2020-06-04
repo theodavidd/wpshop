@@ -405,7 +405,19 @@ class Doli_Order_Action {
 		$order       = Doli_Order::g()->get( array( 'schema' => true ), true );
 		$order       = Doli_Order::g()->doli_to_wp( $doli_order, $order, true );
 
-		$third_party = Third_Party::g()->get( array( 'external_id' => $doli_order->socid ), true );
+		//$third_party = Third_Party::g()->get( array( 'external_id' => $doli_order->socid ), true );
+
+		global $wpdb;
+
+		$query = $wpdb->prepare( "
+			SELECT post_id FROM $wpdb->postmeta
+			WHERE meta_key = '_external_id'
+			AND meta_value = %d
+		", $doli_order->socid );
+
+		$post_id = $wpdb->get_var($query);
+
+		$third_party_email = get_post_meta( $post_id, 'email', true );
 
 		$order_file = Request_Util::get( 'documents/download?modulepart=order&original_file=' . $doli_order->ref . '/' . $doli_order->ref . '.pdf' );
 		$content = base64_decode( $order_file->content );
@@ -418,10 +430,10 @@ class Doli_Order_Action {
 		fwrite( $f, $content );
 		fclose( $f );
 
-		Emails::g()->send_mail( $third_party[0]->data['email'], 'customer_paid_order', array(
+		Emails::g()->send_mail( $third_party_email, 'customer_paid_order', array(
 			'order_id'    => $doli_order->id,
 			'order'       => $doli_order,
-			'third_party' => $third_party[0]->data,
+			//'third_party' => $third_party[0]->data,
 			'attachments' => array( $path_file ),
 		) );
 
