@@ -48,14 +48,14 @@ class Emails extends \eoxia\Singleton_Util {
 			'filename_template' => 'customer-new-account.php',
 		);
 
-		$this->emails['customer_paid_order'] = array(
-			'title'             => __( 'New order', 'wpshop' ),
-			'filename_template' => 'admin-new-order.php',
-		);
-
 		$this->emails['customer_current_order'] = array(
 			'title'             => __( 'Pending order', 'wpshop' ),
 			'filename_template' => 'customer-processing-order.php',
+		);
+
+		$this->emails['customer_paid_order'] = array(
+			'title'             => __( 'New order', 'wpshop' ),
+			'filename_template' => 'admin-new-order.php',
 		);
 
 		$this->emails['customer_completed_order'] = array(
