@@ -35,7 +35,7 @@ else:
 				<div class="wps-order wps-box">
 					<div class="wps-box-resume">
 						<div class="wps-box-primary">
-							<div class="wps-box-title"><?php echo esc_html( $order->data['date']['rendered']['date'] ); ?></div>
+							<div class="wps-box-title"><?php echo esc_html( $order->data['datec'] ); ?></div>
 							<ul class="wps-box-attributes">
 								<li class="wps-box-subtitle-item"><i class="wps-box-subtitle-icon fas fa-shopping-cart"></i> <?php echo esc_attr( $order->data['title'] ); ?></li>
 							</ul>
