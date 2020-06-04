@@ -57,7 +57,7 @@ class Emails extends \eoxia\Singleton_Util {
 			'title'             => __( 'New order', 'wpshop' ),
 			'filename_template' => 'admin-new-order.php',
 		);
-
+/*
 		$this->emails['customer_completed_order'] = array(
 			'title'             => __( 'Completed order', 'wpshop' ),
 			'filename_template' => 'customer-completed-order.php',
@@ -67,7 +67,7 @@ class Emails extends \eoxia\Singleton_Util {
 			'title'             => __( 'Delivered order', 'wpshop' ),
 			'filename_template' => 'customer-delivered-order.php',
 		);
-
+*/
 		$this->emails['customer_invoice'] = array(
 			'title'             => __( 'Send invoice', 'wpshop' ),
 			'filename_template' => 'customer-invoice.php',
