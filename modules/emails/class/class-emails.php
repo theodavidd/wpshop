@@ -43,6 +43,11 @@ class Emails extends \eoxia\Singleton_Util {
 	 * @since 2.0.0
 	 */
 	protected function construct() {
+		$this->emails['customer_new_account'] = array(
+			'title'             => __( 'New account', 'wpshop' ),
+			'filename_template' => 'customer-new-account.php',
+		);
+
 		$this->emails['customer_paid_order'] = array(
 			'title'             => __( 'New order', 'wpshop' ),
 			'filename_template' => 'admin-new-order.php',
@@ -68,10 +73,6 @@ class Emails extends \eoxia\Singleton_Util {
 			'filename_template' => 'customer-invoice.php',
 		);
 
-		$this->emails['customer_new_account'] = array(
-			'title'             => __( 'New account', 'wpshop' ),
-			'filename_template' => 'customer-new-account.php',
-		);
 
 		$wp_upload_dir              = wp_upload_dir();
 		$this->log_emails_directory = $wp_upload_dir['basedir'] . '/wpshop/logs/';
