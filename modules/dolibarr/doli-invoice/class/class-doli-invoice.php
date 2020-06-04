@@ -167,6 +167,8 @@ class Doli_Invoice extends \eoxia\Post_Class {
 //		}
 
 		$wp_invoice->data['title']          = $doli_invoice->ref;
+		$wp_invoice->data['datec']          = gmdate( 'Y-m-d H:i:s', $doli_invoice->date_creation );
+		$wp_invoice->data['date_invoice']   = gmdate( 'Y-m-d H:i:s', $doli_invoice->datem );
 		$wp_invoice->data['total_ttc']      = $doli_invoice->total_ttc;
 		$wp_invoice->data['total_ht']       = $doli_invoice->total_ht;
 		$wp_invoice->data['resteapayer']    = $doli_invoice->remaintopay;
