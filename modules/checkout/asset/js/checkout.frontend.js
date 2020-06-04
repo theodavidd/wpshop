@@ -48,7 +48,7 @@ window.eoxiaJS.wpshopFrontend.checkout.createdThirdSuccess = function( triggered
 }
 
 window.eoxiaJS.wpshopFrontend.checkout.redirectToPayment = function( triggeredElement, response ) {
-	window.open(response.data.url);
+	document.location.href = response.data.url;
 };
 
 window.eoxiaJS.wpshopFrontend.checkout.redirect = function( triggeredElement, response ) {
