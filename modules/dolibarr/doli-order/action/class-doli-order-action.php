@@ -40,7 +40,7 @@ class Doli_Order_Action {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		add_action( 'init', array( $this, 'create_tmp_invoice_dir' ) );
+		add_action( 'init', array( $this, 'create_tmp_order_dir' ) );
 
 		add_action( 'admin_init', array( $this, 'callback_admin_init' ) );
 
@@ -109,10 +109,10 @@ class Doli_Order_Action {
 	 *
 	 * @since 2.0.0
 	 */
-	public function create_tmp_invoice_dir() {
+	public function create_tmp_order_dir() {
 		$dir = wp_upload_dir();
 
-		$path = $dir['basedir'] . '/invoices';
+		$path = $dir['basedir'] . '/orders';
 
 		if ( wp_mkdir_p( $path ) && ! file_exists( $path . '/.htaccess' ) ) {
 			$f = fopen( $path . '/.htaccess', 'a+' );
