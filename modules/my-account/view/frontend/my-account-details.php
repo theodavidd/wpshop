@@ -98,20 +98,5 @@ endif;
 		</label>
 	</div>
 
-	<div class="form-element">
-		<span class="form-label"><?php echo esc_html_e('New password', 'wpshop' ); ?></span>
-		<label class="form-field-container">
-			<input type="password" class="form-field" name="new_password" />
-		</label>
-		<span class="form-sublabel"><?php echo esc_html_e( 'Leave blank to leave unchanged', 'wpshop' ); ?></span>
-	</div>
-
-	<div class="form-element">
-		<span class="form-label"><?php echo esc_html_e( 'Confirm new password', 'wpshop' ); ?></span>
-		<label class="form-field-container">
-			<input type="password" class="form-field" name="confirm_new_password" />
-		</label>
-	</div>
-
 <!--	<input type="submit" class="wpeo-button" value="--><?php //esc_html_e( 'Save changes', 'wpshop' ); ?><!--" />-->
 </form>
