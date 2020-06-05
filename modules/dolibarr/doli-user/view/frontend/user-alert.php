@@ -1,4 +1,4 @@
-<div class="wpeo-modal modal-active modal-force-display wps-modal-alert">
+<div class="wpeo-modal modal-active wps-modal-alert">
 	<div class="modal-container">
 
 		<!-- Entête -->
@@ -17,8 +17,7 @@
 
 		<!-- Footer -->
 		<div class="modal-footer">
-			<a class="wpeo-button button-grey button-uppercase modal-close"><span>Annuler</span></a>
-			<a class="wpeo-button button-main button-uppercase modal-close"><span>Valider</span></a>
+			<a class="wpeo-button button-grey button-uppercase modal-close" style="bottom: 45px"><span><?php esc_html_e('Close', 'wpshop' ); ?></span></a>
 		</div>
 	</div>
 </div>
