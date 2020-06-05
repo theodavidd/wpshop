@@ -2,12 +2,12 @@
 /**
  * Gestion shortcode du panier.
  *
+ * @package   WPshop
+ *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2019 Eoxia
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
- *
- * @package   WPshop\Classes
  *
  * @since     2.0.0
  */
@@ -22,8 +22,8 @@ defined( 'ABSPATH' ) || exit;
 class Cart_Shortcode extends \eoxia\Singleton_Util {
 
 	/**
-	 * Constructeur pour la classe Class_Cart_Shortcode. Ajoutes les
-	 * shortcodes pour le tunnel de vente.
+	 * Constructeur pour la classe Class_Cart_Shortcode.
+	 * Ajoute les shortcodes pour le tunnel de vente.
 	 *
 	 * @since 2.0.0
 	 */
@@ -68,6 +68,8 @@ class Cart_Shortcode extends \eoxia\Singleton_Util {
 	 *
 	 * @param array $atts Les attributs du shortcode. Voir ci dessous
 	 * shortcode_atts.
+	 *
+	 * @return view      La vue du bouton ""Ajouter au panier".
 	 */
 	public function callback_add_to_cart( $atts ) {
 		if ( ! is_admin() ) {

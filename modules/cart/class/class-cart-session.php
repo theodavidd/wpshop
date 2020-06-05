@@ -2,12 +2,12 @@
 /**
  * Les fonctions principales de la session du panier.
  *
+ * @package   WPshop
+ *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2020 Eoxia
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
- *
- * @package   WPshop\Classes
  *
  * @since     2.0.0
  */
@@ -92,7 +92,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	public $order_id;
 
 	/**
-	 * Quantity de produit dans la commande.
+	 * Quantité de produit dans la commande.
 	 *
 	 * @since 2.0.0
 	 *
@@ -128,7 +128,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Ajoutes une donnée external
+	 * Ajoute une donnée externe.
 	 *
 	 * @since 2.0.0
 	 *
@@ -141,7 +141,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Met à jour la SESSION
+	 * Met à jour la SESSION.
 	 *
 	 * @since 2.0.0
 	 */
@@ -179,7 +179,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Supprimes toutes les données de la SESSION
+	 * Supprime toutes les données de la SESSION.
 	 *
 	 * @since 2.0.0
 	 */
@@ -199,7 +199,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Ajoutes un produit dans le panier.
+	 * Ajoute un produit dans le panier.
 	 *
 	 * @since 2.0.0
 	 *
@@ -238,7 +238,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Recherches le produit dans le panier correspondant à l'ID.
+	 * Recherche le produit dans le panier correspondant à l'ID.
 	 *
 	 * @since 2.0.0
 	 *
@@ -259,7 +259,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Supprimes un produit du panier selon son $id.
+	 * Supprime un produit du panier selon son $id.
 	 *
 	 * @since 2.0.0
 	 *
@@ -279,7 +279,7 @@ class Cart_Session extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Supprimes un produit depuis $key qui est son index dans le tableau
+	 * Supprime un produit depuis $key qui est son index dans le tableau
 	 * cart_contents.
 	 *
 	 * @since 2.0.0

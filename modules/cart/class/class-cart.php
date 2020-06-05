@@ -2,12 +2,12 @@
 /**
  * Les fonctions principales du panier.
  *
+ * @package   WPshop
+ *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2020 Eoxia
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
- *
- * @package   WPshop\Classes
  *
  * @since     2.0.0
  */
@@ -28,6 +28,13 @@ class Cart extends \eoxia\Singleton_Util {
 	 */
 	protected function construct() {}
 
+	/**
+	 * Vérifie si un produit peut être ajouté.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return bool True si tout s'est bien passé.
+	 */
 	public function can_add_product() {
 		if ( ! Settings::g()->use_quotation() && ! Settings::g()->dolibarr_is_active() ) {
 			return false;
@@ -37,12 +44,14 @@ class Cart extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Ajout d'un produit dans le panier.
+	 * Ajoute un produit dans le panier.
 	 *
 	 * @since 2.0.0
 	 *
 	 * @param Product_Model $product Les données du produit.
 	 * @param integer       $qty     La quantité à ajouter.
+	 *
+	 * @return boolean               True si tout s'est bien passé.
 	 */
 	public function add_to_cart( $product, $qty = 1 ) {
 		if ( ! $this->can_add_product() ) {
@@ -110,7 +119,7 @@ class Cart extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Supprimes un produit du panier.
+	 * Supprime un produit du panier.
 	 *
 	 * @since 2.0.0
 	 *
@@ -126,7 +135,7 @@ class Cart extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Affiches le résumé du panier.
+	 * Affiche le résumé du panier.
 	 *
 	 * @since 2.0.0
 	 *
@@ -174,8 +183,10 @@ class Cart extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Pour chaque produit, décrementes son stock selon la quantity de celui-ci
+	 * Pour chaque produit, décremente son stock selon la quantité de celui-ci
 	 * dans la commande.
+	 *
+	 * @since 2.0.0
 	 */
 	public function decrease_stock() {
 		if ( ! empty( Cart_Session::g()->cart_contents ) ) {

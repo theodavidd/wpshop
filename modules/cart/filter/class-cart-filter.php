@@ -2,12 +2,12 @@
 /**
  * Gestion des filtres du panier.
  *
+ * @package   WPshop
+ *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2020 Eoxia
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
- *
- * @package   WPshop\Classes
  *
  * @since     2.0.0
  */
@@ -33,7 +33,7 @@ class Cart_Filter {
 	}
 
 	/**
-	 * Ajoutes le nombre de produit dans le panier dans le menu "Panier".
+	 * Ajoute le nombre de produit dans le panier dans le menu "Panier".
 	 *
 	 * @since 2.0.0
 	 *
@@ -43,7 +43,6 @@ class Cart_Filter {
 	 * @return array       Les items du menu avec le bouton "Panier" modifié.
 	 */
 	public function nav_menu_add_search( $items, $args ) {
-
 		if ( ! empty( $items ) ) {
 			foreach ( $items as &$item ) {
 				if ( Pages::g()->get_cart_link() === $item->url ) {

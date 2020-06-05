@@ -2,12 +2,12 @@
 /**
  * Gestion des actions du panier.
  *
+ * @package   WPshop
+ *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2020 Eoxia
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
- *
- * @package   WPshop\Classes
  *
  * @since     2.0.0
  */
@@ -45,6 +45,8 @@ class Cart_Action {
 
 	/**
 	 * Calcul le total du panier.
+	 *
+	 * @Todo bouger dans class-cart.php
 	 *
 	 * @since 2.0.0
 	 */
@@ -171,6 +173,11 @@ class Cart_Action {
 		) );
 	}
 
+	/**
+	 * Action pour vider le panier.
+	 *
+	 * @since 2.0.0
+	 */
 	public function clear_cart() {
 		Cart_Session::g()->destroy();
 	}

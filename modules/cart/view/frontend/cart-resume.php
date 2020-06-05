@@ -2,19 +2,30 @@
 /**
  * La vue du tableau récapitulatif du panier.
  *
+ * @package   WPshop
+ *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2020 Eoxia
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
- *
- * @package   WPshop\Templates
  *
  * @since     2.0.0
  */
 
 namespace wpshop;
 
-defined( 'ABSPATH' ) || exit; ?>
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Documentation des variables utilisées dans la vue.
+ *
+ * @var integer       $total_price_no_shipping Prix total sans frais de livraison.
+ * @var integer       $tva_amount              Montant de la TVA.
+ * @var integer       $shipping_cost           Frais de livraison.
+ * @var integer       $total_price_ttc         Prix total TTC.
+ *
+ */
+?>
 
 <ul class="wps-cart-resume">
 	<?php do_action( 'wps_before_cart_resume_lines' ); ?>
