@@ -8,13 +8,13 @@ Requires PHP: 7.3
 Stable tag: 2.0.0
 License: GPLv3 or later
 
-Simple and powerfull ECommerce plugin : Stripe, Paypal ...
-
 == Description ==
+
+Simple and powerfull ECommerce plugin for WordPress
 
 = WPShop 2 Turn your WordPress into e-commerce =
 
-Simple, fast, efficient it will transform your WordPress into an internet sales site [wpshop.fr](https://www.wpshop.fr/ "extension wordpress e-commerce")
+Simple, fast, efficient it will transform your WordPress into an internet sales site  with Stripe, Paypal [wpshop.fr](https://www.wpshop.fr/ "extension wordpress e-commerce")
 Natively connect to your Dolibarr ERP, you just have to have coffee...[dolibarr.com](https://www.dolibarr.com/
 
 = Nos "french plugins" =
