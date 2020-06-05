@@ -2,8 +2,8 @@
 /**
  * Plugin Name: WPshop
  * Plugin URI:
- * Description:
- * Version: 2.0.0
+ * Description: Simple, fast, efficient it will transform your WordPress into an internet sales site
+ * Version: 2.0.
  * Author: Eoxia <dev@eoxia.com>
  * Author URI: http://www.eoxia.com/
  * License:
