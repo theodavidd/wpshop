@@ -2,7 +2,7 @@
 /**
  * La vue du tableau récapitulatif du panier.
  *
- * @package   WPshop
+ * @package   WPshop\Templates
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2020 Eoxia

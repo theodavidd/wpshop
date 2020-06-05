@@ -2,7 +2,7 @@
 /**
  * Les fonctions principales du panier.
  *
- * @package   WPshop
+ * @package   WPshop\Classes
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2020 Eoxia

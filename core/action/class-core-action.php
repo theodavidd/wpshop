@@ -48,7 +48,7 @@ class Core_Action {
 	}
 
 	/**
-	 * Enregistres la session et enlève l'admin bar
+	 * Enregistre la session et enlève l'admin bar.
 	 *
 	 * @since 2.0.0
 	 */
@@ -63,7 +63,7 @@ class Core_Action {
 	}
 
 	/**
-	 * Charges le fichier de traduction.
+	 * Charge le fichier de traduction.
 	 *
 	 * @since 2.0.0
 	 */
@@ -72,7 +72,7 @@ class Core_Action {
 	}
 
 	/**
-	 * Installes les données par défaut.
+	 * Installe les données par défaut.
 	 *
 	 * @todo: Documenter les données par défaut.
 	 *
@@ -83,7 +83,7 @@ class Core_Action {
 	}
 
 	/**
-	 * Enregistres les blocks gutenberg.
+	 * Enregistre les blocks gutenberg.
 	 *
 	 * @since 2.0.0
 	 */
@@ -109,7 +109,7 @@ class Core_Action {
 	}
 
 	/**
-	 * Ajoutes ajaxurl
+	 * Ajoute ajaxurl.
 	 *
 	 * @since 2.0.0
 	 */
@@ -169,7 +169,7 @@ class Core_Action {
 	}
 
 	/**
-	 * Ajoutes le menu principal de WPshop.
+	 * Ajoute le menu principal de WPshop.
 	 *
 	 * @since 2.0.0
 	 */

@@ -2,7 +2,7 @@
 /**
  * Gestion shortcode du panier.
  *
- * @package   WPshop
+ * @package   WPshop\Classes
  *
  * @author    Eoxia <dev@eoxia.com>
  * @copyright (c) 2011-2019 Eoxia

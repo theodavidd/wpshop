@@ -2,12 +2,12 @@
 /**
  * Classe principale des emails
  *
+ * @package   WPshop\Classes
+ *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2020 Eoxia
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
- *
- * @package   WPshop\Classes
  *
  * @since     2.0.0
  */
@@ -31,7 +31,7 @@ class Emails extends \eoxia\Singleton_Util {
 	public $emails;
 
 	/**
-	 * Le chemin vers le répertoire uploads/wpshop/logs
+	 * Le chemin vers le répertoire uploads/wpshop/logs.
 	 *
 	 * @var string
 	 */
@@ -82,12 +82,13 @@ class Emails extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Récupères le chemin ABS vers le template du mail dans le thème.
+	 * Récupère le chemin ABS vers le template du mail dans le thème.
 	 * Si introuvable récupère le template du mail dans le plugin WPshop.
 	 *
 	 * @since 2.0.0
 	 *
 	 * @param  string $filename Le nom du template.
+	 *
 	 * @return string           Le chemin vers le template.
 	 */
 	public function get_path( $filename ) {
@@ -101,13 +102,13 @@ class Emails extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Renvoies true si le template se trouve dans le thème. Sinon false.
+	 * Renvoie true si le template se trouve dans le thème. Sinon false.
 	 *
 	 * @since 2.0.0
 	 *
 	 * @param string $filename Le nom du template.
 	 *
-	 * @return boolean           True ou false.
+	 * @return boolean         True ou false.
 	 */
 	public function is_override( $filename ) {
 		if ( locate_template( array( 'wpshop/emails/view/' . $filename ) ) ) {
@@ -118,7 +119,7 @@ class Emails extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Envoies un mail.
+	 * Envoie un mail.
 	 *
 	 * @since 2.0.0
 	 *
@@ -177,12 +178,13 @@ class Emails extends \eoxia\Singleton_Util {
 	}
 
 	/**
-	 * Récupères le chemin ABS vers le template du mail dans le thème.
+	 * Récupère le chemin ABS vers le template du mail dans le thème.
 	 * Si introuvable récupère le template du mail dans le plugin WPshop.
 	 *
 	 * @since 2.0.0
 	 *
 	 * @param  string $filename Le nom du template.
+	 *
 	 * @return string           Le chemin vers le template.
 	 */
 	public function log_emails( $data_email ) {

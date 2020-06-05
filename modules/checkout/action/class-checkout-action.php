@@ -2,19 +2,17 @@
 /**
  * Gestion des actions du tunnel de vente.
  *
+ * @package   WPshop\Classes
+ *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2020 Eoxia
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
- *
- * @package   WPshop\Classes
  *
  * @since     2.0.0
  */
 
 namespace wpshop;
-
-use digi\Setting_Class;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -83,7 +81,7 @@ class Checkout_Action {
 	}
 
 	/**
-	 * Ajoutes le bouton "Passer à la commande".
+	 * Ajoute le bouton "Passer à la commande".
 	 *
 	 * @since 2.0.0
 	 */
@@ -93,7 +91,7 @@ class Checkout_Action {
 	}
 
 	/**
-	 * Ajoutes le prix de la livraison dans le tableau du résumé.
+	 * Ajoute le prix de la livraison dans le tableau du résumé.
 	 *
 	 * @since 2.0.0
 	 */
@@ -106,7 +104,7 @@ class Checkout_Action {
 	}
 
 	/**
-	 * Affiches le formulaire pour l'adresse de livraison
+	 * Affiche le formulaire pour l'adresse de livraison.
 	 *
 	 * @since 2.0.0
 	 *

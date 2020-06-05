@@ -2,12 +2,12 @@
 /**
  * Les actions relatives aux commandes.
  *
+ * @package   WPshop\Classes
+ *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2020 Eoxia
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
- *
- * @package   WPshop\Classes
  *
  * @since     2.0.0
  */
@@ -31,7 +31,7 @@ class Order_Action {
 	}
 
 	/**
-	 * Ajoutes les meta box
+	 * Ajoute les meta box.
 	 *
 	 * @since 2.0.0
 	 */
@@ -41,12 +41,11 @@ class Order_Action {
 	}
 
 	/**
-	 * Box affichant les produits de la commande
+	 * Box affichant les produits de la commande.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param  mixed $object Les données pour le tableau de produit de la
-	 * commande.
+	 * @param  mixed $object Les données pour le tableau de produit de la commande.
 	 */
 	public function callback_products( $object ) {
 		$tva_lines = array();

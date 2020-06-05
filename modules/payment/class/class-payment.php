@@ -2,12 +2,12 @@
 /**
  * Les fonctions principales pour les paiements.
  *
+ * @package   WPshop\Classes
+ *
  * @author    Eoxia <dev@eoxia.com>
- * @copyright (c) 2011-2019 Eoxia <dev@eoxia.com>.
+ * @copyright (c) 2011-2020 Eoxia
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
- *
- * @package   WPshop\Classes
  *
  * @since     2.0.0
  */
