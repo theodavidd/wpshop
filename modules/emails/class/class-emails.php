@@ -150,7 +150,18 @@ class Emails extends \eoxia\Singleton_Util {
 		include $path_file;
 		$content = ob_get_clean();*/
 
-		$content = 'test';
+		global $wpdb;
+
+		$query = $wpdb->prepare( "
+			SELECT ID FROM $wpdb->posts
+			WHERE post_name = %s
+			", $type );
+
+		$post_id = $wpdb->get_var($query);
+
+		$post = get_post( $post_id );
+
+		$content = $post->post_content;
 
 		$user = wp_get_current_user();
 
